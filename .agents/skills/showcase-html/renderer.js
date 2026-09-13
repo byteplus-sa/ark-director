@@ -446,7 +446,8 @@
           const frame = el('div', 'takes-video-frame');
           const v = document.createElement('video');
           v.controls = true;
-          v.preload = 'metadata';
+          v.preload = 'none';
+          v.playsInline = true;
           v.src = tk.media.src;
           v.addEventListener('play', () => {
             playAll.textContent = '⏸ Pause all';
@@ -514,11 +515,35 @@
       audio.src = m.src;
       return audio;
     }
-    const video = document.createElement('video');
-    video.controls = true;
-    video.preload = 'metadata';
-    video.src = m.src;
-    return video;
+    const placeholder = document.createElement('button');
+    placeholder.type = 'button';
+    placeholder.className = 'video-lazy-placeholder';
+    placeholder.textContent = '▶ Play video';
+    placeholder.setAttribute('aria-label', `Play ${m.alt || 'video'}`);
+    placeholder.style.alignItems = 'center';
+    placeholder.style.background = '#050608';
+    placeholder.style.border = '0';
+    placeholder.style.color = '#fff';
+    placeholder.style.cursor = 'pointer';
+    placeholder.style.display = 'flex';
+    placeholder.style.font = '600 14px system-ui, sans-serif';
+    placeholder.style.justifyContent = 'center';
+    placeholder.style.minHeight = '180px';
+    placeholder.style.aspectRatio = '16 / 9';
+    placeholder.style.padding = '24px';
+    placeholder.style.width = '100%';
+    placeholder.addEventListener('click', () => {
+      const video = document.createElement('video');
+      video.controls = true;
+      video.preload = 'metadata';
+      video.playsInline = true;
+      video.src = m.src;
+      placeholder.replaceWith(video);
+      video.play().catch((error) => {
+        video.setAttribute('data-playback-error', error.name || 'unknown');
+      });
+    }, {once: true});
+    return placeholder;
   }
 
   // ---- selection helpers (manual save via Ctrl+S / Cmd+S) ----

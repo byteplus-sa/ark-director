@@ -226,6 +226,13 @@ Each video card lists the exact references it consumed under **Elements used**,
 with a color dot keyed to asset kind (`vid`/`img`/`aud`). This is the
 machine-readable trace of the shot's `references:` frontmatter.
 
+Standard video media nodes use a lightweight **Play video** button and create
+one inline `<video>` element only after the viewer activates it. This keeps a
+large gallery from initializing every native media control at once while
+preserving native controls, relative media paths, and direct playback in both
+served and `file://` review modes. Playback rejections remain inspectable on
+the created element through its `data-playback-error` attribute.
+
 ### Video take comparison (takes)
 
 A `kind: "takes"` section groups multiple takes of the same shot side-by-side
@@ -296,7 +303,8 @@ filter graph and the PIL label fallback when `drawtext` is unavailable.
 4. Selectable cards carry `id` + `manifest` (+ `key` for `selected_variants`),
    and multiple variant cards of one asset share the same `id`.
 5. The page is a single portable `index.html` (no external CSS/JS/fonts).
-6. The generated file opens cleanly and the combined view plays.
+6. The generated file opens cleanly, standard video nodes activate from their
+   Play video buttons, and the combined view plays.
 7. The page was opened in the browser with `--open` or `--serve` rather than
    asking the user to open it manually.
 8. Takes section: all takes in a group share the same `id` + `manifest`;

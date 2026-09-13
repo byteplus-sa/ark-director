@@ -329,7 +329,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/showcase-html/SKILL.md",
-      "computedHash": "34fc958c655434417adb8eeddc3219dea9980a7b404eaec418da0babf4c30ffb"
+      "computedHash": "a597871448b5c5fc0fffe491df45047c8c6c89ba07485fd9e177db4dee67079e"
     },
     "template-factory": {
       "source": "./local",
