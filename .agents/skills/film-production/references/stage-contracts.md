@@ -34,13 +34,20 @@ camera, lens, lighting, grade, pacing, acting, staging, medium, audio) from
 The canvas embeds or links this brief as the `brief-development` stage source.
 
 Exit: the production objective, constraints, and directorial defaults are clear
-enough to break down.
+enough to break down. When the brief cites brand ads or other footage for
+visual or motion inspiration, record the reference URL or local path and treat
+watchable-media acquisition (direct `seed_understand`-usable HTTPS URL, or
+download plus upload when unusable) as unresolved until obtained — scripts and
+article text alone do not satisfy that gap.
 
 ## 2. Scene and production breakdown
 
 Entry: an accepted brief and available story or script material. Draft scene
 and shot breakdown may precede canonical asset generation; it identifies which
 assets are required and does not make a prompt ready for production submission.
+If the brief borrows grammar from cited reference footage, that media must
+already be watchable (URL accepted by `seed_understand`, or a local pin after
+upload) before treating visual/motion claims from the ad as breakdown evidence.
 
 Required output: scene list, cast, locations, props, dialogue, sound needs,
 continuity states, delivery assumptions, and scene-level acceptance criteria.

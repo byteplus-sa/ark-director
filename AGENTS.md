@@ -95,6 +95,15 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   official or authorized web/user download over Seedream; generate only when no
   usable real asset exists or a stylized substitute is requested. See
   [Element identification](.agents/contracts/element-identification.md).
+- When the user cites real brand video ads or other footage for visual or motion
+  inspiration, obtain media the provider can actually watch before borrowing
+  grammar. Prefer a public HTTPS URL that `seed_understand` already accepts;
+  download locally and `media_upload` only when the link is a page/platform URL,
+  auth-gated, or otherwise unusable as a video input. Transcripts, scripts, and
+  article write-ups are not a substitute for the video. Route full reverse-
+  engineering through `template-factory`; lighter analysis may use
+  `modelark-mcp` (`seed_understand`) alone. See
+  [Routing](.agents/contracts/routing.md).
 - Elements define identity; derivative boards require current source hashes and
   explicit selection before video use. Control-only diagrams stay analysis-only
   by default. Automated recommendations cannot set selected_variant or approved.

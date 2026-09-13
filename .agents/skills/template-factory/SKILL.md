@@ -1,7 +1,18 @@
 ---
 name: template-factory
 description: >-
-  Pinterest-inspired template factory that reverse-engineers a reference video (a "pin") into reproducible AIGC output. Orchestrates pin intake, video breakdown, keyframe extraction, a deep motion review, a dynamic sketch storyboard, optional element sheets (Seedream for invented identity; web/user download-first for authorized real brands/logos/products), and a Seedance 2.5 video — each generation-bound prompt passing the mandatory prompt-review gate and every stage synchronized into the project's showcase-html production canvas. Explicitly-marked orchestrator: composes modelark-mcp, seedream-storyboard, seedance-prompt-25, prompt-review, showcase-html, and the ffmpeg skills; it does not call the Ark REST API itself. Use when the user wants to replicate a reference video's style/composition/grammar, build a reusable visual template, or turn a downloaded Pinterest pin into generated elements and video.
+  Reverse-engineer a reference video ("pin") into reproducible AIGC output.
+  Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch;
+  download and media_upload only when unusable), video breakdown, keyframes,
+  deep motion review, dynamic sketch storyboard, optional element sheets
+  (Seedream for invented identity; web/user download-first for authorized real
+  brands/logos/products), and a Seedance 2.5 video — generation-bound prompts
+  through prompt-review; stages on the showcase-html canvas. Explicit
+  orchestrator composing modelark-mcp, seedream-storyboard, seedance-prompt-25,
+  prompt-review, showcase-html, and ffmpeg; never calls the Ark REST API. Use to
+  replicate style/composition/grammar, build a reusable template, or turn a
+  cited brand ad, Pinterest pin, or other reference video into elements and
+  video.
 ---
 
 # Template Factory
@@ -50,10 +61,16 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
   → storyboard_approved → video_draft → video_review → approved
 ```
 
-1. **Pin intake** — resolve the pin (local file or URL); upload via
-   `media_upload`; record `object_key`, content SHA-256, and storage scope in
-   `ref_cache.json`. Re-presign unchanged cached objects on demand; re-upload
-   only if content changed or the recorded remote object is missing.
+1. **Pin intake** — resolve watchable media for the pin before analysis.
+   Prefer a public HTTPS URL that `seed_understand` already accepts as a video
+   input. Download into `pins/` and `media_upload` only when the cited link is a
+   page/platform URL, auth-gated, or otherwise unusable as a video input (use an
+   available downloader such as `yt-dlp` when present). User-supplied local files
+   always upload. Record `object_key` (when uploaded), content SHA-256, source
+   URL, and storage scope in `ref_cache.json`. Re-presign unchanged cached
+   objects on demand; re-upload only if content changed or the recorded remote
+   object is missing. Do not treat transcripts, scripts, or article write-ups as
+   the pin.
 2. **Analysis** — `seed_understand` with the template's analysis prompt
    (`references/analysis-prompt.md`) → validate `VideoBreakdown` against
    `references/breakdown-schema.json` and run
@@ -109,6 +126,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 
 | Need | Primary skill |
 | --- | --- |
+| Pin download when URL is not seed_understand-usable | Available downloader (e.g. `yt-dlp`); then `modelark-mcp` (`media_upload`) |
 | Upload / presign references | `modelark-mcp` (`media_upload`, `media_presign`) |
 | Video analysis + motion review | `modelark-mcp` (`seed_understand`) |
 | Keyframe extraction | `ffmpeg` |

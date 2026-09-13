@@ -56,6 +56,28 @@ Seedream set because there is no generation-bound prompt. They still require
 local persistence, hashes, canvas listing, and explicit user selection or
 approval before dependent video use.
 
+## Reference footage and brand-ad inspiration
+
+When the brief cites a real brand video ad or other footage for visual or motion
+inspiration (as distinct from locking a logo/packshot still):
+
+1. **Prefer a direct public HTTPS URL** that `seed_understand` can consume as a
+   video input without downloading.
+2. **Download then upload** only when the cited link is a page/platform URL
+   (for example YouTube, TikTok, Instagram), auth-gated, expired, or otherwise
+   rejected as a video input — persist under the project's pin/reference path,
+   then `media_upload` / `media_presign` for analysis.
+3. **Do not treat transcripts, scripts, or marketing write-ups as the
+   reference.** They may supplement dialogue or claims after the video is
+   inspected, but they do not establish shot grammar, motion, or composition.
+4. **Route** full reverse-engineering (breakdown → recipe → optional remake)
+   through `template-factory`; a lighter “what is this ad doing visually?” pass
+   may use `seed_understand` alone inside the active production run.
+
+Inspiration footage is analysis/reference media, not automatic canon. Brand
+still acquisition above still governs logos and packshots used as locked
+elements.
+
 ## Reference eligibility
 
 Elements define persistent identity/design. Approved derivative panels define composition and continuity, with recorded source hashes. Changed source hashes invalidate a panel's previous eligibility. Analysis sketches, blocking maps, and rough control boards remain analysis-only by default; translate their movement into text. An explicitly requested supported grid-conditioning mode needs a separately selected composition reference and documented role, never inferred approval of a control image.

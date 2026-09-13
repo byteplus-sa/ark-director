@@ -12,6 +12,7 @@
 | Production stage review | Required persistent `showcase-html` canvas; update and freshness-check it at every stage |
 | Ad-hoc media comparison | `showcase-html --quick`; `media-review` only for an explicitly requested OS player or unavailable browser |
 | Mermaid system/process diagram | `design-doc-mermaid` when available; cinematic blocking requests use `tig-blocking-map` |
+| Brand-ad / reference-video inspiration | Obtain watchable media first: pass a public HTTPS URL that `seed_understand` accepts, or download then `media_upload` when the link is unusable; do not substitute scripts or article text. Full reverse-engineering → `template-factory`; lighter visual/motion analysis → `modelark-mcp` (`seed_understand`) |
 
 ## Capability evidence
 

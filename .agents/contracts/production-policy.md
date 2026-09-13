@@ -2,7 +2,7 @@
 
 ## Stage evidence and authorization
 
-Draft brief and scene breakdown can identify assets before canon exists. Before dependent production generation, require the appropriate approved recurring/critical elements and declared reference roles. Canon may be created by static sheet generation **or** by acquiring and approving real brand/product/logo assets; prompt-only authoring may deliver a draft without generating or downloading assets.
+Draft brief and scene breakdown can identify assets before canon exists. Before dependent production generation, require the appropriate approved recurring/critical elements and declared reference roles. Canon may be created by static sheet generation **or** by acquiring and approving real brand/product/logo assets; prompt-only authoring may deliver a draft without generating or downloading assets. When the brief borrows visual or motion grammar from a cited brand ad or other footage, obtain watchable media first (a `seed_understand`-usable public HTTPS URL, or a local download plus upload when that link is unusable); do not treat scripts or article text as the reference.
 
 The normal flow is brief → draft breakdown → required canon → optional storyboard → optional requested lip-sync audio → shot generation → review → assembly → delivery. Entry and exit evidence live in film-production's stage/handoff contracts. Stage completion cannot be inferred from filenames.
 
