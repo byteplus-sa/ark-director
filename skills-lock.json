@@ -335,7 +335,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "eef725fb7f8edb9bf212774e6ccf871cd37bb48fed0b7da58821746a78b8cb53"
+      "computedHash": "a9d5f358e11509d03f99d65818deafc9dd3c6e7e87874905bd3c60fd08f752a8"
     },
     "tig-blocking-map": {
       "source": "./local",

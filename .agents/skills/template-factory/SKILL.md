@@ -1,7 +1,7 @@
 ---
 name: template-factory
 description: >-
-  Pinterest-inspired template factory that reverse-engineers a reference video (a "pin") into reproducible AIGC output. Orchestrates pin intake, seed_understand breakdown, keyframe extraction, a deep motion review, a dynamic sketch storyboard, optional Seedream element sheets, and a Seedance 2.5 video — each generated prompt passing the mandatory prompt-review gate and every stage synchronized into the project's showcase-html production canvas. Explicitly-marked orchestrator: composes modelark-mcp, seedream-storyboard, seedance-prompt-25, prompt-review, showcase-html, and the ffmpeg skills; it does not call the Ark REST API itself. Use when the user wants to replicate a reference video's style/composition/grammar, build a reusable visual template, or turn a downloaded Pinterest pin into generated elements and video.
+  Pinterest-inspired template factory that reverse-engineers a reference video (a "pin") into reproducible AIGC output. Orchestrates pin intake, video breakdown, keyframe extraction, a deep motion review, a dynamic sketch storyboard, optional element sheets (Seedream for invented identity; web/user download-first for authorized real brands/logos/products), and a Seedance 2.5 video — each generation-bound prompt passing the mandatory prompt-review gate and every stage synchronized into the project's showcase-html production canvas. Explicitly-marked orchestrator: composes modelark-mcp, seedream-storyboard, seedance-prompt-25, prompt-review, showcase-html, and the ffmpeg skills; it does not call the Ark REST API itself. Use when the user wants to replicate a reference video's style/composition/grammar, build a reusable visual template, or turn a downloaded Pinterest pin into generated elements and video.
 ---
 
 # Template Factory
@@ -25,10 +25,15 @@ the current workspace contracts taking precedence where the plan is stale.
   persistent `showcase.json`/`index.html` production canvas as production memory.
 - Never infer approval. Technical success places an output in `review`; only the
   user sets `approved`.
-- **Every prompt this factory submits — Seedream storyboard, Seedream element
-  sheet, or Seedance video — must pass the `prompt-review` gate first.**
-- Replicate style, composition, and grammar. Do not clone copyrighted footage or
-  reproduce identifiable real people (de-identify in analysis).
+- **Every generation-bound prompt this factory submits — Seedream storyboard,
+  Seedream element sheet, or Seedance video — must pass the `prompt-review`
+  gate first.** Acquired brand/product/logo assets (`generation: none`) skip
+  prompt-review; they still need hashes, canvas listing, and explicit selection.
+- Replicate style, composition, and grammar. Do not clone copyrighted footage.
+  De-identify real people in analysis. For brands: de-identify when unknown or
+  unauthorized; when the user authorizes a real brand, preserve that identity and
+  acquire official/authorized packshots or logos before inventing them with
+  Seedream (see [element identification](../../contracts/element-identification.md)).
 - Default `watermark: false` only where the selected live tool supports the
   parameter, unless the user requests otherwise.
 - Initialize the eight-stage HTML canvas at intake. After every numbered step,
@@ -67,10 +72,14 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    fix for "ours looks static".
 5. **Elements** — identify required canonical inputs from the draft breakdown.
    Use the workspace prop threshold: branded, recurring, story-critical, or
-   scene-variant wearables need a separate prop reference; incidental objects
-   may be described in text. Generate the user-requested number of variants, or
-   3 by default, after prompt review; persist `selected_variant` only after
-   explicit user choice.
+   scene-variant wearables need a separate locked reference; incidental objects
+   may be described in text. For authorized real brands, logos, and labeled
+   products, acquire official or authorized web/user assets first and promote
+   them with `source: web_download` or `user_supplied` and `generation: none`;
+   do not Seedream a fake packshot or logo when a usable real asset is available.
+   For invented characters, locations, and other generative sheets, generate the
+   user-requested number of variants, or 3 by default, after prompt review.
+   Persist `selected_variant` only after explicit user choice.
 6. **Storyboard** — after relevant Elements are approved, write a dynamic
    production board via `seedream-storyboard`, one panel per shot unless the
    user sets a panel budget. Review the prompt and generate the requested count,
@@ -104,9 +113,10 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 | Video analysis + motion review | `modelark-mcp` (`seed_understand`) |
 | Keyframe extraction | `ffmpeg` |
 | Storyboard grid prompt | `seedream-storyboard` |
-| Element sheets | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prompt` |
+| Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prompt` |
+| Brand / logo / product packshot | Web or user download first per element-identification; Seedream only as fallback |
 | Seedance 2.5 video prompt | `seedance-prompt-25` |
-| Prompt quality gate (mandatory) | `prompt-review` |
+| Prompt quality gate (generation-bound only) | `prompt-review` |
 | Persistent stage canvas and visual review | `showcase-html` |
 
 ## Canvas stage mapping
@@ -115,7 +125,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 | --- | --- | --- |
 | Pin intake and template intent | `brief-development` | source hash, constraints, recipe target |
 | Analysis, keyframes, motion review | `scene-breakdown` | valid breakdown, motion review, approved revision |
-| Element generation and selection | `canon-elements` | variants, hashes, explicit selections |
+| Element acquisition/generation and selection | `canon-elements` | hashes, explicit selections; acquired or generated variants |
 | Storyboard generation and selection | `storyboard-visual-plan` | ordered panels, prompts, eligibility state |
 | Audio decision | `audio-preparation` | requested assets and timing, or `skipped` with reason |
 | Video generation and take review | `shot-generation` | prepared requests, task provenance, takes, QA |
@@ -161,16 +171,17 @@ false` disables the review UI only. Store an automatic suggestion under
 before video promotion. Neither a recommendation nor technical success writes
 `selected_variant` or `approved`.
 
-## Prompt review gates (mandatory)
+## Prompt review gates (generation-bound)
 
-Before any generation call, run `prompt-review`:
+Before any **generation** call, run `prompt-review`:
 
 - Seedream storyboard grid prompt (before `seedream_generate_image`)
 - Seedream element sheet prompts (before each sheet generation)
 - Seedance video prompt, including the motion-review wording merged into it
   (before `seedance_2_5_create_task`)
 
-CRITICAL/MAJOR findings must be fixed before submission.
+CRITICAL/MAJOR findings must be fixed before submission. Skip this gate for
+acquired brand/product/logo assets that have no generation prompt.
 
 ## Reusable recipe contract
 

@@ -89,8 +89,12 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 - Draft breakdown may precede canon. Dependent production generation requires
   the relevant approved recurring, branded or story-critical elements.
 - Identify all visible props; only threshold-qualified props require separate
-  sheets. Incidental generic props may be described. Keep canonical held props
-  separate from character sheets and distinguish always-worn/variant wearables.
+  locked references. Incidental generic props may be described. Keep canonical
+  held props separate from character sheets and distinguish always-worn/variant
+  wearables. For authorized real brands, logos, and labeled products, prefer an
+  official or authorized web/user download over Seedream; generate only when no
+  usable real asset exists or a stylized substitute is requested. See
+  [Element identification](.agents/contracts/element-identification.md).
 - Elements define identity; derivative boards require current source hashes and
   explicit selection before video use. Control-only diagrams stay analysis-only
   by default. Automated recommendations cannot set selected_variant or approved.
@@ -107,7 +111,8 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   observable direction; necessary edit-scope exclusions are allowed.
 - Run prompt-review for every generation-bound prompt. Resolve CRITICAL/MAJOR
   findings. Missing reviewer output is incomplete. Documentation/manifest-only
-  edits do not trigger paid generation; changed worked examples are reviewed
+  edits and acquired brand/product assets (`generation: none`) do not trigger
+  paid generation or prompt-review; changed worked examples are reviewed
   offline.
 - Freeze the exact prompt beside its intended output before submission. Verify
   request hash, current reference hashes, ordered roles/bindings, explicit

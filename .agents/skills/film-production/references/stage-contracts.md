@@ -55,24 +55,31 @@ production inputs, with missing approvals recorded as unresolved.
 Entry: breakdown identifies recurring characters, locations, or props.
 
 Required output: one flat `elements/<element-id>/` folder per reusable element,
-manifest, reference files, prompt snapshots, hashes, variants, and lifecycle
-states. **Before locking the element list**, walk every beat of every
-scene/shot against the Element identification checklist in AGENTS.md — verify
-that visible characters, settings, props, screen/UI surfaces, brand/title cards,
-and recurring audio have been identified and assigned the appropriate treatment
-under the tracked element-identification contract. Recurring/identity-critical
-on-camera characters and recurring/geography-critical spaces need canonical
-references; incidental people/settings may use descriptors or scene direction.
-Screen-only callers use a locked UI with text-directed movement/dialogue, not
-character sheets as static screen content. Apply the prop threshold rather than
-turning every visible object into a generation requirement. Record missing
-required references before dependent tasks are submitted.
-The `canon-elements` canvas section shows every variant, its exact prompt,
-manifest, recommendation/selection state and downstream role.
+manifest, reference files, hashes, variants, and lifecycle states. Generated
+sheets also carry prompt snapshots; acquired brand/product/logo assets carry
+provenance and `generation: none` instead of a Seedream prompt. **Before locking
+the element list**, walk every beat of every scene/shot against the Element
+identification checklist in AGENTS.md — verify that visible characters, settings,
+props, screen/UI surfaces, brand/title cards, and recurring audio have been
+identified and assigned the appropriate treatment under the tracked
+element-identification contract. Recurring/identity-critical on-camera characters
+and recurring/geography-critical spaces need canonical references; incidental
+people/settings may use descriptors or scene direction. Screen-only callers use
+a locked UI with text-directed movement/dialogue, not character sheets as static
+screen content. Apply the prop threshold rather than turning every visible object
+into a generation requirement. For authorized real brands, logos, and labeled
+products, prefer official or authorized web/user downloads over Seedream; generate
+only when no usable real asset exists or a stylized substitute is requested.
+Record missing required references before dependent tasks are submitted.
+The `canon-elements` canvas section shows every variant (acquired or generated),
+its prompt or provenance, manifest, recommendation/selection state and downstream
+role.
 
 Exit: every required canonical element has an approved selected variant, or the
 dependent scene is explicitly marked unresolved. The element list has been
 cross-checked against the Element identification checklist and no gaps remain.
+An approved selected variant may be a downloaded packshot/logo or a generated
+sheet — both satisfy exit when hashes and user selection are recorded.
 
 ## 4. Storyboard and visual plan
 

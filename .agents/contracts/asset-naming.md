@@ -36,6 +36,22 @@ parseable by tools.
 | Location sheet | `loc_<location-id>_<view>_v<NN>.png` | `loc_neon-alley_wide_v01.png` |
 | Prop sheet | `prop_<prop-id>_<view>_v<NN>.png` | `prop_red-motorcycle_side_v01.png` |
 | Reference (seed) | `ref_<NN>_<descriptor>.<ext>` | `ref_01_front.png` |
+| Acquired brand/product source copy | `elements/<id>/refs/ref_<descriptor>.<ext>` | `elements/spicy-paksiw-can/refs/ref_primary_packshot.jpg` |
+| Brand/product provenance | `elements/<id>/PROVENANCE.md` | `elements/brand-555/PROVENANCE.md` |
+
+### Acquired (non-generated) brand and product assets
+
+When locking a real logo, packshot, or labeled product from the web or the user
+(see element-identification acquisition order):
+
+- Promote the chosen file to the canonical `prop_…` / `screen_…` / `card_…`
+  name under `elements/<element-id>/`.
+- Keep optional source copies under `elements/<element-id>/refs/`.
+- Record `source: web_download` or `user_supplied`, `generation: none`,
+  content SHA-256, and provenance (URL or supplier note) in the element
+  manifest and/or `PROVENANCE.md`.
+- Do **not** invent a `prompt_prop_*` / `prompt_screen_*` / `prompt_card_*`
+  snapshot for assets that were never generated.
 
 ## Audio
 
