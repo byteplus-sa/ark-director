@@ -71,7 +71,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/brief-intake/SKILL.md",
-      "computedHash": "3e0df7f6a99811dd8b3e895f1bc4d103e4aea1287fba88894da36e4454f08ff7"
+      "computedHash": "d1f9524b1d492e2cb656a5788d8e55fe3f3b5a9c307bb63e528ceb6143a7c8b5"
     },
     "color-grade-palettes": {
       "source": "./local",
@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "a9286bb9815f6ea48a1e9e68f64e5883de2efb6d1c1767226ba8878764be87da"
+      "computedHash": "505a2ed67bb4b537991911d365f3e42fe7e9f44e252a9ef8c1900612fed5a352"
     },
     "lark-showcase-aigc": {
       "source": "./local",
@@ -125,7 +125,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/modelark-mcp/SKILL.md",
-      "computedHash": "5075b9c8c82200a89526e757eb5065b863319e70a50ffedce761e122d932f33f"
+      "computedHash": "622fbfa09cf400c62ec611828d0af53d72e73cc2b5ec872cb83444876791a622"
     },
     "prompt-review": {
       "source": "./local",
@@ -335,7 +335,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "eef725fb7f8edb9bf212774e6ccf871cd37bb48fed0b7da58821746a78b8cb53"
+      "computedHash": "211be62caa07b511add87d5bbeef432d7b78b4842de2ec75d94c8dbbfa9f9a22"
     },
     "tig-blocking-map": {
       "source": "./local",

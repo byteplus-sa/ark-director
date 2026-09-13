@@ -123,19 +123,24 @@ video. Character sheets use a **neutral gray** studio background (see
 
 **Prop threshold test — before generating a prop sheet, verify it is needed.**
 Not every held or visible object requires a `prop_` sheet. A prop needs a
-locked Element only if it meets **at least one** of these criteria:
+**locked Element reference** only if it meets **at least one** of these criteria:
 
-| Criterion | Example | Needs Element? |
-|---|---|---|
-| Branded product with logo or specific design | GFiber modem, smartphone with app UI | Yes |
-| Object the camera lingers on or that drives the plot | A key, a device screen the camera shows | Yes |
-| Object that recurs across 2+ shots or scenes | Same phone in multiple ads | Yes |
-| Generic, unbranded, briefly visible background object | A coffee cup, a birthday cake, a tablet in a montage | No — describe in prompt text |
-| Object held for only 1-2 seconds in a single shot | A pen, a glass of water | No — text is sufficient |
+| Criterion | Example | Needs locked reference? | Acquisition |
+|---|---|---|---|
+| Branded product with logo or specific design | 555 Tuna can, GFiber modem, smartphone with app UI | Yes | Prefer official/authorized web or user download; Seedream only if unavailable or a stylized substitute is requested |
+| Object the camera lingers on or that drives the plot | A key, a device screen the camera shows | Yes | Generate or photograph as appropriate |
+| Object that recurs across 2+ shots or scenes | Same phone in multiple ads | Yes | Generate, photograph, or download by identity |
+| Generic, unbranded, briefly visible background object | A coffee cup, a birthday cake, a tablet in a montage | No — describe in prompt text | — |
+| Object held for only 1-2 seconds in a single shot | A pen, a glass of water | No — text is sufficient | — |
 
-Generating a `prop_` sheet for a generic, briefly-visible object wastes credits
-and adds reference noise to the Seedance prompt. When in doubt, describe the
-object in the Seedance prompt text and skip the Element.
+A locked reference is an approved local asset with a content hash — not
+automatically a Seedream generation. Generating a `prop_` sheet for a generic,
+briefly-visible object wastes credits and adds reference noise to the Seedance
+prompt. Inventing a fake branded packshot or logo with Seedream when a usable
+official download exists is also wrong. When in doubt for unbranded objects,
+describe them in the Seedance prompt text and skip the Element. See the
+workspace [element identification](../../../contracts/element-identification.md)
+contract for brand acquisition order.
 
 ### 5. Style
 

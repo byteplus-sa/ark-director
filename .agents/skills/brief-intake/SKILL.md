@@ -5,7 +5,11 @@ description: >
   idea, and practical constraints. Derive applicable directing choices with
   reasons; offer two distinct treatments during exploration or a compact
   proposal when direction is settled. Confirm only decisions that need a lock.
-  Use for a new project or a scoped brief revision. Never generates media.
+  When the brief cites real brand video ads or other footage for visual or motion
+  inspiration, record that reference and hand off media acquisition plus
+  seed_understand or template-factory — do not treat scripts or article text as
+  the reference. Use for a new project or a scoped brief revision. Never
+  generates media.
 ---
 
 # Brief Intake
@@ -33,6 +37,16 @@ Read the supplied brief and existing confirmed decisions first. Extract:
 | Constraints | Runtime, format, available references, budget posture, delivery needs, forbidden changes |
 | Tone/genre references | What useful quality is being borrowed, and which convention should be avoided? |
 | Confirmed decisions | Which axes and identities are already accepted? |
+
+When a tone or genre reference is a **concrete brand video ad or other footage**
+(URL, campaign name, or user-supplied file) meant for visual or motion
+inspiration, record it under constraints or creative intent and **hand off** —
+this skill does not download or analyze media. Downstream work must obtain
+watchable media (prefer a public HTTPS URL that `seed_understand` accepts;
+download and upload only when that link is unusable) via `template-factory` for
+full reverse-engineering or `modelark-mcp` (`seed_understand`) for a lighter
+pass. Transcripts, scripts, and article write-ups may note claims or dialogue
+but must not replace watching the video.
 
 An absent genre is not a blocker. If intent is clear, derive a proposal from it.
 Ask a focused question only when missing information materially changes the

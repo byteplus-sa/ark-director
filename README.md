@@ -148,8 +148,8 @@ The workspace ships with **59 skills** across 13 categories. Independent skills 
 | Skill | Description |
 |---|---|
 | **film-production** | Orchestrates multi-scene, multi-modality production one stage at a time while keeping a required HTML production canvas synchronized for review and handoff. |
-| **template-factory** | Reverse-engineer a reference video into reproducible AIGC while synchronizing every stage in the project HTML canvas. |
-| **brief-intake** | Shape intent-led briefs and distinct exploratory treatments; derive applicable directing choices and preserve confirmed decisions. |
+| **template-factory** | Reverse-engineer a reference video: prefer a seed_understand-usable public URL, download/upload only when needed, download-first real brand/product stills when authorized, and keep every stage on the project HTML canvas. |
+| **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Review and fix prompts written for BytePlus generative models (Seedance, Seed Audio, Seedream) against the repo's skill best practices using a sub-agent review pipeline. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
 | **blender-to-seedance** | End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. |

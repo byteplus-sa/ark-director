@@ -1123,7 +1123,13 @@ multimodal model via ModelArk Chat Completions. Supports deep-thinking
 - **As a reasoning sub-agent** — delegate analysis tasks that need visual context
 
 Video inputs must be HTTPS URLs (Base64 not supported by the chat endpoint).
-Upload local videos via `media_upload` first.
+**Prefer a public HTTPS URL the provider can already fetch as video.** Upload
+local files via `media_upload` first. For page/platform links (YouTube, TikTok,
+Instagram, and similar), auth-gated URLs, or any link that is not a usable video
+input, download locally with an available downloader, then `media_upload` /
+`media_presign` before calling `seed_understand`. Do not analyze brand ads or
+inspiration footage from transcripts or article text alone when the task is
+visual or motion grammar.
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
@@ -1727,7 +1733,9 @@ Set to `0` (default) for record-only mode with no enforcement.
 15. **Use `seed_understand` for multimodal reasoning.** It can analyze images
     (OCR, scene description), videos (content analysis, UI review), and
     reason across multiple media inputs. Enable `thinking=true` for complex
-    analysis. Video Base64 is not supported — upload via `media_upload` first.
+    analysis. Prefer a public HTTPS video URL the provider already accepts;
+    download and `media_upload` only when the link is a page/platform URL or
+    otherwise unusable. Video Base64 is not supported.
 
 16. **Choose the right Seedance model.** Use 2.0 (`seedance_create_task`)
     for 4K or lower cost. Use 2.5 (`seedance_2_5_create_task`) for

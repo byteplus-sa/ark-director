@@ -1,4 +1,4 @@
 interface:
   display_name: "Brief Intake"
-  short_description: "Shape intent-led creative briefs and treatments"
+  short_description: "Shape intent-led briefs; hand off brand-ad footage for visual analysis"
   default_prompt: "Use $brief-intake to handle this brief intake task."

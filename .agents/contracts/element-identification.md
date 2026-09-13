@@ -15,9 +15,68 @@ Identify visible elements during draft breakdown; approve required references be
 
 ## Prop threshold
 
-A branded, recurring (two or more shots), or story-critical object needs a locked reference. Generic one-off cups, pens, food, or background furniture can be directed in text. A scene-level keyframe is sufficient for a one-off composition that needs visual review. Do not invent a new generation requirement merely because an object is visible.
+A branded, recurring (two or more shots), or story-critical object needs a
+**locked reference**. Generic one-off cups, pens, food, or background furniture
+can be directed in text. A scene-level keyframe is sufficient for a one-off
+composition that needs visual review. Do not invent a new generation requirement
+merely because an object is visible.
+
+A locked reference is an approved local asset with a content hash — not
+automatically a Seedream generation. Prefer acquisition over generation for
+real brands and products (see below).
 
 Held/operated canonical props remain separate from the character sheet. Reference only assets actually used by the shot; preserve exact canonical identity descriptors where applicable. Record unresolved required assets and defer their dependent generation.
+
+## Brand, logo, and product acquisition
+
+When the brief authorizes a real brand, logo, packshot, or labeled product:
+
+1. **Reuse** an existing project asset if its content hash still matches the
+   needed identity.
+2. **Acquire** an official or authorized web/pack shot/logo when no usable local
+   file exists — download into `elements/<element-id>/`, keep source copies under
+   `refs/` when useful, and record provenance (source URL, download time,
+   SHA-256) in the element manifest and/or `PROVENANCE.md`.
+3. **Promote** the acquired file to the canonical asset name
+   (`prop_…`, `screen_…`, `card_…`), set `source: web_download` or
+   `user_supplied`, `generation: none`, and obtain explicit
+   `selected_variant` / `approved` from the user.
+4. **Generate with Seedream only** when no usable real asset exists, the user
+   requests a stylized or fictional substitute, or acquisition is blocked.
+
+Do not invent a fake packshot or logo with Seedream when a downloadable official
+or authorized reference is available. Trademark and rights remain with the brand
+owner; keep acquired assets local to the production unless publishing is
+explicitly authorized. Unknown or unauthorized brands stay de-identified in
+analysis and may use placeholder descriptors until the user supplies or
+authorizes real identity.
+
+Acquired brand/product assets skip `prompt-review` and the default three-sample
+Seedream set because there is no generation-bound prompt. They still require
+local persistence, hashes, canvas listing, and explicit user selection or
+approval before dependent video use.
+
+## Reference footage and brand-ad inspiration
+
+When the brief cites a real brand video ad or other footage for visual or motion
+inspiration (as distinct from locking a logo/packshot still):
+
+1. **Prefer a direct public HTTPS URL** that `seed_understand` can consume as a
+   video input without downloading.
+2. **Download then upload** only when the cited link is a page/platform URL
+   (for example YouTube, TikTok, Instagram), auth-gated, expired, or otherwise
+   rejected as a video input — persist under the project's pin/reference path,
+   then `media_upload` / `media_presign` for analysis.
+3. **Do not treat transcripts, scripts, or marketing write-ups as the
+   reference.** They may supplement dialogue or claims after the video is
+   inspected, but they do not establish shot grammar, motion, or composition.
+4. **Route** full reverse-engineering (breakdown → recipe → optional remake)
+   through `template-factory`; a lighter “what is this ad doing visually?” pass
+   may use `seed_understand` alone inside the active production run.
+
+Inspiration footage is analysis/reference media, not automatic canon. Brand
+still acquisition above still governs logos and packshots used as locked
+elements.
 
 ## Reference eligibility
 

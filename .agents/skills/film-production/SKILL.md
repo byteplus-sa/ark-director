@@ -53,6 +53,7 @@ between modalities.
 | Production need | Primary skill |
 | --- | --- |
 | Brief intake and directorial defaults | `brief-intake` |
+| Brand-ad / reference-video inspiration | `template-factory` for reverse-engineering; `modelark-mcp` (`seed_understand`) for lighter analysis — prefer a usable public HTTPS URL; download and upload only when needed |
 | Character identity asset | `seedream-character-sheet` |
 | Character sheet cleanup | `seedream-character-sheet-cleanup` |
 | Location identity asset | `seedream-location-asset` |
