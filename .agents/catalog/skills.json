@@ -66,8 +66,8 @@
     },
     "blender-python-scripting": {
       "kind": "vendored",
-      "description": "Blender 5.x Python scripting (bpy) \u2014 custom operators, UI panels, add-on development, context management, handlers, timers, property system, batch processing, and data model access. Now targets Python 3.13 (Blender 5.1).",
-      "readme_summary": "Blender 5.x Python scripting (bpy) \u2014 custom operators, UI panels, add-on development, context management, handlers, timers, property system, batch processing, and data model access. Targets Python 3.13 (Blender 5.1).",
+      "description": "Blender 5.x Python scripting (bpy) \u2014 custom operators, UI panels, add-on development, context management, handlers, timers, property system, batch processing, and data model access. Verify minor-version APIs and available capabilities against the connected runtime before use.",
+      "readme_summary": "Blender 5.x Python scripting with runtime capability checks, deterministic scene automation, operators, UI, add-ons, handlers, properties, and batch processing.",
       "dependencies": [],
       "source_revision": null,
       "upstream_hash": "b086cbce55f90078210d7914926f81fe8451ca0f88636fd07f89997ef5ceae1a",
@@ -121,7 +121,7 @@
     "ffmpeg": {
       "kind": "vendored",
       "description": "Video and audio processing with FFmpeg. Use for format conversion, resizing, compression, audio extraction, and preparing assets for Remotion. Triggers include converting GIF to MP4, resizing video, extracting audio, compressing files, or any media transformation task.",
-      "readme_summary": "Video and audio processing with FFmpeg. Use for format conversion, resizing, compression, audio extraction, and preparing assets for Remotion. Covers converting GIF to MP4, resizing video, extracting audio, compressing files, and any media transformation task.",
+      "readme_summary": "Video and audio processing with FFmpeg. Use for format conversion, resizing, compression, audio extraction, and preparing assets for editing and assembly. Covers converting GIF to MP4, resizing video, extracting audio, compressing files, and any media transformation task.",
       "dependencies": [],
       "source_revision": null,
       "upstream_hash": "8d5161a994a722d3da88e1183d73bcc2b024291f2773c7e9036b602da2ad579e",
@@ -147,7 +147,7 @@
     },
     "film-production": {
       "kind": "orchestrator",
-      "description": "Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between Seedream, Seed Audio, Seedance, Remotion, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.",
+      "description": "Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.",
       "readme_summary": "Orchestrates multi-scene, multi-modality production one stage at a time while keeping a required HTML production canvas synchronized for review and handoff.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -172,15 +172,6 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
-    "mediabunny": {
-      "kind": "vendored",
-      "description": "Multimedia handling with the Mediabunny library",
-      "readme_summary": "Multimedia handling with the Mediabunny library, used alongside Remotion for media processing tasks.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "81ea516e773cbdeeebfb8f1d4383a56961febaf09446fa6fff94756cc2c7641a",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
     "modelark-mcp": {
       "kind": "tooling",
       "description": "Guide for using the ModelArk Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage asynchronous tasks, upload reference media, and fetch persisted artifacts.",
@@ -198,87 +189,6 @@
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
-    },
-    "remotion-best-practices": {
-      "kind": "vendored",
-      "description": "Router for all Remotion skills",
-      "readme_summary": "Best practices for building Remotion video applications.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "7e54f5b186e1defba57d9db2880973ab4735c6378a2d775197a73579eff2c670",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-captions": {
-      "kind": "vendored",
-      "description": "Dealing with captions in Remotion",
-      "readme_summary": "Dealing with captions and subtitles in Remotion.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "2ae678cb1411b9061a8ee6a3b3a22a4d66648a850d6bd1934e458a15ef068156",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-create": {
-      "kind": "vendored",
-      "description": "Creating a new Remotion video",
-      "readme_summary": "Creating a new Remotion video project from scratch.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "570296da4279e03ff6a1d714511c6c34e5528d1eeb701b3ad11c51fd8ed24d4c",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-docs": {
-      "kind": "vendored",
-      "description": "Search and fetch Remotion documentation pages",
-      "readme_summary": "Search and fetch Remotion documentation pages.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "8d29c3cc349f14c6714463923ade14353a9565aace5e456cb5615499bbf1ff55",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-interactivity": {
-      "kind": "vendored",
-      "description": "Best practices for writing Remotion animations that stay intuitive for agents and editable in Remotion Studio Visual Mode.",
-      "readme_summary": "Best practices for writing Remotion animations that stay intuitive and editable in Visual Mode.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "97682c5946f663c88d3c92f9ce3b341062d4d6191ea058dd659d7d7d457c51f6",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-markup": {
-      "kind": "vendored",
-      "description": "Best practices for writing Remotion React Markup",
-      "readme_summary": "Best practices for writing Remotion React markup that stays intuitive for agents and editable in Remotion Studio Visual Mode.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "f73609040d7e94c93d81e5dba5121e9909fb4d2472edb86b782f1f9e9dc68875",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-render": {
-      "kind": "vendored",
-      "description": "Best practices for rendering videos",
-      "readme_summary": "Best practices for rendering videos with Remotion.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "396b48588fbe3c87b526037ce2dc4d7b8d51ebcb91e39163f1064eab4d3cc3b3",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-saas": {
-      "kind": "vendored",
-      "description": "Building video apps with Remotion - framework, rendering and Player advice",
-      "readme_summary": "Building video apps with Remotion \u2014 framework, rendering, and Player advice for SaaS use cases.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "70fd7d364aa4538788de1f746a1bbf9d55994d2556cd6c1adecdc7ad5c40b287",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-upgrade": {
-      "kind": "vendored",
-      "description": "Upgrade Remotion, its related packages, compatible Mediabunny packages, and installed Remotion Agent Skills. Use when asked to upgrade or update a Remotion project.",
-      "readme_summary": "Upgrade Remotion, related packages, compatible Mediabunny packages, and installed Remotion Agent Skills.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "481b8f114d78cd223c10076bbe6d6f310bf0606d26170c0d5e3c39902281e132",
-      "overlay_notes": "Installed bundle includes local adapter guidance; source commit was not recorded. Compare with upstream before re-vendoring."
     },
     "seed-audio-commercial": {
       "kind": "leaf",
@@ -531,6 +441,186 @@
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
+    },
+    "embedded-captions": {
+      "kind": "vendored",
+      "description": "Add captions or subtitles to an existing single-subject talking-head video without editing the footage. Use for plain verbatim captions, cinematic captions embedded behind the subject, VFX captions, \u201c\u70b8/\u7279\u6548/\u9177\u70ab\u5b57\u5e55,\u201d or a named identity from the 35-style catalog. Route by visual identity, not by backend engine. The quiet `anchor` rail is the default; embed every word only when the user explicitly wants a fully cinematic treatment. The workflow runs locally end to end, including transcription and subject matting; split multi-shot footage before applying it.",
+      "readme_summary": "Add designed captions or subtitles to an existing talking-head video without editing it.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "a966ebd548e618f410a18b3479934ea45c610c2c1ede230fdb927d9b1fd5a0f5",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "faceless-explainer": {
+      "kind": "vendored",
+      "description": "Turn arbitrary text \u2014 an article, notes, a topic, a brief \u2014 into a faceless explainer video: there is no site or footage to capture, so the visuals are invented per scene (typography, abstract graphics, diagrams, data-viz). Use for topic explainers, concept breakdowns, how-tos, listicles. Not a video built from a website (/product-launch-video \u2014 promo or tour). Unclear \u2192 /hyperframes.",
+      "readme_summary": "End-to-end faceless explainer video workflow with narration, visuals, and assembly.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "ce5361b71a779b7f1c05e0e914a1226de75a32a7f9ad10a3008f367a59b91378",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "figma": {
+      "kind": "vendored",
+      "description": "Import Figma content into a HyperFrames composition \u2014 rendered assets, brand tokens, components, storyboard sections \u2192 reconstructed motion (frames read as states, not slides) (REST/CLI), connector-assisted motion when available, and shaders from a connector or native export. Use when the user pastes a figma.com link or asks to bring a Figma design, frame, logo, brand, or animation into a video/composition.",
+      "readme_summary": "Import Figma frames and design data into compositions.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "dea20962550679b9b085b747b1f290c9b2a5a6d5bd91a0a56f3ca40afe7b9f44",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "general-video": {
+      "kind": "vendored",
+      "description": "Author or edit a custom HyperFrames composition when no specialized workflow fits, or when BRIEF.md sets flow: companion. Use for longer or multi-scene pieces, brand and sizzle reels, montages, static loops, static title cards, footage remixes, and freeform builds. Use motion-graphics instead for a short unnarrated motion-first unit, including an animated title. Route fresh creation through hyperframes before using this skill.",
+      "readme_summary": "General video workflow \u2014 planning, assembly, and polish patterns for any HyperFrames project.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "660dff6283dd8078d8a58d049b4e65e3f5d5b7dde3a970b7cd8a2788084c4a75",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes": {
+      "kind": "vendored",
+      "description": "Mandatory entry point: read this first for any request to make, create, edit, animate, or render a video, animation, or motion graphic, including a promo, explainer, captioned clip, title card, overlay, slideshow or interactive deck, Remotion port, or any HyperFrames HTML composition. Also use it to inspect, diagnose, validate, preview, publish, or batch-render an existing HyperFrames project. Inputs may be a website URL, GitHub PR, Figma design or URL, text or brief, existing footage, or music. It resumes project state, captures intent when applicable, selects and installs the owning workflow, and routes domain capabilities. HyperFrames is the default output framework unless the user explicitly chooses another framework for the deliverable or asks only to record a browser session.",
+      "readme_summary": "Mandatory HyperFrames entry point \u2014 resumes project state, selects and installs the owning workflow, and routes all video, animation, and motion-graphic capabilities.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "c696f32f2d953d767d847cb5eb7a0a23e0f0e33641f043a3b830c1ea3b721b33",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes-animation": {
+      "kind": "vendored",
+      "description": "All animation knowledge for HyperFrames \u2014 atomic motion rules, multi-phase scene blueprints, scene transitions, broader motion-design techniques, AND the seven runtime adapters (GSAP default, plus Lottie, Three.js, Anime.js, CSS keyframes, Web Animations API, TypeGPU). Use for any motion or animation task: pick 2-4 rules and compose, or load a blueprint, or look up runtime-specific API (e.g. GSAP eases / Lottie player / Three.js mixer). Also covers auditing an existing composition's choreography (animation map) and 24 named text-animation effects. HyperFrames-native: single paused timeline, seek-safe, deterministic.",
+      "readme_summary": "Atomic motion rules, multi-phase scene blueprints, transitions, and the seven runtime adapters (GSAP, Lottie, Three.js, Anime.js, CSS, WAAPI, TypeGPU).",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "69a9903796e65c66edbe9ec9621eca8953c7cc2a93a718687306891daf0463d4",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes-audio": {
+      "kind": "vendored",
+      "description": "Use when audio already placed in a HyperFrames composition needs to be mixed: fade-in/fade-out, crossfade, track gain or volume, volume automation, ducking, a music bed that fights a voiceover (voiceover carve), effects on a track (EQ, compressor, limiter, gate, saturation, delay, reverb, chorus, phaser, bitcrush), automation envelopes drawn on a track's volume or any effect parameter, or one submix bus carrying a chain, a fader and an automation clock for several tracks at once (`<hf-audio-group>`). Don't use for sourcing or generating audio \u2014 finding BGM, SFX, or making a voiceover is `/media-use`. Don't use for clip timing or track layout, which is `/hyperframes-core`.",
+      "readme_summary": "Mixing audio already placed in a composition \u2014 fades, crossfades, ducking, effect chains, automation envelopes, and submix buses.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "350732899d50648f5d287c43fea17b5cfd20643cf30521918c8828c3f919481a",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes-cli": {
+      "kind": "vendored",
+      "description": "Use the HyperFrames CLI development loop: init, add, catalog, capture, lint, check, snapshot, compare, grade-compare, preview, play, present, beats, keyframes, single or batch render, publish, cloud, cloudrun, feedback, lambda, doctor, browser, info, upgrade, skills, compositions, docs, benchmark, telemetry, transcribe, auth, tts, and remove-background. Also use when diagnosing build or render failures. validate, inspect, and layout are deprecated aliases; use check. Covers local, HeyGen-hosted cloud, AWS Lambda, and Google Cloud Run rendering.",
+      "readme_summary": "HyperFrames CLI development loop \u2014 init, add, catalog, capture, lint, check, snapshot, and render workflows.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "433aef24ea350a775cf2aec2d4af7742a017a4d8f729ee538b6c21a629a39a59",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes-core": {
+      "kind": "vendored",
+      "description": "The HyperFrames composition contract \u2014 build one renderable project. Use for composition structure, the `data-*` timing attributes, `class=\"clip\"`, tracks, sub-compositions, variables, framework-owned media playback, deterministic-render rules, and validation. Read before writing composition HTML.",
+      "readme_summary": "Composition contract for renderable HTML video \u2014 timing data-attributes, clips, tracks, sub-compositions, variables, determinism rules, and validation.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "5d784d5af66f7230b50dde10bde53cf7c35b6786868783a5a638cf05c988c54f",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes-creative": {
+      "kind": "vendored",
+      "description": "Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`.",
+      "readme_summary": "Non-animation creative direction \u2014 design specs, palettes, typography, narration, beat planning, audio-reactive visuals, and brand style.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "488782fc741a43e002b5c6ac0da69cc2b12abaa42b6c0056df2aa53bea553c16",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes-keyframes": {
+      "kind": "vendored",
+      "description": "Use when a HyperFrames composition needs a punch-in, punch-out, zoom, reframe, Ken Burns treatment, camera move, visual match/whip handoff, or other seek-safe 2D/3D keyframes; also for GSAP, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, text trails, 3D depth, or `hyperframes keyframes` diagnostics. Don't use for broad scene strategy, brand design, media sourcing, captions, or general video planning.",
+      "readme_summary": "Seek-safe 2D/3D keyframes \u2014 punch-ins, camera moves, Ken Burns, match-cut handoffs, masks, SVG morph/draw, and runtime-specific APIs.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "924d038dc7eb20d16e05fa0e9837fa50bdcac0ce131aee80ebd8188cb67110d1",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "hyperframes-registry": {
+      "kind": "vendored",
+      "description": "Search, install, and wire registry blocks and components into HyperFrames compositions. Use BEFORE hand-building any named visual \u2014 whenever a brief, a user, or a storyboard names a look, effect, treatment, or transition such as CRT scanlines, glitch, chromatic aberration, film grain, a shimmer sweep, a chart, a code or terminal window, a map, or a confetti burst \u2014 because roughly 400 hosted items already cover many of them and the search ranks all of them with nothing installed, no project, and no account. Also use when running hyperframes add or hyperframes catalog, installing one item or every block matching a tag, wiring an installed item into index.html, or working with hyperframes.json. Covers discovery, install locations, block sub-composition wiring, component snippet merging, and authoring a new block or component to contribute upstream (idea \u2192 scaffold \u2192 validate \u2192 PR).",
+      "readme_summary": "Search, install, and wire hosted registry blocks and components into compositions before hand-building named visuals.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "0694f970b3613b9f0a63dc44c06404ea4f6506819f4afdbc9da3323b420cb9ae",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "media-use": {
+      "kind": "vendored",
+      "description": "Agent Media OS, the single skill for every media need in a HyperFrames project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into a frozen local file or paste-ready block + ledger record (one verb, `resolve`); generate via TTS / music / image models when the catalog misses; produce voiceover, transcription, captions, and background removal through one shared audio engine; operate on media (cut / reframe / transform); and reuse assets across projects. Also use for vague feedback that real footage looks dark, flat, boring, should feel retro/camcorder/print/ASCII, needs privacy, or needs a media reveal.",
+      "readme_summary": "Agent Media OS \u2014 resolve BGM, SFX, images, icons, logos, voices, and grades into local files; generate via TTS/music/image models; produce voiceover, transcription, captions, and media operations.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "1301ea7cb53a0a44f5c7d62c34cba7e00b9e69b31bed57dc8d645417cea0da7c",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "motion-graphics": {
+      "kind": "vendored",
+      "description": "A short, design-led motion graphic where motion is the message \u2014 kinetic typography, stat count-up, chart/data-viz hit, logo sting / brand lockup, lower-third / callout / social overlay, animated map (highlight regions, connect places, zoom to a location), animated tweet / news-article / headline, webpage / UI animation (scroll, cursor, callouts), or fusing a real image's geometry into a chart. Usually under 10s (up to ~30s), no narration or live-action subject; renders to MP4 or transparent overlay. Longer / narrated / multi-scene \u2192 /general-video. Unclear \u2192 /hyperframes.",
+      "readme_summary": "Motion-graphics workflow for kinetic type, title sequences, and graphic-driven segments.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "08d8511423df5199871bbea26790858311e17f79b14633e94db86655919ec1d3",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "music-to-video": {
+      "kind": "vendored",
+      "description": "Turn a music track (an audio file, a video to pull audio from, or a track generated from a mood brief) into a beat-synced video \u2014 lyric video, slideshow, or kinetic promo. The music drives all pacing; any user-supplied images/videos are cut onto the same beat grid, and a complete video needs zero assets. Narrated pieces \u2192 the input-matched workflow (see /hyperframes). Unclear \u2192 /hyperframes.",
+      "readme_summary": "Music-driven video workflow with beat-aligned cuts and audio-reactive visuals.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "f1f31bcb7d4fb9af2ecdb69c1e7d512cc0f5f18b2e7c976e11d507a60d70c26b",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "pr-to-video": {
+      "kind": "vendored",
+      "description": "Turn a GitHub pull request (a PR URL, owner/repo#N, or 'this PR' in a checked-out repo) into a code-change explainer video \u2014 changelog, feature reveal, fix, or refactor walkthrough built from the diff, commits, and files: the input is a code change, not a website. Not a product promo (/product-launch-video) or a no-PR topic explainer (/faceless-explainer). Unclear \u2192 /hyperframes.",
+      "readme_summary": "Turn pull requests into shareable video summaries with code visuals.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "a0bca6741123fe685be3b12af18c4785ce0632869e184dc81f5ac9d786ed74c0",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "product-launch-video": {
+      "kind": "vendored",
+      "description": "Turn a product or marketing URL, pasted script, or brief into a product launch / promo video \u2014 SaaS promos, feature reveals, product demos, app and company launches. Use when the user wants to market, launch, promote, or reveal a product; the default for any commercial URL. Site tours / showcases of a website route here too \u2014 the brief carries the show-it-as-is intent. Unclear \u2192 /hyperframes.",
+      "readme_summary": "Product launch video workflow from brief to final assembly.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "3d080e9c56fde1123f1b30a5db861c5fc9b546f4c923661b93f955a9a399de4f",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "remotion-to-hyperframes": {
+      "kind": "vendored",
+      "description": "Port an existing Remotion (React) composition's source to HyperFrames HTML. Use ONLY on an explicit ask to port/convert/migrate/translate a Remotion source \u2014 one-way, Remotion-only. A passing Remotion mention, reference-only code, or \"make something like my Remotion video\" is a fresh build (/general-video). Unclear \u2192 /hyperframes.",
+      "readme_summary": "Migrate existing Remotion projects and compositions to HyperFrames.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "cd901c3b87725a1efa0b30d69e21aeed8b3a8bd771a52618cb961cc4b7b17e99",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "slideshow": {
+      "kind": "vendored",
+      "description": "Author a HyperFrames slideshow \u2014 a presentation, pitch deck, or interactive deck with discrete slides, fragment reveals, branching, hotspot navigation, and built-in presenter mode with speaker notes; also converts an existing page into a deck. Output is a navigable deck, not a rendered MP4. If the user didn't explicitly ask for a slideshow, confirm before authoring. Unclear \u2192 /hyperframes.",
+      "readme_summary": "Author slideshow presentations, pitch decks, or interactive decks with synced visuals.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "298742506254ee1fbaa424272c8f78c5e08aa86664f76056d455dcc6b9dda051",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "talking-head-recut": {
+      "kind": "vendored",
+      "description": "Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards \u2014 kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture \u2014 synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on \"graphic overlays\", \"on-screen graphics\", \"package / dress up my video\". Not plain subtitles (/embedded-captions). Unclear \u2192 /hyperframes.",
+      "readme_summary": "Package an existing talking-head, interview, or podcast video with timed, designed graphic overlays.",
+      "dependencies": [],
+      "source_revision": null,
+      "upstream_hash": "0e7675d8b9b5cf7f92e893b527a3380f4bb3b8d6c836cd9fa38c5e9ae2e96fae",
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
     }
   }
 }

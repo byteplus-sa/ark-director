@@ -1,6 +1,6 @@
 ---
 name: film-production
-description: Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between Seedream, Seed Audio, Seedance, Remotion, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.
+description: Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.
 ---
 
 # Film Production
@@ -67,7 +67,7 @@ between modalities.
 | Footage-driven VFX prompt | `seedance-vfx-prompt` |
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
 | Model submission, polling, or artifact access | `modelark-mcp` |
-| Assembly, media transforms, captions, render | appropriate Remotion, FFmpeg, or Mediabunny skill |
+| Assembly, media transforms, captions, render | appropriate HyperFrames or FFmpeg skill |
 | Persistent stage canvas, review and selection | `showcase-html` |
 
 <!-- markdownlint-enable MD013 -->

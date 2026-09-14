@@ -1,4 +1,0 @@
-interface:
-  display_name: "Remotion Captions"
-  short_description: "Help with Remotion Captions tasks"
-  default_prompt: "Use $remotion-captions to handle this remotion captions task."

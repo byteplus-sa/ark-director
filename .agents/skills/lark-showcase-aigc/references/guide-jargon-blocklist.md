@@ -41,7 +41,7 @@ prompt code blocks.
 | Forbidden | Use instead |
 |---|---|
 | FFmpeg, ffmpeg | video assembly |
-| Remotion | video rendering |
+| HyperFrames | video rendering |
 | CLI, MCP | (omit entirely) |
 | `lark-cli` | (omit entirely) |
 | object storage, S3, TOS | (omit entirely) |

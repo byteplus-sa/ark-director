@@ -1,4 +1,0 @@
-interface:
-  display_name: "Remotion Create"
-  short_description: "Help with Remotion Create tasks"
-  default_prompt: "Use $remotion-create to handle this remotion create task."

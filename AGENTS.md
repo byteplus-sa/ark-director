@@ -70,7 +70,7 @@ orchestrators own cross-skill sequencing, generation gates and delegation.
 `film-production` manages multi-scene production using its stage/handoff
 contracts. Load only specialists needed for the current stage or requested axis.
 
-Vendored Remotion, Mediabunny, Blender and FFmpeg bundles are exempt from local
+Vendored HyperFrames, Blender and FFmpeg bundles are exempt from local
 skill-isolation remediation. Preserve upstream design, record local overlays,
 and review changes before re-vendoring. Do not remove a skill because it is
 currently unused. All installed bundles and `skills-lock.json` belong in Git.
@@ -115,7 +115,7 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   finishing when exact fidelity is required.
 - Do not bake captions, taglines, CTAs, end cards or other overlay text into
   generated video. Keep generated footage text-free and add on-screen text in
-  post with FFmpeg or Remotion.
+  post with FFmpeg or HyperFrames.
 - Preserve exact canonical descriptors where applicable. Prefer positive,
   observable direction; necessary edit-scope exclusions are allowed.
 - Run prompt-review for every generation-bound prompt. Resolve CRITICAL/MAJOR

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Remotion Docs"
-  short_description: "Help with Remotion Docs tasks"
-  default_prompt: "Use $remotion-docs to handle this remotion docs task."

@@ -228,30 +228,40 @@ The workspace ships with **59 skills** across 13 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **ffmpeg** | Video and audio processing with FFmpeg. Use for format conversion, resizing, compression, audio extraction, and preparing assets for Remotion. Covers converting GIF to MP4, resizing video, extracting audio, compressing files, and any media transformation task. |
+| **ffmpeg** | Video and audio processing with FFmpeg. Use for format conversion, resizing, compression, audio extraction, and preparing assets for editing and assembly. Covers converting GIF to MP4, resizing video, extracting audio, compressing files, and any media transformation task. |
 | **ffmpeg-scene-transitions** | Assembles multiple video clips into one film with crossfade scene transitions and correct audio/video sync. Handles clips of mixed durations and clips whose audio is shorter or longer than their video, plus fade in/out, hard cuts, boundary contact-sheet verification, and A/V drift fixes. Use to combine scenes, stitch clips with dissolves, crossfade between shots, compile locked videos into a highlight film, or fix A/V drift in an assembled film. |
 | **ffmpeg-side-by-side-comparison** | Assembles two or more videos into a single side-by-side (or N-up) comparison clip — before/after, A/B, or a review grid. Handles uniform scaling, pixel-aspect alignment, duration sync, optional labels, and audio. Use for before-and-after split screens, A/B comparisons of takes, or compare/review grids. |
-| **mediabunny** | Multimedia handling with the Mediabunny library, used alongside Remotion for media processing tasks. |
 
-### Remotion — Programmatic Video
+### HyperFrames — HTML-Native Video
 
 | Skill | Description |
 |---|---|
-| **remotion-create** | Creating a new Remotion video project from scratch. |
-| **remotion-best-practices** | Best practices for building Remotion video applications. |
-| **remotion-markup** | Best practices for writing Remotion React markup that stays intuitive for agents and editable in Remotion Studio Visual Mode. |
-| **remotion-render** | Best practices for rendering videos with Remotion. |
-| **remotion-captions** | Dealing with captions and subtitles in Remotion. |
-| **remotion-interactivity** | Best practices for writing Remotion animations that stay intuitive and editable in Visual Mode. |
-| **remotion-saas** | Building video apps with Remotion — framework, rendering, and Player advice for SaaS use cases. |
-| **remotion-docs** | Search and fetch Remotion documentation pages. |
-| **remotion-upgrade** | Upgrade Remotion, related packages, compatible Mediabunny packages, and installed Remotion Agent Skills. |
+| **embedded-captions** | Add designed captions or subtitles to an existing talking-head video without editing it. |
+| **faceless-explainer** | End-to-end faceless explainer video workflow with narration, visuals, and assembly. |
+| **figma** | Import Figma frames and design data into compositions. |
+| **general-video** | General video workflow — planning, assembly, and polish patterns for any HyperFrames project. |
+| **hyperframes** | Mandatory HyperFrames entry point — resumes project state, selects and installs the owning workflow, and routes all video, animation, and motion-graphic capabilities. |
+| **hyperframes-animation** | Atomic motion rules, multi-phase scene blueprints, transitions, and the seven runtime adapters (GSAP, Lottie, Three.js, Anime.js, CSS, WAAPI, TypeGPU). |
+| **hyperframes-audio** | Mixing audio already placed in a composition — fades, crossfades, ducking, effect chains, automation envelopes, and submix buses. |
+| **hyperframes-cli** | HyperFrames CLI development loop — init, add, catalog, capture, lint, check, snapshot, and render workflows. |
+| **hyperframes-core** | Composition contract for renderable HTML video — timing data-attributes, clips, tracks, sub-compositions, variables, determinism rules, and validation. |
+| **hyperframes-creative** | Non-animation creative direction — design specs, palettes, typography, narration, beat planning, audio-reactive visuals, and brand style. |
+| **hyperframes-keyframes** | Seek-safe 2D/3D keyframes — punch-ins, camera moves, Ken Burns, match-cut handoffs, masks, SVG morph/draw, and runtime-specific APIs. |
+| **hyperframes-registry** | Search, install, and wire hosted registry blocks and components into compositions before hand-building named visuals. |
+| **media-use** | Agent Media OS — resolve BGM, SFX, images, icons, logos, voices, and grades into local files; generate via TTS/music/image models; produce voiceover, transcription, captions, and media operations. |
+| **motion-graphics** | Motion-graphics workflow for kinetic type, title sequences, and graphic-driven segments. |
+| **music-to-video** | Music-driven video workflow with beat-aligned cuts and audio-reactive visuals. |
+| **pr-to-video** | Turn pull requests into shareable video summaries with code visuals. |
+| **product-launch-video** | Product launch video workflow from brief to final assembly. |
+| **remotion-to-hyperframes** | Migrate existing Remotion projects and compositions to HyperFrames. |
+| **slideshow** | Author slideshow presentations, pitch decks, or interactive decks with synced visuals. |
+| **talking-head-recut** | Package an existing talking-head, interview, or podcast video with timed, designed graphic overlays. |
 
 ### Blender — 3D Pipeline
 
 | Skill | Description |
 |---|---|
-| **blender-python-scripting** | Blender 5.x Python scripting (bpy) — custom operators, UI panels, add-on development, context management, handlers, timers, property system, batch processing, and data model access. Targets Python 3.13 (Blender 5.1). |
+| **blender-python-scripting** | Blender 5.x Python scripting with runtime capability checks, deterministic scene automation, operators, UI, add-ons, handlers, properties, and batch processing. |
 | **blender-modeling-modifiers** | Blender 5.x modifiers, bmesh API, mesh editing operators, sculpting setup — SubSurf, Boolean, Array, Mirror, Bevel, bmesh procedural mesh creation, and modeling pipelines. |
 | **blender-shader-nodes** | Blender 5.x shader nodes — PBR materials, procedural textures, Principled BSDF, glass/metal/skin shaders, world/HDRI lighting, raycast shader node, and scripting material node trees. |
 | **blender-geometry-nodes** | Blender 5.x geometry nodes — procedural modeling, scattering, mesh/curve/volume ops, simulation zones, repeat zones, Bone Info, Font socket, UV nodes, volume grid nodes, and scripting node trees. |
@@ -276,7 +286,7 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 | Source | Type | Examples |
 |---|---|---|
 | **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `template-factory`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `modelark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
-| **Remotion (vendored)** | `github: remotion-dev/skills` | `remotion-*` (9 skills), `mediabunny` |
+| **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes*` (11 skills), `media-use`, `embedded-captions`, `faceless-explainer`, `figma`, `general-video`, `motion-graphics`, `music-to-video`, `pr-to-video`, `product-launch-video`, `remotion-to-hyperframes`, `slideshow`, `talking-head-recut` |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |
 

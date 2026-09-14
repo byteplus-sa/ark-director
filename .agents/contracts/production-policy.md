@@ -39,7 +39,7 @@ Identify assets using [element-identification.md](element-identification.md). Co
 
 Narrative shots need events, intent, blocking and observable end states. Static character/prop sheets need clear composition and visible design; music/SFX/ambience need a sound arc appropriate to the requested artifact. Do not force story tactics into a static-image or sound-bed prompt.
 
-Screens and typography use approved layout references before production video. Inspect the actual output; reference images do not guarantee pixel-perfect text. Use deterministic finishing when exact copy is required. Never ask the model to render overlay text such as captions, taglines, CTAs or end cards; generate text-free footage and add on-screen text in post with FFmpeg or Remotion.
+Screens and typography use approved layout references before production video. Inspect the actual output; reference images do not guarantee pixel-perfect text. Use deterministic finishing when exact copy is required. Never ask the model to render overlay text such as captions, taglines, CTAs or end cards; generate text-free footage and add on-screen text in post with FFmpeg or HyperFrames.
 
 Single-person references should preserve the intended identity and avoid cloning. Clean a sheet only for the requested reference policy or observed duplicate-face defect. Preserve approved visual descriptors and the face anchor; do not infer gender identity from appearance. Visual inspection and model-assisted inspection are evidence, not substitutes for user selection. Unavailable verification remains unresolved.
 

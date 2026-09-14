@@ -1,4 +1,0 @@
-interface:
-  display_name: "Remotion Interactivity"
-  short_description: "Help with Remotion Interactivity tasks"
-  default_prompt: "Use $remotion-interactivity to handle this remotion interactivity task."

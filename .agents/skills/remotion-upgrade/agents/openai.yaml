@@ -1,4 +1,0 @@
-interface:
-  display_name: "Remotion Upgrade"
-  short_description: "Help with Remotion Upgrade tasks"
-  default_prompt: "Use $remotion-upgrade to handle this remotion upgrade task."

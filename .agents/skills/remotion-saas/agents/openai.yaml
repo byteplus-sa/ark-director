@@ -1,4 +1,0 @@
-interface:
-  display_name: "Remotion Saas"
-  short_description: "Help with Remotion Saas tasks"
-  default_prompt: "Use $remotion-saas to handle this remotion saas task."

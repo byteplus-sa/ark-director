@@ -1,4 +1,0 @@
-interface:
-  display_name: "Remotion Render"
-  short_description: "Help with Remotion Render tasks"
-  default_prompt: "Use $remotion-render to handle this remotion render task."

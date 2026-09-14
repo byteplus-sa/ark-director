@@ -1,4 +1,0 @@
-interface:
-  display_name: "Mediabunny"
-  short_description: "Help with Mediabunny tasks"
-  default_prompt: "Use $mediabunny to handle this mediabunny task."
