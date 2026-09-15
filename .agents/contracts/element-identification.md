@@ -8,8 +8,8 @@ Identify visible elements during draft breakdown; approve required references be
 | Screen-only people | Lock the visible call UI; describe moving callers and dialogue in text rather than attaching their character sheets as static screen content |
 | Locations | Canonical location for recurring or geography-critical spaces; scene-level direction/keyframes for incidental settings |
 | Held or operated props | Identify every object, then apply the threshold below; holding an object alone does not require generating a sheet |
-| Screens and text | Lock exact copy/layout as a screen reference before video; inspect rendered text and use deterministic finishing when exact fidelity is required |
-| Brand/title cards | Canonical card for recurring or exact typography; preserve source logo rights and visual design |
+| Screens and text | Use deterministic HTML-entrypoint graphics for exact copy/layout; use Seedream only for synthesized screen imagery, then finish exact UI/text deterministically |
+| Brand/title cards | Deterministic card for exact typography, logo, product, price, or CTA geometry; preserve source logo rights and visual design |
 | Audio | Separate reusable music/SFX/ambience when the requested workflow needs them; native video audio does not require a redundant audio generation |
 | Wearables | Always-worn outfit items belong in character design; scene-variant wearables are separate assets when consistency is needed |
 
@@ -55,6 +55,32 @@ Acquired brand/product assets skip `prompt-review` and the default three-sample
 Seedream set because there is no generation-bound prompt. They still require
 local persistence, hashes, canvas listing, and explicit user selection or
 approval before dependent video use.
+
+## Deterministic and hybrid static graphics
+
+Use `html-graphic-render` when exact words, typography, logo placement, UI,
+price/CTA treatment, safe areas, product order, or repeatable poster geometry
+carry the design. Store the editable HTML entrypoint and its local CSS/SVG
+dependencies beside the versioned PNG and
+record `source: deterministic_render`, `generation: deterministic_html`, local
+input and font hashes, canvas dimensions, background/alpha mode, renderer
+version, and output hash. Validate the record against the
+[render-record schema](../skills/html-graphic-render/references/render-record.schema.json).
+
+Use Seedream for synthesized photography, characters, locations, illustration,
+materials, or expressive textures. For a hybrid, approve the generated or
+acquired text-free image first, bind its current hash as an input, and add all
+exact copy and graphic geometry deterministically. The upstream generated layer
+keeps its prompt/review/task evidence; the deterministic output keeps its render
+record.
+
+Deterministic graphics skip prompt-review, provider registration, and the
+three-sample image default. They still require exact-copy, font, overflow,
+dimension, alpha, thumbnail-legibility, canvas, provenance, and explicit
+selection checks. If both a white-background model reference and transparent
+delivery cutout are needed, create and label separate files. Never globally
+remove white from a product image when that would erase labels, highlights, or
+internal white details.
 
 ## Reference footage and brand-ad inspiration
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Graphic Render"
+  short_description: "Render exact static graphics from HTML and CSS"
+  default_prompt: "Use $html-graphic-render to author and render this exact static graphic."

@@ -85,6 +85,12 @@ Use explicit input first; filenames below are fallback hints, not authority:
 | Seedream storyboard | `prompt_sNN_kf*` (multi-panel) | `seedream-storyboard` |
 | Seedance music video | `prompt_sNN_shNNN_tNN_vNN.md` (song-driven) | `seedance-music-video` |
 
+Deterministic HTML-entrypoint screens, cards, posters, product layouts, and
+overlays have no generation prompt and stay outside this table. Review only a
+generative image layer inside a hybrid; the deterministic result uses
+exact-copy, font, layout, dimension, alpha, provenance, and visible-design QA
+instead.
+
 The "Checklist source" column is a provenance label only — this skill never loads
 a sibling; the applicable checklist is always read from this skill's own bundled
 `references/review-checklists.md`.

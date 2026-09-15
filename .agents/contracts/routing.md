@@ -9,10 +9,22 @@
 | User explicitly chooses Lumina | Author copy-paste prompts in chat; do not generate through MCP/CLI or create production files unless requested |
 | Prompt composition only | Relevant independent prompt skill; no asset-generation or production-lock ceremony for a writing-only task |
 | Multi-scene production | `film-production`; declared orchestrators route specialist work |
+| Exact static copy, poster, UI, title/end card, product grid, logo/price/CTA layout, or transparent overlay | `html-graphic-render`; keep source and inputs local, render exact-size PNG, and preserve provenance |
+| Invented photographic or illustrative still | Appropriate Seedream skill; hybrid work finishes exact copy/layout through `html-graphic-render` after the image is selected |
+| Animated exact graphic or timed overlay | HyperFrames for animation; HyperFrames or FFmpeg for final video composition |
 | Production stage review | Required persistent `showcase-html` canvas; update and freshness-check it at every stage |
 | Ad-hoc media comparison | `showcase-html --quick`; `media-review` only for an explicitly requested OS player or unavailable browser |
 | Mermaid system/process diagram | `design-doc-mermaid` when available; cinematic blocking requests use `tig-blocking-map` |
 | Brand-ad / reference-video inspiration | Obtain watchable media first: pass a public HTTPS URL that `seed_understand` accepts, or download then `media_upload` when the link is unusable; do not substitute scripts or article text. Full reverse-engineering → `template-factory`; lighter visual/motion analysis → `modelark-mcp` (`seed_understand`) |
+
+Deterministic HTML/CSS/SVG is a production route, not a provider fallback. In
+this workspace, that shorthand means one HTML entrypoint with project-local CSS
+and SVG dependencies; standalone CSS or SVG is not a renderer entrypoint.
+Choose it when exact copy, alignment, repeated brand assets, safe areas, or
+transparent geometry are the primary fidelity risk. It does not create a model
+prompt or provider operation. A hybrid retains normal generation evidence for
+its synthesized image layer and a separate deterministic render record for its
+exact graphic layer.
 
 ## Capability evidence
 

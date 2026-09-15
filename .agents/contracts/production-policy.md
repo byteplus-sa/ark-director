@@ -2,7 +2,7 @@
 
 ## Stage evidence and authorization
 
-Draft brief and scene breakdown can identify assets before canon exists. Before dependent production generation, require the appropriate approved recurring/critical elements and declared reference roles. Canon may be created by static sheet generation **or** by acquiring and approving real brand/product/logo assets; prompt-only authoring may deliver a draft without generating or downloading assets. When the brief borrows visual or motion grammar from a cited brand ad or other footage, obtain watchable media first (a `seed_understand`-usable public HTTPS URL, or a local download plus upload when that link is unusable); do not treat scripts or article text as the reference.
+Draft brief and scene breakdown can identify assets before canon exists. Before dependent production generation, require the appropriate approved recurring/critical elements and declared reference roles. Canon may be created by static sheet generation, deterministic HTML-entrypoint rendering, **or** by acquiring and approving real brand/product/logo assets; prompt-only authoring may deliver a draft without generating or downloading assets. When the brief borrows visual or motion grammar from a cited brand ad or other footage, obtain watchable media first (a `seed_understand`-usable public HTTPS URL, or a local download plus upload when that link is unusable); do not treat scripts or article text as the reference.
 
 The normal flow is brief → draft breakdown → required canon → optional storyboard → optional requested lip-sync audio → shot generation → review → assembly → delivery. Entry and exit evidence live in film-production's stage/handoff contracts. Stage completion cannot be inferred from filenames.
 
@@ -39,7 +39,23 @@ Identify assets using [element-identification.md](element-identification.md). Co
 
 Narrative shots need events, intent, blocking and observable end states. Static character/prop sheets need clear composition and visible design; music/SFX/ambience need a sound arc appropriate to the requested artifact. Do not force story tactics into a static-image or sound-bed prompt.
 
-Screens and typography use approved layout references before production video. Inspect the actual output; reference images do not guarantee pixel-perfect text. Use deterministic finishing when exact copy is required. Never ask the model to render overlay text such as captions, taglines, CTAs or end cards; generate text-free footage and add on-screen text in post with FFmpeg or HyperFrames.
+Choose the static-graphics route by fidelity requirement. Exact copy,
+typography, logos, screen/UI layouts, title cards, posters, product lineups,
+price/CTA treatments, and simple vector or gradient geometry use a deterministic
+HTML entrypoint with project-local CSS/SVG dependencies rendered to a
+reviewable raster. Preserve editable source, local
+inputs and fonts, dimensions, background/alpha intent, renderer version, and
+source/input/output hashes. Use Seedream for invented photographic or
+illustrative imagery, expressive texture, and image synthesis; a hybrid uses a
+selected generated or acquired base beneath deterministic copy and layout.
+
+Screens and typography use approved layout references before production video.
+Inspect the actual output because reference images do not guarantee
+pixel-perfect text. Never ask the model to render overlay text such as captions,
+taglines, CTAs or end cards; generate text-free footage and add on-screen text
+in post with FFmpeg or HyperFrames. A transparent delivery graphic and a
+solid-background model reference are separate assets; never use a white matte
+as fake transparency.
 
 Single-person references should preserve the intended identity and avoid cloning. Clean a sheet only for the requested reference policy or observed duplicate-face defect. Preserve approved visual descriptors and the face anchor; do not infer gender identity from appearance. Visual inspection and model-assisted inspection are evidence, not substitutes for user selection. Unavailable verification remains unresolved.
 
@@ -50,6 +66,19 @@ An explicitly selected supported conditioning input is a promoted composition or
 Before submitting a **generation-bound** request, freeze the exact prompt beside its intended asset, compute hashes, verify ordered bindings/roles, check reference approval and current hashes, and resolve current model/mode capabilities. Run prompt-review for generation-bound prompts; CRITICAL/MAJOR findings must be resolved. Editing a manifest or documentation alone does not trigger generation review. A changed worked example is reviewed offline without buying media.
 
 Acquired brand, logo, packshot, or other `generation: none` elements do not run prompt-review or the default three-sample image set. They still require local persistence, content SHA-256, canvas listing, and explicit `selected_variant` / `approved` before dependent production use. See [element-identification.md](element-identification.md).
+
+Deterministic static assets (`generation: deterministic_html`) also skip
+prompt-review, provider task registration, and the default stochastic sample
+set. One render specification produces one exact version. Keep the HTML
+entrypoint, resolved CSS/SVG/asset and font hashes, viewport and renderer metadata,
+background/alpha mode, output properties, and render record. Exact-copy, font,
+overflow, dimension, alpha, thumbnail-legibility, visible-design, canvas, and
+explicit selection checks still apply. Generative layers inside a hybrid retain
+their own prompt-review and provider task evidence.
+
+Every render record must conform to the bundled
+[deterministic render-record schema](../skills/html-graphic-render/references/render-record.schema.json)
+before the PNG and record are promoted together.
 
 Use explicit prompt_type, model, operation, language, requested axes, may_change and must_preserve to route review. A completed review is bound to the request hash and lists applicable rule outcomes and evidence. Missing/empty reviewer output is incomplete. Static image, audio, editing and narrative checks are applied to their relevant artifact types.
 
@@ -71,7 +100,7 @@ Provider moderation errors remain moderation_rejected with original error eviden
 
 Generate scenes at natural duration, then chain supported frame modes or assemble approved takes. Continuous single-take/native extension is exceptional; verify every seam. Separate lip-sync audio remains opt-in; follow [audio-video-alignment.md](audio-video-alignment.md).
 
-Use the lowest suitable cost/resolution within the requested behavior. For **Seedream (or other generative) image** selection sets, default to three samples. Sampling variations keep prompt, references, model and effective parameters identical except supported stochastic seed differences. Creative alternatives change only explicitly requested variables with distinct provenance. Explicit requested count wins. Watermark false is the default only for tools that support that parameter. Acquired web/user brand assets are not sampling variants; promote one download as the selected file unless the user asks to compare multiple acquired sources.
+Use the lowest suitable cost/resolution within the requested behavior. For **Seedream (or other generative) image** selection sets, default to three samples. Sampling variations keep prompt, references, model and effective parameters identical except supported stochastic seed differences. Creative alternatives change only explicitly requested variables with distinct provenance. Explicit requested count wins. Watermark false is the default only for tools that support that parameter. Acquired web/user brand assets are not sampling variants; promote one download as the selected file unless the user asks to compare multiple acquired sources. Deterministic graphics produce one render per versioned source/specification and never inherit the three-sample default.
 
 Record estimated cost separately from confirmed billing and provider usage. Do not infer billed cost or creative correctness from successful task status. Verify decode, actual streams/duration, opening/transitions/ending, and audible sound arc. Contact sheets support but do not replace playback and listening. Preserve high-quality masters and separately named review proxies.
 

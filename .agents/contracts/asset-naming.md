@@ -39,6 +39,21 @@ parseable by tools.
 | Acquired brand/product source copy | `elements/<id>/refs/ref_<descriptor>.<ext>` | `elements/spicy-paksiw-can/refs/ref_primary_packshot.jpg` |
 | Brand/product provenance | `elements/<id>/PROVENANCE.md` | `elements/brand-555/PROVENANCE.md` |
 
+### Deterministic static graphic sources
+
+Use the same stem for editable source and raster output. Deterministic files do
+not use a `prompt_` prefix because no model prompt is submitted.
+
+| Asset | Source / output pattern | Render record |
+|---|---|---|
+| Screen / UI | `screen_<descriptor>_v<NN>.html` / `.png` | `render_screen_<descriptor>_v<NN>.json` |
+| Brand / title / poster card | `card_<descriptor>_v<NN>.html` / `.png` | `render_card_<descriptor>_v<NN>.json` |
+| Static transparent overlay | `overlay_<descriptor>_v<NN>.html` / `.png` | `render_overlay_<descriptor>_v<NN>.json` |
+
+Use `source: deterministic_render` and `generation: deterministic_html` in the
+owning manifest. A solid-background model reference and transparent delivery
+output use separate versioned stems so their alpha intent cannot be confused.
+
 ### Acquired (non-generated) brand and product assets
 
 When locking a real logo, packshot, or labeled product from the web or the user

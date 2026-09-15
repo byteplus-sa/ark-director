@@ -6,10 +6,12 @@ description: >-
   download and media_upload only when unusable), video breakdown, keyframes,
   deep motion review, dynamic sketch storyboard, optional element sheets
   (Seedream for invented identity; web/user download-first for authorized real
-  brands/logos/products), and a Seedance 2.5 video — generation-bound prompts
-  through prompt-review; stages on the showcase-html canvas. Explicit
-  orchestrator composing modelark-mcp, seedream-storyboard, seedance-prompt-25,
-  prompt-review, showcase-html, and ffmpeg; never calls the Ark REST API. Use to
+  brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards,
+  screens, product layouts, and overlays), and a Seedance 2.5 video —
+  generation-bound prompts through prompt-review; stages on the showcase-html
+  canvas. Explicit orchestrator composing modelark-mcp, seedream-storyboard,
+  seedance-prompt-25, prompt-review, html-graphic-render, hyperframes,
+  showcase-html, and ffmpeg; never calls the Ark REST API. Use to
   replicate style/composition/grammar, build a reusable template, or turn a
   cited brand ad, Pinterest pin, or other reference video into elements and
   video.
@@ -39,7 +41,9 @@ the current workspace contracts taking precedence where the plan is stale.
 - **Every generation-bound prompt this factory submits — Seedream storyboard,
   Seedream element sheet, or Seedance video — must pass the `prompt-review`
   gate first.** Acquired brand/product/logo assets (`generation: none`) skip
-  prompt-review; they still need hashes, canvas listing, and explicit selection.
+  prompt-review. Deterministic static graphics (`generation:
+  deterministic_html`) also skip prompt-review and provider registration. Both
+  still need hashes, canvas listing, visible QA, and explicit selection.
 - Replicate style, composition, and grammar. Do not clone copyrighted footage.
   De-identify real people in analysis. For brands: de-identify when unknown or
   unauthorized; when the user authorizes a real brand, preserve that identity and
@@ -90,13 +94,21 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 5. **Elements** — identify required canonical inputs from the draft breakdown.
    Use the workspace prop threshold: branded, recurring, story-critical, or
    scene-variant wearables need a separate locked reference; incidental objects
-   may be described in text. For authorized real brands, logos, and labeled
-   products, acquire official or authorized web/user assets first and promote
-   them with `source: web_download` or `user_supplied` and `generation: none`;
-   do not Seedream a fake packshot or logo when a usable real asset is available.
-   For invented characters, locations, and other generative sheets, generate the
-   user-requested number of variants, or 3 by default, after prompt review.
-   Persist `selected_variant` only after explicit user choice.
+   may be described in text. Classify each static element before production:
+   acquire official/user assets for authorized brands, logos, and products; use
+   deterministic HTML-entrypoint graphics for exact copy, typography, screen/UI, title
+   cards, posters, product lineups, price/CTA treatments, and simple geometry;
+   use Seedream for invented characters, locations, photography, illustration,
+   and expressive imagery; use a hybrid when selected imagery needs
+   deterministic type/layout. Promote acquired files with `source:
+   web_download` or `user_supplied` and `generation: none`. Promote
+   deterministic renders with `source: deterministic_render`, `generation:
+   deterministic_html`, editable source, render record, input/font hashes,
+   dimensions, and alpha intent. Do not Seedream a fake packshot/logo or ask it
+   to reproduce exact graphic geometry. For generative sheets, create the
+   user-requested number of variants, or 3 by default, after prompt review. One
+   deterministic specification produces one exact version. Persist
+   `selected_variant` only after explicit user choice.
 6. **Storyboard** — after relevant Elements are approved, write a dynamic
    production board via `seedream-storyboard`, one panel per shot unless the
    user sets a panel budget. Review the prompt and generate the requested count,
@@ -135,6 +147,9 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 | Storyboard grid prompt | `seedream-storyboard` |
 | Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prompt` |
 | Brand / logo / product packshot | Web or user download first per element-identification; Seedream only as fallback |
+| Exact typography, screen/UI, title/end card, poster, product lineup, price/CTA, or static overlay | `html-graphic-render` |
+| Generative image with exact copy/layout | Select the generated image, then finish with `html-graphic-render` |
+| Animated exact graphic | HyperFrames; FFmpeg or HyperFrames for final video composition |
 | Seedance 2.5 video prompt | `seedance-prompt-25` |
 | Prompt quality gate (generation-bound only) | `prompt-review` |
 | Persistent stage canvas and visual review | `showcase-html` |
@@ -145,7 +160,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 | --- | --- | --- |
 | Pin intake and template intent | `brief-development` | source hash, constraints, recipe target |
 | Analysis, keyframes, motion review | `scene-breakdown` | valid breakdown, motion review, approved revision |
-| Element acquisition/generation and selection | `canon-elements` | hashes, explicit selections; acquired or generated variants |
+| Element acquisition/generation/rendering and selection | `canon-elements` | hashes, explicit selections; acquired, generated, or deterministic variants |
 | Storyboard generation and selection | `storyboard-visual-plan` | ordered panels, prompts, eligibility state |
 | Audio decision | `audio-preparation` | requested assets and timing, or `skipped` with reason |
 | Video generation and take review | `shot-generation` | prepared requests, task provenance, pin + take players in one `takes` group, QA |
@@ -201,7 +216,10 @@ Before any **generation** call, run `prompt-review`:
   (before `seedance_2_5_create_task`)
 
 CRITICAL/MAJOR findings must be fixed before submission. Skip this gate for
-acquired brand/product/logo assets that have no generation prompt.
+acquired brand/product/logo assets and deterministic HTML-entrypoint renders that
+have no generation prompt. Deterministic renders still require source/output
+hashing, exact-copy, font, layout, dimension, alpha, thumbnail-legibility,
+canvas, and selection checks.
 
 ## Reusable recipe contract
 

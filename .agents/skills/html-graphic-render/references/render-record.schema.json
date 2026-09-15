@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ark-director.local/schemas/deterministic-render-record.schema.json",
+  "title": "Deterministic HTML Render Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generation",
+    "source",
+    "inputs",
+    "copy",
+    "renderer",
+    "input_fingerprint_sha256",
+    "output",
+    "rendered_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "generation": {
+      "const": "deterministic_html"
+    },
+    "source": {
+      "$ref": "#/$defs/hashedInput"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/hashedInput"
+      }
+    },
+    "copy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "text", "verified"],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string"
+          },
+          "verified": {
+            "const": true
+          }
+        }
+      }
+    },
+    "renderer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "browser",
+        "script_sha256",
+        "viewport",
+        "background",
+        "font_policy",
+        "required_font_family"
+      ],
+      "properties": {
+        "name": {
+          "const": "html-graphic-render"
+        },
+        "browser": {
+          "type": "string",
+          "minLength": 1
+        },
+        "script_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "viewport": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height", "device_scale_factor"],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8192
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8192
+            },
+            "device_scale_factor": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4
+            }
+          }
+        },
+        "background": {
+          "enum": ["opaque", "transparent"]
+        },
+        "font_policy": {
+          "enum": ["project_local_required", "platform_fallback_allowed"]
+        },
+        "required_font_family": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "font_policy": {
+                "const": "project_local_required"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "required_font_family": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "required_font_family": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "input_fingerprint_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "mime_type",
+        "width",
+        "height",
+        "has_alpha_channel",
+        "has_transparency",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/localPath"
+        },
+        "mime_type": {
+          "const": "image/png"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32768
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32768
+        },
+        "has_alpha_channel": {
+          "type": "boolean"
+        },
+        "has_transparency": {
+          "type": "boolean"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "rendered_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "localPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "hashedInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/localPath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

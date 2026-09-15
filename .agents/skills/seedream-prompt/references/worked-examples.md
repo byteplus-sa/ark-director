@@ -4,7 +4,7 @@ Focused reference for `seedream-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
 - [Full example: T2I — Cinematic scene](#full-example-t2i--cinematic-scene)
-- [Full example: Infographic](#full-example-infographic)
+- [Full example: Infographic visual layer](#full-example-infographic-visual-layer)
 - [Full example: Image Editing — Color & Material Replacement](#full-example-image-editing--color--material-replacement)
 - [Full example: Multi-image fusion](#full-example-multi-image-fusion)
 
@@ -34,35 +34,39 @@ Quality: 4K, rich textures, cinematic depth of field
 Negative: no watermarks, no text overlays, no distorted anatomy, natural skin texture
 ```
 
-## Full example: Infographic
+## Full example: Infographic visual layer
+
+This is the generative half of a hybrid. Seedream creates a text-free editorial
+image layer; the caller adds all verified data, charts, labels, and title through
+the deterministic static-graphics route.
 
 ```
 Task:
 Infographic / Information Visualization
 
 Subject:
-A visual infographic chronicling scientific research at Antarctica's Qinling Station. Place the main Qinling Station building at the center. Surround it with a timeline of research station development, a bar chart comparing the sizes of five research stations, a pie chart of the station's energy sources, and a line chart of monthly sunshine. Supplement with realistic photos of research equipment, a summer weather panel, a seven-step fieldwork flowchart, and on-site sampling photography.
+A text-free editorial image system about scientific research at Antarctica's Qinling Station. Place the main station building at the center. Surround it with realistic vignettes of research equipment, summer weather, fieldwork, on-site sampling, ice shelves, penguin colonies, and aurora. Leave structured negative-space panels for later data visualization; do not invent charts, labels, values, or title text.
 
 Setting:
 Clean, academic presentation layout. Antarctic landscape references in the background — ice shelves, penguin colonies, aurora.
 
 Style:
-Scientific infographic, National Geographic editorial style, clean data visualization, modern sans-serif typography.
+Scientific editorial image system, National Geographic-inspired documentary photography, professional cool-toned palette.
 
 Lighting:
-Even, bright studio lighting for charts and diagrams. Dramatic natural lighting for the landscape elements.
+Even, bright studio lighting for equipment and research vignettes. Dramatic natural lighting for the landscape elements.
 
 Composition:
-Central anchor (research station) with radial layout. Timeline along the top, charts on the left, flowchart on the right, photos in the bottom section.
-
-Text in image:
-"Qinling Station" — main title
-Chart labels and data values as appropriate
+Central anchor with a radial visual flow. Reserve a clean horizontal band along the top, three empty rectangular panels on the left, one tall empty panel on the right, and a modular photo strip along the bottom. Keep the reserved panels uncluttered for deterministic charts and copy.
 
 Constraints:
-Quality: 2K, crisp text rendering, professional color palette
-Negative: no distorted charts, no misaligned text, consistent font sizes
+Quality: 2K, detailed documentary imagery, clean panel boundaries
+Negative: no words, letters, numbers, charts, labels, logos, watermarks, or signatures
 ```
+
+The deterministic finish supplies the verified title, timeline, chart geometry,
+labels, values, flowchart, fonts, and alignment. Its render record binds this
+selected image layer by content hash.
 
 ## Full example: Image Editing — Color & Material Replacement
 

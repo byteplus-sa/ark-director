@@ -147,8 +147,17 @@
     },
     "film-production": {
       "kind": "orchestrator",
-      "description": "Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.",
+      "description": "Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between deterministic HTML-entrypoint graphics, Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.",
       "readme_summary": "Orchestrates multi-scene, multi-modality production one stage at a time while keeping a required HTML production canvas synchronized for review and handoff.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "html-graphic-render": {
+      "kind": "leaf",
+      "description": "Author and render deterministic static graphics from one project-local HTML entrypoint with CSS/SVG dependencies into exact-size PNGs with exact typography, approved local assets, optional transparency, and hash-bound provenance. Use for posters, title or end cards, product grids, UI/screens, price and CTA treatments, lower-thirds, and static overlays when copy and layout must be exact. Use a hybrid when generated or acquired imagery needs deterministic type and composition. Do not use for invented photographic or illustrative imagery, semantic image edits, animation/video, or production review galleries.",
+      "readme_summary": "Author and render exact-size static posters, cards, product grids, UI, and transparent overlays from one project-local HTML entrypoint with CSS/SVG dependencies, exact-copy checks, and schema-valid provenance.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -264,8 +273,8 @@
     },
     "seedance-motion-design": {
       "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 motion-design and motion-graphics prompts for marketing deliverables \u2014 launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers. Every on-screen word, number, chart, logo, or UI screen is authored as a Seedream reference image first, then animated as a plate by Seedance \u2014 never rendered by the video model. Use whenever the user asks for motion design, motion graphics, kinetic typography, a logo reveal, product motion, an explainer video, an animated data story, or any text/graphic-driven marketing motion. Partners with seedance-prompt-25 (six-part formula), seedream-prompt and seedream-storyboard (text/UI/keyframe locks), and seed-audio-prompt (voice/music). Does not call the API itself.",
-      "readme_summary": "Write production-grade Seedance 2.5 motion-design and motion-graphics prompts for marketing deliverables \u2014 launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers.",
+      "description": "Write production-grade Seedance 2.5 motion-design and motion-graphics prompts for marketing deliverables \u2014 launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers. Exact words, numbers, charts, logos, and UI are authored as deterministic HTML-entrypoint graphics for post-composited fidelity; Seedream supplies only synthesized image layers and Seedance supplies text-free footage or intentionally non-exact plate motion. Use whenever the user asks for motion design, motion graphics, kinetic typography, a logo reveal, product motion, an explainer video, an animated data story, or any text/graphic-driven marketing motion. Composes in prose with html-graphic-render for exact static graphics, seedance-prompt-25 for the six-part formula, seedream-prompt or seedream-storyboard for synthesized image/keyframe layers, and seed-audio-prompt for voice/music. Does not call the API itself.",
+      "readme_summary": "Write Seedance 2.5 motion-design prompts while routing exact typography and UI to deterministic post graphics and synthesized visual layers to Seedream.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -381,8 +390,8 @@
     },
     "seedream-prompt": {
       "kind": "leaf",
-      "description": "Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints. Invoke when the user asks to generate a Seedream prompt, write an image prompt, create infographics, edit images, or design posters/UI/branding assets with BytePlus image generation.",
-      "readme_summary": "Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints.",
+      "description": "Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints. Invoke when the user asks for a Seedream prompt, generated or edited imagery, infographics, or expressive poster/UI/brand artwork. Do not use it to reproduce exact static typography, pricing, CTA, product-grid, logo, or pixel-layout geometry that deterministic HTML-entrypoint graphics can render.",
+      "readme_summary": "Write Seedream prompts for synthesized or edited imagery while routing exact typography, pricing, CTA, product grids, logos, and pixel layouts to deterministic graphics.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -408,8 +417,8 @@
     },
     "template-factory": {
       "kind": "orchestrator",
-      "description": "Reverse-engineer a reference video (\"pin\") into reproducible AIGC output. Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch; download and media_upload only when unusable), video breakdown, keyframes, deep motion review, dynamic sketch storyboard, optional element sheets (Seedream for invented identity; web/user download-first for authorized real brands/logos/products), and a Seedance 2.5 video \u2014 generation-bound prompts through prompt-review; stages on the showcase-html canvas. Explicit orchestrator composing modelark-mcp, seedream-storyboard, seedance-prompt-25, prompt-review, showcase-html, and ffmpeg; never calls the Ark REST API. Use to replicate style/composition/grammar, build a reusable template, or turn a cited brand ad, Pinterest pin, or other reference video into elements and video.",
-      "readme_summary": "Reverse-engineer a reference video: prefer a seed_understand-usable public URL, download/upload only when needed, download-first real brand/product stills when authorized, and keep every stage on the project HTML canvas.",
+      "description": "Reverse-engineer a reference video (\"pin\") into reproducible AIGC output. Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch; download and media_upload only when unusable), video breakdown, keyframes, deep motion review, dynamic sketch storyboard, optional element sheets (Seedream for invented identity; web/user download-first for authorized real brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards, screens, product layouts, and overlays), and a Seedance 2.5 video \u2014 generation-bound prompts through prompt-review; stages on the showcase-html canvas. Explicit orchestrator composing modelark-mcp, seedream-storyboard, seedance-prompt-25, prompt-review, html-graphic-render, hyperframes, showcase-html, and ffmpeg; never calls the Ark REST API. Use to replicate style/composition/grammar, build a reusable template, or turn a cited brand ad, Pinterest pin, or other reference video into elements and video.",
+      "readme_summary": "Reverse-engineer a reference video with watchable-media analysis, download-first brand/product assets, deterministic exact graphics, and a synchronized production canvas.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

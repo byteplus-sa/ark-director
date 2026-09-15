@@ -1,0 +1,62 @@
+{
+  "skill_name": "html-graphic-render",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a 1080x1920 Century Tuna poster using seven approved local product PNGs. Each flavor must appear exactly once. Use the exact headline 'PICK YOUR POWER', the exact CTA 'FIND YOUR FAVORITE', and the official logo. Keep the products below the model so they do not block her face. Save an editable source and a PNG.",
+      "expected_output": "A deterministic HTML/CSS poster source, exact-size PNG, and render record using the seven approved product assets without a generative image request.",
+      "files": [],
+      "expectations": [
+        "Routes exact copy, logo, product order, and poster geometry to deterministic HTML/CSS rather than Seedream.",
+        "Creates one fixed 1080x1920 composition with each of the seven declared products exactly once and below the model.",
+        "Keeps the headline and CTA as exact DOM or SVG text with data-copy-key identifiers.",
+        "Produces a PNG and hash-bound render record while leaving status at review."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Make a text-free illustrated underwater world in which a heroic tuna swims through glowing coral. I want painterly brushwork, novel lighting, and three visual alternatives.",
+      "expected_output": "A routing decision that sends the invented painterly scene to a generative image workflow rather than forcing it into deterministic HTML graphics.",
+      "files": [],
+      "expectations": [
+        "Does not invoke the deterministic renderer for the invented painterly scene.",
+        "Routes the request to generative image creation and preserves the requested three alternatives.",
+        "Does not add exact-copy or poster-layout requirements that the user did not request."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Use my selected text-free Seedream athlete image as the background, then add the official Century Tuna logo, seven approved can PNGs, the price 'PHP 89', and the exact CTA 'SHOP THE RANGE'. Deliver both a clean 9:16 poster and a transparent CTA overlay for video.",
+      "expected_output": "A hybrid route that treats the selected image as a hashed input and deterministically renders the exact branded poster and a separate transparent overlay.",
+      "files": [],
+      "expectations": [
+        "Routes only the base artwork through the upstream generative workflow and retains its selection and task evidence.",
+        "Uses deterministic HTML/CSS for logo, products, price, CTA, and layout.",
+        "Creates separate opaque poster and transparent overlay artifacts rather than reusing a white-matted file.",
+        "Keeps exact copy as DOM or SVG text and records hashes for every selected input and output."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Animate this exact price card so the price pulses and the CTA slides upward over three seconds, then place it over the approved video take.",
+      "expected_output": "A routing decision that keeps the static card source deterministic but sends timing and final video composition to the motion compositor rather than capturing animation with the static renderer.",
+      "files": [],
+      "expectations": [
+        "Does not put CSS animation, SVG animation, JavaScript, GIF, APNG, or video into the deterministic static renderer.",
+        "Routes timed motion to HyperFrames and final composition to HyperFrames or FFmpeg.",
+        "Preserves exact text and geometry from the deterministic static graphic."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Make a gallery where I can compare these five finished poster PNGs, choose my favorite, and approve it for the campaign.",
+      "expected_output": "A routing decision to the persistent production canvas because comparison, selection, and approval are outside the static renderer.",
+      "files": [],
+      "expectations": [
+        "Does not use html-graphic-render to build the review gallery.",
+        "Routes comparison and selection to showcase-html.",
+        "Leaves approval to the user and does not set selected_variant automatically."
+      ]
+    }
+  ]
+}

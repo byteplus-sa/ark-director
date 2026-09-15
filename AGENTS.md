@@ -56,6 +56,21 @@ workspace default; a verified requested capability may require another model.
 Do not force 4K, switch models because a face is present, or assume a workflow
 exception makes unsupported mixed reference roles valid.
 
+Choose static-graphic production by fidelity requirement. Prefer a deterministic
+HTML entrypoint with project-local CSS/SVG dependencies, rendered to a
+reviewable raster, for exact copy, typography, logos, screen/UI layouts, title
+cards, posters, price/CTA treatments, product lineups, and simple vector or
+gradient geometry. Use Seedream for invented photographic
+or illustrative content, expressive textures, and image synthesis where
+controlled variation is useful. Hybrid work generates or acquires the visual
+base first, then finishes exact copy and layout deterministically. Do not spend
+generation credits to reproduce spelling, alignment, or geometry that code can
+render exactly.
+
+In this workspace, the shorthand "HTML/CSS/SVG" means one HTML entrypoint with
+project-local CSS and SVG dependencies. The deterministic renderer does not
+accept standalone CSS or SVG entrypoints.
+
 Lumina is opt-in. When the user explicitly works in Lumina, deliver prompts in
 chat without MCP/CLI generation or production file writes unless requested.
 Prompt-only work may deliver drafts without generating assets or demanding
@@ -109,10 +124,16 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   by default. Automated recommendations cannot set selected_variant or approved.
 - Static assets use visible-design criteria. Narrative shots need action and
   intent. Audio uses its requested sound arc. Do not apply narrative tactics to
-  every static sheet or ambience prompt.
-- Lock exact screen copy/layout with a reference before video. Inspect the
-  result; references do not guarantee pixel-perfect text. Use deterministic
-  finishing when exact fidelity is required.
+  every static sheet or ambience prompt. Deterministic HTML/CSS/SVG is a
+  first-class static production route, not merely a repair step.
+- Lock exact copy/layout with a deterministic reference before video when
+  typography, logos, UI, title cards, posters, product lineups, or simple
+  geometry carry the design. Preserve editable source, local input/font hashes,
+  dimensions, background/alpha intent, renderer version, and source/output
+  hashes. A separate solid-background model reference may accompany a
+  transparent delivery asset; never reuse a white-matted file as transparency.
+  Inspect conditioned video because references do not guarantee pixel-perfect
+  text.
 - Do not bake captions, taglines, CTAs, end cards or other overlay text into
   generated video. Keep generated footage text-free and add on-screen text in
   post with FFmpeg or HyperFrames.
@@ -120,9 +141,11 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   observable direction; necessary edit-scope exclusions are allowed.
 - Run prompt-review for every generation-bound prompt. Resolve CRITICAL/MAJOR
   findings. Missing reviewer output is incomplete. Documentation/manifest-only
-  edits and acquired brand/product assets (`generation: none`) do not trigger
-  paid generation or prompt-review; changed worked examples are reviewed
-  offline.
+  edits, acquired brand/product assets (`generation: none`), and deterministic
+  static renders (`generation: deterministic_html`) do not trigger paid
+  generation or prompt-review; changed worked examples are reviewed offline.
+  Deterministic renders still require exact-copy, font, overflow, dimension,
+  alpha, thumbnail-legibility, provenance, canvas, and visible-design QA.
 - Freeze the exact prompt beside its intended output before submission. Verify
   request hash, current reference hashes, ordered roles/bindings, explicit
   selections and supported parameters. Changed inputs invalidate review.
@@ -130,7 +153,9 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   save an acknowledged task ID immediately. Resume existing tasks after poll
   timeouts. Unknown acceptance holds for reconciliation or explicit retry scope.
 - Save every generated modality locally and record artifact/task IDs, bytes,
-  SHA-256, actual media properties and separate estimated/confirmed costs.
+  SHA-256, actual media properties and separate estimated/confirmed costs. Save
+  deterministic static source and render records beside their raster outputs;
+  they do not enter the provider task registry.
 - Create one project `showcase.json` and generated `index.html` at initialization.
   Keep that production canvas synchronized with briefs, manifests, prompts,
   elements, audio, video, review evidence, assemblies and delivery state after
@@ -138,9 +163,11 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   `showcase-html --check --stage <stage-id>` freshness check passes.
 - Provider success sets review, not approved. User choice alone approves a
   variant. Preserve other variants and prior history unless explicitly changed.
-- Default image selection sets contain three stochastic samples with identical
-  prompt, references and effective parameters except supported seed variation.
-  Explicit requested count or creative alternatives override this default.
+- Default generative-image selection sets contain three stochastic samples with
+  identical prompt, references and effective parameters except supported seed
+  variation. Deterministic renders produce one exact version per specification.
+  Explicit requested count or creative alternatives override the generative
+  default.
 - Use the lowest suitable cost/resolution within the request. Set watermark
   false only when the tool supports that parameter, unless the user requests it.
 - Separate lip-sync audio is opt-in. Generate scenes at natural supported
@@ -162,7 +189,7 @@ repository maintenance unless explicitly scoped.
 | `projects/<project>/showcase.json` and `index.html` | Canonical canvas manifest and synchronized stage review surface |
 | `projects/<project>/task_ids.json` | Single provider-operation registry |
 | `projects/<project>/ref_cache.json` | Content hashes and storage-scoped object keys |
-| `projects/<project>/elements/<element-id>/` | Reusable identity/location/prop manifests and references |
+| `projects/<project>/elements/<element-id>/` | Reusable identity/location/prop manifests, references, and deterministic graphic sources/renders |
 | `projects/<project>/scenes/scene-NN/` | Scene manifest, keyframes and scene renders |
 | `projects/<project>/scenes/scene-NN/sNN_shNNN/` | Shot manifest, exact prompt snapshots, takes and dialogue |
 | `projects/<project>/library/` | Reusable non-shot music, SFX and ambience |

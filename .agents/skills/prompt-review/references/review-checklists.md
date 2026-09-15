@@ -884,11 +884,16 @@ Source skill: `seedream-prompt`
 
 ### Text in image
 
-19. **Exact text in double quotes.** Text to render is in double quotes.
+19. **Routing boundary.** Model-rendered text is present only when the user
+    expressly accepts it as expressive and non-exact. Delivery-critical copy,
+    data, UI, pricing, CTA, logos, or pixel layout is a MAJOR routing defect;
+    require a text-free generative layer plus deterministic finishing.
 
-20. **Surface described.** The surface the text is on is described.
+20. **Quoted prompt intent.** Accepted model text is in double quotes and its
+    surface is described; quoting does not establish pixel-exact output.
 
-21. **14 languages supported.** Small text may still be unstable — noted if used.
+21. **Instability disclosed.** Small text may still be unstable and the prompt
+    does not claim deterministic fidelity.
 
 ### Constraints
 
