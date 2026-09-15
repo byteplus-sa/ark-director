@@ -2,6 +2,11 @@
 
 Two layout principles govern the entire document. Apply them unless the user explicitly asks for a different arrangement.
 
+For a multi-project commercial showcase, the project-specific layout in
+[guide-project-showcase-layout.md](guide-project-showcase-layout.md) takes
+precedence over consolidation across projects. Consolidate rows within a
+project, not across unrelated commercial directions.
+
 ### 1. Prompts as columns inside asset tables
 
 When a table already exists to showcase assets (reference images, character sheets, location sheets, prop sheets, storyboard panels), **add the generation prompt as a column in that same table** — do not create a separate "Prompt and result evidence" section or scatter prompts across standalone paragraphs.
@@ -50,6 +55,8 @@ Lark wide-mode canvas is approximately **1020 px**. Use these presets:
 |---|---|---|---|
 | Reference images (5-col) | Asset Name / Asset Type / Visual Role & Geometry / Seedream Generation Prompt / **Reference Image** | `<col width="80"/><col width="70"/><col width="140"/><col width="350"/><col width="380"/>` | **380 px** (image) |
 | Video specification (3-col) | Technical Configuration / Seedance 2.5 Directing Prompt / **Video Result** | `<col width="160"/><col width="340"/><col width="520"/>` | **520 px** (video) |
+| Project elements (3-col) | Element / Exact image prompt / **Reference image** | `<col width="160"/><col width="580"/><col width="280"/>` | **280 px** (image) |
+| Project videos (3-col) | Asset / Exact video prompt / **Generated video** | `<col width="160"/><col width="580"/><col width="280"/>` | **280 px** (video) |
 | Audio reference (5-col) | Asset Name / Asset Type / Role / Seed Audio Prompt / **Audio** | `<col width="80"/><col width="60"/><col width="140"/><col width="460"/><col width="280"/>` | **280 px** (audio) |
 | Mixed media (image+audio rows, 5-col) | Asset Name / Asset Type / Visual Role & Geometry / Generation Prompt / **Reference** | `<col width="80"/><col width="70"/><col width="140"/><col width="350"/><col width="380"/>` | **380 px** (image) / **280 px** (audio) |
 | Overview/summary matrix (no media) | Use natural widths or default; media presets do not apply | — | — |

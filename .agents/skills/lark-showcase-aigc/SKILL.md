@@ -61,6 +61,30 @@ Translate internal provenance into customer-safe wording:
 
 Never surface filesystem-oriented phrasing in the Lark document.
 
+## Project showcase standard
+
+For a customer-facing showcase containing several commercials or campaign
+directions, use the **project showcase** layout unless the user requests a
+different structure:
+
+1. Place a playable showreel near the beginning, after the title and concise
+   introduction. Assemble it from approved videos by default. When the user
+   explicitly asks to include another existing video, include it in the
+   showreel without altering that video's approval record.
+2. Create one top-level section per project or campaign direction, in showreel
+   order.
+3. Within every project section, place `Elements` followed by `Videos`. Do not
+   leave an empty `Videos` heading or table.
+4. Keep the exact frozen image or video prompt in the same row as its result.
+   Use an inline Preview for video; do not turn a prompt/result table into a
+   detached gallery.
+5. Preserve media that the user did not ask to remove. Before and after a
+   scoped update, inventory the project sections, prompts, images, and Preview
+   videos so concurrent edits and existing evidence are not silently lost.
+
+Read [guide-project-showcase-layout.md](references/guide-project-showcase-layout.md)
+for the layout contract and verification checklist.
+
 ## Detailed authoring references
 
 Load the applicable layout/content reference for the requested edit. Read the

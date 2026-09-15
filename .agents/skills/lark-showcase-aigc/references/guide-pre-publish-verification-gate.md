@@ -27,14 +27,19 @@ Before declaring the document complete, run this mandatory scan:
 4. **Fix every hit** using `lark-cli docs +update --command str_replace` to
    replace the jargon with the reader-safe alternative from the blocklist.
 5. **Re-fetch and re-scan** after fixes to confirm zero remaining hits.
-6. **Table layout verification.** Additionally, verify all media tables meet these layout rules:
+6. **Project-showcase inventory verification.** When the document has project
+   sections, confirm every retained project still has its intended Elements
+   table, every visible result remains beside its exact prompt, and only
+   requested media was added, replaced, or removed. Compare the result with a
+   pre-write inventory; preserve concurrent changes outside the scoped edit.
+7. **Table layout verification.** Additionally, verify all media tables meet these layout rules:
    - **Media column is rightmost.** For every table containing images, video, or audio, confirm that the media column (containing `<img>`, `<source>` with video/audio mime type) is the **last column** in the table. The reading order should be: metadata → prompt → result (generated asset last). Prompt is second-to-last, immediately adjacent to its result.
    - **Media columns are the widest.** Video columns should be ~520 px, image columns ~380 px, audio columns ~280 px, and the prompt/code column second-widest (see Column width presets above).
    - **Prompts are wrapped in `<pre><code>` blocks.** Every table cell containing a generation prompt must use `<pre lang="text"><code>...</code></pre>`. Raw prompt text directly in a `<td>` is a formatting error.
    - **No horizontal overflow.** Total column widths should sum to approximately 1020 px or less to fit Lark's wide-mode canvas.
 
    Fix any violations before declaring the document complete. Use `block_replace` on the table's block ID to update the full table XML with corrected `<colgroup>` widths or missing `<pre><code>` wrapping.
-7. **Only then** declare the document complete in the deliverable contract.
+8. **Only then** declare the document complete in the deliverable contract.
 
 This gate is not optional. The "mom test" means: if you handed this document to
 someone with no knowledge of AI tooling, API parameters, or internal project

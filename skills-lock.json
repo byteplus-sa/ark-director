@@ -113,7 +113,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/lark-showcase-aigc/SKILL.md",
-      "computedHash": "fda53263a959ee93b8c6ef13491122a50819fdb9aabc6155b39f0974ed5e5d6e"
+      "computedHash": "58e47140a620303c4280e324d2b91be892794dffdca3e3e57f441a46fc2b8c47"
     },
     "media-review": {
       "source": "./local",
