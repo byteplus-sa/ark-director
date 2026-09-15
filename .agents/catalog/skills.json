@@ -442,42 +442,6 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
-    "embedded-captions": {
-      "kind": "vendored",
-      "description": "Add captions or subtitles to an existing single-subject talking-head video without editing the footage. Use for plain verbatim captions, cinematic captions embedded behind the subject, VFX captions, \u201c\u70b8/\u7279\u6548/\u9177\u70ab\u5b57\u5e55,\u201d or a named identity from the 35-style catalog. Route by visual identity, not by backend engine. The quiet `anchor` rail is the default; embed every word only when the user explicitly wants a fully cinematic treatment. The workflow runs locally end to end, including transcription and subject matting; split multi-shot footage before applying it.",
-      "readme_summary": "Add designed captions or subtitles to an existing talking-head video without editing it.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "a966ebd548e618f410a18b3479934ea45c610c2c1ede230fdb927d9b1fd5a0f5",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "faceless-explainer": {
-      "kind": "vendored",
-      "description": "Turn arbitrary text \u2014 an article, notes, a topic, a brief \u2014 into a faceless explainer video: there is no site or footage to capture, so the visuals are invented per scene (typography, abstract graphics, diagrams, data-viz). Use for topic explainers, concept breakdowns, how-tos, listicles. Not a video built from a website (/product-launch-video \u2014 promo or tour). Unclear \u2192 /hyperframes.",
-      "readme_summary": "End-to-end faceless explainer video workflow with narration, visuals, and assembly.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "ce5361b71a779b7f1c05e0e914a1226de75a32a7f9ad10a3008f367a59b91378",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "figma": {
-      "kind": "vendored",
-      "description": "Import Figma content into a HyperFrames composition \u2014 rendered assets, brand tokens, components, storyboard sections \u2192 reconstructed motion (frames read as states, not slides) (REST/CLI), connector-assisted motion when available, and shaders from a connector or native export. Use when the user pastes a figma.com link or asks to bring a Figma design, frame, logo, brand, or animation into a video/composition.",
-      "readme_summary": "Import Figma frames and design data into compositions.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "dea20962550679b9b085b747b1f290c9b2a5a6d5bd91a0a56f3ca40afe7b9f44",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "general-video": {
-      "kind": "vendored",
-      "description": "Author or edit a custom HyperFrames composition when no specialized workflow fits, or when BRIEF.md sets flow: companion. Use for longer or multi-scene pieces, brand and sizzle reels, montages, static loops, static title cards, footage remixes, and freeform builds. Use motion-graphics instead for a short unnarrated motion-first unit, including an animated title. Route fresh creation through hyperframes before using this skill.",
-      "readme_summary": "General video workflow \u2014 planning, assembly, and polish patterns for any HyperFrames project.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "660dff6283dd8078d8a58d049b4e65e3f5d5b7dde3a970b7cd8a2788084c4a75",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
     "hyperframes": {
       "kind": "vendored",
       "description": "Mandatory entry point: read this first for any request to make, create, edit, animate, or render a video, animation, or motion graphic, including a promo, explainer, captioned clip, title card, overlay, slideshow or interactive deck, Remotion port, or any HyperFrames HTML composition. Also use it to inspect, diagnose, validate, preview, publish, or batch-render an existing HyperFrames project. Inputs may be a website URL, GitHub PR, Figma design or URL, text or brief, existing footage, or music. It resumes project state, captures intent when applicable, selects and installs the owning workflow, and routes domain capabilities. HyperFrames is the default output framework unless the user explicitly chooses another framework for the deliverable or asks only to record a browser session.",
@@ -557,69 +521,6 @@
       "dependencies": [],
       "source_revision": null,
       "upstream_hash": "1301ea7cb53a0a44f5c7d62c34cba7e00b9e69b31bed57dc8d645417cea0da7c",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "motion-graphics": {
-      "kind": "vendored",
-      "description": "A short, design-led motion graphic where motion is the message \u2014 kinetic typography, stat count-up, chart/data-viz hit, logo sting / brand lockup, lower-third / callout / social overlay, animated map (highlight regions, connect places, zoom to a location), animated tweet / news-article / headline, webpage / UI animation (scroll, cursor, callouts), or fusing a real image's geometry into a chart. Usually under 10s (up to ~30s), no narration or live-action subject; renders to MP4 or transparent overlay. Longer / narrated / multi-scene \u2192 /general-video. Unclear \u2192 /hyperframes.",
-      "readme_summary": "Motion-graphics workflow for kinetic type, title sequences, and graphic-driven segments.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "08d8511423df5199871bbea26790858311e17f79b14633e94db86655919ec1d3",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "music-to-video": {
-      "kind": "vendored",
-      "description": "Turn a music track (an audio file, a video to pull audio from, or a track generated from a mood brief) into a beat-synced video \u2014 lyric video, slideshow, or kinetic promo. The music drives all pacing; any user-supplied images/videos are cut onto the same beat grid, and a complete video needs zero assets. Narrated pieces \u2192 the input-matched workflow (see /hyperframes). Unclear \u2192 /hyperframes.",
-      "readme_summary": "Music-driven video workflow with beat-aligned cuts and audio-reactive visuals.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "f1f31bcb7d4fb9af2ecdb69c1e7d512cc0f5f18b2e7c976e11d507a60d70c26b",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "pr-to-video": {
-      "kind": "vendored",
-      "description": "Turn a GitHub pull request (a PR URL, owner/repo#N, or 'this PR' in a checked-out repo) into a code-change explainer video \u2014 changelog, feature reveal, fix, or refactor walkthrough built from the diff, commits, and files: the input is a code change, not a website. Not a product promo (/product-launch-video) or a no-PR topic explainer (/faceless-explainer). Unclear \u2192 /hyperframes.",
-      "readme_summary": "Turn pull requests into shareable video summaries with code visuals.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "a0bca6741123fe685be3b12af18c4785ce0632869e184dc81f5ac9d786ed74c0",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "product-launch-video": {
-      "kind": "vendored",
-      "description": "Turn a product or marketing URL, pasted script, or brief into a product launch / promo video \u2014 SaaS promos, feature reveals, product demos, app and company launches. Use when the user wants to market, launch, promote, or reveal a product; the default for any commercial URL. Site tours / showcases of a website route here too \u2014 the brief carries the show-it-as-is intent. Unclear \u2192 /hyperframes.",
-      "readme_summary": "Product launch video workflow from brief to final assembly.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "3d080e9c56fde1123f1b30a5db861c5fc9b546f4c923661b93f955a9a399de4f",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "remotion-to-hyperframes": {
-      "kind": "vendored",
-      "description": "Port an existing Remotion (React) composition's source to HyperFrames HTML. Use ONLY on an explicit ask to port/convert/migrate/translate a Remotion source \u2014 one-way, Remotion-only. A passing Remotion mention, reference-only code, or \"make something like my Remotion video\" is a fresh build (/general-video). Unclear \u2192 /hyperframes.",
-      "readme_summary": "Migrate existing Remotion projects and compositions to HyperFrames.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "cd901c3b87725a1efa0b30d69e21aeed8b3a8bd771a52618cb961cc4b7b17e99",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "slideshow": {
-      "kind": "vendored",
-      "description": "Author a HyperFrames slideshow \u2014 a presentation, pitch deck, or interactive deck with discrete slides, fragment reveals, branching, hotspot navigation, and built-in presenter mode with speaker notes; also converts an existing page into a deck. Output is a navigable deck, not a rendered MP4. If the user didn't explicitly ask for a slideshow, confirm before authoring. Unclear \u2192 /hyperframes.",
-      "readme_summary": "Author slideshow presentations, pitch decks, or interactive decks with synced visuals.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "298742506254ee1fbaa424272c8f78c5e08aa86664f76056d455dcc6b9dda051",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "talking-head-recut": {
-      "kind": "vendored",
-      "description": "Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards \u2014 kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture \u2014 synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on \"graphic overlays\", \"on-screen graphics\", \"package / dress up my video\". Not plain subtitles (/embedded-captions). Unclear \u2192 /hyperframes.",
-      "readme_summary": "Package an existing talking-head, interview, or podcast video with timed, designed graphic overlays.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "0e7675d8b9b5cf7f92e893b527a3380f4bb3b8d6c836cd9fa38c5e9ae2e96fae",
       "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
     }
   }

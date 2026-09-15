@@ -236,10 +236,6 @@ The workspace ships with **59 skills** across 13 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **embedded-captions** | Add designed captions or subtitles to an existing talking-head video without editing it. |
-| **faceless-explainer** | End-to-end faceless explainer video workflow with narration, visuals, and assembly. |
-| **figma** | Import Figma frames and design data into compositions. |
-| **general-video** | General video workflow — planning, assembly, and polish patterns for any HyperFrames project. |
 | **hyperframes** | Mandatory HyperFrames entry point — resumes project state, selects and installs the owning workflow, and routes all video, animation, and motion-graphic capabilities. |
 | **hyperframes-animation** | Atomic motion rules, multi-phase scene blueprints, transitions, and the seven runtime adapters (GSAP, Lottie, Three.js, Anime.js, CSS, WAAPI, TypeGPU). |
 | **hyperframes-audio** | Mixing audio already placed in a composition — fades, crossfades, ducking, effect chains, automation envelopes, and submix buses. |
@@ -249,13 +245,6 @@ The workspace ships with **59 skills** across 13 categories. Independent skills 
 | **hyperframes-keyframes** | Seek-safe 2D/3D keyframes — punch-ins, camera moves, Ken Burns, match-cut handoffs, masks, SVG morph/draw, and runtime-specific APIs. |
 | **hyperframes-registry** | Search, install, and wire hosted registry blocks and components into compositions before hand-building named visuals. |
 | **media-use** | Agent Media OS — resolve BGM, SFX, images, icons, logos, voices, and grades into local files; generate via TTS/music/image models; produce voiceover, transcription, captions, and media operations. |
-| **motion-graphics** | Motion-graphics workflow for kinetic type, title sequences, and graphic-driven segments. |
-| **music-to-video** | Music-driven video workflow with beat-aligned cuts and audio-reactive visuals. |
-| **pr-to-video** | Turn pull requests into shareable video summaries with code visuals. |
-| **product-launch-video** | Product launch video workflow from brief to final assembly. |
-| **remotion-to-hyperframes** | Migrate existing Remotion projects and compositions to HyperFrames. |
-| **slideshow** | Author slideshow presentations, pitch decks, or interactive decks with synced visuals. |
-| **talking-head-recut** | Package an existing talking-head, interview, or podcast video with timed, designed graphic overlays. |
 
 ### Blender — 3D Pipeline
 
@@ -286,7 +275,7 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 | Source | Type | Examples |
 |---|---|---|
 | **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `template-factory`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `modelark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
-| **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes*` (11 skills), `media-use`, `embedded-captions`, `faceless-explainer`, `figma`, `general-video`, `motion-graphics`, `music-to-video`, `pr-to-video`, `product-launch-video`, `remotion-to-hyperframes`, `slideshow`, `talking-head-recut` |
+| **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes` + `hyperframes-*` (8 skills), `media-use` — workflow skills are installed on demand, not vendored |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |
 
