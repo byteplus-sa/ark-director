@@ -78,7 +78,7 @@ gallery:
 | Canon and elements | all element variants, exact prompt snapshots, manifests, hashes, recommendations and selections |
 | Storyboard and visual plan | panel variants, storyboard prompts, bound canon, continuity state and panel eligibility |
 | Audio preparation | audio variants, exact prompts, transcript/dialogue timing, duration and inspection results |
-| Shot generation | every take, exact prompt, ordered element bindings, task provenance, media properties and QA status |
+| Shot generation | every take, exact prompt, ordered element bindings, task provenance, media properties and QA status; when a style/grammar reference pin (or other watchable reference video) exists, that pin and each generated take must appear as playable players on this stage in the same `kind: "takes"` group |
 | Assembly and review | approved inputs, edit versions, comparison renders, notes, continuity and audio checks |
 | Delivery | masters, proxies, captions/localization state, hashes, delivery metadata and final approval state |
 
@@ -89,6 +89,26 @@ its immutable prompt snapshot with `promptFile`; the generator embeds the exact
 file contents so the portable HTML does not depend on browser file access. Each
 entry in a card's `refs` list includes the referenced element's project-relative
 `path`, allowing the checkpoint to detect changed element content.
+
+### Shot-generation video players (`kind: "takes"`)
+
+The renderer builds playable video only from `groups[].takes[]` with
+`media: { "type": "video", "src": "<project-relative>.mp4" }`. Do **not** author
+`kind: "takes"` with flat `cards` or a string `media` path — those shapes render
+an empty section (no `<video>` players).
+
+When a pin or other reference video is in scope for review:
+
+1. Keep the pin listed under `brief-development` if useful for intake history.
+2. On `shot-generation`, put the **pin and every generated take in one
+   `groups[]` entry** so synchronized "Play all" comparison works.
+3. Point take `promptFile` / pick-winner fields (`id`, `manifest`, `filename`)
+   at the shot artifacts; the pin take is comparison-only (no pick-winner).
+4. Regenerate `index.html`, open or `--serve` it, and confirm both players are
+   visible before calling the stage ready for user review.
+
+See [schema.md](schema.md#kind-takes-video-take-comparison-with-synchronized-playback--pick-winner)
+for the exact JSON shape.
 
 ## Stage update protocol
 

@@ -36,12 +36,12 @@ freshness-check the HTML after each step rather than opening assets separately.
 
 ```mermaid
 flowchart LR
-  A[Build blockout in Blender] --> B[Render previz: 24fps MPEG-4]
-  B --> C[Preflight: dummy map + refs + hash]
-  C --> D[media_upload previz, record object_key]
-  D --> E[seedance_2_5_create_task, omni_reference_task_type=edit]
-  E --> F[seedance_get_task poll]
-  F --> G[Save + manifest: shot.md, prompt file, task_ids.json]
+  A[Probe Blender runtime] --> B[Build blockout + manifest]
+  B --> C[Validate manifest + render 24fps MPEG-4]
+  C --> D[Temporal QA + prompt preflight]
+  D --> E[media_upload previz, record object_key]
+  E --> F[seedance_2_5_create_task, edit_video]
+  F --> G[Poll, save, compare, review]
 ```
 
 ## When to use
@@ -65,7 +65,14 @@ Do **not** use when:
 ### 1. Build the blockout (via the Blender MCP tools)
 
 Build via the Blender MCP tools (`blender_execute_blender_code` etc.; see
-[Blender setup](../../contracts/blender-mcp-setup.md)). Conventions:
+[Blender setup](../../contracts/blender-mcp-setup.md)). Before using a
+minor-version-specific API, run
+`scripts/probe_blender_runtime.py` in the connected Blender session and retain
+the returned version, render-engine identifiers, resolution, FPS, and frame
+range with the shot. A configured add-on does not imply that optional 3D
+generators are enabled; inspect their live status separately when relevant.
+
+Conventions:
 
 - **Primitives are subjects.** A cube = a person; a monolith = the hero; a
   cylinder = a can; spheres = fruit; boxes = props.
@@ -77,30 +84,44 @@ Build via the Blender MCP tools (`blender_execute_blender_code` etc.; see
   frame boundaries; handheld = slow sway + micro-tremor, never fast jitter.
 - **Leave black/empty gaps** where a later effect (liquid, etc.) will be
   generated separately.
+- Give every visible proxy stable semantic metadata and export
+  `blockout_manifest.json` using the contract in
+  [Blockout manifest](references/blockout-manifest.md). The manifest, not an
+  independently maintained prose list, owns subject IDs, mappings, cameras,
+  cuts, timing, and motion acceptance checks.
 - Save a backup `.blend` after every stage.
 
 ### 2. Render the previz
 
-Follow `references/previz-render-recipe.md`: flat-gray EEVEE render → 1920x1080,
-24fps, H.264 MPEG-4, frame range = duration x 24. Output
+Follow [Previz render recipe](references/previz-render-recipe.md): flat,
+untextured EEVEE render with identity colors → 1920x1080 at 100%, effective
+24fps, H.264 MPEG-4, inclusive frame range matching the duration. Output
 `previz_<shot>_v01.mp4` beside the shot.
 
 ### 3. Preflight
 
 Before writing any prompt:
 
-1. Hash the previz (`shasum -a 256`).
-2. Write the **dummy map**: every blockout subject → its final subject
-   (`red_box = hero`, `colored_proxies = seat identity`, `checkerboard = replace`).
-3. Enumerate the references (previz + element sheets) and confirm the ordered
+1. Hash the `.blend` and previz (`shasum -a 256`) and update the blockout
+   manifest.
+2. Validate the manifest with
+   `scripts/validate_blockout_manifest.py`; resolve every schema, timeline,
+   render, subject, cut, motion, path, and conditioning finding.
+3. Derive the **dummy map** and observable motion criteria from the validated
+   manifest. Never make Seedance guess which proxy represents which subject.
+4. Enumerate the references (previz + element sheets) and confirm the ordered
    array matches the `@Image N` / `@Video N` bindings 1:1.
-4. Confirm the previz duration = target video duration.
+5. Confirm the measured previz duration equals the target edit duration.
+6. Run the source-previz checks in
+   [Temporal QA](references/temporal-qa.md). Keyframes and contact sheets are
+   insufficient evidence for motion behavior.
 
 ### 4. Write the prompt
 
 Compose the grammar with `seedance-prompt-25` blockout mode, then apply the
-**video-lock contract** in `references/prompt-contract.md`. The prompt's job is
-to dress the world, never to re-choreograph it.
+**video-lock contract** in [Prompt contract](references/prompt-contract.md).
+Generate DUMMY MAPPING and MOTION ACCEPTANCE from the current validated
+manifest. The prompt's job is to dress the world, never to re-choreograph it.
 
 ### 5. Submit, poll, save
 
@@ -108,7 +129,8 @@ to dress the world, never to re-choreograph it.
    `task_ids.json` before submission. `media_upload` the previz; record
    `object_key` in `projects/<project>/ref_cache.json`.
 2. `seedance_2_5_create_task` with:
-   - `omni_reference_task_type=edit` (full-duration re-skin),
+   - the edit-mode token documented by the live tool; the current ModelArk MCP
+     contract uses `omni_reference_task_type=edit_video`,
    - `@Video 1` = presigned previz URL,
    - `resolution` (default `720p` for iteration; `1080p` for finals),
    - verify previz duration against the live edit limit; omit auto-locked
@@ -124,8 +146,14 @@ to dress the world, never to re-choreograph it.
 ### 6. QA
 
 - `ffprobe` + full decode check.
-- `seed_understand` a contact sheet (opening, transitions, ending).
-- `ffmpeg-side-by-side-comparison` — verify the camera lock with a previz-vs-output comparison.
+- Watch the full previz and generated video and evaluate every manifest motion
+  check using [Temporal QA](references/temporal-qa.md). Contact sheets support
+  appearance review only. When direct temporal inspection is unavailable, use
+  multimodal understanding on the actual video, not a contact sheet presented
+  as motion evidence.
+- Use a synchronized previz-vs-output side-by-side comparison to support camera,
+  cut, blocking, and trajectory review. Record observed deviations; the
+  comparison is evidence rather than proof of frame-exact correspondence.
 - Update and open the project's HTML production canvas with the previz, output,
   exact prompt, element bindings, side-by-side comparison and QA results; run
   `--check --stage shot-generation` before completing the stage.
@@ -135,14 +163,20 @@ to dress the world, never to re-choreograph it.
 
 ```yaml
 mode: blockout-v2v
+blockout_manifest_path: scenes/scene-01/s01_sh010/blockout_manifest.json
+blockout_manifest_sha256: "..."
 previz_path: scenes/scene-01/s01_sh010/previz_s01_sh010_v01.mp4
 previz_sha256: "..."
+runtime_probe:
+  blender_version: "..."
+  python_version: "..."
+  render_engine: "..."
 video_lock: true
 dummy_map:
   red_box: hero
   colored_proxies: seat_identity
   checkerboard: to_replace
-omni_reference_task_type: edit
+omni_reference_task_type: edit_video
 references: 4
 ```
 
@@ -164,15 +198,21 @@ references: 4
 
 ## Self-check
 
-1. The previz renders at 24fps, 1920x1080, H.264 MPEG-4, frame range = duration x 24.
-2. Every blockout subject appears in the dummy map; color = identity, checkerboard = replace.
-3. The prompt opens with ACTIVE REFERENCES, each stating what it defines and does NOT inherit.
-4. VIDEO LOCK states frame 1:1 correspondence and "the video wins" on motion.
-5. Rules are countable; action timing is timestamped; ending lock is stated.
-6. Dialogue is timestamped and never adds coverage; off-screen stays off-screen.
-7. The submitted reference array matches the prompt bindings 1:1, same order.
-8. `previz_sha256`, `object_key`, `task_id`, and manifest fields are recorded.
-9. The synchronized project canvas contains the blockout and shot stages and its
+1. Runtime capability evidence is current for the Blender session used.
+2. The validated manifest matches the `.blend`, previz bytes, inclusive frame
+   range, effective 24fps, and 1920x1080 H.264 MPEG-4 output.
+3. Every visible proxy appears once in the subject map and every motion check
+   references valid subjects, targets, and frame windows.
+4. Temporal source QA proves the intended motion checks before submission.
+5. The prompt opens with ACTIVE REFERENCES, each stating what it defines and does NOT inherit.
+6. VIDEO LOCK states frame 1:1 correspondence and "the video wins" on motion.
+7. Rules are countable; action timing is timestamped; ending lock is stated.
+8. Dialogue is timestamped and never adds coverage; off-screen stays off-screen.
+9. The submitted reference array matches the prompt bindings 1:1, same order.
+10. Manifest, previz, selection, request, `object_key`, and `task_id` evidence is recorded.
+11. The generated result has direct temporal review against the manifest and
+   previz; contact sheets are not used as motion evidence.
+12. The synchronized project canvas contains the blockout and shot stages and its
    `shot-generation` freshness check passes.
 
 ## Intentional conditioning representation

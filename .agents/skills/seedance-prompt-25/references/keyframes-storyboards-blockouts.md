@@ -150,6 +150,14 @@ motion and placement; it never supplies appearance. For the end-to-end Blender
 build → previz render → submit flow, the `blender-to-seedance` pipeline skill
 covers the submission path.
 
+When the caller supplies a validated blockout manifest, treat it as the source
+for proxy-to-subject mappings, cut frames, action windows, and motion acceptance
+criteria. Do not maintain a second conflicting dummy map in prose. Bind each
+stable subject ID to its final subject and optional appearance reference. Keep
+the animated blockout as motion authority and any generated 3D asset as
+structure/appearance authority unless an animated render was explicitly
+selected for motion.
+
 ```
 @Video 1 is the blocking master. It defines the full edit — every cut point,
 camera position, angle, move, and framing, and the motion state and placement of
@@ -163,4 +171,12 @@ colors, or proxy shapes.
 Re-dress, never re-imagine: keep <cuts, camera, blocking, timing> from @Video 1
 exactly; no added, dropped, merged, or re-timed shots. Use <characters, scene,
 materials, and style>. Audio includes <dialogue, ambience, or action SFX>.
+
+Motion acceptance: <subject> visibly <moves toward / moves away / advances /
+keeps contact / rotates with travel / reaches the final relationship> during
+<time window>. Camera movement cannot substitute for this subject action.
 ```
+
+After generation, verify these criteria through temporal inspection of the
+actual video. Contact sheets can confirm appearance at selected moments but
+cannot establish trajectory, speed, contact, reaching, or camera continuity.

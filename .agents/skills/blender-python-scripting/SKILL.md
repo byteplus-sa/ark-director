@@ -1,6 +1,6 @@
 ---
 name: blender-python-scripting
-description: Blender 5.x Python scripting (bpy) — custom operators, UI panels, add-on development, context management, handlers, timers, property system, batch processing, and data model access. Now targets Python 3.13 (Blender 5.1).
+description: Blender 5.x Python scripting (bpy) — custom operators, UI panels, add-on development, context management, handlers, timers, property system, batch processing, and data model access. Verify minor-version APIs and available capabilities against the connected runtime before use.
 ---
 
 # Blender Python Scripting Expert
@@ -11,7 +11,10 @@ This skill provides expert guidance for Blender 5.x Python scripting: writing cu
 
 ## MCP-First Approach
 
-Prefer the **connected Blender MCP server** for executing scripts, inspecting datablocks, and mutating scene state directly in a running Blender session. Fall back to emitting Python scripts only when the MCP server is not connected.
+Prefer the **connected workspace Blender MCP adapter** for executing scripts,
+inspecting datablocks, and mutating scene state directly in a running Blender
+session. Its tool surface may differ from the upstream Blender Lab bundle. Fall
+back to emitting Python scripts only when the MCP server is not connected.
 
 **Detection:** at session start, look for tools prefixed `blender_` (e.g. `blender_execute_blender_code`, `blender_get_scene_info`, `blender_get_object_info`, `blender_get_viewport_screenshot`). If any are present, MCP is available.
 
@@ -26,6 +29,25 @@ Prefer the **connected Blender MCP server** for executing scripts, inspecting da
 
 Setup: see [docs/blender-mcp-setup.md](../../contracts/blender-mcp-setup.md).
 
+## Runtime-first scripting
+
+Read `bpy.app.version`, the bundled Python version, and RNA enum values from the
+connected Blender process before relying on a minor-version API or identifier.
+Do not infer runtime support from the skill version, add-on installation, or a
+previous session. When an optional integration has a status tool, inspect that
+status independently from the core Blender connection.
+
+Prefer the direct data API for deterministic scene construction and background
+execution. Use operators only when they provide necessary behavior and their
+context can be proven. Production scripts should be rerunnable: locate or
+replace owned objects by stable names, isolate them in an owned collection,
+and avoid deleting unrelated scene data.
+
+For 3D-to-video blockouts, store stable semantic custom properties on visible
+proxies so a caller can export subject IDs, roles, final identities, colors,
+and reference bindings. Keep those identifiers independent from Blender object
+names and preserve them across refactors.
+
 ## Task Decision Tree
 
 - **"Create a custom operator"** -> Consult `references/python_api.md` for operator templates
@@ -37,7 +59,10 @@ Setup: see [docs/blender-mcp-setup.md](../../contracts/blender-mcp-setup.md).
 - **"Run code on frame change / file load"** -> See Handler patterns in `references/python_api.md`
 - **"Context errors / poll failures"** -> See Context Management below
 
-## Blender 5.1 Python Changes
+## Version-gated Blender 5.1 changes
+
+These are Blender 5.1 observations, not a substitute for runtime inspection in
+another 5.x build.
 
 ### Python 3.13 Upgrade
 1. Blender 5.1 bundles **Python 3.13** (up from 3.12 in 5.0)
@@ -226,7 +251,8 @@ argv = sys.argv[sys.argv.index("--") + 1:]
 3. **Info Editor**: Shows Python equivalents of GUI actions — useful for discovering API calls
 4. **`dir()` and `help()`**: Use in Python Console to explore API objects
 5. **`bpy.context.copy()`**: Returns a dict of the current context for inspection
-6. **Error in modal operator**: Add `print()` statements or use `traceback.print_exc()` in exception handlers
+6. **Error in modal operator**: Raise explicit errors or use scoped logging and
+   remove temporary diagnostics before delivery
 
 ## Property System Quick Reference
 

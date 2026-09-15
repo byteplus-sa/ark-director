@@ -14,7 +14,7 @@ setup and flat materials instead.
 | FPS | 24 |
 | Frame range | `1 .. int(24 * duration)` |
 | Format | FFMPEG / MPEG4, codec H264 |
-| Look | Flat mid-gray materials, neutral world, AO + one soft light |
+| Look | Flat untextured identity colors, neutral world, AO + one soft light |
 
 ## Render snippet
 
@@ -22,26 +22,40 @@ setup and flat materials instead.
 import bpy
 
 scene = bpy.context.scene
-scene.render.engine = 'BLENDER_EEVEE_NEXT'      # Blender 4.2+ / 5.x
+engine_property = bpy.types.RenderSettings.bl_rna.properties.get('engine')
+engine_items = getattr(engine_property, 'enum_items_static', None)
+if engine_items is None:
+    engine_items = getattr(engine_property, 'enum_items', [])
+available_engines = {item.identifier for item in engine_items}
+eevee_engine = next(
+    (candidate for candidate in ('BLENDER_EEVEE_NEXT', 'BLENDER_EEVEE') if candidate in available_engines),
+    None,
+)
+if eevee_engine is None:
+    raise RuntimeError('No supported EEVEE render engine is available')
+
+scene.render.engine = eevee_engine
 scene.render.resolution_x = 1920
 scene.render.resolution_y = 1080
+scene.render.resolution_percentage = 100
 scene.render.fps = 24
+scene.render.fps_base = 1.0
+scene.render.frame_step = 1
 scene.render.frame_start = 1
-scene.render.frame_end = int(scene.render.fps * DURATION)  # DURATION in seconds
+scene.render.frame_end = scene.render.frame_start + round(scene.render.fps * DURATION) - 1
 scene.render.image_settings.file_format = 'FFMPEG'
+scene.render.image_settings.color_mode = 'RGB'
 scene.render.ffmpeg.format = 'MPEG4'
 scene.render.ffmpeg.codec = 'H264'
 scene.render.ffmpeg.constant_rate_factor = 'HIGH'
+scene.render.ffmpeg.audio_codec = 'NONE'
 scene.render.filepath = '//previz_<shot>_v01.mp4'
 
-# One shared flat-gray material system
 for mat in bpy.data.materials:
     bsdf = mat.node_tree.nodes.get('Principled BSDF') if mat.node_tree else None
     if bsdf:
-        bsdf.inputs['Base Color'].default_value = (0.5, 0.5, 0.5, 1.0)
         bsdf.inputs['Roughness'].default_value = 1.0
 
-# Neutral gray world
 if bpy.context.scene.world:
     bpy.context.scene.world.color = (0.5, 0.5, 0.5)
 
@@ -78,8 +92,8 @@ def box(name, loc, scale, color):
     ob.data.materials.append(mat)
     return ob
 
-bpy.ops.mesh.primitive_plane_add(size=40, location=(0, 0, 0))     # floor
-box('hero', (0, 0, 1), (0.6, 0.6, 1.8), (0.8, 0.1, 0.1))         # red hero monolith
+bpy.ops.mesh.primitive_plane_add(size=40, location=(0, 0, 0))
+box('hero', (0, 0, 1), (0.6, 0.6, 1.8), (0.8, 0.1, 0.1))
 
 # Camera + target on an orbit
 bpy.ops.object.empty_add(type='PLAIN_AXES', location=(0, 0, 1))
@@ -90,11 +104,11 @@ cam.constraints.new('TRACK_TO').target = target
 
 scene = bpy.context.scene
 scene.camera = cam
-scene.frame_start, scene.frame_end = 1, 120          # 5s @ 24fps
+scene.frame_start, scene.frame_end = 1, 120
 
 cam.rotation_euler = (0, 0, 0)
 for f in range(scene.frame_start, scene.frame_end + 1):
-    a = (f - 1) / 24 * 2 * math.pi / 5               # one orbit over 5s
+    a = (f - 1) / 24 * 2 * math.pi / 5
     cam.location = (6 * math.cos(a), 6 * math.sin(a), 2)
     cam.keyframe_insert('location', frame=f)
 ```
@@ -102,5 +116,10 @@ for f in range(scene.frame_start, scene.frame_end + 1):
 ## Notes
 
 - Verify the render in the viewport before the full pass (one test frame).
+- Run `scripts/probe_blender_runtime.py` before relying on an engine identifier
+  or version-specific property. The live enum is authoritative.
+- Preserve flat identity colors. Do not overwrite all proxy materials with the
+  same gray, because that destroys the subject mapping.
 - Keep the `.blend` as the editable source; the MP4 is the submission master.
-- If EEVEE Next is unavailable, fall back to `'BLENDER_EEVEE'`.
+- After rendering, verify the actual stream with `ffprobe`, decode the complete
+  file, update the manifest hashes, and run the temporal QA procedure.

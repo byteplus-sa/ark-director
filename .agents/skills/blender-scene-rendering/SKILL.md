@@ -11,7 +11,11 @@ This skill provides expert guidance for Blender 5.x scene setup, render configur
 
 ## MCP-First Approach
 
-Prefer the **official Blender MCP Server** (Blender Lab, Blender 5.1+) for changing render settings, importing files, configuring color management, kicking off renders directly in a running Blender session. Fall back to emitting Python scripts only when the MCP server is not connected.
+Prefer the **connected workspace Blender MCP adapter** for changing render
+settings, importing files, configuring color management, and starting renders
+in a running Blender session. Its tools may differ from the upstream Blender
+Lab bundle. Fall back to emitting Python scripts only when the MCP server is not
+connected.
 
 **Detection:** at session start, look for tools prefixed `blender_` (e.g. `blender_execute_blender_code`, `blender_get_scene_info`, `blender_get_object_info`, `blender_get_viewport_screenshot`). If any are present, MCP is available.
 
@@ -34,6 +38,9 @@ Setup: see [docs/blender-mcp-setup.md](../../contracts/blender-mcp-setup.md).
 - **"Color management / Filmic / AgX"** -> See Color Management
 - **"Set up world / environment / HDRI"** -> See World & Environment
 - **"Import FBX / glTF / OBJ / USD"** -> See Import/Export
+- **"Import a Hyper3D or Hitem3d result"** -> Read
+  [Seed 3D import normalization](references/seed-3d-import-normalization.md)
+  before merging it into a production scene
 - **"Link or append from another .blend"** -> See Linking & Appending
 - **"Configure units / frame range / FPS"** -> See Scene Settings
 - **"View layers / render passes"** -> See View Layers
@@ -69,19 +76,27 @@ for device in prefs.devices:
 import bpy
 
 scene = bpy.context.scene
-scene.render.engine = 'BLENDER_EEVEE'  # Blender 4.x+/5.x EEVEE
+engine_property = bpy.types.RenderSettings.bl_rna.properties.get('engine')
+engine_items = getattr(engine_property, 'enum_items_static', None)
+if engine_items is None:
+    engine_items = getattr(engine_property, 'enum_items', [])
+available_engines = {item.identifier for item in engine_items}
+eevee_engine = next(
+    (candidate for candidate in ('BLENDER_EEVEE_NEXT', 'BLENDER_EEVEE') if candidate in available_engines),
+    None,
+)
+if eevee_engine is None:
+    raise RuntimeError('No supported EEVEE render engine is available')
+scene.render.engine = eevee_engine
 
-eevee = scene.eevee
-
-# Ray tracing (EEVEE-Next, Blender 4.2+ / 5.x)
-eevee.use_raytracing = True
-eevee.ray_tracing_method = 'SCREEN'  # SCREEN or FULL
-
-# Emission transparency (for emissive materials that need alpha blending)
-# Set per-material: material.surface_render_method = 'BLENDED'
-
-# Ambient Occlusion (baked into lighting in EEVEE)
+eevee = getattr(scene, 'eevee', None)
+if eevee is not None and hasattr(eevee, 'use_raytracing'):
+    eevee.use_raytracing = True
 ```
+
+Query the live RNA properties before setting optional EEVEE controls. A render
+engine identifier or setting observed in one Blender 5.x minor must not be
+assumed in another.
 
 ### Workbench (Solid/Preview)
 
@@ -301,6 +316,12 @@ bg.inputs['Strength'].default_value = 1.0
 ```
 
 ## Import/Export
+
+Generated 3D packages enter through a quarantine collection and normalization
+review before production use. Preserve the provider archive and provenance,
+record imported data counts and dimensions, resolve units and axes explicitly,
+and inspect geometry, UVs, materials, textures, normals, and rig readiness. See
+[Seed 3D import normalization](references/seed-3d-import-normalization.md).
 
 ### Common Import Operations
 
@@ -619,10 +640,22 @@ bpy.ops.render.render(animation=True)  # Renders full frame range
 | Missing render passes           | Passes not enabled on view layer                   | Enable passes in View Layer properties                                   |
 | EEVEE looks different from Cycles | Engine differences in lighting                   | EEVEE Next with ray tracing enabled closes the gap                       |
 
+## Previz output verification
+
+Render one representative test frame before a full animation. After rendering,
+record actual stream properties with `ffprobe`, decode the complete file, and
+watch it at normal speed. Verify resolution percentage, effective FPS
+(`fps / fps_base`), inclusive frame count, codec, pixel format, cut boundaries,
+and final frame. A valid still frame or contact sheet does not establish motion,
+timing, camera continuity, or playback compatibility.
+
 ## Reference Files
 
 - `references/python_api.md` — Complete Python API patterns for scene/render/I/O operations
 - `references/settings_reference.md` — All render engine settings, output formats, color management options, import/export format options
+- `references/seed-3d-import-normalization.md` — Generated 3D package provenance,
+  quarantine import, scale/axis normalization, geometry/material QA, and
+  Blender-to-Seedance handoff
 
 ## Blender 5.1 Changes
 

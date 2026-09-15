@@ -131,7 +131,12 @@ provider metadata, actual media properties, cost fields, SHA-256, semantic QA,
 and `review` status. Resolution is raised only after the current pass is
 approved (final-candidate gate).
 The `shot-generation` stage shows every take, exact prompt, ordered element
-bindings, metadata, inspection result and selection state.
+bindings, metadata, inspection result and selection state. When a style/grammar
+reference pin (or other watchable reference video) exists, that pin and each
+generated take must appear as playable players on this stage in the same
+`kind: "takes"` group using `groups[].takes[].media` objects
+(`{ "type": "video", "src": "…" }`). Flat `cards` or string `media` paths do
+not render players — follow `showcase-html` production-canvas and schema.
 
 Exit: the user approves a take or requests a bounded revision.
 

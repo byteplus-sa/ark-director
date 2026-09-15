@@ -1,8 +1,10 @@
 # Video-lock prompt contract
 
 The blockout prompt dresses the world; the previz owns motion, camera, cuts, and
-timing. Ten blocks, in order. Fill every `<placeholder>`; drop a block only when
-the shot genuinely has no content for it.
+timing. Generate subject mapping, timing, and motion acceptance from the current
+validated blockout manifest when one is available. Eleven blocks, in order.
+Fill every `<placeholder>`; drop a block only when the shot genuinely has no
+content for it.
 
 ## Template
 
@@ -45,6 +47,11 @@ ACTION TIMING
 <stage 2 (8-12s)>: <one event + visible end state>.
 <final stage>: <closing event + final visible state>.
 
+MOTION ACCEPTANCE
+<motion-check-id>: <observable direction, distance, contact, rotation, occupancy,
+or end-state rule from the blockout manifest>. The camera cannot substitute for
+required subject movement.
+
 DIALOGUE NEVER CREATES SHOTS
 Spoken lines happen inside @Video 1's takes exactly as blocked — no cutaways, no
 reverse shots, no new close-ups. A line marked off-screen stays off-screen.
@@ -76,6 +83,10 @@ HOLD FOR THE FULL TIMELINE
   orders.
 - **ACTION TIMING** — one primary event + one visible end state per stage; end
   states carry running counts ("bodies 4, all behind him").
+- **MOTION ACCEPTANCE** — copy observable rules from the current validated
+  blockout manifest. Do not invent measurements or replace subject movement
+  with camera movement. Use motion criteria as review targets, not a claim that
+  Seedance guarantees frame-exact reproduction.
 - **DIALOGUE NEVER CREATES SHOTS** — critical for multi-character scenes; the
   model's reflex is to cut to the speaker.
 - **ENDING LOCK** — prevents the model inventing a new closing shot.

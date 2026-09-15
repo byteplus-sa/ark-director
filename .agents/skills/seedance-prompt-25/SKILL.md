@@ -28,13 +28,20 @@ space, so sound direction in the prompt shapes the final result.
 
 ## Input and output contract
 
-Input: a video brief, resolved model/operation, duration policy, ordered input roles, and approved relevant Elements.
+Input: a video brief, resolved model/operation, duration policy, ordered input
+roles, approved relevant Elements, and any current motion/blockout manifest
+selected for intentional conditioning.
 
-Output: a six-part prompt, reference bindings, and applicable mode parameters.
+Output: a six-part prompt, reference bindings, applicable mode parameters,
+explicit appearance and motion authorities, and observable acceptance criteria
+for each critical action beat.
 
 ## Procedure and reference loading
 
-Use reference-inputs for R2V; video-editing for edits; video-extension for extensions; keyframes-storyboards-blockouts for approved visual conditioning. Add audio-performance-camera only for applicable dialogue, acting, UI, or camera detail.
+Use reference-inputs for R2V; video-editing for edits; video-extension for
+extensions; keyframes-storyboards-blockouts for approved visual conditioning
+and validated blockout manifests. Add audio-performance-camera only for
+applicable dialogue, acting, UI, or camera detail.
 
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
@@ -185,6 +192,25 @@ Carry locked decisions into the revised prompt. Change one of prompt wording,
 reference bundle, or motion design at a time when practical so the cause of
 improvement or regression remains identifiable.
 
+## Authority split for 3D-assisted video
+
+State authority by attribute, not by asset type alone:
+
+- An animated blockout video may own motion, camera, cuts, blocking, and
+  timing while explicitly supplying no appearance.
+- A generated or modeled 3D asset may own structure and appearance while
+  supplying no motion unless an animated render is also selected for that role.
+- Character, product, prop, and location sheets own only their named identity,
+  materials, or environment attributes.
+- Text resolves intent and dressing but does not override a selected video
+  motion master.
+
+When a validated blockout manifest is supplied, derive subject mappings,
+action windows, and measurable motion acceptance criteria from it. Do not
+retype or reinterpret the Blender object map from memory. Keep measurements in
+review metadata; translate them into observable prompt language rather than
+claiming the model guarantees numeric precision.
+
 ## Preflight review
 
 Before generation, verify:
@@ -204,6 +230,11 @@ Before generation, verify:
 13. **One-click video**: Are material roles, image order, motion amount, editing style, and audio defined?
 14. **Seamless transitions**: Are the two videos' roles, trigger action, transition process, and arrival state defined?
 15. **Action granularity**: Is the primary action described at the body-part level with range, speed, force, and physics grounding — not as a bare verb?
+16. **Motion acceptance**: Does every critical movement have an observable
+    direction, relationship, contact, or end-state criterion? Could camera
+    movement falsely appear to satisfy required subject movement?
+17. **Manifest currency**: When a blockout manifest exists, do its source,
+    previz, selection, and reference hashes match the generation package?
 
 ## Usage limitations
 
@@ -216,6 +247,10 @@ Before generation, verify:
 - Video extension locks input aspect ratio; extension duration can be set.
 - For one-click video, specify image order and character mapping explicitly if they matter.
 - Seamless transitions aim for visual/audio continuity; they do not guarantee pixel-identical preservation.
+- A generated 3D asset is not a motion reference unless an animated render is
+  intentionally bound as the supported motion-master input.
+- Contact sheets can support appearance review but cannot verify temporal
+  motion, timing, camera continuity, or audio.
 
 
 ## Intentional conditioning representation

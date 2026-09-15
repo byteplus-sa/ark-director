@@ -11,7 +11,10 @@ This skill provides expert guidance for Blender 5.x animation and rigging: keyfr
 
 ## MCP-First Approach
 
-Prefer the **official Blender MCP Server** (Blender Lab, Blender 5.1+) for inserting keyframes, creating armatures, wiring constraints, baking actions directly in a running Blender session. Fall back to emitting Python scripts only when the MCP server is not connected.
+Prefer the **connected workspace Blender MCP adapter** for inserting keyframes,
+creating armatures, wiring constraints, and baking actions in a running Blender
+session. Its tools may differ from the upstream Blender Lab bundle. Fall back
+to emitting Python scripts only when the MCP server is not connected.
 
 **Detection:** at session start, look for tools prefixed `blender_` (e.g. `blender_execute_blender_code`, `blender_get_scene_info`, `blender_get_object_info`, `blender_get_viewport_screenshot`). If any are present, MCP is available.
 
@@ -37,8 +40,14 @@ Setup: see [docs/blender-mcp-setup.md](../../contracts/blender-mcp-setup.md).
 - **"Use the NLA editor"** -> See NLA Management
 - **"Edit FCurves"** -> See FCurve Manipulation in `references/python_api.md`
 - **"Bone rolls/orientations are wrong"** -> See Mode Switching Gotchas
+- **"Block a vehicle race, wheel motion, drift, astronaut reach, or product move"**
+  -> Read [Production motion recipes](references/production-motion-recipes.md)
+  and define observable motion checks before keyframing
 
 ## Blender 5.1 Changes
+
+Treat these as version-specific observations. Probe the connected Blender build
+and relevant RNA enum values before using them.
 
 ### Smooth (Gaussian) FCurve Modifier (New in 5.1)
 1. New FCurve modifier type: `'SMOOTH'` with blend mode `'GAUSSIAN'`
@@ -350,6 +359,21 @@ strip.extrapolation = 'HOLD'    # NOTHING, HOLD, HOLD_FORWARD
 - **Shape key not blending**: Check that Basis shape exists and `relative_key` is set correctly
 - **Constraint not working**: Check influence (0 = disabled), check target object exists, check bone name spelling
 
+## Production motion verification
+
+Keyframes, constraints, and successful playback do not prove the intended
+visible action. Evaluate world-space transforms after parenting and constraints,
+then verify the rendered previz temporally.
+
+For each critical action, define a frame window, stable subject and target IDs,
+an observable rule, and a measurable expectation such as displacement,
+distance trend, ground gap, wheel rotation, screen occupancy, or final
+relationship. Camera motion cannot substitute for required subject movement.
+
+Keep blocking rigs lightweight and readable. Build enough articulation to make
+the action unambiguous, while leaving final appearance and surface detail to the
+downstream asset or video stage.
+
 ## Constraint Reference
 
 For the complete catalog of all ~45 constraints with type strings, properties, and use cases, consult `references/constraint_reference.md`.
@@ -363,3 +387,6 @@ Key categories:
 ## Python API Reference
 
 For complete Python API patterns including keyframe insertion, FCurve manipulation, driver creation, armature/bone setup, NLA strips, and shape key management, consult `references/python_api.md`.
+
+For reusable vehicle, astronaut reach, and product-blocking contracts, consult
+`references/production-motion-recipes.md`.

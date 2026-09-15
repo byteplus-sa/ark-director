@@ -130,6 +130,13 @@ A section that groups multiple video takes of the same shot side-by-side,
 with synchronized playback and an optional "pick winner" selection that
 writes back to `shot.md`. Each scene becomes one takes group.
 
+**Required shape:** `groups` → `takes` → `media: { "type": "video", "src": "…" }`.
+Flat `cards` (even with a `.mp4` path) and string `media` values are **invalid
+for this kind** — the renderer ignores them and the HTML shows no players.
+Listing a pin only under `brief-development` is not enough for take review:
+when a reference pin exists, put pin + generated take(s) in the same
+`shot-generation` group so both are playable on the active review stage.
+
 ```json
 {
   "id": "video-review",
@@ -198,6 +205,41 @@ The generator embeds `promptFile` content into the HTML, so the prompt remains
 visible when the page is opened directly with `file://`.
 
 **Synchronized playback:** Each takes group has a "Play all" button that starts all videos in the group simultaneously, and a "Pause all" button. This lets you compare motion side-by-side in real time.
+
+**Pin vs take (template-factory / style-reference review):**
+
+```json
+{
+  "id": "pin-vs-take",
+  "title": "Reference pin vs take",
+  "stage": "shot-generation",
+  "kind": "takes",
+  "desc": "Original pin beside the generated take for grammar comparison.",
+  "groups": [
+    {
+      "title": "Pin vs Seedance take",
+      "uc": "REVIEW",
+      "meta": ["30s", "16:9", "720p"],
+      "promptFile": "scenes/scene-01/s01_sh010/prompt_s01_sh010_t01_v01.md",
+      "takes": [
+        {
+          "label": "Original pin",
+          "media": { "type": "video", "src": "pins/pin-example.mp4" },
+          "chips": ["reference only"]
+        },
+        {
+          "label": "Take t01 v01",
+          "media": { "type": "video", "src": "scenes/scene-01/s01_sh010/s01_sh010_t01_v01.mp4" },
+          "chips": ["Seedance 2.5"],
+          "id": "s01_sh010",
+          "manifest": "scenes/scene-01/s01_sh010/shot.md",
+          "filename": "s01_sh010_t01_v01.mp4"
+        }
+      ]
+    }
+  ]
+}
+```
 
 ## Minimal ad-hoc example
 

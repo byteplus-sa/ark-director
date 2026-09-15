@@ -25,17 +25,41 @@ are present (e.g. `blender_execute_blender_code`, `blender_get_scene_info`,
 `blender_get_object_info`, `blender_get_viewport_screenshot`). When those tools
 are absent, fall back to emitting self-contained `bpy` scripts.
 
+Core connection, add-on compatibility, and optional generators are separate
+capabilities. When exposed, use add-on and generator status tools to verify
+protocol compatibility and whether Hyper3D or Hunyuan3D integration is enabled.
+Do not infer optional generation support from a working `bpy` execution tool.
+The Blender add-on's Hyper3D integration and the separate ModelArk MCP Seed 3D
+tool registration are independent surfaces; check the surface actually selected
+for the operation.
+
+## Runtime capability probe
+
+Before using a version-gated API, run
+[probe_blender_runtime.py](../skills/blender-to-seedance/scripts/probe_blender_runtime.py)
+inside the connected Blender process. Retain its Blender and Python versions,
+available render-engine identifiers, current engine, resolution, FPS base,
+effective FPS, and frame range with the operation evidence.
+
+The live RNA enum is authoritative for engine identifiers. Prefer the available
+EEVEE identifier selected by the probe rather than hard-coding
+`BLENDER_EEVEE` or `BLENDER_EEVEE_NEXT` from a different Blender minor.
+
 ## Workflow
 
-1. Inspect with `blender_get_scene_info` / `blender_get_object_info`.
-2. Mutate via `blender_execute_blender_code`.
-3. Verify with `blender_get_viewport_screenshot`.
+1. Inspect core, add-on, optional-generator, and runtime capabilities.
+2. Inspect the scene with `blender_get_scene_info` / `blender_get_object_info`.
+3. Mutate via small, idempotent `blender_execute_blender_code` calls.
+4. Verify data state and viewport appearance.
+5. For animation or video work, verify the rendered media temporally; a
+   screenshot does not prove motion or timing.
 
 ## Notes
 
-- These skills are out of domain for the core ai-director AIGC pipeline
-  (Seedance/Seedream/Seed Audio). They are kept for Blender-based modeling,
-  previz, and post work; keep them project-local; cross-project installation is a separate explicit task.
+- These skills support Blender modeling, generated-3D normalization, previz,
+  and post work. The `blender-to-seedance` orchestrator owns the project-local
+  3D blockout-to-video handoff; the vendored leaf skills remain independently
+  usable. Cross-project installation is a separate explicit task.
 - The skills document Blender 5.0/5.1 API; the local install may be a newer
   minor (e.g. 5.2). Verify version-gated API claims against the installed
   `bpy` before relying on them.

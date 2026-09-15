@@ -1,0 +1,363 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-director.local/schemas/blockout-manifest.schema.json",
+  "title": "Blender to Seedance Blockout Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "shot_id",
+    "source",
+    "timeline",
+    "render",
+    "cameras",
+    "cuts",
+    "subjects",
+    "motion_checks",
+    "conditioning"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "shot_id": {
+      "type": "string",
+      "pattern": "^s[0-9]{2}_sh[0-9]{3}$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blend_path", "blend_sha256"],
+      "properties": {
+        "blend_path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "blend_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fps",
+        "fps_base",
+        "frame_start",
+        "frame_end",
+        "duration_seconds"
+      ],
+      "properties": {
+        "fps": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fps_base": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "frame_start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frame_end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 30
+        }
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previz_path",
+        "previz_sha256",
+        "width",
+        "height",
+        "resolution_percentage",
+        "container",
+        "codec"
+      ],
+      "properties": {
+        "previz_path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "previz_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "resolution_percentage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "container": {
+          "type": "string",
+          "minLength": 1
+        },
+        "codec": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "cameras": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/camera"
+      }
+    },
+    "cuts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/cut"
+      }
+    },
+    "subjects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/subject"
+      }
+    },
+    "motion_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/motionCheck"
+      }
+    },
+    "conditioning": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["control_only"],
+          "properties": {
+            "control_only": {
+              "const": true
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "control_only",
+            "selection_manifest",
+            "selection_field",
+            "selection_key",
+            "selected_previz_sha256"
+          ],
+          "properties": {
+            "control_only": {
+              "const": false
+            },
+            "selection_manifest": {
+              "$ref": "#/$defs/relativePath"
+            },
+            "selection_field": {
+              "type": "string",
+              "minLength": 1
+            },
+            "selection_key": {
+              "type": "string",
+              "minLength": 1
+            },
+            "selected_previz_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "object_name"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "object_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "cut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame", "camera"],
+      "properties": {
+        "frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "camera": {
+          "$ref": "#/$defs/identifier"
+        }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "object_name",
+        "proxy_role",
+        "final_subject",
+        "proxy_color"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "object_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proxy_role": {
+          "enum": [
+            "character",
+            "vehicle",
+            "product",
+            "prop",
+            "environment",
+            "support",
+            "effect",
+            "camera-target"
+          ]
+        },
+        "final_subject": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proxy_color": {
+          "type": "string",
+          "pattern": "^#[A-Fa-f0-9]{6}$"
+        },
+        "appearance_reference": {
+          "type": "string",
+          "pattern": "^@Image [1-9][0-9]*$"
+        }
+      }
+    },
+    "motionCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "subject",
+        "start_frame",
+        "end_frame",
+        "rule",
+        "expectation"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "type": {
+          "enum": [
+            "distance_trend",
+            "world_displacement",
+            "ground_contact",
+            "rotation_from_travel",
+            "screen_occupancy",
+            "end_state"
+          ]
+        },
+        "subject": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target": {
+          "$ref": "#/$defs/identifier"
+        },
+        "start_frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectation": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "trend": {
+              "enum": ["decreasing", "increasing", "stable"]
+            },
+            "axis": {
+              "enum": ["X", "Y", "Z"]
+            },
+            "direction": {
+              "enum": ["positive", "negative"]
+            },
+            "minimum_delta": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "maximum_gap": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minimum_revolutions": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "minimum_fraction": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "maximum_fraction": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "terminal_relation": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

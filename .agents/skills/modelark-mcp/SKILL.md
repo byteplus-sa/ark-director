@@ -1059,6 +1059,28 @@ Returns `Seed3DTaskOutput` with `task_id`, `model`, `created_at`, `updated_at`,
 `status`, optional `error`, optional `file: ArtifactRef` (on success), and
 optional `usage`.
 
+#### 3D delivery contract
+
+Provider success delivers a generated package, not a Blender-ready or approved
+asset. Before handing a result to a DCC workflow, retain the immutable package
+and record the provider family and model, request and reference hashes, MCP and
+provider task IDs as separate values, artifact ID, byte size, package SHA-256,
+requested format, material/topology settings, usage, and source URL expiry.
+
+Prefer GLB for an initial Blender handoff when mesh, hierarchy, materials, and
+textures should travel together. Extract the package into a bounded new
+directory, reject absolute paths and parent traversal, and do not overwrite the
+provider archive. Import into a quarantine collection before normalizing units,
+scale, axes, origin, transforms, geometry, normals, UVs, materials, textures,
+or rig readiness. Record the normalized working-copy hash and viewport review
+separately from the provider package.
+
+A generated 3D asset supplies structure and appearance. It does not become a
+Seedance motion authority until an animated video render is intentionally
+selected and bound for a supported video-reference mode. Keep 3D generation,
+Blender normalization, previz rendering, and Seedance generation as distinct
+operations with distinct task IDs, costs, statuses, and review evidence.
+
 #### `hyper3d_list_tasks` / `hitem3d_list_tasks`
 
 List recent 3D generation tasks (previous 7 days, provider limitation). Supports
@@ -1502,21 +1524,29 @@ default model for that product is used.
 
 ### Seed 3D Async Workflow
 
-1. Ensure `BYTEPLUS_MODELARK_3D_ENABLED=true` is set, along with
+1. Inspect live health or tool registration. If 3D tools are absent, report the
+   unavailable capability; configuration documentation alone is not evidence
+   that the current server exposes Hyper3D or Hitem3d.
+2. Ensure `BYTEPLUS_MODELARK_3D_ENABLED=true` is set, along with
    `BYTEPLUS_MODELARK_API_KEY`.
-2. Call `hyper3d_create_task` (text-to-3D or image-to-3D) or
+3. Call `hyper3d_create_task` (text-to-3D or image-to-3D) or
    `hitem3d_create_task` (image-to-3D only) as an MCP background task.
-3. Retrieve the MCP result and persist the returned provider `task_id` before
+4. Retrieve the MCP result and persist the returned provider `task_id` before
    polling.
-4. Poll `hyper3d_get_task` or `hitem3d_get_task` with `persist_output=false`
+5. Poll `hyper3d_get_task` or `hitem3d_get_task` with `persist_output=false`
    until the
    status is terminal (`succeeded`, `failed`, `cancelled`, `expired`).
    Respect the `recommended_poll_after_ms` (5000ms) from creation.
-5. On success, call the get tool with task augmentation and
+6. On success, call the get tool with task augmentation and
    `persist_output=true`; the 3D file (zip package) is persisted to the artifact
    store with a 24-hour source URL backup.
-6. Call `hyper3d_list_tasks` or `hitem3d_list_tasks` to browse recent tasks.
-7. Call `hyper3d_cancel_or_delete_task` or `hitem3d_cancel_or_delete_task`
+7. Record package provenance and inspect the archive before extraction. A
+   successful download enters `review`, not `approved`.
+8. When Blender is the consumer, import into a quarantine collection and
+   complete scale, axis, origin, geometry, material, texture, and rig-readiness
+   QA before production use.
+9. Call `hyper3d_list_tasks` or `hitem3d_list_tasks` to browse recent tasks.
+10. Call `hyper3d_cancel_or_delete_task` or `hitem3d_cancel_or_delete_task`
    only when cleanup is explicitly wanted.
 
 > **Choosing Hyper3D vs Hitem3d:** Use `hyper3d_create_task` for text-to-3D
@@ -1565,14 +1595,32 @@ After downloading a Seedance result:
 1. Use `ffprobe` to record actual resolution, duration, frame rate, codecs,
    pixel format, and audio streams.
 2. Decode the full file with FFmpeg and fail QA on any decode error.
-3. Generate contact sheets around the opening, major transitions, and ending.
-4. Check story acceptance criteria such as subject order, travel direction,
+3. Watch the complete video at normal speed and inspect critical motion, timing,
+   camera, transition, and audio segments directly.
+4. Generate contact sheets around the opening, major transitions, and ending
+   for appearance review only; do not use them as temporal evidence.
+5. Check story acceptance criteria such as subject order, travel direction,
    boundary behavior, forbidden elements, and final location.
-5. When audio is enabled, verify the audio stream and inspect important dynamic
+6. When audio is enabled, verify the audio stream and inspect important dynamic
    segments rather than inferring sound quality from the request.
-6. Set the manifest to `review`; only the user can provide creative approval.
-7. For HEVC or other review-host-sensitive masters, optionally generate a
+7. Set the manifest to `review`; only the user can provide creative approval.
+8. For HEVC or other review-host-sensitive masters, optionally generate a
    lightweight H.264 proxy while preserving the original master.
+
+### Post-generation 3D QA
+
+1. Validate the package type, byte size, and SHA-256 and preserve the original
+   archive.
+2. Inspect archive paths safely before extraction and confirm the requested 3D
+   format exists.
+3. Import into an isolated DCC collection and record object, mesh, face,
+   material, texture, UV, and armature counts.
+4. Measure dimensions, units, axes, origin, transforms, normals, non-manifold
+   geometry, missing textures, and rig readiness.
+5. Save a normalized working copy and viewport evidence without mutating the
+   provider artifact.
+6. Set the asset to `review`; provider success and successful import do not
+   establish creative approval.
 
 ### Parallel Variations
 
@@ -1665,6 +1713,7 @@ Set to `0` (default) for record-only mode with no enforcement.
 | Presigned URL expired | TTL elapsed (default 30 min) | Call `media_presign` (single key) or `media_presign_batch` (many keys) with the `object_key` to generate a fresh URL |
 | 3D tools not appearing | `BYTEPLUS_MODELARK_3D_ENABLED` not set or ModelArk key missing | Set `BYTEPLUS_MODELARK_3D_ENABLED=true` and ensure `BYTEPLUS_MODELARK_API_KEY` is configured |
 | 3D task failed with `AbilityProcessingError` | Transient provider error | Re-submit the same task; do not treat the input as invalid |
+| 3D package imports at the wrong scale or without expected materials | Provider output and Blender scene use different unit, axis, format, or texture assumptions | Preserve the package, import into a quarantine collection, then measure and normalize a working copy before production use |
 
 ---
 
@@ -1784,6 +1833,11 @@ Set to `0` (default) for record-only mode with no enforcement.
     `persist_output=true` (default), the file is copied to the artifact store.
     Use the returned `ArtifactRef.uri` for durable access after the provider
     URL expires.
+
+23. **Separate 3D generation from DCC readiness.** Preserve the immutable
+    package and provenance, then normalize and review a working copy in Blender.
+    Keep provider task status, import status, motion-master status, and user
+    approval distinct.
 
 ---
 

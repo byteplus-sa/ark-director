@@ -117,10 +117,12 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    the task id, poll, download, and run technical and playback QA.
 8. **Review** — compare the reference and take in playback for shot timing,
    motion direction and intensity, action progression, camera movement,
-   transitions, opening/ending state, and requested audio arc. Add every take,
-   exact prompt, ordered references and QA evidence to the `shot-generation`
-   canvas section; regenerate/open the page, pass its stage freshness check, set
-   `review`, and let the user approve there.
+   transitions, opening/ending state, and requested audio arc. Add the pin and
+   every take as playable players on the `shot-generation` canvas in one
+   `kind: "takes"` group (`groups[].takes[].media` as `{type, src}` — never
+   flat `cards` or string media paths); include exact prompt, ordered
+   references and QA evidence; regenerate/open the page, pass its stage
+   freshness check, set `review`, and let the user approve there.
 
 ## Route specialist work
 
@@ -146,7 +148,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 | Element acquisition/generation and selection | `canon-elements` | hashes, explicit selections; acquired or generated variants |
 | Storyboard generation and selection | `storyboard-visual-plan` | ordered panels, prompts, eligibility state |
 | Audio decision | `audio-preparation` | requested assets and timing, or `skipped` with reason |
-| Video generation and take review | `shot-generation` | prepared requests, task provenance, takes, QA |
+| Video generation and take review | `shot-generation` | prepared requests, task provenance, pin + take players in one `takes` group, QA |
 | Multi-shot edit and final review | `assembly-review` | approved inputs and inspected assembly, or `skipped` for one clip |
 | Final output | `delivery` | master/proxy hashes and approval, or `skipped` when outside scope |
 
