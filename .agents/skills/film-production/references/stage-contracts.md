@@ -63,8 +63,11 @@ Entry: breakdown identifies recurring characters, locations, or props.
 
 Required output: one flat `elements/<element-id>/` folder per reusable element,
 manifest, reference files, hashes, variants, and lifecycle states. Generated
-sheets also carry prompt snapshots; acquired brand/product/logo assets carry
-provenance and `generation: none` instead of a Seedream prompt. **Before locking
+sheets carry prompt snapshots; acquired brand/product/logo assets carry
+provenance and `generation: none`; deterministic screens/cards/posters carry an
+editable HTML entrypoint with local CSS/SVG dependencies, a render record, and
+`generation: deterministic_html`
+instead of a model prompt or provider task. **Before locking
 the element list**, walk every beat of every scene/shot against the Element
 identification checklist in AGENTS.md — verify that visible characters, settings,
 props, screen/UI surfaces, brand/title cards, and recurring audio have been
@@ -77,16 +80,22 @@ screen content. Apply the prop threshold rather than turning every visible objec
 into a generation requirement. For authorized real brands, logos, and labeled
 products, prefer official or authorized web/user downloads over Seedream; generate
 only when no usable real asset exists or a stylized substitute is requested.
+Use a deterministic HTML entrypoint with local CSS/SVG dependencies for exact
+typography, screen/UI, product lineup, price/CTA, and poster geometry. Use
+Seedream for synthesized image content; a
+hybrid binds the selected image as a hashed input and finishes exact copy/layout
+deterministically.
 Record missing required references before dependent tasks are submitted.
-The `canon-elements` canvas section shows every variant (acquired or generated),
-its prompt or provenance, manifest, recommendation/selection state and downstream
-role.
+The `canon-elements` canvas section shows every variant (acquired, generated, or
+deterministically rendered), its prompt or provenance/render record, manifest,
+recommendation/selection state and downstream role.
 
 Exit: every required canonical element has an approved selected variant, or the
 dependent scene is explicitly marked unresolved. The element list has been
 cross-checked against the Element identification checklist and no gaps remain.
-An approved selected variant may be a downloaded packshot/logo or a generated
-sheet — both satisfy exit when hashes and user selection are recorded.
+An approved selected variant may be a downloaded packshot/logo, generated
+sheet, or deterministic graphic — all satisfy exit when hashes and user
+selection are recorded.
 
 ## 4. Storyboard and visual plan
 

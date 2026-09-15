@@ -25,16 +25,21 @@ This keeps the mapping reproducible and prevents slot drift.
 
 The ordered `images[]` array must match `shot.md` `references:` exactly.
 
-## Seedream element sheets
+## Static element routing
 
 | Type | Skill | Output prefix |
 |---|---|---|
 | character | `seedream-character-sheet` | `char_<id>_turnaround_vNN.png` |
 | location | `seedream-location-asset` | `loc_<id>_wide_vNN.png` |
 | prop | `seedream-prompt` | `prop_<id>_<view>_vNN.png` |
-| screen | `seedream-prompt` | `screen_<id>_vNN.png` |
+| exact screen/UI, title card, poster, product layout, price/CTA, static overlay | `html-graphic-render` | `screen_<id>_vNN.png`, `card_<id>_vNN.png`, or `overlay_<id>_vNN.png` |
+| invented or illustrative screen/card imagery | `seedream-prompt` | `screen_<id>_vNN.png` or `card_<id>_vNN.png` |
+| generated imagery with exact copy/layout | Seedream image layer, then `html-graphic-render` | matching deterministic screen/card/overlay prefix |
 
 Bind the source keyframe as `@Image 1` (I2I) where the breakdown flags one.
+For deterministic graphics, preserve same-stem editable source, render record,
+input/font hashes, dimensions, and alpha intent. They do not use a `prompt_`
+snapshot or provider task.
 
 ## Storyboard
 

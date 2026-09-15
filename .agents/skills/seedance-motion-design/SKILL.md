@@ -5,15 +5,18 @@ description: >
   prompts for marketing deliverables — launch videos, motion-on-footage
   explainers, hypermotion product ads, 3D flythroughs, 2D explainers,
   editorial explainers, logo reveals, kinetic type, product motion, and
-  data-driven explainers. Every on-screen word, number, chart, logo, or UI
-  screen is authored as a Seedream reference image first, then animated as
-  a plate by Seedance — never rendered by the video model. Use whenever the
+  data-driven explainers. Exact words, numbers, charts, logos, and UI are
+  authored as deterministic HTML-entrypoint graphics for post-composited
+  fidelity;
+  Seedream supplies only synthesized image layers and Seedance supplies
+  text-free footage or intentionally non-exact plate motion. Use whenever the
   user asks for motion design, motion graphics, kinetic typography, a logo
   reveal, product motion, an explainer video, an animated data story, or
-  any text/graphic-driven marketing motion. Partners with
-  seedance-prompt-25 (six-part formula), seedream-prompt and
-  seedream-storyboard (text/UI/keyframe locks), and seed-audio-prompt
-  (voice/music). Does not call the API itself.
+  any text/graphic-driven marketing motion. Composes in prose with
+  html-graphic-render for exact static graphics, seedance-prompt-25 for the
+  six-part formula, seedream-prompt or seedream-storyboard for synthesized
+  image/keyframe layers, and seed-audio-prompt for voice/music. Does not call
+  the API itself.
 ---
 
 # Seedance Motion Design
@@ -33,20 +36,19 @@ event openers, and title sequences.
 
 ## Core principle
 
-**Text first, always.** Seedance cannot reliably render readable text, numbers,
-charts, logos, or UI. Every on-screen word, digit, chart, logo lockup, and
-screen must be authored as a Seedream image *before* any video is submitted,
-then passed to Seedance as a `reference_image`, `first_frame`, or `last_frame`
-with an explicit `@Image N` binding. Seedance's job is to **animate the plate**
-— move it, scale it, reveal it, transition between plates — never to draw the
-type. This is the repo's "screens and text first" rule applied to motion
-design: Seedream supplies a reviewed text reference and Seedance supplies motion;
-inspect the resulting frames because image conditioning does not guarantee text fidelity.
+**Separate exact graphics from generated motion.** Seedance cannot reliably
+render or preserve readable text, numbers, charts, logos, or UI. Author exact
+copy and geometry as deterministic HTML-entrypoint graphics. Use Seedream only
+for synthesized visual layers such as illustration, photography, texture, or
+keyframes. Generate text-free Seedance footage, then animate/composite exact
+graphics in HyperFrames or FFmpeg. If the user intentionally accepts
+model-driven plate motion, bind the selected plate explicitly and still inspect
+the result; image conditioning does not guarantee text fidelity.
 
 For every prompt, define:
 
 ```text
-plates               the text/UI/chart/logo images Seedance animates (Seedream-authored)
+plates               exact deterministic graphics plus synthesized image layers
 message              the one thing the viewer must take away
 attention hierarchy  the editorial order in which elements enter and settle
 action beat          the moment the message lands, and what the viewer should feel
@@ -106,25 +108,29 @@ For a hybrid, choose one dominant treatment and state how the secondary
 influence appears. **Default when unspecified:** pick the treatment that best
 carries the message with the least text the model must animate.
 
-### 2. Author the plates first (text first, always)
+### 2. Author and classify the plates first
 
 Before writing any motion, enumerate every on-screen word, number, chart, logo,
-and screen, and route each to Seedream:
+screen, product, and keyframe, then route by fidelity:
 
-- **Logo lockups, headlines, taglines, kinetic type** → `seedream-prompt` with
-  the exact text in the `Text in image:` section.
-- **App UI, dashboards, charts, infographics** → `seedream-prompt`
-  (Infographic / Information Visualization) or `seedream-storyboard` for a
-  panel sequence.
-- **Product sheets** → `seedream-prompt` on a white seamless background (see the
-  prop/product-sheet rule).
+- **Logo lockups, headlines, taglines, numbers, prices, CTAs, kinetic type** →
+  a deterministic HTML entrypoint with local CSS/SVG and exact DOM/SVG text.
+- **Exact app UI, dashboards, charts, and infographics** → deterministic
+  HTML-entrypoint graphics. Use Seedream only for intentionally invented or
+  illustrative UI where exact copy and data are not required.
+- **Real products and logos** → approved official/user assets first; arrange
+  exact lineups deterministically. Keep transparent delivery and solid model
+  reference derivatives separate.
+- **Illustrative or photographic plates** → `seedream-prompt` without exact
+  typography; select before deterministic finishing.
 - **Approved storyboard panels / keyframes** → `seedream-storyboard`, promoted
   only after review.
 
-Each plate becomes a `reference_image`, `first_frame`, or `last_frame` with a
-stable `@Image N` binding. **The submitted reference array must match the
-`@Image N` bindings in the prompt 1:1 — same files, same order.** Submit only
-what the prompt actually binds.
+Generated or approved visual plates may become a `reference_image`,
+`first_frame`, or `last_frame` with a stable `@Image N` binding. Exact graphic
+plates stay in post when fidelity is required. **The submitted reference array
+must match the `@Image N` bindings in the prompt 1:1 — same files, same order.**
+Submit only what the prompt actually binds.
 
 ### 3. Establish the attention hierarchy before the story
 
@@ -173,7 +179,7 @@ take erodes trust. Show the steps the buyer will recognize, just tightened.
 Close with one compact sentence that reinforces:
 
 - the dominant treatment;
-- the plate set (and that all text is plate-locked, not model-rendered);
+- the plate set and which exact graphics remain post-composited;
 - the easing/speed language;
 - the CTA or landing state;
 - relevant exclusions (positive phrasing only).
@@ -181,10 +187,12 @@ Close with one compact sentence that reinforces:
 Do not repeat the entire prompt. The seal prevents the motion language and the
 text-lock discipline from drifting across later shots.
 
-## Which Seedance mode to animate the plates
+## Which Seedance mode to animate visual plates
 
-The text-first discipline decides *what* Seedance animates; the mode decides
-*how*. Match the plate set to one mode (grammar via `seedance-prompt-25`):
+The plate classification decides *what* Seedance animates; the mode decides
+*how*. Match synthesized or intentionally non-exact visual plates to one mode
+(grammar via `seedance-prompt-25`). Exact type and UI remain deterministic post
+layers unless the user explicitly accepts model-driven fidelity risk:
 
 | Plate set | Mode | Notes |
 |---|---|---|
@@ -194,7 +202,7 @@ The text-first discipline decides *what* Seedance animates; the mode decides
 | Plates + live presenter or product identity | R2V | Plates as `reference_image` + canonical identity sheets; bind `@Image N` roles |
 
 Prefer **one-click video** when the deliverable is a self-contained paced ad from
-a stack of locked plates. Prefer **first/last frame** when only the open and
+a stack of visual plates. Prefer **first/last frame** when only the open and
 close compositions matter and the middle is a continuous, model-driven move.
 Record the chosen mode and ordered roles in `shot.md` (see `seedance-prompt-25`
 storyboard-to-video handoff).
@@ -216,7 +224,8 @@ Use when the user only wants the motion/graphic wording:
 <The moment the message lands, one event, and a visible end state.>
 
 [Design Seal]
-<Compact treatment, plate-lock, easing, CTA, and exclusions.>
+<Compact treatment, plate routing, post-composited exact graphics, easing, CTA,
+and exclusions.>
 ```
 
 ### Full motion-design prompt
@@ -230,10 +239,9 @@ Plate bindings are declared up front as `[Material Roles]`:
 
 ```text
 [Material Roles]
-@Image 1 defines <headline / hero claim plate> — use its exact text and layout.
-@Image 2 defines <app UI screen / chart plate> — use its exact content and layout.
-@Image 3 defines <logo lockup plate> — use its exact mark and wordmark.
-@Image N defines <product / identity sheet> — use its structure and material only.
+@Image 1 defines <selected visual plate> — use its composition and art direction.
+@Image 2 defines <approved storyboard / keyframe> — use its shot structure.
+@Image N defines <product / identity sheet> — use its identity and material only.
 
 [Motion Design]
 <Mode-first sentence naming the treatment, the one message, and the attention
@@ -251,8 +259,9 @@ and axis presets. Include only when the user names a look.>
 [Motion Language]
 Stagger <elements> in <editorial order>. Use <one easing family> for entrances,
 <ease-in-out> for travel. Keep the slowest element meaningfully slower than the
-fastest. Preserve all plate text, numbers, and logos exactly — rigid, sharp,
-undeformed — through every move.
+fastest. Keep generated footage text-free where exact graphics will be
+composited in post. Preserve bound visual plates rigid, sharp, and undeformed
+through every move.
 
 [Camera]
 <Locked-off, or named camera move with direction and speed.>
@@ -262,7 +271,8 @@ undeformed — through every move.
 requested.>
 
 [Design Seal]
-<Compact treatment, plate-lock, easing, CTA, and exclusions.>
+<Compact treatment, plate routing, post-composited exact graphics, easing, CTA,
+and exclusions.>
 ```
 
 For multi-beat reveals, use `seedance-prompt-25`'s `[Stage N]` grammar (one
@@ -284,9 +294,11 @@ This skill is prompt-only. It **never calls generation tools.** It composes:
   first/last-frame and keyframe grammar, scene staging, timestamps, audio
   bracket syntax, and generation limitations. This skill references it, it does
   not re-implement it.
-- **`seedream-prompt` / `seedream-storyboard`** — author the text, UI, chart,
-  logo, and keyframe plates that Seedance then animates. Route every on-screen
-  word, number, chart, and screen through these before writing motion.
+- **`html-graphic-render`** — author exact text, UI, chart, logo,
+  product-layout, and overlay graphics for deterministic finishing.
+- **`seedream-prompt` / `seedream-storyboard`** — author synthesized
+  photographic, illustrative, texture, and keyframe plates. Do not ask them to
+  reproduce exact typography or layout that deterministic graphics own.
 - **`seed-audio-prompt`** — voice and music for the piece, or the audio-first
   pipeline when the user requests lip-synced dialogue.
 - Axis presets (`seedance-camera-presets`, `seedance-lighting-presets`,
@@ -299,9 +311,9 @@ This skill is prompt-only. It **never calls generation tools.** It composes:
 - **Keyframes as first/last frames.** Lock the exact opening and/or ending
   composition with `first_frame` / `last_frame` (FLF2V). First and last images
   must share the same aspect ratio.
-- **Text locks as `reference_image`.** Headlines, charts, logos, and UI are
-  `reference_image` plates bound with `@Image N`; state "use its exact text and
-  layout" for each.
+- **Exact graphics as post layers.** Headlines, charts, logos, and UI stay
+  deterministic when fidelity matters. A selected solid-background derivative
+  may guide model motion, but it does not replace the final exact overlay.
 - **Character/location as identity.** When a presenter or real environment
   appears, bind canonical character/location sheets and state "use only the
   appearance/geometry."
@@ -318,8 +330,9 @@ For a motion-design request outside the worked examples:
 
 1. Identify the dominant treatment (screen-led, speaker-led, product-led,
    space-led, illustration-led, or data-led).
-2. Enumerate every on-screen word, number, chart, logo, and screen; route each
-   to a Seedream plate.
+2. Enumerate every on-screen word, number, chart, logo, screen, and visual plate;
+   route exact graphics to deterministic rendering and synthesized imagery to
+   Seedream.
 3. Define the one message and the attention hierarchy (what enters first, what
    lands last).
 4. Write the action beat — the moment the message lands and the viewer's
@@ -334,11 +347,11 @@ For a motion-design request outside the worked examples:
 
 - Use positive phrasing throughout. Instead of "no jittery, busy motion," write
   "smooth, weighty motion with one dominant element moving at a time."
-- Instead of "no distorted logo," write "preserve the logo lockup exactly:
-  rigid, sharp, undeformed, readable throughout."
+- Instead of "no distorted logo," keep the generated footage text-free and
+  reserve the approved logo lockup for deterministic composition.
 - Never exclude text by naming it ("no garbled text" still summons garbled
-  text) — instead state the positive: "all text is plate-locked from @Image N
-  and stays crisp for the full duration."
+  text) — instead state the positive: "exact text is added as a deterministic
+  post layer."
 - Exclude only likely contradictions: camera shake in a boardroom explainer,
   idle decorative motion with no signal job, a second competing focal element
   during the headline reveal.
@@ -347,9 +360,10 @@ For a motion-design request outside the worked examples:
 
 Before returning the prompt (and before any generation task), verify:
 
-1. **Text first.** Every on-screen word, number, chart, logo, and screen is
-   authored as a Seedream plate and bound with `@Image N`. Nothing is left to
-   the video model to render.
+1. **Exact graphics first.** Every exact word, number, chart, logo, and UI screen
+   is authored deterministically and reserved for final composition. Seedream
+   supplies synthesized imagery only; nothing exact is left to the video model
+   to render.
 2. **Motion has a job.** Every animation signals, orients, reassures, or
    converts. Decorative-only motion is cut.
 3. **Attention hierarchy.** The hero claim or hook moves first; the CTA lands
@@ -363,8 +377,9 @@ Before returning the prompt (and before any generation task), verify:
    impossible fluidity is avoided.
 7. **Reference discipline.** `@Image N` indices are stable, roles are stated,
    and the submitted array matches the bindings 1:1.
-8. **Composition respected.** The skill composes `seedance-prompt-25` /
-   `seedream-*` / `seed-audio-prompt` and does not call generation tools.
+8. **Composition respected.** The skill composes in prose with
+   `html-graphic-render`, `seedance-prompt-25`, `seedream-*`, and
+   `seed-audio-prompt`; it does not call generation tools.
 9. **The design seal** is compact and does not contradict the treatment or the
    text-lock discipline.
 10. **The response contains the prompt**, not an unrelated production workflow.

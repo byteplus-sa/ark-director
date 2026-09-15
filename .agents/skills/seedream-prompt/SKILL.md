@@ -1,6 +1,6 @@
 ---
 name: seedream-prompt
-description: Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints. Invoke when the user asks to generate a Seedream prompt, write an image prompt, create infographics, edit images, or design posters/UI/branding assets with BytePlus image generation.
+description: Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints. Invoke when the user asks for a Seedream prompt, generated or edited imagery, infographics, or expressive poster/UI/brand artwork. Do not use it to reproduce exact static typography, pricing, CTA, product-grid, logo, or pixel-layout geometry that deterministic HTML-entrypoint graphics can render.
 ---
 
 # Seedream Prompt
@@ -10,7 +10,9 @@ Write production-grade prompts for BytePlus Seedream 5.0 Pro (`dola-seedream-5-0
 
 ## Input and output contract
 
-Input: image purpose, visible detail, exact required copy, model, size, and ordered input roles.
+Input: image purpose, visible detail, model, size, ordered input roles, and
+whether the user expressly accepts model-rendered text as expressive and
+non-exact.
 
 Output: an image-generation or edit prompt and its matching reference bindings.
 
@@ -66,6 +68,17 @@ than embedding that workflow here.
 If the generated character sheet later needs duplicate-face cleanup, optionally
 compose with the companion `seedream-character-sheet-cleanup` skill.
 
+## Deterministic graphic boundary
+
+Use Seedream for synthesized photographic, illustrative, material, texture, or
+expressive design content. When exact copy, data, UI, logo placement, pricing,
+CTA, product order, or pixel geometry carries the deliverable, create or select
+the text-free image layer here and finish the exact graphic through a
+deterministic HTML-entrypoint route. Do not ask Seedream to recreate a layout that
+the caller can render exactly. A hybrid keeps this generated layer's prompt,
+review, task, selection, and hash evidence separately from the deterministic
+render record.
+
 ## Usage tips
 
 ### Prompt formula
@@ -88,9 +101,12 @@ For multi-element composition or fine editing, step-by-step operation improves c
 ### What Seedream 5.0 Pro is good at
 - Precise local editing through interactive controls
 - Multi-image fusion of objects, styles, and materials
-- High-density information visualization (data, text, concepts into images)
-- Design productivity: posters, presentations, branding, e-commerce assets
-- Multilingual text: 14 languages with accurate character structures
+- High-density information visualization when exact text and layout fidelity are
+  not delivery requirements
+- Expressive poster, presentation, branding, and e-commerce image layers that
+  will be finished deterministically when exact graphics are required
+- Multilingual model-rendered text when the user expressly accepts it as
+  non-exact; use deterministic finishing for delivery-critical copy
 - Cinematic imagery: high-fidelity narrative scenes and portrait retouching
 
 ### What Seedream 5.0 Pro is not suited for
@@ -98,4 +114,6 @@ For multi-element composition or fine editing, step-by-step operation improves c
 - Highly complex layouts requiring precise typographic control
 - Generating non-compliant or infringing content
 - UI design requiring pixel-level precision
-- Small text may still be unstable — manual refinement after generation is recommended
+- Delivery-critical copy or layout that must match exactly
+- Small text may still be unstable — deterministic finishing is required when
+  fidelity matters

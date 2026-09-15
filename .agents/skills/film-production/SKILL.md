@@ -1,6 +1,6 @@
 ---
 name: film-production
-description: Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.
+description: Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between deterministic HTML-entrypoint graphics, Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.
 ---
 
 # Film Production
@@ -57,6 +57,7 @@ between modalities.
 | Character identity asset | `seedream-character-sheet` |
 | Character sheet cleanup | `seedream-character-sheet-cleanup` |
 | Location identity asset | `seedream-location-asset` |
+| Exact static typography, poster, title/end card, UI, product grid, price/CTA treatment, or transparent overlay | `html-graphic-render` |
 | General image generation or edit | `seedream-prompt` or `seedream-edit` |
 | Storyboard and visual continuity | `seedream-storyboard` |
 | Seed Audio prompt | `seed-audio-prompt` |
@@ -67,7 +68,8 @@ between modalities.
 | Footage-driven VFX prompt | `seedance-vfx-prompt` |
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
 | Model submission, polling, or artifact access | `modelark-mcp` |
-| Assembly, media transforms, captions, render | appropriate HyperFrames or FFmpeg skill |
+| Animated exact graphics or timed overlays | appropriate HyperFrames skill |
+| Assembly, media transforms, captions, or final video composition | appropriate HyperFrames or FFmpeg skill |
 | Persistent stage canvas, review and selection | `showcase-html` |
 
 <!-- markdownlint-enable MD013 -->
@@ -86,6 +88,9 @@ For the active stage:
 2. Confirm every input path, selected variant, lifecycle state, and SHA-256.
 3. Invoke only the specialists needed for that stage.
 4. Persist exact prompts beside generated media and update the owning manifest.
+   For deterministic static graphics, persist the editable HTML entrypoint,
+   local CSS/SVG dependencies, input/font hashes, render record, and PNG instead
+   of a model prompt or provider task.
 5. Inspect actual outputs, not only provider response metadata.
 6. Update the active stage in `showcase.json` with every input, exact prompt,
    element binding, output, QA result and decision; regenerate and open
@@ -106,7 +111,8 @@ the confirmed set as a `locked` block in `project.md`.
 
 Require explicit user approval before:
 
-- promoting a generated identity or location asset into approved canon;
+- promoting any acquired, generated, or deterministically rendered required
+  element into approved canon;
 - using a storyboard panel as a video input;
 - submitting a high-cost or multi-variant final generation;
 - invalidating or replacing an approved take;

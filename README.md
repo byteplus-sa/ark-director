@@ -1,6 +1,6 @@
 # ark-director
 
-> An AI director workspace that orchestrates BytePlus / Volcano Engine generative models — **Seedance** (video), **Seedream** (images), and **Seed Audio** (audio) — to turn prompts and references into finished content assets.
+> An AI director workspace that combines deterministic HTML-entrypoint graphics with project-local CSS/SVG dependencies and BytePlus / Volcano Engine generative models — **Seedance** (video), **Seedream** (images), and **Seed Audio** (audio) — to turn prompts and references into finished content assets.
 
 > Pair this workspace with the partner [`byteplus-sa/modelark-mcp`](https://github.com/byteplus-sa/modelark-mcp) server and consult the [ModelArk console docs](https://console.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2536875?lang=en) to maximize capabilities.
 
@@ -103,9 +103,9 @@ ai-director/
 
 ## Production rules
 
-Draft breakdown identifies required canon. Approve recurring, branded, or story-critical references before dependent generation. Static sheets use visible-design checks; narrative shots use action and intent. Reference images anchor screen layout, with actual output checked for text fidelity.
+Draft breakdown identifies required canon. Approve recurring, branded, or story-critical references before dependent generation. Static sheets use visible-design checks; narrative shots use action and intent. Exact typography, UI, posters, prices, CTAs, logos, and product layouts use a deterministic HTML entrypoint with local CSS/SVG dependencies; Seedream remains the route for synthesized photography and illustration. Hybrid graphics select the image layer first and finish exact copy/layout deterministically.
 
-Only explicit user choice selects or approves an asset. Freeze exact requests before submission, retain provider IDs, and reconcile unknown acceptance rather than retrying automatically. Default image selection sets retain three equivalent stochastic samples.
+Only explicit user choice selects or approves an asset. Freeze exact requests before submission, retain provider IDs, and reconcile unknown acceptance rather than retrying automatically. Default generative-image selection sets retain three equivalent stochastic samples; deterministic graphics produce one exact render per version.
 
 The tracked [production policy](.agents/contracts/production-policy.md), [routing](.agents/contracts/routing.md), [element contract](.agents/contracts/element-identification.md), and [naming rules](.agents/contracts/asset-naming.md) contain the operational details. Root [AGENTS.md](AGENTS.md) is the entrypoint.
 
@@ -132,7 +132,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 2. **Set the environment variables** above in a `.env` file (gitignored).
 3. **Start a project and its canvas** — create `projects/<your-project>/project.md`, the eight-stage `showcase.json`, and generated `index.html`.
 4. **Break into scenes and shots** — write `scene.md` and `shot.md` manifests and update the canvas inventory.
-5. **Build Elements** — use the `seedream-*` skills to generate canonical character, location, and prop sheets under `elements/`, then add their variants and exact prompts to the canvas.
+5. **Build Elements** — acquire authorized real brand/product assets, use `html-graphic-render` for exact static graphics, and use the `seedream-*` skills for synthesized character, location, prop, or illustrative sheets; add source/provenance and review state to the canvas.
 6. **Generate** — use the `seedance-*` and `seed-audio-*` skills to author prompts, then submit via the MCP tools.
 7. **Assemble** — use the `ffmpeg-*` skills to concatenate approved takes with crossfades and mix audio.
 8. **Review throughout** — after every stage, update and regenerate the same `showcase-html` production canvas, open it in-browser, and pass `--check --stage <stage-id>`. Use `--quick` only for ad-hoc files outside a tracked project.
@@ -141,18 +141,24 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **59 skills** across 13 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **59 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
 | Skill | Description |
 |---|---|
 | **film-production** | Orchestrates multi-scene, multi-modality production one stage at a time while keeping a required HTML production canvas synchronized for review and handoff. |
-| **template-factory** | Reverse-engineer a reference video: prefer a seed_understand-usable public URL, download/upload only when needed, download-first real brand/product stills when authorized, and keep every stage on the project HTML canvas. |
+| **template-factory** | Reverse-engineer a reference video with watchable-media analysis, download-first brand/product assets, deterministic exact graphics, and a synchronized production canvas. |
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Review and fix prompts written for BytePlus generative models (Seedance, Seed Audio, Seedream) against the repo's skill best practices using a sub-agent review pipeline. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
 | **blender-to-seedance** | End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. |
+
+### Deterministic Graphics
+
+| Skill | Description |
+|---|---|
+| **html-graphic-render** | Author and render exact-size static posters, cards, product grids, UI, and transparent overlays from one project-local HTML entrypoint with CSS/SVG dependencies, exact-copy checks, and schema-valid provenance. |
 
 ### Seedance — Video Prompting
 
@@ -167,7 +173,7 @@ The workspace ships with **59 skills** across 13 categories. Independent skills 
 | **seedance-pacing-presets** | Turns a named pacing or rhythm preset (speed ramp, slow motion, bullet time, ramp up, flash in/out, impact moment, montage, cut rhythm, speed up) into a canonical, timestamped motion, cut, and pacing block for the Seedance prompt. |
 | **seedance-acting-console** | Turn playable motives and tactics into observable acting cues appropriate to framing, visibility and intensity. |
 | **seedance-animation-styles** | Writes Seedance animation prompts for claymation, needle felt, wood puppets, toy miniatures, vintage rubber hose, painterly 2D, cubist ink, stylized 3D, silicone creatures, wax crayon, and custom animation media. Preserves handcrafted texture and material-specific motion. |
-| **seedance-motion-design** | Write production-grade Seedance 2.5 motion-design and motion-graphics prompts for marketing deliverables — launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers. |
+| **seedance-motion-design** | Write Seedance 2.5 motion-design prompts while routing exact typography and UI to deterministic post graphics and synthesized visual layers to Seedream. |
 | **seedance-music-video** | Develop track-informed music-video treatments with intentional escalation, restraint, repetition or counterpoint and optional evidence-based synchronization. |
 | **seedance-graybox-world** | Writes Seedance 2.5 prompts for the Blender gray look — an untextured gray graybox/blockout 3D world with matcap-style shading, ambient-occlusion depth, and a neutral gray viewport background, like Blender's Solid viewport. Use when gray IS the desired final look, not just a previs reference. |
 | **seedance-restoration** | Write Seedance 2.5 video-to-video restoration prompts that remove film grain, noise, scratch lines, dust, and flicker from aged or archival footage while preserving the shot. |
@@ -183,7 +189,7 @@ The workspace ships with **59 skills** across 13 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **seedream-prompt** | Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints. |
+| **seedream-prompt** | Write Seedream prompts for synthesized or edited imagery while routing exact typography, pricing, CTA, product grids, logos, and pixel layouts to deterministic graphics. |
 | **seedream-character-sheet** | Writes structured Seedream prompts for three-panel character sheets and identity references. Produces the canonical character turnarounds that Seedance uses as face anchors. |
 | **seedream-character-sheet-cleanup** | Cleans Seedream character sheets by removing the head from the full-body panels so only the close-up panel keeps a readable face. |
 | **seedream-location-asset** | Writes structured Seedream prompts for cinematic location assets and reusable environment sheets. Use for creating locations, interiors, exteriors, set references, or establishing stills. |
@@ -274,7 +280,7 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 
 | Source | Type | Examples |
 |---|---|---|
-| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `template-factory`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `modelark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
+| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `modelark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
 | **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes` + `hyperframes-*` (8 skills), `media-use` — workflow skills are installed on demand, not vendored |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |

@@ -18,6 +18,15 @@ composition anchors. Require explicit panel selection, verify source hashes,
 and choose exactly one supported image mode: I2V, FLF2V, R2V, or T2V. Never
 promote a multi-panel contact sheet as a clean video keyframe.
 
+## Static graphics to motion or video
+
+Pass the selected raster path, editable source path, render-record path, output
+hash, dimensions, and background/alpha intent. Use a solid-background derivative
+only when the selected video mode benefits from a model reference. Keep exact
+captions, taglines, prices, CTAs, end cards, and transparent overlays out of
+generated footage and composite them with the selected motion/video tool. Never
+substitute a white-matted file for a transparent delivery asset.
+
 ## Audio to video (when user requests lip-synced dialogue)
 
 Use the exact same dialogue text in both prompts. Verify audio duration does not

@@ -101,7 +101,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "25c18f54c9cc81ecc6d3563a46adab31232225ebb07ff74562ccc63896b2a13e"
+      "computedHash": "82fc6dd632bcf3766e7b4847cffabb496af71472c7df46beb85588a5cbdbf983"
+    },
+    "html-graphic-render": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/html-graphic-render/SKILL.md",
+      "computedHash": "57d0277c5c1b4d15ddf0f111943d4719fa89580eaeac6477ff67db79e0d350e2"
     },
     "lark-showcase-aigc": {
       "source": "./local",
@@ -125,7 +131,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "daefcab5f14e750277885b98e17db6512b569d6d69c3d8ac1c553c3f242f268f"
+      "computedHash": "cf55e04bc59629b7818cd79bb84d0d0224a653dd08498f0bba2678dd82a43b86"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -179,7 +185,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-design/SKILL.md",
-      "computedHash": "f36e963cd0eb0b94ac8b6449b8153feb0161125dbde32c9cf020b56c22966f4d"
+      "computedHash": "8cd543e69bf0038e9a1b72e7a5f184c098e47ab44845dae1b641e16513e82299"
     },
     "seedance-music-video": {
       "source": "./local",
@@ -257,7 +263,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-prompt/SKILL.md",
-      "computedHash": "d8aede475956247286ea112b04c5144bd67d867d0a9788627989437caa18931e"
+      "computedHash": "3cd0c17dcb2c43a5e4205b05912615825e983ca7bcaeedb33cbb8af2b080ae0a"
     },
     "seedream-storyboard": {
       "source": "./local",
@@ -275,7 +281,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "24f08071e3056cd81c696020ad3de7c8452574709dea23758873f9c4a31e6332"
+      "computedHash": "87164e2c2f6f840ce5b51ba454ff2b81a50e78790386c845e8e88cd96469066e"
     },
     "tig-blocking-map": {
       "source": "./local",

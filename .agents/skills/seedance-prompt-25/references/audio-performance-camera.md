@@ -221,11 +221,13 @@ instructions alone.
 
 ### Rules for video call scenes
 
-1. **Generate a screen UI mockup reference.** Create a Seedream image of the
-   video call interface showing the exact layout you want (e.g., full-screen
-   single video feed). Use it as an `@Image N` reference. The model copies the
-   layout from the reference image — text instructions alone cannot override
-   its default video call UI priors.
+1. **Create a screen UI mockup reference.** Use deterministic HTML/CSS/SVG for
+   exact layout and copy (e.g., a full-screen single video feed). Use Seedream
+   only when the screen itself needs synthesized or illustrative imagery, then
+   finish exact UI/text deterministically. A selected solid-background mockup
+   may be used as an `@Image N` layout reference, but exact text remains a post
+   layer because image conditioning does not guarantee pixel fidelity. Text
+   instructions alone cannot override the model's default video call UI priors.
 
 2. **Do not provide character sheet references for people on the phone screen.**
    Providing a character sheet for someone visible only through a video call

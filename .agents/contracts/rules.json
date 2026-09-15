@@ -83,6 +83,37 @@
       "exceptions": []
     },
     {
+      "id": "static.deterministic_route",
+      "severity": "error",
+      "applies_to": [
+        "static_image"
+      ],
+      "owner_path": ".agents/contracts/routing.md",
+      "summary": "Exact static copy and geometry use the deterministic graphics route rather than generative image synthesis.",
+      "exceptions": []
+    },
+    {
+      "id": "static.deterministic_provenance",
+      "severity": "error",
+      "applies_to": [
+        "static_image",
+        "stage_exit"
+      ],
+      "owner_path": ".agents/skills/html-graphic-render/SKILL.md",
+      "summary": "A deterministic raster has a schema-valid render record bound to its source, inputs, renderer, copy, dimensions, alpha intent, and output hash.",
+      "exceptions": []
+    },
+    {
+      "id": "static.transparent_alpha",
+      "severity": "error",
+      "applies_to": [
+        "static_image"
+      ],
+      "owner_path": ".agents/contracts/element-identification.md",
+      "summary": "A transparent delivery asset contains real alpha and is distinct from any solid-background model reference.",
+      "exceptions": []
+    },
+    {
       "id": "revision.declared_delta",
       "severity": "error",
       "applies_to": [

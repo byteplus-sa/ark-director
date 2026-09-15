@@ -192,9 +192,12 @@ Composition:
 
 **Composition methods**: symmetric, diagonal, rule of thirds, leading lines, frame within a frame, negative space, golden ratio.
 
-### 8. Text in image (when requested)
+### 8. Text in image (when non-exact model text is expressly accepted)
 
-Include this section only when the image should contain rendered text.
+Include this section only when the user expressly accepts model-rendered text as
+expressive and non-exact. For delivery-critical copy, omit model text, generate
+the text-free image layer, and finish through the deterministic static-graphics
+route.
 
 ```
 Text in image:
@@ -203,9 +206,11 @@ Text in image:
 
 Rules:
 - Put exact text in double quotes.
+- Treat the quoted string as prompt intent, not proof of pixel-exact output.
 - Describe the surface: "on a storefront window," "on a vintage paper scroll," "on a digital screen."
 - Seedream 5.0 Pro natively renders text in 14 languages: Arabic, Filipino, French, German, Indonesian, Japanese, Korean, Malay, Portuguese, Russian, Spanish, Thai, Turkish, Vietnamese. English is the base language. Other languages also work but with weaker in-image text rendering and cultural understanding.
-- Small text may still be unstable — manual refinement after generation is recommended.
+- Small text may still be unstable. If fidelity matters, remove it from the
+  generative layer and render it deterministically.
 
 ### 9. Constraints (when useful)
 
