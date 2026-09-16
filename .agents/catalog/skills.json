@@ -531,6 +531,15 @@
       "source_revision": null,
       "upstream_hash": "1301ea7cb53a0a44f5c7d62c34cba7e00b9e69b31bed57dc8d645417cea0da7c",
       "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+    },
+    "ugc-motion-presets": {
+      "kind": "leaf",
+      "description": "Turn a named Higgsfield UGC Builder motion preset into a canonical Seedance 2.5 prompt block. Use when the user names one of the 45 UGC Builder presets (Atomic, Outfit Switch, Eating Zoom, Group Photo, Yacht, ...) or asks for preset-style UGC motion \u2014 reaction, selfie, fashion, eating, VFX spectacle, action, timelapse, or multi-shot formats. Persuasion angle, claims, and CTA belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt-25. Never generates media.",
+      "readme_summary": "Turn a named UGC Builder motion preset (Atomic, Outfit Switch, Eating Zoom, Yacht, ...) into a canonical Seedance 2.5 prompt block with reference bindings, duration, and constraint flags.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
     }
   }
 }

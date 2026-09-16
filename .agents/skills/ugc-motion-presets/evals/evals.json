@@ -1,0 +1,106 @@
+{
+  "skill_name": "ugc-motion-presets",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make me an Atomic preset video prompt for @mia. She takes a selfie outside on a cloudy day.",
+      "expected_output": "A Seedance 2.5 prompt block for the Atomic preset: Mia holds a raised-phone selfie pose while a mushroom cloud rises behind her, with locked-off front camera, native rumble audio, 9:16 default, and the high-burst and disclosure flags carried through.",
+      "files": [],
+      "expectations": [
+        "The output resolves the request to the Atomic preset and states so.",
+        "The motion block is timestamped and cue-level: selfie pose held, glance at the sky, reaction back to camera, cloud rising behind at described speed.",
+        "The environment event stays behind the subject and no debris reaches her.",
+        "The camera block is a locked-off front selfie framing, and camera_fixed is noted for the API call.",
+        "Duration is a single-pass integer suggestion and ratio defaults to 9:16.",
+        "No invented claims, offers, or testimony appear."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I want that one where the guy is eating noodles and the camera pushes in on the bite.",
+      "expected_output": "The request resolves to the Eating Zoom preset with the assumption stated in one line, delivering a prompt block with the bite timed between timestamps, a slow dolly-in as the single camera move, and native audio.",
+      "files": [],
+      "expectations": [
+        "The output names Eating Zoom as the resolved preset and states the assumption explicitly.",
+        "The camera block is a slow dolly in timed to the bite as the single move.",
+        "The bite action carries an observable end state (noodles lifted, eaten, chewed).",
+        "No second camera move is stacked."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Do the Group Photo preset where my character multiplies into four copies of himself.",
+      "expected_output": "A generation-only prompt block describing the staged appearance of identical figures, with the duplicate-forbidden edit constraint explained, identity-drift QA required, and the distinct-references alternative offered.",
+      "files": [],
+      "expectations": [
+        "The output describes the multiplication as a staged generation transition with timestamps, not as an edit task.",
+        "The output explains that duplicates are forbidden in edit tasks, so this preset is generation-only.",
+        "The output requires identity-drift QA across all four figures against the identity reference.",
+        "The output offers a real-group alternative using distinct references."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Use the Eating preset for my protein-bar brand and add a line where I say I lost 10 pounds using it, plus a 20% discount code.",
+      "expected_output": "The preset prompt block is delivered for the eating beat, while the testimonial and discount requests are explicitly routed to ugc-ad-modes and not written here; no invented claims or offers appear.",
+      "files": [],
+      "expectations": [
+        "The output delivers the Eating preset prompt block without the testimonial or discount content.",
+        "The output explicitly routes the weight-loss claim, the personal testimony, and the discount CTA to ugc-ad-modes in one line.",
+        "No fabricated efficacy, purchase history, or invented offer code appears anywhere in the output.",
+        "The output does not frame the synthetic presenter as a real customer."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I have a 12-second clip of my model walking. Use Outfit Switch to change her jacket mid-walk to the red one in the second photo.",
+      "expected_output": "A structured edit direction using the edit-goal grammar with Timeline Inheritance on the supplied footage: the target jacket swap inherits the subject's motion and occlusion, with omni_reference_task_type=edit, duration locked to source, and ratio derived from source.",
+      "files": [],
+      "expectations": [
+        "The output uses a structured edit grammar with the subject's motion, occlusion, and exit inherited from the source.",
+        "The output sets the generation parameter omni_reference_task_type to edit and never uses edit_video.",
+        "The output notes duration locks to the ~12s source (within ~0.3s) and the ratio derives from the source video.",
+        "The red jacket is bound to the supplied reference image for identity.",
+        "The source is within the recommended edit-task limits (under 20s)."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Give me the Shocked preset for a TikTok ad for my skincare brand.",
+      "expected_output": "A Shocked preset prompt block with the delivery defaults applied: 9:16 vertical, sound-off legibility handled as a finishing layer, AIGC disclosure reminder, and no captions or CTA text baked into the video.",
+      "files": [],
+      "expectations": [
+        "The output defaults the ratio to 9:16 and states it as a generation parameter, not prompt text.",
+        "The output states captions or on-screen text belong to a finishing layer and are never baked into the generated video.",
+        "The output includes an AIGC-disclosure reminder for ad delivery (TikTok manual tag).",
+        "The shock reaction is cue-level (widened eyes, hands to mouth) without degree adjectives.",
+        "No claims about the skincare product appear; persuasion content is routed to ugc-ad-modes."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Morning routine preset but I want the full arc: waking up, coffee close-up, getting dressed, and mirror selfies. That's more than 30 seconds.",
+      "expected_output": "The output presents the two supported paths — a compressed staged arc within 30s or chaining scenes via return_last_frame with first_frame and matched ratios — and delivers the compressed version by default with the chaining note.",
+      "files": [],
+      "expectations": [
+        "The output offers both paths: a compressed staged arc and scene chaining.",
+        "The default deliverable is a staged arc whose stages use consecutive non-overlapping timestamps within 30s.",
+        "The chaining path specifies return_last_frame on each scene feeding the next scene's first_frame with matched aspect ratios.",
+        "The output notes wardrobe continuity across stages or chained scenes.",
+        "No timelapse speed parameter is claimed to exist."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Give me the hug preset, the one where two people embrace.",
+      "expected_output": "The output states no hug or embrace preset exists in the catalog, does not invent one, and offers the nearest supported direction — a custom two-subject R2V composition via the grammar skill or the closest preset — without generating a fake preset name.",
+      "files": [],
+      "expectations": [
+        "The output explicitly states the catalog has no hug or embrace preset.",
+        "The output does not fabricate a preset name or recipe.",
+        "The output offers a nearest alternative such as a custom two-subject composition through seedance-prompt-25 grammar.",
+        "The output stays prompt-composition-only and does not claim the request was fulfilled with a preset."
+      ]
+    }
+  ]
+}

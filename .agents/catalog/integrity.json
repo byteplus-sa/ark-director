@@ -678,6 +678,10 @@
     ".agents/skills/ugc-ad-modes/agents/openai.yaml": "bbf2c381164332c07f522c6ea4e23a527140674861dda2da354aafa5d0ba1d27",
     ".agents/skills/ugc-ad-modes/evals/evals.json": "a0bb1fe8608ce6c91354c77adab927e4c2dee15cc4274e1deb500fc4dc3b16dd",
     ".agents/skills/ugc-ad-modes/references/mode-recipes.md": "e377b17f4f6012762320b2f8972df8eafddce92d320cd336d83f58894c0a4af5",
-    ".agents/skills/ugc-ad-modes/references/worked-repairs.md": "e112f07af6e0d5ad0ae5c3cddb7c042fb98f9cd1955711a2fa15c26d5c66f199"
+    ".agents/skills/ugc-ad-modes/references/worked-repairs.md": "e112f07af6e0d5ad0ae5c3cddb7c042fb98f9cd1955711a2fa15c26d5c66f199",
+    ".agents/skills/ugc-motion-presets/SKILL.md": "5edc7ae41c4ba07a63845056370935b18d3d76bb63c4fde13e3b9bba7009604d",
+    ".agents/skills/ugc-motion-presets/evals/evals.json": "0aec5105651c2b7da0e94198259a9338d0d41e8fcc91ed59d01af96a0dad3805",
+    ".agents/skills/ugc-motion-presets/references/execution-constraints.md": "03a8cc46d0e2c6933250879bbfe593847d945776336d8ff9b3fa4ba4b47a9a26",
+    ".agents/skills/ugc-motion-presets/references/motion-presets.md": "5e44f118220db6e20254d9f4ae171e6ea2989e307f34a29439c8585a1001f923"
   }
 }

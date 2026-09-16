@@ -85,6 +85,31 @@ orchestrators own cross-skill sequencing, generation gates and delegation.
 `film-production` manages multi-scene production using its stage/handoff
 contracts. Load only specialists needed for the current stage or requested axis.
 
+### Parallel production and nested delegation
+
+When multiple assets, videos, scenes or production stages are independent, run
+them in parallel. An agent assigned a bounded workstream may delegate
+independent subtasks to its own sub-agents when this reduces waiting or lets
+downstream preparation begin earlier.
+
+- Give every agent explicit, non-overlapping ownership of files, assets,
+  document sections and provider operations.
+- Begin succeeding work as soon as its required inputs are stable; do not wait
+  for unrelated workstreams to finish.
+- Keep the main agent responsible for scope, shared-state coordination,
+  integration, final verification and user communication.
+- A sub-agent remains responsible for reviewing and integrating the work of any
+  nested sub-agents it creates.
+- Serialize edits to shared mutable state, including `showcase.json`,
+  `task_ids.json`, selection manifests, Lark documents, assemblies and shared
+  registries, unless the tool provides an explicit conflict-safe transaction.
+- Never submit the same paid generation through multiple agents or transports.
+  Reconcile ambiguous submissions before retrying.
+- Do not let speculative downstream work change approved inputs or user
+  selections. Revalidate dependent work when an upstream input changes.
+- Respect available concurrency limits. Prioritize work on the critical path
+  rather than spawning agents for trivial tasks.
+
 Vendored HyperFrames, Blender and FFmpeg bundles are exempt from local
 skill-isolation remediation. Preserve upstream design, record local overlays,
 and review changes before re-vendoring. Do not remove a skill because it is

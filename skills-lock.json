@@ -354,6 +354,12 @@
       "sourceType": "github",
       "skillPath": "skills/media-use/SKILL.md",
       "computedHash": "1301ea7cb53a0a44f5c7d62c34cba7e00b9e69b31bed57dc8d645417cea0da7c"
+    },
+    "ugc-motion-presets": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/ugc-motion-presets/SKILL.md",
+      "computedHash": "5edc7ae41c4ba07a63845056370935b18d3d76bb63c4fde13e3b9bba7009604d"
     }
   }
 }
