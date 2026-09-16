@@ -21,7 +21,8 @@ never appear in prompt text.
 
 ## Task types
 
-`omni_reference_task_type` accepts `auto`, `edit`, and `extend` on 2.5.
+`omni_reference_task_type` accepts `auto`, `reference`, `edit`, and `extend`
+on 2.5.
 
 - **R2V recipes omit it** — the provider auto-detects from the prompt and
   media. Do not set `reference` on recipes; its behavior beyond auto-detection

@@ -228,8 +228,9 @@ clothes rain is generated falling-object spectacle. Edit tasks lock duration
 - References: footage variant — the source video plus 1–2 look references,
   source under 20s; fresh variant — 1 identity reference_image plus 2–3
   wardrobe references
-- Motion block (fresh variant): subject smiles at the camera; @3s the outfit
-  changes to look B; @6s to look C; pose continuous throughout
+- Motion block: subject smiles at the camera; @3s the outfit
+  changes to look B; @6s to look C; pose continuous throughout (fresh-variant
+  direction; edit tasks inherit the source timeline instead)
 - Camera block: medium front framing, locked-off
 - Audio: native — room or street ambience; optional beat-aligned swishes as a
   finishing layer
