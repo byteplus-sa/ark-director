@@ -30,7 +30,7 @@ Use this skill when the user wants to:
 Do **not** use for deterministic VOD AI enhancement (`vod_enhance_video`) or
 FFmpeg denoisers — this skill is the Seedance generative-edit route. For the
 general edit grammar and the full six-part formula, compose with
-`seedance-prompt-25`; for the submission lifecycle, use the modelark MCP tools.
+`seedance-prompt-25`; for the submission lifecycle, use the `ark-mcp` tools.
 
 > **Known ceiling.** Seedance re-renders the picture; aggressive cleanup trades
 > fine-detail fidelity for smoothness, and there is a real limit to how far a

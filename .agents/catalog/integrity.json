@@ -602,7 +602,7 @@
     ".agents/skills/seedance-prompt-25-filipino/references/quick-reference.md": "00f72c716b762635b815711075693f7cb835e2f425e35def497b90a96dfca3d6",
     ".agents/skills/seedance-prompt-25-filipino/references/vocabulary.md": "c26bc0be1fb4b935debec74c76047e59086b310c3c106922ff714bc7c8651a8c",
     ".agents/skills/seedance-prompt-25-filipino/references/worked-examples.md": "d92b59741ab5ddf9e6e938c3ee48a3aa8a7c98fdcd413bd6e2aa1f052a7f324c",
-    ".agents/skills/seedance-restoration/SKILL.md": "811eacc2a64b4638db7f6849344dbb252094c5bae5f0c755637e50c0998b2312",
+    ".agents/skills/seedance-restoration/SKILL.md": "e361f135a34e1cc017208dc2f2d3a399796d276327eae07ba2463c7cf1d81ca4",
     ".agents/skills/seedance-vfx-pipeline/SKILL.md": "e4211387fff99d5f7d8f813fa3024fcd3138665fc9a3d08d539c00d688899716",
     ".agents/skills/seedance-vfx-pipeline/agents/openai.yaml": "6f657854a50c0417d33704eabfde10206d966867155f534311bbbe754fa50c4f",
     ".agents/skills/seedance-vfx-pipeline/references/delivery-and-manifest.md": "bfe05627f7df19a994143a9f8aa92aa042c47a5e68201da50d36f06878c123a3",
