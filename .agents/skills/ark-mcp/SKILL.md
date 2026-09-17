@@ -1,13 +1,13 @@
 ---
-name: modelark-mcp
-description: Guide for using the ModelArk Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage asynchronous tasks, upload reference media, and fetch persisted artifacts.
+name: ark-mcp
+description: Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage native or ordinary-tool background jobs, upload reference media, and fetch persisted artifacts. Use when Codex, Cursor, or another client rejects task-augmented execution and must route the same work through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel.
 ---
 
-# ModelArk Seed Multimodal MCP Server
+# Ark Seed Multimodal MCP Server
 
-The ModelArk Seed MCP server exposes BytePlus multimodal generation through a
-typed, safe MCP tool surface. It wraps multiple BytePlus AI product families
-behind one server:
+The Ark Seed MCP server exposes BytePlus multimodal generation through a typed,
+safe MCP tool surface. It wraps multiple BytePlus AI product families behind
+one server, including products served through ModelArk:
 
 - **Seedream** — image generation and editing (text-to-image, reference-based
   editing, batch generation).
@@ -25,8 +25,8 @@ behind one server:
   reasoning through ModelArk Chat Completions; supports deep-thinking mode.
   Use for OCR, scene analysis, content review, and as a visual reasoning
   sub-agent.
-- **Speech-to-Text** — required-MCP-task audio transcription via Seed Speech
-  ASR; retrieve the completed transcript from the terminal `tasks/get` response.
+- **Speech-to-Text** — background audio transcription via Seed Speech ASR;
+  retrieve the completed transcript from the native or compatibility result.
 - **VOD AI MediaKit** — asynchronous video enhancement using the exact
   common/professional/4K/high/24-fps profile with task polling and download,
   asynchronous video transcoding
@@ -63,6 +63,8 @@ Invoke this skill when the user wants to:
 - separate voice from background audio (or voice + music + sfx) for a public
   HTTPS audio or video URL using the VOD AI MediaKit tool pair;
 - fetch a previously persisted artifact by ID;
+- locate or copy a previously persisted artifact to a local path without
+  streaming Base64 through the context window;
 - upload local or Base64 media to object storage (TOS or S3) to obtain a
   presigned HTTPS URL;
 - verify which products are configured on the running server.
@@ -76,6 +78,11 @@ gracefully degrades to whatever is configured.
 ### Always registered
 
 - `seed_media_get_artifact`
+- `seed_media_export_artifact`
+- `ark_job_capabilities`
+- `ark_job_submit`
+- `ark_job_get`
+- `ark_job_cancel`
 - `seed-health://status` resource
 
 ### Requires `BYTEPLUS_SEED_SPEECH_API_KEY`
@@ -134,13 +141,13 @@ explicitly enabled.
 
 ### Background Task Execution
 
-Task execution requires MCP `2026-07-28` and the
-`io.modelcontextprotocol/tasks` extension. FastMCP 4.0.3 is tested; a desktop
-client discovering tools does not by itself prove task execution support.
+Native task execution uses MCP `2026-07-28` and the
+`io.modelcontextprotocol/tasks` extension. FastMCP 4.0.x is tested; a desktop
+client discovering tools does not by itself prove native task execution support.
 
-
-The following long-running calls require MCP task-augmented execution and
-advertise a two-second polling interval:
+The following long-running calls require background execution. Their direct
+tool contracts advertise MCP task augmentation as required with a two-second
+polling interval:
 
 - `media_upload`
 - `seed_audio_generate`
@@ -162,24 +169,54 @@ advertise a two-second polling interval:
 - `vod_add_subtitles`
 - `vod_remove_subtitles`
 
-Call them with MCP task metadata, retain the returned MCP task ID, and poll
-`tasks/get` until terminal; that response contains the typed result. Foreground
-calls are rejected before the provider is contacted. For Seedance, Seed 3D,
-and MediaKit create/submit tools, the MCP task covers provider submission: the
-result contains the provider task ID to poll with the corresponding get tool.
+On a task-capable client, call them with MCP task metadata, retain the returned
+MCP task ID, and poll `tasks/get` until terminal. Foreground direct calls are
+rejected before the provider is contacted. For Seedance, Seed 3D, and MediaKit
+create/submit tools, the returned tool result contains the provider task ID to
+poll with the corresponding get tool.
 
-The Seedance, Seed 3D, and MediaKit get tools support optional MCP background
+The Seedance, Seed 3D, and MediaKit get tools support optional background
 execution. Use foreground calls with `persist_output=false` for quick status
-polling; once a task succeeds, use task-augmented execution with
+polling; once a task succeeds, run the get tool in the background with
 `persist_output=true` so completed-media download and persistence cannot exhaust
 the client deadline. List, presign, artifact-read, and cancel/delete tools
 remain foreground operations.
 
-MCP task get/update/cancel calls enforce the same configured tenant and principal
-ownership as provider tasks. Required-task execution is claimed once in the
-runtime database: an interrupted task cannot silently replay paid work. Retain
-both MCP and provider IDs, and reconcile ambiguous provider outcomes before
-submitting again. The smoke scripts save provider IDs before polling.
+Clients that reject task augmentation, including affected Codex or Cursor
+transports, must use the ordinary compatibility tools. This still runs the
+selected tool in the same background worker:
+
+1. Call `ark_job_capabilities` and select a listed target.
+2. Call `ark_job_submit` with `{"input": {"tool_name": name,
+   "arguments": original_arguments}}`; `original_arguments` is normally
+   `{"input": {...}}` for the selected target.
+3. Retain the returned Ark `job_id` and poll `ark_job_get` no faster than
+   `poll_after_ms`.
+4. At terminal status, read the original tool result from `result`; its
+   `structured_content` contains any Seedance, Seed 3D, or VOD provider task ID.
+5. Call `ark_job_cancel` only when cooperative local cancellation is intended.
+
+In the rest of this skill, **run in the background** means either a native
+task-augmented call or `ark_job_submit`, depending on client capability.
+**Background result** means the terminal `tasks/get` response on the native
+path or the original tool result under terminal `ark_job_get.result` on the
+compatibility path. Use `result.structured_content` to read the typed payload
+on the compatibility path.
+
+Never confuse the Ark job ID with a provider task ID, and never resubmit merely
+because a submit response was lost. Retry a direct required-tool call through
+`ark_job_submit` only after the explicit unsupported-task-capability rejection,
+which occurs before provider execution. Do not retry after a timeout,
+disconnect, or ambiguous provider error. `ark_job_capabilities` is filtered by
+configured providers and the caller's scopes. Unknown or unauthorized targets
+must be treated as unavailable.
+
+Native MCP task and ordinary Ark job operations enforce the same configured
+tenant and principal ownership as provider tasks. Required-task execution is
+claimed once in the runtime database: an interrupted task cannot silently
+replay paid work. Retain the local MCP task or Ark job ID plus any provider ID,
+and reconcile ambiguous provider outcomes before submitting again. The smoke
+scripts save provider IDs before polling.
 
 JWT-authenticated Redis tasks require `FASTMCP_TASKS_ENCRYPTION_KEY`; keep the
 runtime database, queue and encryption key together. Redis does not remove the
@@ -255,6 +292,23 @@ resource URI. Read-only, idempotent, ownership-checked. Requires
 Returns `SeedMediaGetArtifactOutput` with `artifact_id`, `media_type`,
 `mime_type`, `sha256`, `bytes`, optional `expires_at`, and Base64 `data`.
 
+#### `seed_media_export_artifact`
+
+Locate or copy a persisted artifact on the local filesystem. Returns the
+absolute on-disk path instead of streaming Base64 through the context window.
+Stdio transport only — the client and server must share a filesystem. Requires
+`artifacts:read` scope in JWT mode.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `artifact_id` | `str` | Yes | Artifact UUID from a previous generation call |
+| `destination_path` | `str` | No | Absolute path where the server writes an atomic copy; omit to return the canonical store path |
+
+Returns `SeedMediaExportArtifactOutput` with `artifact_id`, `path`,
+`media_type`, `mime_type`, `bytes`, `sha256`, and `copied`. `copied=false`
+means `path` is the canonical store location (filesystem backend); `copied=true`
+means the artifact was copied to `destination_path`.
+
 ---
 
 ### VOD AI MediaKit
@@ -268,8 +322,8 @@ and `vod:read`.
 Enhance a public HTTPS video using the exact currently supported profile. The
 operation is asynchronous, mutating, non-idempotent, and open-world. Do
 not retry it automatically: a timeout may be ambiguous after provider work has
-started. Poll the MCP task ID with `tasks/get` until terminal, then pass its provider
-`task_id` to `vod_get_enhancement_task`.
+started. Run it in the background, then pass the provider `task_id` from its
+background result to `vod_get_enhancement_task`.
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
@@ -283,8 +337,8 @@ started. Poll the MCP task ID with `tasks/get` until terminal, then pass its pro
 | `input_duration_seconds` | number | No | Reserved; no price estimate is currently produced |
 | `persist` | boolean | No | Best-effort durable artifact copy; default `true` |
 
-The verified response is `status="accepted"` inside the MCP task result. Use
-the provider `task_id` from the terminal `tasks/get` result and poll that exact ID with
+The verified response is `status="accepted"` inside the background result. Use
+the provider `task_id` from that result and poll that exact ID with
 `vod_get_enhancement_task`; do not substitute the transcode or
 audio-separation poll tools for enhancement results.
 If a completed response supplies `source_url`, retain it even when the best-effort
@@ -295,7 +349,7 @@ convenience-endpoint pricing and billing-unit mapping are confirmed.
 #### `vod_get_enhancement_task`
 
 Read-only poll of an enhancement task (`vod:read`). Requires the provider
-`task_id` from the terminal `tasks/get` result of `vod_enhance_video`. Maps provider `running`→`processing`,
+`task_id` from the background result of `vod_enhance_video`. Maps provider `running`→`processing`,
 `completed`→`succeeded`, and `failed`→`failed`, while requiring
 `task_type="enhance-video"`. On success, returns the 24-hour `source_url`,
 duration, resolution, frame rate, enhancement tier, and normalized timestamps.
@@ -328,13 +382,13 @@ default 2000); `fps_mode` (`vfr`/`cfr`, default `vfr`); `fps` ([1,240], unset ke
 source rate); `is_hdr_to_sdr` (default `true`).
 
 Returns `status="accepted"` plus `task_id` and a heuristic
-`recommended_poll_after_ms` from the terminal `tasks/get` result; pass that provider
+`recommended_poll_after_ms` from the background result; pass that provider
 `task_id` to `vod_get_transcode_task`.
 
 #### `vod_get_transcode_task`
 
 Read-only poll of a transcode task (`vod:read`). Requires the provider `task_id`
-from the terminal `tasks/get` result of `vod_transcode_video`. Maps provider `running`→`processing`,
+from the background result of `vod_transcode_video`. Maps provider `running`→`processing`,
 `completed`→`succeeded`, `failed`→`failed` (the provider documents no
 queued/expired/cancelled statuses). On success, returns `source_url` (24-hour
 lifetime) plus optional `duration_seconds`/`resolution`/`video_codec` and
@@ -352,7 +406,7 @@ takes priority if both are present. Inline cues require nonblank
 `subtitle_text`, a nonnegative `start_time`, and a later `end_time`. Optional
 position, font size, RGBA color, and font identifier fields control styling.
 Submit with `vod:subtitle:add`, retrieve the provider `task_id` through
-`tasks/get`, then poll with `vod:read`.
+the background result, then poll with `vod:read`.
 The poller requires `task_type="add-subtitle-to-video"` and can best-effort
 persist the completed MP4 when `persist_output=true`.
 
@@ -362,7 +416,7 @@ Use precision erasure on a public HTTPS video. The default `subtitle` mode
 targets dialogue subtitles; `text` mode is broader and may erase titles,
 labels, or watermarks. Optional normalized rectangles, selected/skipped time
 segments, and OCR subtitle thresholds constrain processing. Submit with
-`vod:subtitle:remove`, retrieve the provider `task_id` from the terminal `tasks/get` result,
+`vod:subtitle:remove`, retrieve the provider `task_id` from the background result,
 then poll with `vod:read`. The
 poller requires `task_type="erase-video-subtitle-pro"` and shares the subtitle
 addition persistence contract.
@@ -396,7 +450,7 @@ The source is a public HTTPS URL (audio or video), exactly one of the two.
 | `output_format` | `"aac"` \| `"mp3"` \| `"wav"` \| `"m4a"` \| `"flac"` | No | Default `aac` |
 
 Returns `status="accepted"` plus `task_id`, `request_id`, and
-`provider_log_id` from the terminal `tasks/get` result. Poll the provider `task_id` with
+`provider_log_id` from the background result. Poll the provider `task_id` with
 `vod_get_audio_separation`.
 
 **Source URL liveness.** The provider downloads `audio_url`/`video_url`
@@ -410,7 +464,7 @@ a stable public URL.
 #### `vod_get_audio_separation`
 
 Read-only poll of a separation task (`vod:read`). Requires the provider
-`task_id` from the terminal `tasks/get` result of `vod_separate_audio`. Maps provider `running`→`processing`,
+`task_id` from the background result of `vod_separate_audio`. Maps provider `running`→`processing`,
 `completed`→`succeeded`, `failed`→`failed`. On success, `voice`, `background`,
 `music`, and `sfx` each carry the track's expiring `source_url` (24-hour
 lifetime) and, with `persist_output=true` (default), a durable `artifact`
@@ -419,8 +473,8 @@ provider success. On failure, `error` carries the safe provider detail.
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `task_id` | string | Yes | Provider task ID from the terminal `tasks/get` result of `vod_separate_audio` |
-| `persist_output` | boolean | No | Best-effort durable copy on first successful poll; default `true` (requires task-augmented execution) |
+| `task_id` | string | Yes | Provider task ID from the background result of `vod_separate_audio` |
+| `persist_output` | boolean | No | Best-effort durable copy on first successful poll; default `true` (requires background execution) |
 
 **Latency and transient failures.** A completed separation typically takes
 tens of seconds but can take minutes; keep polling until a terminal state
@@ -607,7 +661,7 @@ prompt optimization. For interactive editing with spatial coordinates, use
 | `output_format` | `"png"` \| `"jpeg"` | No | Default: `png` |
 | `response_format` | `"url"` \| `"b64_json"` | No | Default: `url` |
 | `watermark` | `bool` | No | Provider watermark |
-| `prompt_optimization` | `"standard"` \| `"fast"` | No | Prompt enhancement |
+| `prompt_optimization` | `"standard"` \| `"fast"` | No | Prompt enhancement; defaults to fast on 5.0 Pro (lower latency), pass standard for full CoT optimization |
 | `persist` | `bool` | Yes (default `true`) | Persist to artifact store |
 
 Returns `SeedreamGenerateOutput` with `artifacts: list[ArtifactRef]` and
@@ -709,8 +763,8 @@ queued -> running -> succeeded | failed | cancelled | expired
 
 #### `seedance_create_task`
 
-Create an async video generation task. The required MCP task result contains
-the provider task ID for subsequent polling.
+Create an async video generation task. The background result contains the
+provider task ID for subsequent polling.
 
 **Constraints:**
 - At least one of `prompt`, `images`, or `videos` is required.
@@ -800,8 +854,8 @@ separate task.
 
 Returns `SeedanceVariationsOutput` with per-variation provider task IDs and
 `recommended_poll_after_ms` values. The variation result is returned by the
-enclosing MCP task; poll that task with `tasks/get` until terminal before using each
-provider task ID with `seedance_get_task`.
+background job; retrieve its terminal result before using each provider task ID
+with `seedance_get_task`.
 
 #### `seedance_get_task`
 
@@ -811,8 +865,8 @@ store. Results are cached for 24 hours.
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `task_id` | `str` | Yes | Provider task ID from the create task's terminal `tasks/get` result |
-| `persist_output` | `bool` | Yes (default `true`) | Persist to artifact store; `true` requires task-augmented retrieval |
+| `task_id` | `str` | Yes | Provider task ID from the create tool's background result |
+| `persist_output` | `bool` | Yes (default `true`) | Persist to artifact store; `true` requires background retrieval |
 
 Returns `SeedanceTaskOutput` with `task_id`, `model`, `created_at`,
 `updated_at`, `status`, optional `error`, optional `video: ArtifactRef`,
@@ -827,8 +881,8 @@ optional `last_frame: ArtifactRef`, optional `usage`, `settings`.
 Call this repeatedly (respecting the `recommended_poll_after_ms` from
 creation) until `status` is `succeeded`, `failed`, `cancelled`, or `expired`.
 For durable artifact persistence, repeat the same call with `persist_output`
-omitted or `true` through a task-augmented request after the provider task
-reaches a terminal state.
+omitted or `true` through background execution after the provider task reaches
+a terminal state.
 
 #### `seedance_list_tasks`
 
@@ -1052,8 +1106,8 @@ file URL (zip package of the 3D file) into durable artifact storage so the
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `task_id` | `str` | Yes | Provider task ID from the terminal `tasks/get` result of the create tool |
-| `persist_output` | `bool` | No (default `true`) | Persist the 3D file to artifact store on first success; requires task-augmented execution |
+| `task_id` | `str` | Yes | Provider task ID from the create tool's background result |
+| `persist_output` | `bool` | No (default `true`) | Persist the 3D file to artifact store on first success; requires background execution |
 
 Returns `Seed3DTaskOutput` with `task_id`, `model`, `created_at`, `updated_at`,
 `status`, optional `error`, optional `file: ArtifactRef` (on success), and
@@ -1063,9 +1117,10 @@ optional `usage`.
 
 Provider success delivers a generated package, not a Blender-ready or approved
 asset. Before handing a result to a DCC workflow, retain the immutable package
-and record the provider family and model, request and reference hashes, MCP and
-provider task IDs as separate values, artifact ID, byte size, package SHA-256,
-requested format, material/topology settings, usage, and source URL expiry.
+and record the provider family and model, request and reference hashes, the
+local MCP task or Ark job ID and the provider task ID as separate values,
+artifact ID, byte size, package SHA-256, requested format, material/topology
+settings, usage, and source URL expiry.
 
 Prefer GLB for an initial Blender handoff when mesh, hierarchy, materials, and
 textures should travel together. Extract the package into a bounded new
@@ -1126,12 +1181,12 @@ to opt in; its family auto-resolves to `pro` so no explicit
 `SEED_UNDERSTANDING_MODEL_FAMILY` is required. Other custom model IDs can be
 registered via `SEED_UNDERSTANDING_MODEL_BINDINGS`.
 
-`seed_understand` requires MCP task-augmented execution
-(`execution.taskSupport="required"`). The task-augmented call returns a task ID
-immediately and clients poll for the final result at the server-recommended
-two-second interval. Do not call it as a foreground tool or retry it with a
-shorter prompt to work around a client timeout. Set the requested task TTL long
-enough for the expected video analysis duration.
+`seed_understand` requires background execution. Its direct tool contract uses
+`execution.taskSupport="required"`; clients without that capability must use
+`ark_job_submit`. Both paths return a local job ID immediately and use the
+server-recommended two-second polling interval. Do not call it as a foreground
+tool or retry it with a shorter prompt to work around a client timeout. Set the
+requested task TTL long enough for the expected video analysis duration.
 
 #### `seed_understand`
 
@@ -1237,7 +1292,7 @@ where speed matters more than reasoning depth.
 
 - Video Base64 is not supported — upload via `media_upload` first
 - 32 media parts max (images + videos combined)
-- The provider response is non-streaming, but MCP task augmentation keeps the
+- The provider response is non-streaming, but background execution keeps the
   long-running call outside the foreground client deadline
 - No streaming — the full response is returned at once
 - No artifact persistence — understanding returns text, not media
@@ -1250,9 +1305,9 @@ Requires `BYTEPLUS_SEED_SPEECH_API_KEY`. Auth scope: `seed:asr:transcribe`.
 
 #### `speech_to_text`
 
-Transcribe audio to text via Seed Speech ASR. The tool requires MCP task
-augmentation, internally submits the audio to the provider, polls until
-complete, and returns the full result in the terminal `tasks/get` response. The provider
+Transcribe audio to text via Seed Speech ASR. The tool requires background
+execution, internally submits the audio to the provider, polls until complete,
+and returns the full transcription in the background result. The provider
 lifecycle does not expose a separate task ID, object-storage upload, or second
 domain tool.
 
@@ -1486,10 +1541,11 @@ default model for that product is used.
 
 ### Standard Generation Workflow
 
-1. Call a Seedream or Seed Audio generation tool as an MCP background task with
-   `persist=true` (default).
-2. Poll the MCP task at the advertised interval and retrieve its result with
-   terminal `tasks/get` response.
+1. Run a Seedream or Seed Audio generation tool in the background with
+   `persist=true` (default), using native task augmentation or the ordinary
+   `ark_job_submit` compatibility path.
+2. Poll the local job at the advertised interval and retrieve its background
+   result.
 3. The tool returns an `ArtifactRef` with `uri` (e.g.
    `seed-media://artifacts/abc123`).
 4. Use the artifact URI as a stable reference to the media. The artifact
@@ -1497,18 +1553,19 @@ default model for that product is used.
 
 ### Seedance Async Workflow
 
-1. Call `seedance_create_task` (2.0) or `seedance_2_5_create_task` (2.5) as an
-   MCP background task.
-2. Poll the MCP task and retrieve its result to obtain the ModelArk `task_id`.
-3. Retrieve the MCP task result and immediately persist its provider `task_id`, request parameters, prompt hash,
-   and intended output path to the shot manifest before polling.
+1. Run `seedance_create_task` (2.0) or `seedance_2_5_create_task` (2.5) in the
+   background.
+2. Poll the local job and retrieve its result to obtain the ModelArk `task_id`.
+3. Immediately persist that provider `task_id`, the local MCP task or Ark job
+   ID, request parameters, prompt hash, and intended output path to the shot
+   manifest before provider polling.
 4. Poll `seedance_get_task` in foreground with `persist_output=false` until the
    status is terminal.
    Respect the `recommended_poll_after_ms` from the creation response.
 5. On a local timeout, disconnect, or client restart, retrieve and continue
    polling the same task. Do not submit a replacement task because the provider
    may still be running and a resubmission can create duplicate cost.
-6. On success, call `seedance_get_task` as an MCP background task with
+6. On success, run `seedance_get_task` in the background with
    `persist_output=true`. Download the persisted video to the project asset path
    and record artifact ID, byte size,
    SHA-256, provider timestamps, and usage.
@@ -1529,24 +1586,19 @@ default model for that product is used.
    that the current server exposes Hyper3D or Hitem3d.
 2. Ensure `BYTEPLUS_MODELARK_3D_ENABLED=true` is set, along with
    `BYTEPLUS_MODELARK_API_KEY`.
-3. Call `hyper3d_create_task` (text-to-3D or image-to-3D) or
-   `hitem3d_create_task` (image-to-3D only) as an MCP background task.
-4. Retrieve the MCP result and persist the returned provider `task_id` before
-   polling.
+3. Run `hyper3d_create_task` (text-to-3D or image-to-3D) or
+   `hitem3d_create_task` (image-to-3D only) in the background.
+4. Retrieve the background result and persist the returned provider `task_id`
+   before polling.
 5. Poll `hyper3d_get_task` or `hitem3d_get_task` with `persist_output=false`
    until the
    status is terminal (`succeeded`, `failed`, `cancelled`, `expired`).
    Respect the `recommended_poll_after_ms` (5000ms) from creation.
-6. On success, call the get tool with task augmentation and
+6. On success, run the get tool in the background with
    `persist_output=true`; the 3D file (zip package) is persisted to the artifact
    store with a 24-hour source URL backup.
-7. Record package provenance and inspect the archive before extraction. A
-   successful download enters `review`, not `approved`.
-8. When Blender is the consumer, import into a quarantine collection and
-   complete scale, axis, origin, geometry, material, texture, and rig-readiness
-   QA before production use.
-9. Call `hyper3d_list_tasks` or `hitem3d_list_tasks` to browse recent tasks.
-10. Call `hyper3d_cancel_or_delete_task` or `hitem3d_cancel_or_delete_task`
+7. Call `hyper3d_list_tasks` or `hitem3d_list_tasks` to browse recent tasks.
+8. Call `hyper3d_cancel_or_delete_task` or `hitem3d_cancel_or_delete_task`
    only when cleanup is explicitly wanted.
 
 > **Choosing Hyper3D vs Hitem3d:** Use `hyper3d_create_task` for text-to-3D
@@ -1558,16 +1610,16 @@ default model for that product is used.
 
 ### URL-only Video References
 
-1. If the user has Base64 video or a local video file, call `media_upload` as an
-   MCP background task.
+1. If the user has Base64 video or a local video file, run `media_upload` in the
+   background.
 2. Pass the returned presigned HTTPS URL into `seedance_create_task` or
    `seedance_2_5_create_task` as a video reference.
 
 ### Speech-to-Text Transcription
 
-Call `speech_to_text` as an MCP background task with an audio URL, Base64, or
-local file path (stdio only). Poll the MCP task and retrieve the complete
-`TranscriptionResult` from the terminal `tasks/get` response; no separate provider task tool or
+Run `speech_to_text` in the background with an audio URL, Base64, or local file
+path (stdio only). Poll the local job and retrieve the complete
+`TranscriptionResult` from its result; no separate provider task tool or
 object-storage upload is required.
 
 Use `TranscriptionResult.text` for the full transcript, or `utterances` /
@@ -1728,9 +1780,10 @@ Set to `0` (default) for record-only mode with no enforcement.
    poll faster than the interval — it
    wastes quota and can hit rate limits.
 
-3. **Make polling resumable.** Save the MCP task ID and the provider task ID
-   from the terminal `tasks/get` result with request metadata before the first poll. A process
-   timeout must continue the existing task, not create a duplicate.
+3. **Make polling resumable.** Save the local MCP task or Ark job ID and the
+   provider task ID from the background result with request metadata before the
+   first provider poll. A process timeout must continue the existing job, not
+   create a duplicate.
 
 4. **Use variation tools for choice.** When the user needs options (e.g., "show
    me a few versions"), use a variation tool rather than calling the single
@@ -1765,7 +1818,7 @@ Set to `0` (default) for record-only mode with no enforcement.
 
 12. **Use `media_upload` for URL-only workflows.** Seedance video references
     are URL-only. When starting with a local or Base64 video, upload it first as
-    an MCP background task and pass the presigned URL into
+    a background job and pass the presigned URL into
     `seedance_create_task` (2.0) or `seedance_2_5_create_task` (2.5).
 
 13. **Reuse references with `media_presign` — do not re-upload.** Presigned URLs
@@ -1776,8 +1829,8 @@ Set to `0` (default) for record-only mode with no enforcement.
     character/location/prop sheets for every scene.
 
 14. **`speech_to_text` requires background execution.** Its internal provider
-    polling can run until the configured poll cap. Retain the MCP task ID and
-    retrieve the completed transcription from the terminal `tasks/get` response.
+    polling can run until the configured poll cap. Retain the local MCP task or
+    Ark job ID and retrieve the completed transcription from its terminal result.
 
 15. **Use `seed_understand` for multimodal reasoning.** It can analyze images
     (OCR, scene description), videos (content analysis, UI review), and
@@ -1793,21 +1846,21 @@ Set to `0` (default) for record-only mode with no enforcement.
 
 17. **Treat MediaKit persistence separately from the provider result.** Keep the
     returned `source_url` whenever a MediaKit video task reports success.
-    Poll in foreground with `persist_output=false`, then use optional task
-    augmentation with `persist_output=true` for the completed download. Inspect
+    Poll in foreground with `persist_output=false`, then use background
+    execution with `persist_output=true` for the completed download. Inspect
     `persistence` and `persistence_issue`: the 200 MiB limit or a
     safe-download/storage failure can prevent the durable copy without
     invalidating the provider result. Do not resubmit after an ambiguous
     timeout, and do not present `estimated_cost_usd` as available.
 
-18. **Enhancement is submit-then-poll.** Call `vod_enhance_video` as an MCP
-    background task, retrieve its provider `task_id` from the terminal `tasks/get` result, then poll with
+18. **Enhancement is submit-then-poll.** Run `vod_enhance_video` in the
+    background, retrieve its provider `task_id` from the background result, then poll with
     `vod_get_enhancement_task` until the status is `succeeded` or `failed`.
     Persist the result before its 24-hour
     source URL expires.
 
-19. **Transcode is submit-then-poll.** Call `vod_transcode_video` as an MCP
-    background task, retrieve its provider `task_id` from the terminal `tasks/get` result, then poll with
+19. **Transcode is submit-then-poll.** Run `vod_transcode_video` in the
+    background, retrieve its provider `task_id` from the background result, then poll with
     `vod_get_transcode_task` until the status is `succeeded` or `failed`. The
     default profile is portrait-to-720x720
     letterbox; set `video.codec`, `scale_*`, `bitrate_*`, `fps`, and
@@ -1815,8 +1868,8 @@ Set to `0` (default) for record-only mode with no enforcement.
     an ambiguous timeout — re-poll the task ID instead.
 
 20. **Subtitle operations are submit-then-poll.** Use `vod_add_subtitles` or
-    `vod_remove_subtitles` as an MCP background task, retrieve its provider
-    `task_id` from the terminal `tasks/get` result, then poll with the matching task tool.
+    `vod_remove_subtitles` as a background job, retrieve its provider `task_id`
+    from the background result, then poll with the matching task tool.
     Prefer `subtitle` removal mode unless the
     broader visual effect of `text` mode is intentional. Reuse `client_token`
     when reconciling an ambiguous submission.

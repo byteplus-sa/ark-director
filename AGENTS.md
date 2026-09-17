@@ -142,7 +142,7 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   auth-gated, or otherwise unusable as a video input. Transcripts, scripts, and
   article write-ups are not a substitute for the video. Route full reverse-
   engineering through `template-factory`; lighter analysis may use
-  `modelark-mcp` (`seed_understand`) alone. See
+  `ark-mcp` (`seed_understand`) alone. See
   [Routing](.agents/contracts/routing.md).
 - Elements define identity; derivative boards require current source hashes and
   explicit selection before video use. Control-only diagrams stay analysis-only

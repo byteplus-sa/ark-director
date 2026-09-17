@@ -1,6 +1,6 @@
 ---
 name: seedance-vfx-pipeline
-description: End-to-end pipeline for Seedance video-to-video VFX shot production. Composes the seedance-vfx-prompt skill, the modelark MCP tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Invoke when the user wants to run a full VFX shot — write prompt, submit task, poll, download, compare, and review — rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.
+description: End-to-end pipeline for Seedance video-to-video VFX shot production. Composes the seedance-vfx-prompt skill, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Invoke when the user wants to run a full VFX shot — write prompt, submit task, poll, download, compare, and review — rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.
 ---
 
 # Seedance VFX Pipeline
@@ -8,7 +8,7 @@ description: End-to-end pipeline for Seedance video-to-video VFX shot production
 End-to-end pipeline for producing a Seedance VFX shot from a source clip
 (default Seedance 2.5; use 2.0 only for 4K output or Fast/Mini variants).
 This skill composes the `seedance-vfx-prompt` skill (prompt writing) with the
-`modelark-mcp` tools (task submission, polling, download) to produce a saved,
+`ark-mcp` tools (task submission, polling, download) to produce a saved,
 manifested asset following the workspace's `projects/<project>/` directory
 conventions. This is an explicitly declared orchestrator.
 
@@ -66,7 +66,7 @@ the three-image sampling default where applicable, and the requested delta.
 ## Prerequisites
 
 - `ARK_API_KEY` (or `BYTEPLUS_MODELARK_API_KEY`) set in environment or `.env`
-- `modelark-seed` MCP server running and healthy
+- `ark-mcp` MCP server running and healthy
 - Source video clip accessible as a local file path or URL
 - Project directory exists under `projects/<project-name>/`
 

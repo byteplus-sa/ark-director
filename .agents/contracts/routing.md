@@ -3,7 +3,7 @@
 | Intent | Route |
 | --- | --- |
 | Platform administration, catalog, pricing, billing, interactive generation | Available Ark CLI skills and current CLI help |
-| In-agent durable generation | ModelArk MCP preferred; persist project-local media and request/task evidence |
+| In-agent durable generation | `ark-mcp` preferred; persist project-local media and request/task evidence |
 | MCP unavailable before submission | Equivalent Ark CLI transport if it supports the same required contract and authorized operation |
 | Timeout after possible submission | Reconcile the existing operation; changing transport is not permission to submit twice |
 | User explicitly chooses Lumina | Author copy-paste prompts in chat; do not generate through MCP/CLI or create production files unless requested |
@@ -15,7 +15,7 @@
 | Production stage review | Required persistent `showcase-html` canvas; update and freshness-check it at every stage |
 | Ad-hoc media comparison | `showcase-html --quick`; `media-review` only for an explicitly requested OS player or unavailable browser |
 | Mermaid system/process diagram | `design-doc-mermaid` when available; cinematic blocking requests use `tig-blocking-map` |
-| Brand-ad / reference-video inspiration | Obtain watchable media first: pass a public HTTPS URL that `seed_understand` accepts, or download then `media_upload` when the link is unusable; do not substitute scripts or article text. Full reverse-engineering → `template-factory`; lighter visual/motion analysis → `modelark-mcp` (`seed_understand`) |
+| Brand-ad / reference-video inspiration | Obtain watchable media first: pass a public HTTPS URL that `seed_understand` accepts, or download then `media_upload` when the link is unusable; do not substitute scripts or article text. Full reverse-engineering → `template-factory`; lighter visual/motion analysis → `ark-mcp` (`seed_understand`) |
 
 Deterministic HTML/CSS/SVG is a production route, not a provider fallback. In
 this workspace, that shorthand means one HTML entrypoint with project-local CSS

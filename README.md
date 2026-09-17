@@ -2,7 +2,7 @@
 
 > An AI director workspace that combines deterministic HTML-entrypoint graphics with project-local CSS/SVG dependencies and BytePlus / Volcano Engine generative models — **Seedance** (video), **Seedream** (images), and **Seed Audio** (audio) — to turn prompts and references into finished content assets.
 
-> Pair this workspace with the partner [`byteplus-sa/modelark-mcp`](https://github.com/byteplus-sa/modelark-mcp) server and consult the [ModelArk console docs](https://console.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2536875?lang=en) to maximize capabilities.
+> Pair this workspace with the partner [`byteplus-sa/ark-mcp`](https://github.com/byteplus-sa/ark-mcp) server and consult the [ModelArk console docs](https://console.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2536875?lang=en) to maximize capabilities.
 
 `ark-director` behaves like an "AI director": it composes multiple BytePlus model families into end-to-end content pipelines. The primary integration mechanism is **MCP (Model Context Protocol) servers** plus **agent skills**:
 
@@ -229,7 +229,7 @@ The workspace ships with **60 skills** across 14 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **modelark-mcp** | Guide for using the ModelArk Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, video transcoding, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage Seedance and 3D. |
+| **ark-mcp** | Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, video transcoding, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage Seedance and 3D. |
 
 ### FFmpeg & Media Processing
 
@@ -281,7 +281,7 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 
 | Source | Type | Examples |
 |---|---|---|
-| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `modelark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
+| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `ark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
 | **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes` + `hyperframes-*` (8 skills), `media-use` — workflow skills are installed on demand, not vendored |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |
@@ -308,7 +308,7 @@ sibling hints, and explicitly-marked orchestrators.
 
 ### Partner repositories
 
-- [modelark-mcp](https://github.com/byteplus-sa/modelark-mcp) — partner MCP server repo ([branch rules](https://github.com/byteplus-sa/modelark-mcp/settings/rules/new?target=branch&enforcement=disabled))
+- [ark-mcp](https://github.com/byteplus-sa/ark-mcp) — partner MCP server repo ([branch rules](https://github.com/byteplus-sa/ark-mcp/settings/rules/new?target=branch&enforcement=disabled))
 
 ### Documentation & console
 

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Modelark MCP"
-  short_description: "Help with Modelark MCP tasks"
-  default_prompt: "Use $modelark-mcp to handle this modelark mcp task."

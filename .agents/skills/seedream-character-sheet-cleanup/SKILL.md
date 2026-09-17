@@ -24,7 +24,7 @@ original sheet remains available for review, rollback, or alternate use.
 This skill is designed to partner with:
 - `seedream-character-sheet` for generating the original three-panel sheet
 - `seedream-edit` and the `seedream_edit_image` MCP tool for the actual cleanup
-- `modelark-mcp` (`seed_understand`) for verifying the cleanup result
+- `ark-mcp` (`seed_understand`) for verifying the cleanup result
 
 ## When to Invoke
 

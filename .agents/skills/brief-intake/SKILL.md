@@ -44,7 +44,7 @@ inspiration, record it under constraints or creative intent and **hand off** —
 this skill does not download or analyze media. Downstream work must obtain
 watchable media (prefer a public HTTPS URL that `seed_understand` accepts;
 download and upload only when that link is unusable) via `template-factory` for
-full reverse-engineering or `modelark-mcp` (`seed_understand`) for a lighter
+full reverse-engineering or `ark-mcp` (`seed_understand`) for a lighter
 pass. Transcripts, scripts, and article write-ups may note claims or dialogue
 but must not replace watching the video.
 
