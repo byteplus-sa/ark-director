@@ -227,7 +227,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "8953735d1e0e646ad68751882f5e372668bb8b2b58a75af5f64a03c6f867c0a2"
+      "computedHash": "e4211387fff99d5f7d8f813fa3024fcd3138665fc9a3d08d539c00d688899716"
     },
     "seedance-vfx-prompt": {
       "source": "./local",

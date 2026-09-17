@@ -18,7 +18,7 @@ use the 2.5 branch parameters below for the default model.
 
 ```json
 {
-  "server_name": "modelark-seed",
+  "server_name": "ark-mcp",
   "tool_name": "seedance_create_task",
   "args": {
     "input": {
@@ -86,7 +86,7 @@ creation:
 
 ```json
 {
-  "server_name": "modelark-seed",
+  "server_name": "ark-mcp",
   "tool_name": "seedance_get_task",
   "args": {
     "task_id": "<task_id from Step 3>",

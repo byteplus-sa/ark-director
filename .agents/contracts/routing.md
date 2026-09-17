@@ -3,7 +3,7 @@
 | Intent | Route |
 | --- | --- |
 | Platform administration, catalog, pricing, billing, interactive generation | Available Ark CLI skills and current CLI help |
-| In-agent durable generation | ModelArk MCP preferred; persist project-local media and request/task evidence |
+| In-agent durable generation | `ark-mcp` preferred; persist project-local media and request/task evidence |
 | MCP unavailable before submission | Equivalent Ark CLI transport if it supports the same required contract and authorized operation |
 | Timeout after possible submission | Reconcile the existing operation; changing transport is not permission to submit twice |
 | User explicitly chooses Lumina | Author copy-paste prompts in chat; do not generate through MCP/CLI or create production files unless requested |
