@@ -33,7 +33,7 @@
     },
     "transport": {
       "enum": [
-        "modelark-mcp",
+        "ark-mcp",
         "arkcli"
       ]
     },

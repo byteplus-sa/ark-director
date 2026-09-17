@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ark MCP"
+  short_description: "Run durable BytePlus multimodal jobs"
+  default_prompt: "Use $ark-mcp to handle this Ark MCP task."

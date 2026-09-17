@@ -1,7 +1,7 @@
 # Execution Constraints
 
 Cross-cutting Seedance 2.5 constraints that every preset recipe inherits.
-`seedance-prompt-25` owns the prompt grammar and `modelark-mcp` owns the tool
+`seedance-prompt-25` owns the prompt grammar and `ark-mcp` owns the tool
 parameters; this file maps where recipes touch them, with the four flagged
 presets resolved in detail. All parameters below are tool/API values — they
 never appear in prompt text.

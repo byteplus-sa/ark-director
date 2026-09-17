@@ -7,10 +7,10 @@ description: >
   submits a video-to-video task where the previz is the locked motion and camera
   master and the prompt only dresses the world (characters, locations, materials,
   style). Composes the blender-* skills (build), seedance-prompt-25 blockout
-  grammar (prompt), modelark-mcp (submit/poll/download), and
+  grammar (prompt), ark-mcp (submit/poll/download), and
   seedance-vfx-pipeline's save/manifest pattern. This is an orchestrator skill:
   it delegates the build to the blender-* skills, the grammar to
-  seedance-prompt-25, submission to modelark-mcp, and persistent stage review to
+  seedance-prompt-25, submission to ark-mcp, and persistent stage review to
   showcase-html. Use whenever the user wants to
   direct a shot from 3D — "blockout to video", "graybox previz to Seedance",
   "3D to Seedance", "previz the camera then render", "Blender blocking to

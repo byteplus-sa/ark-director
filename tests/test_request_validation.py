@@ -29,7 +29,7 @@ class RequestValidationTests(unittest.TestCase):
             "schema_version": 1,
             "operation_id": "fixture-operation",
             "asset_id": "fixture",
-            "transport": "modelark-mcp",
+            "transport": "ark-mcp",
             "model": "fixture-model",
             "operation": "generate",
             "prompt_file": "prompt.md",

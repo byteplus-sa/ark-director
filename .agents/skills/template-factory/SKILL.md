@@ -9,7 +9,7 @@ description: >-
   brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards,
   screens, product layouts, and overlays), and a Seedance 2.5 video —
   generation-bound prompts through prompt-review; stages on the showcase-html
-  canvas. Explicit orchestrator composing modelark-mcp, seedream-storyboard,
+  canvas. Explicit orchestrator composing ark-mcp, seedream-storyboard,
   seedance-prompt-25, prompt-review, html-graphic-render, hyperframes,
   showcase-html, and ffmpeg; never calls the Ark REST API. Use to
   replicate style/composition/grammar, build a reusable template, or turn a
@@ -140,9 +140,9 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 
 | Need | Primary skill |
 | --- | --- |
-| Pin download when URL is not seed_understand-usable | Available downloader (e.g. `yt-dlp`); then `modelark-mcp` (`media_upload`) |
-| Upload / presign references | `modelark-mcp` (`media_upload`, `media_presign`) |
-| Video analysis + motion review | `modelark-mcp` (`seed_understand`) |
+| Pin download when URL is not seed_understand-usable | Available downloader (e.g. `yt-dlp`); then `ark-mcp` (`media_upload`) |
+| Upload / presign references | `ark-mcp` (`media_upload`, `media_presign`) |
+| Video analysis + motion review | `ark-mcp` (`seed_understand`) |
 | Keyframe extraction | `ffmpeg` |
 | Storyboard grid prompt | `seedream-storyboard` |
 | Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prompt` |

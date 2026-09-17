@@ -53,7 +53,7 @@ between modalities.
 | Production need | Primary skill |
 | --- | --- |
 | Brief intake and directorial defaults | `brief-intake` |
-| Brand-ad / reference-video inspiration | `template-factory` for reverse-engineering; `modelark-mcp` (`seed_understand`) for lighter analysis — prefer a usable public HTTPS URL; download and upload only when needed |
+| Brand-ad / reference-video inspiration | `template-factory` for reverse-engineering; `ark-mcp` (`seed_understand`) for lighter analysis — prefer a usable public HTTPS URL; download and upload only when needed |
 | Character identity asset | `seedream-character-sheet` |
 | Character sheet cleanup | `seedream-character-sheet-cleanup` |
 | Location identity asset | `seedream-location-asset` |
@@ -67,7 +67,7 @@ between modalities.
 | Seedance 2.0 video prompt | `seedance-prompt-20` |
 | Footage-driven VFX prompt | `seedance-vfx-prompt` |
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
-| Model submission, polling, or artifact access | `modelark-mcp` |
+| Model submission, polling, or artifact access | `ark-mcp` |
 | Animated exact graphics or timed overlays | appropriate HyperFrames skill |
 | Assembly, media transforms, captions, or final video composition | appropriate HyperFrames or FFmpeg skill |
 | Persistent stage canvas, review and selection | `showcase-html` |

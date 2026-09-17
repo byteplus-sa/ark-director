@@ -8,7 +8,7 @@ description: End-to-end pipeline for Seedance video-to-video VFX shot production
 End-to-end pipeline for producing a Seedance VFX shot from a source clip
 (default Seedance 2.5; use 2.0 only for 4K output or Fast/Mini variants).
 This skill composes the `seedance-vfx-prompt` skill (prompt writing) with the
-`modelark-mcp` tools (task submission, polling, download) to produce a saved,
+`ark-mcp` tools (task submission, polling, download) to produce a saved,
 manifested asset following the workspace's `projects/<project>/` directory
 conventions. This is an explicitly declared orchestrator.
 
