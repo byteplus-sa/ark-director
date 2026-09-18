@@ -35,7 +35,7 @@ This skill is an orchestrator — it sequences these skills and tools as needed:
 - `lark-demo-doc-builder` for the main document-building workflow and prompt/result table patterns.
 - `lark-doc` for document creation and block-level editing.
 - `lark-wiki` when the target is a wiki URL and the underlying doc token must be resolved.
-- `lark-drive` when folder placement, permissions, or document organization is requested.
+- `lark-drive` when folder placement, permissions, or document organization is requested, including filing the finished showcase into the team library.
 - `design-doc-mermaid` when a workflow diagram materially improves clarity.
 
 Before writing to Lark, follow the upstream Lark instructions required by `lark-demo-doc-builder`.
@@ -85,6 +85,18 @@ different structure:
 Read [guide-project-showcase-layout.md](references/guide-project-showcase-layout.md)
 for the layout contract and verification checklist.
 
+## Library filing (post-publish)
+
+After the showcase is published and verified, file it into the team showcase library so the team can find it without touching the client-shared original:
+
+- **Never move a published showcase.** Moving a Lark doc can change its URL and break links already shared with the client. File a copy.
+- Copy the finished doc into `BytePlus PH Wiki / Client Showcases` and add or refresh its row in the `Showcase Docs Index` sheet (Name | Client | Description | Link).
+- The Link cell is a real doc mention pointing at the copy, not a plain URL.
+- Use `-` in the Client column when the showcase is general purpose.
+
+Read [guide-showcase-library-filing.md](references/guide-showcase-library-filing.md)
+for the exact commands and index contract.
+
 ## Detailed authoring references
 
 Load the applicable layout/content reference for the requested edit. Read the
@@ -109,4 +121,5 @@ publication. Existing approval to draft does not authorize external messages.
 | Default writing workflow | [guide-default-writing-workflow.md](references/guide-default-writing-workflow.md) |
 | When information is missing | [guide-when-information-is-missing.md](references/guide-when-information-is-missing.md) |
 | Deliverable contract | [guide-deliverable-contract.md](references/guide-deliverable-contract.md) |
+| Library filing and index | [guide-showcase-library-filing.md](references/guide-showcase-library-filing.md) |
 | Example invocation cases | [guide-example-invocation-cases.md](references/guide-example-invocation-cases.md) |
