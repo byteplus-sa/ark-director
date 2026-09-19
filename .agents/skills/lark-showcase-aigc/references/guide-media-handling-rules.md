@@ -9,4 +9,4 @@ Use playable inline media whenever Lark supports it.
 
 If multiple outputs exist for one step, present only the strongest reader-facing examples by default and summarize the selection logic briefly.
 
-Prefer showing the result before or immediately beside dense technical text. The article works partly because the reader never has to hold a very long prompt in memory before seeing why it matters.
+Prefer showing the result before or immediately beside dense technical text. Strong breakdowns work partly because the reader never has to hold a very long prompt in memory before seeing why it matters.

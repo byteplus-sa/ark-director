@@ -15,7 +15,7 @@ description: >
 
 # Seedance Camera Presets
 
-This skill turns a named camera preset, movement style, or camera style into a
+This skill turns a named camera preset, movement style, or camera personality into a
 canonical, drop-in **Camera block** for the Seedance 2.5 six-part prompt formula
 (Subject + Action + Scene + Visual Style + Camera + Audio). It is a
 **prompt-composition-only** skill: it never calls MCP tools or the Ark API, and

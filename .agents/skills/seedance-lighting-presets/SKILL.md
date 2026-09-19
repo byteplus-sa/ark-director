@@ -170,11 +170,10 @@ in the `Lighting:` section only — never in `Style:` or `Subject:`.
 - **Relight is not available prompt-side.** Changing lighting on an
   already-generated image or video requires regeneration, or a `seedream-edit`
   image edit. There is no prompt-side relight toggle.
-- **Match the preset to scene intent.** The Cinema Studio 3.5 tutorial's
-  failure examples show the cost of mismatch: **Overhead Fall on a romantic
-  field scene kills the warmth**; **Soft Cross adds a hidden off-camera source
-  that destroys a candlelit Practicals scene**. Choose the preset the scene's
-  diegetic light would actually produce.
+- **Match the preset to scene intent.** A mismatched preset has a visible
+  cost: **Overhead Fall on a romantic field scene kills the warmth**; **Soft
+  Cross adds a hidden off-camera source that destroys a candlelit Practicals
+  scene**. Choose the preset the scene's diegetic light would actually produce.
 - **One dominant direction.** Never mix contradictory keys in the same shot
   (e.g. "backlit golden hour" with "hard top light"). Pick one intent and let
   the phrase support it.

@@ -161,7 +161,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
-      "computedHash": "0250a9b4e8d88dc99ca089d11f8b07eb4e5c7e9bbf33b49897bdd0dd91551f2a"
+      "computedHash": "cc25677e1668e3aab009c36b0b2800b45880305927b37955dbd0a27d4a34a6d5"
     },
     "seedance-graybox-world": {
       "source": "./local",
@@ -179,7 +179,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lighting-presets/SKILL.md",
-      "computedHash": "378572273eabf1772d7036d728215cd69edcf7e17af50b631e50426a1abbf72f"
+      "computedHash": "97d25254ba62b8d44e1c4eb9f72dee2c78c6c96510f12b74a6311bcc6c6f9735"
     },
     "seedance-motion-design": {
       "source": "./local",

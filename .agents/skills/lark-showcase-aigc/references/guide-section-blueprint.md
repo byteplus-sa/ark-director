@@ -28,7 +28,7 @@ subsection under the recommended document structure). Include:
   order of the clips;
 - a short statement of business relevance.
 
-This mirrors the article's strongest pattern: outcome first, explanation second.
+This mirrors the strongest breakdown pattern: outcome first, explanation second.
 
 ### 4. Audience and purpose
 
