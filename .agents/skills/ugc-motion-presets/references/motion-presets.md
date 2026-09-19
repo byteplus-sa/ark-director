@@ -1,10 +1,8 @@
 # Motion Presets
 
-45 recipes adapted from the Higgsfield UGC Builder catalog
-(https://higgsfield.ai/ugc, accessed 2026-09-16). Preset names and demo intents
-are Higgsfield's; every recipe is an original Seedance 2.5 direction composed
-for this workspace. Recipes are creative heuristics — no preset is ranked over
-another by any measured claim.
+45 recipes, each an original Seedance 2.5 direction composed for this
+workspace. Recipes are creative heuristics — no preset is ranked over another
+by any measured claim.
 
 **Read only the category section containing the resolved preset.** Each recipe
 fills the six-part formula slots per the skill's composition rules; cross-cut

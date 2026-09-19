@@ -65,7 +65,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/blender-to-seedance/SKILL.md",
-      "computedHash": "a80c01f4ef28a8038474af93fdc953b9b6a72d1f9dc32bd42550c19b41bb4721"
+      "computedHash": "31a1b4f3dd7b117b7ec8519922dc68228539d8121ac48945946e6b2c243089fe"
     },
     "brief-intake": {
       "source": "./local",
@@ -77,7 +77,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/color-grade-palettes/SKILL.md",
-      "computedHash": "29eadaa1c13cb9c20ff442c2d60163de20ba71dafe0a3e7a59a0f702b7ed69dd"
+      "computedHash": "c1a38f6f68be0d8ab26777a5e27f923e8d59503dff9955ed5111f37e7f1effc6"
     },
     "ffmpeg": {
       "source": "digitalsamba/claude-code-video-toolkit",
@@ -113,7 +113,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/lark-showcase-aigc/SKILL.md",
-      "computedHash": "58e47140a620303c4280e324d2b91be892794dffdca3e3e57f441a46fc2b8c47"
+      "computedHash": "c1ade2ed18015208f789d71c13d3b8d77042b4d5de23c1905404b07b2cfa64fd"
     },
     "media-review": {
       "source": "./local",
@@ -155,13 +155,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-animation-styles/SKILL.md",
-      "computedHash": "326d18913bc6d895c752fe6366117580e3c3d349e20cef9d0a1795bbc08cb323"
+      "computedHash": "c2109c44ee267dddb66af84f42735fe4e64789bb5e55a09830ac0f2a1641b3f2"
     },
     "seedance-camera-presets": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
-      "computedHash": "022cac533fdf2fec929b5dc4aa02f553f09a3dded4b4ab3b537d1dee500d88a5"
+      "computedHash": "0250a9b4e8d88dc99ca089d11f8b07eb4e5c7e9bbf33b49897bdd0dd91551f2a"
     },
     "seedance-graybox-world": {
       "source": "./local",
@@ -173,13 +173,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lens-presets/SKILL.md",
-      "computedHash": "fe941bf9e33fa62c749228c1a3d4abe457f1eee7c01e2733f48a17781f97782d"
+      "computedHash": "c8dcf75c6c2f8536326a7bd7e4b3c6f71ed07d8b0caae909c276c152c876dc46"
     },
     "seedance-lighting-presets": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lighting-presets/SKILL.md",
-      "computedHash": "53e35d9c7d5bffb4f3114e471882dd93930ed980f8d4e3b741bac76ba6301cda"
+      "computedHash": "378572273eabf1772d7036d728215cd69edcf7e17af50b631e50426a1abbf72f"
     },
     "seedance-motion-design": {
       "source": "./local",
@@ -191,13 +191,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-music-video/SKILL.md",
-      "computedHash": "f8aa033bc062a75b5db65663990a8b440d6f101c096612258c873ab989961ea3"
+      "computedHash": "bb4c23f1a4e8e00d1ec5a9841972c7bb467e33aad34dd447e8a22301142e3b81"
     },
     "seedance-pacing-presets": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-pacing-presets/SKILL.md",
-      "computedHash": "35da0d76f86e7d495aa3f61884aaa717e495af07e26643bc27d2c79fd94bfaec"
+      "computedHash": "40a2c0bc8e609d4155846dd88dd5bddfc7088b90474591ae237b4955d1ea14e3"
     },
     "seedance-prompt-20": {
       "source": "./local",
@@ -233,7 +233,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-prompt/SKILL.md",
-      "computedHash": "35c9ea7e8655ed95212f5e0e8ebe18286b7ec118d80cc6a92efdf8affc112da1"
+      "computedHash": "40fb164cd3c0d8ed0c6c030c887e52ec9f880a736e7a17597f198f0090633ceb"
     },
     "seedream-character-sheet": {
       "source": "./local",
@@ -287,7 +287,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/tig-blocking-map/SKILL.md",
-      "computedHash": "2bda4144ed3d49c520579356c44dabfadf6a80516a99b08fa6c9a0e5861e34ef"
+      "computedHash": "692e8189be9675228f788f9ec904510660780b3e5dc9b5d5bb20d88996edb87d"
     },
     "tig-scene-engine": {
       "source": "./local",
@@ -299,7 +299,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ugc-ad-modes/SKILL.md",
-      "computedHash": "51d61c70839a81fe98fd53803b4292e135e8a2048b32e6adf3b9aa472ac6a741"
+      "computedHash": "88db9bf6f4f215f19bf1f8dae1e8e342c9c9bd6aaf8cea854860252fddeec9c6"
     },
     "hyperframes": {
       "source": "heygen-com/hyperframes",
@@ -359,7 +359,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ugc-motion-presets/SKILL.md",
-      "computedHash": "5edc7ae41c4ba07a63845056370935b18d3d76bb63c4fde13e3b9bba7009604d"
+      "computedHash": "c6049c89a2964d3aa29b51820d29e6571148eb0bbd42df0cea5bdea83c7b34ef"
     }
   }
 }

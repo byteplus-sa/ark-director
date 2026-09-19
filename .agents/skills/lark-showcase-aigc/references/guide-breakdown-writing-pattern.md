@@ -1,4 +1,4 @@
-## Higgsfield-inspired writing pattern
+## Breakdown writing pattern
 
 When the user wants a breakdown similar to a strong AI filmmaking article, structure each major stage like this:
 

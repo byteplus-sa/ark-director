@@ -28,15 +28,13 @@ never runs a generation. When `post_grade` is requested it also emits a short
 ## Source authority
 
 The grammar this skill composes into is defined by the canonical prompt skills
-`seedance-prompt-25` and `seedream-prompt`. The palette names and grade
-intents below are inspired by the Higgsfield Cinema Studio 3.5 Color Palette
-options. Official sources, accessed **2026-08-13**:
+`seedance-prompt-25` and `seedream-prompt`. Official sources, accessed
+**2026-08-13**:
 
 - [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh)
 - [Seedance 2.5 Prompt Guide (ModelArk)](https://docs.byteplus.com/en/docs/ModelArk/2607689)
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186)
 - [Seedream 5.0 Pro official blog](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro)
-- [Higgsfield Cinema Studio 3.5 Full Tutorial](https://higgsfield.ai/blog/cinema-studio-3.5-full-tutorial) — its 9 Color Palette options are the inspiration for the Higgsfield-style bank below
 
 When the official guides are updated, prefer the live pages over this skill
 where they conflict. The base prompt grammar lives in `seedance-prompt-25` and
@@ -49,7 +47,7 @@ prompt) and a one-line **tonal recipe** describing the intent. Use the sentence
 verbatim for reproducibility; adjust only the visible specifics (e.g. which
 highlights) when the scene requires it.
 
-### Higgsfield-style palettes (9)
+### Core palettes (9)
 
 | Palette | Canonical grade sentence | Tonal recipe |
 |---|---|---|

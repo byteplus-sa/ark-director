@@ -216,14 +216,14 @@ The workspace ships with **60 skills** across 14 categories. Independent skills 
 | Skill | Description |
 |---|---|
 | **tig-scene-engine** | Writes and audits screenplay scenes and sequences using a five-element dramatic engine — Goal, Obstacle, Tactic, Reversal, Value Shift — with custom definitions. Use to write new scenes, draft options, develop sequences, or audit/test/diagnose existing scenes for structural strength. Default scene-craft skill for thriller and psychological drama. |
-| **tig-blocking-map** | Tigran's project-agnostic method for giving Seedance / Higgsfield character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). |
+| **tig-blocking-map** | Tigran's project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). |
 
 ### UGC & Advertising
 
 | Skill | Description |
 |---|---|
 | **ugc-ad-modes** | Write hooks, scripts and Seedance prompts for nine ad modes using supplied product facts, audience objections, supported claims and accurate CTAs. |
-| **ugc-motion-presets** | Turn a named UGC Builder motion preset (Atomic, Outfit Switch, Eating Zoom, Yacht, ...) into a canonical Seedance 2.5 prompt block with reference bindings, duration, and constraint flags. |
+| **ugc-motion-presets** | Turn a named UGC motion preset (Atomic, Outfit Switch, Eating Zoom, Yacht, ...) into a canonical Seedance 2.5 prompt block with reference bindings, duration, and constraint flags. |
 
 ### MCP Integration
 

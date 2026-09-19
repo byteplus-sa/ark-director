@@ -1,9 +1,9 @@
 ---
 name: ugc-motion-presets
 description: >
-  Turn a named Higgsfield UGC Builder motion preset into a canonical Seedance
-  2.5 prompt block. Use when the user names one of the 45 UGC Builder presets
-  (Atomic, Outfit Switch, Eating Zoom, Group Photo, Yacht, ...) or asks for
+  Turn a named UGC motion preset into a canonical Seedance 2.5 prompt block.
+  Use when the user names one of the 45 presets (Atomic, Outfit Switch,
+  Eating Zoom, Group Photo, Yacht, ...) or asks for
   preset-style UGC motion — reaction, selfie, fashion, eating, VFX spectacle,
   action, timelapse, or multi-shot formats. Persuasion angle, claims, and CTA
   belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt-25. Never
@@ -12,7 +12,7 @@ description: >
 
 # UGC Motion Presets
 
-This skill turns a named UGC Builder motion preset into a canonical, drop-in
+This skill turns a named UGC motion preset into a canonical, drop-in
 prompt block for Seedance 2.5: the preset's motion grammar (timestamped action,
 camera treatment, audio direction) plus reference bindings, duration, and
 constraint flags. It is a **prompt-composition-only** skill: it never calls MCP
@@ -21,19 +21,9 @@ six-part formula, `@Image N` / `@Video N` reference-role syntax, `At Ns`
 timestamp syntax, and audio bracket syntax — is defined in
 `seedance-prompt-25` and is **not redefined here**.
 
-The recipes are **optional creative heuristics** adapted from the Higgsfield
-UGC Builder catalog. They are not platform ranking rules, API requirements, or
-demonstrated conversion gains. No preset outperforms another by any measured
-claim in this bundle.
-
-## Source authority
-
-- [Higgsfield UGC Builder](https://higgsfield.ai/ugc) — the 45 named motion
-  presets and their demo behaviors (accessed 2026-09-16). Preset names and
-  demo intents are Higgsfield's; every recipe here is an original Seedance 2.5
-  direction.
-- `seedance-prompt-25` — the prompt grammar and parameter contract these
-  recipes fill. Not restated here.
+The recipes are **optional creative heuristics**. They are not platform
+ranking rules, API requirements, or demonstrated conversion gains. No preset
+outperforms another by any measured claim in this bundle.
 
 ## Preset index
 

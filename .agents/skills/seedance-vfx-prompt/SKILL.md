@@ -80,7 +80,6 @@ the three-image sampling default where applicable, and the requested delta.
 ## Source authority
 
 The VFX methodology in this skill is sourced from:
-- [Higgsfield — Seedance 4K VFX guide](https://higgsfield.ai/blog/vfx_4k)
 - [Dreamina Seedance 2.0 prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2222480)
 - [Seedance video generation API](https://docs.byteplus.com/en/docs/ModelArk/1520757)
 - Project conventions for asset structure and `@tag` references (characters, locations, props live under `elements/<element-id>/` and are referenced by `@tag` in prompts)

@@ -5,7 +5,7 @@ description: >
   tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip
   pan, one-take, or static — into a canonical, drop-in Camera block for the
   Seedance 2.5 six-part prompt formula. Use when the user asks for a camera
-  preset, camera movement style, MoveSet style, or a shot's camera treatment.
+  preset, camera movement style, or a shot's camera treatment.
   Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp
   and slow-mo timing belong to seedance-pacing-presets. One-take here is the
   pass-through camera path; single-shot no-cuts pacing belongs to
@@ -15,7 +15,7 @@ description: >
 
 # Seedance Camera Presets
 
-This skill turns a named camera preset, movement style, or MoveSet style into a
+This skill turns a named camera preset, movement style, or camera style into a
 canonical, drop-in **Camera block** for the Seedance 2.5 six-part prompt formula
 (Subject + Action + Scene + Visual Style + Camera + Audio). It is a
 **prompt-composition-only** skill: it never calls MCP tools or the Ark API, and
@@ -32,15 +32,12 @@ a Seedance 2.5 prompt.
 
 ## Source authority
 
-The preset bank is built from the official Seedance 2.5 camera vocabulary and
-Higgsfield Cinema Studio's named preset gallery. All sources accessed
-2026-08-13:
+The preset bank is built from the official Seedance 2.5 camera vocabulary. All
+sources accessed 2026-08-13:
 
 - [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh) — official camera vocabulary, timestamp rules, technique contracts
 - [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — official prompt guidance
 - [Seedance 2.5 launch blog](https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5) — official announcement
-- [Higgsfield Cinema Studio help center](https://higgsfield.ai/creator-hub/help-center/tools-and-workflows/how-do-i-use-cinema-studio) — preset-name inspiration
-- [Higgsfield camera-controls gallery](https://higgsfield.ai/camera-controls) — named motion presets
 
 **The base grammar is defined in `seedance-prompt-25`.** This skill adds the
 preset bank and Camera-block composition rules; it does not restate or replace
@@ -98,9 +95,9 @@ recipe from `seedance-prompt-25`:
 
 > **Cinematography Term + Target Subject + Visual Change + Foreground/Background Relationship + Direction or Speed**
 
-### MoveSet styles
+### Camera styles
 
-MoveSet styles describe the camera's personality for the whole clip — a
+Camera styles describe the camera's personality for the whole clip — a
 paragraph-level treatment you can append to a prompt. Choose one style per
 prompt; do not combine styles.
 
@@ -138,7 +135,7 @@ required; everything else is optional.
 | Parameter | Meaning | Rules |
 |---|---|---|
 | `move` | Named preset from the bank | Required; one preset. If `style` is also set, `move` may be "auto" or omitted. |
-| `style` | MoveSet style (10 above) | Optional; one per prompt. Sets the camera personality for the whole clip. |
+| `style` | Camera style (10 above) | Optional; one per prompt. Sets the camera personality for the whole clip. |
 | `subject` | What the camera follows, plus where the move starts and ends | State a named subject whenever one exists (`@gloria`, `Gloria`, `the courier`). For technique presets, state which subject the camera follows and where the movement begins and ends. |
 | `shot_size` | From the shot-size vocabulary | Optional; e.g. `medium close-up`. |
 | `angle` | From the angle vocabulary | Optional; e.g. `low angle`. |

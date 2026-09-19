@@ -12,10 +12,10 @@ description: >
 
 Turn a persuasion brief into a coherent ad. A mode guides visual texture and
 storytelling; it does not override supported facts, user constraints, or a
-purposeful hybrid. The nine-mode vocabulary is historically adapted from the
-Higgsfield Marketing Studio taxonomy. Recipes are **optional creative heuristics**,
-not platform ranking rules, API requirements, or demonstrated conversion gains.
-No numerical performance ranking is established by this bundle.
+purposeful hybrid. The nine-mode vocabulary is a set of **optional creative
+heuristics**, not platform ranking rules, API requirements, or demonstrated
+conversion gains. No numerical performance ranking is established by this
+bundle.
 
 ## 1. Establish the persuasion brief
 

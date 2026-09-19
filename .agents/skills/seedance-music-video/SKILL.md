@@ -58,8 +58,7 @@ the three-image sampling default where applicable, and the requested delta.
   verification (section 3c) were derived from three generation takes where
   large `{...}` blocks caused lyric dropouts.
 
-Key third-party sources (accessed 2026-08-20): Magnific
-[Seedance 2.5 animation guide](https://www.magnific.com/blog/seedance-2-5-animation-prompts/),
+Key third-party sources (accessed 2026-08-20):
 [AI music-video production workflows](https://www.creativeainews.com/articles/how-to-make-ai-music-video-2026/),
 [Beat-synced 30s edits](https://aitoolsguidebook.com/en/articles/ai-music-video-tutorial/),
 and [music-video section-arc planning](https://blog.celtx.com/how-to-write-a-music-video-script/).

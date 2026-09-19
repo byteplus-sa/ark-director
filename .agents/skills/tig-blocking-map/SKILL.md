@@ -1,6 +1,6 @@
 ---
 name: tig-blocking-map
-description: Tigran's project-agnostic method for giving Seedance / Higgsfield character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). Use WHENEVER a user attaches a frame/still and asks for a blocking map / staging reference, whenever a video prompt needs precise multi-character staging (who is where, facing which way), whenever characters jump seats or swap places between shot sizes, or when these terms clearly refer to cinematic staging. Do not trigger for generic software diagrams, architecture, charts, or maps. Figures are ALWAYS bound to letters A, B, C, D... in PROMPT TEXT ONLY — no letters are drawn on the map. The map is GEOMETRY ONLY — it must never bleed style, colors, wardrobe, or location into the shot.
+description: Tigran's project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). Use WHENEVER a user attaches a frame/still and asks for a blocking map / staging reference, whenever a video prompt needs precise multi-character staging (who is where, facing which way), whenever characters jump seats or swap places between shot sizes, or when these terms clearly refer to cinematic staging. Do not trigger for generic software diagrams, architecture, charts, or maps. Figures are ALWAYS bound to letters A, B, C, D... in PROMPT TEXT ONLY — no letters are drawn on the map. The map is GEOMETRY ONLY — it must never bleed style, colors, wardrobe, or location into the shot.
 ---
 
 # TIG BLOCKING MAP v2 — staging reference as character disposition (any project)
@@ -46,7 +46,7 @@ Template notes:
 - Provider-neutral serialization: bind the source to the first image slot exposed
   by the selected live tool and use its documented reference token. For Seedream,
   `@Image 1` names that ordered image input; set aspect/size in supported request
-  parameters. Do not pass Midjourney flags to Seedream or another provider.
+  parameters. Do not pass flags from another generation tool to Seedream.
 - Muted color palette for outlines: muted blue, muted orange, muted yellow, muted purple, muted red, muted green — one per figure, maximally distinct hues, identity only.
 - The frame-mismatch traps to check EVERY time before delivering: (a) bodies cropped by the frame edge must be described as cropped AND forbidden from completion; (b) head angle / gaze direction spelled out ("tilted far back, face angled up"); (c) prop height pinned relative to anatomy ("across the throat, under the chin — not the chest"); (d) anything the assistant is tempted to add that is not in the frame — don't.
 - The `@staging_` tag is NOT inside this prompt; it is assigned to the generated drawing afterward. In video prompts, use the text geometry by default. The source and staging drawing do not become approved video inputs automatically.

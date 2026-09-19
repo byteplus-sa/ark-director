@@ -1,4 +1,4 @@
-## Higgsfield article patterns to emulate
+## Breakdown article patterns to emulate
 
 The reference article is effective because it behaves like a guided production breakdown rather than a generic case study. Reproduce these strengths in the Lark document when appropriate:
 
