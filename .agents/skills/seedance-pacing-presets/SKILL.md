@@ -35,15 +35,12 @@ never promise exact frame sync.
 
 ## Source authority
 
-The preset bank is built from the official Seedance 2.5 timestamp and speed-ramp
-grammar and Higgsfield Cinema Studio's named pacing vocabulary. All sources
-accessed 2026-08-13:
+The preset bank is built from the official Seedance 2.5 timestamp and
+speed-ramp grammar. All sources accessed 2026-08-13:
 
 - [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh) — official timestamp syntax (`At Ns`, `0-3 seconds...`) and the bounce-speed-ramp technique
 - [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — official prompt guidance
 - [Seedance 2.5 launch blog](https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5) — official announcement
-- [Higgsfield Cinema Studio help center](https://higgsfield.ai/creator-hub/help-center/tools-and-workflows/how-do-i-use-cinema-studio) — speed-ramp preset names
-- [Higgsfield Cinema Studio 3.5 tutorial](https://higgsfield.ai/blog/cinema-studio-3.5-full-tutorial) and 4.0 product material — Montage Pacing preset names
 
 **The base grammar is defined in `seedance-prompt-25`.** This skill adds the
 pacing preset bank and block-composition rules; it does not restate or replace

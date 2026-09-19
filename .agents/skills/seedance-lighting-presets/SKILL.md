@@ -30,7 +30,6 @@ The lighting vocabulary and structure in this skill are sourced from:
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186) — canonical `Lighting:` section grammar (direction, quality, color temperature, key-to-fill ratio) and lighting-style keywords (Soft Light, Hard Light, Backlit, Dappled Light, Golden Hour, Night Neon, Low Key, Overexposed).
 - [Seedream 5.0 Pro official blog](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro) — cinematic realism and accurate lighting as a core capability.
 - [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh) and [ModelArk Seedance 2.5 guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — the six-part formula and where lighting lives in the Visual Style slot.
-- [Higgsfield Cinema Studio 3.5 Full Tutorial](https://higgsfield.ai/blog/cinema-studio-3.5-full-tutorial) — its 7 Lighting presets and their *causal* descriptions (what the light does to the physical scene) are the inspiration for this bank.
 
 All sources accessed 2026-08-13. When the official guides are updated, prefer
 the live pages over this skill where they conflict.
@@ -49,7 +48,7 @@ a canonical **Seedream `Lighting:` recipe**, and a canonical **Seedance
 visual-style phrase**. Pick the preset whose diegetic light the scene would
 actually produce.
 
-### Higgsfield-style presets
+### Core lighting presets
 
 | Preset | Causal intent | Seedream `Lighting:` recipe | Seedance visual-style phrase |
 |---|---|---|---|
@@ -171,11 +170,10 @@ in the `Lighting:` section only — never in `Style:` or `Subject:`.
 - **Relight is not available prompt-side.** Changing lighting on an
   already-generated image or video requires regeneration, or a `seedream-edit`
   image edit. There is no prompt-side relight toggle.
-- **Match the preset to scene intent.** The Cinema Studio 3.5 tutorial's
-  failure examples show the cost of mismatch: **Overhead Fall on a romantic
-  field scene kills the warmth**; **Soft Cross adds a hidden off-camera source
-  that destroys a candlelit Practicals scene**. Choose the preset the scene's
-  diegetic light would actually produce.
+- **Match the preset to scene intent.** A mismatched preset has a visible
+  cost: **Overhead Fall on a romantic field scene kills the warmth**; **Soft
+  Cross adds a hidden off-camera source that destroys a candlelit Practicals
+  scene**. Choose the preset the scene's diegetic light would actually produce.
 - **One dominant direction.** Never mix contradictory keys in the same shot
   (e.g. "backlit golden hour" with "hard top light"). Pick one intent and let
   the phrase support it.

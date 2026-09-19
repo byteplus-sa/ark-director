@@ -32,19 +32,13 @@ The following references informed the earlier authoring bank; they do not establ
   [Seedance 2.5 Prompt Guide (ModelArk)](https://docs.byteplus.com/en/docs/ModelArk/2607689) —
   retained camera-language references for pairing numeric cues with visible intent.
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186) — official ModelArk prompt guide. The film-stock and lens-character vocabulary used here (e.g. "shot on 35mm prime lens", "widescreen anamorphic look") follows the `seedream-prompt` skill's *Avoiding the AI look* guidance, which derives from the official Seedream manual and tutorial.
-- [Higgsfield Cinema Studio 3.5 Full Tutorial](https://higgsfield.ai/blog/cinema-studio-3.5-full-tutorial) —
-  its Lens, Focal Length, and Aperture console options (f/1.4 Wide Open, f/4
-  Moderate, f/11 Deep Focus; 8–135mm focal lengths; Anamorphic, Fisheye, Macro,
-  Warm Halation, Vintage Haze, Clinical Sharp) are the inspiration for this
-  preset bank.
 
-The guide/tutorial links were retained from the earlier skill revision. On
-2026-09-08 the BytePlus guide page was reachable but its substantive body was
-unavailable to the read tool; this revision makes no new model capability claim.
-[Nikon's focal-length explanation](https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/understanding-focal-length)
-was checked on that date for the distinction between focal length, angle of
-view, and magnification in photography. Physical-camera concepts inform the
-heuristics but do not establish generative-model behavior.
+The guide links were retained from the earlier skill revision. On 2026-09-08 the
+BytePlus guide page was reachable but its substantive body was unavailable to
+the read tool; this revision makes no new model capability claim. The
+distinction between focal length, angle of view, and magnification is a
+physical-photography concept; it informs the heuristics but does not establish
+generative-model behavior.
 
 The base prompt grammar this skill composes into lives in the
 `seedance-prompt-25` skill (six-part formula, camera language, emotional

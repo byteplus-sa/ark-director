@@ -28,7 +28,7 @@ subsection under the recommended document structure). Include:
   order of the clips;
 - a short statement of business relevance.
 
-This mirrors the article's strongest pattern: outcome first, explanation second.
+This mirrors the strongest breakdown pattern: outcome first, explanation second.
 
 ### 4. Audience and purpose
 
@@ -115,7 +115,7 @@ For each scene, use a short intro paragraph followed by a prompt/result table wi
 
 If multiple scenes share the same table structure and the per-scene narrative is short, consider consolidating them into a single table with a "Scene" column (see Table-first layout, principle 2).
 
-For Higgsfield-style breakdowns, each scene should usually follow this micro-structure:
+For long-form breakdowns, each scene should usually follow this micro-structure:
 
 1. `What we are trying to achieve`
 2. `What this step does`

@@ -68,13 +68,13 @@
     {
       "id": 6,
       "prompt": "Write a Seedance 2.5 prompt for a quiet moment between two old friends in a cafe. Use the Intimate Observer camera style: stay close to the subject, gentle handheld moves, capturing small gestures.",
-      "expected_output": "A prompt that selects exactly one MoveSet style (Intimate Observer) and emits its camera-treatment block, with moves that stay near the subject.",
+      "expected_output": "A prompt that selects exactly one camera style (Intimate Observer) and emits its camera-treatment block, with moves that stay near the subject.",
       "files": [],
       "expectations": [
-        "The output selects exactly one MoveSet style from the bank.",
+        "The output selects exactly one camera style from the bank.",
         "The output uses close-up or near-subject framing from the Intimate Observer block.",
         "The output keeps the camera near the subject with gentle or handheld movement.",
-        "The output does not combine a second MoveSet style in the same prompt.",
+        "The output does not combine a second camera style in the same prompt.",
         "The output keeps simultaneous camera moves at or below 2."
       ]
     },

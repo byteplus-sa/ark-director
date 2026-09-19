@@ -17,10 +17,8 @@ props, environments, effects, and transitions move throughout the sequence.
 
 ## Source basis
 
-The style taxonomy and material-first prompting pattern are inspired by
-[Magnific's Seedance 2.5 animation guide](https://www.magnific.com/blog/seedance-2-5-animation-prompts/),
-accessed 2026-08-13. The recipes generalize its creative principles rather than
-copying its example prompts.
+The style taxonomy and material-first prompting pattern generalize published
+Seedance 2.5 animation guidance rather than copying example prompts.
 
 ## Style bank
 

@@ -10,7 +10,7 @@ Create a polished external-facing Lark Document that combines two goals at once:
 1. **Showcase** what was produced and why it matters.
 2. **Teach** the reader how the workflow works step by step.
 
-Use this skill when the user wants a customer-ready Lark document that feels like a strong product article or breakdown page similar in spirit to a Higgsfield workflow post, but adapted for enterprise readers and delivered as a Lark Document.
+Use this skill when the user wants a customer-ready Lark document that feels like a strong product article or breakdown page adapted for enterprise readers and delivered as a Lark Document.
 
 ## Primary outcome
 
@@ -106,12 +106,12 @@ publication. Existing approval to draft does not authorize external messages.
 | Need | Reference |
 | --- | --- |
 | Narrative style | [guide-narrative-style.md](references/guide-narrative-style.md) |
-| Higgsfield article patterns to emulate | [guide-higgsfield-article-patterns-to-emulate.md](references/guide-higgsfield-article-patterns-to-emulate.md) |
+| Breakdown article patterns to emulate | [guide-breakdown-article-patterns.md](references/guide-breakdown-article-patterns.md) |
 | Table-first layout (default) | [guide-table-first-layout-default.md](references/guide-table-first-layout-default.md) |
 | Recommended document structure | [guide-recommended-document-structure.md](references/guide-recommended-document-structure.md) |
 | Section blueprint | [guide-section-blueprint.md](references/guide-section-blueprint.md) |
 | Per-step breakdown block | [guide-per-step-breakdown-block.md](references/guide-per-step-breakdown-block.md) |
-| Higgsfield-inspired writing pattern | [guide-higgsfield-inspired-writing-pattern.md](references/guide-higgsfield-inspired-writing-pattern.md) |
+| Breakdown writing pattern | [guide-breakdown-writing-pattern.md](references/guide-breakdown-writing-pattern.md) |
 | Enterprise framing guidance | [guide-enterprise-framing-guidance.md](references/guide-enterprise-framing-guidance.md) |
 | Prompt cleanup rules | [guide-prompt-cleanup-rules.md](references/guide-prompt-cleanup-rules.md) |
 | Media handling rules | [guide-media-handling-rules.md](references/guide-media-handling-rules.md) |

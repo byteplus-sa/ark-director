@@ -9,4 +9,4 @@ For each major workflow step, prefer this section recipe:
 5. **Why this matters for enterprise teams**: stakeholder value, repeatability, or reuse.
 6. **How to adapt it**: what a customer should swap for their own brand, product, or campaign.
 
-This is the closest Lark-document equivalent of the article's "prompt + what it does + where to run it" rhythm.
+This is the closest Lark-document equivalent of the breakdown-article "prompt + what it does + where to run it" rhythm.

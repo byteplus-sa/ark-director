@@ -7,7 +7,7 @@ they are prompt-composition only and never call the API themselves.
 
 | Axis | Skill | Notes |
 |---|---|---|
-| Camera movement & MoveSet styles | `seedance-camera-presets` | Moves, techniques (dolly zoom, FPV, bullet-time orbit, one-take), and 10 MoveSet styles; keep ≤2 moves per clip |
+| Camera movement & camera styles | `seedance-camera-presets` | Moves, techniques (dolly zoom, FPV, bullet-time orbit, one-take), and 10 camera styles; keep ≤2 moves per clip |
 | Lens / focal length / aperture / sensor | `seedance-lens-presets` | Always pairs numeric optics with the visible result; resolve requested 4K against current model capabilities |
 | Lighting | `seedance-lighting-presets` | Causal lighting presets; emit both the Seedream `Lighting:` recipe (elements) and the Seedance visual-style phrase so image + video share one lighting intent |
 | Color grading | `color-grade-palettes` | Named palettes + film looks in the Visual Style slot; keep one project-wide palette; optional FFmpeg match graphs in the mix step |

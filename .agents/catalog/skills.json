@@ -237,7 +237,7 @@
     },
     "seedance-camera-presets": {
       "kind": "leaf",
-      "description": "Turn a named camera move or preset \u2014 dolly, pan, tilt, orbit, crane, jib, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, or static \u2014 into a canonical, drop-in Camera block for the Seedance 2.5 six-part prompt formula. Use when the user asks for a camera preset, camera movement style, MoveSet style, or a shot's camera treatment. Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp and slow-mo timing belong to seedance-pacing-presets. One-take here is the pass-through camera path; single-shot no-cuts pacing belongs to seedance-pacing-presets. Lens and focal-length optics belong to seedance-lens-presets.",
+      "description": "Turn a named camera move or preset \u2014 dolly, pan, tilt, orbit, crane, jib, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, or static \u2014 into a canonical, drop-in Camera block for the Seedance 2.5 six-part prompt formula. Use when the user asks for a camera preset, camera movement style, or a shot's camera treatment. Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp and slow-mo timing belong to seedance-pacing-presets. One-take here is the pass-through camera path; single-shot no-cuts pacing belongs to seedance-pacing-presets. Lens and focal-length optics belong to seedance-lens-presets.",
       "readme_summary": "Turns a named camera move (dolly, pan, tilt, orbit, crane, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, static) into a canonical, drop-in Camera block for the six-part prompt formula.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -426,8 +426,8 @@
     },
     "tig-blocking-map": {
       "kind": "leaf",
-      "description": "Tigran's project-agnostic method for giving Seedance / Higgsfield character DISPOSITION via a color-coded outline schematic \u2014 a \"staging reference\" (blocking map). Use WHENEVER a user attaches a frame/still and asks for a blocking map / staging reference, whenever a video prompt needs precise multi-character staging (who is where, facing which way), whenever characters jump seats or swap places between shot sizes, or when these terms clearly refer to cinematic staging. Do not trigger for generic software diagrams, architecture, charts, or maps. Figures are ALWAYS bound to letters A, B, C, D... in PROMPT TEXT ONLY \u2014 no letters are drawn on the map. The map is GEOMETRY ONLY \u2014 it must never bleed style, colors, wardrobe, or location into the shot.",
-      "readme_summary": "Tigran's project-agnostic method for giving Seedance / Higgsfield character DISPOSITION via a color-coded outline schematic \u2014 a \"staging reference\" (blocking map).",
+      "description": "Tigran's project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic \u2014 a \"staging reference\" (blocking map). Use WHENEVER a user attaches a frame/still and asks for a blocking map / staging reference, whenever a video prompt needs precise multi-character staging (who is where, facing which way), whenever characters jump seats or swap places between shot sizes, or when these terms clearly refer to cinematic staging. Do not trigger for generic software diagrams, architecture, charts, or maps. Figures are ALWAYS bound to letters A, B, C, D... in PROMPT TEXT ONLY \u2014 no letters are drawn on the map. The map is GEOMETRY ONLY \u2014 it must never bleed style, colors, wardrobe, or location into the shot.",
+      "readme_summary": "Tigran's project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic \u2014 a \"staging reference\" (blocking map).",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -534,8 +534,8 @@
     },
     "ugc-motion-presets": {
       "kind": "leaf",
-      "description": "Turn a named Higgsfield UGC Builder motion preset into a canonical Seedance 2.5 prompt block. Use when the user names one of the 45 UGC Builder presets (Atomic, Outfit Switch, Eating Zoom, Group Photo, Yacht, ...) or asks for preset-style UGC motion \u2014 reaction, selfie, fashion, eating, VFX spectacle, action, timelapse, or multi-shot formats. Persuasion angle, claims, and CTA belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt-25. Never generates media.",
-      "readme_summary": "Turn a named UGC Builder motion preset (Atomic, Outfit Switch, Eating Zoom, Yacht, ...) into a canonical Seedance 2.5 prompt block with reference bindings, duration, and constraint flags.",
+      "description": "Turn a named UGC motion preset into a canonical Seedance 2.5 prompt block. Use when the user names one of the 45 presets (Atomic, Outfit Switch, Eating Zoom, Group Photo, Yacht, ...) or asks for preset-style UGC motion \u2014 reaction, selfie, fashion, eating, VFX spectacle, action, timelapse, or multi-shot formats. Persuasion angle, claims, and CTA belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt-25. Never generates media.",
+      "readme_summary": "Turn a named UGC motion preset (Atomic, Outfit Switch, Eating Zoom, Yacht, ...) into a canonical Seedance 2.5 prompt block with reference bindings, duration, and constraint flags.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

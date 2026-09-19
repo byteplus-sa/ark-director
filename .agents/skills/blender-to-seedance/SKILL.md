@@ -24,10 +24,9 @@ Turn a Blender blockout into a Seedance 2.5 video by making the **previz render
 the motion master**. The model dresses the world; the 3D scene owns the camera,
 cuts, blocking, and timing.
 
-Core principle from the Higgsfield Blender workflow: **block it in 3D, lock the
-camera, then make the AI execute your shot instead of rolling the dice.** The
-blocking is reusable — swap the character, swap the location, keep the exact
-same moves.
+Core principle: **block it in 3D, lock the camera, then make the AI execute
+your shot instead of rolling the dice.** The blocking is reusable — swap the
+character, swap the location, keep the exact same moves.
 
 For project work, initialize or resume the persistent production canvas. Put the
 blockout, dummy map and prompt in `storyboard-visual-plan`; put generated takes,

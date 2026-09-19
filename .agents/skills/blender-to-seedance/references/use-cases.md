@@ -1,8 +1,8 @@
 # Use-case recipes
 
-Condensed from the Higgsfield Blender workflow. Each recipe lists the blocking
-trick, the reference bundle, and the prompt's distinguishing blocks. All use the
-full video-lock contract in `prompt-contract.md`.
+Each recipe lists the blocking trick, the reference bundle, and the prompt's
+distinguishing blocks. All use the full video-lock contract in
+`prompt-contract.md`.
 
 ## 1. One-take fight (30s, no cuts)
 
