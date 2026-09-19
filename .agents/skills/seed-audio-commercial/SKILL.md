@@ -1,6 +1,6 @@
 ---
 name: seed-audio-commercial
-description: Produce dramatic, story-driven audio commercials with BytePlus Seed Audio 1.0. Compose full-soundscape T2A prompts (dialogue + music + SFX + ambience in one pass), manage the generation and verification lifecycle, and save durable project assets. Invoke when the user asks to create an audio commercial, radio spot, brand audio ad, dramatic story ad, voice-over commercial, or any multi-character narrative audio spot using Seed Audio.
+description: Compose dramatic, story-driven audio commercial prompts for BytePlus Seed Audio 1.0, then generate and verify them through the workspace transport. Writes full-soundscape T2A prompts (dialogue + music + SFX + ambience in one pass) with a five-act story arc, multi-character voice profiles, and commercial SFX/music patterns; the generation lifecycle (submission, verification, manifests) is a separated stage. Invoke when the user asks to create an audio commercial, radio spot, brand audio ad, dramatic story ad, voice-over commercial, or any multi-character narrative audio spot using Seed Audio.
 ---
 
 # Seed Audio Commercial
@@ -21,11 +21,11 @@ the production lifecycle.
 
 Input: brand, audience, language, cast, story objective, duration and authorized generation scope.
 
-Output: a commercial soundscape prompt, prepared request, durable audio, and QA evidence.
+Output: a commercial soundscape prompt (the composition deliverable), then — through the separated generation stage — the prepared request, durable audio, and QA evidence.
 
 ## Procedure and reference loading
 
-The lifecycle below remains the entry path. Add commercial-sound-patterns to design music/SFX and worked-examples for a relevant commercial pattern; examples do not change the requested language or approve a retry.
+Prompt composition (Steps 1–4) is the core; the generation stage (Steps 5–8) is transport-owned and separated below. Add commercial-sound-patterns to design music/SFX and worked-examples for a relevant commercial pattern; examples do not change the requested language or approve a retry.
 
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
@@ -44,7 +44,7 @@ the three-image sampling default where applicable, and the requested delta.
 
 ## What this skill produces
 
-A finished audio commercial asset, saved locally, with:
+A reviewed commercial soundscape prompt with:
 
 - Full soundscape in one pass (dialogue + BGM + SFX + ambience)
 - Multi-character voice profiles with distinct ages, accents, and emotions
@@ -52,6 +52,9 @@ A finished audio commercial asset, saved locally, with:
 - Music that shifts with the emotional beats of the story
 - Chronologically interleaved SFX and ambience transitions
 - Prompt snapshot, manifest, and verification metadata
+
+After the composition passes review, the separated generation stage produces
+the finished audio asset from it.
 
 ## When to use this skill
 
@@ -78,17 +81,21 @@ A finished audio commercial asset, saved locally, with:
 
 ## Production workflow
 
+Composition (Steps 1–4) is the core deliverable path; the generation stage
+(Steps 5–8) is transport-owned and separated.
+
 ```mermaid
 flowchart TD
   G[Brief: brand, product, tone, language] --> H[Story arc design]
   H --> P[Prompt composition: T2A full soundscape]
   P --> V[Validate: char count, safety, format]
-  V --> PERSIST[Persist exact prompt and prepared request]
-  PERSIST --> S[Generate via seed_audio_generate]
-  S --> D[Download to shot/scene folder]
+  V --> R[prompt-review gate]
+  R -->|findings| P
+  R -->|clean| GEN[Generation stage - transport-owned]
+  GEN --> D[Download to shot/scene folder]
   D --> Q[Verify: ffprobe + full decode]
   Q --> M[Update output metadata + manifests]
-  M --> R[Present for user review]
+  M --> R2[Present for user review]
 ```
 
 ### Step 1 — Gather the brief
@@ -176,7 +183,7 @@ Ending
 
 ### Step 4 — Validate before generating
 
-Check these constraints before calling `seed_audio_generate`:
+Check these constraints before handing the prompt to the generation stage:
 
 | Check | Limit | Action if exceeded |
 |---|---|---|
@@ -190,14 +197,16 @@ Check these constraints before calling `seed_audio_generate`:
 100-second WAV at 44100 Hz is ~18 MB and exceeds the 10 MB artifact store limit;
 the same clip as MP3 at 24000 Hz is ~800 KB.
 
-### Step 5 — Generate
+### Step 5 — Generate (generation stage, transport-owned)
 
-Before calling the tool, write the immutable exact prompt snapshot beside the
-planned output and record its SHA-256, ordered references, parameters, model,
-operation ID, request hash, and `submission_status: prepared` in `task_ids.json`.
-Obtain a complete prompt-review result for that exact request. Persist each
-variation as its own operation before submission. Then mark the operation
-`submitting` and call `seed_audio_generate` with the composed prompt:
+Everything in this step belongs to the workspace transport, not to prompt
+composition. Before calling the tool, write the immutable exact prompt snapshot
+beside the planned output and record its SHA-256, ordered references,
+parameters, model, operation ID, request hash, and `submission_status: prepared`
+in `task_ids.json`. Obtain a complete prompt-review result for that exact
+request. Persist each variation as its own operation before submission. Then
+mark the operation `submitting` and call `seed_audio_generate` with the composed
+prompt:
 
 ```python
 seed_audio_generate(
@@ -234,7 +243,7 @@ entire generation fails with `code=55001310`. See
 [Multilingual and Taglish guidance](SKILL.md#multilingual-and-taglish-guidance) for
 mitigation strategies.
 
-### Step 6 — Download and verify
+### Step 6 — Download and verify (generation stage)
 
 After generation succeeds:
 
@@ -248,7 +257,7 @@ After generation succeeds:
 5. **Verify the prepared snapshot** — retain the pre-submission prompt file and
    confirm its SHA-256 still matches the request; add output metadata only.
 
-### Step 7 — Save manifests
+### Step 7 — Save manifests (generation stage)
 
 Create or update these project files:
 
@@ -266,7 +275,7 @@ extension). For a scene-level commercial mix: `prompt_mix_s01_v01.md` beside
 `prompt_dlg_s01_sh010_<character-id>_t01_v01.md` beside
 `dlg_s01_sh010_<character-id>_t01_v01.mp3`.
 
-### Step 8 — Present for review
+### Step 8 — Present for review (generation stage)
 
 Present the result to the user with:
 - The local file path
@@ -294,7 +303,7 @@ filter is not a remediation strategy. A new authorized attempt gets a new
 operation record, reviewed prompt snapshot, and cost estimate; no wording
 promises a guaranteed pass.
 
-## Cost management
+## Cost management (generation stage)
 
 | Parameter | Value |
 |---|---|

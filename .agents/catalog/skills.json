@@ -201,7 +201,7 @@
     },
     "seed-audio-commercial": {
       "kind": "leaf",
-      "description": "Produce dramatic, story-driven audio commercials with BytePlus Seed Audio 1.0. Compose full-soundscape T2A prompts (dialogue + music + SFX + ambience in one pass), manage the generation and verification lifecycle, and save durable project assets. Invoke when the user asks to create an audio commercial, radio spot, brand audio ad, dramatic story ad, voice-over commercial, or any multi-character narrative audio spot using Seed Audio.",
+      "description": "Compose dramatic, story-driven audio commercial prompts for BytePlus Seed Audio 1.0, then generate and verify them through the workspace transport. Writes full-soundscape T2A prompts (dialogue + music + SFX + ambience in one pass) with a five-act story arc, multi-character voice profiles, and commercial SFX/music patterns; the generation lifecycle (submission, verification, manifests) is a separated stage. Invoke when the user asks to create an audio commercial, radio spot, brand audio ad, dramatic story ad, voice-over commercial, or any multi-character narrative audio spot using Seed Audio.",
       "readme_summary": "Produce dramatic, story-driven audio commercials with BytePlus Seed Audio 1.0.",
       "dependencies": [],
       "source_revision": "workspace",

@@ -101,19 +101,19 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "4a114d00dad089130588bc61bed7c4d3667115215edf1a210742f3b56a71a18e"
+      "computedHash": "21b5c805a50636d749bc50288f911ccc9933b4fc9009c928a2ec4aba5cfe4ed1"
     },
     "html-graphic-render": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/html-graphic-render/SKILL.md",
-      "computedHash": "57d0277c5c1b4d15ddf0f111943d4719fa89580eaeac6477ff67db79e0d350e2"
+      "computedHash": "20f841efe94e01a8b7778b141e39e54884234a8857305bdb80c8847d2305b26b"
     },
     "lark-showcase-aigc": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/lark-showcase-aigc/SKILL.md",
-      "computedHash": "c1ade2ed18015208f789d71c13d3b8d77042b4d5de23c1905404b07b2cfa64fd"
+      "computedHash": "c1bcf592ae72b0c66cfaa380c549f0f35d3e481148512efb1ad4d6a62738fa46"
     },
     "media-review": {
       "source": "./local",
@@ -137,7 +137,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seed-audio-commercial/SKILL.md",
-      "computedHash": "0ff100c32f819921222a3eddbc45b3ab5761f753300f3d7c8a3a9fcb21f3e00a"
+      "computedHash": "58357a531b8c39aa233b0b8abf0760e02329f32530753f1c0046353bd887a584"
     },
     "seed-audio-prompt": {
       "source": "./local",
