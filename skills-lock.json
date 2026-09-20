@@ -125,7 +125,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ark-mcp/SKILL.md",
-      "computedHash": "220cb5b68ec22369d73f8b39c736113225aee40b602355ef1e80b2f6df2089ff"
+      "computedHash": "41740a6bd6eb3fd4fa226123229c2a3cdc36f441c79897eb848cadee154a11be"
     },
     "prompt-review": {
       "source": "./local",

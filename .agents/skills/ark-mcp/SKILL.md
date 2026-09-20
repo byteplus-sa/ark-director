@@ -677,7 +677,7 @@ prompt optimization. For interactive editing with spatial coordinates, use
 | `output_format` | `"png"` \| `"jpeg"` | No | Default: `png` |
 | `response_format` | `"url"` \| `"b64_json"` | No | Default: `url` |
 | `watermark` | `bool` | No | Provider watermark |
-| `prompt_optimization` | `"standard"` \| `"fast"` | No | Prompt enhancement; defaults to standard on 5.0 Pro, pass fast for lower latency |
+| `prompt_optimization` | `"standard"` \| `"fast"` | No | Prompt enhancement; 5.0 Pro falls back to the server-configured `SEEDREAM_PROMPT_OPTIMIZATION_MODE` (`standard` by default), pass `fast` for lower latency |
 | `persist` | `bool` | Yes (default `true`) | Persist to artifact store |
 
 Returns `SeedreamGenerateOutput` with `artifacts: list[ArtifactRef]` and
