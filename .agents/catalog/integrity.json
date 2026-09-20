@@ -2,7 +2,7 @@
   "schema_version": 1,
   "algorithm": "sha256",
   "files": {
-    ".agents/skills/ark-mcp/SKILL.md": "b4657fb743599f9293e35741eeb454ee546a387a26f31dacf1dbe7f443906a75",
+    ".agents/skills/ark-mcp/SKILL.md": "41740a6bd6eb3fd4fa226123229c2a3cdc36f441c79897eb848cadee154a11be",
     ".agents/skills/ark-mcp/agents/openai.yaml": "d29f6998165854aad8a523bf0584e550e70287c8666f58c606d448611776d115",
     ".agents/skills/audio-dubbing/SKILL.md": "def956abdd179a1af71dff2fa431e76c1a12462a9f233b2eabd86d20a30c6197",
     ".agents/skills/audio-dubbing/agents/openai.yaml": "3ad89708ff2d47fca6e07cddb418015bda2ce2f63a523c3ab06116a6712861ea",
