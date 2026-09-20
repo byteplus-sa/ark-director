@@ -49,3 +49,6 @@ build/
 *.log
 *.tmp
 *.bak
+
+# Claude Code local-only state (symlinked skills stay tracked)
+.claude/settings.local.json
