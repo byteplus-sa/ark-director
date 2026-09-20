@@ -34,6 +34,19 @@ evidence and approvals permit.
    manifests, scene and shot manifests, prompt snapshots, and the latest review
    decisions. If a production project has no canvas, initialize the eight-stage
    skeleton before advancing it.
+   - **Never hand-write `showcase.json`.** Create the canvas only with the
+     canonical tool: `uv run python
+     .agents/skills/showcase-html/scripts/generate_showcase.py <project>
+     --init`, then open the generated `index.html`. The project directory must
+     already contain `project.md` (the tool validates it before initializing)
+     and the canonical shape is `canvas.stages[]` — not a top-level `stages`
+     object. A hand-written manifest drifts from the schema the checker
+     enforces and silently fails later stage updates. If you inherit a
+     hand-written manifest, run the tool's `--check` against it and rebuild
+     from the tool rather than patching the structure by hand. Delegating
+     scaffolding to a sub-agent does not exempt this: the scaffold prompt must
+     include the exact `--init` command, the `project.md` prerequisite, and a
+     prohibition on hand-authoring the manifest.
 3. Determine the current stage from recorded artifacts and lifecycle states.
    Do not infer completion from filenames alone.
 4. Identify contradictions, missing inputs, stale dependencies, pending provider

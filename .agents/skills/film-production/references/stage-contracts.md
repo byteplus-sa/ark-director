@@ -7,7 +7,13 @@ explicit gaps rather than fabricating their outputs.
 ## Canvas checkpoint for every stage
 
 Create the project's `showcase.json` and generated `index.html` during Stage 1.
-Keep all eight stage records in the manifest from initialization onward. Each
+The manifest must be created by the canonical tool —
+`uv run python .agents/skills/showcase-html/scripts/generate_showcase.py
+<project> --init` (requires `project.md` to exist first) — never
+hand-written; the canonical shape is `canvas.stages[]`, and a hand-authored
+canvas is not schema-compatible with `--check`, which blocks every later
+stage update. Keep all eight stage records in the manifest from
+initialization onward. Each
 stage adds its sources and stage-tagged sections without deleting prior variants
 or decisions. Exact generation prompts use `promptFile` so their immutable
 snapshot is embedded into the portable page.
