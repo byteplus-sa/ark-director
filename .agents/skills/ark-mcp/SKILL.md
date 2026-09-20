@@ -1,6 +1,6 @@
 ---
 name: ark-mcp
-description: Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage native or ordinary-tool background jobs, upload reference media, and fetch persisted artifacts. Use when Codex, Cursor, or another client rejects task-augmented execution and must route the same work through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel.
+description: Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.
 ---
 
 # Ark Seed Multimodal MCP Server
@@ -26,7 +26,7 @@ one server, including products served through ModelArk:
   Use for OCR, scene analysis, content review, and as a visual reasoning
   sub-agent.
 - **Speech-to-Text** — background audio transcription via Seed Speech ASR;
-  retrieve the completed transcript from the native or compatibility result.
+  retrieve the completed transcript from the background result.
 - **VOD AI MediaKit** — asynchronous video enhancement using the exact
   common/professional/4K/high/24-fps profile with task polling and download,
   asynchronous video transcoding
@@ -141,13 +141,22 @@ explicitly enabled.
 
 ### Background Task Execution
 
-Native task execution uses MCP `2026-07-28` and the
-`io.modelcontextprotocol/tasks` extension. FastMCP 4.0.x is tested; a desktop
-client discovering tools does not by itself prove native task execution support.
+Long-running operations always execute in a background worker. Two entry paths
+reach the same FastMCP Docket worker, and both return a local job or task ID
+before the provider finishes:
+
+- **Ordinary `ark_job_*` tools — the default path.** Use these unless you have
+  positively confirmed native task support for the current client. Most agent
+  clients cannot negotiate MCP task augmentation, and a client that discovers
+  tools does not by itself prove native task execution support.
+- **Native MCP task augmentation — for clients that negotiate it.** Requires
+  MCP `2026-07-28` and the `io.modelcontextprotocol/tasks` extension. FastMCP
+  4.0.x is tested.
 
 The following long-running calls require background execution. Their direct
 tool contracts advertise MCP task augmentation as required with a two-second
-polling interval:
+polling interval, so a foreground direct call is rejected before the provider
+is contacted:
 
 - `media_upload`
 - `seed_audio_generate`
@@ -169,22 +178,7 @@ polling interval:
 - `vod_add_subtitles`
 - `vod_remove_subtitles`
 
-On a task-capable client, call them with MCP task metadata, retain the returned
-MCP task ID, and poll `tasks/get` until terminal. Foreground direct calls are
-rejected before the provider is contacted. For Seedance, Seed 3D, and MediaKit
-create/submit tools, the returned tool result contains the provider task ID to
-poll with the corresponding get tool.
-
-The Seedance, Seed 3D, and MediaKit get tools support optional background
-execution. Use foreground calls with `persist_output=false` for quick status
-polling; once a task succeeds, run the get tool in the background with
-`persist_output=true` so completed-media download and persistence cannot exhaust
-the client deadline. List, presign, artifact-read, and cancel/delete tools
-remain foreground operations.
-
-Clients that reject task augmentation, including affected Codex or Cursor
-transports, must use the ordinary compatibility tools. This still runs the
-selected tool in the same background worker:
+Submit each of them through the ordinary `ark_job_*` tools:
 
 1. Call `ark_job_capabilities` and select a listed target.
 2. Call `ark_job_submit` with `{"input": {"tool_name": name,
@@ -196,17 +190,32 @@ selected tool in the same background worker:
    `structured_content` contains any Seedance, Seed 3D, or VOD provider task ID.
 5. Call `ark_job_cancel` only when cooperative local cancellation is intended.
 
-In the rest of this skill, **run in the background** means either a native
-task-augmented call or `ark_job_submit`, depending on client capability.
-**Background result** means the terminal `tasks/get` response on the native
-path or the original tool result under terminal `ark_job_get.result` on the
-compatibility path. Use `result.structured_content` to read the typed payload
-on the compatibility path.
+A client that has negotiated the task extension may instead call the tool
+directly with MCP task metadata, retain the returned MCP task ID, and poll
+`tasks/get` until terminal. Both paths run the same handler in the same worker
+and return the same typed payload; only the protocol surface differs.
+
+For Seedance, Seed 3D, and MediaKit create/submit tools, the tool result
+contains the provider task ID to poll with the corresponding get tool, on
+either path.
+
+The Seedance, Seed 3D, and MediaKit get tools support optional background
+execution. Use foreground calls with `persist_output=false` for quick status
+polling; once a task succeeds, run the get tool in the background with
+`persist_output=true` so completed-media download and persistence cannot exhaust
+the client deadline. List, presign, artifact-read, and cancel/delete tools
+remain foreground operations.
+
+In the rest of this skill, **run in the background** means `ark_job_submit`,
+or a native task-augmented call on a client that supports one. **Background
+result** means the original tool result under terminal `ark_job_get.result`,
+or the terminal `tasks/get` response on the native path. Use
+`result.structured_content` to read the typed payload under `ark_job_get`.
 
 Never confuse the Ark job ID with a provider task ID, and never resubmit merely
-because a submit response was lost. Retry a direct required-tool call through
-`ark_job_submit` only after the explicit unsupported-task-capability rejection,
-which occurs before provider execution. Do not retry after a timeout,
+because a submit response was lost. A direct required-tool call from a client
+without task support is rejected before provider execution, so resubmitting
+that work through `ark_job_submit` is safe; do not retry after a timeout,
 disconnect, or ambiguous provider error. `ark_job_capabilities` is filtered by
 configured providers and the caller's scopes. Unknown or unauthorized targets
 must be treated as unavailable.
@@ -217,6 +226,13 @@ claimed once in the runtime database: an interrupted task cannot silently
 replay paid work. Retain the local MCP task or Ark job ID plus any provider ID,
 and reconcile ambiguous provider outcomes before submitting again. The smoke
 scripts save provider IDs before polling.
+
+Local `stdio` clients start one server process each, so `ark_job_*` jobs are
+process-local: a job submitted through one client is not visible to another
+client's server process. To share jobs across local clients, run one loopback
+HTTP server (`make shared-http`) and connect every client to it; all loopback
+clients are the same `local` principal and share the queue. The default
+in-memory backend still discards jobs when the shared server restarts.
 
 JWT-authenticated Redis tasks require `FASTMCP_TASKS_ENCRYPTION_KEY`; keep the
 runtime database, queue and encryption key together. Redis does not remove the
@@ -661,7 +677,7 @@ prompt optimization. For interactive editing with spatial coordinates, use
 | `output_format` | `"png"` \| `"jpeg"` | No | Default: `png` |
 | `response_format` | `"url"` \| `"b64_json"` | No | Default: `url` |
 | `watermark` | `bool` | No | Provider watermark |
-| `prompt_optimization` | `"standard"` \| `"fast"` | No | Prompt enhancement; defaults to fast on 5.0 Pro (lower latency), pass standard for full CoT optimization |
+| `prompt_optimization` | `"standard"` \| `"fast"` | No | Prompt enhancement; defaults to standard on 5.0 Pro, pass fast for lower latency |
 | `persist` | `bool` | Yes (default `true`) | Persist to artifact store |
 
 Returns `SeedreamGenerateOutput` with `artifacts: list[ArtifactRef]` and
@@ -1181,9 +1197,10 @@ to opt in; its family auto-resolves to `pro` so no explicit
 `SEED_UNDERSTANDING_MODEL_FAMILY` is required. Other custom model IDs can be
 registered via `SEED_UNDERSTANDING_MODEL_BINDINGS`.
 
-`seed_understand` requires background execution. Its direct tool contract uses
-`execution.taskSupport="required"`; clients without that capability must use
-`ark_job_submit`. Both paths return a local job ID immediately and use the
+`seed_understand` requires background execution. Submit it through
+`ark_job_submit` unless the client negotiates task augmentation, in which case
+its direct contract (`execution.taskSupport="required"`) accepts a native task
+call. Both paths return a local job ID immediately and use the
 server-recommended two-second polling interval. Do not call it as a foreground
 tool or retry it with a shorter prompt to work around a client timeout. Set the
 requested task TTL long enough for the expected video analysis duration.
@@ -1542,8 +1559,8 @@ default model for that product is used.
 ### Standard Generation Workflow
 
 1. Run a Seedream or Seed Audio generation tool in the background with
-   `persist=true` (default), using native task augmentation or the ordinary
-   `ark_job_submit` compatibility path.
+   `persist=true` (default), through `ark_job_submit` or, on a task-capable
+   client, native task augmentation.
 2. Poll the local job at the advertised interval and retrieve its background
    result.
 3. The tool returns an `ArtifactRef` with `uri` (e.g.
