@@ -70,6 +70,29 @@ For product cutouts, use a true alpha-preserving packshot. Never remove a white
 background by global color-keying when that would erase white labels, highlights,
 or parts of the product itself.
 
+## Series templates
+
+For repeated-card text series (weekday labels, time-of-day or season names,
+price tiers, category tags) where every card shares canvas, typeface, size,
+and position and only the word changes, use the bundled series generator
+instead of hand-authoring each entrypoint:
+
+```bash
+uv run python .agents/skills/html-graphic-render/scripts/typography_series.py \
+  --out-dir projects/example/elements/day-text \
+  --prefix day --words Monday,Tuesday,Wednesday,Thursday,Friday \
+  --width 720 --height 1280 \
+  --font-file fonts/PlayfairDisplay-VF.ttf --font-family 'Playfair Display' \
+  --font-size 112 --position 44
+```
+
+One run emits every HTML entrypoint, a shared stylesheet, the font copy, all
+PNGs, per-card render records, and a manifest. Read
+[typography-series.md](references/typography-series.md) for rules and the
+video-reference vs transparent-overlay distinction. Anything beyond
+one-text-element-per-card (logos, imagery, multi-line layout) stays
+hand-authored per the sections below.
+
 ## Author the composition
 
 Use CSS custom properties for the small set of design tokens that should remain
