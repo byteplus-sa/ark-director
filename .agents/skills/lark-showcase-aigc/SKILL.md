@@ -46,7 +46,8 @@ This skill is for **client-facing artifacts**, so enforce these rules strictly u
 
 - Do **not** mention local files, local paths, repo paths, folder names, asset filenames, shell commands, or workspace structure.
 - Do **not** say things like "stored in", "saved at", "located in", or reference internal directories.
-- Do **not** expose internal-only notes, debugging context, temporary constraints, or implementation caveats irrelevant to the customer.
+- Do **not** expose internal-only notes, debugging context, temporary constraints, or implementation caveats irrelevant to the customer — including approval requests, "proposed" labels, asset sources, and edit notes.
+- Do **not** mention reference ads, source ads, inspirations, or recreation of another brand's work.
 - Do **not** present the workflow as dependent on this specific machine or repository.
 - Do **not** include raw MCP, API, or CLI details unless the user explicitly wants a technical appendix.
 
@@ -73,14 +74,26 @@ different structure:
    showreel without altering that video's approval record.
 2. Create one top-level section per project or campaign direction, in showreel
    order.
-3. Within every project section, place `Elements` followed by `Videos`. Do not
-   leave an empty `Videos` heading or table.
+3. Within every project section, place three separate tables: `Elements`,
+   then `Storyboard`, then `Video`. Never combine storyboard and video rows in
+   one table, and do not leave an empty heading or table. Still posters go in a
+   `Posters` section with `Elements` and `Poster` tables per poster.
 4. Keep the exact frozen image or video prompt in the same row as its result.
    Use an inline Preview for video; do not turn a prompt/result table into a
    detached gallery.
 5. Preserve media that the user did not ask to remove. Before and after a
    scoped update, inventory the project sections, prompts, images, and Preview
    videos so concurrent edits and existing evidence are not silently lost.
+
+6. Write terse, plain client copy: one sentence where one is enough; product
+   rows read `Product snapshot of <Product>.`; end-card rows read
+   `End card: “<line>”`. Never include internal or approval notes (proposed
+   copy, sources, provenance, trims, QA) and never mention reference ads,
+   source ads, inspirations or "in the style of" — describe each ad on its own
+   terms without claiming it was invented from scratch. Keep open business
+   questions in the chat, not the document.
+7. After the last write, turn on native wrap for every prompt code block (see
+   [prompt cleanup rules](references/guide-prompt-cleanup-rules.md)).
 
 Read [guide-project-showcase-layout.md](references/guide-project-showcase-layout.md)
 for the layout contract and verification checklist.

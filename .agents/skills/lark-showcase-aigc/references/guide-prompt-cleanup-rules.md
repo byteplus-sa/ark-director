@@ -23,9 +23,21 @@ If the source prompt uses many internal reference labels, add a short "Reference
 Every prompt code block is soft-wrapped by default. Never write a prompt as
 one long unwrapped line that forces horizontal scrolling in a table cell.
 
-Lark code blocks cannot be forced to auto-wrap through the CLI: the docx API
-has a `wrap` field, but `lark-cli` does not expose it on `<pre>`, so the wrap
-must happen at authoring time.
+`lark-cli docs` does not expose code-block wrap on `<pre>`, but the docx API
+does. After all writes, set native wrap on every prompt code block (this is the
+preferred fix — it changes presentation only, never the prompt text):
+
+```bash
+# collect code-block IDs from a with-ids fetch: <pre id="...">
+lark-cli api PATCH /open-apis/docx/v1/documents/$DOC/blocks/$BLOCK_ID --as user \
+  --params '{"document_revision_id":-1}' \
+  --data '{"update_text_style":{"style":{"wrap":true},"fields":[5]}}'
+# verify: GET .../blocks/$BLOCK_ID → data.block.code.style.wrap == true
+```
+
+Re-apply after any `block_replace` that rebuilds a table containing prompts,
+because rebuilt code blocks come back with `wrap: false`. Manual soft-wrapping
+below remains the fallback when the API route is unavailable.
 
 - Break long prompt lines at natural boundaries — after `@Image N` /
   `@Video N` / `@Audio N` reference bindings, after `[Shot N (start–end)]`

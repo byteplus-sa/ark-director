@@ -113,7 +113,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/lark-showcase-aigc/SKILL.md",
-      "computedHash": "c1bcf592ae72b0c66cfaa380c549f0f35d3e481148512efb1ad4d6a62738fa46"
+      "computedHash": "0249c3cbcb66c898f4cbf6fa6ecce48462c756c82797cc8ba927bd88df65a1c8"
     },
     "media-review": {
       "source": "./local",
@@ -281,7 +281,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "e2cb1176cf4e0da90e459d9f47ab67dd750a7cd6766c82c3f026885cbd88ad66"
+      "computedHash": "a17a062351eb957441c95931d3c614b91aafe1231b2f85135ada89e47a0877e7"
     },
     "tig-blocking-map": {
       "source": "./local",

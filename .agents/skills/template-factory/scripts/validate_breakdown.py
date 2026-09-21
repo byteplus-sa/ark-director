@@ -341,7 +341,11 @@ def main() -> int:
     )
     parser.add_argument("analysis", type=Path)
     parser.add_argument("--motion-review", type=Path)
-    parser.add_argument("--source-duration-s", type=float)
+    parser.add_argument(
+        "--source-duration-s",
+        type=float,
+        help="Picture (video-stream) duration in seconds; container duration often includes audio padding",
+    )
     args = parser.parse_args()
     findings = validate_files(args.analysis, args.motion_review, args.source_duration_s)
     print(

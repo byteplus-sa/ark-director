@@ -53,3 +53,20 @@ level, and the relevant aesthetic.
   motion review's `source_breakdown_sha256`. Merge valid motion into a new
   analysis revision. If motion review proposes changed timing or action, re-run
   affected gates rather than silently changing an approved decision.
+
+## Reliability notes
+
+- Pass a compact beat list (`index: start-end label`) instead of the full
+  breakdown; the model only needs boundaries and a short label per beat.
+- Add "Output STRICT valid JSON only: no fences, no trailing commas, escape
+  double quotes inside strings, keep each string under 300 characters." Long
+  free-text fields are the usual source of unparseable output.
+- Start with `thinking=true, reasoning_effort=medium`. On a provider timeout or
+  unparseable result, retry once with `thinking=false, temperature=0.1`. If the
+  retry also fails, record the motion review as skipped with the reason and
+  direct motion from the approved beats plus the frame strip — do not block
+  element or video work on it.
+- Motion-review output is source-mode description of the pin: it names the
+  pin's people and products. Re-author that wording with the project's own
+  talent and products when composing video prompts, and run the
+  de-identification leak scan on the saved JSON.

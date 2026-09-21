@@ -73,6 +73,21 @@ change the production policy. Source metadata: `rule-provenance.json`.
     referenced by their locked `@tag` and bound to the correct `@Image N` / `@Video N`
     / `@Audio N` index.
 
+11. **Reference-derived talent is distinct.** When a template came from a
+    competitor or category reference, character descriptors do not reproduce
+    the reference performer's distinctive combination of face, hair, wardrobe
+    and styling. Keep the role and staging; change the identity.
+
+12. **Product descriptors match the packshot.** Every product cue in the prompt
+    (pack type, size, colour, cap, label layout) agrees with the bound official
+    product reference. A descriptor inherited from the reference ad's product
+    fails.
+
+13. **No invited copy or marks.** The prompt does not quote taglines, captions,
+    slogans or source-brand names, and does not ask the model to render readable
+    brand text or logos that a deterministic overlay or official asset should
+    supply. Words like "logo", "tagline" or "text reads" are deliberate only.
+
 ---
 
 ## Seedance 2.5

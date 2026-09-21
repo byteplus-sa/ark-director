@@ -75,14 +75,23 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    objects on demand; re-upload only if content changed or the recorded remote
    object is missing. Do not treat transcripts, scripts, or article write-ups as
    the pin.
-2. **Analysis** — `seed_understand` with the template's analysis prompt
-   (`references/analysis-prompt.md`) → validate `VideoBreakdown` against
-   `references/breakdown-schema.json` and run
-   `scripts/validate_breakdown.py` → write `analysis.json` + `breakdown.md`.
-   Freeze the reviewed source as `analysis.vNN.json`; record its SHA-256 and
-   approval scope. Gate A: user reviews the breakdown.
-3. **Keyframes** — `ffmpeg` extracts a frame per shot (mid-shot, or the flagged
-   element keyframe) into `keyframes/`.
+2. **Analysis** — first measure the pin: picture (video-stream) duration,
+   ffmpeg scene-detected hard cuts, and a 5–8 fps timestamped frame strip.
+   Then `seed_understand` with the template's analysis prompt
+   (`references/analysis-prompt.md`), which segments into **beats by default**
+   (0.3–1.2 s, every cut plus every action/camera/text/VFX change, each tagged
+   `[HARD CUT IN]` or `[CONTINUOUS]`) and receives the measured cuts. Parse
+   large results from the persisted tool-result file with a script. Correct
+   beat boundaries against the frame strip, run the de-identification leak
+   scan, validate `VideoBreakdown` against `references/breakdown-schema.json`,
+   and run `scripts/validate_breakdown.py --source-duration-s <picture
+   duration>` → write `analysis.json` + `breakdown.md` (one keyframe per beat,
+   corrections recorded). Freeze the reviewed source as `analysis.vNN.json`;
+   record its SHA-256 and approval scope. Gate A: user reviews the breakdown.
+   Use cut-level segmentation only when the user asks for it.
+3. **Keyframes** — `ffmpeg` extracts a frame per beat (mid-beat, or the flagged
+   element keyframe) into `keyframes/`. Seek after `-i` (accurate seek) so
+   beats near the end of the picture still decode.
 4. **Deep motion review** — second `seed_understand` pass (`thinking=true`) per
    `references/motion-review-prompt.md` → validate against
    `references/motion-review-schema.json` → merge by `shot_index`, never array
@@ -90,7 +99,11 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    revision. Motion evidence may enrich the approved breakdown without changing
    timing or action. If it changes an approved decision, invalidate affected
    downstream review and obtain review for the new revision. This is the primary
-   fix for "ours looks static".
+   fix for "ours looks static". Pass a compact beat list (index, times, one-line
+   label) rather than the full breakdown, and demand strict JSON. On a provider
+   timeout or unparseable output, retry once with `thinking=false`; if that
+   fails, record the pin's motion review as skipped with the reason and direct
+   motion from the approved beats plus the frame strip.
 5. **Elements** — identify required canonical inputs from the draft breakdown.
    Use the workspace prop threshold: branded, recurring, story-critical, or
    scene-variant wearables need a separate locked reference; incidental objects
@@ -110,7 +123,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    deterministic specification produces one exact version. Persist
    `selected_variant` only after explicit user choice.
 6. **Storyboard** — after relevant Elements are approved, write a dynamic
-   production board via `seedream-storyboard`, one panel per shot unless the
+   production board via `seedream-storyboard`, one panel per beat unless the
    user sets a panel budget. Review the prompt and generate the requested count,
    or 3 variants by default, using distinct seeds only when supported. Paginate
    large boards into readable grids while preserving one ordered panel plan. A
@@ -126,7 +139,16 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    prepared request, then submit via the supported durable transport. Prefer
    `seedance_2_5_create_task`; use an equivalent Ark CLI route only before any
    ambiguous submission and only when it satisfies the same contract. Persist
-   the task id, poll, download, and run technical and playback QA.
+   the task id, poll, download, and run technical and playback QA. Keep exact
+   brand copy, logos and captions out of the video prompt ("no on-screen text",
+   leave clean space) and composite them afterwards as deterministic
+   `html-graphic-render` overlays (ffmpeg `overlay` with a short alpha fade).
+   Expect Seedance to stretch dense beat timelines by roughly 0.5–1.2 s; a
+   stronger timing prompt rarely fixes it. When a take's beats land late, retime
+   in the edit (trim a held tail, clone-pad the final hold, crossfade audio)
+   rather than regenerating, and record the edit operations on the take.
+   Measure take loudness and normalise delivery masters (e.g. `loudnorm`
+   -16 LUFS / -1.5 dBTP) after the user locks takes.
 8. **Review** — compare the reference and take in playback for shot timing,
    motion direction and intensity, action progression, camera movement,
    transitions, opening/ending state, and requested audio arc. Add the pin and
@@ -136,6 +158,24 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    references and QA evidence; regenerate/open the page, pass its stage
    freshness check, set `review`, and let the user approve there.
 
+### Competitor or category reference pins
+
+When pins are other brands' ads used as a style reference: keep the analysis
+in de-identify mode, never bind the pin video (or its frames) as a video
+reference, give original talent wardrobe and colours clearly distinct from the
+people in the pin (prompt-review checks this), and never carry over the pin's
+taglines, typography or trade dress. Replace the product slot with the
+authorized brand's official packshot.
+
+### Still / poster track
+
+Reference stills (photos, key visuals) run as a parallel poster track, not as
+video pins: describe the still's camera angle, pose, lens and grade in text,
+bind only the official product packshot as `@Image 1` (I2I), write the prompt
+under `posters/<id>/`, pass prompt-review, generate 3 variants, and add any
+logo or copy as a deterministic overlay. List variants on the canvas as
+selectable cards with a `poster.md` manifest.
+
 ## Route specialist work
 
 | Need | Primary skill |
@@ -143,7 +183,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 | Pin download when URL is not seed_understand-usable | Available downloader (e.g. `yt-dlp`); then `ark-mcp` (`media_upload`) |
 | Upload / presign references | `ark-mcp` (`media_upload`, `media_presign`) |
 | Video analysis + motion review | `ark-mcp` (`seed_understand`) |
-| Keyframe extraction | `ffmpeg` |
+| Keyframe extraction, cut detection, frame strips, end-card compositing, retiming, loudness | `ffmpeg` |
 | Storyboard grid prompt | `seedream-storyboard` |
 | Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prompt` |
 | Brand / logo / product packshot | Web or user download first per element-identification; Seedream only as fallback |
@@ -184,7 +224,7 @@ duration.
 
 ## Storyboard rules
 
-- **Dynamic panel count by default** — one panel per identified shot. Honor an
+- **Dynamic panel count by default** — one panel per identified beat. Honor an
   explicit user panel budget and preserve all shot-to-panel coverage decisions.
   Use the smallest readable grid and paginate large boards.
 - **Sketch by default** — use colorless pencil/ink as a composition/order anchor.
@@ -197,6 +237,10 @@ duration.
   current canonical source hashes. Control sketches are omitted by default;
   an intentional conditioning exception requires explicit selection, supported
   tool inputs, and artifact-specific QA. Bind only eligible inputs.
+
+- **Paginated boards bind the same ordered reference set on every page** so
+  `@Image N` numbering never shifts between pages; say which references a page
+  does not use instead of dropping them from the upload.
 
 ## Selection gate (human review by default)
 

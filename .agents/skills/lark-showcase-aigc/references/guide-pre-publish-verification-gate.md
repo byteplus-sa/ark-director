@@ -19,7 +19,8 @@ Before declaring the document complete, run this mandatory scan:
             'native audio','forward extension','720p','24fps','.wav','.mp4',
             's01_','sh0','_t01','_v0','text-to-image','text-to-audio',
             'variants','canonical','Element sheet','reference sheet',
-            'muxed','CLI','MCP','@Audio','@Image','@Video']
+            'muxed','CLI','MCP','@Audio','@Image','@Video',
+            'approval','proposed','reference ad','inspired','style of','well-known']
    found = [t for t in terms if t.lower() in visible.lower()]
    print('JARGON FOUND:' if found else 'CLEAN', found)
    "
@@ -39,7 +40,14 @@ Before declaring the document complete, run this mandatory scan:
    - **No horizontal overflow.** Total column widths should sum to approximately 1020 px or less to fit Lark's wide-mode canvas.
 
    Fix any violations before declaring the document complete. Use `block_replace` on the table's block ID to update the full table XML with corrected `<colgroup>` widths or missing `<pre><code>` wrapping.
-8. **Only then** declare the document complete in the deliverable contract.
+8. **Client-tone scan.** Outside `<pre>` blocks, confirm there are no approval
+   or internal notes and no reference-ad language: scan for `approval`,
+   `proposed`, `confirm`, `reference ad`, `inspired`, `style of`, `well-known`,
+   `recreat`, source-site names, and competitor brands. Confirm image `name`
+   attributes are reader-facing titles, not filenames.
+9. **Code-block wrap.** Confirm every prompt code block has `wrap: true` via the
+   blocks API (see prompt cleanup rules).
+10. **Only then** declare the document complete in the deliverable contract.
 
 This gate is not optional. The "mom test" means: if you handed this document to
 someone with no knowledge of AI tooling, API parameters, or internal project

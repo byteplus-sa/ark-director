@@ -85,6 +85,22 @@ orchestrators own cross-skill sequencing, generation gates and delegation.
 `film-production` manages multi-scene production using its stage/handoff
 contracts. Load only specialists needed for the current stage or requested axis.
 
+### Skill sources and symlinks
+
+`.agents/` is the only source of truth for skills, catalog, contracts and
+scripts. `.claude/skills/<name>`, `.claude/catalog`, `.claude/contracts` and
+`.claude/scripts` are relative symlinks into `.agents/`; user-level skills use
+the same pattern (`~/.claude/skills/<name>` → `~/.agents/skills/<name>`).
+
+- Edit skills only under `.agents/skills/<name>/`. Never copy a skill into
+  `.claude/` or replace a symlink with a real directory or file.
+- When adding a skill, create `.agents/skills/<name>/` and link it with
+  `ln -s ../../.agents/skills/<name> .claude/skills/<name>`. When removing
+  or renaming one, update the link in the same change.
+- After skill edits, confirm every `.agents/skills/*` has a resolving
+  `.claude/skills/*` link and no `.claude` entry is a real directory, then
+  refresh integrity (see Verification and maintenance commands).
+
 ### Parallel production and nested delegation
 
 When multiple assets, videos, scenes or production stages are independent, run

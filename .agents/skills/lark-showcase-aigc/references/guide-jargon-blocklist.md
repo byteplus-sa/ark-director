@@ -82,3 +82,14 @@ model expects:
   forward...`)
 
 Outside code blocks, translate all of these into plain English.
+
+### Internal notes and reference-ad language
+
+| Forbidden in reader text | Use instead |
+|---|---|
+| "for ARC approval", "proposed copy", "to be confirmed", "pending sign-off" | (omit; raise in chat) |
+| "official product image from <site>", "export design", "upscaled", "used exactly as supplied", "not an AI image" | `Product snapshot of <Product>.` |
+| "designed end card set in exact type on a transparent layer", "No prompt" | `End card: “<line>”` |
+| "trimmed for pacing", "retimed", "loudness-normalised" | (omit) |
+| "reference ad", "source ad", "inspired by", "in the style of", "well-known ad", "recreation", "homage" | (omit; describe the ad itself) |
+| competitor brand names | (omit) |
