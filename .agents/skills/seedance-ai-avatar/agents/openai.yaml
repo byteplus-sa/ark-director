@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance AI Avatar"
+  short_description: "Authorized real-presenter avatar: character sheet, voice clip, lip-synced Seedance talking-head takes and QA"
+  default_prompt: "Use $seedance-ai-avatar to build an authorized AI avatar of this presenter and generate a talking-head take of this script."
