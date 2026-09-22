@@ -2,7 +2,9 @@
 
 Inputs: `images: [char sheet URL]` (role reference_image), `audios: [voice clip
 URL]`, `generate_audio: true`, `resolution: "1080p"`, `watermark: false`,
-`duration` = script seconds rounded up (≤30). Model `seedance_2_5_create_task`.
+`duration` = script seconds rounded up (≤30). Submit the `seedance_2_5_create_task` tool through
+`ark_job_submit`, and poll with `seedance_get_task`. Only send the sheet after
+the consent and real-likeness gates are recorded.
 
 ## A. Locked take for split-screen (ratio 1:1)
 

@@ -365,13 +365,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-ai-avatar/SKILL.md",
-      "computedHash": "c567796f15ae892c2d35d053c50aa1fa583e68a64cc65e16d67ace53ffd89215"
+      "computedHash": "8bc165d8102c9a6edfd30f1259692403a048ed09ca9c0f271d2f4eec0739a2fa"
     },
     "seedance-avatar-news": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-avatar-news/SKILL.md",
-      "computedHash": "221e47e9184581eeb54e57f67a780dd4fb37be3481b20e2ff198ceaff13d7841"
+      "computedHash": "0546b3c129caba0e433924e9f5f857f481542c6f138be4025cd44058c75090df"
     }
   }
 }
