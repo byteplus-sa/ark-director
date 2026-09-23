@@ -18,10 +18,20 @@ stage adds its sources and stage-tagged sections without deleting prior variants
 or decisions. Exact generation prompts use `promptFile` so their immutable
 snapshot is embedded into the portable page.
 
+Read `approval_mode` from `project.md` at start/resume and before each stage
+decision. New projects write `approval_mode: approve_for_me` before `--init`;
+`ask_for_approval` requires user choices. A legacy project without the field
+uses the default for new decisions only. Both modes keep all eight stages and
+the same canvas checkpoint. Include the effective mode, decision actor, reason,
+review outcome, current selection or stage lock, and unresolved gaps in the
+relevant section. Add review and decision files to stage `sources` so a changed
+file makes the HTML freshness check fail.
+
 Every stage exit additionally requires:
 
 1. the canvas current stage and status match the stage being completed;
-2. the stage shows its inputs, outputs, prompts, bindings and review evidence;
+2. the stage shows its inputs, outputs, prompts, bindings, review evidence and
+   mode-authorized decisions or pending recommendations;
 3. `index.html` has been regenerated and opened after the latest material edit;
 4. `generate_showcase.py <project> --check --stage <stage-id>` passes.
 
@@ -32,10 +42,11 @@ section must expose. A CLI/OS-player review does not replace this checkpoint.
 
 Entry: user intent or an existing `project.md`.
 
-Required output: audience, format, runtime, aspect ratio, story objective, tone,
-creative constraints, known rights constraints, budget posture, and unresolved
-questions recorded in `project.md`. Confirmed directorial defaults (structure,
-camera, lens, lighting, grade, pacing, acting, staging, medium, audio) from
+Required output: `approval_mode`, audience, format, runtime, aspect ratio,
+story objective, tone, creative constraints, known rights constraints, budget
+posture, and unresolved questions recorded in `project.md`. Confirmed
+directorial defaults (structure, camera, lens, lighting, grade, pacing, acting,
+staging, medium, audio) from
 `brief-intake` persisted as a `locked` block in `project.md` frontmatter.
 The canvas embeds or links this brief as the `brief-development` stage source.
 
@@ -100,8 +111,9 @@ Exit: every required canonical element has an approved selected variant, or the
 dependent scene is explicitly marked unresolved. The element list has been
 cross-checked against the Element identification checklist and no gaps remain.
 An approved selected variant may be a downloaded packshot/logo, generated
-sheet, or deterministic graphic — all satisfy exit when hashes and user
-selection are recorded.
+sheet, or deterministic graphic — all satisfy exit when the file hash, passing
+review, and mode-authorized decision are recorded. An agent decision cannot
+replace an explicit user lock.
 
 ## 4. Storyboard and visual plan
 
@@ -113,8 +125,8 @@ Required output: beat/panel plan, bound references, prompts, generated panels or
 prompt package, continuity review, provenance, and video-handoff eligibility.
 Expose these together in the `storyboard-visual-plan` canvas stage.
 
-Exit: required panels are approved and all source element hashes remain current,
-or the scene has an explicitly approved direct-to-video path.
+Exit: required panels have a mode-authorized approval and all source element
+hashes remain current, or the scene has a mode-authorized direct-to-video path.
 
 ## 5. Audio preparation (optional — when user requests lip-synced dialogue)
 
@@ -153,7 +165,10 @@ generated take must appear as playable players on this stage in the same
 (`{ "type": "video", "src": "…" }`). Flat `cards` or string `media` paths do
 not render players — follow `showcase-html` production-canvas and schema.
 
-Exit: the user approves a take or requests a bounded revision.
+Exit: a passing take has a hash-bound, mode-authorized selection. In
+`ask_for_approval`, the recommendation remains pending until the user chooses.
+If no take passes, make a bounded correction within the run budget or leave the
+shot blocked.
 
 ## 7. Assembly and review
 
@@ -164,8 +179,11 @@ audio presence check, technical decode QA, and outstanding notes.
 The `assembly-review` stage keeps its approved inputs and comparison renders on
 the same page.
 
-Exit: explicit picture and audio approval. Full editorial, color, and sound-post
-department contracts are future work tracked in the lifecycle specification.
+Exit: picture and audio have separate mode-authorized locks bound to the exact
+artifact and passing review hashes. Audio lock is required when audio is in
+scope. In `ask_for_approval`, wait for explicit user locks. Full editorial,
+color, and sound-post department contracts are future work tracked in the
+lifecycle specification.
 
 ## 8. Delivery
 
@@ -175,4 +193,7 @@ Required output: inspected master, review proxy if needed, caption or localizati
 status, delivery metadata, hashes, and archive pointers.
 The `delivery` stage exposes those files and final approval evidence.
 
-Exit: explicit user approval of the final deliverable.
+Exit: inspect the actual local master, then record a mode-authorized final
+master lock bound to its file and review hashes. In `ask_for_approval`, wait for
+the user's explicit acceptance. Publishing, sending, or external delivery needs
+separate authorization in either mode.

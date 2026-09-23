@@ -8,7 +8,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
@@ -48,9 +48,15 @@ def contained_path(root: Path, value: str) -> Path:
 
 def schema_findings(value: Any, name: str) -> list[Finding]:
     schema = json.loads((SCHEMA_ROOT / name).read_text())
+    if name == "generation-request.schema.json" and isinstance(value, dict):
+        version = value.get("schema_version")
+        if version in (1, 2):
+            schema = schema["$defs"][f"requestV{version}"]
     return [
         Finding("schema.valid", error.message, ".".join(map(str, error.path)))
-        for error in Draft202012Validator(schema).iter_errors(value)
+        for error in Draft202012Validator(
+            schema, format_checker=FormatChecker()
+        ).iter_errors(value)
     ]
 
 
@@ -60,8 +66,11 @@ def compute_request_hash(
     model: str,
     operation: str,
     params: dict[str, Any],
+    *,
+    approval_mode: str | None = None,
+    project_sha256: str | None = None,
 ) -> str:
-    body = {
+    body: dict[str, Any] = {
         "prompt_sha256": hashlib.sha256(prompt_bytes).hexdigest(),
         "model": model,
         "operation": operation,
@@ -71,6 +80,16 @@ def compute_request_hash(
             for ref in references
         ],
     }
+    if approval_mode is not None or project_sha256 is not None:
+        body["approval_mode"] = approval_mode
+        body["project_sha256"] = project_sha256
+        body["references"] = [
+            {
+                key: ref.get(key)
+                for key in ("sha256", "role", "binding", "approval_evidence")
+            }
+            for ref in references
+        ]
     return hashlib.sha256(
         json.dumps(
             body,
@@ -82,27 +101,69 @@ def compute_request_hash(
     ).hexdigest()
 
 
+def parse_frontmatter(text: str) -> dict[str, Any]:
+    match = re.match(r"\A---\s*\n(.*?)\n---(?:\n|$)", text, re.DOTALL)
+    if not match:
+        raise ValueError("Expected YAML frontmatter")
+    metadata = YAML(typ="safe").load(match.group(1))
+    if not isinstance(metadata, dict):
+        raise TypeError("Expected frontmatter mapping")
+    return metadata
+
+
+def frontmatter(root: Path, relative: str) -> dict[str, Any]:
+    return parse_frontmatter(contained_path(root, relative).read_text())
+
+
+def project_mode_snapshot(root: Path) -> tuple[str, str]:
+    path = contained_path(root, "project.md")
+    content = path.read_bytes()
+    text = content.decode("utf-8")
+    metadata = parse_frontmatter(text) if text.startswith("---") else {}
+    mode = metadata.get("approval_mode", "approve_for_me")
+    if mode not in ("approve_for_me", "ask_for_approval"):
+        raise ValueError("Invalid project approval mode")
+    return mode, hashlib.sha256(content).hexdigest()
+
+
+def project_mode_findings(root: Path, request: dict[str, Any]) -> list[Finding]:
+    if request["schema_version"] != 2:
+        return []
+    try:
+        mode, digest = project_mode_snapshot(root)
+    except (ValueError, TypeError, OSError, UnicodeError, YAMLError) as error:
+        return [Finding("approval.current_mode", str(error), "project.md")]
+    if request["approval_mode"] != mode or request["project_sha256"] != digest:
+        return [
+            Finding(
+                "approval.current_mode",
+                "Project approval mode or project.md changed after request preparation",
+                "project.md",
+            )
+        ]
+    return []
+
+
+def selected_manifest_value(
+    metadata: dict[str, Any], evidence: dict[str, Any]
+) -> str | None:
+    field = evidence.get("field")
+    if field not in ("selected_variant", "selected_variants"):
+        return None
+    selected = metadata.get(field)
+    if field == "selected_variants":
+        selected = (
+            selected.get(evidence.get("key")) if isinstance(selected, dict) else None
+        )
+    return selected if isinstance(selected, str) and selected != "auto" else None
+
+
 def approval_matches(root: Path, ref: dict[str, Any], target: Path) -> bool:
     evidence = ref.get("approval_evidence", {})
     try:
         manifest = contained_path(root, evidence.get("manifest", ""))
-        text = manifest.read_text()
-        match = re.match(r"\A---\s*\n(.*?)\n---(?:\n|$)", text, re.DOTALL)
-        if not match:
-            return False
-        metadata = YAML(typ="safe").load(match.group(1))
-        field = evidence.get("field")
-        if field not in ("selected_variant", "selected_variants") or not isinstance(
-            metadata, dict
-        ):
-            return False
-        selected = metadata.get(field)
-        if field == "selected_variants":
-            selected = (
-                selected.get(evidence.get("key"))
-                if isinstance(selected, dict)
-                else None
-            )
+        metadata = frontmatter(root, evidence.get("manifest", ""))
+        selected = selected_manifest_value(metadata, evidence)
         if (
             not isinstance(selected, str)
             or selected == "auto"
@@ -118,8 +179,315 @@ def approval_matches(root: Path, ref: dict[str, Any], target: Path) -> bool:
         return False
 
 
+def candidate_review_findings(
+    root: Path, review: Any, subject_path: str, subject_sha256: str
+) -> list[Finding]:
+    findings = schema_findings(review, "candidate-review.schema.json")
+    if findings:
+        return findings
+    if (
+        review["artifact_path"] != subject_path
+        or review["artifact_sha256"] != subject_sha256
+        or review["status"] != "pass"
+    ):
+        findings.append(
+            Finding(
+                "approval.passing_review", "Review is stale, incomplete, or failing"
+            )
+        )
+    if not any(check["status"] == "pass" for check in review["checks"]):
+        findings.append(
+            Finding("approval.passing_review", "Review has no passing check")
+        )
+    if any(check["status"] in ("fail", "incomplete") for check in review["checks"]):
+        findings.append(
+            Finding(
+                "approval.passing_review",
+                "Review contains a failed or incomplete check",
+            )
+        )
+    method = review["inspection_method"].lower()
+    suffix = Path(subject_path).suffix.lower()
+    if suffix in (".mp4", ".mov", ".mkv", ".webm") and not any(
+        word in method for word in ("playback", "temporal")
+    ):
+        findings.append(
+            Finding("approval.inspection_method", "Video requires temporal inspection")
+        )
+    if suffix in (".wav", ".mp3", ".m4a", ".aac", ".flac") and "listen" not in method:
+        findings.append(
+            Finding("approval.inspection_method", "Audio requires listening evidence")
+        )
+    try:
+        subject = contained_path(root, subject_path)
+        if hashlib.sha256(subject.read_bytes()).hexdigest() != subject_sha256:
+            findings.append(
+                Finding(
+                    "approval.selected_hash", "Selected artifact changed", subject_path
+                )
+            )
+    except (ValueError, OSError) as error:
+        findings.append(Finding("approval.selected_hash", str(error), subject_path))
+    return findings
+
+
+def decision_findings(
+    root: Path, decision: Any, *, require_current_project: bool = False
+) -> list[Finding]:
+    findings = schema_findings(decision, "production-decision.schema.json")
+    if findings:
+        return findings
+    if decision["result"] != "approved":
+        findings.append(Finding("approval.decision_result", "Decision is not approved"))
+    subject_sha256 = decision.get("selected_sha256", decision.get("subject_sha256"))
+    try:
+        subject = contained_path(root, decision["subject_path"])
+        if hashlib.sha256(subject.read_bytes()).hexdigest() != subject_sha256:
+            findings.append(
+                Finding(
+                    "approval.selected_hash",
+                    "Selected artifact changed",
+                    decision["subject_path"],
+                )
+            )
+    except (ValueError, OSError) as error:
+        findings.append(
+            Finding("approval.selected_hash", str(error), decision["subject_path"])
+        )
+    try:
+        review_path = contained_path(root, decision["review_path"])
+        review_bytes = review_path.read_bytes()
+        if hashlib.sha256(review_bytes).hexdigest() != decision["review_sha256"]:
+            findings.append(
+                Finding(
+                    "approval.review_hash",
+                    "Review file changed",
+                    decision["review_path"],
+                )
+            )
+        else:
+            review = json.loads(review_bytes)
+            findings.extend(
+                candidate_review_findings(
+                    root, review, decision["subject_path"], subject_sha256
+                )
+            )
+    except (ValueError, OSError, UnicodeError, json.JSONDecodeError) as error:
+        findings.append(
+            Finding("approval.passing_review", str(error), decision["review_path"])
+        )
+    for path, digest in decision["upstream_sha256"].items():
+        try:
+            upstream = contained_path(root, path)
+            if hashlib.sha256(upstream.read_bytes()).hexdigest() != digest:
+                findings.append(
+                    Finding("approval.upstream_hash", "Upstream artifact changed", path)
+                )
+        except (ValueError, OSError) as error:
+            findings.append(Finding("approval.upstream_hash", str(error), path))
+    if require_current_project:
+        findings.extend(
+            project_mode_findings(
+                root,
+                {
+                    "schema_version": 2,
+                    "approval_mode": decision["approval_mode"],
+                    "project_sha256": decision["project_sha256"],
+                },
+            )
+        )
+    return findings
+
+
+def approval_decision_findings(
+    root: Path, ref: dict[str, Any], target: Path
+) -> list[Finding]:
+    evidence = ref["approval_evidence"]
+    path = ref["path"]
+    findings: list[Finding] = []
+    if not approval_matches(root, ref, target):
+        findings.append(
+            Finding(
+                "approval.selected_variant",
+                "Reference does not match the manifest selection",
+                path,
+            )
+        )
+        return findings
+    if evidence.get("evidence_type") == "legacy":
+        return legacy_approval_findings(root, ref)
+    try:
+        metadata = frontmatter(root, evidence["manifest"])
+        if (
+            evidence["field"] == "selected_variant"
+            and metadata.get("status") != "approved"
+        ):
+            findings.append(
+                Finding(
+                    "approval.manifest_status",
+                    "Manifest selection is not approved",
+                    evidence["manifest"],
+                )
+            )
+        manifest_evidence = metadata.get("selection_evidence")
+        if evidence["field"] == "selected_variants":
+            manifest_evidence = (
+                manifest_evidence.get(evidence["key"])
+                if isinstance(manifest_evidence, dict)
+                else None
+            )
+        expected = {
+            key: evidence[key]
+            for key in (
+                "decision_id",
+                "decision_path",
+                "decision_sha256",
+                "review_path",
+                "review_sha256",
+                "selected_sha256",
+            )
+        }
+        if not isinstance(manifest_evidence, dict) or any(
+            manifest_evidence.get(key) != value for key, value in expected.items()
+        ):
+            findings.append(
+                Finding(
+                    "approval.manifest_evidence",
+                    "Manifest decision evidence differs from request",
+                    evidence["manifest"],
+                )
+            )
+        if evidence["decision_path"] != f"decisions/{evidence['decision_id']}.json":
+            findings.append(
+                Finding(
+                    "approval.decision_path",
+                    "Decision path does not match decision ID",
+                    evidence["decision_path"],
+                )
+            )
+            return findings
+        decision_file = contained_path(root, evidence["decision_path"])
+        content = decision_file.read_bytes()
+        if hashlib.sha256(content).hexdigest() != evidence["decision_sha256"]:
+            findings.append(
+                Finding(
+                    "approval.decision_hash",
+                    "Decision file changed",
+                    evidence["decision_path"],
+                )
+            )
+            return findings
+        decision = json.loads(content)
+        findings.extend(decision_findings(root, decision))
+        if schema_findings(decision, "production-decision.schema.json"):
+            return findings
+        if (
+            decision["decision_id"] != evidence["decision_id"]
+            or decision["decision_type"] != "variant_selection"
+            or decision["subject_path"] != path
+            or decision["selected_sha256"] != ref["sha256"]
+            or decision["selected_sha256"] != evidence["selected_sha256"]
+            or decision["selected_variant"]
+            != selected_manifest_value(metadata, evidence)
+            or decision["review_path"] != evidence["review_path"]
+            or decision["review_sha256"] != evidence["review_sha256"]
+            or (
+                isinstance(manifest_evidence, dict)
+                and (
+                    manifest_evidence.get("actor") != decision["actor"]
+                    or manifest_evidence.get("approval_mode")
+                    != decision["approval_mode"]
+                )
+            )
+        ):
+            findings.append(
+                Finding(
+                    "approval.decision_binding",
+                    "Decision does not match the selected reference",
+                    path,
+                )
+            )
+    except (
+        ValueError,
+        TypeError,
+        OSError,
+        UnicodeError,
+        json.JSONDecodeError,
+        YAMLError,
+    ) as error:
+        findings.append(Finding("approval.decision_binding", str(error), path))
+    return findings
+
+
+def legacy_approval_findings(root: Path, ref: dict[str, Any]) -> list[Finding]:
+    evidence = ref["approval_evidence"]
+    findings: list[Finding] = []
+    if evidence["selected_sha256"] != ref["sha256"]:
+        findings.append(
+            Finding(
+                "approval.selected_hash",
+                "Legacy selection hash differs from reference",
+                ref["path"],
+            )
+        )
+    try:
+        metadata = frontmatter(root, evidence["manifest"])
+        if (
+            evidence["field"] == "selected_variant"
+            and metadata.get("status") != "approved"
+        ):
+            findings.append(
+                Finding(
+                    "approval.legacy_status",
+                    "Legacy selection is not approved",
+                    evidence["manifest"],
+                )
+            )
+        selected = selected_manifest_value(metadata, evidence)
+        audit_path = contained_path(root, evidence["audit_path"])
+        audit_bytes = audit_path.read_bytes()
+        if hashlib.sha256(audit_bytes).hexdigest() != evidence["audit_sha256"]:
+            findings.append(
+                Finding(
+                    "approval.legacy_audit",
+                    "Legacy audit log changed",
+                    evidence["audit_path"],
+                )
+            )
+        else:
+            latest = None
+            for line in audit_bytes.decode("utf-8").splitlines():
+                event = json.loads(line)
+                selections = event.get("selections", {})
+                if (
+                    isinstance(selections, dict)
+                    and evidence["legacy_asset_id"] in selections
+                ):
+                    latest = selections[evidence["legacy_asset_id"]]
+            if latest != selected:
+                findings.append(
+                    Finding(
+                        "approval.legacy_audit",
+                        "Legacy audit does not confirm the current selection",
+                        evidence["audit_path"],
+                    )
+                )
+    except (
+        ValueError,
+        TypeError,
+        OSError,
+        UnicodeError,
+        json.JSONDecodeError,
+        YAMLError,
+    ) as error:
+        findings.append(
+            Finding("approval.legacy_audit", str(error), evidence["audit_path"])
+        )
+    return findings
+
+
 def reference_findings(
-    root: Path, references: list[dict[str, Any]], prompt: str
+    root: Path, references: list[dict[str, Any]], prompt: str, schema_version: int = 1
 ) -> list[Finding]:
     findings: list[Finding] = []
     counters = {"Image": 0, "Video": 0, "Audio": 0}
@@ -143,7 +511,9 @@ def reference_findings(
             findings.append(
                 Finding("references.current_hashes", "Reference content changed", path)
             )
-        if not approval_matches(root, ref, target):
+        if schema_version == 2:
+            findings.extend(approval_decision_findings(root, ref, target))
+        elif not approval_matches(root, ref, target):
             findings.append(
                 Finding(
                     "approval.explicit_choice",
@@ -262,9 +632,7 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
     return findings
 
 
-def validate_request(
-    project_root: Path, request: Any, capability_evidence: Any
-) -> list[Finding]:
+def prepared_evidence_findings(project_root: Path, request: Any) -> list[Finding]:
     findings = schema_findings(request, "generation-request.schema.json")
     if findings:
         return findings
@@ -290,6 +658,8 @@ def validate_request(
             request["model"],
             request["operation"],
             request["params"],
+            approval_mode=request.get("approval_mode"),
+            project_sha256=request.get("project_sha256"),
         )
         if digest != request["request_sha256"]:
             findings.append(
@@ -300,8 +670,12 @@ def validate_request(
             )
     except (ValueError, TypeError) as error:
         findings.append(Finding("request.current_hash", str(error)))
-    findings.extend(reference_findings(root, request["references"], prompt_text))
-    findings.extend(capability_findings(request, capability_evidence))
+    findings.extend(
+        reference_findings(
+            root, request["references"], prompt_text, request["schema_version"]
+        )
+    )
+    findings.extend(project_mode_findings(root, request))
     if (
         request["submission_status"] != "prepared"
         or request["provider_task_id"] is not None
@@ -312,6 +686,16 @@ def validate_request(
                 "Existing or uncertain operations must reconcile rather than submit",
             )
         )
+    return findings
+
+
+def validate_request(
+    project_root: Path, request: Any, capability_evidence: Any
+) -> list[Finding]:
+    findings = prepared_evidence_findings(project_root, request)
+    if schema_findings(request, "generation-request.schema.json"):
+        return findings
+    findings.extend(capability_findings(request, capability_evidence))
     return findings
 
 

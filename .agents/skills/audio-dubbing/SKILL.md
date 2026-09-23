@@ -5,11 +5,19 @@ description: "Dubs video or audio from one language to another using Seed Audio 
 
 # Audio Dubbing
 
-Create a translated audio track from source media and an approved target-language script, preserving the intended voices and timing. Optionally mux it onto the original video. This is a standalone capability using generation and media tools; sibling skills are optional caller-level composition hints.
+Create a translated audio track from source media and a verified
+target-language script, preserving the intended voices and timing. Optionally
+mux it onto the original video. This is a standalone capability using
+generation and media tools; sibling skills are optional caller-level
+composition hints. Voice likeness consent remains a separate required input.
 
 ## Scope and inputs
 
-Use for language dubbing, dialogue replacement, and localization with the source voices. Inputs are a readable source audio/video file, the approved translated script (plain text, SRT, or VTT), target language, and any supplied speaker identities or pronunciation requirements.
+Use for language dubbing, dialogue replacement, and localization with the
+source voices. Inputs are a readable source audio/video file, a translated
+script (plain text, SRT, or VTT), target language, verified voice-use consent,
+and any supplied speaker identities or pronunciation requirements. Project
+work follows `project.md` approval mode for the creative script decision.
 
 This workflow copies video frames. It does not re-render mouth movement or guarantee lip synchronization. Transcription-only work, generic TTS, soundscape composition, and visual editing belong to their respective capabilities.
 
@@ -28,13 +36,21 @@ Do not load every reference for a simple mix or mux request.
 
 ## Procedure and gates
 
-1. Probe source streams/durations and verify the target script. Preserve user-approved dialogue and speaker information. Missing script approval or unresolved speaker assignments block dependent generation, not read-only source analysis.
+1. Probe source streams/durations and verify the target script. Preserve
+   user-locked dialogue and speaker information. In project work,
+   `approve_for_me` permits agent confirmation only after semantic review;
+   `ask_for_approval` waits for the user's script choice. A missing script
+   decision, unresolved speaker assignment, or unverified voice consent blocks
+   dependent generation, not read-only source analysis.
 2. Plan source segments at dialogue boundaries. Include overlap and encoding padding in reference limits. Record each actual start/end and measured clip size/duration before uploading.
-3. Write prompts with the exact approved voice descriptors, explicit speaker attribution, and timestamps relative to each segment's real start. Shorten only unlocked prose; split if locked content exceeds the tool's budget.
+3. Write prompts with the exact authorized voice descriptors, explicit speaker attribution, and timestamps relative to each segment's real start. Shorten only unlocked prose; split if locked content exceeds the tool's budget.
 4. The caller completes the workspace prompt-review gate. Freeze the exact submitted prompt beside its planned media output, hash the prompt and ordered references, and record the request before submission.
 5. Submit once using the resolved tool contract. Persist returned IDs immediately. An ambiguous submission enters `submission_unknown`; reconcile it rather than automatically retrying. A known ID resumes polling; a completed artifact with a download failure resumes downloading.
 6. Download each output locally and verify dialogue completeness before timing adjustments. Mix at recorded absolute offsets, then probe and decode.
-7. For video, use the verified mux helper. Inspect actual audio/video timing and let the user review the creative result. Record outputs as `review`; only explicit user selection grants approval.
+7. For video, use the verified mux helper. Inspect actual audio/video timing
+   and listen to the final mix. Record outputs as `review`; in project work, a
+   mode-authorized, hash-bound decision may approve only a passing result. In
+   `ask_for_approval`, show the recommendation and wait for the user.
 
 MCP is the durable in-agent generation path. Equivalent Ark CLI fallback follows the same preflight and recovery contract; changing transport never authorizes a duplicate uncertain submission.
 

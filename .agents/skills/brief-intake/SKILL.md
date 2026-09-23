@@ -112,10 +112,14 @@ remaining decision. Explain what each interpretation would make the viewer feel.
 
 Present the proposed direction with reasons, then identify decisions actually
 requiring acceptance: a new concept, a changed lock, or an impactful assumption.
-Do not demand a fixed checklist of confirmations for prompt-only drafts. Silence,
-an undisplayed default, and acceptance of one axis never approve an entire set.
-An explicit acceptance of a displayed set confirms that set. Existing task
+For project work, read `approval_mode` from `project.md`. In `approve_for_me`,
+the agent may confirm disclosed creative defaults against the brief and record
+their rationale; in `ask_for_approval`, leave them proposed until the user
+accepts the displayed set. Do not demand a fixed checklist of confirmations
+for prompt-only drafts. Silence and an undisplayed default do not approve a
+set. An explicit acceptance of a displayed set confirms that set. Existing task
 instructions can already establish an accepted choice; do not request it again.
+Neither mode can infer rights or real-person likeness/voice consent.
 
 When project-file updates are in scope, record in `project.md`:
 
@@ -139,7 +143,9 @@ locked:
 ```
 
 `proposed` means recommendation; `defaulted` means a disclosed working assumption;
-only `user_confirmed` choices enter `locked`. Preserve prior evidence for unchanged
+`agent_confirmed` is a mode-authorized brief decision, and `user_confirmed`
+records an explicit user choice. Only confirmed choices enter `locked`, and an
+agent cannot replace a `user_confirmed` lock. Preserve prior evidence for unchanged
 choices. Scene overrides carry their own value/source/evidence and do not overwrite
 project-wide locks. For a one-axis revision, change that axis and identify any
 actual downstream dependency; do not reopen the whole brief. In prompt-only or
@@ -154,5 +160,6 @@ These are hypothetical teaching cases, not measured generation outcomes.
 Before returning, check that the proposal serves the stated reaction, names a
 specific idea, respects constraints and accepted choices, and omits irrelevant
 axes. Two treatments appear only when exploration is wanted, and differ in
-mechanism. Unknowns remain labeled; recommendations remain unapproved until the
-user chooses them. Evaluate the reasoning and usefulness, not exact headings.
+mechanism. Unknowns remain labeled; recommendations remain unapproved until a
+mode-authorized decision is recorded. Evaluate the reasoning and usefulness,
+not exact headings.

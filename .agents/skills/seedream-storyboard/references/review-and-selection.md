@@ -49,9 +49,14 @@ Reject or repair:
 Present candidates in panel order with filename or artifact ID, material
 differences, known continuity or anatomy issues, and a recommendation.
 
-Ask the user to choose a variant. After an explicit choice:
+For project selection, read the project mode before choosing. In
+`approve_for_me`, select the best passing panel against the recorded beat,
+canon, and continuity criteria, then
+save the hash-bound review and agent decision. In `ask_for_approval`, record a
+recommendation and ask the user to choose. If no panel passes or inspection is
+unavailable, leave selection unresolved. After a mode-authorized choice:
 
 - set `selected_variant` to the chosen file;
-- mark the chosen output `approved` only if the user approved it;
+- mark the chosen output `approved` only through the validated decision writer;
 - mark rejected candidates `rejected` without deleting them;
 - preserve prompts, hashes, and metadata for every take.

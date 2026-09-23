@@ -12,6 +12,7 @@ Add a `canvas` object and assign every section to one production stage:
 {
   "title": "Project production canvas",
   "canvas": {
+    "approvalContractVersion": 1,
     "currentStage": "canon-elements",
     "stages": [
       {
@@ -65,6 +66,43 @@ The eight stage IDs and their order are fixed:
 Statuses are `pending`, `active`, `review`, `approved`, `complete`, `blocked`,
 or `skipped`. Earlier stages must be `approved`, `complete`, or `skipped` before
 the current stage advances. A future optional stage may be marked `skipped`.
+
+New canvases use `approvalContractVersion: 1`. The generator reads
+`approval_mode` from `project.md` and displays the effective mode and whether
+it was explicitly set. An omitted mode defaults to `approve_for_me`. The
+effective mode and `project.md` hash are embedded in the HTML snapshot, so a
+mode change makes `--check --stage` fail until the page is regenerated. Existing
+canvases without a contract version remain readable without inventing earlier
+approval evidence.
+
+For a version 1 canvas, `assembly-review` cannot be `approved` or `complete`
+without a picture lock and, unless `audio-preparation` was skipped, an audio
+lock. `delivery` additionally requires a final master lock. Each lock in
+`canvas.stages[].locks` records `decision_id`, `decision_sha256`, `result`, `artifact_path`,
+`artifact_sha256`, `review_path`, `review_sha256`, `actor`, and `reason`.
+The decision JSON, accepted artifact, and review must also be listed in that
+stage's `sources`. The canvas checkpoint verifies the file hashes and source
+links. The decision service writes locks and sources together; do not add a
+lock by editing JSON alone.
+
+In `ask_for_approval`, put eligible choices in the current stage's
+`lockCandidates` list. Each entry has `lock_kind` (`picture` or `audio` for
+`assembly-review`, `final_master` for `delivery`), `artifact_path`,
+`review_path`, a nonempty `reason`, and `upstream_sha256` mapping project-relative
+inputs to their SHA-256 hashes. The paths must be project-local. Serve the
+canvas with `--serve --stage <stage-id>`; the user can inspect each candidate
+and press its **Approve** button. The server accepts only candidates still
+registered in `showcase.json`, checks the page and project revisions, creates
+a fresh local UI authorization event, validates the review and media, and
+writes the decision and lock. The rendered page then refreshes. Plain
+`index.html` remains read-only. For `approve_for_me`, the agent writes a
+validated stage decision through `--stage-decision`.
+
+For a completed element, storyboard, audio, or shot stage on a version 1
+canvas, every selectable asset must have a registered selected variant with
+approved `selection_evidence`. The checkpoint verifies the selected media,
+decision, passing review, upstream hashes, and stage source links. Active and
+review stages can show unfinished candidates while the agent or user decides.
 
 ## What belongs on the canvas
 
@@ -124,7 +162,10 @@ For each active stage:
 
 1. Read `showcase.json` immediately before editing it.
 2. Update the current stage status, summary, sources, and stage-tagged sections.
-3. Preserve earlier stages and their rejected or superseded variants.
+3. Preserve earlier stages and their rejected or superseded variants. Add every
+   candidate review through the card or take's `reviewPath`, and keep decision
+   and review files in stage `sources` after a selection. The rendered canvas
+   shows selected variants with their actor, reason, and review/decision links.
 4. Regenerate the HTML with the expected stage:
 
 ```bash
@@ -139,15 +180,22 @@ For each active stage:
   projects/<project> --check --stage <stage-id>
 ```
 
-The generated page embeds the manifest SHA-256 plus the hashes of every local
-source referenced by the canvas and its sections. The check fails when the
-stage does not match, a source is missing, the HTML predates a change, or the
-generated page lacks the current snapshot. Fix the manifest or regenerate the
-HTML; do not mark the stage complete while the check fails.
+The generated page embeds the manifest SHA-256, `project.md` hash and effective
+approval mode, plus the hashes of every local source referenced by the canvas
+and its sections. The check fails when the stage does not match, a source is
+missing or changed, a required lock is missing or stale, or the HTML predates a
+change. Fix the evidence or regenerate the HTML; do not mark the stage complete
+while the check fails. This applies in both approval modes. In
+`approve_for_me`, the agent updates and inspects the page and runs this check
+without waiting for a routine user selection.
 
-When selections are saved through `--serve` or `--apply`, the generator refreshes
-the HTML after the manifest write. A failed refresh is reported separately from
-the already-applied selection and must be resolved before leaving the stage.
+When selections, stage locks, or mode changes are saved through the generator,
+it refreshes the HTML after the transactional write. A failed refresh is
+reported separately from the applied decision and must be resolved before
+leaving the stage. In `ask_for_approval`, the user can choose variants and
+approve registered stage-lock candidates through `--serve`. The agent uses
+decision files with passing review evidence for autonomous selections and
+stage locks.
 
 ## Review fallback
 

@@ -191,4 +191,7 @@ Before returning the result, verify:
 7. The calling production workflow lists the source, raster, provenance, and
    review state on its canvas.
 
-A successful render enters `review`. Only the user can select or approve it.
+A successful render enters `review`. Exact-copy, font, overflow, dimension,
+alpha, thumbnail, and visible-design QA must pass before selection. In a
+production project, a hash-bound decision under `project.md` approval mode may
+select or approve it.

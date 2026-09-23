@@ -1,6 +1,7 @@
 import copy
 import hashlib
 import importlib.util
+import json
 import sys
 import tempfile
 import unittest
@@ -79,7 +80,78 @@ class RequestValidationTests(unittest.TestCase):
             self.request["model"],
             self.request["operation"],
             self.request["params"],
+            approval_mode=self.request.get("approval_mode"),
+            project_sha256=self.request.get("project_sha256"),
         )
+
+    def prepare_v2(self):
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: approve_for_me\n---\n"
+        )
+        self.request["schema_version"] = 2
+        self.request["approval_mode"] = "approve_for_me"
+        self.request["project_sha256"] = self.hash("project.md")
+        review = {
+            "schema_version": 1,
+            "artifact_path": "image.png",
+            "artifact_sha256": self.hash("image.png"),
+            "status": "pass",
+            "inspection_method": "direct image inspection",
+            "coverage": "full image at original resolution",
+            "checks": [
+                {
+                    "criterion": "visible identity",
+                    "status": "pass",
+                    "evidence": "Matches source",
+                }
+            ],
+            "observations": ["Image is complete"],
+            "limitations": [],
+            "recommendation": "Select this image",
+        }
+        (self.root / "review.json").write_text(json.dumps(review))
+        decision = {
+            "schema_version": 1,
+            "decision_id": "choice-1",
+            "decision_type": "variant_selection",
+            "asset_id": "fixture",
+            "subject_path": "image.png",
+            "selected_variant": "image.png",
+            "selected_sha256": self.hash("image.png"),
+            "actor": "agent",
+            "approval_mode": "approve_for_me",
+            "project_sha256": self.hash("project.md"),
+            "result": "approved",
+            "review_path": "review.json",
+            "review_sha256": self.hash("review.json"),
+            "upstream_sha256": {},
+            "reason": "Best passing option",
+            "decided_at": "2026-09-23T00:00:00Z",
+        }
+        (self.root / "decisions").mkdir()
+        (self.root / "decisions/choice-1.json").write_text(json.dumps(decision))
+        evidence = {
+            "manifest": "character.md",
+            "field": "selected_variant",
+            "decision_id": "choice-1",
+            "decision_path": "decisions/choice-1.json",
+            "decision_sha256": self.hash("decisions/choice-1.json"),
+            "review_path": "review.json",
+            "review_sha256": self.hash("review.json"),
+            "selected_sha256": self.hash("image.png"),
+        }
+        self.request["references"][0]["approval_evidence"] = evidence
+        (self.root / "character.md").write_text(
+            "---\nselected_variant: image.png\nstatus: approved\nselection_evidence:\n"
+            + "".join(
+                f"  {key}: {value}\n"
+                for key, value in evidence.items()
+                if key not in ("manifest", "field")
+            )
+            + "  actor: agent\n  approval_mode: approve_for_me\n---\n"
+        )
+        self.rehash()
+        return review, decision
 
     def findings(self):
         return validation.validate_request(self.root, self.request, self.caps)
@@ -88,6 +160,140 @@ class RequestValidationTests(unittest.TestCase):
         before = copy.deepcopy(self.request)
         self.assertEqual(self.findings(), [])
         self.assertEqual(self.request, before)
+
+    def test_v2_valid_approved_decision_passes(self):
+        self.prepare_v2()
+        self.assertEqual(self.findings(), [])
+
+    def test_v2_selected_variants_evidence_uses_matching_key(self):
+        self.prepare_v2()
+        evidence = self.request["references"][0]["approval_evidence"]
+        evidence["field"] = "selected_variants"
+        evidence["key"] = "hero"
+        (self.root / "character.md").write_text(
+            "---\nselected_variants:\n  hero: image.png\nstatus: review\nselection_evidence:\n  hero:\n"
+            + "".join(
+                f"    {key}: {value}\n"
+                for key, value in evidence.items()
+                if key not in ("manifest", "field", "key")
+            )
+            + "    actor: agent\n    approval_mode: approve_for_me\n---\n"
+        )
+        self.rehash()
+        self.assertEqual(self.findings(), [])
+        evidence["key"] = "other"
+        self.rehash()
+        self.assertIn(
+            "approval.selected_variant",
+            {finding.rule_id for finding in self.findings()},
+        )
+
+    def test_v2_missing_or_failing_review_blocks_reference(self):
+        review, decision = self.prepare_v2()
+        review["status"] = "fail"
+        (self.root / "review.json").write_text(json.dumps(review))
+        ids = {finding.rule_id for finding in self.findings()}
+        self.assertIn("approval.review_hash", ids)
+        decision["review_sha256"] = self.hash("review.json")
+        self.assertIn(
+            "approval.passing_review",
+            {
+                finding.rule_id
+                for finding in validation.decision_findings(self.root, decision)
+            },
+        )
+
+    def test_v2_changed_selected_file_or_decision_blocks_reference(self):
+        self.prepare_v2()
+        (self.root / "image.png").write_bytes(b"changed")
+        self.assertIn(
+            "approval.selected_hash", {finding.rule_id for finding in self.findings()}
+        )
+        (self.root / "decisions/choice-1.json").write_text("{}")
+        self.assertIn(
+            "approval.decision_hash", {finding.rule_id for finding in self.findings()}
+        )
+
+    def test_v2_mode_change_blocks_preflight(self):
+        self.prepare_v2()
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: ask_for_approval\n---\n"
+        )
+        self.assertIn(
+            "approval.current_mode", {finding.rule_id for finding in self.findings()}
+        )
+
+    def test_v2_plain_text_legacy_project_uses_bound_default_mode(self):
+        self.prepare_v2()
+        (self.root / "project.md").write_text(
+            "Legacy project brief without frontmatter.\n"
+        )
+        self.request["project_sha256"] = self.hash("project.md")
+        self.rehash()
+        self.assertEqual(validation.project_mode_findings(self.root, self.request), [])
+        (self.root / "project.md").write_text("---\ninvalid frontmatter")
+        self.assertIn(
+            "approval.current_mode",
+            {
+                finding.rule_id
+                for finding in validation.project_mode_findings(self.root, self.request)
+            },
+        )
+
+    def test_v2_rejects_agent_decision_in_ask_mode(self):
+        self.prepare_v2()
+        decision_path = self.root / "decisions/choice-1.json"
+        decision = json.loads(decision_path.read_text())
+        decision["approval_mode"] = "ask_for_approval"
+        self.assertTrue(validation.decision_findings(self.root, decision))
+
+    def test_v2_tagged_legacy_selection_requires_matching_audit(self):
+        self.prepare_v2()
+        (self.root / "selection.log").write_text(
+            json.dumps({"event": "save", "selections": {"fixture": "image.png"}}) + "\n"
+        )
+        (self.root / "character.md").write_text(
+            "---\nselected_variant: image.png\nstatus: approved\n---\n"
+        )
+        self.request["references"][0]["approval_evidence"] = {
+            "manifest": "character.md",
+            "field": "selected_variant",
+            "selected_sha256": self.hash("image.png"),
+            "evidence_type": "legacy",
+            "legacy_asset_id": "fixture",
+            "audit_path": "selection.log",
+            "audit_sha256": self.hash("selection.log"),
+        }
+        self.rehash()
+        self.assertEqual(self.findings(), [])
+        (self.root / "selection.log").write_text(
+            json.dumps({"event": "save", "selections": {"fixture": "other.png"}}) + "\n"
+        )
+        self.assertIn(
+            "approval.legacy_audit", {finding.rule_id for finding in self.findings()}
+        )
+
+    def test_stage_lock_decision_requires_valid_review_and_user_authorization(self):
+        _, decision = self.prepare_v2()
+        decision.pop("asset_id")
+        decision.pop("selected_variant")
+        decision["subject_sha256"] = decision.pop("selected_sha256")
+        decision["decision_type"] = "stage_lock"
+        decision["stage_id"] = "assembly-review"
+        decision["lock_kind"] = "picture"
+        decision["actor"] = "user"
+        decision["approval_mode"] = "ask_for_approval"
+        self.assertTrue(validation.decision_findings(self.root, decision))
+        decision["authorization"] = {
+            "source": "chat",
+            "evidence": "User chose picture lock",
+        }
+        self.assertTrue(validation.decision_findings(self.root, decision))
+        decision["authorization"] = {
+            "source": "local_ui",
+            "evidence": "local_review_ui",
+        }
+        self.assertEqual(validation.decision_findings(self.root, decision), [])
 
     def test_changed_reference_and_prompt_are_rejected(self):
         (self.root / "image.png").write_bytes(b"changed")

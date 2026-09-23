@@ -8,7 +8,7 @@ description: Orchestrate an AI-assisted film, commercial, music video, or narrat
 Manage one coherent production run while keeping specialist skills modular. Read
 the project's `project.md` and existing manifests first, inspect the existing
 project before creating anything, and advance only as far as the available
-evidence and approvals permit.
+evidence and mode-authorized decisions permit.
 
 ## Core operating model
 
@@ -20,7 +20,8 @@ evidence and approvals permit.
 - Delegate modality work by invoking the narrowest applicable project skill.
 - Prefer a deterministic workflow when the next action is known. Use agentic
   judgment for creative choices, contradiction resolution, and review.
-- Never infer approval. Technical success places an output in `review`.
+- Never infer approval from provider success. Technical success places an
+  output in `review`; a passing review and recorded decision may approve it.
 - Never submit a replacement generation because local polling timed out. Resume
   the provider task recorded in `task_ids.json`.
 - Never silently replace user writing, approved canon, selected variants, or
@@ -33,7 +34,11 @@ evidence and approvals permit.
 2. Read `project.md`, `task_ids.json`, `showcase.json`, relevant element
    manifests, scene and shot manifests, prompt snapshots, and the latest review
    decisions. If a production project has no canvas, initialize the eight-stage
-   skeleton before advancing it.
+   skeleton before advancing it. New projects set
+   `approval_mode: approve_for_me` in `project.md` frontmatter before `--init`.
+   The alternative is `ask_for_approval`. A missing field in a legacy project
+   means `approve_for_me` for new decisions only; historical selections stay as
+   recorded. Reject an invalid or unreadable mode.
    - **Never hand-write `showcase.json`.** Create the canvas only with the
      canonical tool: `uv run python
      .agents/skills/showcase-html/scripts/generate_showcase.py <project>
@@ -50,7 +55,8 @@ evidence and approvals permit.
 3. Determine the current stage from recorded artifacts and lifecycle states.
    Do not infer completion from filenames alone.
 4. Identify contradictions, missing inputs, stale dependencies, pending provider
-   tasks, and approval gates.
+   tasks, and decision gates. Recheck the effective mode before each decision;
+   a stale mode read cannot authorize a selection or lock.
 5. State the current stage, the next safe objective, required specialist skills,
    and any user decision needed before spending credits.
 
@@ -104,35 +110,48 @@ For the active stage:
    For deterministic static graphics, persist the editable HTML entrypoint,
    local CSS/SVG dependencies, input/font hashes, render record, and PNG instead
    of a model prompt or provider task.
-5. Inspect actual outputs, not only provider response metadata.
-6. Update the active stage in `showcase.json` with every input, exact prompt,
-   element binding, output, QA result and decision; regenerate and open
-   `index.html`.
-7. Run `generate_showcase.py <project> --check --stage <stage-id>`. A stale or
-   incomplete canvas keeps the stage open.
-8. Set outputs to `review` and present material differences, known defects, and
-   the recommended next decision.
+5. Persist and inspect every actual output, not only provider response metadata.
+   Set generated outputs to `review`. Images need visible inspection, video
+   needs temporal inspection, and audio needs listening evidence in addition to
+   technical checks. Reject hard-gate failures and rank passing candidates
+   against the brief's recorded criteria; no passing candidate blocks selection.
+6. In `approve_for_me`, record a hash-bound review and agent decision, then use
+   the validated writer to select the best passing candidate. In
+   `ask_for_approval`, record a recommendation and wait for the user's decision;
+   a recommendation does not set `selected_variant` or `approved`. Preserve
+   explicit user locks in either mode.
+7. Update the active stage in `showcase.json` with every input, exact prompt,
+   element binding, output, QA result and decision. Regenerate and inspect
+   `index.html` after every material change, including autonomous decisions.
+8. Run `generate_showcase.py <project> --check --stage <stage-id>`. A missing,
+   stale, or incomplete canvas keeps the stage open in either mode.
 9. Advance only when the stage exit contract is satisfied.
 
 At the brief/development stage, run `brief-intake` before writing the brief's
 required output: it proposes genre-appropriate defaults per directorial axis
 (structure, camera, lens, lighting, grade, pacing, acting, staging, medium,
 audio) in fast mode by default, or full Q&A when the user opts in, and persists
-the confirmed set as a `locked` block in `project.md`.
+the mode-authorized confirmed set as a `locked` block in `project.md`.
 
 ## Approval and spending gates
 
-Require explicit user approval before:
+`approve_for_me` is the default for local production decisions. It authorizes
+the agent to confirm directorial defaults and select passing canon, storyboard
+panels, video takes, and picture/audio/final local master locks within the
+brief's stated scope and run budget. Each decision needs current input/output
+hashes, passing modality-specific QA, a recorded reason and actor, and a
+validated write. A tie uses stable operation ID and variation-index order.
+Unavailable inspection, a hard-gate failure, stale evidence, or no passing
+candidate blocks approval. Do not promote the least-bad output merely to
+advance.
 
-- promoting any acquired, generated, or deterministically rendered required
-  element into approved canon;
-- using a storyboard panel as a video input;
-- submitting a high-cost or multi-variant final generation;
-- invalidating or replacing an approved take;
-- declaring picture, audio, or final delivery lock.
-
-Ordinary low-cost work explicitly requested by the user may proceed within the
-repository guardrails. Approval to generate does not approve the result.
+In `ask_for_approval`, present candidates, material differences, review
+evidence, and a recommendation; wait for the user's selection or lock before
+advancing. Neither mode may silently replace an explicit user selection or
+lock. Rights, real-person likeness/voice consent, new spending beyond the
+declared run budget, external delivery, and publishing need their own scope or
+authorization. An approval to generate never approves its result. Record
+estimated and confirmed cost separately and reconcile ambiguous submissions.
 
 ## Handle revisions
 
@@ -153,8 +172,9 @@ approved. Preserve rejected history and never overwrite source media.
 Report the stage reached, artifacts created or changed, canvas path and freshness
 check, review status, provider tasks still running, costs when known, unresolved
 risks, and the next production decision. A production run is complete only when
-its active stage exit contract is satisfied; the whole film is complete only
-after explicit final-delivery approval.
+its active stage exit contract is satisfied; the local film is complete only
+after its inspected master has a mode-authorized final lock. External delivery
+or publishing remains a separate action.
 
 ## Submission recovery
 

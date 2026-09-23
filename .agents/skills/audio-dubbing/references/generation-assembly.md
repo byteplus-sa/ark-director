@@ -17,7 +17,7 @@ Save every returned request/task/artifact ID immediately. A timeout with a known
 
 ## Local download and checks
 
-Persist every output under the relevant local scene/shot directory. A durable artifact ID and an expiring URL supplement the local file; they do not replace it. Save bytes, SHA-256, measured duration, provider IDs, and the exact submitted prompt snapshot. Keep generated outputs in review until the user selects them.
+Persist every output under the relevant local scene/shot directory. A durable artifact ID and an expiring URL supplement the local file; they do not replace it. Save bytes, SHA-256, measured duration, provider IDs, and the exact submitted prompt snapshot. Keep generated outputs in `review` until a mode-authorized decision selects a passing result.
 
 Prefer a provider-supported download or a returned media URL. Download to an owned temporary file, require a successful HTTP response, and probe/decode before moving it to the intended asset path. If only artifact retrieval is available, use its documented data field; never recursively guess which large JSON string contains base64. Never pass a truncated tool response to a decoder. Refresh an expired URL using its durable artifact/object identifier.
 

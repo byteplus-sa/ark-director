@@ -162,7 +162,13 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   [Routing](.agents/contracts/routing.md).
 - Elements define identity; derivative boards require current source hashes and
   explicit selection before video use. Control-only diagrams stay analysis-only
-  by default. Automated recommendations cannot set selected_variant or approved.
+  by default. New projects set `approval_mode: approve_for_me` in `project.md`;
+  `ask_for_approval` is the alternative. A legacy project without the field uses
+  the default for new decisions only. In `approve_for_me`, an agent may select
+  and approve a passing candidate after modality-appropriate inspection and a
+  hash-bound decision record. In `ask_for_approval`, the agent records a
+  recommendation and waits for the user's selection. Neither mode promotes an
+  unreviewed candidate or overrides an explicit user lock.
 - Static assets use visible-design criteria. Narrative shots need action and
   intent. Audio uses its requested sound arc. Do not apply narrative tactics to
   every static sheet or ambience prompt. Deterministic HTML/CSS/SVG is a
@@ -200,10 +206,15 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 - Create one project `showcase.json` and generated `index.html` at initialization.
   Keep that production canvas synchronized with briefs, manifests, prompts,
   elements, audio, video, review evidence, assemblies and delivery state after
-  every material stage change. A stage cannot exit until its
-  `showcase-html --check --stage <stage-id>` freshness check passes.
-- Provider success sets review, not approved. User choice alone approves a
-  variant. Preserve other variants and prior history unless explicitly changed.
+  every material stage change in either approval mode. Regenerate and inspect
+  `index.html` and pass `showcase-html --check --stage <stage-id>` before every
+  stage exit, including autonomous stage exits.
+- Provider success sets `review`, not `approved`. A validated agent decision in
+  `approve_for_me` or an explicit user decision in `ask_for_approval` approves a
+  variant only after required QA passes. Use the same mode for picture, audio,
+  and final local master locks. Preserve other variants and prior history unless
+  explicitly changed. Rights and real-person consent remain separate from a
+  creative selection; neither mode grants them by inference.
 - Default generative-image selection sets contain three stochastic samples with
   identical prompt, references and effective parameters except supported seed
   variation. Deterministic renders produce one exact version per specification.
@@ -226,7 +237,7 @@ repository maintenance unless explicitly scoped.
 
 | Location | Contents |
 | --- | --- |
-| `projects/<project>/project.md` | Brief, proposed/confirmed axes, project state |
+| `projects/<project>/project.md` | Brief, `approval_mode`, proposed/confirmed axes, project state |
 | `projects/<project>/showcase.json` and `index.html` | Canonical canvas manifest and synchronized stage review surface |
 | `projects/<project>/task_ids.json` | Single provider-operation registry |
 | `projects/<project>/ref_cache.json` | Content hashes and storage-scoped object keys |

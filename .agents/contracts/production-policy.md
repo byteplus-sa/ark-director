@@ -29,9 +29,37 @@ current. A missing, invalid or stale page leaves the stage incomplete.
 is unavailable or explicitly requested. Record the gap and restore the canvas;
 the fallback never replaces the stage checkpoint.
 
-Defaults are proposed until the user accepts the displayed set. Store each axis with value, source (proposed/defaulted/user_confirmed), and approval evidence when available. Approval persists across turns within its stated scope. A generation request does not approve its result.
+New projects write `approval_mode: approve_for_me` to `project.md` frontmatter
+before canvas initialization. The alternative is `ask_for_approval`. A legacy
+project without the field uses `approve_for_me` for new decisions only; do not
+rewrite or reinterpret its historical selections. Reject an invalid or
+unreadable mode. Read the effective mode at start/resume and recheck it before
+each selection or stage lock so an intervening mode change cannot authorize a
+stale agent decision.
 
-Only explicit user choice sets selected_variant or approved. Automated advice uses recommended_variant. A technical success is review. Choosing one take does not implicitly reject every other take. Preserve earlier selections and user-written metadata when updating a bounded field.
+Directorial defaults remain disclosed proposals until accepted. In
+`approve_for_me`, the agent may confirm a coherent set against the brief and
+record the choices and reasons. In `ask_for_approval`, record recommendations
+and wait for the user's acceptance. Preserve explicit user choices and their
+evidence across turns within scope. Unknown rights, real-person identity, and
+consent facts require their own authorization and cannot be supplied by the
+creative decision mode. A generation request does not approve its result.
+
+Provider success sets `review`. In `approve_for_me`, inspect every candidate
+with modality-appropriate evidence, reject hard-gate failures, rank passing
+candidates against recorded criteria, and save a hash-bound review and agent
+decision before a validated writer sets `selected_variant` and `approved`. If
+none passes or inspection is unavailable, repair within the run budget or block
+the stage. In `ask_for_approval`, record `recommended_variant` and review
+evidence, then wait for an explicit user choice before setting
+`selected_variant` or `approved`. A recommendation alone never approves. A
+prior explicit user lock cannot be displaced by an agent recommendation.
+Choosing one take does not implicitly reject every other take. Preserve earlier
+selections and user-written metadata when updating a bounded field. Picture,
+audio, and final local master locks follow the same mode and require decisions
+bound to the exact artifact and review hashes. A changed upstream input returns
+affected decisions to review without deleting history. Publishing or sending
+assets requires separate authorization.
 
 ## Directing guidance
 
@@ -57,7 +85,7 @@ in post with FFmpeg or HyperFrames. A transparent delivery graphic and a
 solid-background model reference are separate assets; never use a white matte
 as fake transparency.
 
-Single-person references should preserve the intended identity and avoid cloning. Clean a sheet only for the requested reference policy or observed duplicate-face defect. Preserve approved visual descriptors and the face anchor; do not infer gender identity from appearance. Visual inspection and model-assisted inspection are evidence, not substitutes for user selection. Unavailable verification remains unresolved.
+Single-person references should preserve the intended identity and avoid cloning. Clean a sheet only for the requested reference policy or observed duplicate-face defect. Preserve approved visual descriptors and the face anchor; do not infer gender identity from appearance. Visual inspection and model-assisted inspection support a mode-authorized decision only when they cover the required criteria; unavailable verification remains unresolved. Real-person likeness and voice consent require separate evidence.
 
 An explicitly selected supported conditioning input is a promoted composition or motion reference, not a control-only asset. Record the selected manifest, current hash, reference_image/reference_video role, and control_only false. Changing the flag alone does not grant approval.
 
@@ -65,7 +93,7 @@ An explicitly selected supported conditioning input is a promoted composition or
 
 Before submitting a **generation-bound** request, freeze the exact prompt beside its intended asset, compute hashes, verify ordered bindings/roles, check reference approval and current hashes, and resolve current model/mode capabilities. Run prompt-review for generation-bound prompts; CRITICAL/MAJOR findings must be resolved. Editing a manifest or documentation alone does not trigger generation review. A changed worked example is reviewed offline without buying media.
 
-Acquired brand, logo, packshot, or other `generation: none` elements do not run prompt-review or the default three-sample image set. They still require local persistence, content SHA-256, canvas listing, and explicit `selected_variant` / `approved` before dependent production use. See [element-identification.md](element-identification.md).
+Acquired brand, logo, packshot, or other `generation: none` elements do not run prompt-review or the default three-sample image set. They still require local persistence, content SHA-256, canvas listing, visible inspection, and mode-authorized `selected_variant` / `approved` before dependent production use. See [element-identification.md](element-identification.md).
 
 Deterministic static assets (`generation: deterministic_html`) also skip
 prompt-review, provider task registration, and the default stochastic sample
@@ -73,7 +101,7 @@ set. One render specification produces one exact version. Keep the HTML
 entrypoint, resolved CSS/SVG/asset and font hashes, viewport and renderer metadata,
 background/alpha mode, output properties, and render record. Exact-copy, font,
 overflow, dimension, alpha, thumbnail-legibility, visible-design, canvas, and
-explicit selection checks still apply. Generative layers inside a hybrid retain
+mode-authorized selection checks still apply. Generative layers inside a hybrid retain
 their own prompt-review and provider task evidence.
 
 Every render record must conform to the bundled
