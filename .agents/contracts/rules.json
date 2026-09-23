@@ -212,6 +212,76 @@
       "owner_path": ".agents/skills/template-factory/SKILL.md",
       "summary": "Motion observations, confidence, uncertainty, and directing language are complete.",
       "exceptions": []
+    },
+    {
+      "id": "swap.residual_original",
+      "severity": "error",
+      "applies_to": [
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-vfx-prompt/SKILL.md",
+      "summary": "An object swap identifies the original by observable descriptors and fully replaces it in every frame with only the target visible.",
+      "exceptions": []
+    },
+    {
+      "id": "swap.timeline_inheritance",
+      "severity": "error",
+      "applies_to": [
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-vfx-prompt/SKILL.md",
+      "summary": "An object swap states the target count and inherits every appearance, motion, occlusion, exit, and timing of the original.",
+      "exceptions": []
+    },
+    {
+      "id": "recast.motion_authority",
+      "severity": "error",
+      "applies_to": [
+        "recast"
+      ],
+      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "summary": "A recast motion source supplies motion, camera, framing, cuts, and timing only; appearance comes from the bound references.",
+      "exceptions": []
+    },
+    {
+      "id": "recast.subject_disposition",
+      "severity": "error",
+      "applies_to": [
+        "recast"
+      ],
+      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "summary": "Every visible source subject is mapped, removed, or kept as a background extra, with no unresolved ambiguity.",
+      "exceptions": []
+    },
+    {
+      "id": "recast.mapping_unambiguous",
+      "severity": "error",
+      "applies_to": [
+        "recast"
+      ],
+      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "summary": "Each mapped subject is identified by observable descriptors and bound to exactly one reference.",
+      "exceptions": []
+    },
+    {
+      "id": "recast.guards",
+      "severity": "error",
+      "applies_to": [
+        "recast"
+      ],
+      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "summary": "A recast states per-cut person counts and keeps source accessories and extra people out of the rebuilt cast.",
+      "exceptions": []
+    },
+    {
+      "id": "recast.audio_route",
+      "severity": "error",
+      "applies_to": [
+        "recast"
+      ],
+      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "summary": "A recast states one audio route and lip-sync expectations that agree with it.",
+      "exceptions": []
     }
   ]
 }

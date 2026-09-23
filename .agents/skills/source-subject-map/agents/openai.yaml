@@ -1,0 +1,4 @@
+interface:
+  display_name: "Source Subject Map"
+  short_description: "Analyze a source clip into cuts, subjects, objects, contacts, speakers and ambiguities before recast or swap edits"
+  default_prompt: "Use $source-subject-map to map the subjects, objects and cuts in this source clip before we recast it."

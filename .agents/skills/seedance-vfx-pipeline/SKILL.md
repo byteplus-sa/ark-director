@@ -1,6 +1,6 @@
 ---
 name: seedance-vfx-pipeline
-description: End-to-end pipeline for Seedance video-to-video VFX shot production. Composes the seedance-vfx-prompt skill, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Invoke when the user wants to run a full VFX shot — write prompt, submit task, poll, download, compare, and review — rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.
+description: End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-motion-recast, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (product, wardrobe, prop, or single-character swap), or a Motion Transfer recast (keep source motion, rebuild cast and world), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot — write prompt, submit task, poll, download, compare, and review — rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.
 ---
 
 # Seedance VFX Pipeline
@@ -30,6 +30,9 @@ Use this skill when the user wants to:
 - **run a complete VFX shot** from source clip to saved output
 - **submit a VFX edit** to Seedance and get the result back as a local file
 - **produce a manifested, reproducible VFX asset** with `shot.md` + prompt file
+- **swap one object or recast a whole clip** (Object Swap or Motion Transfer)
+  through the same reviewed submission and delivery gates
+- **produce batch variants** of one approved take for markets, talent or products
 
 Do **not** use this skill when the user only wants to:
 - write a VFX prompt without submitting (see `seedance-vfx-prompt`)
@@ -45,7 +48,7 @@ Output: a prepared operation, durable output, manifest, and technical/semantic r
 
 ## Procedure and reference loading
 
-Resolve inputs and preflight below first. Read submission before any provider call, delivery-and-manifest after acceptance, and shot-chaining only for a requested multi-shot continuation.
+Resolve inputs and preflight below first. Read submission before any provider call, delivery-and-manifest after acceptance, and shot-chaining only for a requested multi-shot continuation. Read recast-and-variants first for an Object Swap, a Motion Transfer recast, or batch variants.
 
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
@@ -53,6 +56,7 @@ mentioned in prose are relative to this skill directory unless a link says other
 - [Submission](references/submission.md) — Step 3 — Submit via MCP; Step 4 — Poll for completion.
 - [Delivery And Manifest](references/delivery-and-manifest.md) — Step 5 — Download and save the asset; Step 6 — Write the shot.md manifest; Step 7 — Verify the prepared standalone prompt file; Step 8 — Report results.
 - [Shot Chaining](references/shot-chaining.md) — Shot chaining workflow.
+- [Recast And Variants](references/recast-and-variants.md) — route selection (VFX edit, Object Swap, Motion Transfer), shared subject map, batch variant rows, parallel execution, cost preview, real-person gates, and recast QA. Read before prompt writing for any swap, recast, or multi-variant request.
 
 ## Submission boundary and failure behavior
 
@@ -87,6 +91,15 @@ flowchart TD
     PROMPTFILE[7. Verify prepared prompt hash] --> REPORT
     REPORT[8. Report cost, latency, paths, last-frame]
 ```
+
+Route selection precedes Step 1. A VFX edit or Object Swap takes its prompt from
+`seedance-vfx-prompt` and submits as an edit; a Motion Transfer recast takes its
+prompt from `seedance-motion-recast` and submits on the provisional motion
+reference route or its full-frame edit fallback. Object Swap and Motion Transfer
+first run `source-subject-map` once per source. Batch variants repeat Steps 1–8
+per variant row, with a 480p key-beat probe before each final, a side-by-side
+against the source, and a canvas entry per row. This orchestrator owns that
+sequencing; see [Recast And Variants](references/recast-and-variants.md).
 
 ## Before/after demo recipe (turnkey)
 

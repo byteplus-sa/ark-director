@@ -131,7 +131,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "cf55e04bc59629b7818cd79bb84d0d0224a653dd08498f0bba2678dd82a43b86"
+      "computedHash": "90dc564351e108eee88ccb4fa998cec4d88e3218907abc71539f106e0df400ef"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -227,13 +227,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "a130e5121bbe89d84a2267b3ad61c6d8f8511e9d63fc237a69a4dffc267592cf"
+      "computedHash": "9cd701b700332f40dbf0f4429e075e3ba452b632ab3653db5e097a2d0ac68533"
     },
     "seedance-vfx-prompt": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-prompt/SKILL.md",
-      "computedHash": "40fb164cd3c0d8ed0c6c030c887e52ec9f880a736e7a17597f198f0090633ceb"
+      "computedHash": "1d4aabe25b6ffde8db25f3f862b7c3d96baa3f71a8efd39d60ce0a3ee0169a83"
     },
     "seedream-character-sheet": {
       "source": "./local",
@@ -372,6 +372,18 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-avatar-news/SKILL.md",
       "computedHash": "0546b3c129caba0e433924e9f5f857f481542c6f138be4025cd44058c75090df"
+    },
+    "source-subject-map": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/source-subject-map/SKILL.md",
+      "computedHash": "bc4e23849b33034eeb89d70a9c5f80a77785131a6b04f069cb40e380ba90002c"
+    },
+    "seedance-motion-recast": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
+      "computedHash": "b247cf042de66d74a46b15f556b90179ace464a6cb2e39b12cad45f27757bd49"
     }
   }
 }

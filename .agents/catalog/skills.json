@@ -327,8 +327,8 @@
     },
     "seedance-vfx-pipeline": {
       "kind": "orchestrator",
-      "description": "End-to-end pipeline for Seedance video-to-video VFX shot production. Composes the seedance-vfx-prompt skill, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Invoke when the user wants to run a full VFX shot \u2014 write prompt, submit task, poll, download, compare, and review \u2014 rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.",
-      "readme_summary": "Run a complete Seedance video-to-video VFX shot and keep its source, prompt, outputs, comparison, and QA synchronized in the project canvas.",
+      "description": "End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-motion-recast, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (product, wardrobe, prop, or single-character swap), or a Motion Transfer recast (keep source motion, rebuild cast and world), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot \u2014 write prompt, submit task, poll, download, compare, and review \u2014 rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.",
+      "readme_summary": "Run a complete Seedance video-to-video VFX, Object Swap or Motion Transfer shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project canvas.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -345,8 +345,8 @@
     },
     "seedance-vfx-prompt": {
       "kind": "leaf",
-      "description": "Write prompts for edits to existing footage: background replacement, creature or object integration, world changes, relighting, weather, dialogue, and timed camera effects. Default to Seedance 2.5 structured edit-goal grammar; retain legacy 2.0 headings and compact VFX recipes for explicitly selected supported paths. Use source inspection, ordered @Video N/@Image N bindings, a declared may-change/must-preserve contract, physical lighting, layered space, timing, audio, and face-fidelity QA. Exclude new T2V/I2V shots, still-image creation, and task submission; the caller owns the generation lifecycle.",
-      "readme_summary": "Write structured or compact Seedance 2.0 video-to-video VFX prompts using the @Video N / @Image N reference grammar (or the compact @source / @creature shorthand), the three-level VFX taxonomy (world swap, element change, handheld cinematic showcase), embedded lighting with preserve-vs-relight integration recipe, layered space, timing triggers,.",
+      "description": "Write prompts for edits to existing footage: background replacement, creature or object integration, product, wardrobe, prop, or single-character swaps, world changes, relighting, weather, dialogue, and timed camera effects. Default to Seedance 2.5 structured edit-goal grammar; retain legacy 2.0 headings and compact VFX recipes for explicitly selected supported paths. Use source inspection, ordered @Video N/@Image N bindings, a declared may-change/must-preserve contract, physical lighting, layered space, timing, audio, and face-fidelity QA. Exclude new T2V/I2V shots, still-image creation, whole-cast motion recasts, and task submission; the caller owns the generation lifecycle.",
+      "readme_summary": "Write Seedance 2.5 video-to-video edit prompts for background replacement, object integration, product, wardrobe, prop and single-character swaps, relighting, weather and timed effects, with a may-change/must-preserve contract.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -554,6 +554,24 @@
       "kind": "orchestrator",
       "description": "Produce a creator-style 9:16 tech/news explainer short hosted by an approved AI avatar: reference-format breakdown, sourced topic research, a hook-driven 20\u201330s script, a Seedance 2.5 talking-head take (built with seedance-ai-avatar), official B-roll acquisition with provenance and usage basis, and a deterministic ffmpeg edit via scripts/render_short.py (split-screen, full-screen, framed-card layouts, STT-timed caption pills, source and channel badges), plus parallel topic/edit variants on the production canvas. Use to recreate a TikTok/Reels/Shorts talking-head news format with an avatar, turn a news story into an avatar short, or batch several options of the same show.",
       "readme_summary": "Creator-style news shorts hosted by an AI avatar: sourced script, official B-roll with provenance, and a deterministic split/full/card caption edit.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "source-subject-map": {
+      "kind": "leaf",
+      "description": "Analyze an existing source clip into an auditable subject map before recasting, swapping, or VFX-editing footage with several subjects or objects. Records source hash and probe data, cuts, subjects with observable descriptors (screen position, clothing, action), swappable objects with per-cut counts, occlusions, hand/object contact windows, speakers with speech windows, on-screen text and logos, and open ambiguities, confirmed by a per-cut keyframe spot-check. Observable descriptors only; never identifies real people. Open ambiguities block downstream prompt writing. Analysis only; excludes media generation and prompt writing.",
+      "readme_summary": "Map a source clip's cuts, subjects, objects, contacts, speakers and on-screen text into a hash-bound subject_map.json before recast, swap or VFX edits; open ambiguities block prompt writing.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "seedance-motion-recast": {
+      "kind": "leaf",
+      "description": "Write Seedance 2.5 Motion Transfer (recast) prompts that keep a source clip's body motion, pose sequence, screen positions, camera path, framing changes, cuts and timing while rebuilding cast, wardrobe, product, location and style from locked reference images. Covers the motion-only authority split, an explicit mapping or disposition for every visible source subject, bleed and extra-people guards, audio and lip-sync routes, named style presets, consent and real-likeness gates for real people in targets or source footage, and a 480p key-beat probe ladder. Consumes a subject_map.json when available or inspects the source itself. Use to recast performers, localize a take for another market, restyle a clip, or rebuild its world around the same performance. Not for changing one region or object while preserving source pixels (use seedance-vfx-prompt), new T2V/I2V shots, or task submission; the caller owns the generation lifecycle.",
+      "readme_summary": "Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, consent gates and a 480p probe ladder.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

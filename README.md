@@ -141,7 +141,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **62 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **64 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -184,8 +184,10 @@ The workspace ships with **62 skills** across 14 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **seedance-vfx-prompt** | Write structured or compact Seedance 2.0 video-to-video VFX prompts using the @Video N / @Image N reference grammar (or the compact @source / @creature shorthand), the three-level VFX taxonomy (world swap, element change, handheld cinematic showcase), embedded lighting with preserve-vs-relight integration recipe, layered space, timing triggers,. |
-| **seedance-vfx-pipeline** | Run a complete Seedance video-to-video VFX shot and keep its source, prompt, outputs, comparison, and QA synchronized in the project canvas. |
+| **seedance-vfx-prompt** | Write Seedance 2.5 video-to-video edit prompts for background replacement, object integration, product, wardrobe, prop and single-character swaps, relighting, weather and timed effects, with a may-change/must-preserve contract. |
+| **seedance-vfx-pipeline** | Run a complete Seedance video-to-video VFX, Object Swap or Motion Transfer shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project canvas. |
+| **seedance-motion-recast** | Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, consent gates and a 480p probe ladder. |
+| **source-subject-map** | Map a source clip's cuts, subjects, objects, contacts, speakers and on-screen text into a hash-bound subject_map.json before recast, swap or VFX edits; open ambiguities block prompt writing. |
 
 ### Seedream — Image Prompting
 
