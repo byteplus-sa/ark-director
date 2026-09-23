@@ -1,9 +1,11 @@
 # Cross-Modality Handoff Contracts
 
-Before each handoff, update the source and destination stage entries in the
-project canvas, regenerate `index.html`, and run the source stage freshness
-check. The receiving stage reads its inputs from that synchronized canvas and
-owning manifests rather than reconstructing state from chat.
+Before each handoff, recheck `project.md` approval mode and the source decision,
+review, artifact, and upstream hashes. Update the source and destination stage
+entries in the project canvas, regenerate and inspect `index.html`, and run the
+source stage freshness check. These steps apply in `approve_for_me` and
+`ask_for_approval`. The receiving stage reads its inputs from that synchronized
+canvas and owning manifests rather than reconstructing state from chat.
 
 ## Canon to storyboard
 
@@ -14,8 +16,9 @@ tokens. If an element is not approved, keep the dependent board in `draft` or
 ## Storyboard to video
 
 Treat elements as identity sources and storyboard panels as derivative
-composition anchors. Require explicit panel selection, verify source hashes,
-and choose exactly one supported image mode: I2V, FLF2V, R2V, or T2V. Never
+composition anchors. Require a mode-authorized panel selection backed by a
+passing review and current source hashes, and choose exactly one supported
+image mode: I2V, FLF2V, R2V, or T2V. Never
 promote a multi-panel contact sheet as a clean video keyframe.
 
 ## Static graphics to motion or video
@@ -36,14 +39,16 @@ handoff when the user has not requested lip-synced audio.
 
 ## Shot to assembly
 
-Accept only user-approved takes. Pass local paths, hashes, actual duration,
-resolution, frame rate, audio properties, intended order, transition notes, and
-known defects. Do not treat `succeeded` as creative approval.
+Accept only mode-authorized approved takes. Pass local paths, hashes, actual
+duration, resolution, frame rate, audio properties, intended order, transition
+notes, and known defects. Do not treat `succeeded` as creative approval.
 
 ## Dependency invalidation
 
 When a selected element, audio file, storyboard anchor, or exact prompt changes,
 identify every dependent artifact. Return affected downstream artifacts to
 `review`; preserve their files, prompts, task IDs, hashes, and rejection history.
-Update the canvas statuses and regenerate it in the same change so the visible
-dependency state cannot lag behind the manifests.
+Update the canvas statuses, decision sources, and locks, then regenerate and
+inspect `index.html` in the same stage change so the visible dependency state
+cannot lag behind the manifests. Preserve earlier decisions while returning
+affected artifacts to `review`.

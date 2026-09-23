@@ -1651,7 +1651,8 @@ approved take:
 
 Use `failed`, `cancelled`, or `expired` for terminal failures. While a take is
 under review, record it under `outputs` or `generated_output`; reserve
-`selected_variant` and `approved` for an explicit user choice.
+`selected_variant` and `approved` for a mode-authorized, hash-bound decision
+after passing review.
 
 If the provider returns null or incomplete settings, keep the submitted request
 as the source of intended parameters and use media inspection as the source of
@@ -1672,7 +1673,8 @@ After downloading a Seedance result:
    boundary behavior, forbidden elements, and final location.
 6. When audio is enabled, verify the audio stream and inspect important dynamic
    segments rather than inferring sound quality from the request.
-7. Set the manifest to `review`; only the user can provide creative approval.
+7. Set the manifest to `review`; creative approval requires a passing review
+   and mode-authorized decision through the validated writer.
 8. For HEVC or other review-host-sensitive masters, optionally generate a
    lightweight H.264 proxy while preserving the original master.
 

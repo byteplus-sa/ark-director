@@ -10,7 +10,13 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
-from validate_request import schema_findings, validate_request, validate_review
+from validate_request import (
+    prepared_evidence_findings,
+    project_mode_findings,
+    schema_findings,
+    validate_request,
+    validate_review,
+)
 
 TRANSITIONS = {
     "prepared": {"submitting"},
@@ -19,6 +25,17 @@ TRANSITIONS = {
     "acknowledged": {"acknowledged", "terminal"},
     "terminal": set(),
 }
+
+
+@contextmanager
+def selection_lock(root: Path) -> Iterator[None]:
+    path = root.resolve() / ".selection.lock"
+    if path.is_symlink():
+        raise ValueError("Selection lock must not be a symlink")
+    descriptor = os.open(path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
+    with os.fdopen(descriptor, "a") as handle:
+        fcntl.flock(handle, fcntl.LOCK_EX)
+        yield
 
 
 @contextmanager
@@ -73,6 +90,20 @@ def replace_registry(path: Path, document: dict[str, Any]) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def require_current_approval_contract(root: Path, record: dict[str, Any]) -> None:
+    path = root / "showcase.json"
+    if not path.exists():
+        return
+    if path.is_symlink():
+        raise ValueError("Production canvas must not be a symlink")
+    document = json.loads(path.read_text())
+    if not isinstance(document, dict):
+        raise TypeError("Production canvas must be a JSON object")
+    canvas = document.get("canvas")
+    if isinstance(canvas, dict) and canvas.get("approvalContractVersion") == 1 and record.get("schema_version") != 2:
+        raise ValueError("Versioned production canvas requires a version-2 generation request")
+
+
 def prepare_operation(
     root: Path,
     request: dict[str, Any],
@@ -86,7 +117,11 @@ def prepare_operation(
     )
     if findings:
         raise ValueError("; ".join(finding.message for finding in findings))
-    with registry_lock(root) as path:
+    with selection_lock(root), registry_lock(root) as path:
+        require_current_approval_contract(root, request)
+        mode_findings = project_mode_findings(root, request)
+        if mode_findings:
+            raise ValueError("; ".join(finding.message for finding in mode_findings))
         registry = read_registry(path)
         if any(
             record["operation_id"] == request["operation_id"]
@@ -112,7 +147,7 @@ def transition_operation(
         raise ValueError(
             "Invalid operation transition; unknown acceptance cannot become a new submission"
         )
-    with registry_lock(root) as path:
+    with selection_lock(root), registry_lock(root) as path:
         registry = read_registry(path)
         record = next(
             (
@@ -124,6 +159,13 @@ def transition_operation(
         )
         if record is None or record["submission_status"] != expected_status:
             raise ValueError("Operation missing or stale expected state")
+        if new_status == "submitting":
+            require_current_approval_contract(root, record)
+            evidence_findings = prepared_evidence_findings(root, record)
+            if evidence_findings:
+                raise ValueError(
+                    "; ".join(finding.message for finding in evidence_findings)
+                )
         if provider_task_id and record["provider_task_id"] not in (
             None,
             provider_task_id,

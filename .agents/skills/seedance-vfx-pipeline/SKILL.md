@@ -107,8 +107,8 @@ The workspace's recurring pattern for a text-only before/after VFX demo:
    `ffmpeg-side-by-side-comparison`; otherwise a simultaneous `hstack`.
 6. Canvas and manifests — complete Steps 6–7, add the source, prompt, outputs,
    comparison and QA to the project canvas, regenerate/open it, and pass the
-   `shot-generation` freshness check. Then set `review`; only explicit user
-   approval sets `approved`.
+   `shot-generation` freshness check. Then set `review`; a passing temporal
+   review and mode-authorized, hash-bound decision may set `approved`.
 
 ## Inputs
 
@@ -248,7 +248,7 @@ Before declaring a VFX shot complete, verify:
       matches the request and `shot.md`.
 - [ ] **Cost recorded** — estimated cost, confirmed billing, and provider usage
       remain separate; unavailable fields are recorded as unavailable.
-- [ ] **Status set** — technical success enters `review`; only explicit user
-      choice can set `approved` or `rejected`.
+- [ ] **Status set** — technical success enters `review`; a mode-authorized,
+      hash-bound decision records `approved` or `rejected` after actual QA.
 - [ ] **No secrets in manifest** — API keys, tokens, credentials never in
       frontmatter or prompt files

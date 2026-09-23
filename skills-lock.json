@@ -5,7 +5,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/audio-dubbing/SKILL.md",
-      "computedHash": "def956abdd179a1af71dff2fa431e76c1a12462a9f233b2eabd86d20a30c6197"
+      "computedHash": "f1a16251d57c38871c8a62fb61a6768388597431861819e97640632bc69c4e50"
     },
     "audio-split": {
       "source": "./local",
@@ -65,13 +65,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/blender-to-seedance/SKILL.md",
-      "computedHash": "31a1b4f3dd7b117b7ec8519922dc68228539d8121ac48945946e6b2c243089fe"
+      "computedHash": "19c7e36da879d7773ae15d9dd424c24e4965aa18db2ad4627a2d38dfa63b13f7"
     },
     "brief-intake": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/brief-intake/SKILL.md",
-      "computedHash": "cf78b310c79a2b0e606f955b3e7fe37ab229cc75a7f8c056cbff2fc118b05116"
+      "computedHash": "e042534f831db5fe6b7d8633fd7cd9f7c050ff0de145c0140017b1d65baa0f1a"
     },
     "color-grade-palettes": {
       "source": "./local",
@@ -101,13 +101,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "21b5c805a50636d749bc50288f911ccc9933b4fc9009c928a2ec4aba5cfe4ed1"
+      "computedHash": "c64ab3af3c70b04e1e415ee8afceed31c64d6300946d0c0bb57da376a238e78c"
     },
     "html-graphic-render": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/html-graphic-render/SKILL.md",
-      "computedHash": "20f841efe94e01a8b7778b141e39e54884234a8857305bdb80c8847d2305b26b"
+      "computedHash": "b6c25ad332d84985f7d991dc9eda1baba8f912e892a4f35e429abdf2172d64f6"
     },
     "lark-showcase-aigc": {
       "source": "./local",
@@ -125,7 +125,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ark-mcp/SKILL.md",
-      "computedHash": "41740a6bd6eb3fd4fa226123229c2a3cdc36f441c79897eb848cadee154a11be"
+      "computedHash": "eb1fbdbd59719c99850c807ba81f071963411c7c14aa465303f1f5ba407cbf71"
     },
     "prompt-review": {
       "source": "./local",
@@ -137,7 +137,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seed-audio-commercial/SKILL.md",
-      "computedHash": "58357a531b8c39aa233b0b8abf0760e02329f32530753f1c0046353bd887a584"
+      "computedHash": "c6749d62a6c3ec3c949b71cc3ba2dbf5daca256d6f1258ef2431e4b567698414"
     },
     "seed-audio-prompt": {
       "source": "./local",
@@ -227,7 +227,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "e4211387fff99d5f7d8f813fa3024fcd3138665fc9a3d08d539c00d688899716"
+      "computedHash": "a130e5121bbe89d84a2267b3ad61c6d8f8511e9d63fc237a69a4dffc267592cf"
     },
     "seedance-vfx-prompt": {
       "source": "./local",
@@ -269,19 +269,19 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-storyboard/SKILL.md",
-      "computedHash": "6f3e5a3164122dc842834664d4760169b48ef95a67f63f24543ab5e4463a062e"
+      "computedHash": "c2ebdee57b6011077f3fbc56ab5f8c9d21019fc16d4ef00711cc3844258f94f6"
     },
     "showcase-html": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/showcase-html/SKILL.md",
-      "computedHash": "2c61aad3a79a8822595fa4490c289292dcf0ce3aa20275e302bf494caf429eb7"
+      "computedHash": "251df3a247404ba848d83e9ac1d4942b217d0a560e59cf9097bfa55684398dc5"
     },
     "template-factory": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "a17a062351eb957441c95931d3c614b91aafe1231b2f85135ada89e47a0877e7"
+      "computedHash": "febfcc23dd2affe5e7e3a3a4ecb49965646021e3066091620a2bb4c5bd7802e3"
     },
     "tig-blocking-map": {
       "source": "./local",

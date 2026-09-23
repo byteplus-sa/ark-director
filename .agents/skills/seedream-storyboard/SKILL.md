@@ -35,7 +35,7 @@ The caller owns production authorization, the exact request preflight, and the
 complete hash-bound prompt review. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
-or technical success does not establish user approval. Preserve optional timing,
+or technical success does not establish approval. Preserve optional timing,
 the three-image sampling default where applicable, and the requested delta.
 
 ## Source authority
@@ -51,7 +51,7 @@ changed capability.
 Depending on the request, produce a beat and panel plan, reference inventory,
 spatial and continuity contract, exact prompts and parameters, generated panel
 variants, immutable prompt snapshots and metadata, an ordered review package,
-and a selection record after the user chooses a variant.
+and a selection record after a mode-authorized choice.
 
 Keep these artifacts distinct:
 
@@ -90,8 +90,10 @@ storyboard and visual-anchor review.
   generated image unless visible story-world text is required. Exception: in
   single-image grid mode, thin dividers and panel numbers are part of the
   layout, not annotations — they belong inside the image.
-- A technically successful generation enters `review`; only an explicit user
-  choice can set `selected_variant` or `approved`.
+- A technically successful generation enters `review`. A validated agent
+  decision in `approve_for_me` or an explicit user choice in
+  `ask_for_approval` may set `selected_variant` and `approved` only after a
+  passing hash-bound panel review.
 
 ## Panel delivery mode
 
@@ -117,7 +119,7 @@ are reviewed and promoted.
   standalone image using the same canon and the panel's recorded prompt.
 - **Keep a sketch grid control-only by default.** Translate its composition,
   shot order, and blocking into prompt text. Bind the whole grid to Seedance
-  only after the user explicitly selects it for conditioning, its current hash
+  only after a mode-authorized conditioning selection, its current hash
   and manifest selection are recorded, the live mode supports its
   `reference_image` role, and artifact-specific QA is planned. Promotion makes
   it an intentional conditioning input; disabling review or changing

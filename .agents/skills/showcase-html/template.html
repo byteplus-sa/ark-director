@@ -86,6 +86,12 @@
     width: 8px; height: 8px; border-radius: 50%; background: var(--accent-3);
     box-shadow: 0 0 10px rgba(52, 211, 153, 0.65);
   }
+  .canvas-mode {
+    display: flex; align-items: center; gap: 9px; margin-bottom: 16px;
+    color: var(--text); font-size: 12px;
+  }
+  .canvas-mode strong { color: var(--accent-3); }
+  .canvas-mode span { color: var(--muted); }
   .canvas-stages {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px;
   }
@@ -114,6 +120,17 @@
   }
   .status-blocked .canvas-status { color: #fca5a5; border-color: #7f1d1d; background: #3a1418; }
   .canvas-summary { color: var(--muted); font-size: 12.5px; margin: 10px 0 0; }
+  .canvas-locks, .canvas-decisions { display: grid; gap: 8px; margin-top: 13px; }
+  .canvas-lock, .canvas-decision {
+    border: 1px solid var(--border-soft); border-radius: 8px; background: var(--panel-2);
+    padding: 9px 10px; font-size: 11px; overflow-wrap: anywhere;
+  }
+  .canvas-lock strong, .canvas-decision strong { color: var(--text); }
+  .canvas-lock span, .canvas-decision span { color: var(--muted); }
+  .canvas-lock p, .canvas-decision p { margin: 5px 0 0; color: var(--muted); line-height: 1.45; }
+  .canvas-decisions { margin-top: 20px; }
+  .canvas-decisions h3 { margin: 0; font-size: 14px; }
+  .canvas-review-link { display: inline-block; margin-top: 9px; color: var(--accent-2); font-size: 11px; }
   .canvas-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
   .canvas-metric {
     background: var(--panel-2); border: 1px solid var(--border-soft); border-radius: 6px;

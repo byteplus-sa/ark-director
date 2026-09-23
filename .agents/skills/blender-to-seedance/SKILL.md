@@ -156,7 +156,9 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
 - Update and open the project's HTML production canvas with the previz, output,
   exact prompt, element bindings, side-by-side comparison and QA results; run
   `--check --stage shot-generation` before completing the stage.
-- Technical success = `review`; only explicit user approval = `approved`.
+- Technical success = `review`. A passing temporal review and hash-bound agent
+  decision in `approve_for_me`, or explicit user choice in
+  `ask_for_approval`, may set `approved` through the validated selection writer.
 
 ## Manifest (shot.md additions)
 

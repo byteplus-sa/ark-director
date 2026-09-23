@@ -39,8 +39,8 @@ When the brief authorizes a real brand, logo, packshot, or labeled product:
    SHA-256) in the element manifest and/or `PROVENANCE.md`.
 3. **Promote** the acquired file to the canonical asset name
    (`prop_…`, `screen_…`, `card_…`), set `source: web_download` or
-   `user_supplied`, `generation: none`, and obtain explicit
-   `selected_variant` / `approved` from the user.
+   `user_supplied`, `generation: none`, and obtain a mode-authorized
+   `selected_variant` / `approved` after visible identity and provenance review.
 4. **Generate with Seedream only** when no usable real asset exists, the user
    requests a stylized or fictional substitute, or acquisition is blocked.
 
@@ -53,8 +53,9 @@ authorizes real identity.
 
 Acquired brand/product assets skip `prompt-review` and the default three-sample
 Seedream set because there is no generation-bound prompt. They still require
-local persistence, hashes, canvas listing, and explicit user selection or
-approval before dependent video use.
+local persistence, hashes, canvas listing, and mode-authorized selection or
+approval before dependent video use. Real-brand use still depends on the
+brief's authorization; an agent's creative choice does not grant rights.
 
 ## Deterministic and hybrid static graphics
 
@@ -76,7 +77,7 @@ record.
 
 Deterministic graphics skip prompt-review, provider registration, and the
 three-sample image default. They still require exact-copy, font, overflow,
-dimension, alpha, thumbnail-legibility, canvas, provenance, and explicit
+dimension, alpha, thumbnail-legibility, canvas, provenance, and mode-authorized
 selection checks. If both a white-background model reference and transparent
 delivery cutout are needed, create and label separate files. Never globally
 remove white from a product image when that would erase labels, highlights, or

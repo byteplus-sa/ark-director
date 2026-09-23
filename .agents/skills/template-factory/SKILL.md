@@ -36,8 +36,8 @@ the current workspace contracts taking precedence where the plan is stale.
 - Act as the single manager communicating with the user.
 - Treat `project.md`, `task_ids.json`, `ref_cache.json`, shot manifests and the
   persistent `showcase.json`/`index.html` production canvas as production memory.
-- Never infer approval. Technical success places an output in `review`; only the
-  user sets `approved`.
+- Never infer approval from technical success. An output enters `review`, then
+  only a passing inspection and mode-authorized decision can set `approved`.
 - **Every generation-bound prompt this factory submits — Seedream storyboard,
   Seedream element sheet, or Seedance video — must pass the `prompt-review`
   gate first.** Acquired brand/product/logo assets (`generation: none`) skip
@@ -121,7 +121,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    to reproduce exact graphic geometry. For generative sheets, create the
    user-requested number of variants, or 3 by default, after prompt review. One
    deterministic specification produces one exact version. Persist
-   `selected_variant` only after explicit user choice.
+   `selected_variant` only after a mode-authorized, hash-bound choice.
 6. **Storyboard** — after relevant Elements are approved, write a dynamic
    production board via `seedream-storyboard`, one panel per beat unless the
    user sets a panel budget. Review the prompt and generate the requested count,
@@ -148,7 +148,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    in the edit (trim a held tail, clone-pad the final hold, crossfade audio)
    rather than regenerating, and record the edit operations on the take.
    Measure take loudness and normalise delivery masters (e.g. `loudnorm`
-   -16 LUFS / -1.5 dBTP) after the user locks takes.
+   -16 LUFS / -1.5 dBTP) after mode-authorized take locks.
 8. **Review** — compare the reference and take in playback for shot timing,
    motion direction and intensity, action progression, camera movement,
    transitions, opening/ending state, and requested audio arc. Add the pin and
@@ -156,7 +156,9 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    `kind: "takes"` group (`groups[].takes[].media` as `{type, src}` — never
    flat `cards` or string media paths); include exact prompt, ordered
    references and QA evidence; regenerate/open the page, pass its stage
-   freshness check, set `review`, and let the user approve there.
+   freshness check, and set `review`. Apply the project mode: the agent may
+   choose a passing take with a recorded decision in `approve_for_me`; in
+   `ask_for_approval`, display the recommendation and await the user.
 
 ### Competitor or category reference pins
 
@@ -233,7 +235,7 @@ duration.
 - **3 variants by default** — honor an explicit requested count. Keep prompt,
   references, model, and effective parameters identical across sampling variants;
   vary only a supported stochastic seed.
-- **Video eligibility** — production panels need explicit user selection and
+- **Video eligibility** — production panels need mode-authorized selection and
   current canonical source hashes. Control sketches are omitted by default;
   an intentional conditioning exception requires explicit selection, supported
   tool inputs, and artifact-specific QA. Bind only eligible inputs.
@@ -242,13 +244,17 @@ duration.
   `@Image N` numbering never shifts between pages; say which references a page
   does not use instead of dropping them from the upload.
 
-## Selection gate (human review by default)
+## Selection gate
 
-Storyboard variant selection requires explicit user choice. `storyboard.review:
-false` disables the review UI only. Store an automatic suggestion under
-`recommended_variant`, keep `status: review`, and wait for explicit selection
-before video promotion. Neither a recommendation nor technical success writes
-`selected_variant` or `approved`.
+Storyboard variant selection follows `project.md` approval mode.
+`storyboard.review: false` disables the review UI only; it does not remove QA
+or the validated decision. In `approve_for_me`, inspect and rank candidates,
+record a passing hash-bound review and agent decision, then select. In
+`ask_for_approval`, store a suggestion under `recommended_variant`, keep
+`status: review`, and wait for the user's choice before video promotion.
+Neither a recommendation nor technical success alone writes `selected_variant`
+or `approved`. Regenerate and inspect `index.html` and pass the stage freshness
+check after the decision in either mode.
 
 ## Prompt review gates (generation-bound)
 

@@ -60,6 +60,8 @@ Create `showcase.json` and `index.html` when a production project is initialized
 Keep the same files for the life of the project. After every material prompt,
 manifest, element, storyboard, audio, video, assembly, review, or delivery
 change, update the relevant stage in `showcase.json` and regenerate `index.html`.
+Do this in both `approve_for_me` and `ask_for_approval`; autonomous selection
+still requires canvas maintenance and rendered-page inspection.
 
 Every production stage exit requires this read-only check:
 
@@ -68,9 +70,10 @@ Every production stage exit requires this read-only check:
   projects/<project> --check --stage <stage-id>
 ```
 
-The check binds the generated page to the declared stage, `showcase.json`, and
-all referenced project files by SHA-256. A stale or incomplete canvas keeps the
-stage open. Use `--stage <stage-id> --open` to regenerate and display it.
+The check binds the generated page to the declared stage, effective approval
+mode, `showcase.json`, and all referenced project files by SHA-256. A stale or
+incomplete canvas keeps the stage open. Use `--stage <stage-id> --open` to
+regenerate and display it.
 
 Initialize the canvas after `project.md` exists:
 
@@ -109,6 +112,8 @@ Initialize the canvas after `project.md` exists:
      (e.g. `elements/lucky-lion/character.md`).
    - `field` — `selected_variant` (default) or `selected_variants` (map, for a
      multi-asset kit). When `selected_variants`, also set `key`.
+   - `reviewPath` — project-relative passing candidate review JSON for every
+     selectable variant on a new production canvas.
    See [references/schema.md](references/schema.md#variant-selection-in-browser-lock-of-a-chosen-version).
 
 3. **(Optional) Compose the combined view.** Use `ffmpeg-side-by-side-comparison`
@@ -148,18 +153,35 @@ Initialize the canvas after `project.md` exists:
 The repository environment supplies `ruamel.yaml`; run `uv sync --group dev`
    once from the workspace root before using these commands.
 
-   **Explicit CLI selection** uses the same validation and commit service:
+   **CLI selection** uses the same validation and commit service. A new
+   production canvas requires a decision envelope for an agent selection:
 
 ```bash
 .venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --stage <stage-id> \
-  --apply '{"asset-id":"registered-variant.png"}'
+  --apply projects/<project>/decisions/selection-envelope.json --expected-revision <revision>
 ```
 
-   The supplied filename must be a registered variant. An explicit user choice
-   is required before an agent uses `--apply`; an automated recommendation is
-   not selection authority. `--apply` accepts `--expected-revision HASH` for a
-   previously reviewed snapshot and returns the resulting revision as JSON.
+   The envelope contains `selections` and a matching `decisions` map. Every
+   filename must be registered and every agent decision must bind passing
+   review evidence to the chosen file hash. In `ask_for_approval`, record a
+   recommendation and wait for the user; the browser server can record that
+   choice. `--apply` returns the resulting revision as JSON.
+
+   Picture, audio, and final master locks use a separate stage decision file:
+
+```bash
+.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+  projects/<project> --stage <stage-id> \
+  --stage-decision projects/<project>/decisions/stage-decision.json --expected-revision <revision>
+```
+
+   The service writes the decision, lock, and stage sources together. Switch
+   modes with `--set-approval-mode approve_for_me` or
+   `--set-approval-mode ask_for_approval` and the current stage. Mode changes
+   apply to future decisions and refresh the HTML. Read
+   [Production canvas](references/production-canvas.md) for the stage lock and
+   freshness requirements.
 
 5. **Verify.** Run `--check` to confirm every media `src` resolves (relative
    paths are the #1 failure), then spot-check sections, prompts, and the

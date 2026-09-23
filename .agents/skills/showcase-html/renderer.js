@@ -12,6 +12,12 @@
     if (text != null) n.textContent = text;
     return n;
   };
+  const projectHref = path => {
+    if (typeof path !== 'string' || !path || /[\\\\?#:]/.test(path) || path.startsWith('/')) return null;
+    const parts = path.split('/');
+    if (parts.some(part => !part || part === '.' || part === '..')) return null;
+    return parts.map(encodeURIComponent).join('/');
+  };
 
   // ---- toast ----
   const toast = el('div', 'toast');
@@ -201,6 +207,13 @@
     heading.appendChild(headingCopy);
     heading.appendChild(sync);
     section.appendChild(heading);
+    const mode = data.approvalMode || {};
+    const modeRow = el('div', 'canvas-mode');
+    modeRow.appendChild(el('strong', null,
+      mode.mode === 'ask_for_approval' ? 'Ask for approval' : 'Approve for me'));
+    modeRow.appendChild(el('span', null,
+      mode.source === 'explicit' ? 'Explicit project setting' : 'Project default'));
+    section.appendChild(modeRow);
 
     const stages = el('div', 'canvas-stages');
     for (const [index, stage] of (canvas.stages || []).entries()) {
@@ -212,6 +225,30 @@
       top.appendChild(el('span', 'canvas-status', stage.status || 'pending'));
       card.appendChild(top);
       if (stage.summary) card.appendChild(el('p', 'canvas-summary', stage.summary));
+      if (stage.locks && Object.keys(stage.locks).length) {
+        const locks = el('div', 'canvas-locks');
+        for (const [kind, lock] of Object.entries(stage.locks)) {
+          const row = el('div', 'canvas-lock');
+          row.appendChild(el('strong', null, kind.replaceAll('_', ' ') + ': ' + (lock.result || 'pending')));
+          if (lock.actor) row.appendChild(el('span', null, ' by ' + lock.actor));
+          if (lock.reason) row.appendChild(el('p', null, lock.reason));
+          const links = el('div', 'canvas-links');
+          for (const [label, path] of [
+            ['Accepted artifact', lock.artifact_path],
+            ['Review', lock.review_path],
+            ['Decision', lock.decision_id && 'decisions/' + lock.decision_id + '.json'],
+          ]) {
+            const href = projectHref(path);
+            if (!href) continue;
+            const link = el('a', null, label);
+            link.href = href;
+            links.appendChild(link);
+          }
+          row.appendChild(links);
+          locks.appendChild(row);
+        }
+        card.appendChild(locks);
+      }
       const counts = stage.counts || {};
       const metrics = el('div', 'canvas-metrics');
       for (const [label, value] of [
@@ -268,6 +305,35 @@
       stages.appendChild(card);
     }
     section.appendChild(stages);
+    const selected = data.currentSelections || {};
+    if (Object.keys(selected).length) {
+      const decisions = el('div', 'canvas-decisions');
+      decisions.appendChild(el('h3', null, 'Variant decisions'));
+      for (const [assetId, filename] of Object.entries(selected)) {
+        const evidence = (data.selectionEvidence || {})[assetId] || {};
+        const row = el('div', 'canvas-decision');
+        row.appendChild(el('strong', null, assetId + ': ' + filename));
+        row.appendChild(el('span', null,
+          evidence.decision_id
+            ? ' · ' + (evidence.result || evidence.status || 'selected') + ' by ' + (evidence.actor || 'unknown')
+            : ' · legacy selection; approval evidence unavailable'));
+        if (evidence.reason) row.appendChild(el('p', null, evidence.reason));
+        const links = el('div', 'canvas-links');
+        for (const [label, path] of [
+          ['Review', evidence.review_path],
+          ['Decision', evidence.decision_path],
+        ]) {
+          const href = projectHref(path);
+          if (!href) continue;
+          const link = el('a', null, label);
+          link.href = href;
+          links.appendChild(link);
+        }
+        row.appendChild(links);
+        decisions.appendChild(row);
+      }
+      section.appendChild(decisions);
+    }
     return section;
   }
 
@@ -319,6 +385,14 @@
       const pre = el('pre');
       pre.textContent = c.prompt;
       body.appendChild(pre);
+    }
+    if (c.reviewPath) {
+      const review = el('a', 'canvas-review-link', 'Candidate review');
+      const href = projectHref(c.reviewPath);
+      if (href) {
+        review.href = href;
+        body.appendChild(review);
+      }
     }
     card.appendChild(body);
     return card;
@@ -491,6 +565,14 @@
           cs.alt = 'Contact sheet';
           cs.loading = 'lazy';
           col.appendChild(cs);
+        }
+        if (tk.reviewPath) {
+          const review = el('a', 'canvas-review-link', 'Candidate review');
+          const href = projectHref(tk.reviewPath);
+          if (href) {
+            review.href = href;
+            col.appendChild(review);
+          }
         }
 
         body.appendChild(col);

@@ -77,4 +77,5 @@ For an astronaut reaching toward a tool:
 
 Technical QA can establish that the file is valid and that measured motion
 checks pass. Seedance similarity remains an observed result, and provider
-success remains `review`. Only explicit user selection can set `approved`.
+success remains `review`. A mode-authorized, hash-bound decision after passing
+temporal review can set `approved`; an agent cannot overwrite a user lock.

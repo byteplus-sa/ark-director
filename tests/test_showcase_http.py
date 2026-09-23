@@ -1,3 +1,4 @@
+import hashlib
 import http.client
 import json
 import secrets
@@ -97,6 +98,43 @@ class ShowcaseHTTPTests(unittest.TestCase):
         self.assertEqual(status, 200, body)
         self.assertTrue(json.loads(body)['canvasSynced'])
         self.assertEqual(showcase.canvas_sync_errors(data, self.root, self.root / 'index.html', 'brief-development'), [])
+
+    def test_versioned_browser_save_records_user_actor_and_refreshes_canvas(self):
+        data = self.lifecycle_canvas()
+        data['canvas']['approvalContractVersion'] = 1
+        card = data['sections'][0]['cards'][0]
+        card.update({'id': 'hero', 'manifest': 'shot.md', 'field': 'selected_variants', 'key': 'hero', 'reviewPath': 'hero-review.json'})
+        review = {
+            'schema_version': 1,
+            'artifact_path': 'new.png',
+            'artifact_sha256': hashlib.sha256((self.root / 'new.png').read_bytes()).hexdigest(),
+            'status': 'pass',
+            'inspection_method': 'direct_image_inspection',
+            'coverage': 'The complete synthetic image was inspected.',
+            'checks': [{'criterion': 'Identity', 'status': 'pass', 'evidence': 'Synthetic fixture'}],
+            'observations': ['Image matches the test brief.'],
+            'limitations': [],
+            'recommendation': 'Approve.',
+        }
+        (self.root / 'hero-review.json').write_text(json.dumps(review))
+        (self.root / 'showcase.json').write_text(json.dumps(data))
+        handler = self.server.RequestHandlerClass
+        handler.service = fixtures.selection.SelectionService(self.root, data)
+        handler.data = data
+        handler.expected_stage = 'brief-development'
+        showcase.generate(self.root, data, 'index.html', expected_stage='brief-development')
+        _, _, body = self.request('GET', '/api/session')
+        revision = json.loads(body)['revision']
+        payload = json.dumps({'selections': {'hero': 'new.png'}, 'expected_revision': revision, 'actor': 'agent'})
+        headers = {'Content-Type': 'application/json', 'Origin': self.origin, 'X-Showcase-Token': self.token}
+        status, _, body = self.request('POST', '/api/select', payload, headers)
+        self.assertEqual(status, 200, body)
+        result = json.loads(body)
+        self.assertTrue(result['canvasSynced'])
+        decision = json.loads((self.root / f"decisions/{result['decisions']['hero']}.json").read_text())
+        self.assertEqual(decision['actor'], 'user')
+        self.assertEqual(decision['authorization'], {'source': 'local_ui', 'evidence': 'local_review_ui'})
+        self.assertEqual(showcase.canvas_sync_errors(json.loads((self.root / 'showcase.json').read_text()), self.root, self.root / 'index.html', 'brief-development'), [])
 
 
 if __name__ == '__main__':

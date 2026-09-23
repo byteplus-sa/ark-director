@@ -22,6 +22,34 @@ class ShowcaseBrowserSmoke(unittest.TestCase):
             'libx264', '-pix_fmt', 'yuv420p', str(self.root / filename),
         ], check=True, capture_output=True)
 
+    def test_production_canvas_shows_effective_mode(self):
+        data = fixtures.ShowcaseRegressionTests.lifecycle_canvas(self)
+        data['canvas']['approvalContractVersion'] = 1
+        (self.root / 'project.md').write_text('---\napproval_mode: ask_for_approval\n---\n# Brief\n')
+        (self.root / 'showcase.json').write_text(json.dumps(data))
+        fixtures.showcase.generate(self.root, data, 'index.html', expected_stage='brief-development')
+        script = r'''
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch({headless: true, channel: process.env.SHOWCASE_BROWSER_CHANNEL || 'chrome'});
+  try {
+    const page = await browser.newPage();
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(process.env.SHOWCASE_SMOKE_FILE);
+    await page.locator('.canvas-mode').getByText('Ask for approval').waitFor();
+    if (await page.locator('.canvas-stage').count() !== 8) throw new Error('Expected eight stages');
+    if (errors.length) throw new Error(errors.join('\n'));
+    process.stdout.write('Production canvas displays the effective approval mode and stages.\n');
+  } finally {
+    await browser.close();
+  }
+})().catch(error => { process.stderr.write(error.stack + '\n'); process.exit(1); });
+'''
+        environment = {**os.environ, 'SHOWCASE_SMOKE_FILE': (self.root / 'index.html').as_uri()}
+        result = subprocess.run(['node', '-e', script], env=environment, capture_output=True, text=True, timeout=45, check=False)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_takes_only_save_reload_playback_and_file_read_only(self):
         if not shutil.which('ffmpeg'):
             self.skipTest('ffmpeg required for synthetic media')
@@ -43,6 +71,7 @@ const { chromium } = require('playwright');
     await page.goto(process.env.SHOWCASE_SMOKE_URL);
     await page.locator('[data-filename="first.mp4"].selected').waitFor();
     await page.locator('.sel-save').waitFor();
+    await page.locator('video').evaluateAll(videos => videos.forEach(video => video.load()));
     await page.waitForFunction(() => [...document.querySelectorAll('video')].every(video => video.readyState >= 1));
     await page.locator('[data-filename="second.mp4"]').click();
     await page.locator('.sel-save').click();

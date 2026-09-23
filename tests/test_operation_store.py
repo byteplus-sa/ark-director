@@ -57,6 +57,20 @@ class OperationStoreTests(unittest.TestCase):
             self.prepare()
         self.assertFalse((self.root / "task_ids.json").exists())
 
+    def test_versioned_canvas_rejects_new_or_pending_version_one_operation(self):
+        canvas = {"canvas": {"approvalContractVersion": 1}}
+        (self.root / "showcase.json").write_text(json.dumps(canvas))
+        with self.assertRaisesRegex(ValueError, "version-2 generation request"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+        (self.root / "showcase.json").unlink()
+        self.prepare()
+        (self.root / "showcase.json").write_text(json.dumps(canvas))
+        with self.assertRaisesRegex(ValueError, "version-2 generation request"):
+            operation_store.transition_operation(
+                self.root, "fixture-operation", "prepared", "submitting"
+            )
+
     def test_unknown_outcome_cannot_return_to_prepared(self):
         self.prepare()
         operation_store.transition_operation(
@@ -125,6 +139,58 @@ class OperationStoreTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.prepare()
         self.assertEqual(json.loads((self.root / "task_ids.json").read_text()), legacy)
+
+    def test_v2_operation_preparation_and_submission_recheck_project_mode(self):
+        fixture = fixtures.RequestValidationTests()
+        fixture.root, fixture.request = self.root, self.request
+        fixture.prepare_v2()
+        self.review["request_sha256"] = self.request["request_sha256"]
+        self.prepare()
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["schema_version"], 2)
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: ask_for_approval\n---\n"
+        )
+        with self.assertRaisesRegex(ValueError, "approval mode or project.md changed"):
+            operation_store.transition_operation(
+                self.root, "fixture-operation", "prepared", "submitting"
+            )
+        self.assertEqual(
+            json.loads((self.root / "task_ids.json").read_text())["tasks"][0][
+                "submission_status"
+            ],
+            "prepared",
+        )
+
+    def test_v2_stale_project_blocks_preparation_without_writing_registry(self):
+        fixture = fixtures.RequestValidationTests()
+        fixture.root, fixture.request = self.root, self.request
+        fixture.prepare_v2()
+        self.review["request_sha256"] = self.request["request_sha256"]
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: ask_for_approval\n---\n"
+        )
+        with self.assertRaises(ValueError):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_changed_selection_after_prepare_blocks_submission(self):
+        fixture = fixtures.RequestValidationTests()
+        fixture.root, fixture.request = self.root, self.request
+        fixture.prepare_v2()
+        self.review["request_sha256"] = self.request["request_sha256"]
+        self.prepare()
+        (self.root / "image.png").write_bytes(b"changed after preparation")
+        with self.assertRaisesRegex(ValueError, "Reference content changed"):
+            operation_store.transition_operation(
+                self.root, "fixture-operation", "prepared", "submitting"
+            )
+        self.assertEqual(
+            json.loads((self.root / "task_ids.json").read_text())["tasks"][0][
+                "submission_status"
+            ],
+            "prepared",
+        )
 
 
 if __name__ == "__main__":

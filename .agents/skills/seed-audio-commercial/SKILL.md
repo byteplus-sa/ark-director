@@ -39,7 +39,7 @@ The caller owns production authorization, the exact request preflight, and the
 complete hash-bound prompt review. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
-or technical success does not establish user approval. Preserve optional timing,
+or technical success does not establish approval. Preserve optional timing,
 the three-image sampling default where applicable, and the requested delta.
 
 ## What this skill produces
@@ -277,7 +277,8 @@ extension). For a scene-level commercial mix: `prompt_mix_s01_v01.md` beside
 
 ### Step 8 — Present for review (generation stage)
 
-Present the result to the user with:
+For project work, present the result in the production canvas; for a standalone
+audio request, present it to the user. Include:
 - The local file path
 - Duration and format
 - The story arc summary (one line per act)
@@ -285,8 +286,11 @@ Present the result to the user with:
 - Any issues encountered (safety filter, format, etc.)
 - Cost estimate
 
-Set the manifest `status` to `review`. Only explicit user approval sets it to
-`approved`.
+Set the manifest `status` to `review`. Listen to the actual audio and record
+dialogue, sound-arc, continuity, technical, and hash-bound review evidence.
+`approve_for_me` may select only a passing result through a validated agent
+decision; `ask_for_approval` leaves the recommendation pending for the user.
+Picture/audio lock and final master acceptance use separate stage decisions.
 
 ## Multilingual and Taglish guidance
 

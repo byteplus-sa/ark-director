@@ -4,6 +4,7 @@
   "lede": "Persistent project canvas for stage status, sources, prompts, media, review, and selection.",
   "badges": [],
   "canvas": {
+    "approvalContractVersion": 1,
     "currentStage": "brief-development",
     "stages": [
       {

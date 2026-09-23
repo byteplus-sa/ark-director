@@ -140,7 +140,7 @@ Source skill: `seedance-prompt-25`
     the reference (which can conflict).
 
 13. **Control-only references (`references.control_only`).** Translate to text
-    and omit by default. Intentional conditioning requires explicit user selection,
+    and omit by default. Intentional conditioning requires a mode-authorized selection,
     current source hashes, supported tool/mode inputs, and leakage QA; labels or
     extraction instructions alone do not grant eligibility.
 
@@ -1171,8 +1171,9 @@ Source skill: `seedream-storyboard`
 
 24. **Review on generation.** Technically successful generation enters `review`.
 
-25. **Explicit user choice.** Only explicit user choice sets `selected_variant` or
-    `approved`.
+25. **Mode-authorized choice.** A passing hash-bound review and validated agent
+    decision in `approve_for_me`, or an explicit user choice in
+    `ask_for_approval`, sets `selected_variant` and `approved`.
 
 ---
 

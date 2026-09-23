@@ -38,6 +38,7 @@ import subprocess
 import sys
 import threading
 import webbrowser
+from collections.abc import Mapping
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import Any, ClassVar
@@ -49,7 +50,12 @@ from selection_service import (
     atomic_write,
     collect_selectable,
     contained_path,
+    parse_frontmatter,
+    read_project_mode,
     read_selection,
+    record_stage_decision,
+    set_project_mode,
+    validated_review,
 )
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -87,6 +93,14 @@ def load_json(path):
         return json.load(f)
 
 
+def load_json_argument(value, label):
+    raw = value.strip()
+    try:
+        return json.loads(raw) if raw.startswith("{") else load_json(raw)
+    except (json.JSONDecodeError, OSError) as error:
+        raise SelectionError(f"invalid JSON for {label}: {error}") from error
+
+
 def file_sha256(path):
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -116,7 +130,7 @@ def inspect_paths(value):
     paths = []
     if isinstance(value, dict):
         for key, item in value.items():
-            if key in {"src", "contactSheet", "promptFile", "manifest", "path"} and isinstance(item, str):
+            if key in {"src", "contactSheet", "promptFile", "reviewPath", "manifest", "path"} and isinstance(item, str):
                 paths.append(item)
             elif isinstance(item, (dict, list)):
                 paths.extend(inspect_paths(item))
@@ -169,10 +183,97 @@ def hydrate_prompt_files(value, proj):
             hydrate_prompt_files(item, proj)
 
 
+def canvas_selection_errors(data, proj, stages):
+    errors = []
+    try:
+        registry = collect_selectable(data)
+        selections = read_selection(registry, proj)
+    except (SelectionError, TypeError, AttributeError) as error:
+        return [str(error)]
+    by_stage = {stage["id"]: stage for stage in stages}
+    for asset_id, meta in registry.items():
+        stage = by_stage.get(meta.get("stage"))
+        if stage is None:
+            errors.append(f"{asset_id}: selectable asset requires a canvas stage")
+            continue
+        if stage.get("status") not in {"approved", "complete"}:
+            continue
+        filename = selections.get(asset_id)
+        source = meta["variants"].get(filename)
+        if source is None:
+            errors.append(f"{asset_id}: completed stage requires a registered selected variant")
+            continue
+        try:
+            media_hash = file_sha256(contained_path(proj, source))
+            manifest = contained_path(proj, meta["manifest"])
+            _, document, _ = parse_frontmatter(manifest.read_text(encoding="utf-8"))
+        except (SelectionError, OSError, UnicodeError) as error:
+            errors.append(f"{asset_id}: {error}")
+            continue
+        evidence = document.get("selection_evidence")
+        if meta["field"] == "selected_variants" and isinstance(evidence, Mapping):
+            evidence = evidence.get(meta["key"])
+        if not isinstance(evidence, Mapping) or evidence.get("result") != "approved":
+            errors.append(f"{asset_id}: completed stage requires approved selection evidence")
+            continue
+        if evidence.get("selected_sha256") != media_hash:
+            errors.append(f"{asset_id}: selected media hash is stale")
+        decision_id = evidence.get("decision_id")
+        decision_path = evidence.get("decision_path")
+        review_path = evidence.get("review_path")
+        if not isinstance(decision_id, str) or decision_path != f"decisions/{decision_id}.json":
+            errors.append(f"{asset_id}: selection decision path is invalid")
+            continue
+        sources = stage.get("sources", [])
+        source_paths = {item.get("path") for item in sources if isinstance(item, dict)} if isinstance(sources, list) else set()
+        for relative in (source, decision_path, review_path):
+            if relative not in source_paths:
+                errors.append(f"{asset_id}: {relative} must be a stage source")
+        try:
+            decision_file = contained_path(proj, decision_path)
+            decision = load_json(decision_file)
+            if evidence.get("decision_sha256") != file_sha256(decision_file):
+                errors.append(f"{asset_id}: selection decision hash is stale")
+            validated_review(proj, review_path, evidence.get("review_sha256"), source, media_hash)
+        except (SelectionError, OSError, json.JSONDecodeError) as error:
+            errors.append(f"{asset_id}: approval evidence is unavailable: {error}")
+            continue
+        expected = {
+            "decision_id": decision_id,
+            "decision_type": "variant_selection",
+            "asset_id": asset_id,
+            "subject_path": source,
+            "selected_variant": filename,
+            "selected_sha256": media_hash,
+            "result": "approved",
+            "review_path": review_path,
+            "review_sha256": evidence.get("review_sha256"),
+            "actor": evidence.get("actor"),
+            "approval_mode": evidence.get("approval_mode"),
+            "reason": evidence.get("reason"),
+        }
+        if not isinstance(decision, dict) or any(decision.get(key) != value for key, value in expected.items()):
+            errors.append(f"{asset_id}: selection decision does not match the manifest")
+            continue
+        upstream = decision.get("upstream_sha256", {})
+        if not isinstance(upstream, dict):
+            errors.append(f"{asset_id}: selection decision upstream hashes are invalid")
+            continue
+        for relative, expected_hash in upstream.items():
+            try:
+                if file_sha256(contained_path(proj, relative)) != expected_hash:
+                    errors.append(f"{asset_id}: upstream source hash is stale: {relative}")
+            except SelectionError as error:
+                errors.append(f"{asset_id}: {error}")
+    return errors
+
+
 def canvas_validation_errors(data, proj, expected_stage=None):
     canvas = data.get("canvas") if isinstance(data, dict) else None
     if not isinstance(canvas, dict):
         return ["Lifecycle review requires a top-level canvas object"]
+    if canvas.get("approvalContractVersion") not in (None, 1):
+        return ["Unsupported canvas approvalContractVersion"]
     current_stage = canvas.get("currentStage")
     if current_stage not in CANVAS_STAGE_IDS:
         return [f"canvas.currentStage must be one of: {', '.join(CANVAS_STAGE_IDS)}"]
@@ -223,6 +324,21 @@ def canvas_validation_errors(data, proj, expected_stage=None):
             errors.append(f"{stage['id']}: current stage cannot be pending")
         if index > current_index and status not in {"pending", "skipped"}:
             errors.append(f"{stage['id']}: future stages must be pending or skipped")
+        if canvas.get("approvalContractVersion") == 1 and status in {"approved", "complete"}:
+            required_locks = []
+            if stage["id"] == "assembly-review":
+                required_locks.append("picture")
+                if stages[CANVAS_STAGE_IDS.index("audio-preparation")].get("status") != "skipped":
+                    required_locks.append("audio")
+            if stage["id"] == "delivery":
+                required_locks.append("final_master")
+            locks = stage.get("locks", {})
+            if not isinstance(locks, dict):
+                errors.append(f"{stage['id']}: locks must be an object")
+                locks = {}
+            for lock_kind in required_locks:
+                if lock_kind not in locks:
+                    errors.append(f"{stage['id']}: {lock_kind} lock is required before stage exit")
         sources = stage.get("sources", [])
         if not isinstance(sources, list):
             errors.append(f"{stage['id']}: sources must be an array")
@@ -244,6 +360,75 @@ def canvas_validation_errors(data, proj, expected_stage=None):
                 errors.append(f"{stage['id']}: source kind must be a nonempty string")
             if kind in CANVAS_TEXT_KINDS and path.stat().st_size > CANVAS_EMBED_LIMIT:
                 errors.append(f"Canvas text source is too large to embed: {relative}")
+        if canvas.get("approvalContractVersion") == 1:
+            locks = stage.get("locks") or {}
+            if not isinstance(locks, dict):
+                errors.append(f"{stage['id']}: locks must be an object")
+                continue
+            for lock_kind, lock in locks.items():
+                if not isinstance(lock, dict):
+                    errors.append(f"{stage['id']}: {lock_kind} lock must be an object")
+                    continue
+                if lock.get("result") != "approved":
+                    errors.append(f"{stage['id']}: {lock_kind} lock is not approved")
+                for path_key, hash_key in (("artifact_path", "artifact_sha256"), ("review_path", "review_sha256")):
+                    relative = lock.get(path_key)
+                    try:
+                        path = contained_path(proj, relative)
+                    except SelectionError as error:
+                        errors.append(f"{stage['id']}: {lock_kind} {error}")
+                        continue
+                    if lock.get(hash_key) != file_sha256(path):
+                        errors.append(f"{stage['id']}: {lock_kind} {path_key} hash is stale")
+                    if relative not in [source.get("path") for source in sources if isinstance(source, dict)]:
+                        errors.append(f"{stage['id']}: {lock_kind} {path_key} must be a stage source")
+                decision_id = lock.get("decision_id")
+                if not isinstance(decision_id, str) or not decision_id:
+                    errors.append(f"{stage['id']}: {lock_kind} requires a decision_id")
+                    continue
+                decision_relative = f"decisions/{decision_id}.json"
+                if decision_relative not in [source.get("path") for source in sources if isinstance(source, dict)]:
+                    errors.append(f"{stage['id']}: {lock_kind} decision must be a stage source")
+                try:
+                    decision_path = contained_path(proj, decision_relative)
+                    decision = load_json(decision_path)
+                except (SelectionError, OSError, json.JSONDecodeError) as error:
+                    errors.append(f"{stage['id']}: {lock_kind} decision is unavailable: {error}")
+                    continue
+                if lock.get("decision_sha256") != file_sha256(decision_path):
+                    errors.append(f"{stage['id']}: {lock_kind} decision hash is stale")
+                expected_fields = {
+                    "decision_id": decision_id,
+                    "decision_type": "stage_lock",
+                    "stage_id": stage["id"],
+                    "lock_kind": lock_kind,
+                    "result": lock.get("result"),
+                    "actor": lock.get("actor"),
+                    "subject_path": lock.get("artifact_path"),
+                    "subject_sha256": lock.get("artifact_sha256"),
+                    "review_path": lock.get("review_path"),
+                    "review_sha256": lock.get("review_sha256"),
+                    "reason": lock.get("reason"),
+                }
+                if not isinstance(decision, dict) or any(decision.get(key) != value for key, value in expected_fields.items()):
+                    errors.append(f"{stage['id']}: {lock_kind} decision does not match the lock")
+                    continue
+                try:
+                    validated_review(proj, lock.get("review_path"), lock.get("review_sha256"), lock.get("artifact_path"), lock.get("artifact_sha256"))
+                except SelectionError as error:
+                    errors.append(f"{stage['id']}: {lock_kind} review is invalid: {error}")
+                upstream = decision.get("upstream_sha256", {})
+                if not isinstance(upstream, dict):
+                    errors.append(f"{stage['id']}: {lock_kind} upstream hashes are invalid")
+                    continue
+                for relative, expected_hash in upstream.items():
+                    try:
+                        if file_sha256(contained_path(proj, relative)) != expected_hash:
+                            errors.append(f"{stage['id']}: {lock_kind} upstream source hash is stale: {relative}")
+                    except SelectionError as error:
+                        errors.append(f"{stage['id']}: {lock_kind} {error}")
+    if canvas.get("approvalContractVersion") == 1:
+        errors.extend(canvas_selection_errors(data, proj, stages))
     return errors
 
 
@@ -252,6 +437,7 @@ def prepare_canvas_data(data, proj, manifest_bytes=None, expected_stage=None):
     if errors:
         raise SelectionError("; ".join(errors))
     prepared = copy.deepcopy(data)
+    prepared["approvalMode"] = read_project_mode(proj)
     hydrate_prompt_files(prepared.get("sections", []), proj)
     manifest_content = manifest_bytes
     if manifest_content is None:
@@ -304,6 +490,7 @@ def prepare_canvas_data(data, proj, manifest_bytes=None, expected_stage=None):
     build = {
         "currentStage": prepared["canvas"]["currentStage"],
         "manifestSha256": hashlib.sha256(manifest_content).hexdigest(),
+        "projectSha256": prepared["approvalMode"]["project_sha256"],
         "templateSha256": file_sha256(Path(TEMPLATE)),
         "rendererSha256": file_sha256(Path(RENDERER)),
         "sources": [source_records[path] for path in sorted(source_records)],
@@ -390,7 +577,7 @@ def validate(data, proj):
     def inspect(value):
         if isinstance(value, dict):
             for key, item in value.items():
-                if key in ('src', 'contactSheet', 'promptFile', 'manifest'):
+                if key in ('src', 'contactSheet', 'promptFile', 'reviewPath', 'manifest'):
                     try:
                         contained_path(proj, item)
                     except SelectionError as error:
@@ -588,6 +775,22 @@ def generate(proj, data, out_name, expected_stage=None):
         current_sel = read_selection(selectable, proj_path)
         data = dict(data)
         data["currentSelections"] = current_sel
+        evidence = {}
+        for asset_id, meta in selectable.items():
+            path = contained_path(proj_path, meta["manifest"])
+            _, document, _ = parse_frontmatter(path.read_text(encoding="utf-8"))
+            selection_evidence = document.get("selection_evidence")
+            if meta["field"] == "selected_variants" and isinstance(selection_evidence, Mapping):
+                selection_evidence = selection_evidence.get(meta["key"])
+            if isinstance(selection_evidence, Mapping):
+                evidence[asset_id] = {
+                    key: selection_evidence.get(key)
+                    for key in ("decision_id", "decision_path", "actor", "approval_mode", "result", "review_path", "selected_sha256", "reason")
+                    if isinstance(selection_evidence.get(key), str)
+                }
+                if isinstance(document.get("status"), str):
+                    evidence[asset_id]["status"] = document["status"]
+        data["selectionEvidence"] = evidence
 
     data = dict(data)
     data["selectableRegistry"] = selectable
@@ -726,7 +929,9 @@ class ShowcaseHandler(BaseHTTPRequestHandler):
             body = json.loads(payload)
             if not isinstance(body, dict) or not isinstance(body.get('expected_revision'), str) or not body['expected_revision']:
                 raise SelectionError('Expected selections and expected_revision')
-            result = self.service.apply(body.get('selections'), body['expected_revision'])
+            canvas = self.data.get('canvas') or {}
+            user_event = 'local_review_ui' if canvas.get('approvalContractVersion') == 1 else None
+            result = self.service.apply(body.get('selections'), body['expected_revision'], user_event=user_event)
         except SelectionConflict as error:
             self._send_json({'ok': False, 'error': str(error)}, 409)
         except (SelectionError, ValueError, OSError) as error:
@@ -734,6 +939,7 @@ class ShowcaseHandler(BaseHTTPRequestHandler):
         else:
             if self.data.get("canvas"):
                 try:
+                    self.data = load_json(self.proj / "showcase.json")
                     generate(
                         self.proj,
                         self.data,
@@ -1011,14 +1217,25 @@ def main():
                         help="Generate contact sheet images for video takes via FFmpeg.")
     parser.add_argument("--apply", metavar="JSON_OR_FILE",
                         help="Apply selections from a JSON string or file path, updating manifests and selection.json.")
+    parser.add_argument("--stage-decision", metavar="JSON_OR_FILE",
+                        help="Record a reviewed picture, audio, or final-master stage lock.")
+    parser.add_argument("--set-approval-mode", choices=("approve_for_me", "ask_for_approval"),
+                        help="Set the project approval mode and refresh the production canvas.")
     parser.add_argument("--open", action="store_true",
                         help="Open the generated HTML in the default browser.")
     parser.add_argument("--expected-revision", help="Reject --apply when current manifest hashes differ")
     args = parser.parse_args()
-    if args.check and (args.apply or args.serve or args.quick or args.init):
-        parser.error("--check cannot be combined with --apply, --serve, --quick, or --init")
-    if args.init and (args.apply or args.serve or args.quick or args.contact_sheets or args.stage):
-        parser.error("--init cannot be combined with --apply, --serve, --quick, --contact-sheets, or --stage")
+    writes = sum(bool(item) for item in (args.apply, args.stage_decision, args.set_approval_mode))
+    if writes > 1:
+        parser.error("--apply, --stage-decision, and --set-approval-mode cannot be combined")
+    if writes and (args.serve or args.contact_sheets):
+        parser.error("project writes cannot be combined with --serve or --contact-sheets")
+    if args.check and (writes or args.serve or args.quick or args.init):
+        parser.error("--check cannot be combined with a write, --serve, --quick, or --init")
+    if args.init and (writes or args.serve or args.quick or args.contact_sheets or args.stage):
+        parser.error("--init cannot be combined with a write, --serve, --quick, --contact-sheets, or --stage")
+    if args.quick and (writes or args.serve or args.stage):
+        parser.error("--quick cannot be combined with project writes, --serve, or --stage")
 
     # ---- quick mode ----
     if args.quick:
@@ -1104,27 +1321,24 @@ def main():
         return
 
     if args.apply:
-        raw_val = args.apply.strip()
-        if os.path.isfile(raw_val):
-            apply_dict = load_json(raw_val)
-        else:
-            try:
-                apply_dict = json.loads(raw_val)
-            except json.JSONDecodeError as e:
-                sys.exit(f"invalid JSON for --apply: {e}")
-
-        if isinstance(apply_dict, dict) and "selections" in apply_dict:
-            apply_dict = apply_dict["selections"]
-
-        if not isinstance(apply_dict, dict):
+        try:
+            payload = load_json_argument(args.apply, "--apply")
+        except SelectionError as error:
+            sys.exit(str(error))
+        decisions = payload.get("decisions") if isinstance(payload, dict) else None
+        selections = payload.get("selections") if isinstance(payload, dict) and "selections" in payload else payload
+        if not isinstance(selections, dict):
             sys.exit("expected a dict of {asset_id: filename} for --apply")
 
         try:
-            result = SelectionService(proj_path, data).apply(apply_dict, args.expected_revision)
+            result = SelectionService(proj_path, data).apply(
+                selections, args.expected_revision, decisions=decisions
+            )
         except (SelectionError, OSError) as error:
             sys.exit(f"selection failed: {error}")
         if data.get("canvas"):
             try:
+                data = load_json(manifest)
                 generate(proj_path, data, out_name, expected_stage=args.stage)
             except (OSError, UnicodeError, SelectionError) as error:
                 result["canvasSynced"] = False
@@ -1132,6 +1346,29 @@ def main():
                 print(json.dumps(result))
                 sys.exit(2)
             result["canvasSynced"] = True
+        print(json.dumps(result))
+        return
+
+    if args.stage_decision or args.set_approval_mode:
+        try:
+            if args.stage_decision:
+                decision = load_json_argument(args.stage_decision, "--stage-decision")
+                result = record_stage_decision(
+                    proj_path, decision, expected_revision=args.expected_revision
+                )
+            else:
+                result = set_project_mode(proj_path, args.set_approval_mode, expected_revision=args.expected_revision)
+        except (SelectionError, OSError, UnicodeError) as error:
+            sys.exit(f"decision failed: {error}")
+        try:
+            data = load_json(manifest)
+            generate(proj_path, data, out_name, expected_stage=args.stage)
+        except (SelectionError, OSError, UnicodeError) as error:
+            result["canvasSynced"] = False
+            result["canvasError"] = str(error)
+            print(json.dumps(result))
+            sys.exit(2)
+        result["canvasSynced"] = True
         print(json.dumps(result))
         return
 
