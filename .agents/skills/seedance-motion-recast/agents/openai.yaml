@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Motion Recast"
+  short_description: "Seedance 2.5 Motion Transfer prompts: keep source motion, camera and cuts; rebuild cast, world and style from locked references"
+  default_prompt: "Use $seedance-motion-recast to recast this source clip with the approved characters and location while keeping its motion, camera and timing."
