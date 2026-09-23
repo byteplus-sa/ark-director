@@ -540,6 +540,24 @@
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
+    },
+    "seedance-ai-avatar": {
+      "kind": "orchestrator",
+      "description": "Build a reusable AI avatar (digital twin) of a consenting real presenter and generate lip-synced Seedance 2.5 talking-head takes of them saying new lines. Covers the consent and real-likeness policy gates with provenance, verified photo collection, a Seedream identity character sheet, voice-timbre clip isolation from the presenter's own video (VOD voice separation), locked 1:1 and 9:16 camera-beat talking-head prompt templates, and take QA (identity, transcript diff, lip-sync, voice resemblance). Never disguises or reroutes inputs after a provider privacy rejection. Use when the user wants an AI avatar, digital twin, or voice clone of a creator, host, founder, or spokesperson speaking a new script in Seedance. Pair with seedance-avatar-news for the full news-short edit.",
+      "readme_summary": "Authorized real-presenter AI avatar: consent gate, Seedream character sheet, isolated voice clip, sheet-only lip-synced Seedance talking-head takes and QA.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "seedance-avatar-news": {
+      "kind": "orchestrator",
+      "description": "Produce a creator-style 9:16 tech/news explainer short hosted by an approved AI avatar: reference-format breakdown, sourced topic research, a hook-driven 20\u201330s script, a Seedance 2.5 talking-head take (built with seedance-ai-avatar), official B-roll acquisition with provenance and usage basis, and a deterministic ffmpeg edit via scripts/render_short.py (split-screen, full-screen, framed-card layouts, STT-timed caption pills, source and channel badges), plus parallel topic/edit variants on the production canvas. Use to recreate a TikTok/Reels/Shorts talking-head news format with an avatar, turn a news story into an avatar short, or batch several options of the same show.",
+      "readme_summary": "Creator-style news shorts hosted by an AI avatar: sourced script, official B-roll with provenance, and a deterministic split/full/card caption edit.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
     }
   }
 }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Avatar News"
+  short_description: "Creator-style news short hosted by an AI avatar: sourced script, official B-roll, caption edit"
+  default_prompt: "Use $seedance-avatar-news to recreate this creator's talking-head news short on a new story with their approved avatar."

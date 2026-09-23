@@ -360,6 +360,18 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/ugc-motion-presets/SKILL.md",
       "computedHash": "c6049c89a2964d3aa29b51820d29e6571148eb0bbd42df0cea5bdea83c7b34ef"
+    },
+    "seedance-ai-avatar": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-ai-avatar/SKILL.md",
+      "computedHash": "8bc165d8102c9a6edfd30f1259692403a048ed09ca9c0f271d2f4eec0739a2fa"
+    },
+    "seedance-avatar-news": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-avatar-news/SKILL.md",
+      "computedHash": "0546b3c129caba0e433924e9f5f857f481542c6f138be4025cd44058c75090df"
     }
   }
 }
