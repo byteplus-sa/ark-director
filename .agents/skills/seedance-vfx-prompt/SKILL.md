@@ -2,13 +2,15 @@
 name: seedance-vfx-prompt
 description: >-
   Write prompts for edits to existing footage: background replacement, creature
-  or object integration, world changes, relighting, weather, dialogue, and timed
-  camera effects. Default to Seedance 2.5 structured edit-goal grammar; retain
-  legacy 2.0 headings and compact VFX recipes for explicitly selected supported
-  paths. Use source inspection, ordered @Video N/@Image N bindings, a declared
+  or object integration, product, wardrobe, prop, or single-character swaps,
+  world changes, relighting, weather, dialogue, and timed camera effects.
+  Default to Seedance 2.5 structured edit-goal grammar; retain legacy 2.0
+  headings and compact VFX recipes for explicitly selected supported paths. Use
+  source inspection, ordered @Video N/@Image N bindings, a declared
   may-change/must-preserve contract, physical lighting, layered space, timing,
   audio, and face-fidelity QA. Exclude new T2V/I2V shots, still-image creation,
-  and task submission; the caller owns the generation lifecycle.
+  whole-cast motion recasts, and task submission; the caller owns the
+  generation lifecycle.
 ---
 
 # Seedance VFX Prompt
@@ -28,6 +30,9 @@ Do **not** use this skill for:
 - text-to-video generation from a blank prompt (use `seedance-prompt-25` for 2.5, `seedance-prompt-20` for 2.0)
 - image-to-video from a still frame (use `seedance-prompt-25` for 2.5, `seedance-prompt-20` for 2.0)
 - character sheet or location still generation (use Seedream skills)
+- rebuilding the whole cast, wardrobe and world while keeping only the source
+  motion, camera and timing — that is a motion-recast task
+  (`seedance-motion-recast`), not this skill
 
 > **Version note**: This skill covers **both** Seedance generations. The core
 > methodology (sections 1–11) is written for Seedance 2.0. For Seedance 2.5
@@ -67,6 +72,7 @@ mentioned in prose are relative to this skill directory unless a link says other
 - [Fidelity And Continuity](references/fidelity-and-continuity.md) — Resolution: model and operation first; Photoreal creature / element integration; Duration discipline; Integrating with project elements; Chaining VFX shots.
 - [Compact Legacy](references/compact-legacy.md) — Alternative: compact format; Structure patterns (quick reference); Seedance 2.0 input limits (reference).
 - [Seedance 25 Edit](references/seedance-25-edit.md) — Seedance 2.5 editing.
+- [Object Swap](references/object-swap.md) — Seedance 2.5 product, wardrobe, prop, or single-character swap: object count, Timeline Inheritance, residual-original guard, contact and occlusion, worked example, swap QA.
 
 ## Submission boundary and failure behavior
 

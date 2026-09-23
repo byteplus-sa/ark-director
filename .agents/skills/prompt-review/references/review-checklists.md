@@ -11,6 +11,7 @@ sub-agent along with the prompt text.
 - [Seedance 2.0](#seedance-20)
 - [Seedance VFX (video-to-video)](#seedance-vfx-video-to-video)
 - [Seedance 2.5 edit (video-to-video)](#seedance-25-edit-video-to-video)
+- [Seedance 2.5 recast (motion transfer)](#seedance-25-recast-motion-transfer)
 - [Seedance Filipino dialogue](#seedance-filipino-dialogue)
 - [Seed Audio](#seed-audio)
 - [Seedream image generation](#seedream-image-generation)
@@ -339,6 +340,101 @@ whose feature is absent (no references → skip material mapping).
 
 15. Flag only breakage of MUST PRESERVE or a quality defect in the change
     description — never an item the user explicitly asked to change.
+
+### Object swap (only when one named element is replaced)
+
+16. **Residual original (`swap.residual_original`).** The original object is
+    identified by observable descriptors (position, colour, material, who holds
+    or wears it) and a positive guard states that it is fully replaced in every
+    frame and only the target appears. A missing guard or a vague original
+    ("the product") is a MAJOR finding.
+
+17. **Count and Timeline Inheritance (`swap.timeline_inheritance`).** The prompt
+    states the target count for the entire video (and per cut when it changes)
+    and a `[Timeline Inheritance]` clause: the target inherits every
+    appearance, motion, occlusion and exit of the original, including timing,
+    duration, path and speed changes. Missing either is MAJOR.
+
+18. **Contact and preservation.** Each grip, mouth contact, occlusion and
+    set-down window is listed with its approximate time; hands, faces,
+    accessories, dialogue and lip sync stay under `[Content to Preserve]`. A
+    single-character swap without recorded consent for the target likeness and
+    the retained source performer is CRITICAL. Swapping several people or the
+    whole cast belongs to the recast section below.
+
+---
+
+## Seedance 2.5 recast (motion transfer)
+
+Source skill: `seedance-motion-recast`.
+
+Apply "Universal — all prompts" and the general Seedance 2.5 reference items
+first, then this section. A recast keeps the source clip's motion, camera path,
+framing changes, cuts and timing, and rebuilds cast, wardrobe, product,
+location and style from references. Mark N/A any item whose feature is absent
+and record why.
+
+### Motion authority
+
+1. **Motion excludes appearance (`recast.motion_authority`).** The prompt limits
+   `@Video 1` to motion, pose sequence, screen positions, camera path, framing,
+   cuts and timing, and assigns faces, hair, wardrobe, products, location,
+   palette and style to the references. A motion video with no appearance
+   exclusion reproduces the source look; that is CRITICAL. The operation and
+   task type match the recorded mode decision and capability evidence
+   (`model.supported_mode`).
+
+2. **Inherit, don't restate.** Only the inherited attributes are named; the
+   prompt does not re-describe every source action, which conflicts with the
+   motion video (general Seedance 2.5 item 12).
+
+### Subjects and mapping
+
+3. **Every subject has a disposition (`recast.subject_disposition`).** Each
+   visible source subject is listed exactly once as mapped (to a reference),
+   removed, or background extra, and the list agrees with the source
+   inspection or subject map per cut. An unlisted subject, or an unresolved
+   ambiguity carried into the prompt, is CRITICAL.
+
+4. **Unambiguous mapping (`recast.mapping_unambiguous`).** Each mapped subject
+   is identified by observable descriptors (screen position, clothing, action)
+   and bound to one `@Image N`, e.g. "the person on the left in the red jacket
+   → @Image 2". Blanket wording ("replace everyone", "the people", "@Images 1–4
+   are the cast") or one reference serving two subjects is CRITICAL. Several
+   views of one subject state that the output contains only one of them
+   (`references.ordered_bindings`).
+
+### Guards
+
+5. **Accessory bleed and extra people (`recast.guards`).** Each target wears
+   only the wardrobe and accessories in its reference; source glasses,
+   jewellery, hats and bags are named where they must not carry over. The
+   person count per cut is stated, background extras are given as a count or
+   density, and no additional people appear. Missing either guard is MAJOR.
+
+6. **Audio route (`recast.audio_route`).** The prompt states one audio route:
+   source dialogue kept (separated `@Audio 1` or the video's track), regenerated
+   dialogue or sound, music only, or silent for post. Lip-sync expectations agree with that
+   route. An unstated route is MAJOR.
+
+7. **No overlay text.** No captions, taglines, CTAs, end cards or readable brand
+   copy are requested (Universal item 13). Source on-screen text has a stated
+   disposition (removed or replaced by a plain surface); overlay copy is added
+   in post.
+
+### Limits and rights
+
+8. **Reference counts.** Within hard limits (≤ 30 images, ≤ 10 videos, ≤ 10
+   audio) and the recommended range: 1–8 image subjects and one motion video.
+   Exceeding a hard limit is CRITICAL. More than eight mapped subjects, or
+   references above the recommended range, is MAJOR unless the
+   prompt records the trade-off; suggest splitting into shots and assembling.
+
+9. **Real-person consent.** Recorded consent covers every real likeness in a
+   target reference and every identifiable source performer whose motion is
+   kept. A creative selection never implies consent. A missing record is
+   CRITICAL and blocks the request; do not suggest wording that routes around
+   a provider rejection.
 
 ---
 

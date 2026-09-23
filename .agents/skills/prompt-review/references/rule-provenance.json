@@ -10,6 +10,9 @@
     "references.ordered_bindings", "references.control_only",
     "submission.reconcile_unknown", "model.supported_mode",
     "narrative.observable_event", "asset.visible_consistency",
-    "revision.declared_delta", "review.complete_evidence"
+    "revision.declared_delta", "review.complete_evidence",
+    "swap.residual_original", "swap.timeline_inheritance",
+    "recast.motion_authority", "recast.subject_disposition",
+    "recast.mapping_unambiguous", "recast.guards", "recast.audio_route"
   ]
 }
