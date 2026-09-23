@@ -3,6 +3,8 @@ from __future__ import annotations
 import fcntl
 import json
 import os
+import subprocess
+import sys
 import tempfile
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -10,7 +12,9 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
+from ruamel.yaml.error import YAMLError
 from validate_request import (
+    parse_frontmatter,
     prepared_evidence_findings,
     project_mode_findings,
     schema_findings,
@@ -91,17 +95,55 @@ def replace_registry(path: Path, document: dict[str, Any]) -> None:
 
 
 def require_current_approval_contract(root: Path, record: dict[str, Any]) -> None:
+    version = record.get("schema_version")
+    project_path = root / "project.md"
+    if version == 1 and project_path.exists():
+        try:
+            content = project_path.read_text(encoding="utf-8")
+            metadata = parse_frontmatter(content) if content.startswith("---") else {}
+        except (OSError, UnicodeError, ValueError, TypeError, YAMLError) as error:
+            raise ValueError(f"Cannot verify legacy project mode: {error}") from error
+        if "approval_mode" in metadata:
+            raise ValueError("Explicit approval mode requires a version-2 generation request")
     path = root / "showcase.json"
-    if not path.exists():
-        return
     if path.is_symlink():
         raise ValueError("Production canvas must not be a symlink")
-    document = json.loads(path.read_text())
+    if not path.exists():
+        if version == 2:
+            raise ValueError("Version-2 generation requires showcase.json and current index.html")
+        return
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        raise ValueError(f"Invalid production canvas showcase.json: {error}") from error
     if not isinstance(document, dict):
         raise TypeError("Production canvas must be a JSON object")
     canvas = document.get("canvas")
-    if isinstance(canvas, dict) and canvas.get("approvalContractVersion") == 1 and record.get("schema_version") != 2:
+    if version == 1 and isinstance(canvas, dict) and "approvalContractVersion" in canvas:
         raise ValueError("Versioned production canvas requires a version-2 generation request")
+    if version != 2:
+        return
+    if not isinstance(canvas, dict) or canvas.get("approvalContractVersion") != 1:
+        raise ValueError("Version-2 generation requires a versioned production canvas")
+    stage = canvas.get("currentStage")
+    if not isinstance(stage, str) or not stage:
+        raise ValueError("Production canvas requires a current stage")
+    index_path = root / "index.html"
+    if index_path.is_symlink():
+        raise ValueError("Generated production canvas must not be a symlink")
+    generator = (
+        Path(__file__).resolve().parents[1]
+        / "skills/showcase-html/scripts/generate_showcase.py"
+    )
+    result = subprocess.run(
+        [sys.executable, str(generator), str(root), "--check", "--stage", stage],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        detail = (result.stdout + result.stderr).strip()
+        raise ValueError(f"Production canvas checkpoint failed: {detail}")
 
 
 def prepare_operation(
@@ -160,12 +202,12 @@ def transition_operation(
         if record is None or record["submission_status"] != expected_status:
             raise ValueError("Operation missing or stale expected state")
         if new_status == "submitting":
-            require_current_approval_contract(root, record)
             evidence_findings = prepared_evidence_findings(root, record)
             if evidence_findings:
                 raise ValueError(
                     "; ".join(finding.message for finding in evidence_findings)
                 )
+            require_current_approval_contract(root, record)
         if provider_task_id and record["provider_task_id"] not in (
             None,
             provider_task_id,

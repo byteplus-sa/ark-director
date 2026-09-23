@@ -168,7 +168,8 @@ The repository environment supplies `ruamel.yaml`; run `uv sync --group dev`
    recommendation and wait for the user; the browser server can record that
    choice. `--apply` returns the resulting revision as JSON.
 
-   Picture, audio, and final master locks use a separate stage decision file:
+   In `approve_for_me`, picture, audio, and final master locks use a separate
+   agent stage decision file:
 
 ```bash
 .venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
@@ -176,8 +177,12 @@ The repository environment supplies `ruamel.yaml`; run `uv sync --group dev`
   --stage-decision projects/<project>/decisions/stage-decision.json --expected-revision <revision>
 ```
 
-   The service writes the decision, lock, and stage sources together. Switch
-   modes with `--set-approval-mode approve_for_me` or
+   In `ask_for_approval`, register reviewed choices in the current stage's
+   `lockCandidates`, then serve the canvas. The user opens the candidate,
+   inspects it, and presses its **Approve** button. The review server creates
+   the user decision from the registered candidate and writes the decision,
+   lock, and stage sources together. `--stage-decision` does not claim user
+   authorization. Switch modes with `--set-approval-mode approve_for_me` or
    `--set-approval-mode ask_for_approval` and the current stage. Mode changes
    apply to future decisions and refresh the HTML. Read
    [Production canvas](references/production-canvas.md) for the stage lock and

@@ -249,6 +249,40 @@
         }
         card.appendChild(locks);
       }
+      if (Array.isArray(stage.lockCandidates) && stage.lockCandidates.length) {
+        const candidates = el('div', 'canvas-lock-candidates');
+        for (const candidate of stage.lockCandidates) {
+          const row = el('div', 'canvas-lock-candidate');
+          row.appendChild(el('strong', null, candidate.lock_kind.replaceAll('_', ' ') + ' candidate'));
+          row.appendChild(el('p', null, candidate.reason));
+          const artifactHref = projectHref(candidate.artifact_path);
+          const reviewHref = projectHref(candidate.review_path);
+          const links = el('div', 'canvas-links');
+          for (const [label, href] of [['Candidate', artifactHref], ['Review', reviewHref]]) {
+            if (!href) continue;
+            const link = el('a', null, label);
+            link.href = href;
+            links.appendChild(link);
+          }
+          row.appendChild(links);
+          if (artifactHref) {
+            const mediaType = /\.(mp4|mov|mkv|webm)$/i.test(candidate.artifact_path) ? 'video'
+              : /\.(wav|mp3|m4a|aac|flac)$/i.test(candidate.artifact_path) ? 'audio' : 'image';
+            const preview = el('div', 'canvas-source-media');
+            preview.appendChild(mediaNode({type: mediaType, src: artifactHref, alt: candidate.artifact_path}));
+            row.appendChild(preview);
+          }
+          if (viaServer && mode.mode === 'ask_for_approval' && stage.id === canvas.currentStage
+              && !((stage.locks || {})[candidate.lock_kind])) {
+            const button = el('button', 'canvas-lock-approve', 'Approve ' + candidate.lock_kind.replaceAll('_', ' '));
+            button.type = 'button';
+            button.addEventListener('click', () => approveStageCandidate(candidate, button));
+            row.appendChild(button);
+          }
+          candidates.appendChild(row);
+        }
+        card.appendChild(candidates);
+      }
       const counts = stage.counts || {};
       const metrics = el('div', 'canvas-metrics');
       for (const [label, value] of [
@@ -687,6 +721,41 @@
     } catch (e) {
       showToast('Save failed: ' + e.message, 'error');
       selStatus.textContent = 'Save failed (is the server running?): ' + e.message;
+    }
+  }
+
+  async function approveStageCandidate(candidate, button) {
+    if (!viaServer || !data.canvasBuild) return;
+    button.disabled = true;
+    button.textContent = 'Approving…';
+    try {
+      const sessionResponse = await fetch('/api/session');
+      const session = await sessionResponse.json();
+      if (!sessionResponse.ok || !session.token || !session.stageRevision) {
+        throw new Error(session.error || 'Session unavailable');
+      }
+      const response = await fetch('/api/stage-lock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Showcase-Token': session.token },
+        body: JSON.stringify({
+          candidate: {lock_kind: candidate.lock_kind, artifact_path: candidate.artifact_path},
+          canvas_manifest_sha256: data.canvasBuild.manifestSha256,
+          expected_revision: session.stageRevision,
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.error || 'Approval failed');
+      if (result.canvasSynced === false) {
+        button.textContent = 'Approved; canvas refresh failed';
+        showToast('Approval saved, but the production canvas is stale.', 'error');
+        return;
+      }
+      showToast('Stage lock approved.', 'success');
+      location.reload();
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = 'Approve ' + candidate.lock_kind.replaceAll('_', ' ');
+      showToast('Approval failed: ' + error.message, 'error');
     }
   }
 

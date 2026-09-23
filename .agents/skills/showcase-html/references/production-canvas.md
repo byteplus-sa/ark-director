@@ -85,6 +85,19 @@ stage's `sources`. The canvas checkpoint verifies the file hashes and source
 links. The decision service writes locks and sources together; do not add a
 lock by editing JSON alone.
 
+In `ask_for_approval`, put eligible choices in the current stage's
+`lockCandidates` list. Each entry has `lock_kind` (`picture` or `audio` for
+`assembly-review`, `final_master` for `delivery`), `artifact_path`,
+`review_path`, a nonempty `reason`, and `upstream_sha256` mapping project-relative
+inputs to their SHA-256 hashes. The paths must be project-local. Serve the
+canvas with `--serve --stage <stage-id>`; the user can inspect each candidate
+and press its **Approve** button. The server accepts only candidates still
+registered in `showcase.json`, checks the page and project revisions, creates
+a fresh local UI authorization event, validates the review and media, and
+writes the decision and lock. The rendered page then refreshes. Plain
+`index.html` remains read-only. For `approve_for_me`, the agent writes a
+validated stage decision through `--stage-decision`.
+
 For a completed element, storyboard, audio, or shot stage on a version 1
 canvas, every selectable asset must have a registered selected variant with
 approved `selection_evidence`. The checkpoint verifies the selected media,
@@ -179,10 +192,10 @@ without waiting for a routine user selection.
 When selections, stage locks, or mode changes are saved through the generator,
 it refreshes the HTML after the transactional write. A failed refresh is
 reported separately from the applied decision and must be resolved before
-leaving the stage. In `ask_for_approval`, the user can choose variants through
-`--serve`; a stage lock after an explicit user choice uses `--stage-decision`
-with the recorded user instruction. The agent uses decision files with passing
-review evidence for autonomous selections and stage locks.
+leaving the stage. In `ask_for_approval`, the user can choose variants and
+approve registered stage-lock candidates through `--serve`. The agent uses
+decision files with passing review evidence for autonomous selections and
+stage locks.
 
 ## Review fallback
 

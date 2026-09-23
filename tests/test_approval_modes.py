@@ -44,6 +44,12 @@ class ApprovalModeTests(unittest.TestCase):
             }],
         }
         (self.root / 'showcase.json').write_text(json.dumps(self.data))
+        media_probe = patch.object(selection, 'probe_media_streams', side_effect=self.synthetic_streams)
+        media_probe.start()
+        self.addCleanup(media_probe.stop)
+
+    def synthetic_streams(self, path):
+        return {'audio'} if path.suffix == '.wav' else {'video', 'audio'}
 
     def hash(self, relative):
         return hashlib.sha256((self.root / relative).read_bytes()).hexdigest()
@@ -145,6 +151,18 @@ class ApprovalModeTests(unittest.TestCase):
             self.service().apply({'hero': 'new.png'}, decisions={'hero': self.decision()})
         self.assertFalse((self.root / 'decisions').exists())
 
+    def test_stage_media_gate_rejects_wrong_modality_and_unheard_master(self):
+        (self.root / 'master.mp4').write_bytes(b'synthetic master')
+        review = {'inspection_method': 'direct_video_playback'}
+        with patch.object(selection, 'probe_media_streams', return_value={'audio'}), self.assertRaisesRegex(selection.SelectionError, 'video stream'):
+            selection.validate_stage_media(self.root, 'final_master', 'master.mp4', review)
+        with patch.object(selection, 'probe_media_streams', return_value={'video'}), self.assertRaisesRegex(selection.SelectionError, 'audio stream'):
+            selection.validate_stage_media(self.root, 'final_master', 'master.mp4', {'inspection_method': 'playback_and_listening'}, audio_required=True)
+        with patch.object(selection, 'probe_media_streams', return_value={'video', 'audio'}), self.assertRaisesRegex(selection.SelectionError, 'listening'):
+            selection.validate_stage_media(self.root, 'final_master', 'master.mp4', review, audio_required=True)
+        with patch.object(selection, 'probe_media_streams', return_value={'video', 'audio'}):
+            selection.validate_stage_media(self.root, 'final_master', 'master.mp4', {'inspection_method': 'playback_and_listening'}, audio_required=True)
+
     def test_generation_preflight_rejects_non_temporal_video_and_unheard_audio(self):
         for artifact, method in (('take.mp4', 'contact_sheet'), ('mix.wav', 'waveform')):
             (self.root / artifact).write_bytes(b'synthetic media')
@@ -201,7 +219,12 @@ class ApprovalModeTests(unittest.TestCase):
         self.assertFalse((self.root / 'decisions').exists())
         user_decision = self.decision('picture.mp4', 'picture_review.json', actor='user', decision_type='stage_lock')
         user_decision['authorization'] = {'source': 'chat', 'evidence': 'User selected the inspected picture cut.'}
-        selection.record_stage_decision(self.root, user_decision)
+        with self.assertRaises(selection.SelectionError):
+            selection.record_stage_decision(self.root, user_decision)
+        user_decision['authorization'] = {'source': 'local_ui', 'evidence': 'local_review_ui'}
+        with self.assertRaises(selection.SelectionError):
+            selection.record_stage_decision(self.root, user_decision)
+        selection.record_stage_decision(self.root, user_decision, user_event='local_review_ui')
         saved = json.loads((self.root / 'showcase.json').read_text())
         self.assertEqual(saved['canvas']['stages'][1]['locks']['picture']['actor'], 'user')
 

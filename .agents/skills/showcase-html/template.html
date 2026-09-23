@@ -128,6 +128,20 @@
   .canvas-lock strong, .canvas-decision strong { color: var(--text); }
   .canvas-lock span, .canvas-decision span { color: var(--muted); }
   .canvas-lock p, .canvas-decision p { margin: 5px 0 0; color: var(--muted); line-height: 1.45; }
+  .canvas-lock-candidates { display: grid; gap: 8px; margin-top: 13px; }
+  .canvas-lock-candidate {
+    border: 1px solid var(--border-soft); border-radius: 8px; background: var(--panel-2);
+    padding: 10px; font-size: 11px; overflow-wrap: anywhere;
+  }
+  .canvas-lock-candidate strong { color: var(--text); }
+  .canvas-lock-candidate p { margin: 5px 0 0; color: var(--muted); line-height: 1.45; }
+  .canvas-lock-candidate .canvas-source-media { margin-top: 10px; }
+  .canvas-lock-approve {
+    margin-top: 10px; border: 1px solid var(--accent-3); border-radius: 7px;
+    background: var(--accent-3-soft); color: var(--accent-3); padding: 7px 10px;
+    font: 600 11px/1.3 system-ui, sans-serif; cursor: pointer;
+  }
+  .canvas-lock-approve:disabled { opacity: 0.65; cursor: wait; }
   .canvas-decisions { margin-top: 20px; }
   .canvas-decisions h3 { margin: 0; font-size: 14px; }
   .canvas-review-link { display: inline-block; margin-top: 9px; color: var(--accent-2); font-size: 11px; }

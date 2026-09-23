@@ -55,6 +55,9 @@ from selection_service import (
     read_selection,
     record_stage_decision,
     set_project_mode,
+    stage_revision,
+    validate_schema,
+    validate_stage_media,
     validated_review,
 )
 
@@ -235,6 +238,7 @@ def canvas_selection_errors(data, proj, stages):
             if evidence.get("decision_sha256") != file_sha256(decision_file):
                 errors.append(f"{asset_id}: selection decision hash is stale")
             validated_review(proj, review_path, evidence.get("review_sha256"), source, media_hash)
+            validate_schema(decision, "production-decision.schema.json")
         except (SelectionError, OSError, json.JSONDecodeError) as error:
             errors.append(f"{asset_id}: approval evidence is unavailable: {error}")
             continue
@@ -255,6 +259,8 @@ def canvas_selection_errors(data, proj, stages):
         if not isinstance(decision, dict) or any(decision.get(key) != value for key, value in expected.items()):
             errors.append(f"{asset_id}: selection decision does not match the manifest")
             continue
+        if decision["actor"] == "user" and decision["authorization"]["source"] != "local_ui":
+            errors.append(f"{asset_id}: user decision requires local UI authorization")
         upstream = decision.get("upstream_sha256", {})
         if not isinstance(upstream, dict):
             errors.append(f"{asset_id}: selection decision upstream hashes are invalid")
@@ -345,6 +351,48 @@ def canvas_validation_errors(data, proj, expected_stage=None):
             continue
         if status not in {"pending", "skipped"} and not sources and not sections_by_stage[stage["id"]]:
             errors.append(f"{stage['id']}: progressed stage requires a source or section")
+        if canvas.get("approvalContractVersion") == 1:
+            candidates = stage.get("lockCandidates", [])
+            if not isinstance(candidates, list):
+                errors.append(f"{stage['id']}: lockCandidates must be an array")
+            else:
+                candidate_keys = set()
+                for candidate in candidates:
+                    if not isinstance(candidate, dict):
+                        errors.append(f"{stage['id']}: every lock candidate must be an object")
+                        continue
+                    lock_kind = candidate.get("lock_kind")
+                    artifact_path = candidate.get("artifact_path")
+                    review_path = candidate.get("review_path")
+                    lock_stages = {"picture": "assembly-review", "audio": "assembly-review", "final_master": "delivery"}
+                    if not isinstance(lock_kind, str) or lock_stages.get(lock_kind) != stage["id"]:
+                        errors.append(f"{stage['id']}: lock candidate has an invalid lock_kind")
+                    if not isinstance(candidate.get("reason"), str) or not candidate["reason"].strip():
+                        errors.append(f"{stage['id']}: lock candidate requires a reason")
+                    upstream = candidate.get("upstream_sha256")
+                    if not isinstance(upstream, dict) or any(not isinstance(path, str) or not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None for path, digest in upstream.items()):
+                        errors.append(f"{stage['id']}: lock candidate requires upstream_sha256")
+                    else:
+                        for relative, digest in upstream.items():
+                            try:
+                                if file_sha256(contained_path(proj, relative)) != digest:
+                                    errors.append(f"{stage['id']}: lock candidate upstream source hash is stale: {relative}")
+                            except SelectionError as error:
+                                errors.append(f"{stage['id']}: invalid lock candidate: {error}")
+                    try:
+                        artifact = contained_path(proj, artifact_path)
+                        review_file = contained_path(proj, review_path)
+                        review = validated_review(proj, review_path, file_sha256(review_file), artifact_path, file_sha256(artifact))
+                        if isinstance(lock_kind, str) and lock_stages.get(lock_kind) == stage["id"]:
+                            audio_required = lock_kind == "final_master" and stages[CANVAS_STAGE_IDS.index("audio-preparation")].get("status") != "skipped"
+                            validate_stage_media(proj, lock_kind, artifact_path, review, audio_required=audio_required)
+                    except (SelectionError, TypeError) as error:
+                        errors.append(f"{stage['id']}: invalid lock candidate: {error}")
+                    if isinstance(lock_kind, str) and isinstance(artifact_path, str):
+                        key = (lock_kind, artifact_path)
+                        if key in candidate_keys:
+                            errors.append(f"{stage['id']}: duplicate lock candidate")
+                        candidate_keys.add(key)
         for source in sources:
             if not isinstance(source, dict):
                 errors.append(f"{stage['id']}: every source must be an object")
@@ -392,6 +440,7 @@ def canvas_validation_errors(data, proj, expected_stage=None):
                 try:
                     decision_path = contained_path(proj, decision_relative)
                     decision = load_json(decision_path)
+                    validate_schema(decision, "production-decision.schema.json")
                 except (SelectionError, OSError, json.JSONDecodeError) as error:
                     errors.append(f"{stage['id']}: {lock_kind} decision is unavailable: {error}")
                     continue
@@ -413,8 +462,12 @@ def canvas_validation_errors(data, proj, expected_stage=None):
                 if not isinstance(decision, dict) or any(decision.get(key) != value for key, value in expected_fields.items()):
                     errors.append(f"{stage['id']}: {lock_kind} decision does not match the lock")
                     continue
+                if decision["actor"] == "user" and decision["authorization"]["source"] != "local_ui":
+                    errors.append(f"{stage['id']}: {lock_kind} user decision requires local UI authorization")
                 try:
-                    validated_review(proj, lock.get("review_path"), lock.get("review_sha256"), lock.get("artifact_path"), lock.get("artifact_sha256"))
+                    review = validated_review(proj, lock.get("review_path"), lock.get("review_sha256"), lock.get("artifact_path"), lock.get("artifact_sha256"))
+                    audio_required = lock_kind == "final_master" and stages[CANVAS_STAGE_IDS.index("audio-preparation")].get("status") != "skipped"
+                    validate_stage_media(proj, lock_kind, lock["artifact_path"], review, audio_required=audio_required)
                 except SelectionError as error:
                     errors.append(f"{stage['id']}: {lock_kind} review is invalid: {error}")
                 upstream = decision.get("upstream_sha256", {})
@@ -463,6 +516,9 @@ def prepare_canvas_data(data, proj, manifest_bytes=None, expected_stage=None):
             if kind in CANVAS_TEXT_KINDS or path.suffix.lower() in CANVAS_TEXT_EXTENSIONS:
                 source["content"] = path.read_text(encoding="utf-8")
             stage_paths.append(source["path"])
+        for candidate in stage.get("lockCandidates", []):
+            stage_paths.extend((candidate["artifact_path"], candidate["review_path"]))
+            stage_paths.extend(candidate["upstream_sha256"])
         for section in stage_sections:
             stage_paths.extend(inspect_paths(section))
         unique_paths = list(dict.fromkeys(stage_paths))
@@ -844,7 +900,7 @@ class ShowcaseHandler(BaseHTTPRequestHandler):
         if self.path in ('/api/session', '/api/selection', '/api/log'):
             try:
                 if self.path == '/api/session':
-                    self._send_json({'token': self.session_token, **self.service.snapshot()})
+                    self._send_json({'token': self.session_token, 'stageRevision': stage_revision(self.proj), **self.service.snapshot()})
                 elif self.path == '/api/selection':
                     self._send_json(self.service.snapshot())
                 else:
@@ -912,7 +968,7 @@ class ShowcaseHandler(BaseHTTPRequestHandler):
         if not self._same_host() or self.headers.get('Origin') != origin or not secrets.compare_digest(self.headers.get('X-Showcase-Token', ''), self.session_token or ''):
             self._send_json({'ok': False, 'error': 'Same-origin session token required'}, 403)
             return
-        if self.path != '/api/select':
+        if self.path not in ('/api/select', '/api/stage-lock'):
             self._send_json({'ok': False, 'error': 'not found'}, 404)
             return
         try:
@@ -928,10 +984,13 @@ class ShowcaseHandler(BaseHTTPRequestHandler):
                 raise SelectionError('Incomplete request body')
             body = json.loads(payload)
             if not isinstance(body, dict) or not isinstance(body.get('expected_revision'), str) or not body['expected_revision']:
-                raise SelectionError('Expected selections and expected_revision')
-            canvas = self.data.get('canvas') or {}
-            user_event = 'local_review_ui' if canvas.get('approvalContractVersion') == 1 else None
-            result = self.service.apply(body.get('selections'), body['expected_revision'], user_event=user_event)
+                raise SelectionError('Expected a nonempty expected_revision')
+            if self.path == '/api/stage-lock':
+                result = self._stage_lock(body)
+            else:
+                canvas = self.data.get('canvas') or {}
+                user_event = secrets.token_urlsafe(24) if canvas.get('approvalContractVersion') == 1 else None
+                result = self.service.apply(body.get('selections'), body['expected_revision'], user_event=user_event)
         except SelectionConflict as error:
             self._send_json({'ok': False, 'error': str(error)}, 409)
         except (SelectionError, ValueError, OSError) as error:
@@ -939,7 +998,7 @@ class ShowcaseHandler(BaseHTTPRequestHandler):
         else:
             if self.data.get("canvas"):
                 try:
-                    self.data = load_json(self.proj / "showcase.json")
+                    type(self).data = load_json(self.proj / "showcase.json")
                     generate(
                         self.proj,
                         self.data,
@@ -952,6 +1011,59 @@ class ShowcaseHandler(BaseHTTPRequestHandler):
                 else:
                     result["canvasSynced"] = True
             self._send_json(result)
+
+    def _stage_lock(self, body):
+        showcase_path = contained_path(self.proj, 'showcase.json')
+        if body.get('canvas_manifest_sha256') != file_sha256(showcase_path):
+            raise SelectionConflict('Production canvas changed; reload before approving')
+        data = load_json(showcase_path)
+        canvas = data.get('canvas')
+        if not isinstance(canvas, dict) or canvas.get('approvalContractVersion') != 1:
+            raise SelectionError('Stage approval requires a versioned production canvas')
+        errors = canvas_validation_errors(data, self.proj, self.expected_stage)
+        if errors:
+            raise SelectionError('; '.join(errors))
+        mode = read_project_mode(self.proj)
+        if mode['mode'] != 'ask_for_approval':
+            raise SelectionError('User stage approval requires ask_for_approval mode')
+        if body['expected_revision'] != stage_revision(self.proj):
+            raise SelectionConflict('Stale project revision before stage decision')
+        stage_id = canvas.get('currentStage')
+        stage = next((item for item in canvas.get('stages', []) if isinstance(item, dict) and item.get('id') == stage_id), None)
+        if stage is None or stage.get('status') not in {'active', 'review'}:
+            raise SelectionError('Current stage is not awaiting approval')
+        choice = body.get('candidate')
+        if not isinstance(choice, dict) or set(choice) != {'lock_kind', 'artifact_path'}:
+            raise SelectionError('Expected a registered stage lock candidate')
+        candidates = stage.get('lockCandidates', [])
+        matches = [item for item in candidates if isinstance(item, dict) and item.get('lock_kind') == choice['lock_kind'] and item.get('artifact_path') == choice['artifact_path']]
+        if len(matches) != 1:
+            raise SelectionError('Stage lock candidate is unavailable or ambiguous')
+        candidate = matches[0]
+        if candidate['lock_kind'] in stage.get('locks', {}):
+            raise SelectionError('Stage lock already exists; reload before changing it')
+        artifact = contained_path(self.proj, candidate['artifact_path'])
+        review = contained_path(self.proj, candidate['review_path'])
+        decision = {
+            'schema_version': 1,
+            'decision_id': f"ui-{secrets.token_hex(12)}",
+            'decision_type': 'stage_lock',
+            'stage_id': stage_id,
+            'lock_kind': candidate['lock_kind'],
+            'subject_path': candidate['artifact_path'],
+            'subject_sha256': file_sha256(artifact),
+            'actor': 'user',
+            'approval_mode': mode['mode'],
+            'project_sha256': mode['project_sha256'],
+            'result': 'approved',
+            'review_path': candidate['review_path'],
+            'review_sha256': file_sha256(review),
+            'upstream_sha256': candidate['upstream_sha256'],
+            'reason': candidate['reason'],
+            'decided_at': datetime.datetime.now(datetime.UTC).isoformat(),
+            'authorization': {'source': 'local_ui', 'evidence': secrets.token_urlsafe(24)},
+        }
+        return record_stage_decision(self.proj, decision, body['expected_revision'], user_event=decision['authorization']['evidence'])
 
     def log_message(self, *args):
         pass

@@ -43,7 +43,7 @@
       "type": "object",
       "required": ["source", "evidence"],
       "properties": {
-        "source": {"enum": ["chat", "local_ui"]},
+        "source": {"const": "local_ui"},
         "evidence": {"type": "string", "minLength": 1}
       },
       "additionalProperties": false

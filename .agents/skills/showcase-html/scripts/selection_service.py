@@ -6,6 +6,7 @@ import io
 import json
 import os
 import re
+import subprocess
 import tempfile
 import uuid
 from collections.abc import Mapping
@@ -32,6 +33,8 @@ STAGE_LOCKS = {
     'audio': 'assembly-review',
     'final_master': 'delivery',
 }
+VIDEO_EXTENSIONS = {'.mp4', '.mov', '.mkv', '.webm'}
+AUDIO_EXTENSIONS = {'.wav', '.mp3', '.m4a', '.aac', '.flac'}
 
 
 def sha256(path):
@@ -262,6 +265,50 @@ def validated_review(root, review_path, review_sha256, subject_path, subject_sha
     return review
 
 
+def probe_media_streams(path):
+    try:
+        completed = subprocess.run(
+            ['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type', '-of', 'json', str(path)],
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        raise SelectionError('Media stream inspection is unavailable') from error
+    if completed.returncode != 0:
+        raise SelectionError(f'Media stream inspection failed: {path.name}')
+    try:
+        streams = json.loads(completed.stdout)['streams']
+    except (ValueError, KeyError, TypeError) as error:
+        raise SelectionError(f'Media stream inspection returned invalid data: {path.name}') from error
+    if not isinstance(streams, list):
+        raise SelectionError(f'Media stream inspection returned invalid data: {path.name}')
+    return {stream.get('codec_type') for stream in streams if isinstance(stream, dict)}
+
+
+def validate_stage_media(root, lock_kind, subject_path, review, audio_required=False):
+    suffix = Path(subject_path).suffix.lower()
+    if lock_kind in {'picture', 'final_master'}:
+        if suffix not in VIDEO_EXTENSIONS:
+            raise SelectionError(f'{lock_kind} lock requires a video artifact')
+        required_streams = {'video'}
+    elif lock_kind == 'audio':
+        if suffix not in AUDIO_EXTENSIONS:
+            raise SelectionError('Audio lock requires an audio artifact')
+        required_streams = {'audio'}
+    else:
+        raise SelectionError('Unknown stage lock kind')
+    if lock_kind == 'final_master' and audio_required:
+        required_streams.add('audio')
+        if 'listen' not in review['inspection_method'].lower():
+            raise SelectionError('Audiovisual final master requires listening evidence')
+    streams = probe_media_streams(contained_path(Path(root).resolve(), subject_path))
+    if not required_streams.issubset(streams):
+        missing = ', '.join(sorted(required_streams - streams))
+        raise SelectionError(f'{lock_kind} lock requires a {missing} stream')
+
+
 def validated_decision(root, decision, subject_path, subject_sha256, mode, user_event=None):
     if not isinstance(decision, dict):
         raise SelectionError('Expected a structured production decision')
@@ -273,8 +320,8 @@ def validated_decision(root, decision, subject_path, subject_sha256, mode, user_
         raise SelectionConflict('Project mode or project.md changed before decision')
     if decision['actor'] == 'agent' and mode != 'approve_for_me':
         raise SelectionError('Agent cannot approve in ask_for_approval mode')
-    if decision['actor'] == 'user' and decision['authorization']['source'] == 'local_ui' and user_event != decision['authorization']['evidence']:
-        raise SelectionError('Local UI authorization must come from the review server')
+    if decision['actor'] == 'user' and (decision['authorization']['source'] != 'local_ui' or user_event != decision['authorization']['evidence']):
+        raise SelectionError('User authorization must come from the local review server')
     if decision['result'] != 'approved':
         raise SelectionError('Only approved decisions can promote an artifact')
     if decision['subject_path'] != subject_path:
@@ -526,6 +573,10 @@ def record_stage_decision(root, decision, expected_revision=None, user_event=Non
         if decision.get('actor') == 'agent' and existing and existing.get('actor') != 'agent':
             raise SelectionError('An agent cannot replace a user stage lock')
         decision_path, decision_content, decision_sha256 = validated_decision(root, decision, subject, subject_sha256, mode['mode'], user_event)
+        review = validated_review(root, decision['review_path'], decision['review_sha256'], subject, subject_sha256)
+        audio_stage = next((item for item in showcase['canvas'].get('stages', []) if item.get('id') == 'audio-preparation'), None)
+        audio_required = audio_stage is None or audio_stage.get('status') != 'skipped'
+        validate_stage_media(root, lock_kind, subject, review, audio_required=audio_required)
         stage.setdefault('locks', {})[lock_kind] = {
             'decision_id': decision['decision_id'],
             'decision_sha256': decision_sha256,

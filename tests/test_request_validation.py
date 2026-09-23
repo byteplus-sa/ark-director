@@ -288,6 +288,11 @@ class RequestValidationTests(unittest.TestCase):
             "source": "chat",
             "evidence": "User chose picture lock",
         }
+        self.assertTrue(validation.decision_findings(self.root, decision))
+        decision["authorization"] = {
+            "source": "local_ui",
+            "evidence": "local_review_ui",
+        }
         self.assertEqual(validation.decision_findings(self.root, decision), [])
 
     def test_changed_reference_and_prompt_are_rejected(self):

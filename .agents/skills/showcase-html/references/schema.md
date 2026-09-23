@@ -299,9 +299,12 @@ including passing hash-bound review evidence, selected artifact, reason, and
 current approval mode. Pass the complete envelope as a JSON file to `--apply`.
 Use `--expected-revision` when applying a previously reviewed snapshot; otherwise
 the CLI checks a fresh revision under its writer lock. A missing decision is
-not an autonomous approval. For stage locks, pass the complete `stage_lock`
-decision file to `--stage-decision`; `--set-approval-mode` changes the project
-mode through the same transactional service. Both commands regenerate HTML and
+not an autonomous approval. For agent stage locks in `approve_for_me`, pass the
+complete `stage_lock` decision file to `--stage-decision`. In
+`ask_for_approval`, register choices under the current canvas stage's
+`lockCandidates` and let the user approve through `--serve`; the server builds
+the user decision. `--set-approval-mode` changes the project mode through the
+same transactional service. Both paths regenerate HTML and
 still require a passing `--check --stage` before stage exit.
 An omitted asset id preserves its current manifest selection. Clicking the
 current browser choice leaves it selected; clearing existing approval is not

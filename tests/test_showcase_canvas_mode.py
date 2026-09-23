@@ -1,10 +1,12 @@
 import datetime
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import test_showcase_selection as fixtures
 
@@ -33,7 +35,8 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
         self.assertEqual(embedded['approvalMode']['source'], 'explicit')
         self.assertEqual(showcase.canvas_sync_errors(data, self.root, self.root / 'index.html', 'brief-development'), [])
 
-    def test_versioned_stage_lock_requires_sources_and_current_hashes(self):
+    @patch.object(showcase, 'validate_stage_media')
+    def test_versioned_stage_lock_requires_sources_and_current_hashes(self, media_check):
         data = self.lifecycle_canvas()
         canvas = data['canvas']
         canvas['approvalContractVersion'] = 1
@@ -80,18 +83,22 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
         }}
         lock = stage['locks']['picture']
         decision = {
+            'schema_version': 1,
             'decision_id': lock['decision_id'],
             'decision_type': 'stage_lock',
             'stage_id': 'assembly-review',
             'lock_kind': 'picture',
             'result': lock['result'],
             'actor': lock['actor'],
+            'approval_mode': 'approve_for_me',
+            'project_sha256': hashlib.sha256((self.root / 'project.md').read_bytes()).hexdigest(),
             'subject_path': lock['artifact_path'],
             'subject_sha256': lock['artifact_sha256'],
             'review_path': lock['review_path'],
             'review_sha256': lock['review_sha256'],
             'reason': lock['reason'],
             'upstream_sha256': {'prompt_hero.md': hashlib.sha256((self.root / 'prompt_hero.md').read_bytes()).hexdigest()},
+            'decided_at': datetime.datetime.now(datetime.UTC).isoformat(),
         }
         decision_content = json.dumps(decision)
         (self.root / 'decisions/picture-1.json').write_text(decision_content)
@@ -101,6 +108,28 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
         self.assertEqual(showcase.canvas_validation_errors(data, self.root, 'assembly-review'), [])
         showcase.generate(self.root, data, 'index.html', expected_stage='assembly-review')
         self.assertEqual(showcase.canvas_sync_errors(data, self.root, self.root / 'index.html', 'assembly-review'), [])
+        media_check.assert_called()
+        (self.root / 'project.md').write_text('---\napproval_mode: ask_for_approval\n---\n# Project brief\n')
+        self.assertEqual(showcase.canvas_validation_errors(data, self.root, 'assembly-review'), [])
+        decision['approval_mode'] = 'ask_for_approval'
+        decision_content = json.dumps(decision)
+        (self.root / 'decisions/picture-1.json').write_text(decision_content)
+        lock['decision_sha256'] = hashlib.sha256(decision_content.encode()).hexdigest()
+        self.assertIn('production-decision.schema.json', ' '.join(showcase.canvas_validation_errors(data, self.root, 'assembly-review')))
+        decision['actor'] = 'user'
+        decision['authorization'] = {'source': 'chat', 'evidence': 'untrusted statement'}
+        lock['actor'] = 'user'
+        decision_content = json.dumps(decision)
+        (self.root / 'decisions/picture-1.json').write_text(decision_content)
+        lock['decision_sha256'] = hashlib.sha256(decision_content.encode()).hexdigest()
+        self.assertIn('production-decision.schema.json', ' '.join(showcase.canvas_validation_errors(data, self.root, 'assembly-review')))
+        decision['actor'] = 'agent'
+        decision['approval_mode'] = 'approve_for_me'
+        decision.pop('authorization')
+        lock['actor'] = 'agent'
+        decision_content = json.dumps(decision)
+        (self.root / 'decisions/picture-1.json').write_text(decision_content)
+        lock['decision_sha256'] = hashlib.sha256(decision_content.encode()).hexdigest()
         (self.root / 'picture.mp4').write_bytes(b'changed picture')
         self.assertIn('hash is stale', ' '.join(showcase.canvas_sync_errors(data, self.root, self.root / 'index.html', 'assembly-review')))
         (self.root / 'picture.mp4').write_bytes(picture)
@@ -117,6 +146,18 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
             stage['sources'] = [{'path': 'project.md', 'kind': 'brief'}]
         errors = showcase.canvas_validation_errors(data, self.root, 'delivery')
         self.assertTrue(any('final_master lock is required' in error for error in errors))
+
+    def test_malformed_lock_candidates_return_validation_findings(self):
+        data = self.lifecycle_canvas()
+        data['canvas']['approvalContractVersion'] = 1
+        stage = data['canvas']['stages'][0]
+        for candidate in (
+            {'lock_kind': [], 'artifact_path': [], 'review_path': {}, 'reason': 7, 'upstream_sha256': []},
+            {'lock_kind': 'picture', 'artifact_path': 'new.png', 'review_path': 'new.png', 'reason': 'Review', 'upstream_sha256': {'new.png': 'bad'}},
+        ):
+            stage['lockCandidates'] = [candidate]
+            errors = showcase.canvas_validation_errors(data, self.root, 'brief-development')
+            self.assertTrue(any('lock candidate' in error for error in errors))
 
     def test_selection_evidence_map_is_embedded_for_multi_asset_manifest(self):
         self.manifest.write_text('---\nselected_variants:\n  hero: new.png\nselection_evidence:\n  hero:\n    decision_id: choice-1\n    decision_path: decisions/choice-1.json\n    actor: agent\n    result: approved\n---\n')
@@ -137,6 +178,8 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
         self.assertEqual(checked.returncode, 0, checked.stdout + checked.stderr)
 
     def test_stage_decision_cli_writes_lock_and_refreshes_canvas(self):
+        if not shutil.which('ffmpeg') or not shutil.which('ffprobe'):
+            self.skipTest('ffmpeg and ffprobe required for synthetic stage media')
         data = self.lifecycle_canvas()
         canvas = data['canvas']
         canvas['approvalContractVersion'] = 1
@@ -151,7 +194,11 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
                 stage['status'] = 'complete'
                 stage['sources'] = [{'path': 'project.md', 'kind': 'brief'}]
         (self.root / 'showcase.json').write_text(json.dumps(data))
-        (self.root / 'picture.mp4').write_bytes(b'picture')
+        subprocess.run([
+            'ffmpeg', '-hide_banner', '-loglevel', 'error', '-f', 'lavfi',
+            '-i', 'color=c=blue:s=160x90:r=24:d=1', '-an', '-c:v',
+            'libx264', '-pix_fmt', 'yuv420p', str(self.root / 'picture.mp4'),
+        ], check=True, capture_output=True)
         artifact_hash = hashlib.sha256((self.root / 'picture.mp4').read_bytes()).hexdigest()
         review = {
             'schema_version': 1,
@@ -270,6 +317,19 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
         saved['canvas']['currentStage'] = 'storyboard-visual-plan'
         (self.root / 'showcase.json').write_text(json.dumps(saved))
         self.assertEqual(showcase.canvas_validation_errors(saved, self.root, 'storyboard-visual-plan'), [])
+        decision_path = self.root / 'decisions/hero-choice.json'
+        original_decision = decision_path.read_text()
+        original_manifest = self.manifest.read_text()
+        forged = json.loads(original_decision)
+        forged['approval_mode'] = 'ask_for_approval'
+        decision_path.write_text(json.dumps(forged))
+        _, metadata, _ = fixtures.selection.parse_frontmatter(original_manifest)
+        original_hash = metadata['selection_evidence']['hero']['decision_sha256']
+        forged_hash = hashlib.sha256(decision_path.read_bytes()).hexdigest()
+        self.manifest.write_text(original_manifest.replace(original_hash, forged_hash))
+        self.assertIn('production-decision.schema.json', ' '.join(showcase.canvas_validation_errors(saved, self.root, 'storyboard-visual-plan')))
+        decision_path.write_text(original_decision)
+        self.manifest.write_text(original_manifest)
         showcase.generate(self.root, saved, 'index.html', expected_stage='storyboard-visual-plan')
         self.assertEqual(showcase.canvas_sync_errors(saved, self.root, self.root / 'index.html', 'storyboard-visual-plan'), [])
         (self.root / 'new.png').write_bytes(b'changed image')

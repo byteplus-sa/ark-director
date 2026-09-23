@@ -14,6 +14,8 @@ class ShowcaseBrowserSmoke(unittest.TestCase):
     close_server = http_fixtures.ShowcaseHTTPTests.close_server
     files = fixtures.ShowcaseRegressionTests.files
     setUp = http_fixtures.ShowcaseHTTPTests.setUp
+    lifecycle_canvas = fixtures.ShowcaseRegressionTests.lifecycle_canvas
+    configure_stage_lock_project = http_fixtures.ShowcaseHTTPTests.configure_stage_lock_project
 
     def write_video(self, filename, color):
         subprocess.run([
@@ -49,6 +51,39 @@ const { chromium } = require('playwright');
         environment = {**os.environ, 'SHOWCASE_SMOKE_FILE': (self.root / 'index.html').as_uri()}
         result = subprocess.run(['node', '-e', script], env=environment, capture_output=True, text=True, timeout=45, check=False)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_ask_mode_stage_lock_from_served_canvas(self):
+        self.configure_stage_lock_project()
+        script = r'''
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch({headless: true, channel: process.env.SHOWCASE_BROWSER_CHANNEL || 'chrome'});
+  try {
+    const page = await browser.newPage();
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(process.env.SHOWCASE_SMOKE_URL);
+    await page.locator('.canvas-mode').getByText('Ask for approval').waitFor();
+    await page.getByRole('button', {name: 'Play picture.mp4'}).click();
+    await page.waitForFunction(() => {
+      const video = document.querySelector('.canvas-lock-candidate video');
+      return video && video.readyState >= 2 && video.currentTime > 0;
+    });
+    await page.getByRole('button', {name: 'Approve picture'}).click();
+    await page.locator('.canvas-lock').getByText('picture: approved').waitFor();
+    if (await page.locator('.canvas-lock-approve').count()) throw new Error('Already approved candidate still has a button');
+    if (errors.length) throw new Error(errors.join('\n'));
+    process.stdout.write('Ask-mode picture lock saved and canvas reloaded.\n');
+  } finally {
+    await browser.close();
+  }
+})().catch(error => { process.stderr.write(error.stack + '\n'); process.exit(1); });
+'''
+        environment = {**os.environ, 'SHOWCASE_SMOKE_URL': self.origin + '/index.html'}
+        result = subprocess.run(['node', '-e', script], env=environment, capture_output=True, text=True, timeout=90, check=False)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        saved = json.loads((self.root / 'showcase.json').read_text())
+        self.assertEqual(saved['canvas']['stages'][-2]['locks']['picture']['actor'], 'user')
 
     def test_takes_only_save_reload_playback_and_file_read_only(self):
         if not shutil.which('ffmpeg'):

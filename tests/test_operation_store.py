@@ -1,4 +1,5 @@
 import json
+import subprocess
 import sys
 import unittest
 from concurrent.futures import ThreadPoolExecutor
@@ -39,6 +40,26 @@ class OperationStoreTests(unittest.TestCase):
             ["asset.visible_consistency"],
         )
 
+    def initialize_canvas(self):
+        generator = (
+            Path(__file__).resolve().parents[1]
+            / ".agents/skills/showcase-html/scripts/generate_showcase.py"
+        )
+        result = subprocess.run(
+            [sys.executable, str(generator), str(self.root), "--init"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def prepare_v2(self):
+        fixture = fixtures.RequestValidationTests()
+        fixture.root, fixture.request = self.root, self.request
+        fixture.prepare_v2()
+        self.review["request_sha256"] = self.request["request_sha256"]
+        self.initialize_canvas()
+
     def test_prepared_operation_is_durable_and_unique(self):
         self.prepare()
         self.assertEqual(
@@ -70,6 +91,67 @@ class OperationStoreTests(unittest.TestCase):
             operation_store.transition_operation(
                 self.root, "fixture-operation", "prepared", "submitting"
             )
+
+    def test_explicit_approval_mode_rejects_version_one_without_canvas(self):
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: approve_for_me\n---\n"
+        )
+        with self.assertRaisesRegex(ValueError, "version-2 generation request"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_missing_canvas_blocks_preparation(self):
+        self.prepare_v2()
+        (self.root / "showcase.json").unlink()
+        with self.assertRaisesRegex(ValueError, "showcase.json"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_invalid_canvas_blocks_preparation(self):
+        self.prepare_v2()
+        (self.root / "showcase.json").write_text("{")
+        with self.assertRaisesRegex(ValueError, "Invalid production canvas"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_missing_html_blocks_preparation(self):
+        self.prepare_v2()
+        (self.root / "index.html").unlink()
+        with self.assertRaisesRegex(ValueError, "Missing generated production canvas"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_stale_html_blocks_preparation(self):
+        self.prepare_v2()
+        canvas_path = self.root / "showcase.json"
+        canvas = json.loads(canvas_path.read_text())
+        canvas["lede"] = "Updated after HTML generation"
+        canvas_path.write_text(json.dumps(canvas))
+        with self.assertRaisesRegex(ValueError, "stale"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_stale_html_blocks_submission_without_changing_registry(self):
+        self.prepare_v2()
+        self.prepare()
+        before = (self.root / "task_ids.json").read_bytes()
+        (self.root / "index.html").write_text("invalid generated HTML")
+        with self.assertRaisesRegex(ValueError, "embedded showcase data"):
+            operation_store.transition_operation(
+                self.root, "fixture-operation", "prepared", "submitting"
+            )
+        self.assertEqual((self.root / "task_ids.json").read_bytes(), before)
+
+    def test_v2_missing_canvas_blocks_submission_without_changing_registry(self):
+        self.prepare_v2()
+        self.prepare()
+        before = (self.root / "task_ids.json").read_bytes()
+        (self.root / "showcase.json").unlink()
+        with self.assertRaisesRegex(ValueError, "showcase.json"):
+            operation_store.transition_operation(
+                self.root, "fixture-operation", "prepared", "submitting"
+            )
+        self.assertEqual((self.root / "task_ids.json").read_bytes(), before)
 
     def test_unknown_outcome_cannot_return_to_prepared(self):
         self.prepare()
@@ -141,10 +223,7 @@ class OperationStoreTests(unittest.TestCase):
         self.assertEqual(json.loads((self.root / "task_ids.json").read_text()), legacy)
 
     def test_v2_operation_preparation_and_submission_recheck_project_mode(self):
-        fixture = fixtures.RequestValidationTests()
-        fixture.root, fixture.request = self.root, self.request
-        fixture.prepare_v2()
-        self.review["request_sha256"] = self.request["request_sha256"]
+        self.prepare_v2()
         self.prepare()
         record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
         self.assertEqual(record["schema_version"], 2)
@@ -163,10 +242,7 @@ class OperationStoreTests(unittest.TestCase):
         )
 
     def test_v2_stale_project_blocks_preparation_without_writing_registry(self):
-        fixture = fixtures.RequestValidationTests()
-        fixture.root, fixture.request = self.root, self.request
-        fixture.prepare_v2()
-        self.review["request_sha256"] = self.request["request_sha256"]
+        self.prepare_v2()
         (self.root / "project.md").write_text(
             "---\napproval_mode: ask_for_approval\n---\n"
         )
@@ -175,10 +251,7 @@ class OperationStoreTests(unittest.TestCase):
         self.assertFalse((self.root / "task_ids.json").exists())
 
     def test_v2_changed_selection_after_prepare_blocks_submission(self):
-        fixture = fixtures.RequestValidationTests()
-        fixture.root, fixture.request = self.root, self.request
-        fixture.prepare_v2()
-        self.review["request_sha256"] = self.request["request_sha256"]
+        self.prepare_v2()
         self.prepare()
         (self.root / "image.png").write_bytes(b"changed after preparation")
         with self.assertRaisesRegex(ValueError, "Reference content changed"):
