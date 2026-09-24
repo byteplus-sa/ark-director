@@ -233,7 +233,7 @@ The workspace ships with **64 skills** across 14 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **ark-mcp** | Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, video transcoding, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage Seedance and 3D. |
+| **ark-mcp** | Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, video transcoding, and voice/background audio separation), understand images and videos through Seed 2.1, understand or reason about audio, transcribe speech to text, manage the Seedance private asset library, run background jobs, and fetch durable artifacts. |
 
 ### FFmpeg & Media Processing
 
