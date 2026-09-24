@@ -122,6 +122,57 @@ class TemplateFactoryValidationTests(unittest.TestCase):
                 shot["concrete_fix_prompt_text"] = "Increase rotation speed."
         return result
 
+    def audio_analysis(self, analysis_bytes):
+        return {
+            "schema_version": "1.0",
+            "source_pin_sha256": "a" * 64,
+            "source_breakdown_sha256": hashlib.sha256(analysis_bytes).hexdigest(),
+            "picture_duration_s": 2.0,
+            "audio_stream": {
+                "status": "present",
+                "duration_s": 2.2,
+                "channels": 2,
+                "sample_rate_hz": 48000,
+            },
+            "auditory_review": {
+                "status": "completed",
+                "method": "ark_mcp_seed_audio_understand",
+                "evidence_ref": "resp_fixture_audio_review",
+            },
+            "soundscape": {
+                "music": "A soft instrumental pulse rises to a final accent.",
+                "speech": None,
+                "effects": ["A click on the cut."],
+                "ambience": None,
+                "dynamic_arc": "Quiet opening, stronger final accent, short tail.",
+            },
+            "events": [
+                {
+                    "start_s": 0.9,
+                    "end_s": 1.1,
+                    "kind": "sfx",
+                    "description": "A short click bridges the cut.",
+                    "evidence": "listening",
+                    "confidence": "high",
+                    "synced_shots": [1, 2],
+                },
+                {
+                    "start_s": 2.0,
+                    "end_s": 2.2,
+                    "kind": "music",
+                    "description": "The score fades after picture ends.",
+                    "evidence": "listening",
+                    "confidence": "high",
+                    "synced_shots": [],
+                },
+            ],
+            "reproduction": {
+                "locked_audio_grammar": ["Keep a quiet opening and one final accent."],
+                "replaceable_audio": ["Use a newly selected instrumental track."],
+                "sync_rules": ["Place one short accent across the visual cut."],
+            },
+        }
+
     def rule_ids(self, findings):
         return {finding.rule_id for finding in findings}
 
@@ -178,6 +229,17 @@ class TemplateFactoryValidationTests(unittest.TestCase):
                 breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
             )
         )
+        audio = self.audio_analysis(analysis_bytes)
+        audio["audio_stream"]["status"] = {"bad": "value"}
+        audio["events"][0]["synced_shots"] = [{"bad": "value"}]
+        self.assertTrue(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            )
+        )
 
     def test_stale_or_misaligned_motion_review_is_rejected(self):
         analysis_bytes = json.dumps(self.breakdown).encode()
@@ -194,6 +256,180 @@ class TemplateFactoryValidationTests(unittest.TestCase):
         )
         self.assertIn("motion.source_current", rules)
         self.assertIn("motion.shot_alignment", rules)
+
+    def test_audio_analysis_accepts_picture_synced_cue_and_audio_tail(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.audio_analysis(analysis_bytes)
+        self.assertEqual(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            ),
+            [],
+        )
+
+    def test_audio_analysis_rejects_stale_source_and_invalid_cue_timing(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.audio_analysis(analysis_bytes)
+        audio["source_pin_sha256"] = "b" * 64
+        audio["source_breakdown_sha256"] = "c" * 64
+        audio["events"][0]["synced_shots"] = [2, 9]
+        audio["events"][1]["end_s"] = 2.4
+        rules = self.rule_ids(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            )
+        )
+        self.assertIn("audio.source_current", rules)
+        self.assertIn("audio.timeline", rules)
+        self.assertIn("audio.beat_alignment", rules)
+
+    def test_audio_analysis_rejects_events_without_audio_and_measurement_as_identification(
+        self,
+    ):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.audio_analysis(analysis_bytes)
+        audio["audio_stream"] = {
+            "status": "absent",
+            "duration_s": None,
+            "channels": None,
+            "sample_rate_hz": None,
+        }
+        audio["events"][0]["evidence"] = "measurement"
+        rules = self.rule_ids(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            )
+        )
+        self.assertIn("audio.availability", rules)
+        self.assertIn("audio.evidence", rules)
+
+    def test_audio_analysis_requires_auditory_provenance_for_sound_labels(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.audio_analysis(analysis_bytes)
+        audio["auditory_review"] = {
+            "status": "unavailable",
+            "method": None,
+            "evidence_ref": None,
+        }
+        rules = self.rule_ids(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            )
+        )
+        self.assertIn("audio.auditory_evidence", rules)
+        audio["auditory_review"] = {
+            "status": "completed",
+            "method": "ark_mcp_seed_audio_understand",
+            "evidence_ref": None,
+        }
+        rules = self.rule_ids(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            )
+        )
+        self.assertIn("audio.auditory_evidence", rules)
+
+    def test_audio_analysis_rejects_legacy_arkcli_review_method(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.audio_analysis(analysis_bytes)
+        audio["auditory_review"]["method"] = "arkcli_vau"
+        rules = self.rule_ids(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            )
+        )
+        self.assertIn("audio.schema", rules)
+
+    def test_audio_analysis_accepts_measured_silence_without_auditory_model(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.audio_analysis(analysis_bytes)
+        audio["auditory_review"] = {
+            "status": "unavailable",
+            "method": None,
+            "evidence_ref": None,
+        }
+        audio["soundscape"] = {
+            "music": None,
+            "speech": None,
+            "effects": [],
+            "ambience": None,
+            "dynamic_arc": "Audio exists, but no auditory review was available.",
+        }
+        audio["events"] = [
+            {
+                "start_s": 0.8,
+                "end_s": 1.2,
+                "kind": "silence",
+                "description": "Below the recorded -40 dB threshold.",
+                "evidence": "measurement",
+                "confidence": "high",
+                "synced_shots": [1, 2],
+            }
+        ]
+        audio["reproduction"] = {
+            "locked_audio_grammar": [],
+            "replaceable_audio": [],
+            "sync_rules": [],
+        }
+        self.assertEqual(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            ),
+            [],
+        )
+
+    def test_audio_analysis_distinguishes_absent_stream_from_unknown_sound(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.audio_analysis(analysis_bytes)
+        audio["audio_stream"] = {
+            "status": "absent",
+            "duration_s": None,
+            "channels": None,
+            "sample_rate_hz": None,
+        }
+        audio["auditory_review"] = {
+            "status": "not_needed",
+            "method": None,
+            "evidence_ref": None,
+        }
+        audio["soundscape"] = {
+            "music": None,
+            "speech": None,
+            "effects": [],
+            "ambience": None,
+            "dynamic_arc": "No audio stream is present.",
+        }
+        audio["events"] = []
+        self.assertEqual(
+            validation.validate_audio_analysis(
+                audio,
+                self.breakdown,
+                breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                source_pin_sha256="a" * 64,
+            ),
+            [],
+        )
 
     def test_uncertain_and_comparison_evidence_is_required(self):
         analysis_bytes = json.dumps(self.breakdown).encode()
@@ -227,6 +463,7 @@ class TemplateFactoryValidationTests(unittest.TestCase):
         for name in (
             "breakdown-schema.json",
             "motion-review-schema.json",
+            "audio-analysis-schema.json",
             "template-schema.json",
         ):
             Draft202012Validator.check_schema(
@@ -242,6 +479,8 @@ class TemplateFactoryValidationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             analysis = Path(directory) / "analysis.json"
             analysis.write_text(json.dumps(self.breakdown))
+            audio = Path(directory) / "audio-analysis.json"
+            audio.write_text(json.dumps(self.audio_analysis(analysis.read_bytes())))
             valid = subprocess.run(
                 [
                     sys.executable,
@@ -249,6 +488,10 @@ class TemplateFactoryValidationTests(unittest.TestCase):
                     str(analysis),
                     "--source-duration-s",
                     "2",
+                    "--audio-analysis",
+                    str(audio),
+                    "--source-pin-sha256",
+                    "a" * 64,
                 ],
                 check=False,
                 capture_output=True,

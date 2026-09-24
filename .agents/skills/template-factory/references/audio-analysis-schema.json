@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReferenceAudioAnalysis",
+  "type": "object",
+  "required": ["schema_version", "source_pin_sha256", "source_breakdown_sha256", "picture_duration_s", "audio_stream", "auditory_review", "soundscape", "events", "reproduction"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "source_pin_sha256": { "$ref": "#/$defs/sha256" },
+    "source_breakdown_sha256": { "$ref": "#/$defs/sha256" },
+    "picture_duration_s": { "type": "number", "exclusiveMinimum": 0 },
+    "audio_stream": {
+      "type": "object",
+      "required": ["status", "duration_s", "channels", "sample_rate_hz"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "enum": ["present", "absent", "unavailable"] },
+        "duration_s": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+        "channels": { "type": ["integer", "null"], "minimum": 1 },
+        "sample_rate_hz": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+    "auditory_review": {
+      "type": "object",
+      "required": ["status", "method", "evidence_ref"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "enum": ["completed", "unavailable", "not_needed"] },
+        "method": { "enum": ["ark_mcp_seed_audio_understand", "human_review", null] },
+        "evidence_ref": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "soundscape": {
+      "type": "object",
+      "required": ["music", "speech", "effects", "ambience", "dynamic_arc"],
+      "additionalProperties": false,
+      "properties": {
+        "music": { "type": ["string", "null"] },
+        "speech": { "type": ["string", "null"] },
+        "effects": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" } },
+        "ambience": { "type": ["string", "null"] },
+        "dynamic_arc": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["start_s", "end_s", "kind", "description", "evidence", "confidence", "synced_shots"],
+        "additionalProperties": false,
+        "properties": {
+          "start_s": { "type": "number", "minimum": 0 },
+          "end_s": { "type": "number", "exclusiveMinimum": 0 },
+          "kind": { "enum": ["music", "speech", "sfx", "ambience", "silence"] },
+          "description": { "$ref": "#/$defs/nonEmptyString" },
+          "evidence": { "enum": ["listening", "asr", "separation", "measurement"] },
+          "confidence": { "enum": ["high", "medium", "low"] },
+          "synced_shots": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    },
+    "reproduction": {
+      "type": "object",
+      "required": ["locked_audio_grammar", "replaceable_audio", "sync_rules"],
+      "additionalProperties": false,
+      "properties": {
+        "locked_audio_grammar": { "$ref": "#/$defs/strings" },
+        "replaceable_audio": { "$ref": "#/$defs/strings" },
+        "sync_rules": { "$ref": "#/$defs/strings" }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "strings": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" } }
+  }
+}

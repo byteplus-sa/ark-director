@@ -9,12 +9,15 @@
   "default_ratio": "1:1",
   "analyze": {
     "system": "You are a film-analysis expert. Extract a reproducible breakdown as JSON.",
-    "schema_ref": "VideoBreakdown v1.0",
+    "schema_ref": "VideoBreakdown v1.1",
     "temperature": 0.2,
-    "thinking": false,
+    "thinking": true,
+    "reasoning_effort": "high",
+    "max_tokens": 32768,
     "deidentify": true
   },
   "motion_review": {
+    "purpose": "generated_take_comparison_only",
     "thinking": true,
     "reasoning_effort": "high",
     "temperature": 0.2
@@ -60,6 +63,10 @@
       "rhythm": [
         "Alternate held graphic tableaux with faster travel beats",
         "Synchronize the strongest light or color change to each beat transition"
+      ],
+      "audio": [
+        "When sound is enabled, place musical accents at major visual transitions",
+        "Leave room for a clear opening and a resolved ending without copying the source recording"
       ]
     },
     "replaceable_inputs": [

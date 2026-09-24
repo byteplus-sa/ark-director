@@ -8,11 +8,11 @@ This keeps the mapping reproducible and prevents slot drift.
 | Six-part slot | Source field(s) | Notes |
 |---|---|---|
 | Subject | `elements[]` descriptors, bound to `@Image N` | Copy descriptors word for word; never summarize |
-| Action | `shots[].action` + `shots[].motion` imperative wording | Per-shot stages with end states; motion wording is the anti-static fix |
+| Action | `shots[].action` + `shots[].motion.directing_prompt_text` | Per-beat stages with end states; motion direction comes from the combined breakdown |
 | Scene | `elements[]` location descriptors | `@Image` binding |
 | Visual style | `visual_style.grade` + `lighting_direction` + `lens` + `film_look` | Order: lighting → lens → grade → film |
 | Camera | `camera` + per-shot `shots[].camera` + `shots[].motion.camera_motion` | ≤2 moves per clip |
-| Audio | `audio` | `( )` music, `< >` SFX, `{ }` dialogue; transcribe dialogue in braces; `No audio at all` when source is silent |
+| Audio | `audio-analysis.json` soundscape, verified events and sync rules; `audio` fallback for older runs | `( )` music, `< >` SFX, `{ }` dialogue when authorized; describe replacement audio rather than copying source words or recordings; `No audio at all` when the run is silent |
 
 ## Reference binding order (Seedance)
 

@@ -1,16 +1,20 @@
-# Motion Review Prompt — deep frame-by-frame pass
+# Motion Comparison Prompt — generated-take diagnosis
 
-A static "action" description is not enough to reproduce how a template moves.
-Run this as a **second** `seed_understand` pass (`thinking=true`,
-`reasoning_effort=high`). Feed the existing shot list and its analysis SHA-256
-with the prompt. Feed the pin as `@Video 1`; when comparing against a previous
-take, feed the generated take as `@Video 2`.
+Use this optional `seed_understand` pass only after a generated take exists and
+playback has identified a motion mismatch that needs diagnosis. The source pin's
+per-beat motion grammar already comes from the initial combined breakdown
+(`VideoBreakdown` v1.1). Feed the approved shot list and its analysis SHA-256
+with the prompt, the pin as `@Video 1`, and the generated take as `@Video 2`.
+Set `mode: comparison`.
 
 ```text
-You are a senior motion designer and video analyst. Analyze the attached video
-frame by frame and report, exhaustively, how it MOVES.
+You are a senior motion designer and video analyst. Compare the source pin
+(`@Video 1`) with the generated take (`@Video 2`) frame by frame. Treat the
+source breakdown as the approved timing contract.
 
-Use the supplied shot boundaries without renumbering them. For EACH shot report:
+Use the supplied shot boundaries without renumbering them. In each result,
+describe source motion from `@Video 1`; report missing or incorrect take motion
+from `@Video 2` relative to that source. For EACH shot report:
 1. time range
 2. what is in the shot (subjects, background elements, effects)
 3. every moving element with its motion type (translate/rotate/scale/parallax/
@@ -32,8 +36,9 @@ Return JSON only, conforming to motion-review-schema.json. Key every result by
 shot_index.
 ```
 
-Use `mode: source` for source-only review. When comparing template vs generated
-take, use `mode: comparison` and add per-shot `missing_or_wrong` and
+Legacy breakdowns at `VideoBreakdown` v1.0 may use `mode: source` only when the
+user requests a separate motion analysis. For current runs, do not repeat the
+pin-only pass. In comparison mode, add per-shot `missing_or_wrong` and
 `concrete_fix_prompt_text`, plus `global_diffs` for pace/cut timing, energy
 level, and the relevant aesthetic.
 
@@ -43,16 +48,16 @@ level, and the relevant aesthetic.
   and a readable rendering to `motion-review.md`.
 - Validate it with `scripts/validate_breakdown.py <analysis.json>
   --motion-review <motion-review.json>`.
-- Merge per-shot motion by `shot_index`, never by array position, into
-  `analysis.json` as `shots[].motion` (fields:
-  `camera_motion`, `moving_elements[]`, `light_motion`, `strongest_cue`).
-- The imperative wording fills the Seedance Action slot; it is **prompt text**
+- Align comparison findings by `shot_index`, never by array position. Keep the
+  comparison as a separate QA artifact; do not overwrite the approved source
+  `shots[].motion` from `VideoBreakdown` v1.1.
+- Use concrete fix wording to revise the Seedance prompt; it is **prompt text**
   and must follow positive-only directing principles and pass the Seedance
   `prompt-review` gate before submission.
 - Preserve the approved `analysis.vNN.json` bytes and bind their hash as the
-  motion review's `source_breakdown_sha256`. Merge valid motion into a new
-  analysis revision. If motion review proposes changed timing or action, re-run
-  affected gates rather than silently changing an approved decision.
+  comparison's `source_breakdown_sha256`. A proposed source-analysis timing or
+  action correction requires a new breakdown revision and affected gates; do
+  not silently rewrite an approved decision.
 
 ## Reliability notes
 
@@ -63,10 +68,9 @@ level, and the relevant aesthetic.
   free-text fields are the usual source of unparseable output.
 - Start with `thinking=true, reasoning_effort=medium`. On a provider timeout or
   unparseable result, retry once with `thinking=false, temperature=0.1`. If the
-  retry also fails, record the motion review as skipped with the reason and
-  direct motion from the approved beats plus the frame strip — do not block
-  element or video work on it.
-- Motion-review output is source-mode description of the pin: it names the
-  pin's people and products. Re-author that wording with the project's own
-  talent and products when composing video prompts, and run the
-  de-identification leak scan on the saved JSON.
+  retry also fails, record the comparison as skipped with the reason and use
+  standard playback QA against the source motion fields — do not block further
+  work on the optional comparison.
+- Comparison output may quote descriptions of source people or products.
+  Re-author prompt wording with the project's own talent and products, and run
+  the de-identification leak scan on the saved JSON.

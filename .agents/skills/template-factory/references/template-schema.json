@@ -32,7 +32,8 @@
             "composition": { "$ref": "#/$defs/nonEmptyStrings" },
             "motion": { "$ref": "#/$defs/nonEmptyStrings" },
             "transitions": { "$ref": "#/$defs/nonEmptyStrings" },
-            "rhythm": { "$ref": "#/$defs/nonEmptyStrings" }
+            "rhythm": { "$ref": "#/$defs/nonEmptyStrings" },
+            "audio": { "$ref": "#/$defs/nonEmptyStrings" }
           }
         },
         "replaceable_inputs": {

@@ -40,7 +40,7 @@ project canon.
 - For audio, preserve synchronization between the strongest light/color change
   and beat transitions; a silent run marks audio preparation skipped.
 
-## Motion grammar (from the deep motion review)
+## Motion grammar (from the combined per-beat breakdown)
 
 - Floating figure: slow sine bob (~0.5Hz), leaning pose
 - Rainbow beams/heads/rings: continuous hue scroll (0.3–2s cycle)
@@ -55,7 +55,10 @@ project canon.
 
 ## Audio
 
-Source has a synthwave score; the factory generates **no audio** by default
+Source has a synthwave score. The reusable audio grammar places accents on
+major visual transitions and preserves the opening-to-ending dynamic arc;
+the source track, melody, and effects are not template assets. The factory
+generates **no audio** by default
 (`generate_audio: false`). Set `generate_audio: true` and supply the `audio`
 slot to generate native audio.
 

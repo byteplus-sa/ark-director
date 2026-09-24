@@ -5,7 +5,7 @@
   "required": ["schema_version", "title", "genre", "visual_style", "camera", "audio", "elements", "shots"],
   "additionalProperties": false,
   "properties": {
-    "schema_version": { "const": "1.0" },
+    "schema_version": { "enum": ["1.0", "1.1"] },
     "title": { "type": "string", "minLength": 1 },
     "genre": { "type": "string", "minLength": 1 },
     "visual_style": {
@@ -76,11 +76,34 @@
           "audio": { "type": "string", "minLength": 1 },
           "end_state": { "type": "string", "minLength": 1 },
           "keyframe_path": { "type": "string", "minLength": 1 },
-          "motion": { "$ref": "#/$defs/motion" }
+          "motion": {
+            "oneOf": [
+              { "$ref": "#/$defs/motion" },
+              { "$ref": "#/$defs/motion_v1_1" }
+            ]
+          }
         }
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "schema_version": { "const": "1.1" } },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "properties": {
+          "shots": {
+            "items": {
+              "required": ["motion"],
+              "properties": { "motion": { "$ref": "#/$defs/motion_v1_1" } }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "motion": {
       "type": "object",
@@ -108,6 +131,42 @@
         "light_motion": { "type": "string", "minLength": 1 },
         "strongest_cue": { "type": "string", "minLength": 1 }
       }
+    },
+    "motion_v1_1": {
+      "type": "object",
+      "required": ["camera_motion", "moving_elements", "light_motion", "strongest_cue", "confidence", "uncertain_estimates", "directing_prompt_text"],
+      "additionalProperties": false,
+      "properties": {
+        "camera_motion": { "type": "string", "minLength": 1 },
+        "moving_elements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "motion", "direction", "speed", "amplitude", "easing", "loop_period"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "motion": { "type": "string", "minLength": 1 },
+              "direction": { "type": "string", "minLength": 1 },
+              "speed": { "type": "string", "minLength": 1 },
+              "amplitude": { "type": "string", "minLength": 1 },
+              "easing": { "type": "string", "minLength": 1 },
+              "loop_period": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "light_motion": { "type": "string", "minLength": 1 },
+        "strongest_cue": { "type": "string", "minLength": 1 },
+        "confidence": { "enum": ["low", "medium", "high"] },
+        "uncertain_estimates": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "directing_prompt_text": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "confidence": { "enum": ["low", "medium"] } }, "required": ["confidence"] },
+          "then": { "properties": { "uncertain_estimates": { "minItems": 1 } } }
+        }
+      ]
     }
   }
 }

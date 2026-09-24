@@ -1,7 +1,8 @@
-# Analysis Prompt — `seed_understand` breakdown
+# Analysis Prompt — `seed_understand` breakdown and motion
 
-The canonical prompt for the first `seed_understand` pass. It turns "understand
-the video" into a reproducible, slot-complete `VideoBreakdown`.
+The canonical single `seed_understand` pass for source picture analysis. It
+returns a reproducible, slot-complete `VideoBreakdown` with per-beat motion
+grammar, so the factory does not need a second source-motion pass.
 
 ## Brand and identity mode
 
@@ -72,26 +73,53 @@ RULES
 - "composition": exact frame placement (thirds, % of frame height, fg/mg/bg,
   subject scale). "action": concrete visible micro-actions. "end_state": the
   exact observable state at end_s.
+- For every beat, describe motion in a nested "motion" object. Distinguish
+  camera movement from element movement. For every significant moving element,
+  report its visible motion, direction, relative speed and amplitude, easing,
+  and loop period only when a repeat is observable; otherwise use null. Name
+  static camera and lighting behavior explicitly. Identify the strongest motion
+  cue, give confidence, list uncertainty for low/medium confidence, and write a
+  concise positive directing instruction. Use qualitative estimates; do not
+  invent measured speed, physical distance, or cycle timing.
+- Use a unique name for each moving element within a beat; combine multiple
+  phases of the same element in one entry.
+- A truly static beat has an empty "moving_elements" array and says the camera
+  is static. Its directing instruction should preserve that stillness. Do not
+  invent motion to fill the field.
 - Identify every distinct character, location, prop, screen graphic and VFX
   treatment. Assign each a short kebab-case id, a tag equal to "@" + id
   (e.g. "@ice-bed"), and an exhaustive visual descriptor. "keyframe_index" and
   "in_shots" are ARRAYS of existing beat indices; every keyframe is in in_shots.
 - camera.shot_sizes, camera.moves, camera.transitions and audio.sfx are ARRAYS
-  of strings. audio.dialogue is a string ("none" when silent; transcribe any
-  dialogue verbatim inside {braces}).
+  of strings. Treat this pass's audio description as provisional. If the
+  soundtrack is not demonstrably available to the model, set audio.mode to
+  "unverified", music and dialogue to null, sfx to [], and every shots[].audio
+  to "unverified". Never infer silence from a video-only input or transcribe
+  dialogue without listening or ASR verification. The separate reference-audio
+  analysis supplies the verified sound map.
 
 Return this schema:
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "title": string,
   "genre": string,
   "visual_style": {"grade", "lighting_direction", "lens", "film_look"},
   "camera": {"shot_sizes": [str], "moves": [str], "framing": str, "transitions": [str]},
-  "audio": {"mode": str, "music": str, "sfx": [str], "dialogue": str},
+  "audio": {"mode": str, "music": str|null, "sfx": [str], "dialogue": str|null},
   "elements": [{ "type": "character|location|prop|screen", "id", "tag": "@id",
                  "descriptor", "keyframe_index": [int], "in_shots": [int] }],
   "shots": [{ "index", "start_s", "end_s", "duration_s", "composition",
-              "camera", "action", "lighting", "audio", "end_state" }]
+              "camera", "action", "lighting", "audio", "end_state",
+              "motion": {
+                "camera_motion": string,
+                "moving_elements": [{ "name", "motion", "direction", "speed",
+                                      "amplitude", "easing", "loop_period": string|null }],
+                "light_motion": string,
+                "strongest_cue": string,
+                "confidence": "low|medium|high",
+                "uncertain_estimates": [string],
+                "directing_prompt_text": string
+              }}]
 }
 ```
 
@@ -104,7 +132,7 @@ Return this schema:
   "temperature": 0.2,
   "thinking": true,
   "reasoning_effort": "high",
-  "max_tokens": 24000
+  "max_tokens": 32768
 }
 ```
 
@@ -113,10 +141,12 @@ Notes:
   `media_upload` first and pass the presigned URL.
 - Beat-level analysis benefits from `thinking=true`; cut-level analysis can use
   `thinking=false` for speed.
-- Results are large (the text payload is duplicated in `structured_content`
-  and includes `reasoning_content`). When the tool result is persisted to a
-  file, parse `result.structured_content.choices[0].content` from that file
-  with a script instead of retyping JSON by hand.
+- Results are large because every beat includes motion detail (the text payload
+  may be duplicated in `structured_content` and include `reasoning_content`).
+  Keep descriptions concise. When the tool result is persisted to a file, parse
+  `result.structured_content.choices[0].content` with a script instead of
+  retyping JSON by hand. If output is truncated, retry the same combined prompt
+  with shorter field descriptions; do not omit motion from later beats.
 - Validate against `breakdown-schema.json`, then run
   `scripts/validate_breakdown.py <analysis.json> --source-duration-s <picture seconds>`.
   On parse failure, retry once with an explicit "return JSON only, no markdown
@@ -128,7 +158,7 @@ Notes:
 ## De-identification leak scan (required in de-identify mode)
 
 Models recognize famous brands and quote their copy even when told not to.
-After every analysis and motion-review response, grep the saved JSON for the
-source brand names, product names and any on-screen copy visible in the frame
-strip. Replace every hit with a role placeholder before freezing the revision.
-Keep the scan list in `breakdown.md`.
+After the combined analysis response, grep the saved JSON for the source brand
+names, product names and any on-screen copy visible in the frame strip. Replace
+every hit with a role placeholder before freezing the revision. Keep the scan
+list in `breakdown.md`.

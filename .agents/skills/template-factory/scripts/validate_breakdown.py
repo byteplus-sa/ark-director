@@ -87,6 +87,24 @@ def validate_breakdown(
         if not isinstance(shot, dict):
             continue
         path = f"shots.{position}"
+        motion = shot.get("motion")
+        if isinstance(motion, dict) and isinstance(
+            motion.get("moving_elements"), list
+        ):
+            names = [
+                element.get("name")
+                for element in motion["moving_elements"]
+                if isinstance(element, dict)
+            ]
+            string_names = [name for name in names if isinstance(name, str)]
+            if len(string_names) != len(set(string_names)):
+                findings.append(
+                    Finding(
+                        "breakdown.motion_elements",
+                        f"{path}.motion.moving_elements",
+                        "Moving element names must be unique within a beat",
+                    )
+                )
         start = finite_number(shot.get("start_s"))
         end = finite_number(shot.get("end_s"))
         duration = finite_number(shot.get("duration_s"))
@@ -309,10 +327,252 @@ def validate_motion_review(
     return findings
 
 
+def validate_audio_analysis(
+    value: Any,
+    breakdown: Any,
+    *,
+    breakdown_sha256: str,
+    source_pin_sha256: str,
+    tolerance_s: float = 0.05,
+) -> list[Finding]:
+    findings = schema_findings(value, "audio-analysis-schema.json", "audio.schema")
+    if not isinstance(value, dict):
+        return findings
+    if (
+        value.get("source_pin_sha256") != source_pin_sha256
+        or value.get("source_breakdown_sha256") != breakdown_sha256
+    ):
+        findings.append(
+            Finding(
+                "audio.source_current",
+                "source_pin_sha256",
+                "Audio analysis does not match the current pin and breakdown bytes",
+            )
+        )
+    if not isinstance(breakdown, dict) or not isinstance(breakdown.get("shots"), list):
+        return findings
+    shots = {
+        shot.get("index"): shot
+        for shot in breakdown["shots"]
+        if isinstance(shot, dict)
+        and isinstance(shot.get("index"), int)
+        and not isinstance(shot.get("index"), bool)
+    }
+    picture_duration = finite_number(value.get("picture_duration_s"))
+    last_shot = breakdown["shots"][-1] if breakdown["shots"] else None
+    expected_picture_duration = (
+        finite_number(last_shot.get("end_s")) if isinstance(last_shot, dict) else None
+    )
+    if (
+        picture_duration is not None
+        and expected_picture_duration is not None
+        and abs(picture_duration - expected_picture_duration) > tolerance_s
+    ):
+        findings.append(
+            Finding(
+                "audio.timeline",
+                "picture_duration_s",
+                "Picture duration differs from the breakdown",
+            )
+        )
+    audio_stream = value.get("audio_stream")
+    auditory_review = value.get("auditory_review")
+    events = value.get("events")
+    if not isinstance(audio_stream, dict) or not isinstance(events, list):
+        return findings
+    status = audio_stream.get("status")
+    audio_duration = finite_number(audio_stream.get("duration_s"))
+    review = auditory_review if isinstance(auditory_review, dict) else {}
+    review_status = review.get("status")
+    soundscape = value.get("soundscape")
+    reproduction = value.get("reproduction")
+    has_sound_labels = isinstance(soundscape, dict) and any(
+        soundscape.get(field) for field in ("music", "speech", "effects", "ambience")
+    )
+    has_sound_events = any(
+        isinstance(event, dict)
+        and (event.get("kind") != "silence" or event.get("evidence") != "measurement")
+        for event in events
+    )
+    has_audio_recipe = isinstance(reproduction, dict) and any(
+        reproduction.get(field)
+        for field in ("locked_audio_grammar", "replaceable_audio", "sync_rules")
+    )
+    if review_status == "completed":
+        method = review.get("method")
+        evidence_ref = review.get("evidence_ref")
+        if (
+            not isinstance(method, str)
+            or method not in {"ark_mcp_seed_audio_understand", "human_review"}
+            or not isinstance(evidence_ref, str)
+            or not evidence_ref.strip()
+        ):
+            findings.append(
+                Finding(
+                    "audio.auditory_evidence",
+                    "auditory_review",
+                    "Completed auditory review needs a method and evidence reference",
+                )
+            )
+    elif any(
+        review.get(field) is not None for field in ("method", "evidence_ref")
+    ):
+        findings.append(
+            Finding(
+                "audio.auditory_evidence",
+                "auditory_review",
+                "Unavailable or unneeded review cannot claim a method or evidence reference",
+            )
+        )
+    if (
+        status == "present"
+        and review_status != "completed"
+        and (has_sound_labels or has_sound_events or has_audio_recipe)
+    ):
+        findings.append(
+            Finding(
+                "audio.auditory_evidence",
+                "auditory_review",
+                "Sound labels and reusable audio grammar need completed auditory review",
+            )
+        )
+    if status == "present" and (
+        not isinstance(review_status, str)
+        or review_status not in {"completed", "unavailable"}
+    ):
+        findings.append(
+            Finding(
+                "audio.auditory_evidence",
+                "auditory_review.status",
+                "Present audio requires completed or unavailable auditory review",
+            )
+        )
+    expected_review_status = {"absent": "not_needed", "unavailable": "unavailable"}
+    if (
+        isinstance(status, str)
+        and status in expected_review_status
+        and review_status != expected_review_status[status]
+    ):
+        findings.append(
+            Finding(
+                "audio.auditory_evidence",
+                "auditory_review.status",
+                "Auditory review status does not match audio availability",
+            )
+        )
+    if status == "present" and (audio_duration is None or audio_duration <= 0):
+        findings.append(
+            Finding(
+                "audio.availability",
+                "audio_stream.duration_s",
+                "A present audio stream needs a measured positive duration",
+            )
+        )
+    if isinstance(status, str) and status in {"absent", "unavailable"}:
+        if events:
+            findings.append(
+                Finding(
+                    "audio.availability",
+                    "events",
+                    "Audio events require an available audio stream",
+                )
+            )
+        if any(
+            audio_stream.get(field) is not None
+            for field in ("duration_s", "channels", "sample_rate_hz")
+        ):
+            findings.append(
+                Finding(
+                    "audio.availability",
+                    "audio_stream",
+                    "Unavailable or absent audio cannot have measured stream properties",
+                )
+            )
+        if isinstance(soundscape, dict) and any(
+            soundscape.get(field)
+            for field in ("music", "speech", "effects", "ambience")
+        ):
+            findings.append(
+                Finding(
+                    "audio.availability",
+                    "soundscape",
+                    "Absent or unavailable audio cannot have identified sound content",
+                )
+            )
+    for position, event in enumerate(events):
+        if not isinstance(event, dict):
+            continue
+        path = f"events.{position}"
+        start = finite_number(event.get("start_s"))
+        end = finite_number(event.get("end_s"))
+        if start is None or end is None or start < 0 or end <= start:
+            findings.append(
+                Finding(
+                    "audio.timeline",
+                    path,
+                    "Event must have a finite, positive interval",
+                )
+            )
+            continue
+        if audio_duration is not None and end > audio_duration + tolerance_s:
+            findings.append(
+                Finding(
+                    "audio.timeline", f"{path}.end_s", "Event exceeds audio duration"
+                )
+            )
+        if event.get("evidence") == "measurement" and event.get("kind") != "silence":
+            findings.append(
+                Finding(
+                    "audio.evidence",
+                    f"{path}.evidence",
+                    "Measurements alone cannot identify music, voice, effects, or ambience",
+                )
+            )
+        if event.get("evidence") == "asr" and event.get("kind") != "speech":
+            findings.append(
+                Finding(
+                    "audio.evidence",
+                    f"{path}.evidence",
+                    "ASR can only support a speech event",
+                )
+            )
+        synced_shots = event.get("synced_shots")
+        if not isinstance(synced_shots, list):
+            continue
+        for shot_index in synced_shots:
+            shot = (
+                shots.get(shot_index)
+                if isinstance(shot_index, int) and not isinstance(shot_index, bool)
+                else None
+            )
+            shot_start = (
+                finite_number(shot.get("start_s")) if isinstance(shot, dict) else None
+            )
+            shot_end = (
+                finite_number(shot.get("end_s")) if isinstance(shot, dict) else None
+            )
+            if (
+                shot_start is None
+                or shot_end is None
+                or start > shot_end + tolerance_s
+                or end < shot_start - tolerance_s
+            ):
+                findings.append(
+                    Finding(
+                        "audio.beat_alignment",
+                        f"{path}.synced_shots",
+                        "Referenced visual beat must exist and overlap the audio event",
+                    )
+                )
+    return findings
+
+
 def validate_files(
     analysis_path: Path,
     motion_path: Path | None = None,
     source_duration_s: float | None = None,
+    audio_path: Path | None = None,
+    source_pin_sha256: str | None = None,
 ) -> list[Finding]:
     try:
         analysis_bytes = analysis_path.read_bytes()
@@ -332,22 +592,59 @@ def validate_files(
                 breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
             )
         )
+    if audio_path is not None:
+        try:
+            audio_analysis = json.loads(audio_path.read_text())
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+            return findings + [Finding("audio.schema", str(audio_path), str(error))]
+        if source_pin_sha256 is None:
+            findings.append(
+                Finding(
+                    "audio.source_current",
+                    "source_pin_sha256",
+                    "Provide the current pin SHA-256",
+                )
+            )
+        else:
+            findings.extend(
+                validate_audio_analysis(
+                    audio_analysis,
+                    breakdown,
+                    breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+                    source_pin_sha256=source_pin_sha256,
+                )
+            )
     return findings
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Validate template-factory analysis and motion-review JSON"
+        description=(
+            "Validate a template-factory breakdown and optional generated-take "
+            "motion comparison"
+        )
     )
     parser.add_argument("analysis", type=Path)
-    parser.add_argument("--motion-review", type=Path)
+    parser.add_argument(
+        "--motion-review",
+        type=Path,
+        help="optional hash-bound motion comparison against a generated take",
+    )
+    parser.add_argument("--audio-analysis", type=Path)
+    parser.add_argument("--source-pin-sha256")
     parser.add_argument(
         "--source-duration-s",
         type=float,
         help="Picture (video-stream) duration in seconds; container duration often includes audio padding",
     )
     args = parser.parse_args()
-    findings = validate_files(args.analysis, args.motion_review, args.source_duration_s)
+    findings = validate_files(
+        args.analysis,
+        args.motion_review,
+        args.source_duration_s,
+        args.audio_analysis,
+        args.source_pin_sha256,
+    )
     print(
         json.dumps(
             {"ok": not findings, "findings": [asdict(finding) for finding in findings]},

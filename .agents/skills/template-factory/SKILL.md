@@ -3,13 +3,15 @@ name: template-factory
 description: >-
   Reverse-engineer a reference video ("pin") into reproducible AIGC output.
   Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch;
-  download and media_upload only when unusable), video breakdown, keyframes,
-  deep motion review, dynamic sketch storyboard, optional element sheets
+  download and media_upload only when unusable), video and audio breakdown,
+  per-beat motion analysis, keyframes, dynamic sketch storyboard, optional
+  element sheets
   (Seedream for invented identity; web/user download-first for authorized real
   brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards,
   screens, product layouts, and overlays), and a Seedance 2.5 video —
   generation-bound prompts through prompt-review; stages on the showcase-html
-  canvas. Explicit orchestrator composing ark-mcp, seedream-storyboard,
+  canvas. Explicit orchestrator composing ark-mcp (including
+  seed_audio_understand), seedream-storyboard,
   seedance-prompt-25, prompt-review, html-graphic-render, hyperframes,
   showcase-html, and ffmpeg; never calls the Ark REST API. Use to
   replicate style/composition/grammar, build a reusable template, or turn a
@@ -20,8 +22,9 @@ description: >-
 # Template Factory
 
 Turn a reference video ("pin") into reproducible AIGC output through a reusable
-"template" (the recipe). One run produces: a `VideoBreakdown` analysis, a sketch
-storyboard, optional element sheets, and a Seedance 2.5 video take — all
+"template" (the recipe). One run produces: a `VideoBreakdown`, a timestamped
+reference-audio analysis when sound is available, a sketch storyboard, optional
+element sheets, and a Seedance 2.5 video take — all
 manifested for later reproduction.
 
 This skill is an **explicitly-marked orchestrator** (precedent: `film-production`).
@@ -60,8 +63,8 @@ the current workspace contracts taking precedence where the plan is stale.
 ## Pipeline (one stage at a time)
 
 ```text
-pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
-  → elements_draft → elements_approved → storyboard_draft
+pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
+  → elements_approved → storyboard_draft
   → storyboard_approved → video_draft → video_review → approved
 ```
 
@@ -77,11 +80,13 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    the pin.
 2. **Analysis** — first measure the pin: picture (video-stream) duration,
    ffmpeg scene-detected hard cuts, and a 5–8 fps timestamped frame strip.
-   Then `seed_understand` with the template's analysis prompt
-   (`references/analysis-prompt.md`), which segments into **beats by default**
-   (0.3–1.2 s, every cut plus every action/camera/text/VFX change, each tagged
-   `[HARD CUT IN]` or `[CONTINUOUS]`) and receives the measured cuts. Parse
-   large results from the persisted tool-result file with a script. Correct
+   Then make one `seed_understand` call with the template's combined picture
+   and motion prompt (`references/analysis-prompt.md`), which segments into
+   **beats by default** (0.3–1.2 s, every cut plus every action/camera/text/VFX
+   change, each tagged `[HARD CUT IN]` or `[CONTINUOUS]`) and returns per-beat
+   motion grammar in `VideoBreakdown` v1.1. The validator still accepts legacy
+   v1.0 breakdowns. Parse large results from the persisted tool-result file
+   with a script. Correct
    beat boundaries against the frame strip, run the de-identification leak
    scan, validate `VideoBreakdown` against `references/breakdown-schema.json`,
    and run `scripts/validate_breakdown.py --source-duration-s <picture
@@ -89,21 +94,25 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    corrections recorded). Freeze the reviewed source as `analysis.vNN.json`;
    record its SHA-256 and approval scope. Gate A: user reviews the breakdown.
    Use cut-level segmentation only when the user asks for it.
-3. **Keyframes** — `ffmpeg` extracts a frame per beat (mid-beat, or the flagged
+3. **Reference audio analysis** — this remains a separate audio-only review;
+   follow `references/audio-analysis.md`. Probe the original pin's audio stream
+   and measure silence/loudness. Extract the soundtrack, then submit it to
+   `ark-mcp` (`seed_audio_understand`) as a background job. Record the response
+   or review-note reference in `auditory_review`. A playable UI and FFmpeg output
+   alone do not show that the agent heard the soundtrack. When no auditory
+   review is available, leave sound identity and reusable audio grammar
+   unresolved. Build `audio-analysis.json` with timestamped music, voice, effect,
+   ambience, silence, and tail events, plus evidence, confidence, and overlapping
+   visual beat indices. Use ASR only when speech matters; use stem separation
+   only when the mix obscures needed evidence. Validate against
+   `references/audio-analysis-schema.json` with the pin SHA-256 and frozen
+   breakdown SHA-256. An absent stream and unavailable audio are distinct
+   states. Do not assume `seed_understand` heard the soundtrack merely because
+   it accepted a video. Carry only reusable sound grammar and sync rules into
+   the template; keep source recordings and words out of it.
+4. **Keyframes** — `ffmpeg` extracts a frame per beat (mid-beat, or the flagged
    element keyframe) into `keyframes/`. Seek after `-i` (accurate seek) so
    beats near the end of the picture still decode.
-4. **Deep motion review** — second `seed_understand` pass (`thinking=true`) per
-   `references/motion-review-prompt.md` → validate against
-   `references/motion-review-schema.json` → merge by `shot_index`, never array
-   position, into a new analysis revision while retaining the immutable source
-   revision. Motion evidence may enrich the approved breakdown without changing
-   timing or action. If it changes an approved decision, invalidate affected
-   downstream review and obtain review for the new revision. This is the primary
-   fix for "ours looks static". Pass a compact beat list (index, times, one-line
-   label) rather than the full breakdown, and demand strict JSON. On a provider
-   timeout or unparseable output, retry once with `thinking=false`; if that
-   fails, record the pin's motion review as skipped with the reason and direct
-   motion from the approved beats plus the frame strip.
 5. **Elements** — identify required canonical inputs from the draft breakdown.
    Use the workspace prop threshold: branded, recurring, story-critical, or
    scene-variant wearables need a separate locked reference; incidental objects
@@ -134,7 +143,8 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
 
 7. **Video** — use current capability evidence to choose one supported clip or
    multiple natural-duration shots plus assembly. Compose the Seedance 2.5
-   six-part prompt from breakdown + eligible board directions + motion review +
+   six-part prompt from breakdown + eligible board directions + per-beat motion
+   grammar + verified audio grammar and sync cues when audio is requested +
    element sheets (via `seedance-prompt-25`), run `prompt-review`, persist the
    prepared request, then submit via the supported durable transport. Prefer
    `seedance_2_5_create_task`; use an equivalent Ark CLI route only before any
@@ -156,8 +166,10 @@ pin_uploaded → breakdown_draft → breakdown_approved → motion_reviewed
    `kind: "takes"` group (`groups[].takes[].media` as `{type, src}` — never
    flat `cards` or string media paths); include exact prompt, ordered
    references and QA evidence; regenerate/open the page, pass its stage
-   freshness check, and set `review`. Apply the project mode: the agent may
-   choose a passing take with a recorded decision in `approve_for_me`; in
+   freshness check, and set `review`. If playback finds a motion mismatch that
+   needs diagnosis, use `references/motion-review-prompt.md` in comparison mode
+   against the generated take; do not rerun source-motion analysis. Apply the project
+   mode: the agent may choose a passing take with a recorded decision in `approve_for_me`; in
    `ask_for_approval`, display the recommendation and await the user.
 
 ### Competitor or category reference pins
@@ -184,7 +196,12 @@ selectable cards with a `poster.md` manifest.
 | --- | --- |
 | Pin download when URL is not seed_understand-usable | Available downloader (e.g. `yt-dlp`); then `ark-mcp` (`media_upload`) |
 | Upload / presign references | `ark-mcp` (`media_upload`, `media_presign`) |
-| Video analysis + motion review | `ark-mcp` (`seed_understand`) |
+| Video breakdown + per-beat motion grammar | One `ark-mcp` (`seed_understand`) call |
+| Generated-take motion diagnosis when needed | `ark-mcp` (`seed_understand`) comparison pass |
+| Auditory review of a pin with sound | `ark-mcp` (`seed_audio_understand`) on the extracted soundtrack, or documented human listening review |
+| Reference audio stream, silence, loudness, and waveform | `ffmpeg` (`ffprobe`, audio filters) |
+| Speech transcription when needed | `ark-mcp` (`speech_to_text`), then listening verification |
+| Voice/music/effect separation when needed | `ark-mcp` (`vod_separate_audio`, `vod_get_audio_separation`), then listening verification |
 | Keyframe extraction, cut detection, frame strips, end-card compositing, retiming, loudness | `ffmpeg` |
 | Storyboard grid prompt | `seedream-storyboard` |
 | Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prompt` |
@@ -201,15 +218,16 @@ selectable cards with a `poster.md` manifest.
 | Factory work | Canvas stage | Exit evidence |
 | --- | --- | --- |
 | Pin intake and template intent | `brief-development` | source hash, constraints, recipe target |
-| Analysis, keyframes, motion review | `scene-breakdown` | valid breakdown, motion review, approved revision |
+| Analysis and keyframes | `scene-breakdown` | valid VideoBreakdown v1.1 with per-beat motion, audio sound map or absence/unavailability record, approved revision |
 | Element acquisition/generation/rendering and selection | `canon-elements` | hashes, explicit selections; acquired, generated, or deterministic variants |
 | Storyboard generation and selection | `storyboard-visual-plan` | ordered panels, prompts, eligibility state |
-| Audio decision | `audio-preparation` | requested assets and timing, or `skipped` with reason |
+| Audio decision | `audio-preparation` | sound map translated into requested assets and timing, or `skipped` with reason |
 | Video generation and take review | `shot-generation` | prepared requests, task provenance, pin + take players in one `takes` group, QA |
 | Multi-shot edit and final review | `assembly-review` | approved inputs and inspected assembly, or `skipped` for one clip |
 | Final output | `delivery` | master/proxy hashes and approval, or `skipped` when outside scope |
 
-Analysis, keyframes, and motion review update the same `scene-breakdown` stage;
+Combined visual and motion analysis, separate audio analysis, and keyframes
+update the same `scene-breakdown` stage;
 run its freshness check after each material update. Mark optional stages
 `skipped` explicitly before advancing so no earlier stage remains pending.
 
@@ -262,7 +280,8 @@ Before any **generation** call, run `prompt-review`:
 
 - Seedream storyboard grid prompt (before `seedream_generate_image`)
 - Seedream element sheet prompts (before each sheet generation)
-- Seedance video prompt, including the motion-review wording merged into it
+- Seedance video prompt, including per-beat motion wording from
+  `VideoBreakdown.shots[].motion.directing_prompt_text`
   (before `seedance_2_5_create_task`)
 
 CRITICAL/MAJOR findings must be fixed before submission. Skip this gate for
@@ -277,7 +296,7 @@ Validate every committed template against `references/template-schema.json`.
 Keep the recipe distinct from a particular run:
 
 - `locked_grammar` contains the reusable style, composition, motion,
-  transition, and rhythm rules that define the template.
+  transition, rhythm, and optional audio rules that define the template.
 - `replaceable_inputs` declares subject, product, environment, palette, copy,
   and other slots the caller may substitute, including constraints.
 - `adaptation_rules` explains how duration, aspect ratio, audio, and shot-count
@@ -303,8 +322,10 @@ Skill (committed):
 ├── references/
 │   ├── analysis-prompt.md
 │   ├── motion-review-prompt.md
+│   ├── audio-analysis.md
 │   ├── breakdown-schema.json
 │   ├── motion-review-schema.json
+│   ├── audio-analysis-schema.json
 │   ├── template-schema.json
 │   ├── slot-mapping.md
 │   └── templates/
@@ -322,7 +343,8 @@ projects/<project>/
 ├── project.md, task_ids.json, ref_cache.json
 ├── templates/<template-id>/
 │   ├── analysis.json, analysis.vNN.json, breakdown.md
-│   ├── motion-review.json, motion-review.md
+│   ├── audio-analysis.json, audio-analysis.md
+│   ├── motion-review.json, motion-review.md (only for generated-take comparison)
 │   └── keyframes/
 ├── elements/<id>/
 └── scenes/scene-01/...
