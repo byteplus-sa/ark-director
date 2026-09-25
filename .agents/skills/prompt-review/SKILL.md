@@ -118,6 +118,11 @@ or inline working copy. Before production submission, freeze the accepted text
 as its immutable `prompt_*.md` snapshot so the calling orchestrator can embed it
 in the current project canvas with `promptFile`.
 
+For Seedance prompts, the author first runs the
+[author self-check](references/author-self-check.md). It covers ten recurring
+findings, such as descriptor drift, raw/baked state, camera end times, shot
+density, trim points, and audio brackets, and usually saves a re-review round.
+
 ### Step 2 — Detect prompt type and load checklist
 
 For each prompt:
@@ -303,6 +308,12 @@ The main agent applies fixes directly to the prompt files:
 2. Preserve the prompt's structure and formatting conventions.
 3. Do not rewrite the entire prompt — apply only the targeted fix.
 4. After applying fixes, note what was changed.
+
+Record each complete review with
+`uv run python .agents/skills/prompt-review/scripts/record_review.py --project projects/<p> --request requests/request_<asset>.json --input <reviewer-output|-> --required-rule <id> ... --write`.
+It extracts the JSON block, checks the request hash and required rules, and
+writes `reviews/review_<asset>.json`. For a text-only request with no request
+file, pass `--request-sha256 <hash> --asset <id>` instead.
 
 ### Step 7 — Re-review changed prompts (if any fixes were applied)
 

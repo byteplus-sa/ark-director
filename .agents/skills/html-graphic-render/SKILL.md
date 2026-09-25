@@ -26,7 +26,8 @@ generate imagery, animate, update the production canvas, or approve a result.
 | Exact copy, typography, logo, price, CTA, UI, grid, packshot placement, simple vector/gradient geometry | This deterministic route |
 | Invented person, location, photograph, illustration, material study, or expressive texture | Generative image route |
 | Generated or acquired image with exact copy/layout | Hybrid: select the image first, then finish here |
-| Animation, timed overlay, or video composition | Motion/video compositor |
+| Rendered static layers timed onto an existing take (fades, rise-ins, end card) | `scripts/overlay_timeline.py` (see Timed overlays on video) |
+| Animated graphics, kinetic type beyond fades and rises, or full video composition | Motion/video compositor (HyperFrames, FFmpeg) |
 | Gallery, comparison, selection, or lifecycle review | Production canvas |
 
 Do not use a generative model merely to reproduce typography or geometry that
@@ -157,6 +158,17 @@ Add `--transparent` for an alpha-enabled overlay. The renderer:
 Treat `--overwrite` as a repair tool, not normal versioning. When source or
 inputs materially change, create a new `vNN` instead of replacing reviewed
 evidence.
+
+## Timed overlays on video
+
+To composite rendered layers and approved logos onto a generated take, use
+`scripts/overlay_timeline.py` with a JSON timeline. The timeline sets per-layer
+windows, fades, rise-ins, width, a final fade to black, the audio mode, and
+optional loudness normalisation. It prints the ffmpeg command by default; with
+`--run` it writes the output plus an `overlay_<stem>.json` hash record. Use
+`--preview` for a still of the active layers. Time layers to the take's measured
+cuts, not to prompt timestamps. Read
+[overlay timeline](references/overlay-timeline.md) before the first use.
 
 ## Production metadata
 

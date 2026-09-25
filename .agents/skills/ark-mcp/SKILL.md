@@ -203,7 +203,8 @@ The Seedance, Seed 3D, and MediaKit get tools support optional background
 execution. Use foreground calls with `persist_output=false` for quick status
 polling; once a task succeeds, run the get tool in the background with
 `persist_output=true` so completed-media download and persistence cannot exhaust
-the client deadline. List, presign, artifact-read, and cancel/delete tools
+the client deadline. If that background persist fails with "session is not
+available", follow [Background-job output handling](references/background-job-output.md). List, presign, artifact-read, and cancel/delete tools
 remain foreground operations.
 
 In the rest of this skill, **run in the background** means `ark_job_submit`,
@@ -1586,6 +1587,10 @@ default model for that product is used.
    `persist_output=true`. Download the persisted video to the project asset path
    and record artifact ID, byte size,
    SHA-256, provider timestamps, and usage.
+   Inside `ark_job_submit`, `persist_output`, `output_path`, and `save_to` can
+   fail with "session is not available"; read
+   [Background-job output handling](references/background-job-output.md) for the
+   download-and-hash route, large-result parsing, and output-audit rejections.
 7. Optionally call `seedance_list_tasks` to browse recent tasks.
 8. Call `seedance_cancel_or_delete_task` only when cleanup is explicitly wanted.
 

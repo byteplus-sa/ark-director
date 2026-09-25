@@ -107,13 +107,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/html-graphic-render/SKILL.md",
-      "computedHash": "b6c25ad332d84985f7d991dc9eda1baba8f912e892a4f35e429abdf2172d64f6"
+      "computedHash": "17964b70932cbeb84c303ae288b5c6ac03e3fd8d06944d1d3c85ea51e827bb14"
     },
     "lark-showcase-aigc": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/lark-showcase-aigc/SKILL.md",
-      "computedHash": "0249c3cbcb66c898f4cbf6fa6ecce48462c756c82797cc8ba927bd88df65a1c8"
+      "computedHash": "c49d5edf805197c297fabe5e157753ae51889f810ad6098b076bda2b9692dc6f"
     },
     "media-review": {
       "source": "./local",
@@ -125,13 +125,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ark-mcp/SKILL.md",
-      "computedHash": "eb1fbdbd59719c99850c807ba81f071963411c7c14aa465303f1f5ba407cbf71"
+      "computedHash": "25cce33ac1af49cfc0be33806ad1b918fda6442c7fa2a97f274ad4ea4b3a72b2"
     },
     "prompt-review": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "90dc564351e108eee88ccb4fa998cec4d88e3218907abc71539f106e0df400ef"
+      "computedHash": "0db80e6489e0d46889d82025024255864cef5283e66b9db508d446ee37ae0bef"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -281,7 +281,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "30a0ec9f1a74611983f2c3894f52899e1b3b5137846132a9b6c77c422ee27da7"
+      "computedHash": "decd15cd40e8bd978105e2b1c4ca735ac387b4450fc0e396183901c10ad089fe"
     },
     "tig-blocking-map": {
       "source": "./local",

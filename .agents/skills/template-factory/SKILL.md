@@ -94,6 +94,9 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    corrections recorded). Freeze the reviewed source as `analysis.vNN.json`;
    record its SHA-256 and approval scope. Gate A: user reviews the breakdown.
    Use cut-level segmentation only when the user asks for it.
+   For a pin longer than about 20 s or with more than about 25 beats, plan
+   windowed analysis on hard cuts from the start; see
+   [long pins and multi-clip takes](references/long-pins-and-multi-clip.md).
 3. **Reference audio analysis** — this remains a separate audio-only review;
    follow `references/audio-analysis.md`. Probe the original pin's audio stream
    and measure silence/loudness. Extract the soundtrack, then submit it to
@@ -159,6 +162,13 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    rather than regenerating, and record the edit operations on the take.
    Measure take loudness and normalise delivery masters (e.g. `loudnorm`
    -16 LUFS / -1.5 dBTP) after mode-authorized take locks.
+   When the picture needs several clips, follow the shot budget, trim-point,
+   state-ledger, and continuous-audio rules in
+   [long pins and multi-clip takes](references/long-pins-and-multi-clip.md).
+   Prepare each request with `.agents/scripts/prepare_request.py`. Composite
+   timed overlays from a JSON timeline with
+   `html-graphic-render/scripts/overlay_timeline.py`, timed to the take's
+   measured cuts rather than the prompt timestamps.
 8. **Review** — compare the reference and take in playback for shot timing,
    motion direction and intensity, action progression, camera movement,
    transitions, opening/ending state, and requested audio arc. Add the pin and
@@ -180,6 +190,13 @@ reference, give original talent wardrobe and colours clearly distinct from the
 people in the pin (prompt-review checks this), and never carry over the pin's
 taglines, typography or trade dress. Replace the product slot with the
 authorized brand's official packshot.
+
+### Multi-pin batches
+
+Run one analysis sub-agent per pin, each owning only `templates/<pin-id>/`.
+Every write to the shared registry goes through the lock in
+`.agents/scripts/operation_store.py`. See
+[multi-pin batches](references/long-pins-and-multi-clip.md#multi-pin-batches).
 
 ### Still / poster track
 

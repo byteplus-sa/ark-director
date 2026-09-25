@@ -32,7 +32,16 @@ Held/operated canonical props remain separate from the character sheet. Referenc
 When the brief authorizes a real brand, logo, packshot, or labeled product:
 
 1. **Reuse** an existing project asset if its content hash still matches the
-   needed identity.
+   needed identity. Also search sibling projects for approved acquisitions of
+   the same brand, for example
+   `grep -l "source_url" projects/*/elements/*/*.md | xargs grep -il <brand>`.
+   A brand site that gates its menu or catalogue behind a store picker or login
+   may be unreachable by script, but a recorded `source_url` usually still
+   resolves. Re-download from that URL into this project and confirm the SHA-256
+   matches the sibling manifest. A match proves the asset is still current.
+   Record both the source URL and the sibling manifest path as provenance. Never
+   copy an approval or `selected_variant` across projects; the new project makes
+   its own mode-authorized decision.
 2. **Acquire** an official or authorized web/pack shot/logo when no usable local
    file exists — download into `elements/<element-id>/`, keep source copies under
    `refs/` when useful, and record provenance (source URL, download time,

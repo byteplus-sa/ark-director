@@ -78,9 +78,21 @@ different structure:
    then `Storyboard`, then `Video`. Never combine storyboard and video rows in
    one table, and do not leave an empty heading or table. Still posters go in a
    `Posters` section with `Elements` and `Poster` tables per poster.
+   When one project holds several deliverables (spots, episodes, cut-downs)
+   with different inputs, give each deliverable its own subsection with its own
+   `Elements` table. List exactly what that deliverable used: each bound
+   `@Image`/`@Video`/`@Audio` reference, and each logo, text layer, and music or
+   effects asset added in post. Show the reference that was actually sent to
+   the model, such as a solid-background derivative, not only the web original.
+   A deterministic deliverable with no video prompt describes its build in one
+   plain sentence in the prompt cell, and lists its generated audio as an
+   `Elements` row with the exact audio prompt and a player.
 4. Keep the exact frozen image or video prompt in the same row as its result.
    Use an inline Preview for video; do not turn a prompt/result table into a
-   detached gallery.
+   detached gallery. Caption a prompt "exact" or "frozen" only when it matches
+   the submitted snapshot byte for byte. If client wording rules require
+   removing phrases from a displayed prompt, caption it `Generation prompt` and
+   leave the frozen snapshot unchanged in the project.
 5. Preserve media that the user did not ask to remove. Before and after a
    scoped update, inventory the project sections, prompts, images, and Preview
    videos so concurrent edits and existing evidence are not silently lost.
