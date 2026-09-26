@@ -2,7 +2,8 @@
 
 Subcommands:
   review   write a schema-valid candidate review for an artifact
-  lock     record a picture, audio, or final_master stage lock
+  lock     record an agent stage lock, or in ask_for_approval register a lock
+           candidate for the user to approve in the review server
   reopen   return the canvas to an earlier stage for a revision
   advance  close the current stage and activate the next one
 
@@ -25,6 +26,7 @@ from generate_showcase import CANVAS_STAGE_IDS, canvas_validation_errors
 from selection_service import (
     STAGE_LOCKS,
     SelectionError,
+    add_stage_sources,
     commit_targets,
     contained_path,
     read_project_mode,
@@ -32,6 +34,7 @@ from selection_service import (
     recover_selection,
     sha256,
     validate_schema,
+    validated_review,
     writer_lock,
 )
 
@@ -54,12 +57,15 @@ def dump(value: Any) -> str:
 
 
 def refresh_html(root: Path, stage: str) -> None:
-    subprocess.run(
+    result = subprocess.run(
         [sys.executable, str(GENERATOR), str(root), "--stage", stage],
-        check=True,
+        check=False,
         capture_output=True,
         text=True,
     )
+    if result.returncode:
+        detail = (result.stderr or result.stdout).strip().splitlines()
+        raise SelectionError("index.html refresh failed: " + " ".join(detail[-3:]))
 
 
 def evidence_problem(artifact: str, method: str) -> str | None:
@@ -129,7 +135,7 @@ def build_lock(root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "lock_kind": args.kind,
         "subject_path": args.artifact,
         "subject_sha256": sha256(contained_path(root, args.artifact)),
-        "actor": args.actor,
+        "actor": "agent",
         "approval_mode": mode["mode"],
         "project_sha256": mode["project_sha256"],
         "result": "approved",
@@ -139,15 +145,43 @@ def build_lock(root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "reason": args.reason,
         "decided_at": now(),
     }
-    if args.actor == "user":
-        if not args.authorization:
-            raise SelectionError("a user lock needs --authorization with the user's chat approval")
-        decision["authorization"] = {"source": "chat", "evidence": args.authorization}
     validate_schema(decision, "production-decision.schema.json")
     return decision
 
 
+def register_candidate(root: Path, args: argparse.Namespace) -> dict[str, Any]:
+    stage_id = STAGE_LOCKS[args.kind]
+    validated_review(root, args.review, sha256(contained_path(root, args.review)), args.artifact,
+                     sha256(contained_path(root, args.artifact)))
+    candidate = {
+        "lock_kind": args.kind,
+        "artifact_path": args.artifact,
+        "review_path": args.review,
+        "reason": args.reason,
+        "upstream_sha256": {path: sha256(contained_path(root, path)) for path in args.upstream},
+    }
+    with writer_lock(root):
+        recover_selection(root)
+        showcase = load_showcase(root)
+        canvas = showcase["canvas"]
+        if canvas["currentStage"] != stage_id:
+            raise SelectionError(f"a {args.kind} candidate belongs to {stage_id}, but the current stage is {canvas['currentStage']}")
+        stage = next(item for item in canvas["stages"] if item["id"] == stage_id)
+        candidates = [item for item in stage.get("lockCandidates", []) if item.get("artifact_path") != args.artifact or item.get("lock_kind") != args.kind]
+        stage["lockCandidates"] = [*candidates, candidate]
+        add_stage_sources(showcase, stage_id, [(args.artifact, "media"), (args.review, "review")])
+        commit_targets(root, {"showcase.json": dump(showcase)})
+    refresh_html(root, stage_id)
+    return {
+        "ok": True,
+        "registered_candidate": candidate,
+        "next": f"ask_for_approval: serve the canvas with --serve --stage {stage_id}; the user approves it with the Approve button",
+    }
+
+
 def command_lock(root: Path, args: argparse.Namespace) -> dict[str, Any]:
+    if read_project_mode(root)["mode"] == "ask_for_approval":
+        return register_candidate(root, args)
     decision = build_lock(root, args)
     result = record_stage_decision(root, decision)
     refresh_html(root, decision["stage_id"])
@@ -262,8 +296,6 @@ def parser() -> argparse.ArgumentParser:
     lock.add_argument("--reason", required=True)
     lock.add_argument("--upstream", action="append", default=[])
     lock.add_argument("--decision-id")
-    lock.add_argument("--actor", choices=["agent", "user"], default="agent")
-    lock.add_argument("--authorization", help="the user's approval, quoted from chat (user locks only)")
 
     reopen = commands.add_parser("reopen", help="return to an earlier stage for a revision")
     reopen.add_argument("project")

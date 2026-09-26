@@ -275,7 +275,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/showcase-html/SKILL.md",
-      "computedHash": "c3376b1783663f75a64622e8f3b2874958a8977fa0950f43d7985fd90487e33e"
+      "computedHash": "13bdc640538813ea0239b5dfa0bc90c349eb24863cfa23cbe1a39a7f07545ee3"
     },
     "template-factory": {
       "source": "./local",

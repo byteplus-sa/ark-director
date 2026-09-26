@@ -10,6 +10,7 @@ from pathlib import Path
 
 SCRIPTS = Path(__file__).resolve().parents[1] / '.agents/skills/showcase-html/scripts'
 sys.path.insert(0, str(SCRIPTS))
+import selection_service as selection
 import stage_lock
 
 HAS_FFMPEG = shutil.which('ffmpeg') is not None and shutil.which('ffprobe') is not None
@@ -107,11 +108,35 @@ class StageLockTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn('current stage is assembly-review', result['error'])
 
-    def test_lock_for_user_requires_authorization(self):
+    def test_ask_mode_lock_registers_candidate_without_decision(self):
+        (self.root / 'project.md').write_text('---\ntitle: Demo\napproval_mode: ask_for_approval\n---\n\nBrief.\n')
         self.review()
-        code, result = self.lock('picture', None, '--actor', 'user')
-        self.assertEqual(code, 1)
-        self.assertIn('--authorization', result['error'])
+        code, result = self.lock()
+        self.assertEqual(code, 0, result)
+        self.assertEqual(result['registered_candidate']['lock_kind'], 'picture')
+        self.assertIn('Approve', result['next'])
+        stage = next(s for s in self.canvas()['stages'] if s['id'] == 'assembly-review')
+        self.assertNotIn('locks', stage)
+        self.assertEqual(stage['lockCandidates'][0]['artifact_path'], 'master.mp4')
+        self.assertFalse((self.root / 'decisions').exists())
+        self.assertEqual(self.lock()[0], 0)
+        stage = next(s for s in self.canvas()['stages'] if s['id'] == 'assembly-review')
+        self.assertEqual(len(stage['lockCandidates']), 1)
+        candidate = stage['lockCandidates'][0]
+        mode = selection.read_project_mode(self.root)
+        event = 'server-approve-event'
+        decision = {
+            'schema_version': 1, 'decision_id': 'ui-approve-picture', 'decision_type': 'stage_lock',
+            'stage_id': 'assembly-review', 'lock_kind': 'picture', 'subject_path': candidate['artifact_path'],
+            'subject_sha256': selection.sha256(self.root / 'master.mp4'), 'actor': 'user',
+            'approval_mode': mode['mode'], 'project_sha256': mode['project_sha256'], 'result': 'approved',
+            'review_path': candidate['review_path'], 'review_sha256': selection.sha256(self.root / candidate['review_path']),
+            'upstream_sha256': candidate['upstream_sha256'], 'reason': candidate['reason'],
+            'decided_at': '2026-09-26T00:00:00+00:00', 'authorization': {'source': 'local_ui', 'evidence': event},
+        }
+        selection.record_stage_decision(self.root, decision, user_event=event)
+        stage = next(s for s in self.canvas()['stages'] if s['id'] == 'assembly-review')
+        self.assertEqual(stage['locks']['picture']['actor'], 'user')
 
     def test_reopen_supersedes_locks_and_resets_later_stages(self):
         self.review()

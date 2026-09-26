@@ -207,9 +207,10 @@ S=.agents/skills/showcase-html/scripts/stage_lock.py
 ```
 
    `review` rejects a video review without playback or temporal evidence and an
-   audio review without listening evidence. `lock` fills hashes, project mode,
-   stage and timestamp; a user lock needs `--authorization` quoting the chat
-   approval. `advance` closes the current stage only when the canvas check
+   audio review without listening evidence. In `approve_for_me`, `lock` records the
+   agent lock with hashes, project mode, stage and timestamp. In
+   `ask_for_approval`, it registers the reviewed artifact in `lockCandidates`
+   instead; the user approves it with the review server's **Approve** button. `advance` closes the current stage only when the canvas check
    passes, and needs `--source` when the next stage has no evidence yet.
    `reopen` returns to an earlier stage for a revision: it moves that stage's
    and later stages' locks into `supersededLocks`, resets later stages to
