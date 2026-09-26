@@ -576,6 +576,24 @@
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
+    },
+    "micro-drama": {
+      "kind": "orchestrator",
+      "description": "Produce vertical short-form micro-drama episodes end to end for any market: a hook in the first seconds, a mid-episode reveal or confrontation, and a close-up cliffhanger, delivered as 9:16 episodes with a to-be-continued card. Orchestrates a market story writer when one exists (for example filipino-micro-drama), then canon sheets, text-free storyboard conditioning, Seedance 2.5 scene clips with native dialogue, dialogue-accuracy QA, assembly, loudness-matched delivery, and an optional full-episode showreel, all on the showcase-html production canvas. Use for micro-dramas, vertical dramas, ReelShort/DramaBox-style series, TikTok drama episodes, or batches of several independent episodes produced in parallel. Do not use for a single prompt, a non-episodic ad, a music video, or long-form film; use film-production for general multi-scene work.",
+      "readme_summary": "Produce vertical micro-drama episodes end to end for any market: hook, reveal and cliffhanger clips with text-free storyboard conditioning, dialogue-accuracy QA, loudness-matched delivery and a full-episode showreel.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "filipino-micro-drama": {
+      "kind": "leaf",
+      "description": "Develop Filipino-market micro-drama stories: pick a proven Pinoy formula (kontrabida matriarch, hidden heir, kabit and legal-wife revenge, OFW homecoming, switched at birth, CEO fake relationship, aswang folk horror and more), then write a locked episode brief with a three-beat hook, sampal or reveal, and cliffhanger, a light cast, authentic Filipino settings, props and wardrobe, English-dominant Taglish dialogue with correct honorifics and class markers, and English subtitle translations. Use for Filipino or Taglish micro-drama concepts, loglines, episode briefs, series bibles or dialogue passes, including concept-only or prompt-only work. This leaf writes story material only; it does not generate media. Pair it with micro-drama for production and seedance-prompt-25-filipino for spoken-delivery direction.",
+      "readme_summary": "Write Filipino-market micro-drama stories: proven Pinoy formulas, locked episode briefs with English-dominant Taglish dialogue, honorifics, authentic settings and subtitle translations.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
     }
   }
 }

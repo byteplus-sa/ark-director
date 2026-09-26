@@ -60,6 +60,18 @@
         "Keeps any cue explicitly provisional until supported.",
         "Does not guarantee generation behavior."
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "The locked line is {Ten years kang nagpadala, diba?} and the take's transcript reads 'nagpalala'. The video model's summary says the dialogue is correct. Can we approve it?",
+      "expected_output": "Treats the transcript mismatch as an observed wrong word, keeps the take in review, and proposes one targeted cue without rewriting the locked line.",
+      "files": [],
+      "expectations": [
+        "Does not accept the model summary over the word-level transcript.",
+        "Records the heard word 'nagpalala' against the approved 'nagpadala'.",
+        "Proposes at most one targeted external cue for a retake, leaving the spoken text unchanged.",
+        "Does not claim the cue guarantees the fix; requires listening after the retake."
+      ]
     }
   ]
 }

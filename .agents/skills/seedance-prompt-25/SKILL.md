@@ -224,7 +224,7 @@ Before generation, verify:
 7. **Editing master**: For editing, is the sole editing master, edit scope, target quantity, and content to preserve defined?
 8. **Emotion & camera**: Are abstract emotions and cinematography terms paired with visible/audible cues?
 9. **First/last frames**: Are first/last frames assigned one role per image? Do first and last share aspect ratio?
-10. **Storyboards & blockouts**: Does the storyboard state which structure to inherit? For blockouts, is coarse vs fine identified? Is a video-lock master treated as the sole motion authority, re-dressed not re-imagined?
+10. **Storyboards & blockouts**: Does the storyboard state which structure to inherit, call every board mark (panel numbers, badges, dividers, captions) a planning annotation, and forbid numbers or text in every frame including all four corners — at the binding, per shot, and in the closing constraint? For blockouts, is coarse vs fine identified? Is a video-lock master treated as the sole motion authority, re-dressed not re-imagined?
 11. **Auto-lock rules**: Do editing, first/last-frame, and extension follow their locked aspect-ratio and duration rules?
 12. **Extension boundary**: For extension, are the boundary image, motion trend, and audio continuity checked?
 13. **One-click video**: Are material roles, image order, motion amount, editing style, and audio defined?

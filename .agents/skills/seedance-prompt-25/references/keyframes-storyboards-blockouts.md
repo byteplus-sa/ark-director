@@ -67,19 +67,33 @@ and axis of action> throughout.
 - Communicate overall story, shot order, and approximate compositions — **not strict reproduction**.
 - **Prefer ≤ 15 panels.** Use clean line art or simple diagrams; minimize text labels.
 - State the reading order, then describe each panel.
+- **Treat every board mark as a leak risk.** Panel numbers, badges, dividers,
+  arrows, and captions are annotations on the planning sheet, not objects in
+  the scene. A single "do not copy panel numbers" clause is not enough: boards
+  with corner numerals have produced takes with the same white digits baked into
+  the top-left corner of every shot. Say it three times — at the binding, in
+  the per-shot frame description, and in the closing constraint — and name the
+  corners explicitly.
+- Refer to shots by reading position ("the first panel", "the top-right
+  panel"), not by the numerals printed on the board.
 
 ```
-@Image 1 provides an <N-panel storyboard grid> for shot order and approximate composition.
-Read it <left to right, top to bottom>. Do not use the grid's <line-art style, text labels, or
-placeholder characters>.
+@Image 1 is a planning sheet only: an <N-panel storyboard grid> that gives shot order and
+approximate composition. Read it <left to right, top to bottom>; the first panel is Shot 1.
+Everything drawn on the sheet that is not part of the scene — panel numbers, digits, letters,
+badges, corner labels, arrows, captions, divider lines, borders, paper, and the <line-art or
+sketch style> — is an annotation for the director and must never appear in the video.
 @Image 2 defines <Subject A>'s <appearance and clothing>.
 
-Shot 1: <shot size, subject action, and scene state>.
-Shot 2: <shot size, subject action, camera movement, or transition>.
+Shot 1: <shot size, subject action, and scene state>, one clean full-frame image.
+Shot 2: <shot size, subject action, camera movement, or transition>, one clean full-frame image.
 ...
-Shot N: <closing action and final visible state>.
+Shot N: <closing action and final visible state>, one clean full-frame image.
 
 The final video uses <visual style>. Audio includes <dialogue, ambience, action sound effects, or music>.
+Every frame is clean photographed scene content from edge to edge: no numbers, digits, letters,
+badges, labels, captions, subtitles, or on-screen text anywhere, including all four corners,
+and no grid, split screen, or panel borders.
 ```
 
 > **Optional monochrome conditioning.** A sketch remains control-only unless

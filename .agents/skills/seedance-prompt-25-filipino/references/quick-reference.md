@@ -9,6 +9,8 @@ Read [the entrypoint](../SKILL.md) for authority and source limits.
 | Filipino or Taglish line | Preserve approved words and use native audio |
 | Pronunciation concern without a recording | Identify a hypothesis; do not claim observed failure |
 | Specific heard error | Verify the target reading and add one external cue |
+| Locked line with a shouted or whispered critical Tagalog word | Flag it as a listening priority; check it word by word with a transcript |
+| Checking a generated take | Transcript diff against the approved words plus listening; never a model summary alone |
 | User-approved natural rewrite | Offer a minimal meaning/register-preserving revision |
 | Literary or period dialogue | Preserve the intentional register |
 | Separate lip-sync audio explicitly requested | Use the same approved words in both prompts and verify actual alignment |

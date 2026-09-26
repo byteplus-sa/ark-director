@@ -33,7 +33,13 @@ Every stage exit additionally requires:
 2. the stage shows its inputs, outputs, prompts, bindings, review evidence and
    mode-authorized decisions or pending recommendations;
 3. `index.html` has been regenerated and opened after the latest material edit;
-4. `generate_showcase.py <project> --check --stage <stage-id>` passes.
+4. `generate_showcase.py <project> --check --stage <stage-id>` passes;
+5. `handoff.md` records the completed stage, current selections, operations
+   still in flight with their registry IDs, open defects, and the next action.
+
+`handoff.md` is plain Markdown for resuming work, not a canvas source or an
+approval record. Keep it short and overwrite it at each exit rather than
+appending history.
 
 The stage-specific required outputs below describe what the matching canvas
 section must expose. A CLI/OS-player review does not replace this checkpoint.

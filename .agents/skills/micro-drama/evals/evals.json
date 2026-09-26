@@ -1,0 +1,52 @@
+{
+  "skill_name": "micro-drama",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make three vertical micro-drama episodes for the US market, 1080p, fully produced.",
+      "expected_output": "A per-episode brief and production plan using the three-scene structure, with parallel ownership and a budget cap.",
+      "files": [],
+      "expectations": [
+        "Uses three scene clips of about 15/20/15 s with a hook in the first 3 s and a close-up cliffhanger.",
+        "Assigns one production agent per episode with exclusive project ownership and a shared playbook.",
+        "Declares a per-episode generated-seconds budget before any paid submission.",
+        "Keeps generated footage text-free and adds cards and subtitles in post.",
+        "Does not invent a market writer skill; drafts the brief fields itself when none exists."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write the Seedance prompt for scene 2; the storyboard grid has panel numbers in each corner.",
+      "expected_output": "A storyboard-conditioned clip prompt that suppresses board annotations aggressively.",
+      "files": [],
+      "expectations": [
+        "Calls the grid a planning sheet and names numbers, badges and dividers as annotations that must not appear.",
+        "Refers to shots by reading position rather than printed numbers.",
+        "Repeats the ban per shot and in a closing whole-frame constraint that names all four corners.",
+        "Routes the prompt through prompt-review before submission."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The take looks great and the model summary says the dialogue is correct. Approve it.",
+      "expected_output": "Refuses to approve without a word-level speech-to-text diff against the locked lines.",
+      "files": [],
+      "expectations": [
+        "Requires a speech-to-text comparison of every locked line and speaker.",
+        "Treats the model summary as insufficient evidence.",
+        "Keeps the take in review until the dialogue gate passes."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The session crashed while four episode agents were polling Seedance. Resume them.",
+      "expected_output": "Resumes from handoff files and the task registry without duplicate paid submissions.",
+      "files": [],
+      "expectations": [
+        "Reads each project's handoff file and task registry before acting.",
+        "Reconciles in-flight operations instead of resubmitting.",
+        "Uses short polling calls rather than long blocking waits."
+      ]
+    }
+  ]
+}

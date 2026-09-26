@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "c64ab3af3c70b04e1e415ee8afceed31c64d6300946d0c0bb57da376a238e78c"
+      "computedHash": "661e0254c6569339a30f819b7a9bee88e5f69ae3ba87d25c05f0e3c9ff9c61a6"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -209,13 +209,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25/SKILL.md",
-      "computedHash": "aeb780f4935bf12bbab28230fdc90ffbddb93e13f090d51be7d8db6f89e7852b"
+      "computedHash": "e0e63221ea683a8ba22023cce7d0f2cd6e6c5f15a8adeb371763668df9f11d61"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25-filipino/SKILL.md",
-      "computedHash": "e82718394379e9f5387ea338550f9a56f4d8c940574653cb53b03f0b18a83afc"
+      "computedHash": "2686d3e6060ce3275374aa8f9027574c0550ed1d562dc56fa5b6ff112e910907"
     },
     "seedance-restoration": {
       "source": "./local",
@@ -275,7 +275,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/showcase-html/SKILL.md",
-      "computedHash": "c83d7f4479ad133941d2fef824c2a0402a3a9342ca17a5f87486668e10de8847"
+      "computedHash": "c3376b1783663f75a64622e8f3b2874958a8977fa0950f43d7985fd90487e33e"
     },
     "template-factory": {
       "source": "./local",
@@ -384,6 +384,18 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
       "computedHash": "b247cf042de66d74a46b15f556b90179ace464a6cb2e39b12cad45f27757bd49"
+    },
+    "micro-drama": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/micro-drama/SKILL.md",
+      "computedHash": "1e25fd9818b8597d3aa576f8c1d27d29bf9a25f0b9a0cc06af3a1dc0c560242a"
+    },
+    "filipino-micro-drama": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/filipino-micro-drama/SKILL.md",
+      "computedHash": "deca9b8e833ce8ed0118af7ed16e2b9e760f9593a143382ca5e3eaeb5cbb5892"
     }
   }
 }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Filipino Micro-Drama"
+  short_description: "Write Filipino Taglish micro-drama stories and episode briefs"
+  default_prompt: "Use $filipino-micro-drama to write this Filipino micro-drama episode brief."

@@ -85,6 +85,13 @@ stage's `sources`. The canvas checkpoint verifies the file hashes and source
 links. The decision service writes locks and sources together; do not add a
 lock by editing JSON alone.
 
+A revision after a lock reopens the earlier stage with `stage_lock.py reopen`
+instead of editing statuses by hand. The reopened stage and every later stage
+move their locks into a `supersededLocks` history entry with the reason, later
+stages return to `pending`, and the event is logged in `selection.log`. New
+locks are then recorded for the revised artifact, and prior decisions, reviews
+and artifacts stay on disk.
+
 In `ask_for_approval`, put eligible choices in the current stage's
 `lockCandidates` list. Each entry has `lock_kind` (`picture` or `audio` for
 `assembly-review`, `final_master` for `delivery`), `artifact_path`,

@@ -66,6 +66,7 @@ Read only the references needed for the current issue:
 | Explicitly requested separate audio track | [Audio first](references/audio-first.md) |
 | Complete illustrative prompt forms | [Worked examples](references/worked-examples.md) |
 | Before/after natural-dialogue diagnosis | [Hypothetical dialogue repairs](references/dialogue-repairs.md) |
+| Actual heard failures from past takes, as listening priorities | [Observed failures](references/observed-failures.md) |
 | Compact preflight | [Quick reference](references/quick-reference.md) |
 
 ## Minimal native-audio form

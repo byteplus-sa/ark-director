@@ -1,0 +1,4 @@
+interface:
+  display_name: "Micro-Drama"
+  short_description: "Produce vertical micro-drama episodes end to end"
+  default_prompt: "Use $micro-drama to produce this micro-drama episode end to end."

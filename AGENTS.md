@@ -116,6 +116,12 @@ downstream preparation begin earlier.
   integration, final verification and user communication.
 - A sub-agent remains responsible for reviewing and integrating the work of any
   nested sub-agents it creates.
+- An agent that owns a project keeps a short `handoff.md` checkpoint in it:
+  current stage, selected variants, operations in flight with registry IDs,
+  open defects, and the next action. Update it at every stage exit and before
+  any long wait, so a replacement agent can resume after a session ends. On
+  resume, read it together with `task_ids.json` and the manifests; the
+  manifests and registry win on conflict.
 - Serialize edits to shared mutable state, including `showcase.json`,
   `task_ids.json`, selection manifests, Lark documents, assemblies and shared
   registries, unless the tool provides an explicit conflict-safe transaction.

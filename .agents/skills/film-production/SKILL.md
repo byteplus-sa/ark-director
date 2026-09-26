@@ -31,9 +31,10 @@ evidence and mode-authorized decisions permit.
 
 1. Resolve the project directory. Search before creating a project, scene,
    element, shot, or same-purpose artifact.
-2. Read `project.md`, `task_ids.json`, `showcase.json`, relevant element
-   manifests, scene and shot manifests, prompt snapshots, and the latest review
-   decisions. If a production project has no canvas, initialize the eight-stage
+2. Read `project.md`, `handoff.md` when present, `task_ids.json`,
+   `showcase.json`, relevant element manifests, scene and shot manifests,
+   prompt snapshots, and the latest review decisions. `handoff.md` is a resume
+   hint; manifests and the registry are authoritative on conflict. If a production project has no canvas, initialize the eight-stage
    skeleton before advancing it. New projects set
    `approval_mode: approve_for_me` in `project.md` frontmatter before `--init`.
    The alternative is `ask_for_approval`. A missing field in a legacy project

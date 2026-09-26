@@ -188,6 +188,38 @@ The repository environment supplies `ruamel.yaml`; run `uv sync --group dev`
    [Production canvas](references/production-canvas.md) for the stage lock and
    freshness requirements.
 
+   `stage_lock.py` scaffolds the review and decision files so a lock does not
+   need hand-written JSON. Each command validates before writing and refreshes
+   `index.html`:
+
+```bash
+S=.agents/skills/showcase-html/scripts/stage_lock.py
+.venv/bin/python $S review projects/<project> --artifact assembly/master.mp4 \
+  --out qa/review_master.json --method "temporal playback review ..." \
+  --coverage "whole master" --check "technical=pass: 1080x1920, full decode" \
+  --observation "..." --recommendation "Lock picture."
+.venv/bin/python $S lock projects/<project> --kind picture \
+  --artifact assembly/master.mp4 --review qa/review_master.json --reason "..."
+.venv/bin/python $S advance projects/<project> --stage assembly-review \
+  --source assembly/delivery_manifest.json:data
+.venv/bin/python $S reopen projects/<project> --stage assembly-review \
+  --reason "User asked to remove a shot"
+```
+
+   `review` rejects a video review without playback or temporal evidence and an
+   audio review without listening evidence. `lock` fills hashes, project mode,
+   stage and timestamp; a user lock needs `--authorization` quoting the chat
+   approval. `advance` closes the current stage only when the canvas check
+   passes, and needs `--source` when the next stage has no evidence yet.
+   `reopen` returns to an earlier stage for a revision: it moves that stage's
+   and later stages' locks into `supersededLocks`, resets later stages to
+   `pending`, and logs the reason in `selection.log`.
+
+   `portfolio.py OUT_DIR PROJECT...` builds one page for several projects from
+   their final-master locks, with subtitle tracks and canvas links. With
+   `--showreel` it joins every locked master back to back, gain-matched to
+   `--target-lufs` (default -16) with a limiter, and writes a build record.
+
 5. **Verify.** Run `--check` to confirm every media `src` resolves (relative
    paths are the #1 failure), then spot-check sections, prompts, and the
    combined view in the opened page:
