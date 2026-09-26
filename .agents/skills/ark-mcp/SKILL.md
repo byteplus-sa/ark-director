@@ -1,6 +1,6 @@
 ---
 name: ark-mcp
-description: Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.
+description: Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5 and whitelist-only 2.5 Premium 4K, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, understand or reason about audio, transcribe speech to text, manage the Seedance private asset library (virtual portraits, verified real people, copyright IP referenced as asset://) with BytePlus AK/SK, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.
 ---
 
 # Ark Seed Multimodal MCP Server
@@ -22,9 +22,15 @@ one server, including products served through ModelArk:
   and Hitem3d (image-to-3D only, 1–4 images, OBJ/GLB/STL/FBX/USDZ output).
   Gated by `BYTEPLUS_MODELARK_3D_ENABLED`; disabled by default.
 - **Seed 2.1 Understanding** — multimodal video/image understanding and
-  reasoning through ModelArk Chat Completions; supports deep-thinking mode.
-  Use for OCR, scene analysis, content review, and as a visual reasoning
-  sub-agent.
+  reasoning through ModelArk Chat Completions. Deep thinking is always on;
+  only the final answer is returned. Supports provider-enforced JSON Schemas
+  and saving the answer to a local file. Use for OCR, scene analysis, content
+  review, and as a visual reasoning sub-agent.
+- **Seed Audio Understanding** — `seed_audio_understand` sends audio clips to
+  a ModelArk chat model (`SEED_AUDIO_UNDERSTANDING_MODEL`, default
+  `seed-2-0-lite-260428`) for transcription, translation, speaker/emotion
+  analysis, summaries, meeting minutes, and Q&A about what is heard. Same
+  always-on thinking, JSON Schema, and `save_to` controls as `seed_understand`.
 - **Speech-to-Text** — background audio transcription via Seed Speech ASR;
   retrieve the completed transcript from the background result.
 - **VOD AI MediaKit** — asynchronous video enhancement using the exact
@@ -34,9 +40,15 @@ one server, including products served through ModelArk:
   tool pair, subtitle burn-in and precision subtitle/text erasure via two
   submit-then-poll pairs, and voice + background (or voice + music + sfx)
   audio separation via a submit-then-poll tool pair.
-- **Artifacts** — durable media access after provider URLs expire.
+- **Artifacts** — durable media access after provider URLs expire, local
+  file export, and recovery of outputs whose storage failed.
 - **Object storage upload** — presigned URL generation for URL-only media
-  workflows such as Seedance video references.
+  workflows such as Seedance video references (single or batched uploads).
+- **Private asset library** — `ark_asset_*` tools manage Dreamina Seedance
+  Advanced Creation Rights assets: AIGC groups for fictional characters,
+  real-person liveness verification for `LivenessFace` groups, and uploads.
+  Assets are referenced as `asset://<asset_id>` in Seedance. Requires BytePlus
+  IAM AK/SK (`BYTEPLUS_MODELARK_ACCESS_KEY` / `_SECRET_KEY`).
 
 The server is built on FastMCP v4 and runs locally via `stdio` or as a
 deployable Streamable HTTP service. Generated media is persisted to a local
@@ -54,6 +66,8 @@ Invoke this skill when the user wants to:
 - create, poll, list, cancel, or delete Hyper3D and Hitem3d 3D generation tasks (requires the 3D feature flag);
 - understand images or videos (OCR, scene analysis, content review), or use a
   multimodal reasoning sub-agent;
+- understand or reason about audio (transcription, translation, speaker or
+  emotion analysis, summaries, meeting minutes, Q&A) with `seed_audio_understand`;
 - transcribe audio or video into timestamped, speaker-diarized text;
 - enhance a public HTTPS video with the supported VOD AI MediaKit profile;
 - transcode a public HTTPS video (codec, container, resolution, bitrate, frame
@@ -64,7 +78,10 @@ Invoke this skill when the user wants to:
   HTTPS audio or video URL using the VOD AI MediaKit tool pair;
 - fetch a previously persisted artifact by ID;
 - locate or copy a previously persisted artifact to a local path without
-  streaming Base64 through the context window;
+  streaming Base64 through the context window, or write generated output
+  straight to a local path with `output_path` / `output_dir`;
+- recover a generated output whose durable storage failed
+  (`persistence_error`) with `seed_media_persist_url`;
 - upload local or Base64 media to object storage (TOS or S3) to obtain a
   presigned HTTPS URL;
 - verify which products are configured on the running server.
@@ -79,6 +96,7 @@ gracefully degrades to whatever is configured.
 
 - `seed_media_get_artifact`
 - `seed_media_export_artifact`
+- `seed_media_persist_url`
 - `ark_job_capabilities`
 - `ark_job_submit`
 - `ark_job_get`
@@ -112,11 +130,20 @@ gracefully degrades to whatever is configured.
 - `seedance_create_task`
 - `seedance_create_task_variations`
 - `seedance_get_task`               # shared: retrieves both 2.0 and 2.5 tasks
+- `seedance_get_tasks`              # shared: checks 1-50 tasks in one call
 - `seedance_list_tasks`             # shared: lists both 2.0 and 2.5 tasks
 - `seedance_cancel_or_delete_task`  # shared: acts on both 2.0 and 2.5 tasks
 - `seedance_2_5_create_task`
 - `seedance_2_5_create_task_variations`
 - `seed_understand`
+- `seed_audio_understand`
+
+### Requires `BYTEPLUS_MODELARK_SEEDANCE_2_5_PREMIUM_ENABLED=true` (and `BYTEPLUS_MODELARK_API_KEY`)
+
+Whitelist-only; disabled by default.
+
+- `seedance_2_5_premium_create_task`
+- `seedance_2_5_premium_create_task_variations`
 
 ### Requires `BYTEPLUS_MODELARK_3D_ENABLED=true` (and `BYTEPLUS_MODELARK_API_KEY`)
 
@@ -133,9 +160,31 @@ gracefully degrades to whatever is configured.
 base URL but is gated by its own feature flag so it stays off unless
 explicitly enabled.
 
+### Requires `BYTEPLUS_MODELARK_ACCESS_KEY` + `BYTEPLUS_MODELARK_SECRET_KEY`
+
+Private asset library (signed ModelArk OpenAPI; independent of the API key):
+
+- `ark_asset_group_ensure`          # reuse/create the AIGC group for one subject
+- `ark_asset_group_create`
+- `ark_asset_group_get`
+- `ark_asset_group_list`
+- `ark_asset_group_update`
+- `ark_asset_create`                # optional background job
+- `ark_asset_get`
+- `ark_asset_list`
+- `ark_asset_update`
+- `ark_asset_verification_start`
+- `ark_asset_verification_result`   # optional background job
+- `ark_asset_delete`, `ark_asset_group_delete` — only with
+  `BYTEPLUS_MODELARK_ASSETS_ALLOW_DELETE=true`; each call also requires
+  `confirm=true`
+
+Scopes: `assets:read`, `assets:write`, `assets:verify`, `assets:delete`.
+
 ### Requires object storage credentials (TOS or S3)
 
 - `media_upload`
+- `media_upload_batch`
 - `media_presign`
 - `media_presign_batch`
 
@@ -159,6 +208,7 @@ polling interval, so a foreground direct call is rejected before the provider
 is contacted:
 
 - `media_upload`
+- `media_upload_batch`
 - `seed_audio_generate`
 - `seed_audio_generate_variations`
 - `speech_to_text`
@@ -169,9 +219,12 @@ is contacted:
 - `seedance_create_task_variations`
 - `seedance_2_5_create_task`
 - `seedance_2_5_create_task_variations`
+- `seedance_2_5_premium_create_task` (when enabled)
+- `seedance_2_5_premium_create_task_variations` (when enabled)
 - `hyper3d_create_task`
 - `hitem3d_create_task`
 - `seed_understand`
+- `seed_audio_understand`
 - `vod_enhance_video`
 - `vod_transcode_video`
 - `vod_separate_audio`
@@ -199,7 +252,8 @@ For Seedance, Seed 3D, and MediaKit create/submit tools, the tool result
 contains the provider task ID to poll with the corresponding get tool, on
 either path.
 
-The Seedance, Seed 3D, and MediaKit get tools support optional background
+The Seedance (`seedance_get_task`, `seedance_get_tasks`), Seed 3D, and
+MediaKit get tools, and `seed_media_persist_url`, support optional background
 execution. Use foreground calls with `persist_output=false` for quick status
 polling; once a task succeeds, run the get tool in the background with
 `persist_output=true` so completed-media download and persistence cannot exhaust
@@ -319,12 +373,71 @@ Stdio transport only — the client and server must share a filesystem. Requires
 | Parameter | Type | Required | Description |
 |---|---|---|---|
 | `artifact_id` | `str` | Yes | Artifact UUID from a previous generation call |
-| `destination_path` | `str` | No | Absolute path where the server writes an atomic copy; omit to return the canonical store path |
+| `destination_path` | `str` | No | Absolute file path inside an allowed output root where the server writes an atomic copy; omit to return the canonical store path |
+| `overwrite` | `bool` | No (default `false`) | Replace an existing destination file with different content |
+
+`destination_path` must be absolute and inside an allowed output root (the
+client's MCP roots, else `OUTPUT_ROOTS`); an existing file is never silently
+overwritten, and identical content counts as success.
 
 Returns `SeedMediaExportArtifactOutput` with `artifact_id`, `path`,
 `media_type`, `mime_type`, `bytes`, `sha256`, and `copied`. `copied=false`
 means `path` is the canonical store location (filesystem backend); `copied=true`
 means the artifact was copied to `destination_path`.
+
+#### `seed_media_persist_url`
+
+Persist a temporary provider output URL as a durable artifact. Use it when a
+result returned an artifact with `id="provider-url"` and a
+`persistence_error` — the output was generated and billed, but storing it
+failed. Call it before the provider URL expires (2h audio, 24h image/video/3D).
+Only trusted BytePlus provider hosts are accepted. Optional background
+execution; requires `media:upload` scope in JWT mode.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `url` | `str` | Yes | The artifact's `uri` (temporary provider URL) |
+| `media_type` | `"image"` \| `"audio"` \| `"video"` \| `"three_d"` | Yes | From the original artifact |
+| `mime_type` | `str` | Yes | From the original artifact |
+| `source_expires_at` | `str` | No | From the original artifact's `source_expires_at` |
+
+Returns `{artifact}` with the new durable `ArtifactRef`.
+
+#### Local output paths and persistence fallbacks
+
+On stdio, write output straight to disk instead of exporting afterwards:
+
+- `output_path` (file, or directory ending with `/`) + `overwrite` on
+  `seedream_generate_image`, `seedream_edit_image`, `seed_audio_generate`,
+  `seedance_get_task` (last frame written beside the video with a
+  `-last-frame` suffix), `hyper3d_get_task`, `hitem3d_get_task`, and the five
+  `vod_get_*` tools. Multi-image `seedream_generate_image` (`max_images > 1`)
+  needs a directory.
+- `output_dir` + `overwrite` on `seedream_generate_image_variations`,
+  `seed_audio_generate_variations`, and `seedance_get_tasks`.
+- `save_to` + `overwrite` on `seed_understand` and `seed_audio_understand`
+  (writes the answer).
+
+Paths must be absolute and inside the client's MCP roots, or `OUTPUT_ROOTS`
+when the client has none; with neither, path writing is disabled. They are
+validated before any provider call, and require `persist=true` /
+`persist_output=true`. Each written `ArtifactRef` reports `local_path`, or
+`export_error` if the local write failed (the call still succeeds and the
+durable artifact is kept).
+
+Inside `ark_job_submit`, these local-write options can fail with "session is
+not available". Before relying on them in a background job, read
+[Background-job output handling](references/background-job-output.md) for the
+download-and-hash route, large-result parsing, and output-audit rejections.
+
+Billed outputs are never dropped. When durable storage fails after download
+retries, the `ArtifactRef` carries `persistence_error` (`code`, `message`,
+`retryable`, `artifact_limit_bytes`, `source_url_expires_at`) and is either
+`id="provider-url"` (`uri` is the temporary provider URL — recover it with
+`seed_media_persist_url`) or `id="inline-fallback"` (Base64 bytes in
+`fallback_data`, for Seed Audio / Seedream `b64_json`). Seedream storage
+failures used to be tool errors; they are now successes with
+`persistence_error`, so always check it.
 
 ---
 
@@ -884,10 +997,18 @@ store. Results are cached for 24 hours.
 |---|---|---|---|
 | `task_id` | `str` | Yes | Provider task ID from the create tool's background result |
 | `persist_output` | `bool` | Yes (default `true`) | Persist to artifact store; `true` requires background retrieval |
+| `output_path` | `str` | No | Local file (or dir ending `/`) for the video; last frame written beside it with a `-last-frame` suffix. stdio only, requires `persist_output=true` |
+| `overwrite` | `bool` | No (default `false`) | Replace a different existing file |
 
 Returns `SeedanceTaskOutput` with `task_id`, `model`, `created_at`,
 `updated_at`, `status`, optional `error`, optional `video: ArtifactRef`,
-optional `last_frame: ArtifactRef`, optional `usage`, `settings`.
+optional `last_frame: ArtifactRef`, optional `usage`, `settings`, and `queue`.
+
+`queue` (queued/running only; `null` once finished) is server-derived timing:
+`queued_seconds`, `running_seconds`, `service_tier`, `expires_at` (when the
+provider fails an unfinished task), `expires_at_estimated` (48h default
+assumed), and `hint`. ModelArk publishes **no queue position or ETA** — relay
+`queue.hint` instead of inventing one.
 
 **Foreground status polling:**
 
@@ -915,7 +1036,27 @@ model, and service tier.
 | `model` | `str` | No | Filter by model |
 | `service_tier` | `"default"` \| `"flex"` | No | Filter by tier |
 
-Returns `SeedanceTaskPage` with paginated task summaries.
+Returns `SeedanceTaskPage` with paginated task summaries (each with the same
+`queue` timing).
+
+#### `seedance_get_tasks`
+
+Check 1–50 Seedance tasks (2.0 or 2.5) in one call — prefer it over a round of
+`seedance_get_task` calls after variations or multi-shot work. One provider
+list call per page of 20 IDs; individual re-fetch only where needed. Optional background
+execution (required when `persist_output=true`). Scope `seedance:read`.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `task_ids` | `list[str]` | Yes | 1–50 task IDs; duplicates ignored |
+| `persist_output` | `bool` | No (default **`false`**) | Persist each succeeded task's video + last frame once |
+| `output_dir` | `str` | No | Local directory for finished files; stdio only, requires `persist_output=true` |
+| `overwrite` | `bool` | No (default `false`) | Replace different existing files |
+
+Returns `tasks` (same shape as `seedance_get_task`, request order), `errors`
+(`task_id`, `code`: `NOT_OWNED` / `NOT_FOUND` / provider code, `message`),
+`counts` per status, `all_terminal`, and `active_tasks`. Stop polling when
+`all_terminal` is `true`.
 
 #### `seedance_cancel_or_delete_task`
 
@@ -1004,8 +1145,28 @@ Returns `Seedance25CreateTaskOutput` with `task_id`, `status="queued"`, and `rec
 
 Create multiple Seedance 2.5 video tasks in parallel. Inherits all parameters from `seedance_2_5_create_task` and adds `variations` (1–5) and `variation_prompts`.
 
+#### `seedance_2_5_premium_create_task` / `seedance_2_5_premium_create_task_variations`
+
+Seedance 2.5 Premium (`dreamina-seedance-2-5-premium-260915`) is a separate,
+**whitelist-only** model that adds **4K** output to the Seedance 2.5 feature
+set. The tools appear only when the operator sets
+`BYTEPLUS_MODELARK_SEEDANCE_2_5_PREMIUM_ENABLED=true`. Inputs are identical to
+the 2.5 tools except `resolution` also accepts `4k` and `model` defaults to the
+Premium binding. Use Premium when the user needs 4K together with 2.5
+capabilities (30s, 30/10/10 references, editing, extension); otherwise use the
+regular 2.5 tool. Premium model IDs are rejected by the 2.0 and 2.5 tools.
+
+```json
+{
+  "prompt": "A 4K aerial shot over a coastline at golden hour",
+  "resolution": "4k",
+  "ratio": "16:9",
+  "duration": 15
+}
+```
+
 > **Shared lifecycle tools:** `seedance_get_task`, `seedance_list_tasks`, and
-> `seedance_cancel_or_delete_task` work with both 2.0 and 2.5 task IDs. Use
+> `seedance_cancel_or_delete_task` work with 2.0, 2.5, and 2.5 Premium task IDs. Use
 > them the same way regardless of which create tool produced the task.
 
 ---
@@ -1209,8 +1370,11 @@ requested task TTL long enough for the expected video analysis duration.
 #### `seed_understand`
 
 Understand images and videos, or reason about a task, through the Seed 2.1
-multimodal model via ModelArk Chat Completions. Supports deep-thinking
-(chain-of-thought) reasoning when `thinking=true`. Use this for:
+multimodal model via ModelArk Chat Completions. Deep thinking is **always on**
+(depth set by `reasoning_effort`, default `medium`), and only the final answer
+is returned — the reasoning trace is discarded and never returned, logged, or
+saved. Do not pass `thinking` (deprecated no-op) and do not look for
+`reasoning_content` (removed). Use this for:
 
 - **Video understanding** — describe, summarize, or answer questions about video content
 - **Image understanding / OCR** — extract text, describe scenes, analyze visual content
@@ -1233,16 +1397,33 @@ visual or motion grammar.
 | `videos` | `list[UnderstandingVideoInput]` | No | Up to 32 videos (URL only, no Base64) |
 | `system` | `str` | No | Optional system instruction (max 32,000 chars) |
 | `model` | `str` | No | Override the configured Seed 2.1 model ID |
-| `thinking` | `bool` | No (default `false`) | Enable deep-thinking chain-of-thought reasoning |
-| `reasoning_effort` | `"low"` \| `"medium"` \| `"high"` | No | Only when `thinking=true` |
+| `reasoning_effort` | `"low"` \| `"medium"` \| `"high"` | No (default `"medium"`) | Depth of deep thinking; always sent |
+| `response_format` | `object` | No | `{type: "text" \| "json_object" \| "json_schema", json_schema?: {name, schema, description?, strict=true}}` — enforced by the provider during generation |
+| `json_retry` | `int` | No (default `0`) | 0–2 extra **billed** attempts when JSON fails to parse/validate; skipped when `finish_reason="length"` |
+| `save_to` | `str` | No | Absolute file path (stdio, inside an output root); answer written as pretty JSON or text; validated before billing |
+| `overwrite` | `bool` | No (default `false`) | Allow `save_to` to replace a different existing file |
+| `return_content` | `"full"` \| `"summary"` \| `"none"` | No (default `"full"`) | Inline the full answer, the first 2,000 chars, or nothing |
 | `temperature` | `float` | No | 0.0–2.0. Lower = more deterministic |
-| `max_tokens` | `int` | No | 1–32768 |
+| `max_tokens` | `int` | No | 1–32768, **including thinking tokens** |
 | `top_p` | `float` | No | 0.0–1.0 nucleus sampling |
 | `repetition_penalty` | `float` | No | 0.0–2.0 (Ark-only parameter) |
+| `thinking` | `bool` | No | Deprecated and ignored — do not pass it |
 
-Returns `SeedUnderstandOutput` with `model`, `completion_id`, `choices`
-(each with `content` and optional `reasoning_content`), `usage`
-(prompt_tokens, completion_tokens, total_tokens), and `request_id`.
+Returns `SeedUnderstandOutput` with `model`, `completion_id`, `choices`,
+`usage` (prompt/completion/total tokens plus `reasoning_tokens` when reported,
+summed over attempts), `attempts`, `saved_path`, `saved_bytes`, and
+`request_id`. Each choice has `content`, `content_chars`, `content_truncated`,
+`parsed` (JSON result, returned even with `summary`/`none`),
+`schema_violation` (`path`, `message`, `finish_reason`), and `finish_reason`.
+
+If `save_to` fails after billing, the call still succeeds with
+`saved_path=null` and the full answer inline. The tool is not read-only
+(`readOnlyHint=false`) because `save_to` writes files.
+
+Chat timeouts return `TIMEOUT` with `retryable=true`,
+`ambiguous_completion=false`, but the server does **not** retry them (a second
+full thinking run doubles cost); 429/5xx are retried. Raise
+`SEED_UNDERSTANDING_TIMEOUT_MS` for long analyses.
 
 **Example — image OCR / understanding:**
 
@@ -1255,7 +1436,7 @@ Returns `SeedUnderstandOutput` with `model`, `completion_id`, `choices`
 }
 ```
 
-**Example — video understanding with deep thinking:**
+**Example — deep video analysis:**
 
 ```json
 {
@@ -1263,11 +1444,50 @@ Returns `SeedUnderstandOutput` with `model`, `completion_id`, `choices`
   "videos": [
     { "kind": "url", "url": "https://cdn.example.com/demo.mp4" }
   ],
-  "thinking": true,
   "reasoning_effort": "high",
-  "max_tokens": 4096
+  "max_tokens": 8192
 }
 ```
+
+**Example — template review, schema-enforced and saved to disk (recommended
+for reviews):**
+
+```json
+{
+  "prompt": "Review this ad against the template. Return the beats with start/end seconds.",
+  "videos": [{ "kind": "url", "url": "https://cdn.example.com/ad.mp4" }],
+  "response_format": {
+    "type": "json_schema",
+    "json_schema": {
+      "name": "ad_review",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "beats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": { "type": "string" },
+                "start": { "type": "number" },
+                "end": { "type": "number" }
+              },
+              "required": ["label", "start", "end"]
+            }
+          }
+        },
+        "required": ["beats"]
+      }
+    }
+  },
+  "json_retry": 1,
+  "save_to": "/Users/me/project/reviews/ad-review.json",
+  "return_content": "none"
+}
+```
+
+Read `choices[0].parsed` (or the file at `saved_path`); check
+`schema_violation` before trusting the result.
 
 **Example — multimodal reasoning as a sub-agent:**
 
@@ -1282,9 +1502,9 @@ Returns `SeedUnderstandOutput` with `model`, `completion_id`, `choices`
 }
 ```
 
-**Deep-thinking mode:** When `thinking=true`, the model produces
-chain-of-thought reasoning visible in `choices[].reasoning_content`. Use
-`reasoning_effort` to control depth:
+**Thinking depth:** The model always thinks; the trace is never returned.
+Use `reasoning_effort` to control depth (and cost, visible in
+`usage.reasoning_tokens`):
 
 | Level | When to Use | Latency |
 |---|---|---|
@@ -1292,13 +1512,16 @@ chain-of-thought reasoning visible in `choices[].reasoning_content`. Use
 | `medium` | Balanced analysis, moderate comparisons | Moderate |
 | `high` | Deep analysis, complex reasoning, detailed reviews | Slowest |
 
-Keep `thinking=false` for simple extraction, description, or lookup tasks
-where speed matters more than reasoning depth.
+Use `reasoning_effort="low"` for simple extraction, description, or lookup
+tasks where speed matters more than reasoning depth.
 
 **Prompt engineering tips:**
 
-- **Specify output format** — ask for JSON, markdown tables, or numbered lists
-  to get structured results
+- **Enforce output format** — pass a template's JSON Schema verbatim in
+  `response_format` (`json_schema`) instead of asking for JSON in the prompt;
+  use prompt instructions for markdown tables or lists
+- **Keep large answers out of context** — `save_to` + `return_content="none"`
+  (or `"summary"`) for long reviews and reports
 - **Use system instructions** for role and constraints (e.g., "You are a
   senior data analyst. Be thorough and systematic.")
 - **Break complex tasks into steps** — make focused calls (extract, then
@@ -1313,7 +1536,78 @@ where speed matters more than reasoning depth.
 - The provider response is non-streaming, but background execution keeps the
   long-running call outside the foreground client deadline
 - No streaming — the full response is returned at once
-- No artifact persistence — understanding returns text, not media
+- No artifact persistence — understanding returns text, not media (use
+  `save_to` for a local file)
+- No reasoning trace — only the final answer is returned
+
+---
+
+### Seed Audio Understanding
+
+Requires `BYTEPLUS_MODELARK_API_KEY`. Auth scope: `understanding:read`.
+Required background execution — submit through `ark_job_submit` (or native
+task metadata) and poll, exactly like `seed_understand`.
+
+#### `seed_audio_understand`
+
+Send one or more audio clips plus a prompt to a ModelArk chat model with audio
+input and get back only the final answer. The model is set server-side by
+`SEED_AUDIO_UNDERSTANDING_MODEL` (default `seed-2-0-lite-260428`, an interim
+choice that will be replaced); there is no per-call `model` argument. Use it
+for:
+
+- **Transcription and translation** — "transcribe verbatim", "translate the
+  speech into English"
+- **Speaker and delivery analysis** — speaker count, gender, emotion, tone
+- **Summaries and meeting minutes** — topics, decisions, action items
+- **Q&A about what is heard** — music, sound events, background noise
+
+For long-form transcription with word-level timestamps and utterances, use
+`speech_to_text` (Seed Speech ASR) instead.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `prompt` | `str` | Yes | 1–32,000 characters. The question or task about the audio. |
+| `audios` | `list[UnderstandingAudioInput]` | Yes | 1–8 clips, sent in order |
+| `system`, `reasoning_effort`, `response_format`, `json_retry`, `save_to`, `overwrite`, `return_content`, `temperature`, `max_tokens`, `top_p`, `repetition_penalty` | — | No | Same as `seed_understand` |
+
+Audio inputs:
+
+- `{"kind": "url", "url": "https://..."}` — preferred. Upload local files with
+  `media_upload` (via `ark_job_submit`) first.
+- `{"kind": "base64", "data": "<raw base64>", "mime_type": "audio/wav"}` — at
+  most 10 MB decoded, no `data:` prefix. `mime_type` is **required** and must
+  be `audio/wav`, `audio/mpeg`, `audio/flac`, `audio/aac`, or `audio/mp4`
+  (m4a). Base64 Ogg/Opus/PCM is rejected by the provider — use a URL.
+
+Returns `SeedAudioUnderstandOutput` (same shape as `SeedUnderstandOutput`).
+With `seed-2-0-lite-260428`, `json_schema` is enforced but `json_object` is
+not — use `json_schema` when you need structured output.
+
+**Example — structured speech analysis:**
+
+```json
+{
+  "prompt": "Transcribe the speech and describe the speaker's emotion.",
+  "audios": [{ "kind": "url", "url": "https://cdn.example.com/clip.mp3" }],
+  "reasoning_effort": "low",
+  "response_format": {
+    "type": "json_schema",
+    "json_schema": {
+      "name": "speech_analysis",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "transcript": { "type": "string" },
+          "emotion": { "type": "string" }
+        },
+        "required": ["transcript", "emotion"],
+        "additionalProperties": false
+      }
+    }
+  }
+}
+```
 
 ---
 
@@ -1414,6 +1708,22 @@ Returns `MediaUploadOutput` with `url`, `expires_at`, `object_key`, `bytes`.
   "data": "UklGRiQAAABXQVZFZm10..."
 }
 ```
+
+#### `media_upload_batch`
+
+Upload 1–50 files in one call instead of N `media_upload` calls. Required
+background execution (use `ark_job_submit`); scope `media:upload`.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `items` | `list` | Yes | 1–50 items: `media_type`, `mime_type` (optional for `file_path` items — inferred from the extension), `data` or `file_path`, optional `key_prefix` |
+| `expires_in_seconds` | `int` | No | 60–604800, applied to every item |
+| `max_concurrent` | `int` | No (default 4) | 1–8 |
+
+The total decoded size is checked against `MEDIA_UPLOAD_BATCH_MAX_BYTES`
+(default 500 MiB) before anything uploads. Returns per-item `items` (`index`,
+`file_path`, `url`, `object_key`, `expires_at`, `mime_type`, `bytes`, `error`,
+`retryable`), `succeeded`, `failed`, `total_bytes`. Items fail independently.
 
 #### `media_presign`
 
@@ -1532,13 +1842,14 @@ Each server process maintains shared runtime services:
 ### Model Capability Registry
 
 The server validates inputs against known model capabilities before spending
-quota. Eleven model families, with these default model IDs:
+quota. Twelve model families, with these default model IDs:
 
 | Family | Default Model ID | Key Traits |
 |---|---|---|
 | **Seedream Pro** | `dola-seedream-5-0-pro-260628` | 10 refs, no batch, PNG/JPEG |
 | **Seedream Lite** | *(configured via `SEEDREAM_MODEL_BINDINGS`)* | 14 refs, batch, streaming, PNG/JPEG |
 | **Seedream 4.x** | *(configured via `SEEDREAM_MODEL_BINDINGS`)* | 14 refs, batch, streaming, JPEG only |
+| **Seedance 2.5 Premium** *(whitelist, flag-gated)* | `dreamina-seedance-2-5-premium-260915` | Same as 2.5 plus 4K; tools registered only when `BYTEPLUS_MODELARK_SEEDANCE_2_5_PREMIUM_ENABLED=true` |
 | **Seedance 2.5** | `dreamina-seedance-2-5-260628` | 30 imgs / 10 vids / 10 audios, 480p / 720p / 1080p, up to 30s, structured editing + extension |
 | **Seedance 2 Standard** | `dreamina-seedance-2-0-260128` | 9 imgs / 3 vids / 3 audios, 480p–4K, 0–15s |
 | **Seedance 2 Fast** | *(configured via `SEEDANCE_MODEL_BINDINGS`)* | 480p, 720p only |
@@ -1547,6 +1858,11 @@ quota. Eleven model families, with these default model IDs:
 | **Seed 2.1 Pro** | `dola-seed-evolving` (recognized built-in; opt-in via `SEED_UNDERSTANDING_DEFAULT_MODEL`) | 256K context, images + videos, deep-thinking |
 | **Hyper3D** | `hyper3d-gen2-260112` | Text-to-3D + image-to-3D (5 imgs), GLB/OBJ/USDZ/FBX/STL, seeds, PBR materials |
 | **Hitem3d** | `hitem3d-2-0-251223` | Image-to-3D only (1–4 imgs), OBJ/GLB/STL/FBX/USDZ, resolution + face control |
+
+`seed_audio_understand` is outside this registry: it calls the plain model ID in
+`SEED_AUDIO_UNDERSTANDING_MODEL` (default `seed-2-0-lite-260428`, audio input
+via URL or Base64 wav/mp3/flac/aac/m4a, deep-thinking) with no family, bindings,
+or capability pre-validation.
 
 Custom model IDs must be explicitly bound via `SEEDREAM_MODEL_BINDINGS`,
 `SEEDANCE_MODEL_BINDINGS`, `SEED_UNDERSTANDING_MODEL_BINDINGS`, or
@@ -1578,19 +1894,22 @@ default model for that product is used.
    ID, request parameters, prompt hash, and intended output path to the shot
    manifest before provider polling.
 4. Poll `seedance_get_task` in foreground with `persist_output=false` until the
-   status is terminal.
-   Respect the `recommended_poll_after_ms` from the creation response.
+   status is terminal (for several tasks, `seedance_get_tasks` until
+   `all_terminal`). Respect the `recommended_poll_after_ms` from the creation
+   response, and report `queue.hint` while queued — there is no queue
+   position or ETA.
 5. On a local timeout, disconnect, or client restart, retrieve and continue
    polling the same task. Do not submit a replacement task because the provider
    may still be running and a resubmission can create duplicate cost.
 6. On success, run `seedance_get_task` in the background with
-   `persist_output=true`. Download the persisted video to the project asset path
-   and record artifact ID, byte size,
-   SHA-256, provider timestamps, and usage.
-   Inside `ark_job_submit`, `persist_output`, `output_path`, and `save_to` can
-   fail with "session is not available"; read
-   [Background-job output handling](references/background-job-output.md) for the
-   download-and-hash route, large-result parsing, and output-audit rejections.
+   `persist_output=true` and `output_path` set to the project asset path (or
+   `seedance_get_tasks` with `output_dir`), and record artifact ID,
+    `local_path`, byte size, SHA-256, provider timestamps, and usage. If the
+    video has `persistence_error`, recover it with `seed_media_persist_url`
+    before the 24-hour URL expires. Inside `ark_job_submit`, `persist_output`,
+    `output_path`, and `save_to` can fail with "session is not available"; read
+    [Background-job output handling](references/background-job-output.md) for the
+    download-and-hash route, large-result parsing, and output-audit rejections.
 7. Optionally call `seedance_list_tasks` to browse recent tasks.
 8. Call `seedance_cancel_or_delete_task` only when cleanup is explicitly wanted.
 
@@ -1629,6 +1948,48 @@ default model for that product is used.
 > control. The get/list/cancel tools are family-specific — use the
 > `hyper3d_*` tools for Hyper3D task IDs and `hitem3d_*` tools for Hitem3d
 > task IDs.
+
+### Private Asset Library Workflow (`asset://`)
+
+Use this for real people, your own virtual characters, or copyright IP in
+Seedance (Dreamina Seedance Advanced Creation Rights).
+
+1. **One subject per group.** Never mix people or characters in one group.
+   - Fictional character or product: `ark_asset_create(subject="<exact name>",
+     sources=[...])` reuses or creates that subject's AIGC group. AIGC assets
+     must not resemble any real person.
+   - Real person: `ark_asset_verification_start(callback_url=...)`, send
+     `h5_link` only to that person (they consent and pass liveness), then
+     `ark_asset_verification_result(verification_token, wait_seconds=...)`
+     for their `LivenessFace` `group_id`, then
+     `ark_asset_create(group_id=..., sources=[...])` with only their media.
+   - Copyright IP: copy the asset ID from the console Copyright Library.
+2. Sources are public HTTPS `url`s or `media_upload` `object_key`s. Best
+   portrait set: a front-facing close-up plus a full-body shot, portrait
+   orientation. Wait for `all_active` (or `ark_asset_get` status `Active`).
+3. Pass `asset_uri` values (`asset://asset-…`) in Seedance `images` /
+   `videos` / `audios`. In the prompt say "Image 1", "Video 1" by position,
+   never the asset ID or name. Seedance 2.5 image references were verified
+   live; video/audio references and Seedance 2.0 are server pass-through paths
+   still awaiting provider validation.
+4. Seedream and Seed Audio reject `asset://` (provider HTTP 400) unless the
+   operator set `BYTEPLUS_MODELARK_ASSET_REFERENCE_MODE=resolve`, which
+   (experimentally) sends the asset's temporary download URL instead.
+5. Assets only work with endpoints in the same `project_name`.
+6. To delete, enable `BYTEPLUS_MODELARK_ASSETS_ALLOW_DELETE=true` before server
+   startup. Inspect the exact target ID first (`ark_asset_get` or
+   `ark_asset_group_get`); list a group's members with `ark_asset_list`.
+   Call `ark_asset_delete` with `asset_id` or `ark_asset_group_delete` with
+   `group_id`, and pass `confirm=true`. Deleting a nonempty AIGC group also
+   deletes its assets. This cascade was verified for AIGC. After a timeout or
+   5xx, read the target again before retrying because completion may be
+   ambiguous.
+
+Subject lookup and creation is serialized within one server event loop. Across
+separate stdio servers or replicas, pre-create the group and pass its
+`group_id` to avoid a duplicate-name race. If the group scan exceeds its page
+bound, the tool fails with `asset_group_scan_incomplete` rather than assuming
+the subject is absent.
 
 ### URL-only Video References
 
@@ -1708,7 +2069,13 @@ Use variation tools when you want to give the user multiple options:
 
 Each variation is independent. Partial failures are captured — if 4 of 5
 succeed, the tool returns 4 results and 1 error. The `VariationSummary` reports
-`total`, `succeeded`, and `failed` counts.
+`total`, `succeeded`, and `failed` counts. There is no per-variation timeout
+(queue wait never counts); one batch deadline bounds the call. A deadline or
+storage failure sets `error.phase`: `queued` (`QUEUE_TIMEOUT`, safe to retry),
+`generating` (may have completed — do not retry blindly), or `persisting`
+(billed output not stored). Use `output_dir` on the image/audio variation
+tools to write results locally, and `seedance_get_tasks` to poll video
+variations.
 
 ### Deterministic Reproduction
 
@@ -1742,8 +2109,18 @@ description.
 The server retries only explicitly retryable, non-ambiguous errors:
 - Connection/transport errors are retried (up to 3 attempts with exponential
   backoff and jitter: 0.25s base, 4s max).
-- Timeouts are NOT retried (the operation may have succeeded server-side).
 - Provider errors with `retryable=true` are retried.
+- Timeouts depend on the call:
+
+| Call | Timeout error | Server retries? |
+|---|---|---|
+| Create / generate / cancel / delete / MediaKit submit | `retryable=false`, `ambiguous_completion=true` | No — may have succeeded; reconcile by task/request ID |
+| Task polls (Seedance, Seed 3D, ASR query, MediaKit get) | `retryable=true`, `ambiguous_completion=false` | Yes |
+| `seed_understand` / `seed_audio_understand` chat completion | `retryable=true`, `ambiguous_completion=false` | No — safe to retry yourself, but each retry is billed |
+
+Any `TIMEOUT` commits the budget reservation (it may have been billed).
+Provider output downloads are retried separately (`ARTIFACT_DOWNLOAD_MAX_ATTEMPTS`,
+default 3, 1s/2s/4s backoff); expired, untrusted, or oversized sources are not.
 
 Exception: MediaKit mutation submissions (`vod_enhance_video`,
 `vod_transcode_video`, `vod_add_subtitles`, `vod_remove_subtitles`, and
@@ -1752,8 +2129,8 @@ are never automatically retried. Their POSTs are non-idempotent and a transport
 failure may have ambiguous completion. `vod_get_enhancement_task`,
 `vod_get_transcode_task`, both subtitle poll tools, and
 `vod_get_audio_separation` (read-only GET polls)
-ARE retried on provider-marked
-retryable errors such as HTTP 429.
+ARE retried on retryable errors: HTTP 429/5xx and poll timeouts or connection
+failures.
 
 For Seedance task polling, a local watcher timeout is not a generation failure.
 Resume `seedance_get_task` with the existing task ID. Only create a new task
@@ -1781,12 +2158,18 @@ Set to `0` (default) for record-only mode with no enforcement.
 | Tool not appearing | Missing API key | Set the corresponding `BYTEPLUS_*` env var |
 | Model not found | Unbound custom model ID | Add to `*_MODEL_BINDINGS` JSON |
 | URL expired | Provider URL TTL elapsed | Use `persist=true` and reference `ArtifactRef.uri` |
+| Artifact has `persistence_error` | Output billed but storage failed after retries | `id="provider-url"`: call `seed_media_persist_url` before `source_url_expires_at`; `id="inline-fallback"`: bytes are in `fallback_data` |
+| `output_path` / `save_to` rejected | No MCP roots and no `OUTPUT_ROOTS`, relative path, outside roots, HTTP transport, or `persist=false` | Use an absolute path inside a root on stdio; set `OUTPUT_ROOTS`; pass `overwrite=true` to replace a different file |
+| `seed_understand` result too large | Long answer inlined | `save_to` + `return_content="none"`/`"summary"`; read `parsed` for JSON |
+| No `reasoning_content` in `seed_understand` | Removed — the trace is never returned | Use the final `content`/`parsed`; `usage.reasoning_tokens` shows thinking cost |
+| Variation error `QUEUE_TIMEOUT` | Never started before the batch deadline | Safe to retry that variation |
 | Auth error (JWT mode) | Missing or invalid token | Check JWT configuration and scopes |
 | Budget rejected | Daily limit exceeded | Wait for UTC day rollover or increase budget |
 | `speech_to_text` timeout | ASR poll cap reached | Increase `SEED_SPEECH_ASR_POLL_MAX_SECONDS` or provide shorter audio |
 | `speech_to_text` error code `20000003` | Silent audio — no speech detected, or a format mismatch (e.g. non-16 kHz/16-bit/mono WAV) decoded to silence | Verify the audio contains speech and matches the declared `audio_format`; re-submit with corrected audio |
 | `media_upload` / `media_presign` / `media_presign_batch` not available | Missing TOS/S3 credentials | Set `TOS_*` or `S3_*` env vars and `OBJECT_STORAGE_BACKEND` |
 | Presigned URL expired | TTL elapsed (default 30 min) | Call `media_presign` (single key) or `media_presign_batch` (many keys) with the `object_key` to generate a fresh URL |
+| Seedance 2.5 Premium tools not appearing | `BYTEPLUS_MODELARK_SEEDANCE_2_5_PREMIUM_ENABLED` not set or ModelArk key missing | The model is whitelist-only; once the account is whitelisted, set the flag to `true` with `BYTEPLUS_MODELARK_API_KEY` configured |
 | 3D tools not appearing | `BYTEPLUS_MODELARK_3D_ENABLED` not set or ModelArk key missing | Set `BYTEPLUS_MODELARK_3D_ENABLED=true` and ensure `BYTEPLUS_MODELARK_API_KEY` is configured |
 | 3D task failed with `AbilityProcessingError` | Transient provider error | Re-submit the same task; do not treat the input as invalid |
 | 3D package imports at the wrong scale or without expected materials | Provider output and Blender scene use different unit, axis, format, or texture assumptions | Preserve the package, import into a quarantine collection, then measure and normalize a working copy before production use |
@@ -1795,9 +2178,11 @@ Set to `0` (default) for record-only mode with no enforcement.
 
 ## Best Practices
 
-1. **Always persist.** Set `persist=true` (the default) so generated media
-   survives provider URL expiry. Reference the returned `ArtifactRef.uri` for
-   durable access.
+1. **Always persist, and check `persistence_error`.** Set `persist=true` (the
+   default) so generated media survives provider URL expiry. Reference the
+   returned `ArtifactRef.uri` for durable access. If an artifact has
+   `persistence_error`, recover `provider-url` references with
+   `seed_media_persist_url` promptly, or save `fallback_data`.
 
 2. **Poll with backoff for Seedance.** Use the `recommended_poll_after_ms`
    from `seedance_create_task` (2.0) or `seedance_2_5_create_task` (2.5) output. Don't
@@ -1858,10 +2243,15 @@ Set to `0` (default) for record-only mode with no enforcement.
 
 15. **Use `seed_understand` for multimodal reasoning.** It can analyze images
     (OCR, scene description), videos (content analysis, UI review), and
-    reason across multiple media inputs. Enable `thinking=true` for complex
-    analysis. Prefer a public HTTPS video URL the provider already accepts;
+    reason across multiple media inputs. It always thinks — tune depth with
+    `reasoning_effort` (`high` for complex analysis) and never pass
+    `thinking`. For reviews against a template, pass the template's JSON
+    Schema as `response_format` (`json_schema`), set `json_retry=1`, and use
+    `save_to` with `return_content="none"` to keep the answer out of context. Prefer a public HTTPS video URL the provider already accepts;
     download and `media_upload` only when the link is a page/platform URL or
-    otherwise unusable. Video Base64 is not supported.
+    otherwise unusable. Video Base64 is not supported. For audio, use
+    `seed_audio_understand` (transcription, translation, analysis, Q&A) or
+    `speech_to_text` when you need word-level timings.
 
 16. **Choose the right Seedance model.** Use 2.0 (`seedance_create_task`)
     for 4K or lower cost. Use 2.5 (`seedance_2_5_create_task`) for
@@ -1916,13 +2306,28 @@ Set to `0` (default) for record-only mode with no enforcement.
     Keep provider task status, import status, motion-master status, and user
     approval distinct.
 
+24. **Write outputs straight to the project on stdio.** Pass `output_path`
+    (generation and get tools), `output_dir` (variations,
+    `seedance_get_tasks`), or `save_to` (`seed_understand`,
+    `seed_audio_understand`) with an absolute
+    path inside the client's roots instead of a follow-up
+    `seed_media_export_artifact` call. Check `local_path` / `export_error`.
+
+25. **Batch instead of looping.** Use `media_upload_batch` for several
+    reference files (via `ark_job_submit`) and `seedance_get_tasks` to poll
+    several video tasks, stopping when `all_terminal` is `true`.
+
+26. **Report queue timing honestly.** ModelArk publishes no queue position or
+    ETA. Relay `queue.hint` (time queued, tier, provider expiry deadline)
+    rather than estimating a finish time.
+
 ---
 
 ## Environment Essentials
 
 ### Provider Credentials
 
-- `BYTEPLUS_MODELARK_API_KEY` — enables Seedream, Seedance, Seed 3D (with flag), and Seed 2.1 Understanding
+- `BYTEPLUS_MODELARK_API_KEY` — enables Seedream, Seedance, Seed 3D (with flag), Seed 2.1 Understanding, and Seed Audio Understanding
 - `BYTEPLUS_SEED_SPEECH_API_KEY` — enables Seed Audio (TTS) and Speech-to-Text (ASR)
 - `BYTEPLUS_VOD_MEDIAKIT_API_KEY` — enables VOD AI MediaKit enhancement, transcoding, subtitle operations, and audio separation
 - `BYTEPLUS_MODELARK_BASE_URL` — override ModelArk data-plane host
@@ -1931,6 +2336,11 @@ Set to `0` (default) for record-only mode with no enforcement.
 - `BYTEPLUS_VOD_MEDIAKIT_BASE_URL` — override the VOD AI MediaKit HTTPS API base
 - `SEED_SPEECH_ASR_POLL_INTERVAL_SECONDS` — seconds between ASR query polls (default 3)
 - `SEED_SPEECH_ASR_POLL_MAX_SECONDS` — maximum total seconds to wait for ASR result (default 600)
+
+### Seedance 2.5 Premium
+
+- `BYTEPLUS_MODELARK_SEEDANCE_2_5_PREMIUM_ENABLED` — feature flag for the whitelist-only Premium (4K) tools (default `false`; reuses ModelArk key)
+- `SEEDANCE_2_5_PREMIUM_MODEL` — Premium model ID bound when the flag is on (default `dreamina-seedance-2-5-premium-260915`)
 
 ### 3D Generation
 
@@ -1948,6 +2358,7 @@ Set to `0` (default) for record-only mode with no enforcement.
 - `SEEDREAM_MODEL_BINDINGS`
 - `SEEDANCE_MODEL_BINDINGS`
 - `SEED_UNDERSTANDING_DEFAULT_MODEL`
+- `SEED_AUDIO_UNDERSTANDING_MODEL` — model for `seed_audio_understand` (default `seed-2-0-lite-260428`)
 - `SEED_UNDERSTANDING_MODEL_FAMILY`
 - `SEED_UNDERSTANDING_MODEL_BINDINGS`
 
@@ -1988,12 +2399,27 @@ Use bindings when a custom model ID is not one of the built-in defaults.
 - `STATE_PRUNE_MAX_AGE_DAYS`
 - `MCP_INLINE_MEDIA_MAX_BYTES`
 - `MCP_HTTP_MAX_BODY_BYTES`
+- `ARTIFACT_DOWNLOAD_TIMEOUT_SECONDS` — per-attempt output download timeout (default 120)
+- `ARTIFACT_DOWNLOAD_MAX_ATTEMPTS` — output download attempts (default 3)
+- `ARTIFACT_INLINE_FALLBACK_MAX_BYTES` — max inline fallback size when storage fails (default 8 MiB)
+- `OUTPUT_ROOTS` — comma-separated absolute directories for local path writes when the client advertises no MCP roots
+- `SEED_UNDERSTANDING_TIMEOUT_MS` — `seed_understand` and `seed_audio_understand` request timeout (defaults to `BYTEPLUS_REQUEST_TIMEOUT_MS`)
 - `PROVIDER_MAX_CONCURRENCY`
 - `PRINCIPAL_MAX_CONCURRENCY`
 - `DAILY_BUDGET_USD`
 - `PERSISTENCE_CACHE_MAX_SIZE`
 - `PERSISTENCE_CACHE_TTL_SECONDS`
 - `ARK_LOG_LEVEL`
+
+### Private Asset Library
+
+- `BYTEPLUS_MODELARK_ACCESS_KEY` / `BYTEPLUS_MODELARK_SECRET_KEY` — BytePlus
+  IAM AK/SK (plus `BYTEPLUS_MODELARK_SESSION_TOKEN` for STS `AKTP…` keys).
+- `BYTEPLUS_MODELARK_PROJECT_NAME` (default `default`),
+  `BYTEPLUS_MODELARK_ASSET_CREATE_QPM` (3 Entry / 120 / 300),
+  `BYTEPLUS_MODELARK_ASSETS_ALLOW_DELETE` (default false),
+  `BYTEPLUS_MODELARK_ASSET_REFERENCE_MODE` (`off` default, `resolve`),
+  `SEEDANCE_ASSET_PREFLIGHT` (default true).
 
 ### Object Storage
 
@@ -2011,3 +2437,4 @@ Use bindings when a custom model ID is not one of the built-in defaults.
 - `S3_ENDPOINT`
 - `S3_PRESIGN_TTL_SECONDS`
 - `OBJECT_STORAGE_BACKEND`
+- `MEDIA_UPLOAD_BATCH_MAX_BYTES` — total size cap for one `media_upload_batch` call (default 500 MiB)
