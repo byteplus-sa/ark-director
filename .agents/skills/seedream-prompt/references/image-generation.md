@@ -109,8 +109,9 @@ Examples:
 Prop and product sheets that become Seedance or storyboard identity references
 belong to the sibling `seedream-prop-asset` skill, which owns the prop
 threshold, acquisition-first order, view layout, background, and QA. Use this
-reference for commercial product scenes and other product imagery that is not
-an identity reference. The workspace
+reference for product imagery that is not an identity reference: a commercial
+scene, or a clean isolated packshot, which can borrow the plain seamless
+setting but is not locked as an Element. The workspace
 [element identification](../../../contracts/element-identification.md)
 contract governs brand acquisition order.
 

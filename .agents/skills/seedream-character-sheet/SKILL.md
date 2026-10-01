@@ -137,7 +137,8 @@ text-only in a scene.
 **Scene-variant wearables are props, not outfit.** A wearable that is not worn
 in every scene (e.g. sunglasses the character wears in some scenes and removes
 in others) must be **excluded from the character sheet** and generated as a
-`prop_` sheet instead. Only include wearables that are always part of the look
+`prop_` sheet instead (see `seedream-prop-asset`). Only include wearables that
+are always part of the look
 in every scene.
 
 ## 4. Setting

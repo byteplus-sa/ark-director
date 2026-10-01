@@ -1188,21 +1188,25 @@ Source skill: `seedream-prop-asset`
 
 1. **Threshold met.** The prop is branded, story-critical, recurring across two
    or more shots, or a scene-variant wearable. A generic or briefly held object
-   is text-only; a sheet prompt for it is a MAJOR scope defect.
+   is text-only; a sheet prompt for it is a MAJOR scope defect unless the user
+   explicitly asked for that sheet, which is then noted as below threshold.
 
-2. **Acquisition first.** A real authorized brand, logo, or labeled product uses
-   an existing or acquired asset unless none is usable, a stylized substitute is
-   requested, or acquisition is blocked. Inventing a real logo is CRITICAL.
+2. **Acquisition first.** A real brand, logo, or labeled product the brief
+   authorizes uses an existing or acquired asset unless none is usable, a
+   stylized substitute is requested, or acquisition is blocked. An unauthorized
+   brand stays de-identified. Inventing a real logo is CRITICAL.
 
 ### Layout
 
 3. **Layout declared.** Single hero view by default; a two- or three-panel sheet
    only for multi-side, large, mechanical, or small-detail objects. Three panels
-   at most, with the detail panel showing only what the full views cannot.
+   at most, with the detail panel showing only what the full views cannot. A
+   single named view (front, side, top, edge) is valid when a shot needs it.
 
 4. **Background.** Pure white seamless with a faint contact shadow, or neutral
-   light gray for white, clear, translucent, silver, or chrome objects or an
-   established gray project convention. No colored, gradient, textured, or scene
+   light gray, with the same faint contact shadow, for white, silver, chrome,
+   clear, or translucent objects, or when the project's approved props or
+   character sheets already use gray. No colored, gradient, textured, or scene
    background.
 
 5. **Neutral lighting.** Even, neutral white balance, identical across panels.
@@ -1221,7 +1225,8 @@ Source skill: `seedream-prop-asset`
    design.
 
 9. **Identity description.** Silhouette and proportions, real-world size in
-   words, materials and finish, colors, and 2–4 identity-critical details.
+   words, materials and finish, colors, and the identity-critical details the
+   video must reproduce. Wear and damage appear only as the story needs.
 
 10. **One canonical state.** Open/closed, lit/unlit, folded/extended or similar
     is stated; emissive parts stay off unless the glow is canonical.
@@ -1230,7 +1235,8 @@ Source skill: `seedream-prop-asset`
     descriptor word for word.
 
 12. **No hands or wearers.** Held props appear without hands; wearables appear
-    unworn, without a person, head, mannequin, or body part.
+    unworn, without a person, head, mannequin, or body part. A body continuity
+    mark is the exception: it is an I2I close-up with laterality stated.
 
 ### Style
 
@@ -1245,8 +1251,9 @@ Source skill: `seedream-prop-asset`
 
 ### Text in image
 
-16. **Text route.** No readable text by default; surface print is illegible
-    texture or hidden by angle. Identity-critical copy is acquired or finished
+16. **Text route.** No readable text by default; a blank surface or an angle
+    that hides the print is preferred, and pseudo-letters count as invented
+    text. Identity-critical copy is acquired or finished
     deterministically; model text appears only when non-exact text is expressly
     accepted.
 

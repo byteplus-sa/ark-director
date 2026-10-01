@@ -18,6 +18,8 @@ Use this skill when the user wants:
 - a scene-variant wearable (sunglasses, a jacket, a mask) kept off the
   character sheet
 - a state variant of an approved prop (open/closed, lit/unlit, intact/broken)
+- a continuity mark on a character's body (birthmark, tattoo, scar), see
+  Body continuity marks below
 
 Do **not** use this skill for:
 - always-worn outfit items, which stay in the character sheet
@@ -48,18 +50,21 @@ they conflict.
 ## Submission boundary
 
 The caller owns production authorization, request preflight, prompt review,
-and submission. This skill returns a prompt package — or a text-only descriptor
-when the gate below says no sheet is needed — without loading sibling skills. A
-draft or a provider success does not establish approval.
+and submission. This skill returns one of three outcomes without loading sibling
+skills: a prompt package, a text-only descriptor when the gate says no sheet is
+needed, or a reuse-or-acquire handoff with no prompt when a real asset should
+be used instead. A draft or a provider success does not establish approval.
 
 ## Gate: does this prop need a sheet?
 
 Identify every visible object, then apply the threshold. A prop needs a
-**locked reference** only when at least one row says yes:
+**locked reference** only when at least one row says yes. When the user
+explicitly asks for a sheet of an object below the threshold, write it and note
+that it is below the threshold:
 
 | Criterion | Example | Locked reference? |
 |---|---|---|
-| Branded product with a logo or specific design | canned tuna, fiber modem, phone with app UI | Yes — acquire first |
+| Branded product with a logo or specific design, when the brief authorizes the real brand | canned tuna, fiber modem, phone with app UI | Yes — acquire first |
 | The camera lingers on it or it drives the plot | a key, a letter, a device screen the camera shows | Yes |
 | It recurs across two or more shots or scenes | the same phone in several ads | Yes |
 | Scene-variant wearable | sunglasses worn in some scenes only | Yes |
@@ -70,17 +75,23 @@ A locked reference is an approved local asset with a content hash, not
 automatically a Seedream generation. Choose the source in this order:
 
 1. **Reuse** a project asset whose content hash still matches the identity.
-2. **Acquire** an official or authorized image for a real brand, logo, or
-   labeled product.
+2. **Acquire** an official, authorized, or user-supplied image when the brief
+   authorizes a real brand, logo, or labeled product, or the user supplied a
+   photo of the object. An unknown or unauthorized brand stays de-identified
+   and is described with placeholder descriptors.
 3. **Generate** with this skill only when no usable real asset exists, the user
    asks for a stylized or fictional substitute, or acquisition is blocked.
 
+The contract's reuse, hash-check, provenance, and no-copied-approval steps are
+in [element identification](../../contracts/element-identification.md).
+
 When the gate says text-only, return a short object descriptor for the scene
-prompt instead of a sheet prompt.
+prompt instead of a sheet prompt. When in doubt about an unbranded object,
+describe it in the video prompt and skip the Element.
 
 ## Default production rule
 
-Choose one layout per image.
+Choose the layout for each image.
 
 **Hero view (default).** One isolated object in a three-quarter view from
 slightly above eye level, the whole object in frame with margin on every side.
@@ -97,10 +108,12 @@ needs one specific angle.
 
 **Background.** Pure white seamless with only a faint contact shadow directly
 beneath the object, so the backdrop does not leak into generated video. Switch
-to neutral light gray when the object is white, clear, translucent, silver, or
-chrome and would lose its silhouette on white, or when the project's approved
-props already use gray. Never use a colored, gradient, textured, or scene
-background.
+to neutral light gray when the object is white, silver, or chrome, or is clear
+or translucent and its silhouette would be lost on white — check the candidate
+before choosing — or when the project's approved props or character sheets
+already use gray. Gray keeps the same faint contact shadow. Never use a
+colored, gradient, textured, or scene background. A transparent delivery asset
+is a separate output; never key the white reference into transparency.
 
 **Lighting.** Neutral, even studio light with neutral white balance, identical
 across panels. Controlled shape-revealing highlights on metal, glass, and gloss
@@ -119,8 +132,10 @@ Use this order for the sections that apply. Do not add empty boilerplate:
 
 - **References** only when images are provided
 - **Task** when the mode needs clarification
-- **Subject** and **Composition** for every prop image
-- **Setting**, **Style**, and **Lighting** when they add relevant direction
+- **Subject** for every prop image
+- **Setting** for every prop image, because it fixes the background
+- **Style** and **Lighting** when they add relevant direction
+- **Composition** for every prop image
 - **Text in image** only when non-exact model text is expressly accepted
 - **Constraints** only for useful quality, continuity, and exclusion requirements
 
@@ -143,9 +158,7 @@ Rules:
   proportions, and paint layout from @Image 1, the render style from @Image 2,
   and the brushed-steel finish from @Image 3." A reference inventory alone is
   not sufficient.
-- For a continuity mark on a character's body (birthmark, tattoo, scar), bind
-  the approved character sheet for skin tone and build only, and describe the
-  mark itself in Subject.
+- For a continuity mark on a character's body, see Body continuity marks below.
 
 ## 2. Task type
 
@@ -169,8 +182,9 @@ Always include:
 - **real-world size in words** — dimensions or a familiar comparison ("about one
   metre long", "palm-sized", "the size of a thumbnail"); never hands, rulers, or
   other objects in frame for scale
-- **2–4 identity-critical details** the video must reproduce (a knurled grip
-  band, a chrome hood ornament, rows of brass pegs)
+- **the few identity-critical details** the video must reproduce (a knurled grip
+  band, a chrome hood ornament, rows of brass pegs); a complex object may need
+  more, but each one earns its place
 - **wear and age** only as far as the story needs; do not invent damage as a
   realism cue
 - **the canonical state**, stated explicitly
@@ -183,12 +197,13 @@ prompt that binds the prop.
 controls visible.
 
 **Wearables** appear unworn — no person, head, mannequin, or body part — in the
-configuration seen on camera: glasses with temples open, a jacket laid flat or
-shaped on an invisible hollow form.
+configuration seen on camera: glasses with temples open, a jacket laid flat.
 
-**Surface print.** Unless exact text is required, render printed areas as
-illegible fine texture or choose an angle that hides them, and state "no readable
-text, letters, or numbers."
+**Surface print.** Unless exact text is required, prefer a blank surface or an
+angle that hides the printed area, with soft focus on a deliberately hidden
+face. Fine texture standing in for print tends to render as pseudo-letters, so
+state "no readable text, letters, or numbers" and check the candidate for marks
+that read as writing.
 
 ## 4. Setting
 
@@ -198,7 +213,8 @@ Isolated on a pure white seamless background with a single faint contact shadow 
 ```
 
 Gray variant: "Neutral light-gray seamless studio background, consistent across
-all panels. No other objects."
+all panels, with a single faint contact shadow directly beneath the object. No
+other objects."
 
 ## 5. Style
 
@@ -244,7 +260,8 @@ Three panels side by side in one horizontal row with even spacing: left, the who
 Core rules:
 - the whole object fits inside every full-view panel — no cropped ends, wheels,
   handles, or straps
-- one object per panel, unless the prop is a matched set
+- one object per panel, unless the prop is a matched set or the user asks for a
+  multi-prop board
 - consistent scale between full-view panels
 - the detail panel shows only a feature the full views cannot resolve
 - three panels at most
@@ -256,16 +273,20 @@ packaging), use the first route that applies:
 
 1. Acquire the real authorized asset.
 2. Generate a text-free base here, then finish the copy deterministically.
+   This suits flat, near-frontal surfaces with a blank label area; curved
+   packaging or oblique views need the real asset.
 3. Only when the user expressly accepts non-exact model text, quote it in double
    quotes with its surface, size, and color.
 
-Never invent a real brand's logo.
+Never invent a real brand's logo. A device screen the camera shows is a
+`screen_` reference: exact UI goes to `html-graphic-render`, invented screen
+imagery to `seedream-prompt`.
 
 ## 9. Constraints
 
 ```text
 Constraints:
-Quality: 4K, sharp material detail, consistent design across all panels
+Quality: sharp material detail, consistent design across all panels
 Negative: no hands, no people, no other objects, no readable text, no logos, no colored or gradient background, no cropped edges, no extra panels, no watermarks
 ```
 
@@ -302,7 +323,7 @@ Composition:
 Single isolated hero view, three-quarter angle from slightly above eye level, the whole object centered with margin on every side, deep focus across the object.
 
 Constraints:
-Quality: 4K, sharp material detail, clean silhouette
+Quality: sharp material detail, clean silhouette
 Negative: no hands, no people, no other objects, no readable text, no logos, no colored or gradient background, no cropped edges, no watermarks
 ```
 
@@ -317,13 +338,13 @@ Task:
 Text-to-Image (T2I)
 
 Subject:
-Prop reference of one antique brass pocket compass, about five centimetres across: a round hinged case of worn polished brass with a domed lid standing open at ninety degrees, a cream enamel dial with a fine black compass rose whose cardinal points are small triangles, a slim blued-steel needle, a small knurled crown, and a brass suspension ring at the top. Soft wear on the case edge where a thumb opens it, faint fine scratches on the lid. One compass only, lid open.
+Prop reference of one antique brass pocket compass, about five centimetres across: a round hinged case of worn polished brass with a domed lid standing open at ninety degrees, a cream enamel dial with a fine black compass rose whose cardinal points are small triangles, a slim blued-steel needle, a small knurled crown, and a brass suspension ring at the top. One compass only, lid open.
 
 Setting:
 Isolated on a pure white seamless background with a single faint contact shadow directly beneath the compass. No other objects.
 
 Style:
-Photorealistic product-reference photography, 50mm macro lens, true brass and enamel micro-texture, not CGI-waxy.
+Photorealistic product-reference photography, 50mm lens, true brass and enamel micro-texture, not CGI-waxy.
 
 Lighting:
 Soft, even, neutral studio light, gentle fill, neutral white balance, controlled highlights along the brass rim, no hotspots.
@@ -332,14 +353,14 @@ Composition:
 Single isolated hero view, three-quarter angle from slightly above, the open lid and the dial both visible, the whole compass centered with margin on every side, deep focus across the object.
 
 Constraints:
-Quality: 4K, sharp material detail, clean silhouette
+Quality: sharp material detail, clean silhouette
 Negative: no hands, no chain, no other objects, no letters or numbers on the dial, no engraved text, no colored or gradient background, no cropped edges, no watermarks
 ```
 
 ## Worked example: stylized vehicle sheet
 
-A hypothetical pattern without bundled result evidence. Chrome trim and a gray
-character-sheet convention in the same project call for the gray background.
+A hypothetical pattern without bundled result evidence. Polished chrome trim
+and a project whose character sheets use gray call for the gray background.
 
 ```text
 Task:
@@ -365,15 +386,28 @@ Quality: 16:9 horizontal sheet, crisp stylized detail, consistent vehicle design
 Negative: no letters, no words, no numbers, no plate characters, no logos, no maker badges, no people, no driver, no other vehicles, no cropped wheels, no extra panels, no watermarks
 ```
 
+## Body continuity marks
+
+A birthmark, tattoo, or scar that must stay consistent across shots is a
+close-up reference, not a prop sheet. Use I2I with the approved character sheet
+bound for skin tone, build, and sleeve only, and describe the mark itself in
+Subject: position in image terms, shape, size against a familiar object, color,
+and edge quality. State laterality as seen in the frame and in the character's
+own terms ("the inner LEFT wrist, as seen from the front"). Drop the body-part
+and person negatives for this case and keep jewelry, tattoo, and second-hand
+exclusions. QA checks handedness, placement, shape, and finger count.
+
 ## QA after generation
 
 Inspect every candidate before selection and return defects to the caller:
 
 - the whole object is in frame with margin; nothing is cropped
 - exactly the requested count; no duplicates, hands, people, or stray objects
+- the background is the declared color and identical in every panel
 - the silhouette separates cleanly from a uniform background
 - identity-critical details read at thumbnail size
-- no invented text, logos, or brand marks
+- no invented text, logos, or brand marks; marks that read as letters or
+  numerals count as invented text
 - scale and proportions are plausible for the stated size
 - the state matches the request
 - multi-view panels share one design, scale, and lighting
@@ -398,7 +432,8 @@ element manifest:
 - `prompt_prop_<prop-id>_<view>_v<NN>.md` as the exact prompt snapshot beside
   each output
 
-Record the approved filename as `selected_variant` in the element manifest.
+Record the approved filename as `selected_variant` in the project's element
+manifest (`prop.md` or `element.md`, whichever the project already uses).
 Acquired brand or product files record `generation: none` and have no
 `prompt_prop_` snapshot.
 

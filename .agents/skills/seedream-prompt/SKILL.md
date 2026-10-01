@@ -70,8 +70,8 @@ compose with the companion `seedream-character-sheet-cleanup` skill.
 
 For reusable location sheets, prefer `seedream-location-asset`. For prop and
 product identity sheets used as Seedance or storyboard references, prefer
-`seedream-prop-asset`. This skill keeps commercial product scenes and other
-product imagery that is not an identity reference.
+`seedream-prop-asset`. This skill keeps product imagery that is not an identity
+reference, such as a commercial scene or a clean isolated packshot.
 
 ## Deterministic graphic boundary
 
