@@ -20,7 +20,7 @@ Use this skill when the user wants:
 
 Do **not** use this skill for:
 - character sheets
-- product packshots
+- product packshots or prop sheets (use `seedream-prop-asset`)
 - infographic-heavy layouts
 - local image edits that need coordinate-based editing
 

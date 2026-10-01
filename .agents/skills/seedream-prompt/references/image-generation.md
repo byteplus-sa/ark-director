@@ -104,43 +104,15 @@ Examples:
 - "A futuristic cyberpunk city at night, neon reflections on wet asphalt, holographic billboards flickering."
 - "A minimalist Scandinavian living room, morning light through sheer curtains, white walls and oak floors."
 
-### 4b. Prop / product sheets (Seedance identity references)
+### 4b. Prop / product identity sheets
 
-For any prop or product sheet that will be used as a Seedance `@Image` identity
-reference, isolate the subject on a **pure white seamless background** by
-default. This prevents the sheet's backdrop from leaking into the generated
-video. Character sheets use a **neutral gray** studio background (see
-`seedream-character-sheet`); location assets have no background mandate (see
-`seedream-location-asset`).
-
-- Setting: "Isolated product shot on a pure white seamless background." with at
-  most a soft, faint contact shadow directly beneath the object.
-- Constraints (negative): no colored backdrop, no gradient background, no props,
-  no hands, no reflections of other objects.
-- When the sheet will be used with a Seedance blockout or R2V reference, also
-  state in the video prompt "Use only the <subject> from @Image N — do not use
-  its background."
-
-**Prop threshold test — before generating a prop sheet, verify it is needed.**
-Not every held or visible object requires a `prop_` sheet. A prop needs a
-**locked Element reference** only if it meets **at least one** of these criteria:
-
-| Criterion | Example | Needs locked reference? | Acquisition |
-|---|---|---|---|
-| Branded product with logo or specific design | 555 Tuna can, GFiber modem, smartphone with app UI | Yes | Prefer official/authorized web or user download; Seedream only if unavailable or a stylized substitute is requested |
-| Object the camera lingers on or that drives the plot | A key, a device screen the camera shows | Yes | Generate or photograph as appropriate |
-| Object that recurs across 2+ shots or scenes | Same phone in multiple ads | Yes | Generate, photograph, or download by identity |
-| Generic, unbranded, briefly visible background object | A coffee cup, a birthday cake, a tablet in a montage | No — describe in prompt text | — |
-| Object held for only 1-2 seconds in a single shot | A pen, a glass of water | No — text is sufficient | — |
-
-A locked reference is an approved local asset with a content hash — not
-automatically a Seedream generation. Generating a `prop_` sheet for a generic,
-briefly-visible object wastes credits and adds reference noise to the Seedance
-prompt. Inventing a fake branded packshot or logo with Seedream when a usable
-official download exists is also wrong. When in doubt for unbranded objects,
-describe them in the Seedance prompt text and skip the Element. See the
-workspace [element identification](../../../contracts/element-identification.md)
-contract for brand acquisition order.
+Prop and product sheets that become Seedance or storyboard identity references
+belong to the sibling `seedream-prop-asset` skill, which owns the prop
+threshold, acquisition-first order, view layout, background, and QA. Use this
+reference for commercial product scenes and other product imagery that is not
+an identity reference. The workspace
+[element identification](../../../contracts/element-identification.md)
+contract governs brand acquisition order.
 
 ### 5. Style
 

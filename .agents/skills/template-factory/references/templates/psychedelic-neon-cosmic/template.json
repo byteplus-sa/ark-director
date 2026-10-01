@@ -31,7 +31,7 @@
   "element_mapping": {
     "character": { "skill": "seedream-character-sheet", "variants": 3, "size": "2048x2048" },
     "location": { "skill": "seedream-location-asset", "variants": 3, "size": "2816x1584" },
-    "prop": { "skill": "seedream-prompt", "variants": 3, "size": "1024x1024" },
+    "prop": { "skill": "seedream-prop-asset", "variants": 3, "size": "1024x1024" },
     "screen": { "skill": "seedream-prompt", "variants": 3, "size": "1024x1024" }
   },
   "seedance_mapping": {

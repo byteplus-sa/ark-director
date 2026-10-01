@@ -397,6 +397,15 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "seedream-prop-asset": {
+      "kind": "leaf",
+      "description": "Write structured Seedream prompts for prop and product identity sheets used as Seedance or storyboard references. Applies the prop threshold and acquisition-first rule before writing. Invoke when the user asks for a prop sheet, product reference, hero object, vehicle, device, tool, scene-variant wearable, or prop state variant with Seedream.",
+      "readme_summary": "Writes structured Seedream prompts for prop and product identity sheets after the prop threshold and acquisition-first check. Use for held, recurring, story-critical, or scene-variant objects that Seedance must reproduce.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
     "seedream-storyboard": {
       "kind": "leaf",
       "description": "Create, revise, and optionally generate production-ready cinematic storyboards\u2014from one hero panel with alternatives to a multi-panel continuity sequence\u2014with BytePlus Seedream. Supports two delivery modes \u2014 single-image grid (one image containing all panels, default) and separate images (one image per panel). Use whenever the user asks for storyboards, shot boards, continuity boards, storyboard frames, visual sequences, previsualization, scene panels, or image planning for film, advertising, animation, games, or AI video.",

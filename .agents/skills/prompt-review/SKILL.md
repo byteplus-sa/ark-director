@@ -80,7 +80,7 @@ Use explicit input first; filenames below are fallback hints, not authority:
 | Seedream image generation | `prompt_concept_*`, `prompt_sNN_kf*` | `seedream-prompt` |
 | Seedream character sheet | `prompt_char_*` | `seedream-character-sheet` |
 | Seedream location asset | `prompt_loc_*` | `seedream-location-asset` |
-| Seedream prop sheet | `prompt_prop_*` | `seedream-prompt` (general image rules apply) |
+| Seedream prop asset | `prompt_prop_*` | `seedream-prop-asset` |
 | Seedream screen UI reference | `prompt_screen_*` | `seedream-prompt` (general image rules apply) |
 | Seedream brand/title card | `prompt_card_*` | `seedream-prompt` (general image rules apply) |
 | Seedream storyboard | `prompt_sNN_kf*` (multi-panel) | `seedream-storyboard` |
