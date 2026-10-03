@@ -85,8 +85,8 @@ capability evidence before production use. Change one variable per probe.
 - **Route A (default): full-frame edit.** `omni_reference_task_type: edit`,
   `@Video 1` as editing master, ratio and duration locked to the source. Use
   when the probe shows the medium actually changes.
-- **Route B (fallback): reference.** `auto`, or `reference` if the live tool
-  lists it, with `@Video 1` as the authority for composition, poses, camera,
+- **Route B (fallback): reference.** `auto`, or `reference` when recorded
+  capability evidence confirms it, with `@Video 1` as the authority for composition, poses, camera,
   cuts and timing. Set `ratio` to the source and `duration` to the
   whole-second source length. Use when Route A keeps photoreal pixels.
 

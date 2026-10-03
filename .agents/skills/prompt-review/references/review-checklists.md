@@ -304,9 +304,12 @@ whose feature is absent (no references → skip material mapping).
    extend` — `edit_video` is 2.0-only and is rejected).
 2. `[Source Video Role]` declares `@Video 1` as the sole editing master and
    lists what it defines (subjects, scene, actions, camera, event order).
-3. `[Target Material Role]` present iff references are used: each `@Image N`
-   mapped to one target; "Do not use its background/people" present;
-   single-person sheets directed to use the close-up panel only.
+3. `[Target Material Role]` (or `[Target Reference Role]` in an object swap)
+   present iff references are used: each `@Image N` mapped to one target, and
+   the image's unowned content excluded ("Do not use its background/people").
+   Exempt what the target class owns: a character reference owns its person, a
+   location reference owns its background. Single-person sheets directed to
+   use the close-up panel only.
 4. `[Edit Scope]` states what changes and, for what must not change, a positive
    "exactly one <subject> — never a second or duplicated copy" guard.
 5. `[Content to Preserve]` lists identity/motion/timing/camera/lighting to keep.
@@ -345,7 +348,9 @@ whose feature is absent (no references → skip material mapping).
 
 ### Object swap (only when one named element is replaced)
 
-Source skill: `seedance-object-swap`.
+Source skill: `seedance-object-swap`. Object swaps submit a muted master
+(V1 below), so audio items 10–12 are N/A; the silent `[Audio]` line is
+correct.
 
 16. **Residual original (`swap.residual_original`).** The original object is
     identified by observable descriptors (position, colour, material, who holds
@@ -467,9 +472,13 @@ V3. **Source rights.** A recorded user rights decision covers the footage and
 Source skill: `seedance-restyle`.
 
 Apply "Universal — all prompts", the general Seedance 2.5 reference items and,
-for the edit route, the Seedance 2.5 edit task items first. A restyle keeps the
-source's subjects, layout, actions, camera, cuts and timing and changes only the
-rendering medium. Mark N/A any item whose feature is absent and record why.
+for the edit route, Seedance 2.5 edit items 1, 2, 4 and 5. Edit item 3 is
+replaced by restyle item 3 (`[Style Reference Role]`, `[Identity Anchors]`);
+edit item 9 is N/A because the photoreal face line contradicts drawn and
+crafted styles (use it only for a capture look); edit items 10–12 are N/A
+because the output is silent (V1). A restyle keeps the source's subjects,
+layout, actions, camera, cuts and timing and changes only the rendering
+medium. Mark N/A any item whose feature is absent and record why.
 
 1. **Content preserved (`restyle.content_preserved`).** The prompt pins the
    subject count, observable subject descriptors with identity cues, key props

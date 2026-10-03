@@ -98,7 +98,8 @@ submit as an edit. A Motion Transfer recast takes its prompt from
 `seedance-motion-recast` and submits on the provisional motion reference route
 or its full-frame edit fallback. A Restyle takes its prompt from
 `seedance-restyle` and submits on its provisional route. Object Swap, Motion
-Transfer and Restyle submit the muted source master with audio added in post,
+Transfer and Restyle submit the muted source master with audio added in post
+(a VFX edit keeps its own audio handling),
 and Object Swap and Motion Transfer first run `source-subject-map` once per
 source. Batch variants repeat Steps 1–8
 per variant row, with a 480p key-beat probe before each final, a side-by-side

@@ -40,23 +40,26 @@ Decision rules:
 
 ### Submission parameter differences
 
-Every route submits through `seedance_2_5_create_task` on Seedance 2.5 with
-the muted source master as `@Video 1` (`videos[].role = "reference_video"`),
+Every route submits through `seedance_2_5_create_task` on Seedance 2.5.
+Object Swap, Motion Transfer and Restyle bind the muted source master as `@Video 1` (`videos[].role = "reference_video"`),
 element sheets and Virtual Portrait `asset://` views as
 `images[].role = "reference_image"`, `generate_audio: false` and no `@Audio`
 bindings, per the
 [video-to-video inputs contract](../../../contracts/video-to-video-inputs.md).
-Sound returns in post through the row's recorded post-audio route. Apply every rule in
-[Submission](submission.md); only these fields differ.
+Sound returns in post through the row's recorded post-audio route; this
+overrides the `generate_audio: true` example in [Submission](submission.md)
+and the manifest template in [Delivery And Manifest](delivery-and-manifest.md).
+Apply every other rule in [Submission](submission.md); only these fields
+differ.
 
-| Field | VFX edit / Object Swap | Motion Transfer (provisional R2V) | Motion Transfer fallback |
-| --- | --- | --- | --- |
-| `omni_reference_task_type` | `edit` | `auto`, or the type the route probe verified | `edit` |
-| `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope |
-| `ratio` | Omit; locks to the source | Set explicitly to the source ratio | Omit; locks to the source |
-| `duration` | Omit; output is approximately the source length, verify the actual duration | Set explicitly (4–30 s) to the source or beat length | Omit; approximately the source length |
-| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that |
-| `resolution` | 480p probe, then the lowest suitable final (720p or 1080p) | Same | Same |
+| Field | VFX edit / Object Swap | Motion Transfer (provisional R2V) | Motion Transfer fallback | Restyle Route A (provisional edit) | Restyle Route B (reference) |
+| --- | --- | --- | --- | --- | --- |
+| `omni_reference_task_type` | `edit` | `auto`, or the type the route probe verified | `edit` | `edit` | `auto`, or the type the route probe verified |
+| `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope | Editing master; every surface redrawn in the style | Authority for composition, poses, camera, cuts and timing |
+| `ratio` | Omit; locks to the source | Set explicitly to the source ratio | Omit; locks to the source | Omit; locks to the source | Set explicitly to the source ratio |
+| `duration` | Omit; output is approximately the source length, verify the actual duration | Set explicitly (4–30 s) to the source or beat length | Omit; approximately the source length | Omit; approximately the source length | Set to the whole-second source length |
+| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | 1–5 style images and anchors | Style images and anchors |
+| `resolution` | 480p probe, then the lowest suitable final (720p or 1080p) | Same | Same | Same | Same |
 
 The Motion Transfer default route is provisional until a 480p verification
 probe confirms that R2V with `@Video 1` as a motion reference rebuilds
@@ -79,7 +82,8 @@ verification:
 
 Run `source-subject-map` once per approved source clip, before any prompt for
 any row. It writes `subject_map.json` (and a readable table) beside the source
-clip, bound to the source SHA-256. All variant rows share that one map.
+clip, bound to the original source SHA-256; the muted master and any trim are
+recorded as derivatives of that hash. All variant rows share that one map.
 
 - Every row's prompt cites subject, object and cut IDs from the shared map, so
   mappings stay comparable across variants.

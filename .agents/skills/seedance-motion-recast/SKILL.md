@@ -114,8 +114,8 @@ production use, and record the result in the project before relying on it.
   Its scope sentence is "replace all subjects and the environment", always
   followed by the per-subject mapping. Edit mode locks duration and aspect
   ratio to the source and prefers 1–5 reference images.
-- An explicit `reference` task type, if the live tool lists it, is a second
-  probe before plan B. Change one variable per probe.
+- An explicit `reference` task type, when recorded capability evidence
+  confirms it, is a second probe before plan B. Change one variable per probe.
 
 Resolve the live tool's accepted parameters and model ID before writing
 parameters; do not assume a `seed` parameter exists.

@@ -52,10 +52,7 @@ temperature and reflections as the original's surroundings.
 
 ## Using a subject map
 
-
-Keep lighting on the target physical: the same key direction, colour
-temperature and reflections as the original's surroundings.
-
+A separate source-analysis step may supply a subject map: per-subject
 descriptors, cuts, per-cut counts (`count_per_cut`), occlusions, and contact
 windows (`contact_windows`) (when a hand, mouth or body touches the object). When one
 exists, copy from it rather than re-deriving:
@@ -88,6 +85,11 @@ and occlusion event with its approximate time:
   resting position.
 
 ## Character and location targets
+
+For character and location swaps the target reference is a person or a place,
+so the reference role excludes only what the target does not own: the
+reference's pose and lighting for a character, its people, vehicles and
+signage for a location.
 
 **Character.** The target identity is a Virtual Portrait asset bound by
 position, for example `@Image 1` (close-up) and `@Image 2` (full body). The

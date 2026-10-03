@@ -39,7 +39,9 @@ these workflows do not use the liveness-verification flow.
   registration time. Approval binds to the source hash. When the approved
   source changes, register a new asset and invalidate dependent reviews.
 - **Prompt wording.** Refer to each asset by its binding position
-  (`@Image 1`), never by asset ID or subject name.
+  (`@Image 1`), never by asset ID. A short production label tied to that
+  binding (`Mara: @Image 1 and @Image 2`) may name the character in later
+  lines.
 
 Non-identity references (products, props, locations, style frames) upload
 normally through `media_upload`. Choose views without people. When a garment or
@@ -58,8 +60,19 @@ character.
 - **Length.** Sources run 4–30 s. Edit routes (Object Swap, Restyle) are most
   stable under 20 s; split longer takes into shots.
 - **Whole seconds for reference routes.** A route that sets `duration` takes
-  whole seconds. Trim the source to a whole-second span first, so the saved
-  audio and the output share one timeline.
+  whole seconds. Trim the source to a whole-second span first, re-encoding so
+  the cut is frame-exact, and derive the muted master and saved audio from the
+  trimmed file so all three share one timeline:
+
+  ```bash
+  ffmpeg -ss <start> -i <source>.mp4 -t <whole seconds> -map 0:v:0 -map 0:a:0? \
+    -c:v libx264 -crf 16 -preset slow -c:a pcm_s24le source/<stem>_trim.mov
+  ```
+
+- **Derivatives.** The original source hash stays the identity of the take: a
+  subject map and the rights decision bind to it. The trimmed file, the muted
+  master and the saved audio are recorded as derivatives of that hash, with
+  their own SHA-256 and the command that produced them.
 
 ## Muted source master
 
