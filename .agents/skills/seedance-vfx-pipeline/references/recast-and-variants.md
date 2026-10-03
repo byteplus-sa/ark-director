@@ -24,7 +24,7 @@ region; a recast rebuilds everything except motion.
 | --- | --- | --- | --- |
 | VFX edit | Add, remove or restyle an effect, environment or element while the source cast and camera stay | `seedance-vfx-prompt` (2.5 edit grammar) | `omni_reference_task_type: edit` |
 | Object Swap | Replace one named character, outfit, product, prop, object or the location and preserve everything else | `seedance-object-swap` | `omni_reference_task_type: edit` |
-| Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | Provisional R2V (below); fallback full-frame edit |
+| Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; verified on one case); fallback full-frame edit |
 | Restyle | Redraw the whole clip in a new visual medium; keep content, layout, motion, camera and cuts | `seedance-restyle` | Provisional full-frame edit; fallback reference route |
 
 Decision rules:
@@ -52,7 +52,7 @@ and the manifest template in [Delivery And Manifest](delivery-and-manifest.md).
 Apply every other rule in [Submission](submission.md); only these fields
 differ.
 
-| Field | VFX edit / Object Swap | Motion Transfer (provisional R2V) | Motion Transfer fallback | Restyle Route A (provisional edit) | Restyle Route B (reference) |
+| Field | VFX edit / Object Swap | Motion Transfer (R2V) | Motion Transfer fallback | Restyle Route A (provisional edit) | Restyle Route B (reference) |
 | --- | --- | --- | --- | --- | --- |
 | `omni_reference_task_type` | `edit` | `auto`, or the type the route probe verified | `edit` | `edit` | `auto`, or the type the route probe verified |
 | `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope | Editing master; every surface redrawn in the style | Authority for composition, poses, camera, cuts and timing |
@@ -61,10 +61,12 @@ differ.
 | `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | 1–5 style images and anchors | Style images and anchors |
 | `resolution` | 480p probe, then the lowest suitable final (720p or 1080p) | Same | Same | Same | Same |
 
-The Motion Transfer default route is provisional until a 480p verification
-probe confirms that R2V with `@Video 1` as a motion reference rebuilds
-appearance rather than retaining source pixels. Until the project records that
-verification:
+The Motion Transfer default route rebuilt appearance in a 480p probe on one
+case (a single person, a Virtual Portrait character, a text-described
+location; see `seedance-motion-recast`). It stays provisional for other cases:
+until the project records a probe for its own case (multiple subjects, a
+location image, a moving camera) confirming that R2V with `@Video 1` as a
+motion reference rebuilds appearance rather than retaining source pixels:
 
 1. Run the route probe on the first variant row only, on the critical path,
    before the other rows spend credits on the same route.
@@ -239,6 +241,9 @@ the production policy ([production policy](../../../contracts/production-policy.
 - **Source footage.** A recorded user rights decision covers the footage and the
   people visible in it, with its scope. The subject map describes people by
   observable descriptors only; never name or infer who they are.
+- **Person in the source video.** A muted master that shows a person is bound
+  as an `asset://` video registered in the private asset library; image assets
+  of the person do not clear the provider's video check.
 - **Replacement talent.** Every new character is a Virtual Portrait asset
   registered from an approved invented design. Liveness verification is not
   used. A real, identifiable person as the target is out of scope.

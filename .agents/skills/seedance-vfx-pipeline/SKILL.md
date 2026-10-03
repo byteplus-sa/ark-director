@@ -95,7 +95,7 @@ flowchart TD
 Route selection precedes Step 1. A VFX edit takes its prompt from
 `seedance-vfx-prompt` and an Object Swap from `seedance-object-swap`; both
 submit as an edit. A Motion Transfer recast takes its prompt from
-`seedance-motion-recast` and submits on the provisional motion reference route
+`seedance-motion-recast` and submits on the motion reference route
 or its full-frame edit fallback. A Restyle takes its prompt from
 `seedance-restyle` and submits on its provisional route. Object Swap, Motion
 Transfer and Restyle submit the muted source master with audio added in post

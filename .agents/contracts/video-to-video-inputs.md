@@ -69,6 +69,16 @@ character.
     -c:v libx264 -crf 16 -preset slow -c:a pcm_s24le source/<stem>_trim.mov
   ```
 
+- **Source videos that show a person are asset:// videos.** The provider
+  rejects any realistic person in a video input, including an invented person in
+  a text-generated clip, with `InputVideoSensitiveContentDetected.PrivacyInformation`
+  (HTTP 400, before a task is created). Registering image assets of that person
+  does not clear it. Register the muted master as a video asset in the private
+  asset library (Advanced Creation Rights) and bind `@Video 1` as its
+  `asset://` URI. When no `ark_asset_*` tool is available, the user registers
+  the clip in the console and supplies the asset ID. Record the asset ID beside
+  the muted master and its hash. A source with no people can still be uploaded
+  and bound by presigned URL.
 - **Derivatives.** The original source hash stays the identity of the take: a
   subject map and the rights decision bind to it. The trimmed file, the muted
   master and the saved audio are recorded as derivatives of that hash, with

@@ -453,7 +453,9 @@ V1. **Muted source (`v2v.muted_source`).** `@Video 1` is the recorded muted
     master with its hash, `generate_audio` is `false`, and no `@Audio` binding
     is present, unless the user explicitly requested native audio for this
     take and that exception is recorded. A source with audio bound as
-    `@Video 1`, or a missing saved-audio record, is MAJOR.
+    `@Video 1`, or a missing saved-audio record, is MAJOR. A source video that
+    shows a person is bound as an `asset://` video; a raw upload of one is
+    rejected by the provider, so flag it as MAJOR.
 
 V2. **Virtual Portrait identities (`v2v.virtual_portrait_identity`).** Every
     person or character identity reference is a Virtual Portrait `asset://`

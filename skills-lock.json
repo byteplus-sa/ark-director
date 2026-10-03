@@ -227,7 +227,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "857e392941c0470c2eb0427165c5bbf79fd1a380c32fc025ef68ed179c2bd085"
+      "computedHash": "5ba53b7afe1c7f8786ae77dc34fdbfcdfabc9081094b7614984206e68d4139ad"
     },
     "seedance-vfx-prompt": {
       "source": "./local",
@@ -389,19 +389,19 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
-      "computedHash": "41229eda0af500f5cba6725e743b192e5438e7afcb1261787cf3885b396fa304"
+      "computedHash": "3c7205239d5006fa4bad698606a46e5efd78dd7e2f9315ea4152b388a51cd28d"
     },
     "seedance-object-swap": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-object-swap/SKILL.md",
-      "computedHash": "61391ea4e269a163d4a7d88ced811595e16643b677e3eb124e92afbe2324f342"
+      "computedHash": "3c96381e699ca1d5a87e30d3a250f6676e0842ffb07a4100699f38a369e4fbe1"
     },
     "seedance-restyle": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-restyle/SKILL.md",
-      "computedHash": "d17a7cc38e478c434172b2d541483369941f457076112f34e31cbc96a2854e06"
+      "computedHash": "5d107a96c02c89312091578f3516fa4b5e1b641de47959664cec8e75e38ef7fe"
     },
     "micro-drama": {
       "source": "./local",

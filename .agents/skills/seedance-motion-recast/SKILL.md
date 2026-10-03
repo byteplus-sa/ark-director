@@ -94,19 +94,26 @@ the post-audio route and the test-ladder rung it targets.
 8. **Test ladder**: a 480p probe of the key beat, then the full duration at
    480p, then the final resolution. Each rung is a separate reviewed request.
 
-## Mode selection (provisional)
+## Mode selection
 
-This route is unverified. No project has yet confirmed which Seedance 2.5 mode
-rebuilds appearance from references while keeping motion from a video. Confirm
-it with a low-cost 480p probe on synthetic or owned footage before any
-production use, and record the result in the project before relying on it.
+The default route is verified on one case. A 480p, 5 s probe on 2026-10-03
+rebuilt cast and world from a Virtual Portrait `asset://` image while keeping
+the source's motion, timing and static camera (one person, no source clothing
+or accessories carried over). It bound `@Video 1` as an `asset://` video, since
+the provider rejects a raw video with a person, and ran with
+`generate_audio: false`. The probe used one character, a single
+source person, a text-described location and no product reference; confirm
+multi-subject, location-image and moving-camera cases with their own probes,
+and record each result in the project.
 
-- **Default route (pending verification): multimodal R2V.** Bind the source as
-  `@Video 1` with role `reference_video`, stated as a motion-only reference.
+- **Default route (verified for the case above): multimodal R2V.** Bind the source as
+  `@Video 1` with role `reference_video`, stated as a motion-only reference (an `asset://` video when
+  the source shows a person).
   Bind targets as `reference_image`. Set `omni_reference_task_type` to `auto`,
   `ratio` to the source ratio, `duration` to the whole-second source length
   (4–30 s; trim the source to whole seconds first) and `generate_audio` to
-  `false`.
+  `false`. A 5 s request returned 121 frames at 24 fps (5.04 s); trim or pad to
+  the picture when muxing.
 - **Fallback plan B: full-frame edit.** If the probe output keeps the source's
   people, clothing or location, switch to the edit task type the live tool
   accepts for Seedance 2.5 and write the edit variant in
@@ -177,5 +184,5 @@ bundle or route per retry.
 - [ ] Guards: exact people count, wardrobe only from references, residual originals
 - [ ] Style block present; no overlay text, captions or legible signage requested
 - [ ] Post-audio route recorded, with lip-sync QA when someone speaks on screen
-- [ ] Route marked provisional until the verification probe passes
+- [ ] Source with a person bound as an `asset://` video; route probes recorded for any new case
 - [ ] Ladder rung stated: key-beat 480p probe, full-duration 480p, or final

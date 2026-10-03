@@ -88,7 +88,9 @@ parameters, the post-audio route, and the test-ladder rung.
 
 Seedance 2.5 edit, through `seedance_2_5_create_task`:
 
-- `videos`: the muted master as `@Video 1`, first in order.
+- `videos`: the muted master as `@Video 1`, first in order; an `asset://` video
+  when the source shows a person (see the
+  [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
 - `images`: target views as `reference_image`, in binding order.
 - `omni_reference_task_type`: `edit`. Field notes record that 2.5 rejects
   `edit_video`; confirm the accepted value from current capability evidence

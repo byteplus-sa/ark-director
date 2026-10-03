@@ -90,7 +90,10 @@ capability evidence before production use. Change one variable per probe.
   cuts and timing. Set `ratio` to the source and `duration` to the
   whole-second source length. Use when Route A keeps photoreal pixels.
 
-Both routes: style images and identity anchors as `reference_image` after
+Both routes bind `@Video 1` as an `asset://` video when the source shows a
+person (see the
+[video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
+Style images and identity anchors as `reference_image` after
 `@Video 1`; 1–5 images for Route A; `watermark: false`. Resolve the live tool
 schema and model ID before writing parameters.
 
