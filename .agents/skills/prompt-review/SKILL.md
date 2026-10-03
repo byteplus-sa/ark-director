@@ -73,7 +73,9 @@ Use explicit input first; filenames below are fallback hints, not authority:
 | Seedance 2.5 video | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-prompt-25` |
 | Seedance 2.0 video (4K/Fast/Mini) | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-prompt-20` |
 | Seedance 2.5 edit | explicit model + edit operation | Seedance 2.5 edit section |
+| Seedance 2.5 object swap | explicit model + edit operation replacing one element | Seedance 2.5 edit section (object swap items) + `seedance-object-swap` |
 | Seedance 2.5 recast (motion transfer) | explicit model + recast operation | Seedance 2.5 recast section + `seedance-motion-recast` |
+| Seedance 2.5 restyle | explicit model + restyle operation | Seedance 2.5 restyle section + `seedance-restyle` |
 | Seedance VFX (video-to-video edit, legacy path) | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-vfx-prompt` |
 | Seedance Filipino dialogue | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-prompt-25` + `seedance-prompt-25-filipino` |
 | Seed Audio (dialogue/music/SFX/ambience) | `prompt_dlg_*`, `prompt_mus_*`, `prompt_sfx_*`, `prompt_amb_*`, `prompt_mix_*` | `seed-audio-prompt` |

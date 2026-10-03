@@ -327,8 +327,8 @@
     },
     "seedance-vfx-pipeline": {
       "kind": "orchestrator",
-      "description": "End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-motion-recast, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (product, wardrobe, prop, or single-character swap), or a Motion Transfer recast (keep source motion, rebuild cast and world), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot \u2014 write prompt, submit task, poll, download, compare, and review \u2014 rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.",
-      "readme_summary": "Run a complete Seedance video-to-video VFX, Object Swap or Motion Transfer shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project canvas.",
+      "description": "End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-object-swap, seedance-motion-recast, seedance-restyle, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (character, outfit, product, prop, object, or location swap), a Motion Transfer recast (keep source motion, rebuild cast and world), or a Restyle (redraw the clip in a new medium), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot \u2014 write prompt, submit task, poll, download, compare, and review \u2014 rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.",
+      "readme_summary": "Run a complete Seedance video-to-video VFX, Object Swap, Motion Transfer or Restyle shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project canvas.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -345,8 +345,8 @@
     },
     "seedance-vfx-prompt": {
       "kind": "leaf",
-      "description": "Write prompts for edits to existing footage: background replacement, creature or object integration, product, wardrobe, prop, or single-character swaps, world changes, relighting, weather, dialogue, and timed camera effects. Default to Seedance 2.5 structured edit-goal grammar; retain legacy 2.0 headings and compact VFX recipes for explicitly selected supported paths. Use source inspection, ordered @Video N/@Image N bindings, a declared may-change/must-preserve contract, physical lighting, layered space, timing, audio, and face-fidelity QA. Exclude new T2V/I2V shots, still-image creation, whole-cast motion recasts, and task submission; the caller owns the generation lifecycle.",
-      "readme_summary": "Write Seedance 2.5 video-to-video edit prompts for background replacement, object integration, product, wardrobe, prop and single-character swaps, relighting, weather and timed effects, with a may-change/must-preserve contract.",
+      "description": "Write prompts for edits to existing footage: background replacement, creature or object integration, world changes, relighting, weather, dialogue, and timed camera effects. Default to Seedance 2.5 structured edit-goal grammar; retain legacy 2.0 headings and compact VFX recipes for explicitly selected supported paths. Use source inspection, ordered @Video N/@Image N bindings, a declared may-change/must-preserve contract, physical lighting, layered space, timing, audio, and face-fidelity QA. Exclude single-element swaps (seedance-object-swap), whole-frame restyles (seedance-restyle), new T2V/I2V shots, still-image creation, whole-cast motion recasts, and task submission; the caller owns the generation lifecycle.",
+      "readme_summary": "Write Seedance 2.5 video-to-video edit prompts for background replacement, object integration, relighting, weather and timed effects, with a may-change/must-preserve contract.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -579,12 +579,30 @@
     },
     "seedance-motion-recast": {
       "kind": "leaf",
-      "description": "Write Seedance 2.5 Motion Transfer (recast) prompts that keep a source clip's body motion, pose sequence, screen positions, camera path, framing changes, cuts and timing while rebuilding cast, wardrobe, product, location and style from locked reference images. Covers the motion-only authority split, an explicit mapping or disposition for every visible source subject, bleed and extra-people guards, audio and lip-sync routes, named style presets, consent and real-likeness gates for real people in targets or source footage, and a 480p key-beat probe ladder. Consumes a subject_map.json when available or inspects the source itself. Use to recast performers, localize a take for another market, restyle a clip, or rebuild its world around the same performance. Not for changing one region or object while preserving source pixels (use seedance-vfx-prompt), new T2V/I2V shots, or task submission; the caller owns the generation lifecycle.",
-      "readme_summary": "Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, consent gates and a 480p probe ladder.",
+      "description": "Write Seedance 2.5 Motion Transfer (recast) prompts that keep a source clip's body motion, pose sequence, screen positions, camera path, framing changes, cuts and timing while rebuilding cast, wardrobe, product, location and style from locked reference images. Covers the motion-only authority split, an explicit mapping or disposition for every visible source subject, bleed and extra-people guards, Virtual Portrait asset:// identity references, a muted source master with audio added in post, named look presets, and a 480p key-beat probe ladder. Consumes a subject_map.json when available or inspects the source itself. Use to recast performers, localize a take for another market, or rebuild its world around the same performance. Not for replacing one element while preserving source pixels (seedance-object-swap), redrawing the same cast in a new medium (seedance-restyle), other edits (seedance-vfx-prompt), new T2V/I2V shots, or task submission; the caller owns the generation lifecycle.",
+      "readme_summary": "Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, Virtual Portrait identities, a muted source with post audio and a 480p probe ladder.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
+    },
+    "seedance-object-swap": {
+      "kind": "leaf",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null,
+      "description": "Write Seedance 2.5 Object Swap prompts that replace one named element in existing footage (a character, outfit, product, prop or object, or the location behind the subjects) and preserve everything else as filmed: performance, camera path, cuts, lighting and event order. Covers the five-part swap contract (identification, object count, Timeline Inheritance, residual-original guard, preservation), contact and occlusion windows, Virtual Portrait asset:// references for character swaps, a muted source master with audio added in post, and swap QA. Use for product placement, competitor-to-own SKU swaps, wardrobe changes, single-character replacement or location swaps on a kept take. Not for rebuilding the whole cast or world around the source motion (seedance-motion-recast), whole-frame style changes (seedance-restyle), new T2V/I2V shots, or task submission.",
+      "readme_summary": "Write Seedance 2.5 Object Swap prompts that replace one character, outfit, product, prop, object or location in existing footage and keep the rest of the shot, with the five-part swap contract, Virtual Portrait characters, a muted source with post audio and swap QA."
+    },
+    "seedance-restyle": {
+      "kind": "leaf",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null,
+      "description": "Write Seedance 2.5 Restyle prompts that redraw an entire existing clip in a new visual style (2D cel anime, watercolor, claymation, needle felt, toy miniature, stylized 3D, pixel art, woodblock, film noir and 20+ more, or a custom style reference image) while keeping its content, composition, motion, camera path, cuts and timing. Covers the style catalog, the style-only reference role, medium-matched Virtual Portrait identity anchors, a muted source master with audio added in post, provisional edit and reference routes with a 480p probe ladder, and restyle QA. Use to turn live action into animation, change the medium of an animated clip, or match a house style. Not for replacing the cast or world (seedance-motion-recast), swapping one element (seedance-object-swap), grading or relighting the original look (seedance-vfx-prompt), or task submission.",
+      "readme_summary": "Write Seedance 2.5 Restyle prompts that redraw a whole clip in one of 24 visual styles or a custom style reference while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, a muted source with post audio and a provisional probe ladder."
     },
     "micro-drama": {
       "kind": "orchestrator",

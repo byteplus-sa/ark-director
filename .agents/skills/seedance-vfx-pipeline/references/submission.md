@@ -68,7 +68,10 @@ Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
 - **Resolution** — use a value supported by the selected model and operation.
   Evaluate face/detail fidelity in output QA; resolution is not a guarantee.
 - **`generate_audio = true`** — Seedance 2.0 native audio. The prompt's
-  `Audio:` section guides the audio generation.
+  `Audio:` section guides the audio generation. Object Swap, Motion Transfer
+  and Restyle instead submit the muted master with `generate_audio = false`
+  and add sound in post, per the
+  [video-to-video inputs contract](../../../contracts/video-to-video-inputs.md).
 - **`return_last_frame = true`** — returns the last frame image, enabling
   shot chaining for multi-shot VFX sequences.
 - **`safety_identifier`** — set to `<project>-<scene>-<shot>` for

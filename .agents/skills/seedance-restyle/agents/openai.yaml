@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Restyle"
+  short_description: "Seedance 2.5 Restyle prompts: redraw a whole clip in a new visual style while keeping content, motion, camera and cuts"
+  default_prompt: "Use $seedance-restyle to redraw this clip as claymation while keeping every action, camera move and cut."

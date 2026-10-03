@@ -12,6 +12,7 @@ sub-agent along with the prompt text.
 - [Seedance VFX (video-to-video)](#seedance-vfx-video-to-video)
 - [Seedance 2.5 edit (video-to-video)](#seedance-25-edit-video-to-video)
 - [Seedance 2.5 recast (motion transfer)](#seedance-25-recast-motion-transfer)
+- [Seedance 2.5 restyle](#seedance-25-restyle)
 - [Seedance Filipino dialogue](#seedance-filipino-dialogue)
 - [Seed Audio](#seed-audio)
 - [Seedream image generation](#seedream-image-generation)
@@ -303,9 +304,12 @@ whose feature is absent (no references → skip material mapping).
    extend` — `edit_video` is 2.0-only and is rejected).
 2. `[Source Video Role]` declares `@Video 1` as the sole editing master and
    lists what it defines (subjects, scene, actions, camera, event order).
-3. `[Target Material Role]` present iff references are used: each `@Image N`
-   mapped to one target; "Do not use its background/people" present;
-   single-person sheets directed to use the close-up panel only.
+3. `[Target Material Role]` (or `[Target Reference Role]` in an object swap)
+   present iff references are used: each `@Image N` mapped to one target, and
+   the image's unowned content excluded ("Do not use its background/people").
+   Exempt what the target class owns: a character reference owns its person, a
+   location reference owns its background. Single-person sheets directed to
+   use the close-up panel only.
 4. `[Edit Scope]` states what changes and, for what must not change, a positive
    "exactly one <subject> — never a second or duplicated copy" guard.
 5. `[Content to Preserve]` lists identity/motion/timing/camera/lighting to keep.
@@ -344,6 +348,10 @@ whose feature is absent (no references → skip material mapping).
 
 ### Object swap (only when one named element is replaced)
 
+Source skill: `seedance-object-swap`. Object swaps submit a muted master
+(V1 below), so audio items 10–12 are N/A; the silent `[Audio]` line is
+correct.
+
 16. **Residual original (`swap.residual_original`).** The original object is
     identified by observable descriptors (position, colour, material, who holds
     or wears it) and a positive guard states that it is fully replaced in every
@@ -358,10 +366,11 @@ whose feature is absent (no references → skip material mapping).
 
 18. **Contact and preservation.** Each grip, mouth contact, occlusion and
     set-down window is listed with its approximate time; hands, faces,
-    accessories, dialogue and lip sync stay under `[Content to Preserve]`. A
-    single-character swap without recorded consent for the target likeness and
-    the retained source performer is CRITICAL. Swapping several people or the
-    whole cast belongs to the recast section below.
+    accessories and mouth movement stay under `[Content to Preserve]`. Swapping
+    several people or the whole cast belongs to the recast section below.
+
+19. **Video-to-video inputs.** Apply the shared items under
+    [Video-to-video inputs](#video-to-video-inputs-swap-recast-restyle).
 
 ---
 
@@ -413,10 +422,11 @@ and record why.
    person count per cut is stated, background extras are given as a count or
    density, and no additional people appear. Missing either guard is MAJOR.
 
-6. **Audio route (`recast.audio_route`).** The prompt states one audio route:
-   source dialogue kept (separated `@Audio 1` or the video's track), regenerated
-   dialogue or sound, music only, or silent for post. Lip-sync expectations agree with that
-   route. An unstated route is MAJOR.
+6. **Audio route (`recast.audio_route`).** The prompt's audio block states a
+   silent output with sound added in post, and the package records one
+   post-audio route (original, new, mixed or re-voiced) with lip-sync QA when
+   someone speaks on screen. An unstated route is MAJOR. Native audio appears
+   only as a recorded, user-requested exception for the named take.
 
 7. **No overlay text.** No captions, taglines, CTAs, end cards or readable brand
    copy are requested (Universal item 13). Source on-screen text has a stated
@@ -431,11 +441,77 @@ and record why.
    references above the recommended range, is MAJOR unless the
    prompt records the trade-off; suggest splitting into shots and assembling.
 
-9. **Real-person consent.** Recorded consent covers every real likeness in a
-   target reference and every identifiable source performer whose motion is
-   kept. A creative selection never implies consent. A missing record is
-   CRITICAL and blocks the request; do not suggest wording that routes around
-   a provider rejection.
+9. **Video-to-video inputs.** Apply the shared items under
+   [Video-to-video inputs](#video-to-video-inputs-swap-recast-restyle).
+
+### Video-to-video inputs (swap, recast, restyle)
+
+Shared by the object swap items, the recast section and the restyle section.
+Policy: [video-to-video inputs](../../../contracts/video-to-video-inputs.md).
+
+V1. **Muted source (`v2v.muted_source`).** `@Video 1` is the recorded muted
+    master with its hash, `generate_audio` is `false`, and no `@Audio` binding
+    is present, unless the user explicitly requested native audio for this
+    take and that exception is recorded. A source with audio bound as
+    `@Video 1`, or a missing saved-audio record, is MAJOR. A source video that
+    shows a person is bound as an `asset://` video; a raw upload of one is
+    rejected by the provider, so flag it as MAJOR.
+
+V2. **Virtual Portrait identities (`v2v.virtual_portrait_identity`).** Every
+    person or character identity reference is a Virtual Portrait `asset://`
+    binding registered from an approved invented design, with recorded asset
+    IDs and source hash. A raw face or character image URL is MAJOR. A real,
+    identifiable person as a target is CRITICAL and blocks the request.
+
+V3. **Source rights.** A recorded user rights decision covers the footage and
+    the people in it. A missing record is CRITICAL. Do not suggest wording that
+    routes around a provider rejection.
+
+---
+
+## Seedance 2.5 restyle
+
+Source skill: `seedance-restyle`.
+
+Apply "Universal — all prompts", the general Seedance 2.5 reference items and,
+for the edit route, Seedance 2.5 edit items 1, 2, 4 and 5. Edit item 3 is
+replaced by restyle item 3 (`[Style Reference Role]`, `[Identity Anchors]`);
+edit item 9 is N/A because the photoreal face line contradicts drawn and
+crafted styles (use it only for a capture look); edit items 10–12 are N/A
+because the output is silent (V1). A restyle keeps the source's subjects,
+layout, actions, camera, cuts and timing and changes only the rendering
+medium. Mark N/A any item whose feature is absent and record why.
+
+1. **Content preserved (`restyle.content_preserved`).** The prompt pins the
+   subject count, observable subject descriptors with identity cues, key props
+   and set layout from the content inventory, and keeps poses, camera, cuts and
+   timing with `@Video 1`. Introducing, removing or replacing a subject is
+   CRITICAL; that request belongs to Object Swap or Motion Transfer.
+
+2. **Medium lock.** One style applies to people, props, set, sky and effects,
+   and nothing is left photographic unless the style is a capture look. A
+   partial or conflicting style block is MAJOR.
+
+3. **Style-only reference (`restyle.style_reference_only`).** Each style image
+   supplies only medium, palette, line, texture and light quality and excludes
+   its subjects, layout and characters. A style image without that exclusion
+   is MAJOR. Studio, artist or franchise names, or frames from copyrighted
+   productions, are CRITICAL.
+
+4. **Identity anchors.** Anchors, when used, are Virtual Portraits designed in
+   the target medium and mapped to a source subject by observable descriptor.
+   A photoreal anchor under a drawn or crafted style is MAJOR.
+
+5. **Cadence and text.** Stepped styles state that beat poses still land.
+   Source text surfaces become abstract shapes; no lettering is requested.
+
+6. **Route and limits.** The operation matches the recorded route decision and
+   capability evidence (`model.supported_mode`); an unverified route is
+   labeled provisional and the request is a 480p probe. Route A uses 1–5
+   images; Route B sets the whole-second source duration and ratio.
+
+7. **Video-to-video inputs.** Apply the shared items under
+   [Video-to-video inputs](#video-to-video-inputs-swap-recast-restyle).
 
 ---
 

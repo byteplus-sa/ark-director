@@ -23,8 +23,9 @@ region; a recast rebuilds everything except motion.
 | Route | Use when | Prompt source | Operation |
 | --- | --- | --- | --- |
 | VFX edit | Add, remove or restyle an effect, environment or element while the source cast and camera stay | `seedance-vfx-prompt` (2.5 edit grammar) | `omni_reference_task_type: edit` |
-| Object Swap | Replace one named product, wardrobe item, prop or single character and preserve everything else | `seedance-vfx-prompt` Object Swap reference | `omni_reference_task_type: edit` |
-| Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | Provisional R2V (below); fallback full-frame edit |
+| Object Swap | Replace one named character, outfit, product, prop, object or the location and preserve everything else | `seedance-object-swap` | `omni_reference_task_type: edit` |
+| Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; verified on one case); fallback full-frame edit |
+| Restyle | Redraw the whole clip in a new visual medium; keep content, layout, motion, camera and cuts | `seedance-restyle` | Provisional full-frame edit; fallback reference route |
 
 Decision rules:
 
@@ -32,31 +33,40 @@ Decision rules:
   the element is a person. Two or more replaced subjects, or any location
   replacement combined with a cast change, is Motion Transfer.
 - A preset look (period, claymation, noir, market localization) over the whole
-  frame with a new cast is Motion Transfer. A grade or effect over the original
-  cast is a VFX edit.
+  frame with a new cast is Motion Transfer. A new medium over the original cast
+  and place is Restyle. A grade or effect over the original look is a VFX edit.
 - When a row changes only the product, prefer Object Swap over Motion Transfer;
   it keeps more of the approved source and needs fewer references.
 
 ### Submission parameter differences
 
-All three routes submit through `seedance_2_5_create_task` on Seedance 2.5 with
-`@Video 1` as `videos[].role = "reference_video"` and element sheets as
-`images[].role = "reference_image"`. Apply every rule in
-[Submission](submission.md); only these fields differ.
+Every route submits through `seedance_2_5_create_task` on Seedance 2.5.
+Object Swap, Motion Transfer and Restyle bind the muted source master as `@Video 1` (`videos[].role = "reference_video"`),
+element sheets and Virtual Portrait `asset://` views as
+`images[].role = "reference_image"`, `generate_audio: false` and no `@Audio`
+bindings, per the
+[video-to-video inputs contract](../../../contracts/video-to-video-inputs.md).
+Sound returns in post through the row's recorded post-audio route; this
+overrides the `generate_audio: true` example in [Submission](submission.md)
+and the manifest template in [Delivery And Manifest](delivery-and-manifest.md).
+Apply every other rule in [Submission](submission.md); only these fields
+differ.
 
-| Field | VFX edit / Object Swap | Motion Transfer (provisional R2V) | Motion Transfer fallback |
-| --- | --- | --- | --- |
-| `omni_reference_task_type` | `edit` | `auto`, or the type the route probe verified | `edit` |
-| `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope |
-| `ratio` | Omit; locks to the source | Set explicitly to the source ratio | Omit; locks to the source |
-| `duration` | Omit; output is approximately the source length, verify the actual duration | Set explicitly (4–30 s) to the source or beat length | Omit; approximately the source length |
-| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that |
-| `resolution` | 480p probe, then the lowest suitable final (720p or 1080p) | Same | Same |
+| Field | VFX edit / Object Swap | Motion Transfer (R2V) | Motion Transfer fallback | Restyle Route A (provisional edit) | Restyle Route B (reference) |
+| --- | --- | --- | --- | --- | --- |
+| `omni_reference_task_type` | `edit` | `auto`, or the type the route probe verified | `edit` | `edit` | `auto`, or the type the route probe verified |
+| `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope | Editing master; every surface redrawn in the style | Authority for composition, poses, camera, cuts and timing |
+| `ratio` | Omit; locks to the source | Set explicitly to the source ratio | Omit; locks to the source | Omit; locks to the source | Set explicitly to the source ratio |
+| `duration` | Omit; output is approximately the source length, verify the actual duration | Set explicitly (4–30 s) to the source or beat length | Omit; approximately the source length | Omit; approximately the source length | Set to the whole-second source length |
+| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | 1–5 style images and anchors | Style images and anchors |
+| `resolution` | 480p probe, then the lowest suitable final (720p or 1080p) | Same | Same | Same | Same |
 
-The Motion Transfer default route is provisional until a 480p verification
-probe confirms that R2V with `@Video 1` as a motion reference rebuilds
-appearance rather than retaining source pixels. Until the project records that
-verification:
+The Motion Transfer default route rebuilt appearance in a 480p probe on one
+case (a single person, a Virtual Portrait character, a text-described
+location; see `seedance-motion-recast`). It stays provisional for other cases:
+until the project records a probe for its own case (multiple subjects, a
+location image, a moving camera) confirming that R2V with `@Video 1` as a
+motion reference rebuilds appearance rather than retaining source pixels:
 
 1. Run the route probe on the first variant row only, on the critical path,
    before the other rows spend credits on the same route.
@@ -74,7 +84,8 @@ verification:
 
 Run `source-subject-map` once per approved source clip, before any prompt for
 any row. It writes `subject_map.json` (and a readable table) beside the source
-clip, bound to the source SHA-256. All variant rows share that one map.
+clip, bound to the original source SHA-256; the muted master and any trim are
+recorded as derivatives of that hash. All variant rows share that one map.
 
 - Every row's prompt cites subject, object and cut IDs from the shared map, so
   mappings stay comparable across variants.
@@ -106,7 +117,8 @@ main agent owns this file; rows change only by an explicit user decision.
 | `talent` | Element ID of the replacement cast member(s), or `keep` |
 | `product` | Element ID of the replacement product, or `keep` |
 | `location` | Element ID of the replacement location, or `keep` |
-| `preset` | Named style preset from `seedance-motion-recast`, or `none` |
+| `preset` | Named look from `seedance-motion-recast` or style from `seedance-restyle`, or `none` |
+| `audio` | Post-audio route: `original`, `new`, `mixed` or `re-voiced` |
 | `resolution` | Final resolution for this row; lowest suitable |
 | `route` | Derived from [Route selection](#route-selection) |
 | `shot` | Assigned shot ID for the row's folder |
@@ -139,11 +151,13 @@ stable; it does not wait for unrelated rows.
 
 1. **Elements.** Lock the row's talent, product and location references per
    the element-identification contract: Seedream sheets for invented identity,
-   an authorized download for real brands and products. Separate images per
+   registered as Virtual Portrait assets, and an authorized download for real
+   brands and products. Separate images per
    view; no collages. Reuse an element another row already approved instead of
    regenerating it.
 2. **Prompt.** Write it with the route's skill: `seedance-vfx-prompt` for VFX
-   edit and Object Swap, `seedance-motion-recast` for Motion Transfer. Every
+   edit, `seedance-object-swap` for Object Swap, `seedance-motion-recast` for
+   Motion Transfer and `seedance-restyle` for Restyle. Every
    source subject gets a mapping or an explicit disposition from the shared
    subject map. No overlay text in the prompt.
 3. **Prompt review.** Run `prompt-review` on the exact prepared request for the
@@ -219,24 +233,29 @@ confirmed scope needs a new confirmation.
 
 ## Real-person gates
 
-Apply the element-identification contract
+Apply the [video-to-video inputs contract](../../../contracts/video-to-video-inputs.md),
+the element-identification contract
 ([element identification](../../../contracts/element-identification.md)) and
 the production policy ([production policy](../../../contracts/production-policy.md)).
 
-- **Source footage.** Identifiable real people in the source need documented
-  rights to use the footage for this purpose, and recorded consent from
-  each identifiable performer whose performance is reused in a recast. The subject map describes them by
+- **Source footage.** A recorded user rights decision covers the footage and the
+  people visible in it, with its scope. The subject map describes people by
   observable descriptors only; never name or infer who they are.
-- **Replacement talent.** A real person as a target identity needs recorded
-  likeness consent, and voice consent when their voice is used. An invented
-  Seedream identity needs no consent but must not resemble a named real person.
-- **Consent is not selection.** Neither `approve_for_me` nor a creative choice
-  grants rights or consent. A missing consent record blocks that row.
+- **Person in the source video.** A muted master that shows a person is bound
+  as an `asset://` video registered in the private asset library; image assets
+  of the person do not clear the provider's video check.
+- **Replacement talent.** Every new character is a Virtual Portrait asset
+  registered from an approved invented design. Liveness verification is not
+  used. A real, identifiable person as the target is out of scope.
+- **Voice.** Reusing or cloning a real person's voice needs recorded voice
+  consent, separate from footage rights.
+- **Rights are not selection.** Neither `approve_for_me` nor a creative choice
+  supplies a rights decision. A missing record blocks that row.
 - **Privacy rejections.** A `PrivacyInformation` or other sensitive-content
   rejection is evidence to diagnose. Record the code, task and inputs, stop the
-  affected row and report. Do not blur, crop, swap or re-encode inputs, or
-  reword the prompt, to get past it. When the rejection concerns the shared
-  source, pause every row that uses it.
+  affected row and report. Follow the contract's rejection rule; do not blur,
+  crop, swap or re-encode inputs, or reword the prompt, to get past it. When the
+  rejection concerns the shared source, pause every row that uses it.
 
 ## Recast and variant QA
 
@@ -258,8 +277,8 @@ canvas entry.
       subject map records them; no floating or merged objects.
 - [ ] **Motion fidelity.** Poses, screen positions, camera path, cut timing and
       duration match the source within the route's expectations.
-- [ ] **Lip sync.** Speaking subjects stay in sync with the stated audio route;
-      replaced dialogue matches mouth movement.
+- [ ] **Post audio.** The muxed route matches the row's `audio` column, the
+      final length equals the picture, and speaking subjects stay in sync.
 - [ ] **No baked text.** No captions, taglines, CTAs or new signage copy in the
       footage; add on-screen text in post.
 - [ ] **Logo and label fidelity.** Real product labels match the approved
