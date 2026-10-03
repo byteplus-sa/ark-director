@@ -19,7 +19,6 @@ State authority by attribute. Each input owns only what is listed for it.
 | Character `@Image N` | Identity, hair, build, wardrobe shown on that view | Pose, background, panel layout, lighting of the sheet |
 | Product or prop `@Image N` | Shape, materials, color, markings | Hands, table, background |
 | Location `@Image N` | Layout, materials, light direction, time of day | People or vehicles in the image |
-| `@Audio 1` (optional) | The route named in the Audio block | Anything visual |
 | Text | Style, guards, dispositions, end states | Motion already defined by `@Video 1` |
 
 Inherit, do not restate. The source already defines the motion, so describe
@@ -60,7 +59,7 @@ crossing, and cut.
 <preset fragment or free text, in lighting -> lens -> grade -> sensor order>
 
 [Audio]
-<route sentence from the audio reference>
+Silent output. Sound is added in post.
 ```
 
 Rules for the blocks:
@@ -74,8 +73,8 @@ Rules for the blocks:
   from the guard catalog only for risks present in this source.
 - **Style** never contradicts the location or character references. If the
   preset changes the medium, it applies to every mapped element.
-- **Audio** is always present, even when it says the clip is music-only or that
-  audio is added in post.
+- **Audio** is always the silent line; `@Video 1` is the muted master and the
+  post-audio route lives in the package, not the prompt.
 
 ## Mapping syntax
 
@@ -135,7 +134,7 @@ the source subject mapped to them, including timing, path, and speed changes.
 <preset fragment>
 
 [Audio]
-<route sentence>
+Silent output. Sound is added in post.
 ```
 
 The scope sentence "replace all subjects and the environment" is never used
@@ -149,19 +148,19 @@ Source: 8.0 s, 9:16, 30 fps, one continuous shot with a slow push-in and a
 half orbit to the right at about 0:05. Two dancers on a concrete parking-garage
 rooftop at dusk. Screen-left: red windbreaker, white sneakers, starts an arm
 wave. Screen-right: black hoodie, grey cap, mirrors the wave, then both spin at
-about 0:04. No other people. Source audio: a pop track, no dialogue.
+about 0:04. No other people. Source audio: a pop track, no dialogue, saved
+from the source; `@Video 1` is the muted master. Post-audio route: original.
 
 Targets (all approved, hashed):
 
 | Binding | Element | View |
 | --- | --- | --- |
-| `@Video 1` | source clip | motion only |
-| `@Image 1` | `char-mara` | front |
-| `@Image 2` | `char-mara` | left profile |
-| `@Image 3` | `char-theo` | front |
-| `@Image 4` | `char-theo` | right profile |
+| `@Video 1` | muted source master | motion only |
+| `@Image 1` | `char-mara` Virtual Portrait | front |
+| `@Image 2` | `char-mara` Virtual Portrait | left profile |
+| `@Image 3` | `char-theo` Virtual Portrait | front |
+| `@Image 4` | `char-theo` Virtual Portrait | right profile |
 | `@Image 5` | `loc-night-market` | wide establishing view |
-| `@Audio 1` | separated source music track | soundtrack |
 
 Dispositions: screen-left dancer → Mara; screen-right dancer → Theo; rooftop
 cars and railings → replaced by the market location. Count: two subjects, five
@@ -203,13 +202,13 @@ blue fill from the sky, reflections on the wet paving, a gentle teal-and-amber
 grade, and fine digital grain.
 
 [Audio]
-@Audio 1 is the soundtrack from the source; keep it unchanged and on the same
-beat. Add soft market ambience under it: <sizzling woks>, distant chatter.
+Silent output. Sound is added in post.
 ```
 
 Parameters for the first ladder rung: default R2V route,
 `omni_reference_task_type: auto`, `resolution: 480p`, `ratio: 9:16`,
 `duration` set to the key beat trimmed from the source (for example the
-0:03–0:08 spin and orbit, 5 s), `generate_audio: true`, `watermark: false`.
-The probe binds the trimmed beat as `@Video 1` and the same 0:03–0:08 window
-of the separated music as `@Audio 1`, each with its own hash.
+0:03–0:08 spin and orbit, 5 s), `generate_audio: false`, `watermark: false`.
+The probe binds the trimmed muted beat as `@Video 1` with its own hash. After
+QA, mux the same 0:03–0:08 window of the saved pop track, and add market
+ambience in post if the brief asks for it.

@@ -13,6 +13,8 @@
     "revision.declared_delta", "review.complete_evidence",
     "swap.residual_original", "swap.timeline_inheritance",
     "recast.motion_authority", "recast.subject_disposition",
-    "recast.mapping_unambiguous", "recast.guards", "recast.audio_route"
+    "recast.mapping_unambiguous", "recast.guards", "recast.audio_route",
+    "v2v.muted_source", "v2v.virtual_portrait_identity",
+    "restyle.content_preserved", "restyle.style_reference_only"
   ]
 }

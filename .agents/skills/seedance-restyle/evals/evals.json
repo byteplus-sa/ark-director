@@ -1,0 +1,40 @@
+{
+  "skill_name": "seedance-restyle",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Turn our 10-second office comedy clip into 2D anime. Same two coworkers, same gags, same camera. We own the footage.",
+      "expected_output": "A restyle package with the cel-anime-2d fragment, a content inventory for both coworkers by observable descriptors, the muted master as @Video 1 with generate_audio false and an original-audio post route, the route marked provisional, and a 480p probe of the hardest beat first.",
+      "files": [],
+      "assertions": [
+        "The edit scope redraws every person, object and surface in the style and states exactly two people.",
+        "Each coworker keeps identity cues (hair shape, wardrobe colours) described from the source, not by name.",
+        "@Video 1 is the muted master, generate_audio is false and the saved source audio is the recorded post-audio route.",
+        "No studio, artist or franchise is named.",
+        "The route is labeled provisional and the first request is a 480p probe."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here are three paintings I made. Restyle my dance clip to look like them.",
+      "expected_output": "A custom style entry derived from the three images, each bound with a style-only role that excludes their subjects and layout, one image per binding, and the dance content and timing kept from @Video 1.",
+      "files": [],
+      "assertions": [
+        "Each painting is bound as a style reference that supplies only medium, palette, line, texture and light quality.",
+        "A custom recipe names the medium lock, surface traits, palette and cadence read from the images.",
+        "The dancer's poses, positions, camera and timing stay with @Video 1."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Make this street interview look like a Pixar movie and swap the interviewer for our mascot.",
+      "expected_output": "The request is split: the style uses the stylized-handcrafted-3d fragment without naming the studio, and replacing the interviewer is either a separate Object Swap with the mascot's Virtual Portrait or, if the cast changes, a Motion Transfer.",
+      "files": [],
+      "assertions": [
+        "The studio name is not used in the prompt; a descriptive stylized 3D fragment replaces it.",
+        "Replacing the interviewer is routed to Object Swap or Motion Transfer rather than folded into the restyle prompt.",
+        "Any character identity is bound as a Virtual Portrait asset:// reference; no liveness step is requested."
+      ]
+    }
+  ]
+}

@@ -9,6 +9,9 @@ camera path, cuts and timing stay with `@Video 1`. Use one preset per take
 unless the user asks for a blend. Chain look phrases in the order lighting →
 lens → grade → sensor or medium.
 
+These presets apply to a new cast and world. Redrawing the same cast and place
+in a new medium is a restyle (`seedance-restyle`), not a recast.
+
 Character, product and location references must already be designed in the
 preset's look. A photoreal sheet under a clay preset leaks photoreal skin, so
 build or select elements in the target medium first.
@@ -121,8 +124,8 @@ The visuals feature the natural daylight and street palette of <city>,
 - **Changes:** location, cast and local dressing, all through approved
   references for that market.
 - **Keeps:** motion, product identity, beats and the product's screen position.
-- **Note:** every recast talent follows the consent gates; local-language copy
-  is added in post, never generated.
+- **Note:** every recast talent is a Virtual Portrait character; local-language
+  copy is added in post, never generated.
 
 ## product-hero-relight
 
