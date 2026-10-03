@@ -78,13 +78,21 @@ post-audio route, and the test-ladder rung.
 
 ## Routes (provisional)
 
-No project has yet verified which Seedance 2.5 route changes the medium while
-keeping content and motion. Probe on owned or generated footage and record
-capability evidence before production use. Change one variable per probe.
+Route A was probed on 2026-10-03 (480p, 5 s, claymation, one person at a café
+table, locked camera). It is only partly effective: the person, jacket and can
+were redrawn and the motion, timing and camera matched, but the street, plant,
+bench, table and sky stayed mostly photographic, even after the scope listed
+every surface to rebuild in clay (the buildings and shop fronts did shift
+toward stylized colour). The look also read as smooth stylized 3D rather than
+plasticine. Route B and a style reference image are untested. Probe on owned or
+generated footage and record capability evidence before production use. Change
+one variable per probe.
 
-- **Route A (default): full-frame edit.** `omni_reference_task_type: edit`,
-  `@Video 1` as editing master, ratio and duration locked to the source. Use
-  when the probe shows the medium actually changes.
+- **Route A (default, subject-focused): full-frame edit.**
+  `omni_reference_task_type: edit`, `@Video 1` as editing master, ratio and
+  duration locked to the source; the output was 113 frames for a 120-frame
+  source (4.71 s vs 5.00 s), inside the 0.3 s tolerance. Use it when the subject
+  must change most; do not rely on it alone to redraw a photographic background.
 - **Route B (fallback): reference.** `auto`, or `reference` when recorded
   capability evidence confirms it, with `@Video 1` as the authority for composition, poses, camera,
   cuts and timing. Set `ratio` to the source and `duration` to the

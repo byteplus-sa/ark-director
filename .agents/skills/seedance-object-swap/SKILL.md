@@ -92,9 +92,13 @@ Seedance 2.5 edit, through `seedance_2_5_create_task`:
   when the source shows a person (see the
   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
 - `images`: target views as `reference_image`, in binding order.
-- `omni_reference_task_type`: `edit`. Field notes record that 2.5 rejects
-  `edit_video`; confirm the accepted value from current capability evidence
-  before the first request.
+- `omni_reference_task_type`: `edit`. A 480p, 5 s product-swap probe on
+  2026-10-03 (one person, a hand-held can, a static camera) was accepted and
+  passed QA: the can was replaced in every sampled frame, contact and
+  occlusion held, and the rest of the frame was unchanged. Field notes record
+  that 2.5 rejects `edit_video`. Confirm the accepted value from current
+  capability evidence for other cases (outfit, character and location swaps
+  are untested).
 - Omit `ratio` and `duration`; both lock to the source (about ±0.3 s).
 - `generate_audio: false`, `watermark: false`, `resolution` per ladder rung.
 

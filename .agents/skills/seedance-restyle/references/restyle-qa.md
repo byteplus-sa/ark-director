@@ -47,6 +47,7 @@ Change one variable per retry: wording, style reference, anchor or route.
 | Symptom | Likely cause | Repair |
 | --- | --- | --- |
 | Output stays photographic | Route A preserves pixels for this source | Probe Route B with the same style block |
+| Subject redrawn but street, plant, table and sky stay photographic | Route A is subject-focused; probed 2026-10-03, and listing every surface in the scope did not fully fix it | Probe Route B, or add a style reference image, before accepting the take |
 | Faces stay photographic inside a drawn world | Face protection or photoreal anchor | Remove photoreal wording; use a medium-matched anchor |
 | Layout or subjects change | Style image read as content | Use a style image with different content, or drop it |
 | Style drifts between cuts | Fragment too long or conflicting | Shorten to the medium lock; one style only |
