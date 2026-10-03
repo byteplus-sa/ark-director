@@ -83,7 +83,10 @@ table, locked camera). It is only partly effective: the person, jacket and can
 were redrawn and the motion, timing and camera matched, but the street, plant,
 bench, table and sky stayed mostly photographic, even after the scope listed
 every surface to rebuild in clay (the buildings and shop fronts did shift
-toward stylized colour). The look also read as smooth stylized 3D rather than
+toward stylized colour). A third run with a very aggressive prompt (every surface
+named as clay, "no live-action footage", the all-clay instruction repeated in the
+goal, scope and style) gave the same result, so prompt wording alone does not move
+the background on this route. The look also read as smooth stylized 3D rather than
 plasticine. Route B and a style reference image are untested. Probe on owned or
 generated footage and record capability evidence before production use. Change
 one variable per probe.
