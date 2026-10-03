@@ -221,7 +221,7 @@ selectable cards with a `poster.md` manifest.
 | Voice/music/effect separation when needed | `ark-mcp` (`vod_separate_audio`, `vod_get_audio_separation`), then listening verification |
 | Keyframe extraction, cut detection, frame strips, end-card compositing, retiming, loudness | `ffmpeg` |
 | Storyboard grid prompt | `seedream-storyboard` |
-| Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prompt` |
+| Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prop-asset` |
 | Brand / logo / product packshot | Web or user download first per element-identification; Seedream only as fallback |
 | Exact typography, screen/UI, title/end card, poster, product lineup, price/CTA, or static overlay | `html-graphic-render` |
 | Generative image with exact copy/layout | Select the generated image, then finish with `html-graphic-render` |

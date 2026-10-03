@@ -26,7 +26,7 @@ Do **not** use this skill for:
 - one-off portraits
 - posters or key art
 - location assets
-- product sheets
+- product or prop sheets (use `seedream-prop-asset`)
 - environment stills
 
 ## Default production rule
@@ -131,12 +131,14 @@ Relaxed neutral expression in all panels: mouth relaxed and closed, eyes looking
 carries, aims, or operates on camera (devices, weapons, tools, bags) is a
 separate from the character identity. Exclude held items from the sheet.
 Branded, recurring, or story-critical objects need a dedicated `prop_` reference
-bound downstream; incidental objects may remain text-only in a scene.
+(see `seedream-prop-asset`) bound downstream; incidental objects may remain
+text-only in a scene.
 
 **Scene-variant wearables are props, not outfit.** A wearable that is not worn
 in every scene (e.g. sunglasses the character wears in some scenes and removes
 in others) must be **excluded from the character sheet** and generated as a
-`prop_` sheet instead. Only include wearables that are always part of the look
+`prop_` sheet instead (see `seedream-prop-asset`). Only include wearables that
+are always part of the look
 in every scene.
 
 ## 4. Setting

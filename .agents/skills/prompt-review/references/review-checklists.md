@@ -17,6 +17,7 @@ sub-agent along with the prompt text.
 - [Seedream image generation](#seedream-image-generation)
 - [Seedream character sheet](#seedream-character-sheet)
 - [Seedream location asset](#seedream-location-asset)
+- [Seedream prop asset](#seedream-prop-asset)
 - [Seedream storyboard](#seedream-storyboard)
 - [Seedance music video](#seedance-music-video)
 
@@ -1176,6 +1177,99 @@ Source skill: `seedream-location-asset`
 
 27. **Pattern C — Reference-preserving iteration.** I2I for every reference-guided
     location prompt.
+
+---
+
+## Seedream prop asset
+
+Source skill: `seedream-prop-asset`
+
+### Gate
+
+1. **Threshold met.** The prop is branded, story-critical, recurring across two
+   or more shots, or a scene-variant wearable. A generic or briefly held object
+   is text-only; a sheet prompt for it is a MAJOR scope defect unless the user
+   explicitly asked for that sheet, which is then noted as below threshold.
+
+2. **Acquisition first.** A real brand, logo, or labeled product the brief
+   authorizes uses an existing or acquired asset unless none is usable, a
+   stylized substitute is requested, or acquisition is blocked. An unauthorized
+   brand stays de-identified. Inventing a real logo is CRITICAL.
+
+### Layout
+
+3. **Layout declared.** Single hero view by default; a two- or three-panel sheet
+   only for multi-side, large, mechanical, or small-detail objects. Three panels
+   at most, with the detail panel showing only what the full views cannot. A
+   single named view (front, side, top, edge) is valid when a shot needs it.
+
+4. **Background.** Pure white seamless with a faint contact shadow, or neutral
+   light gray, with the same faint contact shadow, for white, silver, chrome,
+   clear, or translucent objects, or when the project's approved props or
+   character sheets already use gray. No colored, gradient, textured, or scene
+   background.
+
+5. **Neutral lighting.** Even, neutral white balance, identical across panels.
+   Shape-revealing highlights and gentle raking light are allowed; scene mood
+   and color casts are not.
+
+### Subject
+
+6. **Reference binding.** Each reference is bound inline to the property it
+   controls; an approved prop or authorized photo leads.
+
+7. **Task type.** I2I whenever any reference guides a visible property,
+   including every state variant of an approved prop.
+
+8. **Count stated.** One object, or an exact matched-set count with one shared
+   design.
+
+9. **Identity description.** Silhouette and proportions, real-world size in
+   words, materials and finish, colors, and the identity-critical details the
+   video must reproduce. Wear and damage appear only as the story needs.
+
+10. **One canonical state.** Open/closed, lit/unlit, folded/extended or similar
+    is stated; emissive parts stay off unless the glow is canonical.
+
+11. **Descriptor continuity.** A variant or revision reuses the approved
+    descriptor word for word.
+
+12. **No hands or wearers.** Held props appear without hands; wearables appear
+    unworn, without a person, head, mannequin, or body part. A body continuity
+    mark is the exception: it is an I2I close-up with laterality stated.
+
+### Style
+
+13. **Project style match.** Render style matches the approved characters and
+    locations; 2–4 anchors.
+
+### Composition
+
+14. **Whole object.** Every full-view panel fits the whole object with margin.
+
+15. **Consistent scale.** Full-view panels share one scale and design.
+
+### Text in image
+
+16. **Text route.** No readable text by default; a blank surface or an angle
+    that hides the print is preferred, and pseudo-letters count as invented
+    text. Identity-critical copy is acquired or finished
+    deterministically; model text appears only when non-exact text is expressly
+    accepted.
+
+### Constraints
+
+17. **Common negatives.** No hands or people, no other objects or duplicates, no
+    unwanted background, no readable text or logos, no cropped edges, no extra
+    panels, no watermark — only those that apply.
+
+### Workflow
+
+18. **Element saved.** `prop_<prop-id>_<view>_vNN.png` under
+    `elements/<prop-id>/` with a same-stem `prompt_prop_` snapshot.
+
+19. **Selected variant.** Approved filename recorded as `selected_variant` in
+    the element manifest.
 
 ---
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedream Prop Asset"
+  short_description: "Help with Seedream Prop Asset tasks"
+  default_prompt: "Use $seedream-prop-asset to handle this seedream prop asset task."

@@ -77,6 +77,7 @@ between modalities.
 | Character identity asset | `seedream-character-sheet` |
 | Character sheet cleanup | `seedream-character-sheet-cleanup` |
 | Location identity asset | `seedream-location-asset` |
+| Prop or product identity asset (acquire an authorized real brand or product first) | `seedream-prop-asset` |
 | Exact static typography, poster, title/end card, UI, product grid, price/CTA treatment, or transparent overlay | `html-graphic-render` |
 | General image generation or edit | `seedream-prompt` or `seedream-edit` |
 | Storyboard and visual continuity | `seedream-storyboard` |

@@ -225,5 +225,5 @@ generated and saved.
 
 ## Compose with other skills
 
-- Compose with `seedream-character-sheet` / `seedream-location-asset` (and prop
-  sheets via `seedream-prompt`) for canonical Element references in every panel.
+- Compose with `seedream-character-sheet` / `seedream-location-asset` /
+  `seedream-prop-asset` for canonical Element references in every panel.

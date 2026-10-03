@@ -59,7 +59,7 @@ The prompt structure and rules in this skill are sourced from:
 
 When the official guide is updated, prefer the live page over this skill where they conflict.
 
-## Character-sheet routing
+## Identity-sheet routing
 
 For character sheets, identity sheets, turnaround sheets, or Seedance-facing
 character references, prefer the sibling `seedream-character-sheet` skill rather
@@ -67,6 +67,11 @@ than embedding that workflow here.
 
 If the generated character sheet later needs duplicate-face cleanup, optionally
 compose with the companion `seedream-character-sheet-cleanup` skill.
+
+For reusable location sheets, prefer `seedream-location-asset`. For prop and
+product identity sheets used as Seedance or storyboard references, prefer
+`seedream-prop-asset`. This skill keeps product imagery that is not an identity
+reference, such as a commercial scene or a clean isolated packshot.
 
 ## Deterministic graphic boundary
 

@@ -141,7 +141,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **66 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **67 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -199,6 +199,7 @@ The workspace ships with **66 skills** across 14 categories. Independent skills 
 | **seedream-character-sheet** | Writes structured Seedream prompts for three-panel character sheets and identity references. Produces the canonical character turnarounds that Seedance uses as face anchors. |
 | **seedream-character-sheet-cleanup** | Cleans Seedream character sheets by removing the head from the full-body panels so only the close-up panel keeps a readable face. |
 | **seedream-location-asset** | Writes structured Seedream prompts for cinematic location assets and reusable environment sheets. Use for creating locations, interiors, exteriors, set references, or establishing stills. |
+| **seedream-prop-asset** | Writes structured Seedream prompts for prop and product identity sheets after the prop threshold and acquisition-first check. Use for held, recurring, story-critical, or scene-variant objects that Seedance must reproduce. |
 | **seedream-storyboard** | Create, revise, and optionally generate production-ready cinematic storyboards—from one hero panel with alternatives to a multi-panel continuity sequence—with BytePlus Seedream. |
 | **seedream-edit** | Guide for using the `seedream_edit_image` MCP tool for interactive image editing with Seedream 5.0 Pro. Use for point-based and bounding-box precision editing — replace objects, change regions, add elements at specific positions. |
 
