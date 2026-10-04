@@ -35,7 +35,13 @@ subject, action, prop, set layout, camera movement, cut and timing.
 positions, poses and actions, <key props>, <set layout>, the camera path, cuts
 and event order.
 
-[Environment Reference Role]    (the lever for a whole-frame restyle)
+[Location Change]               (the lever for a whole-frame restyle, words only)
+The background and the overall location both change. <The source's street,
+buildings, plant, furniture and sky> are all removed, and no part of the original
+<location> remains. In their place is <the new place, described in the target
+medium>. Every part of the new location is modelled <medium>.
+
+[Environment Reference Role]    (optional; use instead of or with Location Change)
 @Image 1 defines the whole environment: <what it shows, in the target medium>.
 Use it for <street, buildings, sky, furniture>. Use no person from it. Do not
 use its <extra objects it holds>. The only objects on the table are <the

@@ -47,7 +47,7 @@ Change one variable per retry: wording, style reference, anchor or route.
 | Symptom | Likely cause | Repair |
 | --- | --- | --- |
 | Output stays photographic | Route A preserves pixels for this source | Probe Route B with the same style block |
-| Subject redrawn but street, plant, table and sky stay photographic | No environment image: probed 2026-10-03/04, words alone (five runs on both routes, including a text-described clay scene) and photo-derived style frames did not turn the street to clay | Add an empty environment image in the target medium and "Replace the scene with ... Refer to @Image 1 for the environment" (Route A), or use Route B |
+| Subject redrawn but street, plant, table and sky stay photographic | The prompt keeps the source layout or only asks for a style: five layout-keeping words-only runs on both routes (2026-10-04) left the street photographic, while a prompt stating that the whole location changes rebuilt it | State that the background and whole location change, name what is removed, describe the new place, and drop "same positions / same layout" language (Route A or B); an environment image is optional |
 | Extra chair, ashtray or cup appears | The environment image holds objects the shot lacks | Name each in the Environment Reference Role as not to be used; remove them from the image |
 | Hair or face colour changes toward a style frame | A style frame carries a different look | Say the source owns identity and keep hair colour in the scope; prefer an environment image to person-bearing frames |
 | Faces stay photographic inside a drawn world | Face protection or photoreal anchor | Remove photoreal wording; use a medium-matched anchor |
