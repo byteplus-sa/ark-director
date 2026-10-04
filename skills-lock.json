@@ -131,7 +131,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "71b5d335175b57e084adb11b758dea4b1324391e251e3b61fcd4e620e1b1228c"
+      "computedHash": "836d3dd1cb0792f5e72d38858b59be701c76e1050070a3fd27511a56e929ae9f"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -233,13 +233,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "9cd701b700332f40dbf0f4429e075e3ba452b632ab3653db5e097a2d0ac68533"
+      "computedHash": "425ba2715a044c03d855feece5363bef25b6d5747b15541b1518d485c17d525f"
     },
     "seedance-vfx-prompt": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-prompt/SKILL.md",
-      "computedHash": "1d4aabe25b6ffde8db25f3f862b7c3d96baa3f71a8efd39d60ce0a3ee0169a83"
+      "computedHash": "82bb143d29b3f6791207c36a151e6c09fc29e540b02f71cec565d6dfce0be058"
     },
     "seedream-character-sheet": {
       "source": "./local",
@@ -395,7 +395,19 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
-      "computedHash": "b247cf042de66d74a46b15f556b90179ace464a6cb2e39b12cad45f27757bd49"
+      "computedHash": "3c7205239d5006fa4bad698606a46e5efd78dd7e2f9315ea4152b388a51cd28d"
+    },
+    "seedance-object-swap": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-object-swap/SKILL.md",
+      "computedHash": "0dfb26e00567fa9f73f22281d5b0164b6e64563c7e62c8193a5f2ce2d317943c"
+    },
+    "seedance-restyle": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-restyle/SKILL.md",
+      "computedHash": "3094859ce92c782941f45c056159de3382cd383a310f811f3d3b03e405dc0a6a"
     },
     "micro-drama": {
       "source": "./local",

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Object Swap"
+  short_description: "Seedance 2.5 Object Swap prompts: replace one character, outfit, product, prop or location and keep the rest of the shot"
+  default_prompt: "Use $seedance-object-swap to replace the product in this clip with our approved packshot while keeping everything else as filmed."

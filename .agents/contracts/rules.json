@@ -219,7 +219,7 @@
       "applies_to": [
         "editing"
       ],
-      "owner_path": ".agents/skills/seedance-vfx-prompt/SKILL.md",
+      "owner_path": ".agents/skills/seedance-object-swap/SKILL.md",
       "summary": "An object swap identifies the original by observable descriptors and fully replaces it in every frame with only the target visible.",
       "exceptions": []
     },
@@ -229,7 +229,7 @@
       "applies_to": [
         "editing"
       ],
-      "owner_path": ".agents/skills/seedance-vfx-prompt/SKILL.md",
+      "owner_path": ".agents/skills/seedance-object-swap/SKILL.md",
       "summary": "An object swap states the target count and inherits every appearance, motion, occlusion, exit, and timing of the original.",
       "exceptions": []
     },
@@ -281,6 +281,50 @@
       ],
       "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
       "summary": "A recast states one audio route and lip-sync expectations that agree with it.",
+      "exceptions": []
+    },
+    {
+      "id": "v2v.muted_source",
+      "severity": "error",
+      "applies_to": [
+        "editing",
+        "recast"
+      ],
+      "owner_path": ".agents/contracts/video-to-video-inputs.md",
+      "summary": "A video-to-video request binds the recorded muted source master with generate_audio false and adds sound in post.",
+      "exceptions": [
+        "A recorded, user-requested native-audio exception for a named take."
+      ]
+    },
+    {
+      "id": "v2v.virtual_portrait_identity",
+      "severity": "error",
+      "applies_to": [
+        "editing",
+        "recast"
+      ],
+      "owner_path": ".agents/contracts/video-to-video-inputs.md",
+      "summary": "Every person or character identity reference is a Virtual Portrait asset registered from an approved invented design.",
+      "exceptions": []
+    },
+    {
+      "id": "restyle.content_preserved",
+      "severity": "error",
+      "applies_to": [
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-restyle/SKILL.md",
+      "summary": "A restyle keeps the source subjects, layout, actions, camera, cuts and timing and changes only the rendering medium.",
+      "exceptions": []
+    },
+    {
+      "id": "restyle.style_reference_only",
+      "severity": "error",
+      "applies_to": [
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-restyle/SKILL.md",
+      "summary": "A restyle style reference supplies only medium, palette, line, texture and light quality, never subjects or layout.",
       "exceptions": []
     }
   ]

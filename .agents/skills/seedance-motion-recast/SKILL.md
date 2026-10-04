@@ -6,14 +6,15 @@ description: >-
   cuts and timing while rebuilding cast, wardrobe, product, location and style
   from locked reference images. Covers the motion-only authority split, an
   explicit mapping or disposition for every visible source subject, bleed and
-  extra-people guards, audio and lip-sync routes, named style presets, consent
-  and real-likeness gates for real people in targets or source footage, and a
-  480p key-beat probe ladder. Consumes a subject_map.json when available or
+  extra-people guards, Virtual Portrait asset:// identity references, a muted
+  source master with audio added in post, named look presets, and a 480p
+  key-beat probe ladder. Consumes a subject_map.json when available or
   inspects the source itself. Use to recast performers, localize a take for
-  another market, restyle a clip, or rebuild its world around the same
-  performance. Not for changing one region or object while preserving source
-  pixels (use seedance-vfx-prompt), new T2V/I2V shots, or task submission; the
-  caller owns the generation lifecycle.
+  another market, or rebuild its world around the same performance. Not for
+  replacing one element while preserving source pixels (seedance-object-swap),
+  redrawing the same cast in a new medium (seedance-restyle), other edits
+  (seedance-vfx-prompt), new T2V/I2V shots, or task submission; the caller
+  owns the generation lifecycle.
 ---
 
 # Seedance Motion Recast
@@ -23,35 +24,41 @@ The source clip supplies body motion, pose sequence, screen positions, camera
 path, framing changes, hard cuts and timing. Locked reference images supply the
 new cast, wardrobe, products, location and style.
 
-## Boundary with VFX editing
+## Boundary
 
 | Need | Skill | Source pixels |
 | --- | --- | --- |
 | Rebuild cast, world and look around the same performance | this skill | Discarded; only motion and timing survive |
-| Change one region, object, background, weather or light | `seedance-vfx-prompt` | Preserved outside the edit scope |
+| Replace one character, outfit, product, prop or location | `seedance-object-swap` | Preserved outside the swapped element |
+| Redraw the same cast and place in a new medium | `seedance-restyle` | Content kept; rendering replaced |
+| Add effects, weather or relight | `seedance-vfx-prompt` | Preserved outside the edit scope |
 
 If the user wants to keep the original people, faces or location and change
-only one thing, route to VFX editing instead. If they want new people in a new
-place doing exactly what the source people did, stay here.
+only one thing, route to Object Swap. If they want the same people in a new
+medium, route to Restyle. If they want new people in a new place doing exactly
+what the source people did, stay here.
 
 ## Input and output contract
 
 Input:
 
-- A source clip that the agent has inspected (duration, fps, aspect ratio,
-  audio presence, cuts) with SHA-256 and recorded footage rights.
+- A source clip inspected per the
+  [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)
+  (duration, fps, aspect ratio, audio presence, cuts, SHA-256, recorded
+  rights), its muted master and the saved source audio.
 - Either a `subject_map.json` from a separate subject-mapping step, or the
   agent's own inspection of the source (see
   [multi-subject mapping](references/multi-subject-mapping.md)). Use a subject
   map only when its `status` is `ready`; open ambiguities block prompt writing.
-- Approved target elements (character, product, prop, location sheets or
-  authorized downloads) with hashes, one image per view.
-- The requested style (a named preset or free text) and audio route.
+- Approved target elements with hashes, one image per view. Characters are
+  Virtual Portrait `asset://` assets; products, props and locations are
+  approved sheets or authorized downloads.
+- The requested style (a named preset or free text) and post-audio route.
 
-Output: a recast prompt package containing the ordered `@Video`/`@Image`/`@Audio`
+Output: a recast prompt package containing the ordered `@Video`/`@Image`
 bindings with roles and hashes, the disposition table for every source subject,
 the prompt text, the selected route and parameters, the reference-count check,
-and the test-ladder rung it targets.
+the post-audio route and the test-ladder rung it targets.
 
 ## Hard rules
 
@@ -61,40 +68,52 @@ and the test-ladder rung it targets.
 2. **References come only from approved elements** (Seedream sheets or
    authorized downloads) with current SHA-256. Use separate images per view;
    never collages or turnaround strips.
-3. **Real people pass the consent and likeness gates.** A real, identifiable
-   person as a target needs recorded consent and a recorded real-likeness
-   generation approval. Source footage needs recorded rights, and identifiable
-   real performers in it need recorded consent for reuse of their performance.
-   Unknown facts stop the work; creative approval mode never supplies them, and
-   calling the job a test does not either. Offer an invented cast or a
-   consenting performer instead. See
-   the [production policy](../../contracts/production-policy.md) and
-   [element identification](../../contracts/element-identification.md).
-4. **Privacy and moderation rejections are diagnosed, not routed around.** On a
-   `PrivacyInformation` or other sensitive-content rejection, stop and report
-   the request ID and flagged inputs. Never crop, blur, stylize, recompose or
-   swap inputs to get a real likeness or real footage past the check. Offer an
-   invented cast, generated or owned-talent source footage, or the provider's
-   authorized route, and resubmit only on the user's explicit decision.
+3. **Every new character is a Virtual Portrait.** Register approved invented
+   designs as Virtual Portrait assets and bind them as `asset://`; liveness
+   verification is not used. A real, identifiable person as the target is out
+   of scope, including when the job is called a test; offer a Virtual Portrait
+   character. Source footage needs a recorded rights decision covering the
+   footage and the people in it; unknown rights stop the work. See the
+   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)
+   and [element identification](../../contracts/element-identification.md).
+4. **Privacy and moderation rejections are diagnosed, not routed around.**
+   Follow the
+   [rejection rule](../../contracts/video-to-video-inputs.md#provider-rejections):
+   report the request ID and flagged inputs, never crop, blur, stylize,
+   recompose or swap inputs to get a real likeness or real footage past the
+   check, and resubmit only on the user's explicit decision.
 5. **Stay within recommended reference ranges**: 1–8 distinct subjects in R2V,
    1–5 reference images in edit mode, source under 20 s for edit. Above those,
    warn the user that stability drops and propose splitting into shots.
 6. **No baked text.** Keep generated footage free of captions, taglines, CTAs,
    end cards and legible signage copy; add text in post.
-7. **Test ladder**: a 480p probe of the key beat, then the full duration at
+7. **Submit the muted master.** `@Video 1` is the muted master,
+   `generate_audio` is `false`, and there are no `@Audio` bindings. Sound
+   returns in post through the recorded route in
+   [audio and lip-sync](references/audio-and-lipsync.md).
+8. **Test ladder**: a 480p probe of the key beat, then the full duration at
    480p, then the final resolution. Each rung is a separate reviewed request.
 
-## Mode selection (provisional)
+## Mode selection
 
-This route is unverified. No project has yet confirmed which Seedance 2.5 mode
-rebuilds appearance from references while keeping motion from a video. Confirm
-it with a low-cost 480p probe on synthetic or owned footage before any
-production use, and record the result in the project before relying on it.
+The default route is verified on one case. A 480p, 5 s probe on 2026-10-03
+rebuilt cast and world from a Virtual Portrait `asset://` image while keeping
+the source's motion, timing and static camera (one person, no source clothing
+or accessories carried over). It bound `@Video 1` as an `asset://` video, since
+the provider rejects a raw video with a person, and ran with
+`generate_audio: false`. The probe used one character, a single
+source person, a text-described location and no product reference; confirm
+multi-subject, location-image and moving-camera cases with their own probes,
+and record each result in the project.
 
-- **Default route (pending verification): multimodal R2V.** Bind the source as
-  `@Video 1` with role `reference_video`, stated as a motion-only reference.
+- **Default route (verified for the case above): multimodal R2V.** Bind the source as
+  `@Video 1` with role `reference_video`, stated as a motion-only reference (an `asset://` video when
+  the source shows a person).
   Bind targets as `reference_image`. Set `omni_reference_task_type` to `auto`,
-  `ratio` to the source ratio and `duration` to the source length (4–30 s).
+  `ratio` to the source ratio, `duration` to the whole-second source length
+  (4–30 s; trim the source to whole seconds first) and `generate_audio` to
+  `false`. A 5 s request returned 121 frames at 24 fps (5.04 s); trim or pad to
+  the picture when muxing.
 - **Fallback plan B: full-frame edit.** If the probe output keeps the source's
   people, clothing or location, switch to the edit task type the live tool
   accepts for Seedance 2.5 and write the edit variant in
@@ -102,8 +121,8 @@ production use, and record the result in the project before relying on it.
   Its scope sentence is "replace all subjects and the environment", always
   followed by the per-subject mapping. Edit mode locks duration and aspect
   ratio to the source and prefers 1–5 reference images.
-- An explicit `reference` task type, if the live tool lists it, is a second
-  probe before plan B. Change one variable per probe.
+- An explicit `reference` task type, when recorded capability evidence
+  confirms it, is a second probe before plan B. Change one variable per probe.
 
 Resolve the live tool's accepted parameters and model ID before writing
 parameters; do not assume a `seed` parameter exists.
@@ -111,8 +130,9 @@ parameters; do not assume a `seed` parameter exists.
 ## Procedure and reference loading
 
 1. **Route check.** Confirm the request is a recast, not a region edit.
-2. **Gates.** Establish footage rights and real-person consent for the source
-   and every target before collecting references (rule 3).
+2. **Gates and intake.** Record footage rights, write the muted master and
+   save the source audio. Register or reuse a Virtual Portrait for every new
+   character (rule 3).
 3. **Source analysis.** Load the subject map, or inspect the source yourself.
    Build the disposition table and per-cut presence.
    Read [multi-subject mapping](references/multi-subject-mapping.md).
@@ -121,13 +141,13 @@ parameters; do not assume a `seed` parameter exists.
 5. **Prompt.** Assemble the template in
    [recast grammar](references/recast-grammar.md). Add guards from
    [guards and failures](references/guards-and-failures.md), a look from
-   [style presets](references/style-presets.md), and the audio block from
-   [audio and lip-sync](references/audio-and-lipsync.md).
+   [style presets](references/style-presets.md), and the silent audio line and
+   post route from [audio and lip-sync](references/audio-and-lipsync.md).
 6. **Package.** Return bindings, dispositions, prompt, route, parameters and
    ladder rung to the caller for prompt-review and submission.
 7. **QA after generation.** Apply the QA checks in
-   [guards and failures](references/guards-and-failures.md) and the lip-sync
-   checks when dialogue is present.
+   [guards and failures](references/guards-and-failures.md), mux the post-audio
+   route, and run the lip-sync checks when someone speaks on screen.
 
 Load only the references the request needs. A stylized medium such as
 claymation or toy miniature may also use the `seedance-animation-styles`
@@ -150,9 +170,11 @@ bundle or route per retry.
 
 ## Checklist
 
-- [ ] Request is a recast; region-only edits routed to `seedance-vfx-prompt`
+- [ ] Request is a recast; single-element swaps and same-cast restyles routed
+      to `seedance-object-swap` and `seedance-restyle`
 - [ ] Source inspected: duration, fps, ratio, audio, cuts, SHA-256, rights
-- [ ] Real-person consent and likeness approvals recorded, or invented cast used
+- [ ] Muted master bound as `@Video 1`; source audio saved; `generate_audio: false`
+- [ ] Every new character bound as a Virtual Portrait `asset://` reference
 - [ ] Subject map ambiguities resolved, or own inspection covers every cut
 - [ ] Every visible source subject and swappable object has a disposition
 - [ ] Each mapped subject has an observable descriptor (position, clothing, action)
@@ -161,6 +183,6 @@ bundle or route per retry.
 - [ ] Motion Authority names what `@Video 1` supplies and excludes its appearance
 - [ ] Guards: exact people count, wardrobe only from references, residual originals
 - [ ] Style block present; no overlay text, captions or legible signage requested
-- [ ] Audio route stated, with lip-sync plan when dialogue is kept or re-voiced
-- [ ] Route marked provisional until the verification probe passes
+- [ ] Post-audio route recorded, with lip-sync QA when someone speaks on screen
+- [ ] Source with a person bound as an `asset://` video; route probes recorded for any new case
 - [ ] Ladder rung stated: key-beat 480p probe, full-duration 480p, or final

@@ -115,7 +115,11 @@ safety_identifier: <project>-<scene>-<shot>
 - **Resolution**: <probed width and height>
 - **Ratio**: <probed aspect ratio>
 - **Duration**: <N>s
-- **generate_audio**: `true` (native diegetic audio)
+- **generate_audio**: `true` (native diegetic audio); `false` for Object Swap,
+  Motion Transfer and Restyle
+- **Muted master** (Object Swap, Motion Transfer, Restyle): `<path>` — SHA-256 `<hash>`
+- **Saved source audio**: `<path or none>` — SHA-256 `<hash>`
+- **Post-audio route**: `<original | new | mixed | re-voiced>` — final mux `<path>`, SHA-256 `<hash>`
 - **watermark**: `false`
 - **return_last_frame**: `true` (for shot chaining)
 - **safety_identifier**: `<project>-<scene>-<shot>`

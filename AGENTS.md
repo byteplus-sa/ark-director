@@ -36,6 +36,7 @@ Load only the contract relevant to the current stage:
 | Canon, props, screens and control references | [Element identification](.agents/contracts/element-identification.md) |
 | File prefixes and numbering | [Asset naming](.agents/contracts/asset-naming.md) |
 | Requested dialogue synchronization and assembly | [Audio-video alignment](.agents/contracts/audio-video-alignment.md) |
+| Video-to-video identity references, muted source and post audio | [Video-to-video inputs](.agents/contracts/video-to-video-inputs.md) |
 | Requested camera, lens, lighting, acting and other axes | [Directorial axes](.agents/contracts/seedance-reference.md) |
 | Vendored Blender adapter/setup | [Blender setup](.agents/contracts/blender-mcp-setup.md) |
 
