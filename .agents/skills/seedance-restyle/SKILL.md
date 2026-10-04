@@ -101,10 +101,14 @@ what did not:
   and table all became clay, it remained a Paris café terrace, and the motion,
   timing and camera held. The street's exact geometry follows the image, not
   the source plate, and a stray object in the image can leak into the video.
-- **Words only, keeping the place** (five runs on both routes: restyle wording
-  at three strengths, every surface named, "same positions" and "same layout"):
-  only the person, and on the reference route the near furniture, became clay.
-  The street stayed photographic.
+- **Words only, keeping the place** (seven runs: restyle wording at three
+  strengths, every surface named, "same positions" and "same layout" on both
+  routes, a background-only edit, and a background-only second pass): only the
+  person, and on the reference route the near furniture, became clay. The street
+  stayed photographic. A background-only edit on the original turned the woman to
+  clay as well, despite "leave her as filmed", and a background-only second pass
+  on a clay-woman output changed the street's shops and added lettering without
+  making it clay.
 - **Words only, naming a different place** (a seaside village): the whole frame
   became clay on both routes, but the scene moved from a city to the sea. Use it
   only when the user asks for a different place.
@@ -113,8 +117,13 @@ what did not:
   themselves only partly restyled, and the woman's hair colour leaked.
 
 Untested: an environment image derived from the source plate (so the street
-geometry matches the source), and a words-only prompt that keeps the place and
-rebuilds it.
+geometry matches the source), other styles (a 2D style may redraw a whole frame
+more easily than sculpted clay), and 720p or 1080p.
+
+**If the request allows no image input at all,** a same-place background restyle
+is not reliable today. Say so, and offer: an environment image generated from
+text (the user supplies nothing), a subject-only restyle, or, only if the user
+wants it, a different place described in words.
 
 - **Route A (default): full-frame edit with an environment image of the same
   place.** `omni_reference_task_type: edit`, `@Video 1` as editing master,
