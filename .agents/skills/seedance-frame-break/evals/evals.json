@@ -1,0 +1,153 @@
+{
+  "skill_name": "seedance-frame-break",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a Seedance 2.5 frame-break prompt: my approved anime character Mika (@Image 1 is her character sheet) in an orange rain cape bursts out of black bars over a calm dusk harbour village. Duration is set in the request.",
+      "expected_output": "A seven-block prompt package: identity lock on @Image 1, one-sentence main idea with a fixed-bars sentence, four timed stages with one coherent action and End state each, a layer-order block, a locked camera, an audio block and short exclusions, returned to the caller without submission.",
+      "files": [],
+      "assertions": [
+        "@Image 1 is bound to face, hair, clothing and style only, and the sheet layout, panel borders and background are excluded.",
+        "The layer order is stated back to front: scene confined to the central window, flat black bars, subject drawn complete on top.",
+        "The bars are described as flat, static 2D graphics laid over the picture and drawn under the subject, about 12 percent of the frame height, with no promise of exactness; the word letterbox is not used to describe them.",
+        "The bars are fixed once early with perfectly straight horizontal inner edges at the same height in every frame, and the layer-order block repeats the constant-height phrase and says whatever covers them never changes them.",
+        "There are four stages; each has one coherent action by one named limb (screen-left or screen-right), a numeric overlap anchor, a crossing direction, a peak and a return, and an observable End state with the subject back fully inside the window and nothing over a bar.",
+        "The opening and every stage boundary have the subject full-body and completely inside the central window, about two thirds of the window height, with the bars fully visible and clear of her; each break-out is a brief limb or hem extension inside a stage and nothing overlaps a bar between break-outs.",
+        "The upper bar has its own stage with a limb or hem that can reach it and an explicit End state.",
+        "The camera is locked off with no movement, zoom or cuts, and only the subject moves.",
+        "There are no held props and no on-screen text, captions, logos or watermarks, and the clip duration is not repeated in the prompt text.",
+        "The audio block states whether music is wanted, the backdrop is calmer and darker than the subject with colours that differ from it, and the package is returned to the caller rather than submitted.",
+        "The prompt states once that the central window is the large majority of the frame height, asks for about 12 percent bars, and does not have the subject walk or lean closer so that torso or legs reach a bar."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I have three real photos of one running shoe on plain backgrounds: outside profile, inside profile and sole. Make a product hero ad where the shoe breaks out of the black bars. Add our tagline SPEED STARTS HERE and the brand logo in the video.",
+      "expected_output": "A product-hero package: one shoe bound from three views, no person or hand, text-free footage, the tagline and logo routed to a post end card via a deterministic HTML render and an ffmpeg cross-fade, with the logo-distortion and rights caveats stated.",
+      "files": [],
+      "assertions": [
+        "The three photos are bound as @Image 1, 2 and 3 with their views named, and the prompt states the output contains exactly one shoe, never a pair.",
+        "No person, hand or held pose appears in the prompt.",
+        "The tagline and logo are not requested inside the generated footage; the end card is planned in post with html-graphic-render and an ffmpeg cross-fade.",
+        "The response says logos and printed labels are likely to distort and are to be inspected, and that downloaded brand assets need the user's authorisation with rights staying with the user.",
+        "The stages cross the lower bar and then the upper bar with named parts, each with an End state, and the backdrop colours differ from the shoe's colours.",
+        "The product sits fully inside the window at the start and at every stage boundary and only the named part extends over a bar briefly; the package is returned without task submission."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "My shoe-ad take has the shoe behind the black bars the whole time: zero overlap in every frame I scanned. Just re-roll the same prompt a few times.",
+      "expected_output": "A repair plan: re-rolling the same wording is not recommended; the bars are re-described as flat 2D graphics under a subject drawn complete on top, with numeric overlap anchors and edge-by-edge crossing directions.",
+      "files": [],
+      "assertions": [
+        "The response diagnoses the bars being treated as camera letterbox rather than suggesting an identical re-roll, and notes that re-rolling the same wording did not help.",
+        "The repair describes the bars as flat 2D graphics laid over the picture and the subject as drawn complete on top of the black.",
+        "The repair adds numeric overlap anchors such as covering about a third of the bar's width and crossing directions per stage.",
+        "The upper bar gets its own stage with an explicit End state, and only one thing (wording, reference or stage design) changes per retry.",
+        "The response labels the guidance as an observed result with conditions, not a guarantee."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add the text 'MEGA SALE 50% OFF' across the bars in the video itself and submit it to Seedance for me right now.",
+      "expected_output": "A refusal of baked-in text and of submission: the footage stays text-free, the text is planned in post with a deterministic HTML render and ffmpeg, and the prompt package is returned to the caller.",
+      "files": [],
+      "assertions": [
+        "The response declines to put on-screen text in the generated footage and routes the text to post with html-graphic-render and ffmpeg.",
+        "The response states that this skill does not submit, poll or delete generation tasks and that the caller owns the task lifecycle.",
+        "No on-screen text is requested in any prompt block, and the closing exclusions say no text, captions, logos or watermarks."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Frame-break prompt for a photoreal boxer in a boxing ring. Put the ring ropes right where the top and bottom bars are so it looks authentic.",
+      "expected_output": "A response that keeps bar-like objects out of the bar zone, because ropes at the bar position were drawn as the bars with the subject behind them, and offers a ring-free or far-back alternative.",
+      "files": [],
+      "assertions": [
+        "The response declines to place ropes or rails at the bar position and explains that bar-like objects were drawn as the bars with the subject behind them (observed result).",
+        "The response offers a backdrop without bar-like objects near the top and bottom, or keeps ropes far back in the middle distance.",
+        "Background bags and equipment are required to be free of lettering and logos, and the footage is kept text-free.",
+        "The boxer is full-body and completely inside the window at the start and at every stage boundary, about two thirds of the window height, with brief single-limb or hem break-outs and no walking or leaning toward the lens so that legs, shorts or robe sit over a bar; no extending limb or head fills a third of the frame; the response notes that photoreal subjects cross the bars less often than drawn ones and gives the upper bar its own stage."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Review this draft frame-break prompt before it goes to the caller. Stage 2: '3-6 seconds: The fox reaches his paw toward the lens, then kicks his foot up so the sole crosses the lower bar and the paw crosses the upper bar.' Layer block: 'Black bars at top and bottom of the frame.' No other mention of the bars.",
+      "expected_output": "A review that flags the stage with two unconnected limb actions and two limbs crossing in one beat as a hard-gate risk, and flags that the bars may move because they are not fixed with straight, constant-height edges.",
+      "files": [],
+      "assertions": [
+        "The review flags Stage 2 for chaining an arm reach and a kick and for naming two different limbs crossing different bars in the same beat, and warns of a sudden scale jump or limb swap.",
+        "The repair gives one coherent action per stage: the limb that arrives at the lens is the limb that crosses the bar, the other limbs stay small and tucked behind until a later stage, and the upper bar gets its own stage with an End state.",
+        "The review flags that the bars are not described as fixed graphics with perfectly straight horizontal inner edges at the same height in every frame, and that the layer-order block lacks the constant-height phrase and the rule that whatever covers them never changes them.",
+        "The review notes that the layer order is not stated back to front and that the subject is not said to be drawn complete on top of the bars.",
+        "The review does not claim the repaired prompt is proven to work."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Here is a 12-second take of a photoreal boxer. Check it: I sampled one frame every 0.5 s and the bars looked fine. How should QA go?",
+      "expected_output": "A QA plan that scans every frame at the native frame rate, reports the static-bar gate by direction with offending timestamps, runs the break-out gate for start overlap and duty, reads a 12 fps window contact sheet per stage, separates hard and soft gates, and treats a video-understanding model as secondary.",
+      "files": [],
+      "assertions": [
+        "The plan runs scripts/measure_frame_break.py on every frame at the native frame rate and says sampling every 0.5 s or an 8 fps scan can miss a tilt, bow or short edge jump.",
+        "Moving bars are a hard-gate failure and are judged by direction: black encroaching into the window, both far columns jumping together or a smooth bar-shaped bow fail; a subject covering a bar is never a violation, and windows reported as inspect (including a bar opening) mean needs_review, which is not a pass: passed is true only for pass.",
+        "The break-out gate is run: the subject must start inside the window (start overlap near zero) and overlap must be intermittent (duty under the limit), because static bars alone do not make a frame break.",
+        "The plan reads a 12 fps contact sheet of each stage window made with --window START END to catch a sudden scale jump or limb swap.",
+        "Stray lettering or logos, a clipped subject, a missing required crossing and a moving camera are hard gates; bar thickness near 12 percent and top-bottom equality are soft gates.",
+        "A video-understanding model's verdict is used only as secondary evidence, audio is checked by listening, and a faststart H.264/AAC copy is mentioned for delivery.",
+        "The plan does not deliver a retouched copy as a model output without saying so."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Give me a cinematic letterbox look with a slow dolly-in on a detective in a rainy alley.",
+      "expected_output": "A routing response: ordinary cinematic letterbox and a dolly-in are not the frame-break pop-out effect, so the request goes to the camera and prompt skills.",
+      "files": [],
+      "assertions": [
+        "The response does not write a frame-break prompt and explains that frame break requires the subject to be drawn in front of the bars.",
+        "The dolly-in is routed to seedance-camera-presets and the base prompt to seedance-prompt-25."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Review this draft frame-break prompt. Stage 1 (0-3 seconds): 'The boxer, big and close to the lens, fills the frame, her legs, shorts and robe already over the lower bar.' Stage 2: 'She walks closer, her torso leaning over the lower bar.' Stage 3: 'Her fist crosses the upper bar.' Stage 4: 'She stays close to the lens.' The bars are 'thick black bars, about 20 percent each'.",
+      "expected_output": "A review that flags a subject that is large and close from the first beat with torso and legs over a bar, walking and leaning toward the lens, thick bars that shrink the window, and break-outs written as a state rather than as events, with a repair that opens full-body inside the window and makes each break-out a brief limb or hem extension with a return.",
+      "files": [],
+      "assertions": [
+        "The review flags that the subject starts over the lower bar and stays over it, so it reads as standing outside the frame rather than breaking the frame, even if the bars are static.",
+        "The review flags the walking and leaning closer in stage 2 and the 'stays close to the lens' end of stage 4 as break-outs written as a state.",
+        "The review flags 20 percent bars as shrinking the window and asks for about 12 percent bars with the central window stated once as the large majority of the frame height.",
+        "The repair opens with the subject full-body and completely inside the window at about two thirds of the window height, with both bars fully visible and clear of her, feet planted.",
+        "The repair makes each break-out a brief, specific limb or hem extension inside one stage (for example a fist and forearm over the upper bar, a robe hem over the lower bar) with a peak and a return inside, so every stage boundary is inside the window and nothing overlaps a bar between break-outs.",
+        "The review does not tell the author to make the subject big, and notes that limb-scale advice is only about keeping a near-lens limb from distorting the bars.",
+        "The review mentions the break-out gate that the take would fail (starts overlapping, overlap too continuous) and does not claim the repaired prompt is proven to work."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "The pixel script flagged the lower bar on my accepted boxer take with 'bow' of 120 to 160 px whenever her robe flares and her boots swing over the bar. Does that mean the bars are moving?",
+      "expected_output": "An explanation that a subject covering a bar is overlap, not bar motion: the gate separates the two by direction and shape, so a retreat of the visible edge is never a violation, and only black encroaching into the window, far columns shifting together or a smooth bar-shaped bow fail, with ambiguous windows reported as inspect.",
+      "files": [],
+      "assertions": [
+        "The response says a subject covering the bar moves the visible edge row toward the frame edge and counts as overlap, not as bar deformation.",
+        "The response says only black encroaching into the window (a thicker bar), both far columns shifting together or a smooth bar-shaped bow growing into the window counts as bar motion.",
+        "The response says ambiguous cases, such as a single far column covered by the subject or a dark robe or shorts merging with the bar, are reported as inspect with timestamps to check on a 12 fps window sheet, not as fail, and that inspect means needs_review with passed false, so an automated caller must not treat it as a pass.",
+        "The response mentions that --black-level must sit below dark picture content so dark scenery is not read as bar.",
+        "The response does not suggest accepting a take whose script status is fail without checking the listed timestamps by eye.",
+        "The response says a bar that opens (both far columns retreating together) is reported as bar_opening under inspect and its exposed picture is not counted as a subject break-out."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Both black bars slowly slide toward the frame edges in the last second of my take, with no subject anywhere near them. The script says static_bar_gate status inspect and the break-out gate absent. My pipeline only checks passed. Can I ship it?",
+      "expected_output": "A response that says the take must not ship on that evidence: a bar opening is bar motion, inspect means needs_review and passed is false, and the exposed picture is not a break-out, so the overall verdict is fail.",
+      "files": [],
+      "assertions": [
+        "The response says the take is not a pass: passed is true only when the status is pass, and inspect sets needs_review true.",
+        "The response says a bar that opens (both far columns retreating together) is reported as bar_opening and its exposed picture is not counted as subject overlap, so there is no break-out and the break-out gate reads absent.",
+        "The response tells the pipeline to check summary.verdict (or needs_review) and not only passed, and never to treat inspect as a pass.",
+        "The response asks for the listed windows to be checked on a 12 fps window sheet and for another take rather than shipping this one."
+      ]
+    }
+  ]
+}

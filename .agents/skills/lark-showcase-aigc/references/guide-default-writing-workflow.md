@@ -24,3 +24,7 @@ Unless the user specifies otherwise, follow this sequence:
 11. Build one **scene-by-scene table** per scene with prompt + generated result side by side; consolidate into a single table when scenes share the same structure.
 12. Add a conclusion section.
 13. Fetch the final structure, compare it with the pre-write inventory, and verify no internal path or local-file wording remains.
+14. For any document that contains video, follow
+    [guide-playable-video-delivery.md](guide-playable-video-delivery.md): web-ready copies, preview upload, token swap, served-file verification, and a human playback check.
+15. For a document that teaches one technique with several examples, use
+    [guide-tutorial-with-examples-layout.md](guide-tutorial-with-examples-layout.md) instead of the section blueprint.
