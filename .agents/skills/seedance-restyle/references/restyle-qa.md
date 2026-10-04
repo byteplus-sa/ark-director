@@ -47,7 +47,9 @@ Change one variable per retry: wording, style reference, anchor or route.
 | Symptom | Likely cause | Repair |
 | --- | --- | --- |
 | Output stays photographic | Route A preserves pixels for this source | Probe Route B with the same style block |
-| Subject redrawn but street, plant, table and sky stay photographic | Route A is subject-focused; probed 2026-10-03, and neither listing every surface nor a very aggressive all-clay prompt changed the background | Probe Route B, or add a style reference image, before accepting the take |
+| Subject redrawn but street, plant, table and sky stay photographic | No environment image: probed 2026-10-03/04, words alone (three strengths) and photo-derived style frames did not change the background | Add an empty environment image in the target medium and "Replace the scene with ... Refer to @Image 1 for the environment" (Route A), or use Route B |
+| Extra chair, ashtray or cup appears | The environment image holds objects the shot lacks | Name each in the Environment Reference Role as not to be used; remove them from the image |
+| Hair or face colour changes toward a style frame | A style frame carries a different look | Say the source owns identity and keep hair colour in the scope; prefer an environment image to person-bearing frames |
 | Faces stay photographic inside a drawn world | Face protection or photoreal anchor | Remove photoreal wording; use a medium-matched anchor |
 | Layout or subjects change | Style image read as content | Use a style image with different content, or drop it |
 | Style drifts between cuts | Fragment too long or conflicting | Shorten to the medium lock; one style only |

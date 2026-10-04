@@ -26,13 +26,20 @@ Retelling every move conflicts with the video.
 
 ```text
 [Edit Goal]
-Edit @Video 1. Restyle the entire video in <style name>. Keep every subject,
-action, prop, set layout, camera movement, cut and timing.
+Edit @Video 1. Replace the scene with the <style name> <environment> from
+@Image 1, and restyle <the people and props> as <style name>. Keep every
+subject, action, prop, set layout, camera movement, cut and timing.
 
 [Source Video Role]
 @Video 1 is the sole editing master. It defines <subject inventory>, their
 positions, poses and actions, <key props>, <set layout>, the camera path, cuts
 and event order.
+
+[Environment Reference Role]    (the lever for a whole-frame restyle)
+@Image 1 defines the whole environment: <what it shows, in the target medium>.
+Use it for <street, buildings, sky, furniture>. Use no person from it. Do not
+use its <extra objects it holds>. The only objects on the table are <the
+source's objects>, one of each, never a second or duplicated copy.
 
 [Style Reference Role]          (only with style images)
 @Image 1 defines only the visual style: <medium, palette, line, texture,
@@ -43,8 +50,9 @@ light quality>. Use none of its subjects, layout or characters.
 <Name> is <observable descriptor in @Video 1>.
 
 [Edit Scope]
-Redraw every person, object, surface, sky and effect in <style>; nothing
-remains photographic. Exactly <N> people appear, as in @Video 1. Each person
+Replace the scene with @Image 1: <each background element> is the modelled
+<medium> of @Image 1, in the same positions as the source. Redraw every person,
+object, surface, sky and effect in <style>; nothing remains photographic. Exactly <N> people appear, as in @Video 1. Each person
 keeps <identity cues> as recognizable shapes and colours. <Source text
 surface> shows <abstract shapes in the style>; no lettering appears.
 

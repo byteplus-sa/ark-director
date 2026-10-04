@@ -76,37 +76,57 @@ post-audio route, and the test-ladder rung.
 8. **Test ladder**: a 480p probe of the hardest beat (fast motion, a face close-up
    or a cut), then the full clip at 480p, then the final resolution.
 
-## Routes (provisional)
+## Routes
 
-Route A was probed on 2026-10-03 (480p, 5 s, claymation, one person at a café
-table, locked camera). It is only partly effective: the person, jacket and can
-were redrawn and the motion, timing and camera matched, but the street, plant,
-bench, table and sky stayed mostly photographic, even after the scope listed
-every surface to rebuild in clay (the buildings and shop fronts did shift
-toward stylized colour). A third run with a very aggressive prompt (every surface
-named as clay, "no live-action footage", the all-clay instruction repeated in the
-goal, scope and style) gave the same result, so prompt wording alone does not move
-the background on this route. The look also read as smooth stylized 3D rather than
-plasticine. Route B and a style reference image are untested. Probe on owned or
-generated footage and record capability evidence before production use. Change
-one variable per probe.
+Probed on 2026-10-03 and 2026-10-04 (480p, 5 s, claymation, one person at a
+café table, locked camera, source bound as an `asset://` video):
 
-- **Route A (default, subject-focused): full-frame edit.**
+- **Route A, words only** (three prompt strengths, including every surface named
+  and a very aggressive all-clay prompt): only the person, jacket and can
+  changed. The street, plant, bench, table and sky stayed photographic.
+- **Route A with an environment image: whole frame in clay.** The prompt says
+  "Replace the scene with ... Refer to @Image 1 for the environment", where
+  `@Image 1` is the empty environment drawn in the target medium. The street,
+  buildings, bench, shrub and table all became clay, and the motion, timing and
+  camera held. The official Seedance 2.5 guide shows the same pattern for a
+  replaced scene.
+- **Route A with style frames made by restyling photos** (three Seedream clay
+  frames of the source): the background stayed photographic, because the frames
+  were themselves only partly restyled, and the woman's hair colour leaked.
+- **Route B (reference) with the same environment image and a detailed
+  shot-by-shot prompt**: the whole world also became clay, and the output
+  matched the requested 5 s. A chair edge from the environment image leaked.
+
+Geometry follows the environment image, not the source plate. To keep the
+source layout, the environment image must be built from it (not yet tested).
+
+- **Route A (default): full-frame edit with an environment image.**
   `omni_reference_task_type: edit`, `@Video 1` as editing master, ratio and
-  duration locked to the source; the output was 113 frames for a 120-frame
-  source (4.71 s vs 5.00 s), inside the 0.3 s tolerance. Use it when the subject
-  must change most; do not rely on it alone to redraw a photographic background.
-- **Route B (fallback): reference.** `auto`, or `reference` when recorded
-  capability evidence confirms it, with `@Video 1` as the authority for composition, poses, camera,
-  cuts and timing. Set `ratio` to the source and `duration` to the
-  whole-second source length. Use when Route A keeps photoreal pixels.
+  duration locked to the source. The output was 113 frames for a 120-frame
+  source (4.71 s vs 5.00 s), inside the 0.3 s tolerance; the official guide says
+  an input of 8n+1 frames avoids the shortfall (not yet confirmed by our
+  probes). Without an environment image this route changes only the subject.
+- **Route B (alternative): reference.** `auto`, or `reference` when recorded
+  capability evidence confirms it, with `@Video 1` as the authority for
+  composition, poses, camera, cuts and timing, the environment image, and a
+  detailed shot-by-shot description. Set `ratio` to the source and `duration`
+  to the whole-second source length. Use it when Route A keeps photoreal pixels
+  or the duration must be exact.
 
 Both routes bind `@Video 1` as an `asset://` video when the source shows a
 person (see the
 [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
-Style images and identity anchors as `reference_image` after
-`@Video 1`; 1–5 images for Route A; `watermark: false`. Resolve the live tool
-schema and model ID before writing parameters.
+Bind the environment image, then style images and identity anchors, as
+`reference_image` after `@Video 1`; 1–5 images for Route A; `watermark: false`.
+Resolve the live tool schema and model ID before writing parameters.
+
+### Environment image
+
+For a whole-frame restyle, generate the empty set in the target medium with
+Seedream (no people, no props the shot does not have, the source's layout
+described), approve it, and bind it with an Environment Reference Role that
+names what to use and what to ignore (extra chairs, objects, people). Check the
+image for stray objects before use; each one can leak into the video.
 
 ## Procedure
 
@@ -117,6 +137,8 @@ schema and model ID before writing parameters.
    props, set layout, cuts, fast-motion windows and on-screen text.
 4. **Style.** Pick a catalog entry or write a custom recipe from the user's
    style images; confirm the cadence note for stop-motion styles.
+   For a whole-frame restyle, also make the environment image (above); the
+   words alone do not change the background.
 5. **Anchors.** For recurring characters, register or reuse medium-matched
    Virtual Portraits.
 6. **Prompt.** Assemble the route template in

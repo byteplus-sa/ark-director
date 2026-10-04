@@ -395,13 +395,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-object-swap/SKILL.md",
-      "computedHash": "e0f155076113f067ee4ec432cf8305d3cf8283047d842b42100063150f5ae3e5"
+      "computedHash": "bf13e2ab80d4ecbde6e8dc4999dfe0f743ae7b308f586838c114847337e3c430"
     },
     "seedance-restyle": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-restyle/SKILL.md",
-      "computedHash": "71277e16bd677d9ba681a666ef9a053b89cea83f84a5c43249246c21c5ca92d2"
+      "computedHash": "00bd1bdbf1232e1ce9858ce719e354b60cce4db741ea5a8b27fe676534a24058"
     },
     "micro-drama": {
       "source": "./local",

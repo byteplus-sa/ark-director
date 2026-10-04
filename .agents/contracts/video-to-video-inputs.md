@@ -59,13 +59,22 @@ character.
   streams, cut times and SHA-256 before writing a prompt.
 - **Length.** Sources run 4–30 s. Edit routes (Object Swap, Restyle) are most
   stable under 20 s; split longer takes into shots.
-- **Whole seconds for reference routes.** A route that sets `duration` takes
-  whole seconds. Trim the source to a whole-second span first, re-encoding so
-  the cut is frame-exact, and derive the muted master and saved audio from the
-  trimmed file so all three share one timeline:
+- **Trim by route.** Re-encode the trim so the cut is frame-exact, and derive
+  the muted master and saved audio from the trimmed file so all three share one
+  timeline.
+  - *Reference routes* set `duration`, which takes whole seconds. Trim to a
+    whole-second span.
+  - *Edit routes* (Object Swap, Restyle) lock duration to the source. The
+    official Seedance 2.5 guide says the output comes back up to about 0.3 s
+    shorter unless the input frame count is 8n+1 (for example 121 frames at
+    24 fps, 5.04 s). Trim to an 8n+1 frame count instead. A 2026-10-03 probe
+    that used 120 frames returned 113; the 8n+1 fix is documented but not yet
+    confirmed by our own probe.
 
   ```bash
   ffmpeg -ss <start> -i <source>.mp4 -t <whole seconds> -map 0:v:0 -map 0:a:0? \
+    -c:v libx264 -crf 16 -preset slow -c:a pcm_s24le source/<stem>_trim.mov
+  ffmpeg -ss <start> -i <source>.mp4 -frames:v <8n+1> -map 0:v:0 -map 0:a:0? \
     -c:v libx264 -crf 16 -preset slow -c:a pcm_s24le source/<stem>_trim.mov
   ```
 
@@ -126,7 +135,7 @@ ffmpeg -i <generated>.mp4 -i <audio>.wav -map 0:v:0 -map 1:a:0 \
 
 - Keep the silent generated master. The muxed file is a derivative with its own
   SHA-256 and a recorded recipe.
-- Edit outputs land within about 0.3 s of the source length; reference-route
+- Edit outputs land within about 0.3 s of the source length (exactly equal for an 8n+1 frame input, per the official guide); reference-route
   outputs match the requested whole-second duration. Record the measured
   output duration and any padding or trim.
 - Output frame rate may differ from the source. Audio aligns by time; check two
