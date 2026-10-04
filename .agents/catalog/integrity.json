@@ -651,7 +651,7 @@
     ".agents/skills/seedance-prompt-25-filipino/references/vocabulary.md": "c26bc0be1fb4b935debec74c76047e59086b310c3c106922ff714bc7c8651a8c",
     ".agents/skills/seedance-prompt-25-filipino/references/worked-examples.md": "d92b59741ab5ddf9e6e938c3ee48a3aa8a7c98fdcd413bd6e2aa1f052a7f324c",
     ".agents/skills/seedance-restoration/SKILL.md": "e361f135a34e1cc017208dc2f2d3a399796d276327eae07ba2463c7cf1d81ca4",
-    ".agents/skills/seedance-restyle/SKILL.md": "85836e484ba10d10500466ce47677a33528c7c572ac82b12a1652d4324660ccc",
+    ".agents/skills/seedance-restyle/SKILL.md": "8e526450371b9fc704dc3c65f0459beefa3ebd23a4846992cb80d4d9ced6a5a6",
     ".agents/skills/seedance-restyle/agents/openai.yaml": "363bed07ed3734ef640577a364b3d387c41be0e4b79f34a21d508dd614da9146",
     ".agents/skills/seedance-restyle/evals/evals.json": "f88d96abfeee33588ff5cd7545946d11186aa55f4d6eda87b74fb92ee09e927d",
     ".agents/skills/seedance-restyle/references/restyle-grammar.md": "84b102900f754603c25aae57530b2ea80723fe5125c27d2725e61d30ed212993",

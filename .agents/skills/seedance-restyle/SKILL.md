@@ -7,8 +7,9 @@ description: >-
   custom style reference image) while keeping its content, composition,
   motion, camera path, cuts and timing. Covers the style catalog, the
   style-only reference role, medium-matched Virtual Portrait identity anchors,
-  a muted source master with audio added in post, provisional edit and
-  reference routes with a 480p probe ladder, and restyle QA. Use to turn live
+  an environment-image recipe that restyles the background as well as the
+  subject, edit and reference routes, a muted source master with audio added
+  in post, a 480p probe ladder, and restyle QA. Use to turn live
   action into animation, change the medium of an animated clip, or match a
   house style. Not for replacing the cast or world (seedance-motion-recast),
   swapping one element (seedance-object-swap), grading or relighting the
