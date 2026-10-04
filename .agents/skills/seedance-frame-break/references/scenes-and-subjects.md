@@ -28,8 +28,11 @@ do not pad the prompt with unused defaults.
 
 ## Subject types
 
-Observed results come from six 1080p Seedance 2.5 runs (October 2026); notes
-without that label are optional technique to test. In every type the bars stay
+Observed results come from Seedance 2.5 takes at 1080p (October 2026): the six
+first-round example takes plus later regenerated takes, each row naming its take;
+the pixel gates were calibrated separately on eight clips (A to H in the QA
+checklist). Notes without that
+label are optional technique to test. In every type the bars stay
 fixed and straight, the subject is full-body inside the window at the start and
 at every stage boundary, break-outs are brief limb or hem events (no near-lens
 limb or head filling a third of the frame), and each stage carries one coherent

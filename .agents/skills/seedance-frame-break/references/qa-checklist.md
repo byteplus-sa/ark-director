@@ -20,10 +20,11 @@ camera).
 
 ## Procedure
 
-1. Run the all-frames scan (below) and save the JSON beside the take. The
-   static-bar gate and the break-out gate must both pass (or the static-bar gate
-   report `inspect` with the listed timestamps checked by eye) before anything
-   else is judged.
+1. Run the all-frames scan (below) and save the JSON beside the take. Read
+   `summary.verdict`: `pass` means both gates passed; `inspect` means the take
+   needs review and is not a pass (a person checks every listed window by eye
+   before anything else is judged); `fail` rejects the take. An automated caller
+   must never treat `inspect` as a pass.
 2. For every stage of the prompt, make a 12 fps contact sheet of that stage's
    time window with `--window START END` and read every tile in order. This step
    is mandatory: a sudden scale jump or limb swap inside a stage is found only
@@ -42,7 +43,7 @@ camera).
 
 | Gate | Evidence |
 | --- | --- |
-| Bars do not move. Black must not encroach into the window at any column, the far columns must not shift together, and no smooth bar-shaped bow may grow into the window; a subject covering a bar is never a violation | Script `summary.static_bar_gate.status` is `pass`, or `inspect` with every listed window checked by eye; `fail` rejects the take. Run on every frame |
+| Bars do not move. Black must not encroach into the window at any column, both far columns must not jump together, and no smooth bar-shaped bow may grow into the window; a subject covering a bar is never a violation, and a bar that opens (both far columns retreat together) is never counted as a subject | Script `summary.static_bar_gate.status` is `pass`, or `inspect` (needs review: `passed` false, `needs_review` true) with every listed window checked by eye; `fail` rejects the take. Run on every frame |
 | Bars are present, solid black, flat and unmarked at the top and bottom throughout | Script `bars_detected` true; frames |
 | The subject starts completely inside the window and break-outs are intermittent events, not a state | Script `summary.break_out_gate`: start overlap near zero and overlap duty under the limit |
 | The subject is drawn on top, never clipped or hidden behind a bar at a break-out | Frames at overlap intervals and at each peak |
@@ -114,7 +115,18 @@ direction and by shape.
   never a violation; it feeds the overlap intervals. At a far column it is
   reported as `far_retreat` and `tilt` under `inspect`, not as a failure, because
   a subject, a flare or a light streak can reach a far column and a retreating bar
-  looks the same.
+  looks the same. The exception is a bar that opens (see below).
+- **Bar opening** (both far columns retreat together by more than 2 px in the
+  same frame): a subject does not cover both far-edge columns while the picture
+  appears in the bar band, so this is the bar retreating toward the frame edge.
+  It is reported as `bar_opening` under `inspect`, and that frame's bar-band
+  overlap is not counted as subject overlap (the exposed picture is stored as
+  `raw_overlap_fraction`, and `overlap_fraction` is zero). A clip whose only
+  overlap is a bar opening therefore reads `absent` in the break-out gate. A bar
+  opening on one side only looks like a subject at a far column and stays
+  `far_retreat` (inspect), with its overlap counted; the take still needs review.
+  This is a simple rule, not a spatial classifier: a near-lens object covering
+  both far columns at once would be read as a bar opening and lose that overlap.
 - **Encroachment** (black grows into the window, the bar gets thicker) is not
   something a subject does, so it counts. Growth of either far column by more
   than 2 px is `encroach` (fail). A frame-to-frame change of both far columns by
@@ -129,10 +141,11 @@ direction and by shape.
   `tilt` (inspect).
 - `status` is `fail` when any fail record exists or the bars are not detected,
   `inspect` when only inspect records exist, otherwise `pass`. `passed` is true
-  unless the status is `fail`.
+  only when the status is `pass`; `needs_review` is true when the status is
+  `inspect`.
 
 Ambiguous cases are inspect, with timestamps, on purpose: open the 12 fps window
-sheet for each listed window and decide by eye.
+sheet for each listed window and decide by eye. `inspect` is never a pass.
 
 ## Break-out gate
 
@@ -151,17 +164,26 @@ band across the central columns.
   the limit and the overlap intervals.
 - **Absent**: a clip with no overlap in any frame has status `absent`, the
   existing effect-absent case. `not_applicable` means the bars were not detected.
-- `passed` is true only for status `pass`.
+- `passed` is true only for status `pass`. Frames where a bar is opening do not
+  count as overlap (see above).
+
+`summary.verdict` combines both gates: `fail` when the static-bar gate fails or
+the break-out gate is anything but `pass` (including `absent` and
+`not_applicable`), `inspect` when the break-out gate passes and the static-bar gate
+needs review, and `pass` only when both pass. Its `passed` and `needs_review`
+fields follow the same rule, and its `note` repeats that an automated caller must
+not treat `inspect` as a pass.
 
 ## Reading the script output
 
 | Field | Meaning |
 | --- | --- |
-| `summary.static_bar_gate` | `status` (`pass`, `inspect`, `fail`), `passed`, tolerances, the fail `violations` and the `inspect` records across both bars |
+| `summary.verdict` | `status` (`pass`, `inspect`, `fail`), `passed` (true only for `pass`), `needs_review` (true for `inspect`), `note` |
+| `summary.static_bar_gate` | `status` (`pass`, `inspect`, `fail`), `passed` (true only for `pass`), `needs_review` (true for `inspect`), tolerances, the fail `violations` and the `inspect` records across both bars |
 | `summary.top`, `summary.bottom` | Thickness (percent and px), median edge rows, static tilt, max far encroach and retreat, max interior encroach, `status`, `violations`, `inspect`, overlap counts |
-| records | `bar`, `severity`, `kind` (`encroach`, `jump`, `bow_in` fail; `far_retreat`, `tilt`, `dark_merge`, `static_tilt` inspect), `start_s`, `end_s`, `frames`, `peak_px` |
+| records | `bar`, `severity`, `kind` (`encroach`, `jump`, `bow_in` fail; `bar_opening`, `far_retreat`, `tilt`, `dark_merge`, `static_tilt` inspect), `start_s`, `end_s`, `frames`, `peak_px` |
 | `summary.break_out_gate` | `status` (`pass`, `fail`, `absent`, `not_applicable`), `start_overlap` per bar, `overlap_duty` per bar and overall with limits, `violations` with timestamps |
-| `frames[].top` and `frames[].bottom` | Left and right edge rows in px, all sampled column rows, excess over the reference chord, thickness, tilt, overlap fraction |
+| `frames[].top` and `frames[].bottom` | Left and right edge rows in px, all sampled column rows, excess over the reference chord, thickness, tilt, `bar_opening`, `raw_overlap_fraction`, `overlap_fraction` (zero while the bar opens) |
 | `overlap_intervals` | Runs of frames above the overlap threshold: bar, first and last frame time, frame count, peak fraction |
 | `summary.top_bottom_difference_pct` | Absolute difference of the two median thicknesses, in points of frame height |
 | `summary.flags` | `bars_not_detected`, `bars_thin`, `top_bottom_unequal`, `top_bar_moves`, `bottom_bar_moves`, `top_bar_inspect`, `bottom_bar_inspect`, `top_bar_never_crossed`, `bottom_bar_never_crossed`, `no_overlap`, `starts_overlapping`, `overlap_too_continuous` |
@@ -171,27 +193,38 @@ creative result.
 
 ## Observed calibration on real clips
 
-Observed calibration on real Seedance 2.5 clips at 1920x1080, 24 fps, 8.06 s,
-Lark-delivery H.264 copies, default options. The thresholds above were tuned on
-these eight clips, so treat them as calibrated on a small set, not as validated
-in general.
+Observed calibration on eight real Seedance 2.5 clips (A to H) at 1920x1080,
+24 fps, 8.06 s, Lark-delivery H.264 copies, default options. The thresholds above
+were tuned on these eight clips, so treat them as calibrated on a small set, not
+as validated in general. Clip A's provider master is the same take and is not
+counted separately. Read the table with the new semantics: every `inspect` below
+means `passed` false and `needs_review` true, so none of the accepted clips
+marked inspect is an automated pass; only clips D and G pass the static-bar gate
+outright.
 
 | Clip (what the user decided) | Static-bar gate | Break-out gate: start overlap top / bottom, duty top / bottom / overall |
 | --- | --- | --- |
-| Clip A, boxer, rejected for moving bars | fail: top `encroach` and `jump` 1.0 to 1.4 s and about 5.8 to 6.0 s, bottom `encroach` and `jump` 6.5 to 7.0 s; inspect: lower bar `far_retreat` and `tilt` 5.3 to 6.5 s | pass: 0.000 / 0.000, 0.03 / 0.29 / 0.31 |
-| Clip A, provider master | fail, same windows | pass, same numbers within 0.01 |
-| Clip G, boxer, static bars, rejected for standing outside the window | pass | fail: 0.000 / 0.253, 0.27 / 0.82 / 0.82 (`starts_overlapping`, `overlap_too_continuous`) |
-| Clip B, illustrated courier, accepted | inspect: constant 7 px and 4 px bar tilt, lower-bar `far_retreat` 0.3 to 1.25 s, 2.5 to 2.75 s and 6.7 to 6.8 s (a flare arc and a giant sole at a far column) | pass: 0.000 / 0.000, 0.15 / 0.58 / 0.58 |
+| Clip A, boxer, rejected for moving bars | fail: top `encroach` and `jump` 1.0 to 1.4 s and about 5.8 to 6.0 s, bottom `encroach` and `jump` 6.5 to 7.0 s; inspect: lower bar `far_retreat`, `bar_opening` and `tilt` 5.3 to 6.5 s | pass: 0.000 / 0.000, 0.01 / 0.22 / 0.23 (verdict fail) |
+| Clip G, boxer, static bars, rejected for standing outside the window | pass | fail: 0.000 / 0.253, 0.27 / 0.82 / 0.82 (`starts_overlapping`, `overlap_too_continuous`; verdict fail) |
+| Clip B, illustrated courier, accepted | inspect (verdict inspect, needs review): constant 7 px and 4 px bar tilt, lower-bar `far_retreat` 0.3 to 1.25 s, 2.5 to 2.75 s and 6.7 to 6.8 s (a flare arc and a giant sole at a far column) | pass: 0.000 / 0.000, 0.15 / 0.58 / 0.58 |
 | Clip C, accepted | inspect: upper-bar `far_retreat` 5.0 to 6.0 s | pass: 0.000 / 0.000, 0.13 / 0.29 / 0.29 |
-| Clip D, accepted | pass | pass: 0.000 / 0.000, 0.00 / 0.15 / 0.15 |
+| Clip D, accepted | pass | pass: 0.000 / 0.000, 0.00 / 0.15 / 0.15 (verdict pass) |
 | Clip E, accepted | inspect: lower-bar `far_retreat` 1.1 to 1.5 s (a subject part at the right frame edge) | pass: 0.002 / 0.000, 0.53 / 0.49 / 0.64 |
 | Clip F, accepted (photoreal product hero) | inspect: upper-bar `dark_merge` 2.4 to 2.5 s | pass: 0.000 / 0.000, 0.00 / 0.22 / 0.22 |
 | Clip H, boxer, bars were ring ropes and the subject sat behind them | fail: `bars_not_detected` | `not_applicable`; no overlap in any frame |
 
 What the calibration showed:
 
-- Accepted clips never shrank to a far-column encroachment; the rejected clip
-  did. That is why direction decides.
+- Accepted clips never grew a far-column encroachment; the rejected clip did.
+  That is why direction decides.
+- Four of the five accepted clips (B to F: B, C, E and F) read `inspect`, so they need
+  review and are not automated passes; only D passes outright, and G passes the
+  static-bar gate but fails the break-out gate. The gate is a triage tool, not a
+  replacement for reading the window sheets.
+- Re-running with the bar-opening rule left every accepted clip's static-bar
+  status unchanged (none had both far columns retreating together) and lowered
+  the rejected clip's overall duty from 0.31 to 0.23, because its bar-opening
+  frames no longer count as subject overlap.
 - The default `--max-overlap-duty` is 0.7, not 0.5. A limit of 0.5 would have
   failed two accepted clips (overall duty 0.58 and 0.64); the over-the-bar take
   measured 0.82. The margin is small: 0.64 against 0.7, so check clips between
@@ -214,8 +247,10 @@ What the calibration showed:
   raises the overlap duty.
 - Dark scenery next to a bar edge can still read as a thicker bar when it is
   below the black level; lower `--black-level` if a dark scene is flagged.
-- A near-lens object covering both far columns, or a bar that retreats rather than
-  grows, is reported as `inspect`, never as `fail`.
+- A bar that retreats rather than grows is reported as `inspect`, never as `fail`,
+  so a take whose only fault is a bar opening needs review and cannot pass; the
+  rule that both far columns retreating is a bar opening can mislabel a near-lens
+  object covering both far columns.
 - The duty limit and tolerances were calibrated on a handful of 1080p clips.
 - Limb continuity and the camera lock are not measured; read the window sheets.
 

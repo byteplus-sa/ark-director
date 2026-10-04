@@ -90,7 +90,7 @@
       "files": [],
       "assertions": [
         "The plan runs scripts/measure_frame_break.py on every frame at the native frame rate and says sampling every 0.5 s or an 8 fps scan can miss a tilt, bow or short edge jump.",
-        "Moving bars are a hard-gate failure and are judged by direction: black encroaching into the window, far columns shifting together or a smooth bar-shaped bow fail; a subject covering a bar is never a violation, and ambiguous windows reported as inspect are checked by eye with timestamps.",
+        "Moving bars are a hard-gate failure and are judged by direction: black encroaching into the window, both far columns jumping together or a smooth bar-shaped bow fail; a subject covering a bar is never a violation, and windows reported as inspect (including a bar opening) mean needs_review, which is not a pass: passed is true only for pass.",
         "The break-out gate is run: the subject must start inside the window (start overlap near zero) and overlap must be intermittent (duty under the limit), because static bars alone do not make a frame break.",
         "The plan reads a 12 fps contact sheet of each stage window made with --window START END to catch a sudden scale jump or limb swap.",
         "Stray lettering or logos, a clipped subject, a missing required crossing and a moving camera are hard gates; bar thickness near 12 percent and top-bottom equality are soft gates.",
@@ -131,9 +131,22 @@
       "assertions": [
         "The response says a subject covering the bar moves the visible edge row toward the frame edge and counts as overlap, not as bar deformation.",
         "The response says only black encroaching into the window (a thicker bar), both far columns shifting together or a smooth bar-shaped bow growing into the window counts as bar motion.",
-        "The response says ambiguous cases, such as a single far column covered by the subject or a dark robe or shorts merging with the bar, are reported as inspect with timestamps to check on a 12 fps window sheet, not as fail.",
+        "The response says ambiguous cases, such as a single far column covered by the subject or a dark robe or shorts merging with the bar, are reported as inspect with timestamps to check on a 12 fps window sheet, not as fail, and that inspect means needs_review with passed false, so an automated caller must not treat it as a pass.",
         "The response mentions that --black-level must sit below dark picture content so dark scenery is not read as bar.",
-        "The response does not suggest accepting a take whose script status is fail without checking the listed timestamps by eye."
+        "The response does not suggest accepting a take whose script status is fail without checking the listed timestamps by eye.",
+        "The response says a bar that opens (both far columns retreating together) is reported as bar_opening under inspect and its exposed picture is not counted as a subject break-out."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Both black bars slowly slide toward the frame edges in the last second of my take, with no subject anywhere near them. The script says static_bar_gate status inspect and the break-out gate absent. My pipeline only checks passed. Can I ship it?",
+      "expected_output": "A response that says the take must not ship on that evidence: a bar opening is bar motion, inspect means needs_review and passed is false, and the exposed picture is not a break-out, so the overall verdict is fail.",
+      "files": [],
+      "assertions": [
+        "The response says the take is not a pass: passed is true only when the status is pass, and inspect sets needs_review true.",
+        "The response says a bar that opens (both far columns retreating together) is reported as bar_opening and its exposed picture is not counted as subject overlap, so there is no break-out and the break-out gate reads absent.",
+        "The response tells the pipeline to check summary.verdict (or needs_review) and not only passed, and never to treat inspect as a pass.",
+        "The response asks for the listed windows to be checked on a 12 fps window sheet and for another take rather than shipping this one."
       ]
     }
   ]

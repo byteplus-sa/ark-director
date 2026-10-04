@@ -2,8 +2,11 @@
 
 Focused reference for `seedance-frame-break`. Read it when a take failed QA or a
 prompt review flagged the prompt. Each row gives the symptom, the likely cause
-and a prompt repair. The evidence comes from six 1080p Seedance 2.5 runs in
-October 2026 (observed result, conditions as stated; not a guarantee).
+and a prompt repair. The evidence comes from Seedance 2.5 takes at 1080p in
+October 2026: the six first-round example takes plus later regenerated takes,
+each row naming its take (observed result, conditions as stated; not a
+guarantee). The pixel gates were calibrated separately on eight real clips (A to
+H in the QA checklist).
 
 Change one thing per retry (wording, reference or stage design) so the cause of
 an improvement stays identifiable. Re-rolling the same wording did not help.

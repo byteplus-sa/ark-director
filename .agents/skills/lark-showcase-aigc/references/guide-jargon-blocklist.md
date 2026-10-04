@@ -93,7 +93,7 @@ Outside code blocks, translate all of these into plain English.
 | "trimmed for pacing", "retimed", "loudness-normalised" | (omit) |
 | "reference ad", "source ad", "inspired by", "in the style of", "well-known ad", "recreation", "homage" | (omit; describe the ad itself) |
 | competitor brand names | (omit) |
-| "retouched", "delogo", "blurred a logo", "post fix", "cleaned up in post" | (omit; describe what the clip shows) |
+| the technical detail of a post edit ("delogo", "blurred a logo", "post fix", filter names) | One plain line: "Edited after generation." Never present an edited clip as an unmodified model output; keep the detail out of the document and tell the user in chat. |
 | "rejected take", "take 2", "second attempt", "re-run", "partial success", "hard gate" | (omit; raise in chat) |
 | HEVC, H.265, H.264, `moov`, faststart, "web-ready copy", "delivery copy" | (omit; say "video") |
 | bar thickness measurements ("17.3%", "172 px"), hashes, frame counts, tool verdicts | (omit; one plain line in "Good to know" if it helps the reader) |

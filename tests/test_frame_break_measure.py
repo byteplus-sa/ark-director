@@ -107,6 +107,8 @@ class FrameBreakMeasureTests(unittest.TestCase):
         self.assertFalse(summary["top_bottom_differ"])
         self.assertEqual(result["overlap_intervals"], [])
         self.assertEqual(summary["break_out_gate"]["status"], "absent")
+        self.assertEqual(summary["verdict"]["status"], "fail")
+        self.assertFalse(summary["verdict"]["passed"])
         self.assertIn("no_overlap", summary["flags"])
         self.assertIn("top_bar_never_crossed", summary["flags"])
 
@@ -144,6 +146,12 @@ class FrameBreakMeasureTests(unittest.TestCase):
         self.assertNotIn("top_bar_never_crossed", summary["flags"])
         self.assertIn("bottom_bar_never_crossed", summary["flags"])
         self.assertEqual(self.gate(result)["status"], "pass", self.gate(result))
+        self.assertTrue(self.gate(result)["passed"])
+        self.assertFalse(self.gate(result)["needs_review"])
+        verdict = result["summary"]["verdict"]
+        self.assertEqual(verdict["status"], "pass")
+        self.assertTrue(verdict["passed"])
+        self.assertFalse(verdict["needs_review"])
         before = [f for f in result["frames"] if f["time_s"] < 1.0]
         self.assertTrue(all(f["top"]["overlap_fraction"] == 0 for f in before))
         self.assertEqual(summary["break_out_gate"]["status"], "pass")
@@ -151,7 +159,7 @@ class FrameBreakMeasureTests(unittest.TestCase):
     def test_dark_subject_over_the_bar_does_not_fail(self) -> None:
         dark = box("200", "30", "240", "90", "black", "between(t,1,1.95)")
         result = self.measure(self.clip("dark.mkv", self.bars(43, 43, [dark])))
-        self.assertTrue(self.gate(result)["passed"], self.gate(result))
+        self.assertNotEqual(self.gate(result)["status"], "fail", self.gate(result))
         self.assertEqual(self.gate(result)["violations"], [])
 
     def test_narrow_dark_block_merging_with_the_bar_is_inspect_not_fail(self) -> None:
@@ -159,7 +167,8 @@ class FrameBreakMeasureTests(unittest.TestCase):
         result = self.measure(self.clip("merge.mkv", self.bars(43, 43, [merge])))
         gate = self.gate(result)
         self.assertEqual(gate["status"], "inspect", gate)
-        self.assertTrue(gate["passed"])
+        self.assertFalse(gate["passed"])
+        self.assertTrue(gate["needs_review"])
         self.assertEqual(self.kinds(result, "bottom", "inspect"), {"dark_merge"})
         record = result["summary"]["bottom"]["inspect"][0]
         self.assertAlmostEqual(record["start_s"], 1.0, places=2)
@@ -170,9 +179,11 @@ class FrameBreakMeasureTests(unittest.TestCase):
         result = self.measure(self.clip("far.mkv", self.bars(43, 43, [cover])))
         gate = self.gate(result)
         self.assertEqual(gate["status"], "inspect", gate)
-        self.assertTrue(gate["passed"])
+        self.assertFalse(gate["passed"])
+        self.assertTrue(gate["needs_review"])
         self.assertIn("far_retreat", self.kinds(result, "bottom", "inspect"))
         self.assertEqual(gate["violations"], [])
+        self.assertFalse(result["summary"]["verdict"]["passed"])
 
     def test_whole_edge_encroaching_into_the_window_fails(self) -> None:
         grow = box("0", "ih-62", "iw", "19", "black", "between(t,1,1.95)")
@@ -205,6 +216,7 @@ class FrameBreakMeasureTests(unittest.TestCase):
         result = self.measure(self.clip("step.mkv", self.bars(43, 43, [step])))
         self.assertEqual(self.gate(result)["status"], "inspect")
         self.assertEqual(self.kinds(result, "bottom", "inspect"), {"dark_merge"})
+        self.assertFalse(self.gate(result)["passed"])
 
     def test_left_half_thickening_reports_its_interval(self) -> None:
         tilt = box("0", "ih-62", "iw/2", "19", "black", "between(t,1,1.95)")
@@ -226,6 +238,7 @@ class FrameBreakMeasureTests(unittest.TestCase):
         self.assertEqual(self.kinds(result, "bottom", "inspect"), {"static_tilt"})
         self.assertEqual(bottom["violations"], [])
         self.assertEqual(self.gate(result)["status"], "inspect")
+        self.assertFalse(self.gate(result)["passed"])
 
     def test_six_frame_edge_jump_at_24_fps_is_caught(self) -> None:
         jump = box("0", "ih-62", "iw", "19", "black", "between(t,1.5,1.74)")
@@ -341,6 +354,80 @@ class FrameBreakMeasureTests(unittest.TestCase):
         gate = result["summary"]["break_out_gate"]
         self.assertEqual({v["kind"] for v in gate["violations"]}, {"overlap_too_continuous"})
         self.assertEqual(gate["status"], "fail")
+
+    def opening(self, side: str) -> list[str]:
+        x, w = {"both": ("0", "iw"), "left": ("0", "iw/2")}[side]
+        filters = []
+        for k in range(1, 11):
+            enable = f"between(t,{3 + 0.1 * (k - 1):.1f},4.01)"
+            filters.append(box(x, "ih-43", w, str(2 * k), "0x3a7bd5", enable))
+            filters.append(box(x, str(43 - 2 * k), w, str(2 * k), "0x3a7bd5", enable))
+        return self.bars(43, 43, filters)
+
+    def test_both_bars_opening_without_a_subject_is_not_a_pass_or_a_break_out(self) -> None:
+        result = self.measure(self.clip("opening.mkv", self.opening("both"), duration=4))
+        summary = result["summary"]
+        gate = self.gate(result)
+        self.assertEqual(gate["status"], "inspect", gate)
+        self.assertFalse(gate["passed"])
+        self.assertTrue(gate["needs_review"])
+        self.assertIn("bar_opening", {v["kind"] for v in gate["inspect"]})
+        record = next(v for v in gate["inspect"] if v["kind"] == "bar_opening")
+        self.assertGreaterEqual(record["start_s"], 3.0)
+        self.assertGreaterEqual(record["peak_px"], 18)
+        self.assertEqual(result["overlap_intervals"], [])
+        self.assertEqual(summary["break_out_gate"]["status"], "absent")
+        self.assertFalse(summary["break_out_gate"]["passed"])
+        self.assertEqual(summary["verdict"]["status"], "fail")
+        self.assertFalse(summary["verdict"]["passed"])
+        last = result["frames"][-1]["bottom"]
+        self.assertTrue(last["bar_opening"])
+        self.assertGreater(last["raw_overlap_fraction"], 0.05)
+        self.assertEqual(last["overlap_fraction"], 0.0)
+
+    def test_bar_opening_on_one_side_needs_review(self) -> None:
+        result = self.measure(self.clip("opening_left.mkv", self.opening("left"), duration=4))
+        gate = self.gate(result)
+        self.assertEqual(gate["status"], "inspect", gate)
+        self.assertFalse(gate["passed"])
+        self.assertTrue(gate["needs_review"])
+        self.assertIn("far_retreat", {v["kind"] for v in gate["inspect"]})
+        self.assertNotIn("bar_opening", {v["kind"] for v in gate["inspect"]})
+        verdict = result["summary"]["verdict"]
+        self.assertFalse(verdict["passed"])
+        self.assertNotEqual(verdict["status"], "pass")
+
+    def test_opening_bar_does_not_hide_a_real_break_out(self) -> None:
+        crossing = box("240", "20", "160", "100", "red", "between(t,1,1.95)")
+        result = self.measure(
+            self.clip("opening_and_subject.mkv", [*self.opening("both"), crossing], duration=4)
+        )
+        intervals = result["overlap_intervals"]
+        self.assertEqual([item["bar"] for item in intervals], ["top"])
+        self.assertAlmostEqual(intervals[0]["start_s"], 1.0, places=2)
+        self.assertLess(intervals[0]["end_s"], 2.0)
+        self.assertFalse(self.gate(result)["passed"])
+
+    def test_output_paths_may_not_alias_the_input(self) -> None:
+        video = self.clip("victim.mkv", self.bars(43, 43), duration=1)
+        before = video.read_bytes()
+        link = self.root / "alias.mkv"
+        link.symlink_to(video)
+        hard = self.root / "hard.mkv"
+        hard.hardlink_to(video)
+        for alias in (video, link, hard):
+            for option in ("--output", "--contact-sheet"):
+                code, document = self.run_cli(str(video), option, str(alias), "--overwrite")
+                self.assertEqual(code, 1)
+                self.assertIn("input video", document["error"])
+        self.assertEqual(video.read_bytes(), before)
+        relative = Path("victim.mkv")
+        completed = subprocess.run(
+            [sys.executable, str(SCRIPT), str(relative), "--output", "./victim.mkv", "--overwrite"],
+            capture_output=True, text=True, check=False, cwd=self.root,
+        )
+        self.assertEqual(completed.returncode, 1)
+        self.assertEqual(video.read_bytes(), before)
 
     def run_cli(self, *arguments: str) -> tuple[int, dict[str, Any]]:
         completed = subprocess.run(

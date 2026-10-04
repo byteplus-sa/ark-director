@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -91,7 +92,12 @@ def moov_offset(path: Path) -> int:
     return path.read_bytes().find(b"moov")
 
 
-def assemble(clips: list[Path], out: Path, crossfade: float, fade: float, crf: int, dry_run: bool) -> dict[str, Any]:
+def assemble(clips: list[Path], out: Path, crossfade: float, fade: float, crf: int, dry_run: bool, overwrite: bool = False) -> dict[str, Any]:
+    for tool in ("ffmpeg", "ffprobe"):
+        if shutil.which(tool) is None:
+            raise ShowreelError(f"{tool} was not found on PATH")
+    if out.exists() and not overwrite and not dry_run:
+        raise ShowreelError(f"output already exists: {out} (pass --overwrite to replace it)")
     info = [probe(clip) for clip in clips]
     first = info[0]
     fps = 24
@@ -135,16 +141,23 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--fade", type=float, default=0.5)
     parser.add_argument("--crf", type=int, default=21)
     parser.add_argument("--record", type=Path, help="write the assembly record JSON here")
+    parser.add_argument("--overwrite", action="store_true", help="replace an existing output file")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
     try:
-        record = assemble(args.clips, args.out, args.crossfade, args.fade, args.crf, args.dry_run)
-    except ShowreelError as error:
+        if args.record:
+            args.record.parent.mkdir(parents=True, exist_ok=True)
+        record = assemble(args.clips, args.out, args.crossfade, args.fade, args.crf, args.dry_run, args.overwrite)
+    except (ShowreelError, OSError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
     text = json.dumps(record, indent=2)
     if args.record:
-        args.record.write_text(text + "\n")
+        try:
+            args.record.write_text(text + "\n")
+        except OSError as error:
+            print(f"error: could not write record: {error}", file=sys.stderr)
+            return 2
     print(text)
     return 0
 

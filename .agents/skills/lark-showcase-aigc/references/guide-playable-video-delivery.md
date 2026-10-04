@@ -11,7 +11,8 @@ made videos unplayable in a published document; both are avoidable.
 | The video was embedded inline with `<source path="@./x.mp4"/>` in create/update XML | The file is stored as `application/octet-stream`; relabelling the figure `video/mp4` with `block_replace` does not repair it | Upload with `docs +media-insert --file-view preview`, then use that token |
 
 A fetched figure that shows `mime="video/mp4"` and a matching size does **not**
-prove the file will play. Only the two fixes above plus a human check do.
+prove the file will play. The two fixes above make playback possible; only a
+human check confirms it.
 
 ### 1. Delivery copy
 
@@ -50,8 +51,10 @@ Copy each file to a **reader-friendly name** first (for example
    <figure view-type="Preview"><source token="FILE_TOKEN" name="Juno frame-break video.mp4" mime="video/mp4"/></figure>
    ```
 
-4. `block_delete` the appended copy from step 2.
-5. Re-fetch after every replace or delete; replacement re-mints block IDs.
+4. Re-fetch with `--detail with-ids` (replacement re-mints block IDs), find the
+   appended copy at the end of the document by its token, and `block_delete` it
+   by that fresh block ID, never by the one returned in step 2.
+5. Re-fetch once more after the delete and before the next video.
 
 For the same video in two places, reuse the token with `block_replace` or
 `block_insert_after` instead of uploading again.

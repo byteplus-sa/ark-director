@@ -278,6 +278,8 @@ def frame_events(
         shrink = max(reference[0] - left, reference[1] - right)
         if grow > edge_tolerance:
             events.append((index, "fail", "encroach", grow))
+        elif record["bar_opening"]:
+            events.append((index, "inspect", "bar_opening", shrink))
         elif shrink > edge_tolerance:
             events.append((index, "inspect", "far_retreat", shrink))
         tilt = abs(record["tilt_px"] - (reference[0] - reference[1]))
@@ -294,6 +296,24 @@ def frame_events(
         elif kind:
             events.append((index, "inspect", "dark_merge", peak))
     return events
+
+
+def mark_bar_opening(
+    frames: list[dict[str, Any]],
+    bar: str,
+    reference: tuple[float, float],
+    edge_tolerance: float,
+) -> None:
+    for frame in frames:
+        record = frame[bar]
+        opening = (
+            reference[0] - record["left_px"] > edge_tolerance
+            and reference[1] - record["right_px"] > edge_tolerance
+        )
+        record["bar_opening"] = opening
+        record["raw_overlap_fraction"] = record["overlap_fraction"]
+        if opening:
+            record["overlap_fraction"] = 0.0
 
 
 def merge_events(
@@ -483,7 +503,7 @@ def bar_summary(
             for f in frames
         ),
         "max_interior_encroach_px": max(max(f[bar]["excess_px"]) for f in frames),
-        "static": status != "fail",
+        "static": status == "pass",
         "status": status,
         "violations": failures,
         "inspect": notes,
@@ -576,6 +596,8 @@ def measure(args: argparse.Namespace) -> dict[str, Any]:
                 ),
             }
         )
+    for bar_name in ("top", "bottom"):
+        mark_bar_opening(frames, bar_name, references[bar_name], args.edge_tolerance_px)
     top_pct = sum(references["top"]) / 2 / height * 100
     bottom_pct = sum(references["bottom"]) / 2 / height * 100
     detected = min(top_pct, bottom_pct) >= args.min_bar_pct
@@ -605,7 +627,8 @@ def measure(args: argparse.Namespace) -> dict[str, Any]:
     )
     summary["static_bar_gate"] = {
         "status": status,
-        "passed": status != "fail",
+        "passed": status == "pass",
+        "needs_review": status == "inspect",
         "tolerances_px": {
             "far_edge": args.edge_tolerance_px,
             "tilt": args.tilt_tolerance_px,
@@ -616,6 +639,20 @@ def measure(args: argparse.Namespace) -> dict[str, Any]:
         "inspect": summary["top"]["inspect"] + summary["bottom"]["inspect"],
     }
     summary["break_out_gate"] = break_out_gate(frames, detected, intervals, args)
+    break_status = summary["break_out_gate"]["status"]
+    overall = (
+        "fail"
+        if status == "fail" or break_status != "pass"
+        else "inspect"
+        if status == "inspect"
+        else "pass"
+    )
+    summary["verdict"] = {
+        "status": overall,
+        "passed": overall == "pass",
+        "needs_review": overall == "inspect",
+        "note": "An automated caller must not treat inspect as a pass: passed is true only when both gates read pass, and needs_review means a person must check the listed windows.",
+    }
     summary["frames_scanned"] = len(frames)
     summary["overlap_intervals"] = len(intervals)
     summary["flags"] = build_flags(summary, args.thin_pct)
@@ -689,6 +726,12 @@ def check_outputs(args: argparse.Namespace) -> None:
     for option in (args.output, args.contact_sheet):
         if option is None:
             continue
+        if option.resolve() == args.video.resolve() or (
+            option.exists()
+            and args.video.exists()
+            and option.samefile(args.video)
+        ):
+            raise MeasureError(f"{option} is the input video; choose another output path")
         if option.exists() and not args.overwrite:
             raise MeasureError(f"{option} exists; pass --overwrite to replace it")
         if not option.parent.is_dir():

@@ -50,8 +50,10 @@ once up front, then every example repeats a fixed, scannable structure.
   harder, scene colours can drift). Keep QA mechanics out: no measurement
   tables, tool verdicts, hashes, attempt counts, retouch notes, or rejected
   takes.
-- A retouched or post-edited result is described by what it shows. Do not
-  publish the edit history.
+- A result edited after generation (for example a logo removed in post) is
+  described by what it shows and carries one plain line, "Edited after
+  generation." Never present it as an unmodified model output; keep the
+  technical detail out of the document and tell the user in chat.
 - Claims in `Good to know` must be supported by the examples in the document
   ("in our tests…"), and must not contradict a `What to look for` row.
 
@@ -59,8 +61,10 @@ once up front, then every example repeats a fixed, scannable structure.
 
 When an example uses a real brand or product, use assets the user supplied or
 explicitly authorised downloading, add one short line that the names are
-trademarks of their owners and the example is a concept sample, show product
-photos with `Product snapshot of <Product>.` prompt text, keep generated
+trademarks of their owners and the example is a concept sample, show supplied
+product photos in a `Description` column (not under an `Image prompt` header)
+with the text `Supplied product photo of <Product> (view).`, so a reader does
+not mistake them for generated images, keep generated
 footage text-free, and add any end card in post (see the product-hero notes in
 the frame-break skill and the html-graphic-render skill). Rights clearance for
 external publication stays with the user; keep the document private until the

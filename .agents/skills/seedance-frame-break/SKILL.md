@@ -151,7 +151,8 @@ duration in prompt text.
    caller.
 7. **QA returned takes** with [QA checklist](references/qa-checklist.md): the
    all-frames bar and break-out scan from `scripts/measure_frame_break.py`, a 12 fps window
-   contact sheet for every stage, and frame inspection.
+   contact sheet for every stage, and frame inspection. Treat the script's
+   `inspect` status as needs review, never as a pass.
 8. **Repair** with [failure modes](references/failure-modes.md): change one
    thing at a time; re-rolling the same wording did not help.
 
@@ -226,8 +227,10 @@ duration in prompt text.
 ## Evidence labels
 
 Distinguish the kind of claim when it affects a decision: **observed result**
-(six 1080p Seedance 2.5 runs, October 2026, conditions stated, not a guarantee),
-**documented convention** (owned by `seedance-prompt-25`) and **optional
+(Seedance 2.5 takes at 1080p, October 2026: the six first-round example takes plus
+later regenerated takes, each row naming its take; the pixel gates were calibrated
+on eight real clips, A to H in the QA checklist; conditions stated, not a
+guarantee), **documented convention** (owned by `seedance-prompt-25`) and **optional
 technique** (a hypothesis to test).
 
 | Claim | Label |
@@ -254,6 +257,10 @@ brand asset or a request to bake text into the footage stay open items in the
 package; the text route is post-production.
 
 ## Verification
+
+The script's `summary.verdict` has `status` (`pass`, `inspect`, `fail`), `passed`
+(true only for `pass`) and `needs_review` (true for `inspect`). An automated caller
+must not treat `inspect` as a pass: it means a person checks the listed windows.
 
 ```bash
 uv run python .agents/skills/seedance-frame-break/scripts/measure_frame_break.py take.mp4 --summary-only --output take_measure.json

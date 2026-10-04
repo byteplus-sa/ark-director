@@ -1,4 +1,6 @@
+import contextlib
 import importlib.util
+import io
 import json
 import shutil
 import subprocess
@@ -101,8 +103,46 @@ class AssemblyTests(unittest.TestCase):
             showreel.assemble([self.tmp / "nope.mp4", self.tmp / "nope2.mp4"], self.tmp / "o.mp4", 0.3, 0.3, 28, dry_run=True)
         self.assertIn("not found", str(caught.exception))
 
+    def test_existing_output_is_refused_without_overwrite(self) -> None:
+        clips = []
+        for index in range(2):
+            clip = self.tmp / f"c{index}.mp4"
+            make_clip(clip, 2.0)
+            clips.append(clip)
+        out = self.tmp / "reel.mp4"
+        out.write_bytes(b"keep me")
+        with self.assertRaises(showreel.ShowreelError) as caught:
+            showreel.assemble(clips, out, 0.3, 0.3, 28, dry_run=False)
+        self.assertIn("--overwrite", str(caught.exception))
+        self.assertEqual(out.read_bytes(), b"keep me")
+        showreel.assemble(clips, out, 0.3, 0.3, 28, dry_run=False, overwrite=True)
+        self.assertGreater(out.stat().st_size, 100)
+
+    def test_record_in_a_new_directory_is_created(self) -> None:
+        clips = []
+        for index in range(2):
+            clip = self.tmp / f"c{index}.mp4"
+            make_clip(clip, 2.0)
+            clips.append(clip)
+        record = self.tmp / "nested" / "deeper" / "record.json"
+        args = [str(clips[0]), str(clips[1]), "--out", str(self.tmp / "o.mp4"), "--crossfade", "0.3", "--fade", "0.3", "--crf", "28", "--record", str(record)]
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(showreel.main(args), 0)
+        self.assertEqual(json.loads(record.read_text())["crossfade_s"], 0.3)
+
+    def test_missing_ffmpeg_is_a_clear_error(self) -> None:
+        original = showreel.shutil.which
+        showreel.shutil.which = lambda name: None
+        try:
+            with self.assertRaises(showreel.ShowreelError) as caught:
+                showreel.assemble([self.tmp / "a.mp4", self.tmp / "b.mp4"], self.tmp / "o.mp4", 0.3, 0.3, 28, dry_run=True)
+        finally:
+            showreel.shutil.which = original
+        self.assertIn("PATH", str(caught.exception))
+
     def test_cli_returns_error_code_for_bad_input(self) -> None:
-        code = showreel.main([str(self.tmp / "a.mp4"), str(self.tmp / "b.mp4"), "--out", str(self.tmp / "o.mp4")])
+        with contextlib.redirect_stderr(io.StringIO()):
+            code = showreel.main([str(self.tmp / "a.mp4"), str(self.tmp / "b.mp4"), "--out", str(self.tmp / "o.mp4")])
         self.assertEqual(code, 2)
 
 

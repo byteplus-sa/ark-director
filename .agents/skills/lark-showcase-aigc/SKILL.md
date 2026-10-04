@@ -34,6 +34,9 @@ This skill is an orchestrator — it sequences these skills and tools as needed:
   building the document. For a plain showreel of equal-looking clips with
   crossfades and open/close fades, `scripts/assemble_showreel.py` does it in one
   command and writes a web-ready file (see the playable video delivery guide).
+  It is a convenience wrapper for that simple case (24 fps, the first clip's size,
+  one crossfade length); for hard cuts, per-boundary transition plans or mixed
+  frame rates use `ffmpeg-scene-transitions`.
 - `lark-demo-doc-builder` for the main document-building workflow and prompt/result table patterns.
 - `lark-doc` for document creation and block-level editing.
 - `lark-wiki` when the target is a wiki URL and the underlying doc token must be resolved.
