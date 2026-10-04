@@ -47,7 +47,8 @@ Change one variable per retry: wording, style reference, anchor or route.
 | Symptom | Likely cause | Repair |
 | --- | --- | --- |
 | Output stays photographic | Route A preserves pixels for this source | Probe Route B with the same style block |
-| Subject redrawn but street, plant, table and sky stay photographic | The prompt keeps the source layout or only asks for a style: five layout-keeping words-only runs on both routes (2026-10-04) left the street photographic, while a prompt stating that the whole location changes rebuilt it | State that the background and whole location change, name what is removed, describe the new place, and drop "same positions / same layout" language (Route A or B); an environment image is optional |
+| Subject redrawn but street, plant, table and sky stay photographic | No environment image of the same place: five words-only runs that kept the place left the street photographic (2026-10-04) | Make an empty environment image of the same place in the target medium and use "Replace the scene with ... Refer to @Image 1 for the environment" (Route A), or use Route B with the same image |
+| The scene moved to a different place (city became sea) | The prompt named a new location, or the environment image shows another place | Describe the source's own place in the environment image and the prompt; name no different location unless the user asked for one |
 | Extra chair, ashtray or cup appears | The environment image holds objects the shot lacks | Name each in the Environment Reference Role as not to be used; remove them from the image |
 | Hair or face colour changes toward a style frame | A style frame carries a different look | Say the source owns identity and keep hair colour in the scope; prefer an environment image to person-bearing frames |
 | Faces stay photographic inside a drawn world | Face protection or photoreal anchor | Remove photoreal wording; use a medium-matched anchor |

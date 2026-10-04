@@ -7,8 +7,8 @@ description: >-
   custom style reference image) while keeping its performance, subject
   positions, motion, camera path, cuts and timing. Covers the style catalog, the
   style-only reference role, medium-matched Virtual Portrait identity anchors,
-  a location-change recipe that restyles the background as well as the
-  subject, edit and reference routes, a muted source master with audio added
+  an environment-image recipe that restyles the background while keeping the
+  same place, edit and reference routes, a muted source master with audio added
   in post, a 480p probe ladder, and restyle QA. Use to turn live
   action into animation, change the medium of an animated clip, or match a
   house style. Not for replacing the cast or world (seedance-motion-recast),
@@ -58,8 +58,8 @@ post-audio route, and the test-ladder rung.
 
 1. **The performance stays; the medium changes.** Keep the subject count, their
    screen positions, actions, props, the furniture they use and identity cues
-   (hair shape, wardrobe colours, silhouettes). The background is different:
-   restyling it needs a stated location change (rule 9). Read
+   (hair shape, wardrobe colours, silhouettes). The background keeps its place
+   and is restyled through an environment image of that place (rule 9). Read
    [restyle grammar](references/restyle-grammar.md).
 2. **One style per take, applied to everything.** People, props, set, sky and
    effects share one medium lock. Blends happen only on request.
@@ -77,75 +77,75 @@ post-audio route, and the test-ladder rung.
    captions and copy are added in post.
 8. **Test ladder**: a 480p probe of the hardest beat (fast motion, a face close-up
    or a cut), then the full clip at 480p, then the final resolution.
-9. **State that the location changes, in words.** A whole-frame restyle says the
-   background and the whole location change, names what is removed, and
-   describes the new place in the target medium. Never pair "replace the scene"
-   or a style word with "same positions" or "same layout" for the background:
-   that makes the model keep the source plate. Keep positions only for the
-   subject and the furniture they use.
+9. **Keep the same place.** A restyle changes how the background looks, never
+   where the scene is: a city street stays a city street, with the same kind of
+   buildings, furniture and plants. Never name a different location unless the
+   user asks for one. Words alone do not restyle the street, so build an
+   environment image of the same place and bind it (see Environment image).
 10. **Frame count.** Edit routes take an 8n+1 frame input (for example 121 at
     24 fps) and return the same count.
 
 ## Routes
 
 Probed on 2026-10-03 and 2026-10-04 (480p, 5 s, claymation, one person at a
-café table, locked camera, source bound as an `asset://` video). What changed
-the background and what did not:
+café table on a Paris street, locked camera, source bound as an `asset://`
+video). A restyle keeps the place and changes its medium. What did that, and
+what did not:
 
-- **Layout-keeping words, no images: the street stayed photographic.** Five
-  runs on both routes, including every surface named, a very aggressive all-clay
-  prompt, and "Replace the scene with a plasticine café terrace ... in the same
-  positions as the source" (edit) or "same layout as @Video 1" (reference). Only
-  the person (and, on the reference route, the near table, bench and shrub)
-  changed.
-- **A prompt that states the location changes: whole frame in clay, on both
-  routes.** The prompt says the background and the whole location change, names
-  what is removed ("the Paris street, its buildings, the plant, the bench and
-  the sky are removed; nothing of the original street remains"), and describes a
-  different clay place in words, with no instruction to keep the source layout.
-  Edit and reference routes both rebuilt everything (cottages, harbour, boats,
-  water, sky) while the woman, table, can, cup, motion, timing and camera held.
-  The new place is not the source's place.
-- **An environment image** ("Replace the scene with ... Refer to @Image 1 for the
-  environment" on the edit route, or the same image on the reference route) also
-  gave a whole-frame clay result, with geometry following the image. A stray
-  object in the image can leak into the video.
+- **Environment image of the same place: whole frame in clay, still the same
+  kind of place.** An empty clay Parisian café terrace (cream stone buildings
+  with balconies, wooden bench, shrub, café table), generated from a text
+  description of the source's place and bound as `@Image 1`, with "Replace the
+  scene with the claymation café terrace from @Image 1" on the edit route, or
+  the same image on the reference route. The street, buildings, bench, shrub
+  and table all became clay, it remained a Paris café terrace, and the motion,
+  timing and camera held. The street's exact geometry follows the image, not
+  the source plate, and a stray object in the image can leak into the video.
+- **Words only, keeping the place** (five runs on both routes: restyle wording
+  at three strengths, every surface named, "same positions" and "same layout"):
+  only the person, and on the reference route the near furniture, became clay.
+  The street stayed photographic.
+- **Words only, naming a different place** (a seaside village): the whole frame
+  became clay on both routes, but the scene moved from a city to the sea. Use it
+  only when the user asks for a different place.
 - **Style frames made by restyling photos** (three Seedream clay frames of the
   source): the background stayed photographic, because the frames were
   themselves only partly restyled, and the woman's hair colour leaked.
 
-Untested: rebuilding the source's own location (the same street) as clay with
-words only. Layout-keeping language is the suspected reason the model preserved
-the source plate; test it before promising the same place.
+Untested: an environment image derived from the source plate (so the street
+geometry matches the source), and a words-only prompt that keeps the place and
+rebuilds it.
 
-- **Route A (default): full-frame edit with a location-change block.**
-  `omni_reference_task_type: edit`, `@Video 1` as editing master, ratio and
-  duration locked to the source. Use an 8n+1 frame input (for example 121
-  frames at 24 fps): it returned exactly 121 frames, while a 120-frame input
-  returned 113 (4.71 s vs 5.00 s, inside the 0.3 s tolerance). Without a
-  location-change statement this route changes only the subject.
+- **Route A (default): full-frame edit with an environment image of the same
+  place.** `omni_reference_task_type: edit`, `@Video 1` as editing master,
+  ratio and duration locked to the source. Use an 8n+1 frame input (for example
+  121 frames at 24 fps): it returned exactly 121 frames, while a 120-frame input
+  returned 113 (4.71 s vs 5.00 s, inside the 0.3 s tolerance). Without an
+  environment image this route changes only the subject.
 - **Route B (alternative): reference.** `auto`, or `reference` when recorded
-  capability evidence confirms it, with `@Video 1` as the authority for
-  motion, timing and camera, a detailed shot-by-shot description, and the same
-  location-change statement. Set `ratio` to the source and `duration` to the
+  capability evidence confirms it, with `@Video 1` as the authority for motion,
+  timing and camera, a detailed shot-by-shot description, and the same
+  environment image. Set `ratio` to the source and `duration` to the
   whole-second source length. Use it when Route A keeps photoreal pixels or the
   duration must be exact.
 
 Both routes bind `@Video 1` as an `asset://` video when the source shows a
 person (see the
 [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
-With images, bind the environment image, then style images and identity
-anchors, as `reference_image` after `@Video 1`; 1–5 images for Route A;
-`watermark: false`. Resolve the live tool schema and model ID before writing
-parameters.
+Bind the environment image, then style images and identity anchors, as
+`reference_image` after `@Video 1`; 1–5 images for Route A; `watermark: false`.
+Resolve the live tool schema and model ID before writing parameters.
 
-### Environment image (optional)
+### Environment image
 
-Use one when the exact look or layout of the new place matters. Generate the
-empty set in the target medium with Seedream (no people, no props the shot does
-not have), approve it, and bind it with an Environment Reference Role that names
-what to use and what to ignore (extra chairs, objects, people). Check the image
-for stray objects before use; each one can leak into the video.
+Make one for every whole-frame restyle. Describe the source's own place in the
+target medium (the same city, building style, furniture, plants and light) and
+generate the empty set from text with Seedream: no people, no props the shot
+does not have. Do not make it by restyling a photo of the source; that left the
+background photographic. Check that the image reads as the same place as the
+source and holds no stray objects, then approve it and bind it with an
+Environment Reference Role that names what to use and what to ignore (extra
+chairs, objects, people). Each stray object can leak into the video.
 
 ## Procedure
 
@@ -156,9 +156,8 @@ for stray objects before use; each one can leak into the video.
    props, set layout, cuts, fast-motion windows and on-screen text.
 4. **Style.** Pick a catalog entry or write a custom recipe from the user's
    style images; confirm the cadence note for stop-motion styles.
-   For a whole-frame restyle, write the Location Change block (see the grammar
-   reference): state that the background and the whole location change, and do
-   not tell the model to keep the source layout.
+   For a whole-frame restyle, also make the environment image of the same place
+   (see Environment image); words alone leave the street photographic.
 5. **Anchors.** For recurring characters, register or reuse medium-matched
    Virtual Portraits.
 6. **Prompt.** Assemble the route template in
@@ -187,8 +186,8 @@ in the
 - [ ] Source inspected and hashed; rights decision recorded
 - [ ] Muted master bound as `@Video 1`; `generate_audio: false`; audio saved
 - [ ] Content inventory covers every subject, key prop, cut and text surface
-- [ ] Whole-frame restyle: Location Change block present, what is removed named,
-      the new place described, no "same layout" wording for the background
+- [ ] Whole-frame restyle: environment image of the same place bound; no
+      different location named; output compared with the source for the place
 - [ ] Edit input trimmed to an 8n+1 frame count
 - [ ] One style with a medium lock that names people, props, set and effects
 - [ ] Style image role limited to medium, palette, line, texture and light

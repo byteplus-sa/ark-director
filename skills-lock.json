@@ -401,7 +401,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-restyle/SKILL.md",
-      "computedHash": "63d8e438fd3805f206e87721b43d92326d6ca4d530ca40647b63a6c85ea8e984"
+      "computedHash": "245cbf77325e0c7580a0c8ad3f1429cf50263ec8fee6caed78c47d161afd9125"
     },
     "micro-drama": {
       "source": "./local",

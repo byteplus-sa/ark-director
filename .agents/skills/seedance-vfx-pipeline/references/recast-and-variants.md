@@ -25,7 +25,7 @@ region; a recast rebuilds everything except motion.
 | VFX edit | Add, remove or restyle an effect, environment or element while the source cast and camera stay | `seedance-vfx-prompt` (2.5 edit grammar) | `omni_reference_task_type: edit` |
 | Object Swap | Replace one named character, outfit, product, prop, object or the location and preserve everything else | `seedance-object-swap` | `omni_reference_task_type: edit` |
 | Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; verified on one case); fallback full-frame edit |
-| Restyle | Redraw the whole clip in a new visual medium; keep the performance, motion, camera and cuts; the background changes when the prompt states a location change | `seedance-restyle` | Full-frame edit with a Location Change block; reference route as the alternative |
+| Restyle | Redraw the whole clip in a new visual medium; keep the performance, motion, camera and cuts; the background is restyled as the same place through an environment image | `seedance-restyle` | Full-frame edit with an environment image of the same place; reference route as the alternative |
 
 Decision rules:
 

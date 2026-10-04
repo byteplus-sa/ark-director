@@ -510,12 +510,13 @@ medium. Mark N/A any item whose feature is absent and record why.
    labeled provisional and the request is a 480p probe. Route A uses 1–5
    images; Route B sets the whole-second source duration and ratio.
 
-7. **Location change.** A whole-frame restyle states that the background and
-   the whole location change, names what is removed, and describes the new place
-   in the target medium. A prompt that replaces the scene or asks for a style
-   while telling the model to keep the source layout, positions or plate for the
-   background is MAJOR: probed runs with that wording left the street
-   photographic. Keeping positions for the subject and the furniture they use is
+7. **Same place.** A restyle keeps the source's place: the background is
+   restyled through an environment image of that place, or left as it is.
+   Naming a different location (a city street becoming a seaside village) is
+   MAJOR unless the user asked for one. A scene replacement or style word that
+   only tells the model to keep the source layout for the background is likely
+   to leave it photographic (probed); flag it MAJOR when a whole-frame restyle
+   is requested. Keeping positions for the subject and the furniture they use is
    correct. A restyle that intentionally keeps the original background
    photographic is N/A.
 
