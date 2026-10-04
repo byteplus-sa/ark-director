@@ -61,12 +61,11 @@ differ.
 | `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | 1–5 style images and anchors | Style images and anchors |
 | `resolution` | 480p probe, then the lowest suitable final (720p or 1080p) | Same | Same | Same | Same |
 
-The Motion Transfer default route rebuilt appearance in a 480p probe on one
-case (a single person, a Virtual Portrait character, a text-described
-location; see `seedance-motion-recast`). It stays provisional for other cases:
-until the project records a probe for its own case (multiple subjects, a
-location image, a moving camera) confirming that R2V with `@Video 1` as a
-motion reference rebuilds appearance rather than retaining source pixels:
+The Motion Transfer default route rebuilds appearance from a Virtual Portrait
+character and a text-described location (see `seedance-motion-recast`). For other
+cases (multiple subjects, a location image, a moving camera), the project records
+a route probe confirming that R2V with `@Video 1` as a motion reference rebuilds
+appearance rather than retaining source pixels:
 
 1. Run the route probe on the first variant row only, on the critical path,
    before the other rows spend credits on the same route.

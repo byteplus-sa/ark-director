@@ -92,14 +92,11 @@ Seedance 2.5 edit, through `seedance_2_5_create_task`:
   when the source shows a person (see the
   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
 - `images`: target views as `reference_image`, in binding order.
-- `omni_reference_task_type`: `edit`. A 480p, 5 s product-swap probe on
-  2026-10-03 (one person, a hand-held can, a static camera) was accepted and
-  passed QA: the can was replaced in every sampled frame, contact and
-  occlusion held, and the rest of the frame was unchanged. Field notes record
-  that 2.5 rejects `edit_video`. Confirm the accepted value from current
-  capability evidence for other cases (outfit, character and location swaps
-  are untested).
-- Omit `ratio` and `duration`; both lock to the source. Output can be up to about 0.3 s shorter; use an 8n+1 frame input (for example 121 at 24 fps), which returned exactly 121 frames on a 2026-10-04 Restyle probe of the same edit route.
+- `omni_reference_task_type`: `edit`. Seedance 2.5 does not accept
+  `edit_video`. Confirm the accepted value from current capability evidence for
+  the case at hand.
+- Omit `ratio` and `duration`; both lock to the source. Use an 8n+1 frame input
+  (for example 121 at 24 fps) so the output keeps the source frame count.
 - `generate_audio: false`, `watermark: false`, `resolution` per ladder rung.
 
 Resolve the live tool schema and model ID before writing parameters.

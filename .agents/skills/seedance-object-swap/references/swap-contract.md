@@ -25,7 +25,7 @@ cause of a failed swap.
    speed changes, across every cut.
 4. **Residual-original guard.** Phrase the result positively: `The original
    <object> is fully replaced in every frame; only the <target> appears.` Add a
-   negative only where a leak was observed in a probe.
+   negative only for a residual original seen in review.
 5. **Preservation.** Everything outside the swapped element stays as in
    `@Video 1`: identity, wardrobe, hands, performance, mouth movement, camera,
    cuts and lighting. Sound is not part of the edit; it returns in post.

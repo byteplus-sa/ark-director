@@ -395,19 +395,19 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
-      "computedHash": "3c7205239d5006fa4bad698606a46e5efd78dd7e2f9315ea4152b388a51cd28d"
+      "computedHash": "4082da7160ba4cd18e5fca46f81cc57641a74ff90504fea5c7efcf55c55f6bac"
     },
     "seedance-object-swap": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-object-swap/SKILL.md",
-      "computedHash": "0dfb26e00567fa9f73f22281d5b0164b6e64563c7e62c8193a5f2ce2d317943c"
+      "computedHash": "98c57d6c8ec45efabb63109a947c47868a17b761582d9927a26db2c51f10da41"
     },
     "seedance-restyle": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-restyle/SKILL.md",
-      "computedHash": "3094859ce92c782941f45c056159de3382cd383a310f811f3d3b03e405dc0a6a"
+      "computedHash": "5b0604a1e5cce5a816e1bb22d95a351f87b3647f7efcaeb67f2f2e8d9796a3bc"
     },
     "micro-drama": {
       "source": "./local",

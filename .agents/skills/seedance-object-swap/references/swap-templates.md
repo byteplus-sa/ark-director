@@ -263,5 +263,5 @@ Silent output. Sound is added in post.
 ```
 
 Submit with `omni_reference_task_type: edit`, `@Video 1` first and `@Image 1`
-second, `generate_audio: false`, at 480p for the probe. After QA, mux the saved
+second, `generate_audio: false`, at 480p for the first test. After QA, mux the saved
 source audio so the set-down sound lands at 0:05.

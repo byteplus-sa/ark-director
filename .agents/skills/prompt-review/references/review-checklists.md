@@ -515,8 +515,8 @@ medium. Mark N/A any item whose feature is absent and record why.
    Naming a different location (a city street becoming a seaside village) is
    MAJOR unless the user asked for one. A scene replacement or style word that
    only tells the model to keep the source layout for the background is likely
-   to leave it photographic (probed); flag it MAJOR when a whole-frame restyle
-   is requested. Keeping positions for the subject and the furniture they use is
+   to leave it photographic; flag it MAJOR when a whole-frame restyle is
+   requested. Keeping positions for the subject and the furniture they use is
    correct. A restyle that intentionally keeps the original background
    photographic is N/A.
 

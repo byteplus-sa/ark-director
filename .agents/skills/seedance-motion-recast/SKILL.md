@@ -96,17 +96,13 @@ the post-audio route and the test-ladder rung it targets.
 
 ## Mode selection
 
-The default route is verified on one case. A 480p, 5 s probe on 2026-10-03
-rebuilt cast and world from a Virtual Portrait `asset://` image while keeping
-the source's motion, timing and static camera (one person, no source clothing
-or accessories carried over). It bound `@Video 1` as an `asset://` video, since
-the provider rejects a raw video with a person, and ran with
-`generate_audio: false`. The probe used one character, a single
-source person, a text-described location and no product reference; confirm
-multi-subject, location-image and moving-camera cases with their own probes,
-and record each result in the project.
+The default route rebuilds cast and world from a Virtual Portrait `asset://`
+image while keeping the source's motion, timing and camera. It binds `@Video 1`
+as an `asset://` video when the source shows a person, and runs with
+`generate_audio: false`. Test multi-subject, location-image and moving-camera
+cases at 480p first and record each result in the project.
 
-- **Default route (verified for the case above): multimodal R2V.** Bind the source as
+- **Default route: multimodal R2V.** Bind the source as
   `@Video 1` with role `reference_video`, stated as a motion-only reference (an `asset://` video when
   the source shows a person).
   Bind targets as `reference_image`. Set `omni_reference_task_type` to `auto`,
@@ -114,7 +110,7 @@ and record each result in the project.
   (4–30 s; trim the source to whole seconds first) and `generate_audio` to
   `false`. A 5 s request returned 121 frames at 24 fps (5.04 s); trim or pad to
   the picture when muxing.
-- **Fallback plan B: full-frame edit.** If the probe output keeps the source's
+- **Fallback plan B: full-frame edit.** If the output keeps the source's
   people, clothing or location, switch to the edit task type the live tool
   accepts for Seedance 2.5 and write the edit variant in
   [recast grammar](references/recast-grammar.md#plan-b-full-frame-edit-variant).
@@ -122,7 +118,7 @@ and record each result in the project.
   followed by the per-subject mapping. Edit mode locks duration and aspect
   ratio to the source and prefers 1–5 reference images.
 - An explicit `reference` task type, when recorded capability evidence
-  confirms it, is a second probe before plan B. Change one variable per probe.
+  confirms it, is the second test before plan B. Change one variable per test.
 
 Resolve the live tool's accepted parameters and model ID before writing
 parameters; do not assume a `seed` parameter exists.

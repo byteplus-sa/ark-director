@@ -145,8 +145,8 @@ any frame.
 object, and scan for source colors or architecture.
 
 **Repair:** a local leak is a prompt repair. A whole-frame leak on the default
-route is the signal to probe the next route (explicit reference task type,
-then plan B full-frame edit). Record the probe result.
+route is the signal to try the next route (explicit reference task type,
+then plan B full-frame edit). Record the result.
 
 ## Flicker from over-broad scene prompts
 

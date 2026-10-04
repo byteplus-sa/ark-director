@@ -9,7 +9,7 @@ description: >-
   style-only reference role, medium-matched Virtual Portrait identity anchors,
   an environment-image recipe that restyles the background while keeping the
   same place, edit and reference routes, a muted source master with audio added
-  in post, a 480p probe ladder, and restyle QA. Use to turn live
+  in post, a 480p test ladder, and restyle QA. Use to turn live
   action into animation, change the medium of an animated clip, or match a
   house style. Not for replacing the cast or world (seedance-motion-recast),
   swapping one element (seedance-object-swap), grading or relighting the
@@ -80,63 +80,25 @@ post-audio route, and the test-ladder rung.
 9. **Keep the same place.** A restyle changes how the background looks, never
    where the scene is: a city street stays a city street, with the same kind of
    buildings, furniture and plants. Never name a different location unless the
-   user asks for one. Words alone do not restyle the street, so build an
-   environment image of the same place and bind it (see Environment image).
+   user asks for one. Build an environment image of the same place and bind it
+   (see Environment image).
 10. **Frame count.** Edit routes take an 8n+1 frame input (for example 121 at
     24 fps) and return the same count.
 
 ## Routes
 
-Probed on 2026-10-03 and 2026-10-04 (480p, 5 s, claymation, one person at a
-café table on a Paris street, locked camera, source bound as an `asset://`
-video). A restyle keeps the place and changes its medium. What did that, and
-what did not:
-
-- **Environment image of the same place: whole frame in clay, still the same
-  kind of place.** An empty clay Parisian café terrace (cream stone buildings
-  with balconies, wooden bench, shrub, café table), generated from a text
-  description of the source's place and bound as `@Image 1`, with "Replace the
-  scene with the claymation café terrace from @Image 1" on the edit route, or
-  the same image on the reference route. The street, buildings, bench, shrub
-  and table all became clay, it remained a Paris café terrace, and the motion,
-  timing and camera held. The street's exact geometry follows the image, not
-  the source plate, and a stray object in the image can leak into the video.
-- **Words only, keeping the place** (seven runs: restyle wording at three
-  strengths, every surface named, "same positions" and "same layout" on both
-  routes, a background-only edit, and a background-only second pass): only the
-  person, and on the reference route the near furniture, became clay. The street
-  stayed photographic. A background-only edit on the original turned the woman to
-  clay as well, despite "leave her as filmed", and a background-only second pass
-  on a clay-woman output changed the street's shops and added lettering without
-  making it clay.
-- **Words only, naming a different place** (a seaside village): the whole frame
-  became clay on both routes, but the scene moved from a city to the sea. Use it
-  only when the user asks for a different place.
-- **Style frames made by restyling photos** (three Seedream clay frames of the
-  source): the background stayed photographic, because the frames were
-  themselves only partly restyled, and the woman's hair colour leaked.
-
-Untested: an environment image derived from the source plate (so the street
-geometry matches the source), other styles (a 2D style may redraw a whole frame
-more easily than sculpted clay), and 720p or 1080p.
-
-**If the request allows no image input at all,** a same-place background restyle
-is not reliable today. Say so, and offer: an environment image generated from
-text (the user supplies nothing), a subject-only restyle, or, only if the user
-wants it, a different place described in words.
-
 - **Route A (default): full-frame edit with an environment image of the same
   place.** `omni_reference_task_type: edit`, `@Video 1` as editing master,
   ratio and duration locked to the source. Use an 8n+1 frame input (for example
-  121 frames at 24 fps): it returned exactly 121 frames, while a 120-frame input
-  returned 113 (4.71 s vs 5.00 s, inside the 0.3 s tolerance). Without an
-  environment image this route changes only the subject.
+  121 frames at 24 fps) so the output keeps the source frame count. Say "Replace
+  the scene with the <style> <place> from @Image 1" and restyle the subject and
+  props in the same sentence.
 - **Route B (alternative): reference.** `auto`, or `reference` when recorded
   capability evidence confirms it, with `@Video 1` as the authority for motion,
   timing and camera, a detailed shot-by-shot description, and the same
   environment image. Set `ratio` to the source and `duration` to the
-  whole-second source length. Use it when Route A keeps photoreal pixels or the
-  duration must be exact.
+  whole-second source length. Use it when the duration must be exact or Route A
+  keeps photoreal pixels.
 
 Both routes bind `@Video 1` as an `asset://` video when the source shows a
 person (see the
@@ -147,14 +109,26 @@ Resolve the live tool schema and model ID before writing parameters.
 
 ### Environment image
 
-Make one for every whole-frame restyle. Describe the source's own place in the
-target medium (the same city, building style, furniture, plants and light) and
-generate the empty set from text with Seedream: no people, no props the shot
-does not have. Do not make it by restyling a photo of the source; that left the
-background photographic. Check that the image reads as the same place as the
-source and holds no stray objects, then approve it and bind it with an
-Environment Reference Role that names what to use and what to ignore (extra
-chairs, objects, people). Each stray object can leak into the video.
+Make one for every whole-frame restyle. It carries the background into the new
+medium, so the street, buildings, furniture and plants take the style while the
+scene stays in the same place.
+
+1. Describe the source's own place in the target medium (the same city,
+   building style, furniture, plants and light) and generate the empty set from
+   text with Seedream: no people, no props the shot does not have.
+2. Check that it reads as the same place as the source and holds no stray
+   objects, then approve it.
+3. Bind it with an Environment Reference Role that names what to use and what to
+   ignore (extra chairs, objects, people).
+
+The background's geometry follows the image, so the image is also where
+the street layout is chosen. When the request allows no image input from the
+user, generate this image from text yourself; when no image may be bound at all,
+offer a subject-only restyle, or a different place described in words if the
+user wants one.
+
+Start a new case (another style, camera move, people count or resolution) with a
+480p test of the hardest beat.
 
 ## Procedure
 
@@ -166,7 +140,7 @@ chairs, objects, people). Each stray object can leak into the video.
 4. **Style.** Pick a catalog entry or write a custom recipe from the user's
    style images; confirm the cadence note for stop-motion styles.
    For a whole-frame restyle, also make the environment image of the same place
-   (see Environment image); words alone leave the street photographic.
+   (see Environment image).
 5. **Anchors.** For recurring characters, register or reuse medium-matched
    Virtual Portraits.
 6. **Prompt.** Assemble the route template in
@@ -190,8 +164,8 @@ in the
 
 ## Checklist
 
-- [ ] Request changes the medium (and, for a whole-frame restyle, the location);
-      cast or element changes routed elsewhere
+- [ ] Request changes the medium and keeps the place; cast or element changes
+      routed elsewhere
 - [ ] Source inspected and hashed; rights decision recorded
 - [ ] Muted master bound as `@Video 1`; `generate_audio: false`; audio saved
 - [ ] Content inventory covers every subject, key prop, cut and text surface
@@ -204,5 +178,5 @@ in the
 - [ ] Identity anchors are medium-matched Virtual Portraits, when used
 - [ ] Stop-motion cadence note present when the style steps motion
 - [ ] Source text disposition stated; no new copy requested
-- [ ] Route and ladder rung stated; a new case (other style, camera or people count) probed at 480p first
+- [ ] Route and ladder rung stated; a new case (other style, camera or people count) tested at 480p first
 - [ ] Post-audio route recorded

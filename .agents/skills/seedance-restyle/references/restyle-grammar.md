@@ -25,11 +25,8 @@ Describe content only as an inventory that pins who and what must survive.
 Retelling every move conflicts with the video.
 
 **The place stays the same.** The background is restyled, never replaced with a
-different location. Words alone did not do it: five words-only runs that kept the
-place (restyle wording, every surface named, "same positions", "same layout")
-left the street photographic. Describing a different place in words did rebuild
-the frame, but moved the scene from a city to the sea, so it is not a restyle.
-Use an environment image of the same place.
+different location. An environment image of the same place carries it into the
+new medium, and the prompt names no other location.
 
 ## Route A: full-frame edit
 
@@ -87,8 +84,7 @@ light quality>. Use none of its subjects, layout or characters.
 
 ## Route B: reference
 
-Use when a Route A probe keeps photographic pixels or the duration must be
-exact. Set `duration` to the whole-second source length and `ratio` to the
+Use when the duration must be exact or Route A keeps photographic pixels. Set `duration` to the whole-second source length and `ratio` to the
 source.
 
 ```text
@@ -127,10 +123,8 @@ Silent output. Sound is added in post.
 
 ## A different place, only when requested
 
-When the user explicitly asks for a different location, a words-only block
-rebuilt the whole frame in a 2026-10-04 probe on both routes (a clay seaside
-village in place of a Paris street). Use it only on request, never as a way to
-restyle the background of the same scene:
+When the user explicitly asks for a different location, add this block. Use it
+only on request, never to restyle the background of the same scene:
 
 ```text
 [Location Change]
@@ -170,8 +164,8 @@ A single-take restyle without recurring characters needs no anchors.
 
 ## Worked example: terrace clip to claymation
 
-Verified on 2026-10-04: edit route, 480p, 121-frame muted source bound as an
-`asset://` video, one environment image of the same place.
+Edit route, 480p, 121-frame muted source bound as an `asset://` video, one
+environment image of the same place.
 
 Source: a 5 s, 16:9 locked-off clip. A woman with shoulder-length dark hair, a
 navy jacket over a cream top and a small gold hoop earring sits at a small round
@@ -234,8 +228,8 @@ Silent output. Sound is added in post.
 Parameters: `omni_reference_task_type: edit`, `generate_audio: false`,
 `resolution: 480p`, `watermark: false`; `ratio` and `duration` omitted.
 
-Result: the street, buildings, bench, shrub and table became clay and it stayed a
-Paris café terrace, while the woman, can and cup kept their motion and timing;
-121 frames in, 121 out. The same image on the reference route gave the same kind
-of result. The street's geometry follows the image, not the source plate. After
+Result: the street, buildings, bench, shrub and table become clay and it stays a
+Paris café terrace, while the woman, can and cup keep their motion and timing;
+121 frames in, 121 out. The same image works on the reference route. The
+street's geometry follows the image, not the source plate. After
 QA, mux the saved source audio.
