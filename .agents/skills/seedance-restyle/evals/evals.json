@@ -4,14 +4,17 @@
     {
       "id": 1,
       "prompt": "Turn our 10-second office comedy clip into 2D anime. Same two coworkers, same gags, same camera. We own the footage.",
-      "expected_output": "A restyle package with the cel-anime-2d fragment, a content inventory for both coworkers by observable descriptors, the muted master as @Video 1 with generate_audio false and an original-audio post route, the route marked provisional, and a 480p probe of the hardest beat first.",
+      "expected_output": "A restyle package with the cel-anime-2d fragment, a content inventory for both coworkers by observable descriptors, a Location Change block that draws the office background in the style, the muted master as @Video 1 trimmed to an 8n+1 frame count with generate_audio false and an original-audio post route, and a 480p probe of the hardest beat first.",
       "files": [],
       "assertions": [
         "The edit scope redraws every person, object and surface in the style and states exactly two people.",
         "Each coworker keeps identity cues (hair shape, wardrobe colours) described from the source, not by name.",
         "@Video 1 is the muted master, generate_audio is false and the saved source audio is the recorded post-audio route.",
+        "A Location Change block states that the office background is rebuilt in the style, names what is removed, and describes the new background in the style; it does not tell the model to keep the same layout or positions for the background.",
+        "The package notes that rebuilding the same location (not a new place) is untested and probes it at 480p first.",
+        "The source is trimmed to an 8n+1 frame count (for example 241 frames at 24 fps for 10 s) before the edit.",
         "No studio, artist or franchise is named.",
-        "The route is labeled provisional and the first request is a 480p probe."
+        "The first request is a 480p probe."
       ]
     },
     {

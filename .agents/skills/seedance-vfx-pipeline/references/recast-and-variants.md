@@ -25,7 +25,7 @@ region; a recast rebuilds everything except motion.
 | VFX edit | Add, remove or restyle an effect, environment or element while the source cast and camera stay | `seedance-vfx-prompt` (2.5 edit grammar) | `omni_reference_task_type: edit` |
 | Object Swap | Replace one named character, outfit, product, prop, object or the location and preserve everything else | `seedance-object-swap` | `omni_reference_task_type: edit` |
 | Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; verified on one case); fallback full-frame edit |
-| Restyle | Redraw the whole clip in a new visual medium; keep content, layout, motion, camera and cuts | `seedance-restyle` | Provisional full-frame edit; fallback reference route |
+| Restyle | Redraw the whole clip in a new visual medium; keep the performance, motion, camera and cuts; the background changes when the prompt states a location change | `seedance-restyle` | Full-frame edit with a Location Change block; reference route as the alternative |
 
 Decision rules:
 
@@ -52,7 +52,7 @@ and the manifest template in [Delivery And Manifest](delivery-and-manifest.md).
 Apply every other rule in [Submission](submission.md); only these fields
 differ.
 
-| Field | VFX edit / Object Swap | Motion Transfer (R2V) | Motion Transfer fallback | Restyle Route A (provisional edit) | Restyle Route B (reference) |
+| Field | VFX edit / Object Swap | Motion Transfer (R2V) | Motion Transfer fallback | Restyle Route A (edit) | Restyle Route B (reference) |
 | --- | --- | --- | --- | --- | --- |
 | `omni_reference_task_type` | `edit` | `auto`, or the type the route probe verified | `edit` | `edit` | `auto`, or the type the route probe verified |
 | `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope | Editing master; every surface redrawn in the style | Authority for composition, poses, camera, cuts and timing |

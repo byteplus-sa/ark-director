@@ -97,7 +97,7 @@ Route selection precedes Step 1. A VFX edit takes its prompt from
 submit as an edit. A Motion Transfer recast takes its prompt from
 `seedance-motion-recast` and submits on the motion reference route
 or its full-frame edit fallback. A Restyle takes its prompt from
-`seedance-restyle` and submits on its provisional route. Object Swap, Motion
+`seedance-restyle` and submits on its edit route (reference route as the alternative). Object Swap, Motion
 Transfer and Restyle submit the muted source master with audio added in post
 (a VFX edit keeps its own audio handling),
 and Object Swap and Motion Transfer first run `source-subject-map` once per

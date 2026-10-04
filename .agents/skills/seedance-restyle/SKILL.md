@@ -4,8 +4,8 @@ description: >-
   Write Seedance 2.5 Restyle prompts that redraw an entire existing clip in a
   new visual style (2D cel anime, watercolor, claymation, needle felt, toy
   miniature, stylized 3D, pixel art, woodblock, film noir and 20+ more, or a
-  custom style reference image) while keeping its content, composition,
-  motion, camera path, cuts and timing. Covers the style catalog, the
+  custom style reference image) while keeping its performance, subject
+  positions, motion, camera path, cuts and timing. Covers the style catalog, the
   style-only reference role, medium-matched Virtual Portrait identity anchors,
   a location-change recipe that restyles the background as well as the
   subject, edit and reference routes, a muted source master with audio added
@@ -56,9 +56,10 @@ post-audio route, and the test-ladder rung.
 
 ## Hard rules
 
-1. **Content stays; only the medium changes.** Keep the subject count, screen
-   positions, actions, props, set layout and identity cues (hair shape,
-   wardrobe colours, silhouettes). Read
+1. **The performance stays; the medium changes.** Keep the subject count, their
+   screen positions, actions, props, the furniture they use and identity cues
+   (hair shape, wardrobe colours, silhouettes). The background is different:
+   restyling it needs a stated location change (rule 9). Read
    [restyle grammar](references/restyle-grammar.md).
 2. **One style per take, applied to everything.** People, props, set, sky and
    effects share one medium lock. Blends happen only on request.
@@ -76,6 +77,14 @@ post-audio route, and the test-ladder rung.
    captions and copy are added in post.
 8. **Test ladder**: a 480p probe of the hardest beat (fast motion, a face close-up
    or a cut), then the full clip at 480p, then the final resolution.
+9. **State that the location changes, in words.** A whole-frame restyle says the
+   background and the whole location change, names what is removed, and
+   describes the new place in the target medium. Never pair "replace the scene"
+   or a style word with "same positions" or "same layout" for the background:
+   that makes the model keep the source plate. Keep positions only for the
+   subject and the furniture they use.
+10. **Frame count.** Edit routes take an 8n+1 frame input (for example 121 at
+    24 fps) and return the same count.
 
 ## Routes
 
@@ -173,15 +182,19 @@ in the
 
 ## Checklist
 
-- [ ] Request changes the medium only; cast or element changes routed elsewhere
+- [ ] Request changes the medium (and, for a whole-frame restyle, the location);
+      cast or element changes routed elsewhere
 - [ ] Source inspected and hashed; rights decision recorded
 - [ ] Muted master bound as `@Video 1`; `generate_audio: false`; audio saved
 - [ ] Content inventory covers every subject, key prop, cut and text surface
+- [ ] Whole-frame restyle: Location Change block present, what is removed named,
+      the new place described, no "same layout" wording for the background
+- [ ] Edit input trimmed to an 8n+1 frame count
 - [ ] One style with a medium lock that names people, props, set and effects
 - [ ] Style image role limited to medium, palette, line, texture and light
 - [ ] No studio, artist or franchise names
 - [ ] Identity anchors are medium-matched Virtual Portraits, when used
 - [ ] Stop-motion cadence note present when the style steps motion
 - [ ] Source text disposition stated; no new copy requested
-- [ ] Route marked provisional until a probe passes; ladder rung stated
+- [ ] Route and ladder rung stated; a new case (other style, camera or people count) probed at 480p first
 - [ ] Post-audio route recorded

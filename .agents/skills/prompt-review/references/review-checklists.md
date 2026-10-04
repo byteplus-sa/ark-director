@@ -510,7 +510,16 @@ medium. Mark N/A any item whose feature is absent and record why.
    labeled provisional and the request is a 480p probe. Route A uses 1–5
    images; Route B sets the whole-second source duration and ratio.
 
-7. **Video-to-video inputs.** Apply the shared items under
+7. **Location change.** A whole-frame restyle states that the background and
+   the whole location change, names what is removed, and describes the new place
+   in the target medium. A prompt that replaces the scene or asks for a style
+   while telling the model to keep the source layout, positions or plate for the
+   background is MAJOR: probed runs with that wording left the street
+   photographic. Keeping positions for the subject and the furniture they use is
+   correct. A restyle that intentionally keeps the original background
+   photographic is N/A.
+
+8. **Video-to-video inputs.** Apply the shared items under
    [Video-to-video inputs](#video-to-video-inputs-swap-recast-restyle).
 
 ---
