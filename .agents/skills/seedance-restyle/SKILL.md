@@ -103,9 +103,10 @@ source layout, the environment image must be built from it (not yet tested).
 - **Route A (default): full-frame edit with an environment image.**
   `omni_reference_task_type: edit`, `@Video 1` as editing master, ratio and
   duration locked to the source. The output was 113 frames for a 120-frame
-  source (4.71 s vs 5.00 s), inside the 0.3 s tolerance; the official guide says
-  an input of 8n+1 frames avoids the shortfall (not yet confirmed by our
-  probes). Without an environment image this route changes only the subject.
+  source (4.71 s vs 5.00 s), inside the 0.3 s tolerance. Use an 8n+1 frame input
+  (for example 121 frames at 24 fps): the same request on a 121-frame source
+  returned exactly 121 frames. Without an environment image this route changes
+  only the subject.
 - **Route B (alternative): reference.** `auto`, or `reference` when recorded
   capability evidence confirms it, with `@Video 1` as the authority for
   composition, poses, camera, cuts and timing, the environment image, and a

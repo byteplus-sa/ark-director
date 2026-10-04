@@ -99,7 +99,7 @@ Seedance 2.5 edit, through `seedance_2_5_create_task`:
   that 2.5 rejects `edit_video`. Confirm the accepted value from current
   capability evidence for other cases (outfit, character and location swaps
   are untested).
-- Omit `ratio` and `duration`; both lock to the source. Output can be up to about 0.3 s shorter; the official guide says an input of 8n+1 frames (for example 121 at 24 fps) matches exactly.
+- Omit `ratio` and `duration`; both lock to the source. Output can be up to about 0.3 s shorter; use an 8n+1 frame input (for example 121 at 24 fps), which returned exactly 121 frames on a 2026-10-04 Restyle probe of the same edit route.
 - `generate_audio: false`, `watermark: false`, `resolution` per ladder rung.
 
 Resolve the live tool schema and model ID before writing parameters.

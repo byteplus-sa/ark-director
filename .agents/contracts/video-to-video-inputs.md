@@ -67,9 +67,10 @@ character.
   - *Edit routes* (Object Swap, Restyle) lock duration to the source. The
     official Seedance 2.5 guide says the output comes back up to about 0.3 s
     shorter unless the input frame count is 8n+1 (for example 121 frames at
-    24 fps, 5.04 s). Trim to an 8n+1 frame count instead. A 2026-10-03 probe
-    that used 120 frames returned 113; the 8n+1 fix is documented but not yet
-    confirmed by our own probe.
+    24 fps, 5.04 s). Trim to an 8n+1 frame count instead. Confirmed by our own
+    probes: a 120-frame input returned 113 frames (2026-10-03), and the same
+    request with a 121-frame input returned exactly 121 frames, 5.042 s
+    (2026-10-04).
 
   ```bash
   ffmpeg -ss <start> -i <source>.mp4 -t <whole seconds> -map 0:v:0 -map 0:a:0? \
