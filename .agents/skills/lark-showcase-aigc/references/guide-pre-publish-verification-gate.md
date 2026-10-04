@@ -47,7 +47,24 @@ Before declaring the document complete, run this mandatory scan:
    attributes are reader-facing titles, not filenames.
 9. **Code-block wrap.** Confirm every prompt code block has `wrap: true` via the
    blocks API (see prompt cleanup rules).
-10. **Only then** declare the document complete in the deliverable contract.
+10. **Served-media verification.** For every Preview figure, download the file
+    served for its token and confirm identical SHA-256 to the web-ready delivery
+    copy, `moov` near the start of the file, and a clean decode; confirm the
+    figure count, that none sits at the end of the document by accident, and
+    that every figure is `video/mp4` (see
+    [guide-playable-video-delivery.md](guide-playable-video-delivery.md)). Report
+    that playback itself needs a human check unless a person confirmed it.
+11. **Watch every clip.** Play each video at normal speed from start to end (or
+    read a contact sheet of every second at 12 fps or more) before publishing.
+    A defect a viewer notices, such as frame elements that move when they
+    should be fixed, a sudden limb or scale jump, or stray logos or lettering,
+    blocks publication: regenerate the clip or drop the example. A QA threshold
+    that passed on sampled frames is not enough, and "Good to know" is for
+    approximate behaviour, not for visible glitches.
+12. **Claims versus clips.** For a tutorial with examples, check every "what to
+    look for" row and every general lesson against the clips and against the
+    other examples; remove anything not visible or contradicted elsewhere.
+13. **Only then** declare the document complete in the deliverable contract.
 
 This gate is not optional. The "mom test" means: if you handed this document to
 someone with no knowledge of AI tooling, API parameters, or internal project

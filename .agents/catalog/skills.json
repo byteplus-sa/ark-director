@@ -244,6 +244,15 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "seedance-frame-break": {
+      "kind": "leaf",
+      "description": "Write and QA Seedance 2.5 prompts for the frame-break pop-out effect (3D billboard look): two solid black bars at the top and bottom of a 16:9 frame with the subject's nearest limbs or clothing drawn in front of the bars in full colour, so the subject bursts toward the viewer. Covers the three-layer prompt contract, four timed stages with observable End states, a fixed camera, scenic backdrops, a product-hero variant, failure repairs and a frame-based pixel check of bar thickness and overlap. Use for pop-out, frame-break, 3D billboard, a character bursting out of black bars, or a product hero ad whose product breaks the frame. Not for ordinary cinematic letterbox, general camera moves (seedance-camera-presets), the base prompt grammar (seedance-prompt-25), edits to existing footage, or task submission.",
+      "readme_summary": "Write and QA Seedance 2.5 frame-break pop-out prompts where the subject is drawn over two fixed black bars, with a locked camera, staged break-outs, a product-hero variant, failure repairs and an all-frames pixel check of bar motion and overlap.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
     "seedance-graybox-world": {
       "kind": "leaf",
       "description": "Write Seedance 2.5 prompts for the Blender gray look \u2014 an untextured gray graybox / blockout 3D world with matcap-style shading, ambient-occlusion depth, a neutral gray viewport background, and clean mechanical motion, like Blender's Solid viewport or Material Preview on default gray materials. Use whenever the user asks for a \"Blender-like world\", \"gray world\", graybox, blockout, untextured 3D, previs or previz look, whitebox, layout pass, matcap gray, neutral gray studio, or a video that must look like a default Blender viewport render \u2014 even if they never say \"graybox\". Use only when gray IS the desired final look; when the user wants a coarse or fine blockout reference to re-render into final materials, use seedance-prompt-25's blockout-reference mode instead.",
