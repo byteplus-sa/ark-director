@@ -85,6 +85,13 @@ café table, locked camera, source bound as an `asset://` video):
 - **Route A, words only** (three prompt strengths, including every surface named
   and a very aggressive all-clay prompt): only the person, jacket and can
   changed. The street, plant, bench, table and sky stayed photographic.
+- **Words only with the scene described in prose and no images** (2026-10-04):
+  edit mode ("Replace the scene with a plasticine café terrace ...") changed
+  only the person and added a plant pot; the street and buildings stayed
+  photographic. Reference mode with the clay world described in prose made the
+  person, table, bench and shrub read more as clay, but the street and buildings
+  behind stayed photographic. Across five words-only runs on both routes, none
+  turned the distant street to clay.
 - **Route A with an environment image: whole frame in clay.** The prompt says
   "Replace the scene with ... Refer to @Image 1 for the environment", where
   `@Image 1` is the empty environment drawn in the target medium. The street,
