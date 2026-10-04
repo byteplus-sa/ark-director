@@ -1,5 +1,9 @@
 ## Project showcase layout
 
+For a guide that teaches one technique and proves it with several examples, use
+[guide-tutorial-with-examples-layout.md](guide-tutorial-with-examples-layout.md)
+and reuse the table conventions below.
+
 Use this layout for a customer-facing collection of two or more commercials,
 campaign directions, or related projects. It makes the strongest playback
 available immediately while keeping every project's supporting material easy to

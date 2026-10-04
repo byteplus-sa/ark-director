@@ -31,7 +31,9 @@ This skill is an orchestrator — it sequences these skills and tools as needed:
 
 - `ffmpeg-scene-transitions` to assemble multiple locked scene videos into one
   compilation highlight video (with crossfades and locked A/V sync) before
-  building the document.
+  building the document. For a plain showreel of equal-looking clips with
+  crossfades and open/close fades, `scripts/assemble_showreel.py` does it in one
+  command and writes a web-ready file (see the playable video delivery guide).
 - `lark-demo-doc-builder` for the main document-building workflow and prompt/result table patterns.
 - `lark-doc` for document creation and block-level editing.
 - `lark-wiki` when the target is a wiki URL and the underlying doc token must be resolved.
@@ -128,6 +130,8 @@ publication. Existing approval to draft does not authorize external messages.
 | Enterprise framing guidance | [guide-enterprise-framing-guidance.md](references/guide-enterprise-framing-guidance.md) |
 | Prompt cleanup rules | [guide-prompt-cleanup-rules.md](references/guide-prompt-cleanup-rules.md) |
 | Media handling rules | [guide-media-handling-rules.md](references/guide-media-handling-rules.md) |
+| Playable video delivery, upload, swap and served-file verification (read before any video goes into a document) | [guide-playable-video-delivery.md](references/guide-playable-video-delivery.md) |
+| Tutorial that teaches one technique and proves it with several examples | [guide-tutorial-with-examples-layout.md](references/guide-tutorial-with-examples-layout.md) |
 | Jargon blocklist | [guide-jargon-blocklist.md](references/guide-jargon-blocklist.md) |
 | Pre-publish verification gate | [guide-pre-publish-verification-gate.md](references/guide-pre-publish-verification-gate.md) |
 | Standalone-document checks | [guide-standalone-document-checks.md](references/guide-standalone-document-checks.md) |

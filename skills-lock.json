@@ -113,7 +113,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/lark-showcase-aigc/SKILL.md",
-      "computedHash": "c49d5edf805197c297fabe5e157753ae51889f810ad6098b076bda2b9692dc6f"
+      "computedHash": "31427e890b0c0de9816ee164e0685b4f6599868f84b9a9e1a8a1b12d7b6b4a3b"
     },
     "media-review": {
       "source": "./local",
@@ -162,6 +162,12 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
       "computedHash": "cc25677e1668e3aab009c36b0b2800b45880305927b37955dbd0a27d4a34a6d5"
+    },
+    "seedance-frame-break": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-frame-break/SKILL.md",
+      "computedHash": "2af8ae9a2a997265ccd563500b8b8cd5e634eb4eab6598a6a7175f1c50d6824e"
     },
     "seedance-graybox-world": {
       "source": "./local",
