@@ -51,8 +51,9 @@ Use when one character gains or loses control.
 
 - Shots: a high angle on the weaker position before the turn, a low angle on the
   stronger position after it.
-- What changes: angle at the turn, with a matching light change such as top
-  light before and underlit or backlit after.
+- What changes: angle at the turn, with a matching light change from declared
+  sources, such as the window's side light before and the front door's backlight
+  after it opens.
 - Watch for: swapping both angles every shot. One clear swap reads as intent.
 
 ## Scale contrast

@@ -343,7 +343,7 @@ Model IDs are version-dated and change on release. Always copy the live ID from 
 
 ### Reproducibility
 - `seed`: pin the seed once a look is approved to reproduce the same visual family.
-- `camera_fixed`: default `false`; set to `true` to lock camera position.
+- `camera_fixed`: default `false`; set to `true` to lock camera position (documented for the 2.0 REST API; the MCP tools expose no such field as of 2026-10-06, so also state the lock in the prompt).
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 
 ### Prompt limits

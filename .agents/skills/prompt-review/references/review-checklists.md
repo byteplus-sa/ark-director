@@ -202,9 +202,10 @@ Source skill: `seedance-prompt-25`
     intent as a visible result, and a declared light source with its key side
     relative to the lens. A light fact names a source and a side; "cinematic
     lighting" or "soft fill" alone is not one. An exempt format (user lock,
-    UGC, how-to, unboxing or virtual try-on mode, named UGC preset with a locked
-    camera block, talking-head, avatar or news take, frame-break, a camera plan
-    owned by another skill, a plate for cutdown, a source-preserving edit, an
+    the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` or
+    `ugc-virtual-try-on` mode, named UGC preset with a locked
+    camera block, talking-head, avatar or news take, frame-break, an explicit
+    per-shot camera plan from another skill, a plate for cutdown, a source-preserving edit, an
     extension continuation) records its exemption; the caller omits the `shot.*`
     rules for it and the reviewer reports `not_applicable` with that exemption
     as the reason. A missing plan without an exemption is a MAJOR finding.

@@ -66,8 +66,10 @@ Also state:
 | Listening | `seed_audio_understand` on an audio extract under 25 MB (the video file can exceed the limit) |
 
 Hard-gate failures: identity swap, wrong speaker, missing or wrong word in a
-locked line, baked-in text, broken anatomy, impossible motion, wrong location.
-Soft defects (small continuity slips, softness) are recorded, not retaken.
+locked line, baked-in text, broken anatomy, impossible motion, wrong location, and a
+missing planned move or light on the shot flagged as the turn. Soft defects (small
+continuity slips, softness, a missing planned cut or move on another shot) are
+recorded, not retaken.
 
 ## Retakes and repairs
 

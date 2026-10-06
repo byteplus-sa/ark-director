@@ -10,7 +10,7 @@
       "criteria": {
         "intent": "The prompt tells the door, tap and smile as a visible sequence with the son's reveal landing as the clip's most emphasized moment.",
         "camera_light": "Every shot names its size, angle, camera move with start and end (or a stated hold) and a light source with direction; the light does not stay as one generic sentence.",
-        "variety": "Adjacent shots differ in at least two of size, angle, camera move and light direction, at least one shot is not eye level, and the clip is not one framing repeated.",
+        "variety": "Adjacent shots differ in at least two of size family, angle class, camera move and key side from a declared source, at least one shot is not plain eye level, shot lengths are uneven, and the clip is not one framing repeated.",
         "preservation": "References are bound individually, the grade is stated once, no shot stacks competing moves, and the room stays one place with one light source."
       }
     },

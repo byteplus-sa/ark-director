@@ -80,7 +80,7 @@
       "owner_path": ".agents/contracts/production-policy.md",
       "summary": "A narrative, ad, micro-drama, music-video or showcase shot carries a recorded shot plan with duration, size, angle, camera move, lens intent and a named light source with its key side, or a recorded static reason.",
       "exceptions": [
-        "User lock, static-by-design format (UGC, how-to, unboxing and virtual try-on modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), plate for cutdown, source-preserving edit, extension continuation, or no video shot record the exemption instead."
+        "User lock, static-by-design format (the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), plate for cutdown, source-preserving edit, extension continuation, or no video shot record the exemption instead."
       ]
     },
     {

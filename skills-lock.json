@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "e16ced06df61c1c0fb6faa4151e135ba9832c1e5b3da330ff0b48670510e1159"
+      "computedHash": "66a65ca4796f186348514c82b28cb4062e2b0197f4471e1063fc6a1e76b6d701"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -167,7 +167,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-shot-design/SKILL.md",
-      "computedHash": "f55439d1d509e93b6e4433adcc61837080e5e052dc7a71bc4b35ac4bfbd99a06"
+      "computedHash": "fcd165ab6567ca324184e581322fd9763f16f68c5c804a01aa7c1adc1c44038d"
     },
     "seedance-frame-break": {
       "source": "./local",
@@ -215,7 +215,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-20/SKILL.md",
-      "computedHash": "e764a79eeb2f1986ed60e630889ec8e9b5a5e85b29f26acc1bbb2c76dc9b8050"
+      "computedHash": "fdc903f93cf9b70585108f8d447e1f69eafec40de963200687e03e23da691c93"
     },
     "seedance-prompt-25": {
       "source": "./local",

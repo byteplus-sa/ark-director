@@ -41,19 +41,25 @@ choices a shot needs; the preset skills decide *how* each one is worded.
 
 Record an exemption instead of a plan. The exemption reason is the plan. An
 agent cannot choose an exemption to avoid the work: a `proposed`, `defaulted`
-or `agent_confirmed` axis is not a user lock.
+or `agent_confirmed` axis is not a user lock. A user lock fixes only what it
+names; the plan still fills the rest.
 
 | `static_reason` | Applies to |
 | --- | --- |
 | `user_lock` | The user, or a `user_confirmed` lock, fixed the camera or light |
-| `format_static_by_design` | A format whose mode is a fixed frame: UGC, UGC how-to, unboxing and virtual try-on modes, named UGC presets whose camera block is locked-off, talking-head, avatar and news-desk takes, frame-break |
+| `format_static_by_design` | A format whose mode is a fixed frame: the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets whose camera block is locked-off, talking-head, avatar and news-desk takes, frame-break. The `product-showcase`, `tv-spot`, `wild-card` and `virtual-try-on` modes take a plan |
 | `skill_owned_camera` | Another skill supplies an explicit per-shot camera plan (a reverse-engineered pin plan). Derive the plan from it; V1-V3 are advisory. A music-video genre lock is vocabulary only and does not exempt: plan the shots |
 | `plate_for_cutdown` | A source plate generated to be cut later; name the cut target |
 | `source_preserved` | An edit, swap, recast or restyle that must keep the source camera |
 | `extension_continuation` | Extending or continuing an existing take |
-| `performance_hold` | Stillness is the beat; quote the beat or cue that needs it |
-| `contrast_hold` | A deliberate hold right after a moving shot |
 | `no_video_shot` | Audio-only work, static graphics and deterministic renders: no shot exists |
+
+In a static-by-design format, variety may come only from light, a product
+insert or B-roll the format allows; ask before leaving the format.
+
+Two further reasons are not exemptions. They justify one held shot inside a
+plan: `performance_hold` (stillness is the beat; quote the beat or cue that needs
+it) and `contrast_hold` (a deliberate hold right after a moving shot).
 
 ## Input and output contract
 
@@ -114,7 +120,7 @@ and the per-shot facts the Seedance 2.5 prompt carries.
 | --- | --- |
 | V1 Neighbor contrast | Adjacent shots differ in at least two of: size family (wide, medium, close), angle class (eye level, over-the-shoulder, low, high, overhead, first-person) with a recorded reason (extreme wide and wide count as wide; medium and medium close-up as medium; close-up, extreme close-up and insert as close), camera move (moving versus held, or a different type or direction), and key side from the same declared source or a motivated new source. A step within a family, "slightly low", and a reworded light phrase with no new position do not count. |
 | V2 Angle range | At least one shot per scene is not plain eye level (low, high, overhead, first-person or over-the-shoulder) unless a lock or `static_reason` says otherwise. |
-| V3 Motion present | Moving shots (a quiet drift or push counts, on spoken shots too) cover a third of all shots at restrained and half at standard; at kinetic every shot without speech moves, except one `contrast_hold`. Every clip has at least one motivated move. Each held shot has a `static_reason`; a scene has at most one `performance_hold` and one `contrast_hold`, and in a scene of four or more shots any one reason on more than a third of its shots is a defect. |
+| V3 Motion present | Moving shots (a quiet drift or push counts, on spoken shots too) cover a third of all shots at restrained and half at standard; at kinetic every shot without speech moves, except one `contrast_hold` (lip-synced vocals count as speech). Every clip has at least one motivated move. Each held shot has a `static_reason`; a scene has at most one `performance_hold` and one `contrast_hold`, and in a scene of four or more shots any one reason on more than a third of its shots is a defect. |
 | V4 Light named | Every shot names a declared source and a key side. "Cinematic lighting" and "soft fill" without a source and a side are not light facts. |
 | V5 Turn emphasized | The shot flagged as the turn has the largest contrast with its neighbors, and its length differs from theirs. |
 | V6 Move budget | One primary move per shot and at most one secondary, each with a subject, a start and an end. The clip-level cap is the shot ceiling in step 4, not a move count. |

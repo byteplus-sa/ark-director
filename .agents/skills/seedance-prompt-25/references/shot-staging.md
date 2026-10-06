@@ -39,7 +39,7 @@ The visuals feature <one grade for the clip>.
 
 Shot 1 (0-3 s): <size>, <angle>; <camera move with subject, start and end>.
 <Subject> <body-part-level action for this beat>. Light: <source, key side
-relative to the lens, quality>.
+relative to the lens, quality, colour temperature when it matters>.
 Shot 2 (3-6 s): <size>, <angle>; <camera move>. <Subject> <action>. Light:
 <source, key side, quality>.
 Shot 3 (6-10 s): <size>, <angle>; <static hold, or camera move>. <Subject>
