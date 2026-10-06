@@ -150,6 +150,10 @@ together to lock the layout.
 
 ## Camera language
 
+Put camera facts on every shot of a clip that cuts, and choose each shot's size,
+angle and move from the scene's shot plan; see [Shot Staging](shot-staging.md).
+A prompt with no camera line leaves the model free to choose the flattest default.
+
 ### Basic terms
 
 | Type | Common Terms |

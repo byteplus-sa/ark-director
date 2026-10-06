@@ -62,8 +62,10 @@ than a narrative event; a sound-only brief can use a sonic idea.
 ## 2. Choose the appropriate depth
 
 - **Fast proposal (default):** give one compact treatment tied to the creative
-  spine and only the axes needed to execute it. Do not produce alternatives or
-  a questionnaire merely because a project is new.
+  spine and the axes needed to execute it. For a moving-image brief the
+  treatment always includes a camera and light stance and an energy level
+  (restrained, standard or kinetic), because those carry the reaction. Do not
+  produce alternatives or a questionnaire merely because a project is new.
 - **Exploration:** when the user asks for directions, alternatives, or help
   choosing a concept, offer two materially different treatments. Distinguish
   them by central idea, viewpoint, or emotional strategy, not a lens or palette
@@ -81,16 +83,19 @@ of the same shot does not constitute two treatments.
 ## 3. Derive applicable axes from the idea
 
 Every recommended choice needs a concrete visible or audible purpose and a
-tradeoff where it affects feasibility. Choose fewer coherent instructions over
-an exhaustive preset stack.
+tradeoff where it affects feasibility. Choose coherent instructions over an
+exhaustive preset stack: fewer axes are fine, but a moving-image brief is never
+left without a camera and light stance. A static or locked camera is a proposal
+that needs a reason tied to the idea (a held reaction, a revealed contradiction,
+a format that is static by design), not a neutral default.
 
 | Axis | Derivation | Composition hint for a calling agent |
 | --- | --- | --- |
 | Structure | Narrative development needs an event and progression; one-off static assets do not | `tig-scene-engine` |
 | Acting | Specify an observable reaction/tactic only if a performer matters; match detail to framing | `seedance-acting-console` |
-| Camera | Choose viewpoint, framing, and necessary movement to reveal the central idea | `seedance-camera-presets` |
+| Camera | Choose viewpoint, framing, and the movement that reveals the central idea; vary size and angle across a scene | `seedance-shot-design`, then `seedance-camera-presets` |
 | Lens | Describe perspective, separation, and context; add optical terms only when useful | `seedance-lens-presets` |
-| Lighting | Motivate a source and guide attention to the story/product truth | `seedance-lighting-presets` |
+| Lighting | Motivate a source and its direction, and let it change meaning across the scene | `seedance-shot-design`, then `seedance-lighting-presets` |
 | Grade | Support tone and reference fidelity; retain accepted palette | `color-grade-palettes` |
 | Pacing | Give the action enough time; stillness, repetition, contrast, and escalation are choices | `seedance-pacing-presets` |
 | Staging | Define geography only when action or relationships depend on it | `tig-blocking-map` |
@@ -99,7 +104,8 @@ an exhaustive preset stack.
 
 These hints do not require loading sibling skills. Never require acting for a
 product-only still, a camera move for an audio brief, or a speed ramp because a
-genre is energetic. Genre examples such as noir concealment or comic reaction
+genre is energetic. Do not leave a narrative, ad, music-video or showcase brief
+without a camera and light stance, and name the energy level it implies. Genre examples such as noir concealment or comic reaction
 holds are optional creative heuristics, not model requirements or performance
 claims. A bright noir comedy can use information withholding in cheerful light;
 it need not inherit a neon palette or fear performance.
@@ -130,9 +136,17 @@ creative_intent:
   central_idea: a crowded table makes room for one more place setting
   source: user_confirmed
 directorial_axes:
+  energy:
+    value: restrained
+    rationale: a quiet welcome reads as warmth, not spectacle
+    source: proposed
   camera:
-    value: static overhead framing keeps the new place setting visible
-    rationale: the change in shared space carries the welcome
+    value: overhead start, slow lateral drift as each setting arrives, low-angle hold on the extra place
+    rationale: the change in shared space carries the welcome, and the final hold lands it
+    source: proposed
+  lighting:
+    value: warm overhead lamp as the one source; the extra place catches the light last
+    rationale: the light moves attention to the new place
     source: proposed
   audio_mode:
     value: native

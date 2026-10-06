@@ -1,0 +1,79 @@
+{
+  "skill_name": "seedance-shot-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan a 12-second Seedance 2.5 clip for a kitchen scene: a mother opens the front door, her young son peeks out from behind a visiting aunt and taps the door frame, and she smiles. No camera or lighting has been chosen. It is a warm family drama, so keep it natural.",
+      "expected_output": "A shot plan with 3 to 4 shots, each with a job, size, angle, move with start and end, lens intent and a named light source and direction. The plan states an energy level, passes the neighbor-contrast rule, includes a non-eye-level angle, and puts the child's reveal on its most distinct shot.",
+      "files": [],
+      "assertions": [
+        "The plan has more than one shot and every shot names a size, an angle, and a move or a recorded static_reason.",
+        "Adjacent shots differ in at least two of size, angle, camera move and light direction.",
+        "At least one shot is not eye level, and at least one shot has a motivated camera move with a start and an end.",
+        "Every shot names a light source and its direction relative to the lens, not only 'warm natural light'.",
+        "The child's reveal is assigned to the most distinct shot in the plan.",
+        "The energy level is restrained or standard and the plan keeps every move slow and motivated."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here is my draft for a 16-second Seedance clip: 'Shot 1 (0-4 s): wide shot of the room. Shot 2 (4-8 s): medium shot at the door. Shot 3 (8-12 s): medium two-shot. Shot 4 (12-16 s): wide shot. Soft late-afternoon daylight.' It looks boring in review. Fix the coverage without changing the story.",
+      "expected_output": "A repaired shot plan that diagnoses the equal-length size ladder, keeps the four beats, and changes angle, move and light direction across the shots while keeping one room and one light source.",
+      "files": [],
+      "assertions": [
+        "The diagnosis names that only shot size varies and that the cuts carry no other change.",
+        "The repaired plan keeps the original four beats and the story events unchanged.",
+        "The repaired plan changes light direction between shots while keeping one physical light source and one room.",
+        "The repaired plan adds at least one non-eye-level angle and at least one planned camera move.",
+        "No shot stacks more than one primary and one secondary move."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The project.md camera axis says 'low camera, gentle dolly and crane moves, one tracking move in the escape'. The seven shot prompts only list 'overhead close-up', 'medium shot' and 'medium close-up' with no moves. Reconcile them.",
+      "expected_output": "A plan that adds an axis_carry record and assigns the dolly, crane and tracking moves to named shots, or records a scene override with a reason for each shot that cannot carry the axis.",
+      "files": [],
+      "assertions": [
+        "The output identifies that the recorded axis never reached the shot lines.",
+        "Each move named in the axis is assigned to a specific shot, or an override with a reason is recorded.",
+        "The tracking move is assigned to the escape shot only.",
+        "The output does not rewrite the project axis itself; it carries or overrides it per scene."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "A selfie-style UGC demo ad where the creator holds the phone at arm's length and talks to camera for 10 seconds. Make the camera work more dynamic.",
+      "expected_output": "A plan that recognizes the format is static by design, records format_static_by_design as the static_reason, and keeps the frame locked while adding variety only through allowed levers such as light and a short insert, or asks whether the user wants to leave the format.",
+      "files": [],
+      "assertions": [
+        "The output records format_static_by_design (or an equivalent recorded reason) instead of adding large camera moves.",
+        "The output does not add a whip pan, orbit or crane to the selfie frame.",
+        "Any variety offered comes from light, a product insert or a framing change the format allows, or the output asks before leaving the format."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "A client wants a calm, naturalistic supermarket ad: a shopper meets a neighbor at the freezer aisle and they exchange two lines. The camera should feel unforced and real. Plan the shots for a 12-second clip.",
+      "expected_output": "A restrained-energy plan that still varies size, angle and light direction between shots, keeps every move slow and motivated, keeps the large moves out of the spoken lines, and fits both lines inside single shots.",
+      "files": [],
+      "assertions": [
+        "The energy level is recorded as restrained and the moves are slow and motivated.",
+        "The plan still varies size, angle and light direction between shots rather than holding one framing.",
+        "No large camera move is planned during a spoken line, and each line sits in one shot.",
+        "The speaker shots use different key directions or a distinct light fact each."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Plan an 8-second kinetic motorbike chase through a night market for a music-video clip. The editor wants hard cuts on the beat.",
+      "expected_output": "A kinetic-energy plan of short shots with hard cuts on the beat, with per-shot moves, a stated travel axis and screen direction, and colored practical lighting, without stacking competing moves inside one shot.",
+      "files": [],
+      "assertions": [
+        "The plan records kinetic energy and uses shots of roughly one to three seconds each.",
+        "The travel axis and screen direction are stated and restated after each cut.",
+        "Every shot has one primary move and at most one secondary move.",
+        "Every shot names its light source or practical and its direction."
+      ]
+    }
+  ]
+}

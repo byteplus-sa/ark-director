@@ -72,6 +72,40 @@
       "exceptions": []
     },
     {
+      "id": "shot.plan_bound",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "A narrative, ad, music-video or showcase shot carries a recorded shot plan with size, angle, camera move, lens intent and light source, or a recorded static reason.",
+      "exceptions": [
+        "Static-by-design formats (selfie, posing and demonstration modes), plate sources for later cutdown, source-preserving edits and static assets record the exemption instead."
+      ]
+    },
+    {
+      "id": "shot.variety",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/skills/seedance-shot-design/SKILL.md",
+      "summary": "Adjacent shots in a cutting clip differ in at least two of size, angle, camera move and light direction, and each scene has a non-eye-level angle and a motivated move or a recorded reason.",
+      "exceptions": [
+        "A single continuous take records its camera path and light progression instead of neighbor contrast."
+      ]
+    },
+    {
+      "id": "shot.axis_carry",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "A recorded project camera, lens, lighting or pacing axis appears in the shot prompt, or the scene records an override with its reason.",
+      "exceptions": []
+    },
+    {
       "id": "asset.visible_consistency",
       "severity": "error",
       "applies_to": [

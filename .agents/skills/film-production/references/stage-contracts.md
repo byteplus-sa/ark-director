@@ -51,8 +51,8 @@ Entry: user intent or an existing `project.md`.
 Required output: `approval_mode`, audience, format, runtime, aspect ratio,
 story objective, tone, creative constraints, known rights constraints, budget
 posture, and unresolved questions recorded in `project.md`. Confirmed
-directorial defaults (structure, camera, lens, lighting, grade, pacing, acting,
-staging, medium, audio) from
+directorial defaults (structure, energy level, camera and light stance, lens,
+grade, pacing, acting, staging, medium, audio) from
 `brief-intake` persisted as a `locked` block in `project.md` frontmatter.
 The canvas embeds or links this brief as the `brief-development` stage source.
 
@@ -74,11 +74,17 @@ upload) before treating visual/motion claims from the ad as breakdown evidence.
 
 Required output: scene list, cast, locations, props, dialogue, sound needs,
 continuity states, delivery assumptions, and scene-level acceptance criteria.
-The `scene-breakdown` canvas stage lists every scene/shot manifest and its
-required production-input inventory.
+For every narrative, ad, micro-drama, music-video or showcase scene it also
+requires a shot plan from `seedance-shot-design`: per shot, size, angle, camera
+move, lens intent and light source with direction, the energy level, and where
+each recorded project axis appears. A scene that is static by design records its
+`static_reason` instead. The `scene-breakdown` canvas stage lists every
+scene/shot manifest, its shot plan file, and its required production-input
+inventory.
 
-Exit: every planned scene has observable action and an inventory of required
-production inputs, with missing approvals recorded as unresolved.
+Exit: every planned scene has observable action, a shot plan or a recorded
+exemption, and an inventory of required production inputs, with missing
+approvals recorded as unresolved.
 
 ## 3. Canon and elements
 
@@ -127,8 +133,9 @@ Entry: scene objective, geography, continuity state, and approved relevant canon
 exist before dependent panel generation. A text-only visual plan may be drafted
 earlier and stays draft until its input requirements are satisfied.
 
-Required output: beat/panel plan, bound references, prompts, generated panels or
-prompt package, continuity review, provenance, and video-handoff eligibility.
+Required output: beat/panel plan that follows the scene's shot plan, bound
+references, prompts, generated panels or prompt package, continuity review,
+provenance, and video-handoff eligibility.
 Expose these together in the `storyboard-visual-plan` canvas stage.
 
 Exit: required panels have a mode-authorized approval and all source element
@@ -151,17 +158,17 @@ default.
 
 ## 6. Shot generation
 
-Entry: shot objective, selected video mode, approved inputs, reference roles,
-prompt snapshot target, duration, and any requested audio (if Stage 5 was
-completed) exist. Before submission the `prompt-review` gate has passed for
+Entry: shot objective, the scene's shot plan (or recorded exemption), selected
+video mode, approved inputs, reference roles, prompt snapshot target, duration,
+and any requested audio (if Stage 5 was completed) exist. Before submission the `prompt-review` gate has passed for
 every prompt being submitted; the ordered `references:` array is verified 1:1
 against `shot.md` (same files, same order, same `@Image N` / `@Video N` /
 `@Audio N` bindings); and the pass uses the lowest suitable resolution for the
 current prototype.
 
 Required output: task registry entry, local media, exact prompt snapshot,
-provider metadata, actual media properties, cost fields, SHA-256, semantic QA,
-and `review` status. Resolution is raised only after the current pass is
+provider metadata, actual media properties, cost fields, SHA-256, semantic QA
+including a comparison of the take against its shot plan, and `review` status. Resolution is raised only after the current pass is
 approved (final-candidate gate).
 The `shot-generation` stage shows every take, exact prompt, ordered element
 bindings, metadata, inspection result and selection state. When a style/grammar

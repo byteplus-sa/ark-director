@@ -31,3 +31,21 @@ judgments, not observed generated-media results.
   but offers a simpler visual pattern. Neither is selected automatically.
 - **Acceptance:** Each treatment explains a different emotional mechanism and a
   concrete feasibility tradeoff; both serve the same audience reaction.
+
+## A treatment with no camera or light stance
+
+- **Brief:** A 20-second ad for a rooftop restaurant. Viewers should feel the
+  place is a destination worth dressing up for.
+- **Initial proposal:** "Cinematic, warm, elegant. Static wide shots of the
+  terrace." No camera or light stance beyond the mood words.
+- **Simulated failure:** The proposal names a feeling but gives the production no
+  way to show it. Static wides at one eye-level framing make the destination feel
+  like a listing photo.
+- **Smallest repair:** Keep the warmth and add a stance tied to the idea: a rising
+  move from the street to the roof as the reveal, a low angle on the guests
+  arriving as the invitation, and dusk practicals as the single light source, with
+  an energy level of standard.
+- **Tradeoff:** More facts to carry through the shot plan; the reveal now has a
+  visible mechanism.
+- **Acceptance:** The proposal names a camera stance, a light source and an energy
+  level, each tied to the intended reaction, and any static choice states why.

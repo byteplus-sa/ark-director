@@ -40,14 +40,16 @@ for each critical action beat.
 
 Use reference-inputs for R2V; video-editing for edits; video-extension for
 extensions; keyframes-storyboards-blockouts for approved visual conditioning
-and validated blockout manifests. Add audio-performance-camera only for
-applicable dialogue, acting, UI, or camera detail.
+and validated blockout manifests; shot-staging for any clip that cuts. Add
+audio-performance-camera only for applicable dialogue, acting, UI, or camera
+detail.
 
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
 
 - [Reference Inputs](references/reference-inputs.md) — Reference materials; Multi-reference workflow (5 steps).
 - [Scene Action](references/scene-action.md) — Scene staging; Action description.
+- [Shot Staging](references/shot-staging.md) — Shots or stages; Per-shot template; Carrying a shot plan; Dialogue inside shots.
 - [Audio Performance Camera](references/audio-performance-camera.md) — Special audio and text syntax; Emotional direction; Scripted dialogue for all speaking characters; Describing screen and UI layout positively; Camera language; Video call scenes; Spatial continuity.
 - [Video Editing](references/video-editing.md) — Video editing.
 - [Video Extension](references/video-extension.md) — Video extension.
@@ -93,9 +95,12 @@ they conflict.
 
 > **Subject + Action or Event + Scene and Environment (optional) + Visual Style (optional) + Camera Movement/Cut (optional) + Audio (optional)**
 
-Only **Subject + Action** is required. Every other part is optional — omit what
-does not apply. Summarize the main action first; add detail only to critical
-movements. Write the Action slot as granular physical detail — see
+Only **Subject + Action** is required for a valid prompt. Every other part is
+optional in the grammar, but a narrative, ad or music-video shot is not finished
+at that minimum: its Camera and light source are craft requirements, taken from
+the scene's shot plan (see [Shot Staging](references/shot-staging.md)) or
+recorded as a static choice with a reason. Summarize the main action first;
+add detail only to critical movements. Write the Action slot as granular physical detail — see
 [Action description](references/scene-action.md#action-description). **Do not describe the same action
 twice.** Generation parameters (duration, resolution, aspect ratio) belong in
 the generation interface or API, not in the prompt.
@@ -125,8 +130,9 @@ film grain with soft halation.
 
 Each preset skill (`seedance-lighting-presets`, `seedance-lens-presets`,
 `color-grade-palettes`) produces one phrase; this rule defines how they
-assemble. Use only the presets the user requested — do not pad the slot with
-unused defaults.
+assemble. Fill the slot from the shot plan or the user's request — do not pad it
+with unused defaults or competing presets. In a clip that cuts, the grade stays
+in the shared opening and each shot line carries its own light fact.
 
 ### Example
 
@@ -235,6 +241,9 @@ Before generation, verify:
     movement falsely appear to satisfy required subject movement?
 17. **Manifest currency**: When a blockout manifest exists, do its source,
     previz, selection, and reference hashes match the generation package?
+18. **Camera and light per shot**: Does every shot or stage name its size, angle,
+    camera move (or a recorded static reason) and light source, and do adjacent
+    shots differ in at least two of size, angle, move and light direction?
 
 ## Usage limitations
 

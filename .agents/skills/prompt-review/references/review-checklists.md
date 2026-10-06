@@ -112,7 +112,7 @@ Source skill: `seedance-prompt-25`
    level (hands, arms, legs, head, shoulders, back, hips, feet) with range,
    speed, and force, grounded in weight, balance, momentum, and contact — not
    as bare verbs. High-burst, large-dynamic actions are avoided unless the
-   shot requires them.
+   shot or the energy level requires them.
 
 ### Reference materials
 
@@ -190,9 +190,39 @@ Source skill: `seedance-prompt-25`
 
 ### Camera language
 
-24. **Coherent camera direction.** Use one or two clear camera movements when
-    requested, with the subject, beginning, and endpoint of each stated. Avoid
-    competing simultaneous moves; preserve a requested static camera.
+24. **Coherent camera direction.** Use one or two clear camera movements per
+    shot when movement is used, with the subject, beginning, and endpoint of each
+    stated. Avoid competing simultaneous moves within a shot; preserve a
+    requested static camera.
+
+24a. **Shot plan bound (`shot.plan_bound`).** A narrative, ad, micro-drama,
+    music-video or showcase shot carries a recorded shot plan: per shot, size,
+    angle, camera move (or a recorded `static_reason`), lens intent as a visible
+    result, and light source with direction. Static-by-design formats (selfie,
+    posing and demonstration modes), plates for later cutdown, source-preserving
+    edits and static assets are `not_applicable` and the recorded exemption is
+    the reason. A missing plan without an exemption is a MAJOR finding.
+
+24b. **Neighbor contrast and angle range (`shot.variety`).** In a clip that
+    cuts, adjacent shots differ in at least two of size, angle, camera move and
+    light direction. The scene has at least one non-eye-level shot and one
+    motivated camera move, or a recorded reason. A continuous take instead shows a
+    motivated camera path, a named light at each stage and a distinct payoff.
+
+24c. **Light named per shot.** Every shot names its light source and key
+    direction relative to the lens, and the scene keeps one physical source across
+    its cuts. A generic phrase such as "cinematic lighting" alone is not a light
+    fact.
+
+24d. **Axis carried (`shot.axis_carry`).** Compare the project's recorded
+    `directorial_axes` (camera, lens, lighting, pacing) to the shot lines. Each
+    recorded move or light stance appears on a named shot, or the scene records an
+    override with its reason.
+
+24e. **Static locks carry a reason.** "Hold steady", "locked-off", "no camera
+    movement" or "single continuous shot" appears with a recorded `static_reason`
+    and is not boilerplate copied into every prompt. Quiet moves are acceptable
+    during a spoken line; large moves are a MINOR finding there.
 
 25. **Uncommon cinematography terms.** If used, they follow the format:
     Term + Target Subject + Visual Change + Foreground/Background Relationship +
@@ -592,8 +622,10 @@ Source skill: `seedance-prompt-20`
 17. **Action detail.** Body-part level detail (hands, legs, head, shoulders, back)
     with range, speed, force.
 
-18. **Motion preference.** Prefers slow, gentle, continuous motion. Avoids
-    high-burst, large-dynamic actions.
+18. **Motion preference.** The performer's body prefers slow, gentle,
+    continuous motion and avoids high-burst, large-dynamic actions unless the
+    brief calls for them. Camera and cut energy follow the shot plan, not this
+    item.
 
 19. **Emotion externalization.** Emotions are externalized as physical details,
     never bare labels.

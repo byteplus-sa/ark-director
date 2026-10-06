@@ -376,7 +376,8 @@ Its source metadata is `references/rule-provenance.json`; bundle integrity
 validation detects unreviewed checklist changes.
 
 Check declared applicability before applying a heuristic: narrative shots need
-observable events and intent; static character sheets, location plates, UI,
+observable events and intent, and a recorded shot plan unless the format is static
+by design (`shot.plan_bound`, `shot.variety`, `shot.axis_carry`); static character sheets, location plates, UI,
 product references, music beds, SFX, and ambience do not need a story obstacle.
 Static assets need composition and visible-consistency checks. Prefer positive
 observable direction; concise technical exclusions and explicit preservation

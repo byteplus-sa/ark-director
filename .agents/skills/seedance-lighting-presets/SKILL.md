@@ -4,9 +4,9 @@ description: >
   Translate a named lighting setup into a canonical Seedream `Lighting:` recipe
   and a matching Seedance visual-style lighting phrase, so the same lighting
   intent works for images (elements, storyboards) and video. Use when the user
-  asks for lighting, light, rim light, backlight, golden hour, soft or hard
-  light, three-point, Rembrandt, practical lights, silhouette, contre-jour, or
-  key light direction. Golden hour here means the physical lighting (sun
+  or a shot plan asks for lighting, light, rim light, backlight, golden hour,
+  soft or hard light, three-point, Rembrandt, practical lights, silhouette,
+  contre-jour, or key light direction. Golden hour here means the physical lighting (sun
   position and light); for a golden-hour color grade, use color-grade-palettes.
 ---
 

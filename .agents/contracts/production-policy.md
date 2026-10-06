@@ -67,6 +67,8 @@ Identify assets using [element-identification.md](element-identification.md). Co
 
 Narrative shots need events, intent, blocking and observable end states. Static character/prop sheets need clear composition and visible design; music/SFX/ambience need a sound arc appropriate to the requested artifact. Do not force story tactics into a static-image or sound-bed prompt.
 
+Narrative, ad, micro-drama, music-video and showcase shots also need a recorded shot plan before prompt authoring: for each shot, size, angle, camera move, lens intent and light source with its direction, produced by `seedance-shot-design` and stored with the scene. A static camera or an unchanging light needs a recorded `static_reason`. Static-by-design formats (selfie, posing and demonstration modes, plate sources for later cutdown, source-preserving edits, and static assets) record the exemption instead. A recorded project camera, lens, lighting or pacing axis must reach the shot prompts, or the scene records an override with its reason. A user-confirmed lock is never replaced by the plan. Inspect each take against its plan: confirm that the planned cuts, camera moves and light changes occurred.
+
 Choose the static-graphics route by fidelity requirement. Exact copy,
 typography, logos, screen/UI layouts, title cards, posters, product lineups,
 price/CTA treatments, and simple vector or gradient geometry use a deterministic

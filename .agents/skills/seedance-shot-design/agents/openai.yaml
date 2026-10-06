@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Shot Design"
+  short_description: "Plan per-shot camera, lens intent and lighting for Seedance scenes, with a dynamism check"
+  default_prompt: "Use $seedance-shot-design to plan the shots, camera moves and lighting for this scene before I write the Seedance prompt."

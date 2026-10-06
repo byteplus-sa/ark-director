@@ -183,7 +183,7 @@
     },
     "ark-mcp": {
       "kind": "tooling",
-      "description": "Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.",
+      "description": "Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5 and whitelist-only 2.5 Premium 4K, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, understand or reason about audio, transcribe speech to text, manage the Seedance private asset library (virtual portraits, verified real people, copyright IP referenced as asset://) with BytePlus AK/SK, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.",
       "readme_summary": "Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, video transcoding, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage Seedance and 3D.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -237,8 +237,17 @@
     },
     "seedance-camera-presets": {
       "kind": "leaf",
-      "description": "Turn a named camera move or preset \u2014 dolly, pan, tilt, orbit, crane, jib, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, or static \u2014 into a canonical, drop-in Camera block for the Seedance 2.5 six-part prompt formula. Use when the user asks for a camera preset, camera movement style, or a shot's camera treatment. Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp and slow-mo timing belong to seedance-pacing-presets. One-take here is the pass-through camera path; single-shot no-cuts pacing belongs to seedance-pacing-presets. Lens and focal-length optics belong to seedance-lens-presets.",
+      "description": "Turn a named camera move or preset \u2014 dolly, pan, tilt, orbit, crane, jib, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, or static \u2014 into a canonical, drop-in Camera block for the Seedance 2.5 six-part prompt formula. Use when the user asks for a camera preset, camera movement style, or a shot's camera treatment, and when a shot plan names a move to word. Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp and slow-mo timing belong to seedance-pacing-presets. One-take here is the pass-through camera path; single-shot no-cuts pacing belongs to seedance-pacing-presets. Lens and focal-length optics belong to seedance-lens-presets.",
       "readme_summary": "Turns a named camera move (dolly, pan, tilt, orbit, crane, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, static) into a canonical, drop-in Camera block for the six-part prompt formula.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "seedance-shot-design": {
+      "kind": "leaf",
+      "description": "Design the shot plan for a Seedance scene before any prompt is written: shot count and the job of each shot, size, angle, camera move, lens intent, light source and direction, the contrast between neighboring shots, and a dynamism check at a chosen energy level (restrained, standard, kinetic). Use for narrative, ad, micro-drama, music-video and showcase clips when camera and light are not already locked, when a scene reads flat or static, or when the user asks for a shot list, coverage, or more dynamic camera work and lighting. Returns a shot plan table and per-shot Seedance 2.5 blocks. Not for static assets, source-preserving edits (object swap, restyle, recast), or task submission.",
+      "readme_summary": "Plan per-shot coverage for Seedance scenes: shot count and jobs, size, angle, camera move, lens intent and light per shot, with variety rules and an energy level.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -273,7 +282,7 @@
     },
     "seedance-lighting-presets": {
       "kind": "leaf",
-      "description": "Translate a named lighting setup into a canonical Seedream `Lighting:` recipe and a matching Seedance visual-style lighting phrase, so the same lighting intent works for images (elements, storyboards) and video. Use when the user asks for lighting, light, rim light, backlight, golden hour, soft or hard light, three-point, Rembrandt, practical lights, silhouette, contre-jour, or key light direction. Golden hour here means the physical lighting (sun position and light); for a golden-hour color grade, use color-grade-palettes.",
+      "description": "Translate a named lighting setup into a canonical Seedream `Lighting:` recipe and a matching Seedance visual-style lighting phrase, so the same lighting intent works for images (elements, storyboards) and video. Use when the user or a shot plan asks for lighting, light, rim light, backlight, golden hour, soft or hard light, three-point, Rembrandt, practical lights, silhouette, contre-jour, or key light direction. Golden hour here means the physical lighting (sun position and light); for a golden-hour color grade, use color-grade-palettes.",
       "readme_summary": "Translates a named lighting setup (rim light, backlight, golden hour, soft/hard light, three-point, Rembrandt, practical lights, silhouette, contre-jour) into a canonical Seedream `Lighting:` recipe and a matching Seedance visual-style lighting phrase. Ensures the same lighting intent works for both images and video.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -300,7 +309,7 @@
     },
     "seedance-pacing-presets": {
       "kind": "leaf",
-      "description": "Turn a named pacing or rhythm preset \u2014 speed ramp, slow motion, slow-mo, bullet time, ramp up, flash in/out, impact moment, montage, montage pacing, cut rhythm, timing, or speed up \u2014 into a canonical, timestamped motion, cut, and pacing block for the Seedance 2.5 prompt. Use when the user asks to direct a scene's rhythm, tempo, or editing energy rather than only its content. Bullet time here is the freeze/slow-mo speed ramp; the camera-orbit technique belongs to seedance-camera-presets. Single Shot here is no-cuts pacing; the one-take pass-through camera path belongs to seedance-camera-presets.",
+      "description": "Turn a named pacing or rhythm preset \u2014 speed ramp, slow motion, slow-mo, bullet time, ramp up, flash in/out, impact moment, montage, montage pacing, cut rhythm, timing, or speed up \u2014 into a canonical, timestamped motion, cut, and pacing block for the Seedance 2.5 prompt. Use when the user or a shot plan asks to direct a scene's rhythm, tempo, or editing energy rather than only its content. Bullet time here is the freeze/slow-mo speed ramp; the camera-orbit technique belongs to seedance-camera-presets. Single Shot here is no-cuts pacing; the one-take pass-through camera path belongs to seedance-camera-presets.",
       "readme_summary": "Turns a named pacing or rhythm preset (speed ramp, slow motion, bullet time, ramp up, flash in/out, impact moment, montage, cut rhythm, speed up) into a canonical, timestamped motion, cut, and pacing block for the Seedance prompt.",
       "dependencies": [],
       "source_revision": "workspace",

@@ -90,6 +90,18 @@
         "The output does not add any camera movement.",
         "The output does not put generation parameters inside the prompt text itself."
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "Write the Camera blocks for a 12-second Seedance 2.5 clip with three shots: a slow crane down on a kitchen, a slow push-in on a door handle, and a static low-angle close-up. Keep to the camera move rules.",
+      "expected_output": "Three Camera blocks, each with at most two moves for that shot, including a crane-down, a push-in and a static hold, each stating subject, start and end.",
+      "files": [],
+      "expectations": [
+        "Each shot has its own Camera block with one primary move and at most one secondary move.",
+        "The clip as a whole is not capped at two moves because the moves belong to different shots.",
+        "Every move names the subject it follows and where it starts and ends.",
+        "The static hold is stated as a deliberate hold, not left as a missing camera line."
+      ]
     }
   ]
 }

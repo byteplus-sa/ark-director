@@ -36,4 +36,4 @@ Credential names are BYTEPLUS_MODELARK_API_KEY and BYTEPLUS_SEED_AUDIO_API_KEY. 
 
 ## Directorial axes
 
-Read [seedance-reference.md](seedance-reference.md) when composing a requested concrete camera, lens, lighting, grade, acting, pacing, blocking, or medium axis. Load only the requested axes. Keep one grade, one dominant lighting direction, and one or two camera moves per clip unless the explicitly requested choreography needs more.
+Read [seedance-reference.md](seedance-reference.md) when composing a generation-bound shot. Plan the shots first with `seedance-shot-design` (per-shot camera, lens intent and light, with a recorded reason for any static camera or constant light), then load only the preset skills the plan or the user's request needs for camera, lens, lighting, grade, acting, pacing, blocking or medium. Keep one grade per clip, one dominant lighting direction per shot and one or two camera moves per shot unless the explicitly requested choreography needs more.

@@ -12,6 +12,10 @@ When a video contains several events, divide the story into **consecutive
 stages**. Give each stage only **one primary state change** and a **clear end
 state** — what should be directly visible at the end.
 
+A clip that cuts uses shots rather than stages; see
+[Shot Staging](shot-staging.md). Stages suit a continuous take or a story that
+changes state without changing camera setup.
+
 **Generate per scene at its natural duration (4–30s), not per 30-second block.**
 Right-size each scene using the `duration` parameter — 7s for a single beat,
 12s for a short dialogue exchange, 20s for a multi-stage action sequence. Do
@@ -27,15 +31,18 @@ Generate a <video type>. The central subject is <subject>, and the primary event
 [Stage 1]
 Initial state: <initial state of characters, props, and scene>.
 Primary event: <one primary action or event>.
+Camera and light: <size, angle, move, and light source for this stage>.
 End state: <character positions, prop ownership, or visible scene state>.
 
 [Stage 2]
 Continue from the previous stage: <state that must remain unchanged>.
 Primary event: <one primary action or event>.
+Camera and light: <size, angle, move, and light source for this stage>.
 End state: <observable state>.
 
 [Stage 3]
 Primary event: <closing event>.
+Camera and light: <size, angle, move, and light source for this stage>.
 End state: <final visible state>.
 
 [Maintain Consistency]
@@ -98,10 +105,13 @@ front foot, and scans the room left to right" is testable.
 - **Physics grounding.** State where weight and balance sit, what stays planted,
   and what the body pushes against or reacts to: ground contact, momentum
   through a turn, inertia carried between actions.
-- **Prefer slow, gentle, continuous motion.** "Slowly raise a hand," "gently
-  lower the head," "naturally sit down."
+- **Prefer slow, gentle, continuous motion for the performer's body.** "Slowly
+  raise a hand," "gently lower the head," "naturally sit down." This guidance
+  protects physical plausibility. It does not set the camera's energy or the cut
+  rate; those come from the shot plan.
 - **Avoid high-burst, large-dynamic actions** — sprinting, big jumps, violent
-  rolls — unless the shot explicitly requires them.
+  rolls — unless the shot explicitly requires them. A kinetic brief, a chase or a
+  music-video beat requires them; state them with grounded physics.
 - **Describe transitions between actions** for continuity: "use the inertia of
   turning around to naturally raise a hand."
 - **Externalize emotions as physical detail**, never bare emotion labels. Use

@@ -91,6 +91,18 @@
         "The output does not use bare abstract emotion words without physical cues.",
         "The output describes the final expression through restrained or explicit outward behavior."
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "I have a shot plan for a 12-second clip: Shot 1 high wide with a slow crane down to table height, window light from screen-left; Shot 2 medium close-up with a slow push-in on the door handle, the same window now cross-lighting the hand; Shot 3 low-angle close-up held static, contre-jour from the open door. Characters are @Image 1 (mother) and @Image 2 (boy). Write the Seedance 2.5 prompt.",
+      "expected_output": "A six-part prompt with one shared opening, a per-shot block carrying each shot's size, angle, move and light fact, bindings for both characters and one grade for the whole clip.",
+      "files": [],
+      "expectations": [
+        "Each shot line states size, angle, the move with start and end, and the light source and direction exactly as planned.",
+        "The shared opening binds @Image 1 and @Image 2 individually and states the scene and one grade once.",
+        "Time ranges are consecutive and non-overlapping and are not treated as frame-accurate cut points.",
+        "The static third shot is kept static and the other two shots keep their planned moves; no extra moves are added."
+      ]
     }
   ],
   "evaluation_note": "Judge semantic effectiveness. Exact delimiters remain checks only where the selected model grammar requires them; headings and paraphrases are not quality proxies."
