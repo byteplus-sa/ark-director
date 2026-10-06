@@ -75,14 +75,18 @@ upload) before treating visual/motion claims from the ad as breakdown evidence.
 Required output: scene list, cast, locations, props, dialogue, sound needs,
 continuity states, delivery assumptions, and scene-level acceptance criteria.
 For every narrative, ad, micro-drama, music-video or showcase scene it also
-requires a shot plan from `seedance-shot-design`: per shot, size, angle, camera
-move, lens intent and light source with direction, the energy level, and where
-each recorded project axis appears. A scene that is static by design records its
-`static_reason` instead. The `scene-breakdown` canvas stage lists every
-scene/shot manifest, its shot plan file, and its required production-input
-inventory.
+requires a shot plan from `seedance-shot-design` in the scene file's
+`## Shot plan` section: per shot, duration, size, angle, camera move, lens
+intent and a named light source with key side, the energy level, and where each
+confirmed project axis appears. The plan is `draft` until the scene's locations
+are approved in Stage 3 and is revalidated before Stage 6. A scene that is exempt
+(user lock, static-by-design format, a camera plan owned by another skill, plate
+for cutdown, source-preserving edit, extension continuation, or no video shot)
+records its `static_reason` instead. The `scene-breakdown` canvas stage lists
+every scene/shot manifest, its shot plan section, and its required
+production-input inventory.
 
-Exit: every planned scene has observable action, a shot plan or a recorded
+Exit: every planned scene has observable action, a draft shot plan or a recorded
 exemption, and an inventory of required production inputs, with missing
 approvals recorded as unresolved.
 
@@ -158,7 +162,7 @@ default.
 
 ## 6. Shot generation
 
-Entry: shot objective, the scene's shot plan (or recorded exemption), selected
+Entry: shot objective, the scene's revalidated shot plan (or recorded exemption), selected
 video mode, approved inputs, reference roles, prompt snapshot target, duration,
 and any requested audio (if Stage 5 was completed) exist. Before submission the `prompt-review` gate has passed for
 every prompt being submitted; the ordered `references:` array is verified 1:1

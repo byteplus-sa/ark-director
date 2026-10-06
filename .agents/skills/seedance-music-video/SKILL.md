@@ -383,11 +383,13 @@ the canonical axis→skill table in `.agents/contracts/seedance-reference.md` (i
 master, and `seedream-storyboard` / `film-production` for storyboard and
 multi-scene production). Never let two skills fight:
 
-**Guardrail:** the genre lock is the sole palette, lighting, and camera source
-**unless the user names a specific axis** — then compose that axis with its
-owning preset skill and keep exactly one grade, one dominant lighting direction,
-and at most two camera moves per clip. Do not stack a second grade or camera
-treatment on top of a genre recipe.
+**Guardrail:** the genre lock supplies the default palette, lighting and camera
+vocabulary, and this skill owns when cuts land on the song. Plan what each shot
+is (size, angle, move, light source and key side) with `seedance-shot-design`
+inside those cuts, usually at kinetic energy; when the user names a specific
+axis, compose it with its owning preset skill. Keep exactly one grade per clip,
+one dominant lighting direction per shot and at most two camera moves per shot.
+Do not stack a second grade or camera treatment on top of a genre recipe.
 
 ## Rights and safety
 

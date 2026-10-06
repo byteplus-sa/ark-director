@@ -303,8 +303,9 @@ This skill is prompt-only. It **never calls generation tools.** It composes:
   pipeline when the user requests lip-synced dialogue.
 - Axis presets (`seedance-camera-presets`, `seedance-lighting-presets`,
   `seedance-pacing-presets`, `seedance-acting-console`) — only when the user
-  names a specific axis. Do not let two skills fight: exactly one grade, one
-  dominant lighting direction, and 1–2 camera moves per clip.
+  names a specific axis, or a recorded shot plan supplies one. Do not let two
+  skills fight: exactly one grade per clip, one dominant lighting direction per
+  shot, and 1–2 camera moves per shot.
 
 ## Reference discipline
 

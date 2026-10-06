@@ -39,8 +39,9 @@ tripod.
 
 - Shots: an over-the-shoulder, a single on the speaker, a single from a lower or
   higher angle at the point of tension, and a two-shot to release.
-- What changes: size and angle between singles; light direction between
-  speakers when the source allows it (key from opposite sides).
+- What changes: size and angle between singles, and the key side. Light the
+  speakers from the same declared source seen from the two camera sides, so each
+  speaker's lit side differs without a second source appearing.
 - Watch for: moves on speaking shots. Keep them slow so lips and eyes stay
   readable; let the angle and light carry the variety.
 
@@ -117,10 +118,12 @@ Use when the climactic action deserves a three-dimensional look.
 
 Use to let light carry the emotional arc without changing the room.
 
-- Shots: the same source seen three ways: a side key early, a contre-jour or
-  silhouette at the turn, a practical or warm fill at the release.
-- What changes: key direction relative to the lens and the contrast ratio; the
-  source and the set stay fixed.
+- Shots: the same declared sources seen three ways: a side key early, a
+  contre-jour at the turn (a silhouette only on shots without speech), a warm
+  rim or practical at the release.
+- What changes: key side relative to the lens and the contrast ratio; the
+  sources and the set stay fixed. A new source appears only with a motivating
+  event, such as a door opening or a lamp switched on.
 - Watch for: a new light source appearing at each cut. A cut changes the view of
   the light, not the world's light.
 
@@ -142,5 +145,7 @@ Use to add tempo to a calm scene.
 | "Hold steady" as the default camera line | The static choice is unrecorded and applied everywhere | Record a `static_reason` or give the shot a move |
 | One global lighting sentence for a multi-shot clip | The light never changes meaning | Name source and direction per shot |
 | A project axis promising dolly and crane work that no shot line uses | The plan was written but never carried | Copy the axis into the shot lines or record the override |
-| Five moves in an eight-second clip | The model cuts erratically | One primary move per shot, shorter plan |
+| More than about seven shots in one clip, or shots under about 0.8 s | Observed in this workspace's production reviews as cuts the model merges or drops | Respect the shot ceiling and split a long kinetic sequence into several clips |
+| A shot stacking more than two simultaneous moves | The camera preset guidance records instability risk | One primary move per shot and at most one secondary |
+| Equal shot lengths with the turn the same length as its neighbors | Nothing marks the turning point | Uneven durations; give the turn a length unlike its neighbors |
 | A move that decorates but has no story reason | Movement without meaning adds noise | State what the move reveals or emphasizes |

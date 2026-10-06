@@ -176,13 +176,14 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   hash-bound decision record. In `ask_for_approval`, the agent records a
   recommendation and waits for the user's selection. Neither mode promotes an
   unreviewed candidate or overrides an explicit user lock.
-- Static assets use visible-design criteria. Narrative shots need action and
-  intent, and a recorded shot plan (per-shot size, angle, camera move, lens
-  intent and light source) unless the format is static by design; a static
-  camera or constant light carries a recorded reason, and a recorded project
-  axis must reach the shot prompts. Audio uses its requested sound arc. Do not
-  apply narrative tactics to every static sheet or ambience prompt. Deterministic HTML/CSS/SVG is a
-  first-class static production route, not merely a repair step.
+- Static assets use visible-design criteria. Narrative, ad, micro-drama,
+  music-video and showcase shots need action and intent, and a recorded shot
+  plan (per-shot duration, size, angle, camera move, lens intent and named light
+  source) unless exempt; a static camera or constant light carries a recorded
+  reason, and a confirmed project axis must reach the shot prompts. Audio uses
+  its requested sound arc. Do not apply narrative tactics to every static sheet
+  or ambience prompt. Deterministic HTML/CSS/SVG is a first-class static
+  production route, not merely a repair step.
 - Lock exact copy/layout with a deterministic reference before video when
   typography, logos, UI, title cards, posters, product lineups, or simple
   geometry carry the design. Preserve editable source, local input/font hashes,

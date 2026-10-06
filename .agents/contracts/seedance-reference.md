@@ -31,11 +31,11 @@ on her face", "teal and orange grade", "Rage at medium intensity", "bullet-time
 slow-mo"). A user-confirmed lock always wins; the plan fills the gaps.
 
 A static camera or an unchanging light is a choice that carries a recorded
-reason (`static_reason`). Formats that are static by design are exempt: selfie,
-posing and demonstration modes, plate sources for later cutdown, source-preserving
-edits, and static assets. A recorded project camera, lens, lighting or pacing
-axis must appear in the shot prompts, or the scene records an override with its
-reason.
+reason (`static_reason`); the allowed values and the exempt formats are in
+`seedance-shot-design`. A confirmed project camera, lens, lighting, pacing or
+energy axis, recorded in `directorial_axes` or the `locked` block, must appear in
+the shot prompts, or the scene records an override with its reason. A
+`proposed`, `defaulted` or `agent_confirmed` choice is not a user lock.
 
 Do not let two skills fight: exactly one grade per clip, one dominant lighting
 direction per shot with the same physical light source across the cuts of a

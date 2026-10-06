@@ -53,7 +53,11 @@ separate from production approval and does not require provider submission.
 
 Collect `prompt_type`, `model`, `operation`, `language`, `requested_axes`,
 `may_change`, `must_preserve`, and `request_sha256` alongside the complete prompt,
-ordered reference roles/hashes, and capability evidence. The request hash covers
+ordered reference roles/hashes, and capability evidence. For a narrative, ad,
+micro-drama, music-video or showcase shot, also collect the scene's `shot_plan`
+(or its recorded `static_reason` / exemption), the confirmed project axes from
+`directorial_axes` or the `locked` block with their sources, and any scene
+override. The request hash covers
 the semantic submitted request, not just its prompt. Missing dispatch or request
 evidence leaves a production review `incomplete`; request it from the caller.
 Filename/content inference is a draft-only fallback with an explicit warning.
@@ -184,6 +188,8 @@ requested_axes: <named axes>
 request_sha256: <canonical request hash>
 required_rule_ids: <IDs supplied by caller>
 reference_evidence: <ordered paths, hashes, roles, and approvals>
+shot_plan: <scene shot plan, or the recorded static_reason / exemption>
+project_axes: <confirmed camera, lens, lighting, pacing and energy axes with sources, and any scene override>
 
 ## Change contract (may change / must preserve)
 
@@ -376,8 +382,8 @@ Its source metadata is `references/rule-provenance.json`; bundle integrity
 validation detects unreviewed checklist changes.
 
 Check declared applicability before applying a heuristic: narrative shots need
-observable events and intent, and a recorded shot plan unless the format is static
-by design (`shot.plan_bound`, `shot.variety`, `shot.axis_carry`); static character sheets, location plates, UI,
+observable events and intent, and a recorded shot plan unless exempt
+(`shot.plan_bound`, `shot.variety`, `shot.axis_carry`); static character sheets, location plates, UI,
 product references, music beds, SFX, and ambience do not need a story obstacle.
 Static assets need composition and visible-consistency checks. Prefer positive
 observable direction; concise technical exclusions and explicit preservation

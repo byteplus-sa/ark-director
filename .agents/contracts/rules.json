@@ -78,9 +78,9 @@
         "narrative_video"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "A narrative, ad, music-video or showcase shot carries a recorded shot plan with size, angle, camera move, lens intent and light source, or a recorded static reason.",
+      "summary": "A narrative, ad, micro-drama, music-video or showcase shot carries a recorded shot plan with duration, size, angle, camera move, lens intent and a named light source with its key side, or a recorded static reason.",
       "exceptions": [
-        "Static-by-design formats (selfie, posing and demonstration modes), plate sources for later cutdown, source-preserving edits and static assets record the exemption instead."
+        "User lock, static-by-design format (UGC, how-to, unboxing and virtual try-on modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), camera plan owned by another skill (pin plan, music-video genre lock), plate for cutdown, source-preserving edit, extension continuation, or no video shot record the exemption instead."
       ]
     },
     {
@@ -90,9 +90,10 @@
         "narrative_video"
       ],
       "owner_path": ".agents/skills/seedance-shot-design/SKILL.md",
-      "summary": "Adjacent shots in a cutting clip differ in at least two of size, angle, camera move and light direction, and each scene has a non-eye-level angle and a motivated move or a recorded reason.",
+      "summary": "Adjacent shots in a cutting clip differ in at least two of size family, angle class, camera move and key side; each scene has a non-eye-level angle, a motivated move at its energy level and uneven shot lengths, or a recorded reason.",
       "exceptions": [
-        "A single continuous take records its camera path and light progression instead of neighbor contrast."
+        "A single continuous take records its camera path and light progression instead of neighbor contrast.",
+        "A shot plan derived from another skill's camera plan treats these checks as advisory."
       ]
     },
     {
@@ -102,7 +103,7 @@
         "narrative_video"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "A recorded project camera, lens, lighting or pacing axis appears in the shot prompt, or the scene records an override with its reason.",
+      "summary": "A confirmed project camera, lens, lighting, pacing or energy axis recorded in directorial_axes or the locked block appears in the shot prompt, or the scene records an override with its reason.",
       "exceptions": []
     },
     {

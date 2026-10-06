@@ -131,7 +131,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 1. **Clone the repo** and open it in your agent-compatible editor.
 2. **Set the environment variables** above in a `.env` file (gitignored).
 3. **Start a project and its canvas** — create `projects/<your-project>/project.md`, the eight-stage `showcase.json`, and generated `index.html`.
-4. **Break into scenes and shots** — write `scene.md` and `shot.md` manifests and update the canvas inventory.
+4. **Break into scenes and shots** — write `scene.md` and `shot.md` manifests, plan each scene's camera and light with `seedance-shot-design`, and update the canvas inventory.
 5. **Build Elements** — acquire authorized real brand/product assets, use `html-graphic-render` for exact static graphics, and use the `seedream-*` skills for synthesized character, location, prop, or illustrative sheets; add source/provenance and review state to the canvas.
 6. **Generate** — use the `seedance-*` and `seed-audio-*` skills to author prompts, then submit via the MCP tools.
 7. **Assemble** — use the `ffmpeg-*` skills to concatenate approved takes with crossfades and mix audio.

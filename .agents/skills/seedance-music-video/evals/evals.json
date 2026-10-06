@@ -121,7 +121,7 @@
       "files": [],
       "expectations": [
         "The speed ramp and dolly zoom are composed as canonical preset phrasing rather than invented ad hoc.",
-        "The prompt keeps at most two camera moves for the clip.",
+        "The prompt keeps at most two camera moves in any one shot.",
         "The song-first structure (format, song map, beat contract, audio) is still present.",
         "The output does not stack a second grade or a contradictory camera treatment on top of the genre lock."
       ]

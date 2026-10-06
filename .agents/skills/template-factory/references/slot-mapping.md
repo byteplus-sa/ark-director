@@ -11,7 +11,7 @@ This keeps the mapping reproducible and prevents slot drift.
 | Action | `shots[].action` + `shots[].motion.directing_prompt_text` | Per-beat stages with end states; motion direction comes from the combined breakdown |
 | Scene | `elements[]` location descriptors | `@Image` binding |
 | Visual style | `visual_style.grade` + `lighting_direction` + `lens` + `film_look` | Order: lighting → lens → grade → film |
-| Camera | `camera` + per-shot `shots[].camera` + `shots[].motion.camera_motion` | ≤2 moves per clip |
+| Camera | `camera` + per-shot `shots[].camera` + `shots[].motion.camera_motion` (the pin's per-shot camera and light serve as the shot plan; `skill_owned_camera`) | ≤2 moves per shot |
 | Audio | `audio-analysis.json` soundscape, verified events and sync rules; `audio` fallback for older runs | `( )` music, `< >` SFX, `{ }` dialogue when authorized; describe replacement audio rather than copying source words or recordings; `No audio at all` when the run is silent |
 
 ## Reference binding order (Seedance)

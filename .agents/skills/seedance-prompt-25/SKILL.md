@@ -241,9 +241,8 @@ Before generation, verify:
     movement falsely appear to satisfy required subject movement?
 17. **Manifest currency**: When a blockout manifest exists, do its source,
     previz, selection, and reference hashes match the generation package?
-18. **Camera and light per shot**: Does every shot or stage name its size, angle,
-    camera move (or a recorded static reason) and light source, and do adjacent
-    shots differ in at least two of size, angle, move and light direction?
+18. **Camera and light per shot**: Does every shot or stage carry the camera and
+    light facts from its shot plan (or a recorded static reason)?
 
 ## Usage limitations
 

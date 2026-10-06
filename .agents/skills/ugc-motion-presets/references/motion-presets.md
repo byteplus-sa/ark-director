@@ -116,7 +116,7 @@ for deeper cue work. Camera is mostly locked front framing; audio is native.
 Category path: single-pass R2V with identity framing as a front-camera or
 mirror selfie. Describe phone-UI screens positively or omit them — never
 expect a rendered UI; see execution-constraints for the PiP guard. Locked
-demos use `camera_fixed: true` in the API call.
+demos state the locked camera in the prompt and record `format_static_by_design`.
 
 ### Selfie <!-- id: selfie -->
 - Category: Selfie / posing
@@ -164,7 +164,7 @@ demos use `camera_fixed: true` in the API call.
 - Camera block: medium, locked-off
 - Audio: native — quiet interior
 - Duration: 10
-- Flags: set `camera_fixed: true`
+- Flags: state the locked camera in the prompt
 - Persuasion hint: composed-fashion beat; angle/CTA owned by ugc-ad-modes
 
 ### Fix and pose <!-- id: fix-and-pose -->
@@ -648,7 +648,7 @@ is approximated by staged bursts of activity. Anything beyond 30s chains via
 - Motion block: the subject stands perfectly still center-frame; pedestrians
   cross continuously as fast, motion-blurred streaks through the whole clip;
   ambient light shifts subtly
-- Camera block: locked-off wide, `camera_fixed: true`
+- Camera block: locked-off wide, stated in the prompt
 - Audio: native — city night crowd swell
 - Duration: 10
 - Flags: crowd-freeze is approximated — the static subject is stated

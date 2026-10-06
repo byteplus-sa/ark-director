@@ -10,7 +10,7 @@
         "The output resolves the request to the Atomic preset and states so.",
         "The motion block is timestamped and cue-level: selfie pose held, glance at the sky, reaction back to camera, cloud rising behind at described speed.",
         "The environment event stays behind the subject and no debris reaches her.",
-        "The camera block is a locked-off front selfie framing, and camera_fixed is noted for the API call.",
+        "The camera block is a locked-off front selfie framing, and the locked camera is stated in the prompt with its format_static_by_design reason.",
         "Duration is a single-pass integer suggestion and ratio defaults to 9:16.",
         "No invented claims, offers, or testimony appear."
       ]

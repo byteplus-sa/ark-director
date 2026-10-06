@@ -81,14 +81,14 @@
     {
       "id": 7,
       "prompt": "Write a Seedance 2.5 prompt for a locked-off wide shot of a warehouse at dawn. The camera must not move at all; only the forklift moves within the frame.",
-      "expected_output": "A prompt whose Camera block uses static or locked-off wording and notes the camera_fixed generation parameter to keep the frame locked.",
+      "expected_output": "A prompt whose Camera block uses static or locked-off wording, records the lock's static_reason (a user lock here), and does not rely on a camera_fixed generation parameter.",
       "files": [],
       "expectations": [
         "The output uses static or locked-off camera wording.",
         "The output states that only the subject (the forklift) moves within the frame.",
-        "The output mentions setting the generation parameter camera_fixed to true.",
+        "The output records why the camera is static (a user lock from the request), so the lock is a recorded choice.",
         "The output does not add any camera movement.",
-        "The output does not put generation parameters inside the prompt text itself."
+        "The output does not rely on a camera_fixed parameter for the Seedance 2.5 tool and does not put generation parameters inside the prompt text itself."
       ]
     },
     {

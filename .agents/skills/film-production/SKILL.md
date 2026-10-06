@@ -138,11 +138,15 @@ persists the mode-authorized confirmed set as a `locked` block in `project.md`.
 
 At the scene breakdown stage, run `seedance-shot-design` for every narrative,
 ad, micro-drama, music-video or showcase scene before any shot prompt is
-written, and store the shot plan with the scene. A scene that is static by design
-records its `static_reason` instead. The plan carries the project's recorded
-camera, lens, lighting and pacing axes into the shot lines or records a scene
-override. At shot generation, inspect each take against its plan: planned cuts,
-camera moves and light changes must be visible in the footage.
+written, and store the shot plan in the scene file's `## Shot plan` section. The
+plan stays `draft` until the scene's locations are approved, then is revalidated
+before shot generation. A scene that is exempt (user lock, static-by-design
+format, a camera plan owned by another skill, plate for cutdown, source-preserving
+edit, or no video shot) records its `static_reason` instead. The plan carries the
+project's confirmed camera, lens, lighting, pacing and energy axes into the shot
+lines or records a scene override. At shot generation, inspect each take against
+its plan: a missing planned cut, move or light change is a soft defect to record,
+and a missing move or light on the turn shot is a hard-gate failure.
 
 ## Approval and spending gates
 

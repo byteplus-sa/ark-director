@@ -25,7 +25,8 @@ composition anchors, not identity sources.
 Build with `seedance-prompt-25` from the scene's shot plan: each internal shot
 keeps its planned size, angle, camera move and light direction, and the hook,
 turn and cliffhanger each get the plan's most distinct shot. A close-up
-cliffhanger can hold still as a recorded `contrast_hold` after motion. Every
+cliffhanger can hold still as a recorded `contrast_hold` after motion. Each
+spoken line sits inside one shot at least spoken words / 2.2 + 1 s long. Every
 storyboard-conditioned clip prompt must:
 
 1. Bind the grid as a planning sheet and name its annotations (panel numbers,

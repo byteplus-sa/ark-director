@@ -4,15 +4,16 @@
     {
       "id": 1,
       "prompt": "Plan a 12-second Seedance 2.5 clip for a kitchen scene: a mother opens the front door, her young son peeks out from behind a visiting aunt and taps the door frame, and she smiles. No camera or lighting has been chosen. It is a warm family drama, so keep it natural.",
-      "expected_output": "A shot plan with 3 to 4 shots, each with a job, size, angle, move with start and end, lens intent and a named light source and direction. The plan states an energy level, passes the neighbor-contrast rule, includes a non-eye-level angle, and puts the child's reveal on its most distinct shot.",
+      "expected_output": "A shot plan with 3 to 4 shots of uneven length, each with a job, size, angle, move with start and end, lens intent, and a named light source and key side from sources declared for the scene. The plan states an energy level, flags one turn shot, passes the neighbor-contrast rule, includes a non-eye-level angle, and puts the child's reveal on the turn.",
       "files": [],
       "assertions": [
-        "The plan has more than one shot and every shot names a size, an angle, and a move or a recorded static_reason.",
-        "Adjacent shots differ in at least two of size, angle, camera move and light direction.",
-        "At least one shot is not eye level, and at least one shot has a motivated camera move with a start and an end.",
-        "Every shot names a light source and its direction relative to the lens, not only 'warm natural light'.",
-        "The child's reveal is assigned to the most distinct shot in the plan.",
-        "The energy level is restrained or standard and the plan keeps every move slow and motivated."
+        "The plan has 3 to 4 shots and every shot names a size, an angle, and a move or a recorded static_reason.",
+        "Shot lengths are uneven (not all within 20% of each other) and the turn shot's length differs from its neighbors'.",
+        "The plan declares the scene's light sources with positions (for example the window and the front door) and every shot names one of them and a key side relative to the lens.",
+        "Adjacent shots differ in at least two of size family, angle class, camera move and key side.",
+        "At least one shot is not plain eye level and at least one shot has a motivated move with a start and an end.",
+        "Exactly one shot is flagged as the turn and it is the child's reveal.",
+        "The energy level is restrained or standard and every move is slow and motivated."
       ]
     },
     {
@@ -30,13 +31,14 @@
     },
     {
       "id": 3,
-      "prompt": "The project.md camera axis says 'low camera, gentle dolly and crane moves, one tracking move in the escape'. The seven shot prompts only list 'overhead close-up', 'medium shot' and 'medium close-up' with no moves. Reconcile them.",
+      "prompt": "The confirmed project.md camera axis says 'low camera, gentle dolly and crane moves, one tracking move in the escape'. The seven shot prompts (promise, awakening, escape, journey, rain, arrival, letter) only list 'overhead close-up', 'medium shot' and 'medium close-up' with no moves. Reconcile them.",
       "expected_output": "A plan that adds an axis_carry record and assigns the dolly, crane and tracking moves to named shots, or records a scene override with a reason for each shot that cannot carry the axis.",
       "files": [],
       "assertions": [
-        "The output identifies that the recorded axis never reached the shot lines.",
-        "Each move named in the axis is assigned to a specific shot, or an override with a reason is recorded.",
+        "The output identifies that the confirmed axis never reached the shot lines.",
+        "Each move named in the axis (dolly, crane, tracking) is assigned to a specific named shot, or a scene override with a reason is recorded.",
         "The tracking move is assigned to the escape shot only.",
+        "The overhead views that contradict the low-camera axis are either replaced by low angles or recorded as scene overrides with a reason.",
         "The output does not rewrite the project axis itself; it carries or overrides it per scene."
       ]
     },
@@ -66,13 +68,48 @@
     {
       "id": 6,
       "prompt": "Plan an 8-second kinetic motorbike chase through a night market for a music-video clip. The editor wants hard cuts on the beat.",
-      "expected_output": "A kinetic-energy plan of short shots with hard cuts on the beat, with per-shot moves, a stated travel axis and screen direction, and colored practical lighting, without stacking competing moves inside one shot.",
+      "expected_output": "A kinetic-energy plan of short shots within the shot ceiling, with hard cuts on the beat, per-shot moves, a stated travel axis and screen direction, and colored practical lighting from declared sources, without stacking competing moves inside one shot.",
       "files": [],
       "assertions": [
         "The plan records kinetic energy and uses shots of roughly one to three seconds each.",
+        "The plan has at most about 7 shots and none shorter than about 0.8 s.",
         "The travel axis and screen direction are stated and restated after each cut.",
         "Every shot has one primary move and at most one secondary move.",
-        "Every shot names its light source or practical and its direction."
+        "Every shot names a declared light source or practical and its key side."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "A seedance-ai-avatar talking-head take: our approved presenter sits at a desk and speaks to camera for 15 seconds. Make the camera work more dynamic.",
+      "expected_output": "A recognition that the talking-head format is static by design, with format_static_by_design recorded, no large camera moves added to the presenter frame, and any variety limited to what the format allows or a question before leaving the format.",
+      "files": [],
+      "assertions": [
+        "The output records format_static_by_design (or an equivalent recorded reason) for the talking-head take.",
+        "The output does not add a crane, orbit, whip pan or fast push to the presenter frame.",
+        "Any variety offered comes from B-roll cutaways, light or an insert the format allows, or the output asks before leaving the format."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The music-video skill's song-section map says the chorus runs 0-12 s with cuts on beats at 3 s, 6 s and 9 s. Plan the shots for this 12-second chorus clip.",
+      "expected_output": "A plan that keeps the song map's cut timing and fills each of the four shots with size, angle, move and a declared light source at kinetic energy.",
+      "files": [],
+      "assertions": [
+        "The shot boundaries land at 3 s, 6 s and 9 s exactly as the song map says, and the plan does not move them.",
+        "Each shot has a size, an angle, a move and a named light source with a key side.",
+        "Adjacent shots differ in at least two of size family, angle class, camera move and key side.",
+        "The plan records kinetic energy and flags one shot as the turn."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "My plan lights shot 1 from the kitchen window at screen-left, shot 2 the same, and shot 3 as a contre-jour halo 'from a big window behind the boy'. The scene only has the one window and a front door. Fix the light.",
+      "expected_output": "A repaired plan that notices shot 3 invents a source, and either declares the front door as a source switched on when it opens or relights the shot from the declared window.",
+      "files": [],
+      "assertions": [
+        "The output identifies that 'a big window behind the boy' is a source the scene never declared.",
+        "The repair either declares the front door as a source with the event that switches it on, or relights shot 3 from the declared window with a stated key side.",
+        "The repaired shots still name a declared source and a key side relative to the lens."
       ]
     }
   ]

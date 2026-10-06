@@ -57,9 +57,9 @@ Audio: <@Audio N timing binding, or native brackets>. For rap or fast vocals,
        "no line skipped" mandate (see section 3b).
 
 [Shot Plan] or [Stage Plan]
-Shot 1 (<time range>): <one event and visible end state>.
-Shot 2 (<time range>): <one event and visible end state>.
-Final Shot (<time range>): <closing event and final visible state>.
+Shot 1 (<time range>): <size>, <angle>; <camera move>. <one event and visible end state>. Light: <source, key side>.
+Shot 2 (<time range>): <size>, <angle>; <camera move>. <one event and visible end state>. Light: <source, key side>.
+Final Shot (<time range>): <size>, <angle>; <camera move>. <closing event and final visible state>. Light: <source, key side>.
 
 [Maintain Consistency]
 Keep <performer identity, wardrobe, venue, camera grammar, and audio>

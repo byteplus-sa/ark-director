@@ -194,9 +194,10 @@ lock, and matches the style of a full Seedance 2.5 prompt.
 - **A locked-off shot is a recorded choice.** State the static camera in the
   Camera block and record its `static_reason` in the shot plan: a user lock, a
   static-by-design format, a plate for later cutdown, a performance hold, or a
-  contrast hold after motion. `camera_fixed` is a Seedance 2.0 parameter; the
-  Seedance 2.5 tool exposes no such field (checked 2026-10-06), so the prompt
-  carries the lock. A hold lands best after motion.
+  contrast hold after motion. The Seedance 2.5 MCP tool exposes no `camera_fixed`
+  field (checked 2026-10-06; the legacy `seedance-prompt-20` skill documents it
+  for the 2.0 REST API), so the prompt carries the lock. A hold lands best after
+  motion.
 - **One-take needs explicit order.** A one-take shot must list the subjects,
   spaces, and events the camera passes through **in order**; an unordered list
   lets the model cut or reorder the passage.

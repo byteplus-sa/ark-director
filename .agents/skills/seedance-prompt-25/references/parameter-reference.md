@@ -61,7 +61,7 @@ mode selection and caller responsibilities.
 
 ### Reproducibility
 - `seed`: pin once a look is approved to reproduce the same visual family.
-- `camera_fixed`: a Seedance 2.0 parameter. The Seedance 2.5 `seedance_2_5_create_task` tool exposes no such field (checked 2026-10-06), so state a locked camera in the prompt and record its `static_reason`.
+- `camera_fixed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool (checked 2026-10-06; `seedance-prompt-20` documents it for the 2.0 REST API), so state a locked camera in the prompt and record its `static_reason`.
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 
 ### Output duration

@@ -78,7 +78,8 @@ happen naturally where the story needs them.
 
 ### Timestamps and pacing
 
-Use stages by default. Use one-second precision **only** for critical handoffs,
+Use stages by default for a continuous take, and shots when the clip cuts (see
+[Shot Staging](shot-staging.md)). Use one-second precision **only** for critical handoffs,
 entrances/exits, transitions, or explicit beats.
 
 | Pattern | Example |
