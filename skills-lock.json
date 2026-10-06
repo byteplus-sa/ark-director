@@ -167,7 +167,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-shot-design/SKILL.md",
-      "computedHash": "d4187878dc0330b0eb7714bb827fc437a11b5c52f94ea0ecc2fb7018d7190cf3"
+      "computedHash": "f55439d1d509e93b6e4433adcc61837080e5e052dc7a71bc4b35ac4bfbd99a06"
     },
     "seedance-frame-break": {
       "source": "./local",

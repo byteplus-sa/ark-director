@@ -47,7 +47,7 @@ or `agent_confirmed` axis is not a user lock.
 | --- | --- |
 | `user_lock` | The user, or a `user_confirmed` lock, fixed the camera or light |
 | `format_static_by_design` | A format whose mode is a fixed frame: UGC, UGC how-to, unboxing and virtual try-on modes, named UGC presets whose camera block is locked-off, talking-head, avatar and news-desk takes, frame-break |
-| `skill_owned_camera` | Another skill owns the camera plan (a reverse-engineered pin plan, a music-video genre lock). Derive the plan from that owner; V1-V3 are advisory |
+| `skill_owned_camera` | Another skill supplies an explicit per-shot camera plan (a reverse-engineered pin plan). Derive the plan from it; V1-V3 are advisory. A music-video genre lock is vocabulary only and does not exempt: plan the shots |
 | `plate_for_cutdown` | A source plate generated to be cut later; name the cut target |
 | `source_preserved` | An edit, swap, recast or restyle that must keep the source camera |
 | `extension_continuation` | Extending or continuing an existing take |
@@ -82,8 +82,8 @@ and the per-shot facts the Seedance 2.5 prompt carries.
    Restrained lowers the amplitude of moves and light shifts; it does not lower
    the variety of size, angle and light between shots. Choose kinetic only when
    the brief supports it, and only for shots without spoken lines.
-3. **Give every beat a job:** establish, reveal, emphasize, connect, escalate
-   or hold. A shot with no job is cut or merged into its neighbor.
+3. **Give every beat a job:** establish, reveal, emphasize, connect, escalate,
+   hold or release. A shot with no job is cut or merged into its neighbor.
 4. **Set the shot count and lengths** from the beats. A clip carries at most
    about 7 shots and none shorter than about 0.8 s (observed in this
    workspace's production reviews); split a longer kinetic sequence into
@@ -112,15 +112,15 @@ and the per-shot facts the Seedance 2.5 prompt carries.
 
 | Rule | Check |
 | --- | --- |
-| V1 Neighbor contrast | Adjacent shots differ in at least two of: size family (wide, medium, close), angle class (eye level, over-the-shoulder, low, high, overhead, first-person) with a recorded reason, camera move (moving versus held, or a different type or direction), and key side from the same declared source or a motivated new source. A step within a family, "slightly low", and a reworded light phrase with no new position do not count. |
+| V1 Neighbor contrast | Adjacent shots differ in at least two of: size family (wide, medium, close), angle class (eye level, over-the-shoulder, low, high, overhead, first-person) with a recorded reason (extreme wide and wide count as wide; medium and medium close-up as medium; close-up, extreme close-up and insert as close), camera move (moving versus held, or a different type or direction), and key side from the same declared source or a motivated new source. A step within a family, "slightly low", and a reworded light phrase with no new position do not count. |
 | V2 Angle range | At least one shot per scene is not plain eye level (low, high, overhead, first-person or over-the-shoulder) unless a lock or `static_reason` says otherwise. |
-| V3 Motion present | Moving shots (a quiet drift or push counts, on spoken shots too) cover a third of all shots at restrained and half at standard; at kinetic every shot without speech moves. Every clip has at least one motivated move. Each held shot has a `static_reason`; a scene has at most one `performance_hold` and one `contrast_hold`, and any one reason on more than a third of its shots is a defect. |
+| V3 Motion present | Moving shots (a quiet drift or push counts, on spoken shots too) cover a third of all shots at restrained and half at standard; at kinetic every shot without speech moves, except one `contrast_hold`. Every clip has at least one motivated move. Each held shot has a `static_reason`; a scene has at most one `performance_hold` and one `contrast_hold`, and in a scene of four or more shots any one reason on more than a third of its shots is a defect. |
 | V4 Light named | Every shot names a declared source and a key side. "Cinematic lighting" and "soft fill" without a source and a side are not light facts. |
 | V5 Turn emphasized | The shot flagged as the turn has the largest contrast with its neighbors, and its length differs from theirs. |
 | V6 Move budget | One primary move per shot and at most one secondary, each with a subject, a start and an end. The clip-level cap is the shot ceiling in step 4, not a move count. |
 | V7 Readable performance | A move never stands in for a cue that cannot be read at that size; match shot size to the cues the beat needs. |
 | V8 Screen direction | Travel and confrontation state the axis and restate it after each cut; a deliberate axis crossing is named. |
-| V9 Uneven timing | Shot lengths are not all within 20% of each other. |
+| V9 Uneven timing | Shot lengths are not all within 20% of each other. Cut times fixed by a song map, a pacing axis or a lock are recorded as given: V9 is waived and the turn is marked by contrast instead. |
 
 ## Inputs and limits
 

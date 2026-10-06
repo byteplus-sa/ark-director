@@ -235,7 +235,7 @@ Source skill: `seedance-prompt-25`
     "locked-off" or "no camera movement" appears with a recorded
     `static_reason` and is not boilerplate copied into every prompt. A scene has
     at most one `performance_hold` and one `contrast_hold`; a `contrast_hold`
-    follows a moving shot; any one reason on more than a third of its shots is a
+    follows a moving shot; in a scene of four or more shots, any one reason on more than a third of its shots is a
     MAJOR finding. A "single continuous shot" is a one-take and is checked for a
     recorded camera path instead. Quiet moves are acceptable during a spoken
     line; large moves there are a MINOR finding.
