@@ -18,36 +18,38 @@ use the 2.5 branch parameters below for the default model.
 
 ```json
 {
-  "tool_name": "seedance_create_task",
-  "arguments": {
-    "input": {
-      "prompt": "<full VFX prompt text from Step 1>",
-      "videos": [
-        {
-          "kind": "url",
-          "url": "<presigned source video URL>",
-          "role": "reference_video"
-        }
-      ],
-      "images": [
-        {
-          "kind": "base64",
-          "data": "<base64-encoded character/location sheet>",
-          "mime_type": "image/png",
-          "role": "reference_image"
-        }
-      ],
-      "model": "dreamina-seedance-2-0-260128",
-      "omni_reference_task_type": "edit_video",
-      "resolution": "1080p",
-      "ratio": "16:9",
-      "duration": 5,
-      "generate_audio": true,
-      "watermark": false,
-      "return_last_frame": true,
-      "execution_expires_after": 3600,
-      "priority": 0,
-      "safety_identifier": "<project>-<scene>-<shot>"
+  "input": {
+    "tool_name": "seedance_create_task",
+    "arguments": {
+      "input": {
+        "prompt": "<full VFX prompt text from Step 1>",
+        "videos": [
+          {
+            "kind": "url",
+            "url": "<presigned source video URL>",
+            "role": "reference_video"
+          }
+        ],
+        "images": [
+          {
+            "kind": "base64",
+            "data": "<base64-encoded character/location sheet>",
+            "mime_type": "image/png",
+            "role": "reference_image"
+          }
+        ],
+        "model": "dreamina-seedance-2-0-260128",
+        "omni_reference_task_type": "edit_video",
+        "resolution": "1080p",
+        "ratio": "16:9",
+        "duration": 5,
+        "generate_audio": true,
+        "watermark": false,
+        "return_last_frame": true,
+        "execution_expires_after": 3600,
+        "priority": 0,
+        "safety_identifier": "<project>-<scene>-<shot>"
+      }
     }
   }
 }
@@ -76,25 +78,30 @@ Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
 - **`safety_identifier`** — set to `<project>-<scene>-<shot>` for
   traceability.
 
-`ark_job_submit` returns an Ark job ID; the finished job carries the provider
-task ID (`cgt-...`). Register that provider ID as soon as it exists (it is
-write-once) and keep the Ark job ID in `extensions.ark_job_id`. Immediately store
-the task, shot, take, version, model, status, intended asset path, and
-submission time in `projects/<project>/task_ids.json` before polling. A local timeout never
+`ark_job_submit` returns an Ark job ID; the finished job result carries the
+provider task ID (`cgt-...`). Store the task, shot, take, version, model,
+status, intended asset path, and submission time in
+`projects/<project>/task_ids.json` as soon as the provider ID exists and before
+polling, and keep the Ark job ID beside it (`extensions.ark_job_id`). A local timeout never
 authorizes a duplicate submission; resume the recorded task until terminal.
 
 ## Step 4 — Poll for completion
 
-Call `seedance_get_task` through `ark_job_submit` repeatedly:
+Poll `seedance_get_task` in the foreground with `persist_output` off, waiting
+the `recommended_poll_after_ms` from creation between calls:
+
+```json
+{"task_id": "<task_id from Step 3>", "persist_output": false}
+```
+
+Once the status is terminal and succeeded, persist the output once through a
+background job:
 
 ```json
 {
-  "tool_name": "seedance_get_task",
-  "arguments": {
-    "input": {
-      "task_id": "<task_id from Step 3>",
-      "persist_output": true
-    }
+  "input": {
+    "tool_name": "seedance_get_task",
+    "arguments": {"input": {"task_id": "<task_id from Step 3>", "persist_output": true}}
   }
 }
 ```

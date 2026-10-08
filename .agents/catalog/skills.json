@@ -327,7 +327,7 @@
     },
     "seedance-prompt-25": {
       "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, and camera language. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead. For 4K output on standard 2.5 or Fast/Mini speed variants, also use `seedance-prompt-20`; whitelist-only 2.5 Premium (4K) uses this skill.",
+      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, and camera language. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead. For 4K output through legacy 2.0 or Fast/Mini speed variants, also use `seedance-prompt-20`; whitelist-only 2.5 Premium (4K) uses this skill.",
       "readme_summary": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids,.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -485,7 +485,7 @@
       "dependencies": [],
       "source_revision": null,
       "upstream_hash": "c696f32f2d953d767d847cb5eb7a0a23e0f0e33641f043a3b830c1ea3b721b33",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring. The upstream media-use skill is intentionally not installed; its pointers inside hyperframes* skills are unresolved and routing.md names the replacement route."
     },
     "hyperframes-animation": {
       "kind": "vendored",

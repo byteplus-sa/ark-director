@@ -6,7 +6,7 @@ description: End-to-end pipeline for Seedance video-to-video VFX shot production
 # Seedance VFX Pipeline
 
 End-to-end pipeline for producing a Seedance VFX shot from a source clip
-(default Seedance 2.5; use 2.0 only for 4K output or Fast/Mini variants).
+(default Seedance 2.5; use 2.0 for Fast/Mini variants, and for 4K output follow the 4K routing in `.agents/contracts/routing.md`).
 This skill composes the `seedance-vfx-prompt` skill (prompt writing) with the
 `ark-mcp` tools (task submission, polling, download) to produce a saved,
 manifested asset following the workspace's `projects/<project>/` directory
@@ -23,7 +23,8 @@ complete.
 > **Default to Seedance 2.5** (`dreamina-seedance-2-5-260628`,
 > `omni_reference_task_type=edit`) for full-duration edits — 2.5 preserves ~the
 > source length, while **2.0's `edit_video` caps output at ~5s** in practice.
-> Use 2.0 only for 4K output or Fast/Mini variants. For 2.0 T2V/R2V prompts,
+> Use 2.0 for Fast/Mini variants; for 4K output follow the 4K routing in
+> `.agents/contracts/routing.md`. For 2.0 T2V/R2V prompts,
 > use `seedance-prompt-20`.
 
 Use this skill when the user wants to:
@@ -36,7 +37,7 @@ Use this skill when the user wants to:
 
 Do **not** use this skill when the user only wants to:
 - write a VFX prompt without submitting (see `seedance-vfx-prompt`)
-- generate text-to-video or image-to-video (see `seedance-prompt-25`; `seedance-prompt-20` for 4K/Fast/Mini)
+- generate text-to-video or image-to-video (see `seedance-prompt-25`; `seedance-prompt-20` for Fast/Mini, or 4K per the routing contract)
 - generate images or audio (use Seedream / Seed Audio skills)
 
 
@@ -192,8 +193,9 @@ Before submitting, verify:
    the legacy path. Include observable face-fidelity criteria when relevant.
 4. **Model and operation** — resolve the model, transport tool, edit operation,
    and reference mode before choosing a checklist. Default 2.5 edit uses
-   `seedance_2_5_create_task` with `omni_reference_task_type: edit`; 4K requires
-   an explicitly chosen legacy path supported by live tool evidence. Faces
+   `seedance_2_5_create_task` with `omni_reference_task_type: edit`; 4K follows the
+   4K routing in `.agents/contracts/routing.md` and needs live tool evidence for
+   the chosen path. Faces
    require fidelity QA, not a model switch.
 5. **Duration and mode compatibility** — for 2.5 edit, validate source length
    against live edit limits and omit auto-locked `duration` and `ratio` fields.
@@ -229,7 +231,7 @@ VFX shots using Seedance 2.0 at 4K with audio are the **most expensive**
 generation mode in the workspace. Each 4K VFX take costs significantly more than
 a 1080p text-to-video take.
 
-Seedance 2.5 at 720p is cheaper per generation but cannot produce 4K output — use 2.5 for structured editing and extension, 2.0 when a supported 4K output path is explicitly needed.
+Standard Seedance 2.5 at 720p is cheaper per generation but cannot produce 4K output — use 2.5 for structured editing and extension, and a supported 4K path (2.0, or whitelist-only 2.5 Premium) when 4K is explicitly needed.
 
 Guidelines:
 - **Default to a single take** (`t01`) for VFX development. Generate multiple

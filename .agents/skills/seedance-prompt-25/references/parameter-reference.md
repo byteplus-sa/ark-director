@@ -66,7 +66,7 @@ mode selection and caller responsibilities.
 
 ### Output duration
 - 4–30s per generation (up from 4–15s in 2.0).
-- Output resolution: 480p, 720p, or 1080p. For 4K output, fall back to Seedance 2.0 (`dreamina-seedance-2-0-260128`) via `seedance-prompt-20`.
+- Output resolution: 480p, 720p, or 1080p. For 4K output follow the 4K routing in [routing.md](../../../contracts/routing.md): Seedance 2.0 (`dreamina-seedance-2-0-260128`) via `seedance-prompt-20`, or the whitelist-only 2.5 Premium model where enabled.
 - Multi-round extensions up to 180s (beta).
 
 ### Cost ladder
@@ -78,7 +78,7 @@ mode selection and caller responsibilities.
 
 Fall back to `seedance-prompt-20` and the 2.0 model (`dreamina-seedance-2-0-260128`) when:
 
-- You need **4K output resolution** — 2.5 caps at 1080p.
+- You need **4K output resolution** — standard 2.5 caps at 1080p (see the 4K routing in [routing.md](../../../contracts/routing.md)).
 - You need **Fast or Mini speed variants** — 2.5 has no Fast/Mini; 2.0 Fast/Mini are cheaper and faster for prototyping.
 - You need the lowest possible cost per generation for quick iteration.
 

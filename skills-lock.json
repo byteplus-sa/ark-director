@@ -5,7 +5,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/audio-dubbing/SKILL.md",
-      "computedHash": "90f1de65c41976e1cd4ef4bac8fc1e1c3fab485c59c6657d1253c740eeb07f49"
+      "computedHash": "f1a16251d57c38871c8a62fb61a6768388597431861819e97640632bc69c4e50"
     },
     "audio-split": {
       "source": "./local",
@@ -221,7 +221,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25/SKILL.md",
-      "computedHash": "bbd8981de32a9c167301d6b3186f356a0d3b4fcbbd62e0eaeab34f67e82e38b7"
+      "computedHash": "3cb29bb3bafb35229e9cae92a6ada0eff82925cf5929ae03ffe6cce7fa53bf5e"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",
@@ -233,19 +233,19 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-restoration/SKILL.md",
-      "computedHash": "cee2207c88ab0655ad8b0856ead22087db45efd090f2bae8426a2d08b99f76f7"
+      "computedHash": "2fb51dddd200504a417b752d3e7de27053c1a29c83b533bc868d37070442c6d0"
     },
     "seedance-vfx-pipeline": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "31c379cc5d66f9f54048fd3ec7f3803818a59d3d627e7904cf4f5d71891977b6"
+      "computedHash": "6a500542ee61a04302a50248a71ea4d6ca9697af76de2311d60d5931d4f41406"
     },
     "seedance-vfx-prompt": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-prompt/SKILL.md",
-      "computedHash": "de0584e6f5c5198c7477d9a1216fabebc18a2fab8dcce41c6bf6211fef83276e"
+      "computedHash": "f657336f1aa926ad3d50217a50d42c12837ccd78adecc6c01552e3d6eae45aa6"
     },
     "seedream-character-sheet": {
       "source": "./local",

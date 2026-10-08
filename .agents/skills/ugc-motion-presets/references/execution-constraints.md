@@ -11,7 +11,7 @@ never appear in prompt text.
 | Parameter | Value and notes |
 |---|---|
 | `duration` | Integer seconds, 4–30; `-1` for auto. Integer only — no sub-second values. |
-| `resolution` | `480p`, `720p`, `1080p`. Default 720p for UGC placement. For a 4K request follow the 4K routing in `contracts/routing.md`. |
+| `resolution` | `480p`, `720p`, `1080p`. Default 720p for UGC placement. For a 4K request follow the 4K routing in [routing.md](../../../contracts/routing.md). |
 | `ratio` | `9:16` default for UGC unless the request says otherwise. Locked to the first image on first/last-frame tasks and auto-derived from the source on edit tasks — never set it there. |
 | Locked camera | Locked-off selfie/posing and spectacle demos state the lock in the prompt and record `format_static_by_design`; the Seedance 2.5 tool exposes no `camera_fixed` field. |
 | `generate_audio` | Enables the native audio track the recipes describe. |

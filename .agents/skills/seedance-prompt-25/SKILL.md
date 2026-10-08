@@ -11,7 +11,7 @@ description: >
   skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene
   staging, video editing, extension, and corrections to generated motion or
   continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead.
-  For 4K output on standard 2.5 or Fast/Mini speed variants, also use
+  For 4K output through legacy 2.0 or Fast/Mini speed variants, also use
   `seedance-prompt-20`; whitelist-only 2.5 Premium (4K) uses this skill.
 ---
 
