@@ -417,8 +417,8 @@
     },
     "seedream-prop-asset": {
       "kind": "leaf",
-      "description": "Write structured Seedream prompts for prop and product identity sheets used as Seedance or storyboard references. Applies the prop threshold and acquisition-first rule before writing. Invoke when the user asks for a prop sheet, product reference, hero object, vehicle, device, tool, scene-variant wearable, or prop state variant with Seedream.",
-      "readme_summary": "Writes structured Seedream prompts for prop and product identity sheets after the prop threshold and acquisition-first check. Use for held, recurring, story-critical, or scene-variant objects that Seedance must reproduce.",
+      "description": "Write structured Seedream prompts for prop and product identity sheets used as Seedance or storyboard references. Applies the prop threshold and acquisition-first rule, then plans the views - front and back by default, plus a side view when the user asks or the object's profile carries its identity. Invoke when the user asks for a prop sheet, product reference, hero object, vehicle, device, tool, scene-variant wearable, or prop state variant with Seedream.",
+      "readme_summary": "Writes structured Seedream prompts for prop and product identity sheets after the prop threshold and acquisition-first check. Shows front and back views by default, adding a side view when the user asks or the object needs it. Use for held, recurring, story-critical, or scene-variant objects that Seedance must reproduce.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

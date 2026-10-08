@@ -1338,18 +1338,23 @@ Source skill: `seedream-prop-asset`
 
 ### Layout
 
-3. **Layout declared.** Single hero view by default; a two- or three-panel sheet
-   only for multi-side, large, mechanical, or small-detail objects. Three panels
-   at most, with the detail panel showing only what the full views cannot. A
-   single named view (front, side, top, edge) is valid when a shot needs it.
+3. **View plan declared.** Front and back by default; side added when the user
+   asks or the object's profile carries its identity (vehicles, machines, tools,
+   footwear, furniture). Near-symmetric, thin, or flat objects stay at front and
+   back. Three views at most; a detail close-up is a separate image, never a
+   fourth view. A single named view (front, back, side, top, edge, detail) is valid
+   when a shot or the user asks for one angle. A prompt with a single
+   three-quarter hero view and no other face is a MAJOR defect unless one view
+   was requested.
 
 4. **Background.** Pure white seamless with a faint contact shadow, or neutral
    light gray, with the same faint contact shadow, for white, silver, chrome,
-   clear, or translucent objects, or when the project's approved props or
-   character sheets already use gray. No colored, gradient, textured, or scene
-   background.
+   clear, or translucent objects, objects where such parts make up a large share
+   of the silhouette, or when the project's approved props or character sheets
+   already use gray. The background runs as one continuous field across the whole
+   sheet. No colored, gradient, textured, or scene background.
 
-5. **Neutral lighting.** Even, neutral white balance, identical across panels.
+5. **Neutral lighting.** Even, neutral white balance, identical across views.
    Shape-revealing highlights and gentle raking light are allowed; scene mood
    and color casts are not.
 
@@ -1366,7 +1371,8 @@ Source skill: `seedream-prop-asset`
 
 9. **Identity description.** Silhouette and proportions, real-world size in
    words, materials and finish, colors, and the identity-critical details the
-   video must reproduce. Wear and damage appear only as the story needs.
+   video must reproduce, with repeated features (doors, handles, wheels, lamps)
+   counted per face. Wear and damage appear only as the story needs.
 
 10. **One canonical state.** Open/closed, lit/unlit, folded/extended or similar
     is stated; emissive parts stay off unless the glow is canonical.
@@ -1385,30 +1391,47 @@ Source skill: `seedream-prop-asset`
 
 ### Composition
 
-14. **Whole object.** Every full-view panel fits the whole object with margin.
+14. **Whole object.** Every view fits the whole object with a stated clear margin
+    (about 6% of the sheet) to the canvas edge and to the next view.
 
-15. **Consistent scale.** Full-view panels share one scale and design.
+15. **Faces, flanks, and size.** Each view names the face it shows, the back is
+    the opposite face with its own described details, and the views share one
+    design and one scale (the object the same height in each view; width
+    targets are not used). Three-quarter views of an object whose flanks
+    differ name the visible flank in object and frame terms, with the rear view
+    written as a half-revolution turn of the front view and the side profile
+    matching the front view's flank.
+
+16. **One continuous background.** The prompt says "view", not "panel", and asks
+    for no boxes, frames, borders, divider lines, off-white rectangles, labels,
+    or captions, and a flat even field with no floor line, each shadow staying
+    under its own object.
+
+17. **Marks as pattern.** Faces are told apart by pattern, color, or placement,
+    not damage, and no face pairs "unblemished" with a dark mark.
 
 ### Text in image
 
-16. **Text route.** No readable text by default; a blank surface or an angle
+18. **Text route.** No readable text by default; a blank surface or an angle
     that hides the print is preferred, and pseudo-letters count as invented
     text. Identity-critical copy is acquired or finished
-    deterministically; model text appears only when non-exact text is expressly
-    accepted.
+    deterministically; model text appears only when the user has said it is
+    acceptable, never on a conditional or hypothetical mention. A fictional
+    identifier is quoted once and reads identically on every view.
 
 ### Constraints
 
-17. **Common negatives.** No hands or people, no other objects or duplicates, no
-    unwanted background, no readable text or logos, no cropped edges, no extra
-    panels, no watermark — only those that apply.
+19. **Common negatives.** No hands or people, no other objects or duplicates, no
+    unwanted background, no readable text or logos, no cropped edges, no boxes,
+    frames, borders, or divider lines, no extra views, labels, or captions, no
+    watermark — only those that apply.
 
 ### Workflow
 
-18. **Element saved.** `prop_<prop-id>_<view>_vNN.png` under
+20. **Element saved.** `prop_<prop-id>_<view>_vNN.png` under
     `elements/<prop-id>/` with a same-stem `prompt_prop_` snapshot.
 
-19. **Selected variant.** Approved filename recorded as `selected_variant` in
+21. **Selected variant.** Approved filename recorded as `selected_variant` in
     the element manifest.
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: seedream-prop-asset
-description: Write structured Seedream prompts for prop and product identity sheets used as Seedance or storyboard references. Applies the prop threshold and acquisition-first rule before writing. Invoke when the user asks for a prop sheet, product reference, hero object, vehicle, device, tool, scene-variant wearable, or prop state variant with Seedream.
+description: Write structured Seedream prompts for prop and product identity sheets used as Seedance or storyboard references. Applies the prop threshold and acquisition-first rule, then plans the views - front and back by default, plus a side view when the user asks or the object's profile carries its identity. Invoke when the user asks for a prop sheet, product reference, hero object, vehicle, device, tool, scene-variant wearable, or prop state variant with Seedream.
 ---
 
 # Seedream Prop Asset
@@ -10,6 +10,8 @@ sheets. This skill is for **objects**: held and operated props, hero objects the
 camera lingers on, recurring products, vehicles, devices, mechanisms, and
 wearables that appear in only some scenes. The output becomes a reusable
 `elements/<prop-id>/` reference for Seedance, storyboards, or later Seedream I2I.
+Every sheet shows the object from more than one side: **front and back by
+default, with a side view added when the object or the user needs it.**
 
 Use this skill when the user wants:
 - a prop sheet or prop reference
@@ -89,34 +91,89 @@ When the gate says text-only, return a short object descriptor for the scene
 prompt instead of a sheet prompt. When in doubt about an unbranded object,
 describe it in the video prompt and skip the Element.
 
+**Views and acquisition.** Gather the real front and back, plus the side when the
+view plan below calls for it. When the source lacks a planned view, report the
+gap to the caller. An unbranded object's missing view may be generated I2I from
+the source image; never invent the missing face of a real branded or labeled
+product, whose back carries its own copy and marks.
+
 ## Default production rule
 
-Choose the layout for each image.
+Plan the views for each prop before writing the prompt.
 
-**Hero view (default).** One isolated object in a three-quarter view from
-slightly above eye level, the whole object in frame with margin on every side.
-Use it for compact rigid objects seen mainly from one side.
+**View plan.** Default to **front** and **back**. Add **side** when the user asks
+for it, or when the object's identity or use lies in its profile. Decide from the
+object, and tell the caller the chosen views with one line of why.
 
-**Multi-view sheet.** Two or three panels of the same object in one horizontal
-row: a three-quarter hero view, a side profile or back view, and an optional
-close-up of an identity-critical detail. Use it when the object is seen from
-several sides, is large or mechanical (vehicles, machines, doors), or carries a
-detail too small to read in the hero view.
+Add a side view when the object is deep and its flanks carry detail the front
+and back do not show: doors, wheels, handles, hinges, controls, a distinctive
+profile silhouette. Front and back are enough when the object is near-symmetric
+around its vertical axis, thin or flat, or has plain flanks that repeat the face.
 
-A single `front`, `side`, `top`, or `edge` view is still valid when a shot
-needs one specific angle.
+| Object | Views | Why |
+|---|---|---|
+| Car, taxi, motorcycle, cart, boat, aircraft | front, back, side | every flank carries identity: doors, wheels, profile |
+| Machine, appliance, instrument, tool, chair, shoe, bag | front, back, side | profile and controls differ by side |
+| Apple, orange, egg, ball, coin | front, back | near-symmetric; the second face shows the other markings |
+| Phone, tablet, card, mask, jacket laid flat | front, back | thin or planar; the faces carry it |
+| Bottle, can, jar, mug | front, back | rotationally even; the second face turns the object |
 
-**Background.** Pure white seamless with only a faint contact shadow directly
-beneath the object, so the backdrop does not leak into generated video. Switch
-to neutral light gray when the object is white, silver, or chrome, or is clear
-or translucent and its silhouette would be lost on white — check the candidate
+When the object is ambiguous, ask whether the shots will show its flanks; if they
+will, add side. Top, underside, and edge views are single-view requests, never
+part of the default plan.
+
+**Angle per view.** A flat or planar face, and a rotationally even object (fruit,
+bottles, cans), is shown straight-on at eye level. A volumetric object whose
+flanks differ is shown at a three-quarter angle from slightly above eye level so
+the near flank reads with the face. **Side** is always a full profile, square to
+the object.
+
+**Flanks.** Image models mix up left and right and ignore "the opposite side".
+For a three-quarter view of an object whose flanks differ, and for any
+three-view sheet, load [view layouts](references/view-layouts.md) before writing
+Composition: it holds the turntable flank rule, the frame-term table, and the
+three-view and long-object Composition blocks.
+
+**Layout.** One sheet, one image, with the views placed directly on one
+continuous seamless background and separated by empty space only. No boxes,
+frames, borders, divider lines, or off-white rectangles behind a view. Say
+"view" in the prompt, never "panel", which invites boxed frames.
+
+- two views: front left, back right, in one row
+- three views: front, side, back from left to right in one row, in turnaround
+  order
+- long, low objects (vehicles, long tools): a single row makes each view tiny,
+  so put front and back in a top row and the side profile centered beneath them,
+  on a square canvas
+
+Every view is drawn at the same scale, the object the same height in each, with
+a clear margin of at least 6% of the sheet requested to the canvas edge and the
+next view. Width targets cannot all fit a row (widths plus margins can pass 100%),
+so ask for equal height. Check scale by height or wheel diameter, never
+width: a profile is wider in frame than a three-quarter view at equal scale.
+
+A single `front`, `back`, `side`, `top`, `edge`, or `detail` image is still valid
+when a shot needs one specific angle or the user asks for one view only. A
+close-up of an identity-critical detail the views cannot resolve is its own
+`detail` image, never a fourth view. An existing `hero` three-quarter image stays
+a valid reference; do not rename or replace it.
+
+**State variants.** A state variant shows only the views where the state is
+visible. Default to front, add back or side where the state change shows, and
+reuse the identity descriptor word for word.
+
+**Background.** Pure white seamless, one continuous field across the whole
+sheet, with only a faint contact shadow directly beneath each object, so the backdrop does not leak into generated video. Switch
+to neutral light gray when the object is white, silver, or chrome, or such parts
+make up a large share of its silhouette, or it is clear or translucent and its
+silhouette would be lost on white — check the candidate
 before choosing — or when the project's approved props or character sheets
 already use gray. Gray keeps the same faint contact shadow. Never use a
 colored, gradient, textured, or scene background. A transparent delivery asset
 is a separate output; never key the white reference into transparency.
 
 **Lighting.** Neutral, even studio light with neutral white balance, identical
-across panels. Controlled shape-revealing highlights on metal, glass, and gloss
+across views. Controlled shape-revealing highlights on metal, glass, and gloss
 are allowed, as is a gentle raking light to read embossing, engraving, or
 texture. No scene mood or color cast.
 
@@ -172,7 +229,7 @@ from photos or concept art, and every state variant of an approved prop.
 
 ```text
 Subject:
-[Prop reference of one <object>: silhouette and proportions, real-world size, materials and finish, colors, identity-critical details, wear, canonical state, count.]
+[Prop reference of one <object>: silhouette and proportions, real-world size, materials and finish, colors, identity-critical details, wear, canonical state, count. Then each planned face: Front: ... Back: ... Side: ...]
 ```
 
 Always include:
@@ -184,11 +241,21 @@ Always include:
   other objects in frame for scale
 - **the few identity-critical details** the video must reproduce (a knurled grip
   band, a chrome hood ornament, rows of brass pegs); a complex object may need
-  more, but each one earns its place
+  more, but each one earns its place. Count repeated features per face ("a front
+  door and a separate rear door, each with its own brass handle")
 - **wear and age** only as far as the story needs; do not invent damage as a
   realism cue
 - **the canonical state**, stated explicitly
-- for a multi-view sheet, "the same object in all panels, identical design"
+- **each planned face described on its own** — "Front: ... Back: ... Side: ...".
+  The back is not a mirror of the front: name its identity-critical details
+  (rear lights, a stitched seam, an unmarked case back, the stem end) so the
+  approved sheet fixes them as canon instead of letting each regeneration
+  invent a different one. When the flanks differ, name each flank's features
+- **faces told apart by pattern, color, or placement** — blush, crown lean, which
+  side a handle sits on — never by damage. Do not pair "unblemished" with a dark
+  mark on the same face: a dark mark with no "natural pattern, no scar or spot"
+  reads as a blemish
+- "the same object in all views, identical design"
 
 Copy the approved descriptor word for word into every later variant and every
 prompt that binds the prop.
@@ -209,11 +276,12 @@ that read as writing.
 
 ```text
 Setting:
-Isolated on a pure white seamless background with a single faint contact shadow directly beneath the object. No other objects.
+Isolated on a pure white seamless background that runs continuously across the whole sheet as a flat even field with no floor line, with a faint contact shadow directly beneath each object that does not join the next. No other objects.
 ```
 
-Gray variant: "Neutral light-gray seamless studio background, consistent across
-all panels, with a single faint contact shadow directly beneath the object. No
+Gray variant: "Neutral light-gray seamless studio background running continuously
+across the whole sheet as a flat even field with no floor line, with a faint
+contact shadow directly beneath each object that does not join the next. No
 other objects."
 
 ## 5. Style
@@ -234,7 +302,7 @@ rather than a waxy CGI finish.
 
 ```text
 Lighting:
-Soft, even, neutral studio light, gentle fill, neutral white balance, controlled highlights on [metal/glass], identical across all panels.
+Soft, even, neutral studio light, gentle fill, neutral white balance, controlled highlights on [metal/glass], identical across all views.
 ```
 
 No mood lighting, colored gels, hotspots, or blown highlights. Emissive parts
@@ -243,28 +311,31 @@ canonical one.
 
 ## 7. Composition
 
-Hero view:
+Two views (default):
 
 ```text
 Composition:
-Single isolated hero view, three-quarter angle from slightly above eye level, the whole object centered with margin on every side, deep focus across the object.
+Two views side by side in one horizontal row on one continuous background, separated by empty space only: left, the whole object in a [front three-quarter / straight-on front] view; right, the same object turned half a revolution on a turntable, in a [rear three-quarter / straight-on back] view. Both views drawn at the same scale, the object the same height in each view, each centered with a clear margin of at least 6% of the sheet on every side; same framing and lighting, deep focus across the object.
 ```
 
-Multi-view sheet:
+Single view, only when one angle is requested:
 
 ```text
 Composition:
-Three panels side by side in one horizontal row with even spacing: left, the whole object in a front three-quarter view; center, a full side profile; right, a close-up of [identity-critical detail]. Same object, scale, and lighting in every panel.
+Single isolated [front / back / side] view on a continuous background, the whole object centered with a clear margin of at least 6% of the sheet on every side, deep focus across the object.
 ```
 
 Core rules:
-- the whole object fits inside every full-view panel — no cropped ends, wheels,
-  handles, or straps
-- one object per panel, unless the prop is a matched set or the user asks for a
+- the whole object fits inside every view — no cropped ends, wheels, handles, or
+  straps — with a clear margin to the canvas edge and to the next view
+- one object per view, unless the prop is a matched set or the user asks for a
   multi-prop board
-- consistent scale between full-view panels
-- the detail panel shows only a feature the full views cannot resolve
-- three panels at most
+- one scale for every view (the object the same height), and each object large enough to
+  read its identity details at thumbnail size
+- one continuous background: no boxes, frames, borders, divider lines, off-white
+  rectangles, labels, or captions; views are identified by the plan, not by text
+  or shapes in the image
+- three views at most; a third view or a long object uses [view layouts](references/view-layouts.md); a detail close-up is a separate image
 
 ## 8. Text in image
 
@@ -275,8 +346,13 @@ packaging), use the first route that applies:
 2. Generate a text-free base here, then finish the copy deterministically.
    This suits flat, near-frontal surfaces with a blank label area; curved
    packaging or oblique views need the real asset.
-3. Only when the user expressly accepts non-exact model text, quote it in double
-   quotes with its surface, size, and color.
+3. Only when the user has said model-rendered text is acceptable, quote it in
+   double quotes with its surface, size, and color. A conditional or
+   hypothetical mention does not count: leave the surface blank and tell the
+   caller the option exists.
+
+A fictional identifier the user accepts as model text (a taxi roof number, a
+plate) is quoted once and must read identically on every view that shows it.
 
 Never invent a real brand's logo. A device screen the camera shows is a
 `screen_` reference: exact UI goes to `html-graphic-render`, invented screen
@@ -286,8 +362,8 @@ imagery to `seedream-prompt`.
 
 ```text
 Constraints:
-Quality: sharp material detail, consistent design across all panels
-Negative: no hands, no people, no other objects, no readable text, no logos, no colored or gradient background, no cropped edges, no extra panels, no watermarks
+Quality: sharp material detail, consistent design across all views
+Negative: no hands, no people, no other objects, no readable text, no logos, no colored or gradient background, no boxes, frames, borders, or divider lines, no off-white rectangles behind the views, no cropped edges, no extra views, no labels or captions, no watermarks
 ```
 
 Choose the negatives that apply:
@@ -297,126 +373,96 @@ Choose the negatives that apply:
 - no reflections of other objects
 - no readable text, letters, numbers, logos, or brand marks
 - no cropped object edges
-- no extra panels
+- no boxes, frames, borders, divider lines, or off-white rectangles behind a view
+- no extra views, labels, or captions
 - no glow, beam, or effect unless canonical
 - no watermark
 
 ## Standard prompt template
 
+The default two-view sheet. For a third view or a single view, swap in the
+matching Composition block above and add the Side line to Subject.
+
 ```text
 Task:
 Text-to-Image (T2I)
 
 Subject:
-Prop reference of one [object]: [silhouette and proportions], about [real-world size], [materials and finish], [colors], [2–4 identity-critical details], [canonical state]. One [object] only.
+Prop reference of one [object]: [silhouette and proportions], about [real-world size], [materials and finish], [colors], [2-4 identity-critical details], [canonical state]. One [object] only, the same object in both views, identical design. Front: [front-face details]. Back: [back-face details].
 
 Setting:
-Isolated on a pure white seamless background with a single faint contact shadow directly beneath the object. No other objects.
+Isolated on a pure white seamless background that runs continuously across the whole sheet as a flat even field with no floor line, with a faint contact shadow directly beneath each object that does not join the next. No other objects.
 
 Style:
 Photorealistic product-reference photography, 50mm lens, true material micro-texture, not CGI-waxy.
 
 Lighting:
-Soft, even, neutral studio light, gentle fill, neutral white balance, controlled highlights on [material].
+Soft, even, neutral studio light, gentle fill, neutral white balance, controlled highlights on [material], identical across both views.
 
 Composition:
-Single isolated hero view, three-quarter angle from slightly above eye level, the whole object centered with margin on every side, deep focus across the object.
+Two views side by side in one horizontal row on one continuous background, separated by empty space only: left, the whole object in a [front three-quarter / straight-on front] view; right, the same object turned half a revolution on a turntable, in a [rear three-quarter / straight-on back] view. Both views drawn at the same scale, the object the same height in each view, each centered with a clear margin of at least 6% of the sheet on every side; same framing and lighting, deep focus across the object.
 
 Constraints:
-Quality: sharp material detail, clean silhouette
-Negative: no hands, no people, no other objects, no readable text, no logos, no colored or gradient background, no cropped edges, no watermarks
+Quality: sharp material detail, clean silhouette, consistent design across both views
+Negative: no hands, no people, no other objects, no readable text, no logos, no colored or gradient background, no boxes, frames, borders, or divider lines, no off-white rectangles behind the views, no cropped edges, no extra views, no labels or captions, no watermarks
 ```
 
-## Worked example: photoreal hero view
+## Worked examples
 
-A hypothetical pattern without bundled result evidence. Brass reads clearly on
-white, so the default background applies; the dial's cardinal points avoid
-letters.
-
-```text
-Task:
-Text-to-Image (T2I)
-
-Subject:
-Prop reference of one antique brass pocket compass, about five centimetres across: a round hinged case of worn polished brass with a domed lid standing open at ninety degrees, a cream enamel dial with a fine black compass rose whose cardinal points are small triangles, a slim blued-steel needle, a small knurled crown, and a brass suspension ring at the top. One compass only, lid open.
-
-Setting:
-Isolated on a pure white seamless background with a single faint contact shadow directly beneath the compass. No other objects.
-
-Style:
-Photorealistic product-reference photography, 50mm lens, true brass and enamel micro-texture, not CGI-waxy.
-
-Lighting:
-Soft, even, neutral studio light, gentle fill, neutral white balance, controlled highlights along the brass rim, no hotspots.
-
-Composition:
-Single isolated hero view, three-quarter angle from slightly above, the open lid and the dial both visible, the whole compass centered with margin on every side, deep focus across the object.
-
-Constraints:
-Quality: sharp material detail, clean silhouette
-Negative: no hands, no chain, no other objects, no letters or numbers on the dial, no engraved text, no colored or gradient background, no cropped edges, no watermarks
-```
-
-## Worked example: stylized vehicle sheet
-
-A hypothetical pattern without bundled result evidence. Polished chrome trim
-and a project whose character sheets use gray call for the gray background.
-
-```text
-Task:
-Text-to-Image (T2I)
-
-Subject:
-Vehicle prop sheet for an original stylized-3D animated family film: one small motorcycle-and-sidecar tricycle, about two metres long. A compact motorcycle with a rounded teal fuel tank and a single round headlight, joined on its right side to a boxy covered sidecar with a curved teal roof, a cream body with a hand-painted marigold-yellow stripe, a padded red vinyl bench seat, and polished chrome grab bars. A small chrome rooster ornament stands on the front of the sidecar roof. The plate holder is empty and blank. Parked upright, headlight off. The same tricycle in all three panels, identical design.
-
-Setting:
-Neutral light-gray seamless studio background, consistent across all three panels. No people, no other vehicles, no other objects.
-
-Style:
-Original stylized-3D family-feature animation vehicle design: rounded appealing proportions, tactile painted metal with a soft clear-coat, mirror-polished chrome, clean animated-feature render quality. Not photoreal, not flat 2D.
-
-Lighting:
-Soft, even, neutral studio light, flat fill, neutral white balance, soft controlled chrome highlights, identical across all panels.
-
-Composition:
-Three panels side by side in one horizontal row with even spacing: left, the whole tricycle in a front three-quarter view from eye level; center, a full side profile from the sidecar side with both wheels and the sidecar wheel fully visible; right, a close-up of the chrome rooster ornament on the sidecar roof. Same scale in the two full-view panels.
-
-Constraints:
-Quality: 16:9 horizontal sheet, crisp stylized detail, consistent vehicle design across all panels
-Negative: no letters, no words, no numbers, no plate characters, no logos, no maker badges, no people, no driver, no other vehicles, no cropped wheels, no extra panels, no watermarks
-```
+Load [worked examples](references/worked-examples.md) when writing a first prompt
+of a kind or checking a layout: a photoreal front and back sheet (an apple) and a
+stylized three-view vehicle sheet with the stacked long-object layout. Both are
+hypothetical patterns without bundled result evidence.
 
 ## Body continuity marks
 
 A birthmark, tattoo, or scar that must stay consistent across shots is a
-close-up reference, not a prop sheet. Use I2I with the approved character sheet
-bound for skin tone, build, and sleeve only, and describe the mark itself in
-Subject: position in image terms, shape, size against a familiar object, color,
-and edge quality. State laterality as seen in the frame and in the character's
-own terms ("the inner LEFT wrist, as seen from the front"). Drop the body-part
-and person negatives for this case and keep jewelry, tattoo, and second-hand
-exclusions. QA checks handedness, placement, shape, and finger count.
+close-up reference, not a prop sheet. Load
+[body continuity marks](references/body-continuity-marks.md).
 
 ## QA after generation
 
 Inspect every candidate before selection and return defects to the caller:
 
-- the whole object is in frame with margin; nothing is cropped
-- exactly the requested count; no duplicates, hands, people, or stray objects
-- the background is the declared color and identical in every panel
+- the sheet shows the planned views, no more and no fewer, and each view shows
+  the face it should: the back is the opposite face, not a repeat of the front,
+  and a planned side is a true profile
+- flank coverage: when front and back are three-quarter views, they show
+  opposite flanks and the side profile matches the front view's flank. Confirm
+  each flank by a landmark (door handles, sidecar, hood vent, which side a
+  feature sits on), never by assuming the prompt was obeyed
+- one scale: object height, roof lamp included, and wheel diameter are within
+  about 15% across views; never compare widths
+- margin: 3% of the sheet or more to every canvas edge and the next view (models
+  typically deliver 55-80% of the requested 6%); nothing touches or is cropped
+- one continuous background: no boxes, frames, borders, divider lines,
+  off-white rectangles, labels, captions, floor line, or shadow band joining the
+  views; the declared color, uniform within about 3 levels (white at or above
+  245) and identical in every view
+- exactly the requested count; no duplicates, hands, people, or stray objects;
+  repeated features (doors, handles, wheels, lamps) match the Subject per face
 - the silhouette separates cleanly from a uniform background
 - identity-critical details read at thumbnail size
 - no invented text, logos, or brand marks; marks that read as letters or
   numerals count as invented text
 - scale and proportions are plausible for the stated size
 - the state matches the request
-- multi-view panels share one design, scale, and lighting
+- views share one design, scale, and lighting
+- the back face carries the details the Subject named for it
+- distinguishing marks read as the intended pattern, not damage; a face described
+  as unblemished has no dark spot
+- a fictional marking such as a plate or roof number reads identically on every
+  view that shows it
 
 ## Downstream binding
 
 When a Seedance or storyboard prompt binds the approved prop:
 
 - reference only the selected image whose state the shot needs
+- a multi-view sheet binds as one identity reference; name the face the shot
+  shows ("the back of the [prop]") so the model reads the matching view
+- when a shot needs one face alone, generate that single-view image I2I from the
+  approved sheet rather than cropping the sheet
 - copy the approved descriptor word for word
 - for blockout or reference-to-video use, add "Use only the [prop] from
   @Image N — not its background."
@@ -426,14 +472,19 @@ When a Seedance or storyboard prompt binds the approved prop:
 Save generated images under `projects/<project>/elements/<prop-id>/` beside the
 element manifest:
 
-- `prop_<prop-id>_hero_v<NN>.png`
-- `prop_<prop-id>_sheet_v<NN>.png`
-- `prop_<prop-id>_<state>-hero_v<NN>.png` for a state variant
+- `prop_<prop-id>_sheet_v<NN>.png` for the front and back sheet, with or without
+  the side view
+- `prop_<prop-id>_<view>_v<NN>.png` for a single `front`, `back`, `side`, `top`,
+  `edge`, or `detail` image
+- `prop_<prop-id>_<state>-<view>_v<NN>.png` for a state variant, for example
+  `prop_<prop-id>_open-front_v<NN>.png`
 - `prompt_prop_<prop-id>_<view>_v<NN>.md` as the exact prompt snapshot beside
-  each output
+  each output, using `sheet` as the view for a multi-view sheet
 
 Record the approved filename as `selected_variant` in the project's element
-manifest (`prop.md` or `element.md`, whichever the project already uses).
+manifest (`prop.md` or `element.md`, whichever the project already uses), and
+note the planned views and the one-line reason beside it. An existing
+`prop_<prop-id>_hero_v<NN>.png` keeps its name.
 Acquired brand or product files record `generation: none` and have no
 `prompt_prop_` snapshot.
 
@@ -443,6 +494,6 @@ Acquired brand or product files record `generation: none` and have no
 - Format: `png`
 - Prompt optimization: `standard`
 - Typical size:
-  - `2048x2048` for hero and single views
-  - `2816x1584` for multi-view sheets
+  - `2816x1584` for front and back sheets and for three-view single-row sheets
+  - `2048x2048` for the stacked long-object sheet and for single views
 - Watermark: false where the tool supports it
