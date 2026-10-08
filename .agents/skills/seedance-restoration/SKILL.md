@@ -8,8 +8,9 @@ description: >
   composition, camera movement, and timing. Use whenever the user asks to
   restore, clean, denoise, or repair old, aged, or archival footage, remove
   grain or noise, erase scratch lines or film damage, or "clean up" damaged
-  film through the Seedance generative-edit route. Prompt-composition only; the
-  caller owns submission and the generation lifecycle.
+  film through the Seedance generative-edit route. Composes the prompt and
+  specifies the diagnosis and verification steps; the caller owns submission and
+  the generation lifecycle.
 ---
 
 # Seedance Restoration
@@ -214,7 +215,7 @@ direction.
   direction"), and face protection ("never waxy, plastic, or warped") belong in
   every prompt that preserves people.
 - **Submission.** `omni_reference_task_type="edit"`, `resolution` 480p/720p/1080p
-  (2.5 has no 4K), `generate_audio: false` (since the source audio is re-muxed
+  (standard 2.5 has no 4K), `generate_audio: false` (since the source audio is re-muxed
   afterward — skip the re-mux if you instead keep native audio), `watermark: false`
   only when the tool supports the parameter. Duration auto-locks to the input —
   do not set it.

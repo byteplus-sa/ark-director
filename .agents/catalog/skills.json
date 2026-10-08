@@ -327,7 +327,7 @@
     },
     "seedance-prompt-25": {
       "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, and camera language. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead. For 4K output resolution (unsupported by 2.5) or Fast/Mini speed variants, also use `seedance-prompt-20`.",
+      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, and camera language. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead. For 4K output through legacy 2.0 or Fast/Mini speed variants, also use `seedance-prompt-20`; whitelist-only 2.5 Premium (4K) uses this skill.",
       "readme_summary": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids,.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -354,7 +354,7 @@
     },
     "seedance-restoration": {
       "kind": "leaf",
-      "description": "Write Seedance 2.5 video-to-video restoration prompts that remove film grain, video noise, black and white scratch lines, vertical and horizontal scratches, hairlines, streaks, dust, dirt, flicker, and compression artifacts from aged, damaged, or archival footage while preserving every person, object, action, composition, camera movement, and timing. Use whenever the user asks to restore, clean, denoise, or repair old, aged, or archival footage, remove grain or noise, erase scratch lines or film damage, or \"clean up\" damaged film through the Seedance generative-edit route. Prompt-composition only; the caller owns submission and the generation lifecycle.",
+      "description": "Write Seedance 2.5 video-to-video restoration prompts that remove film grain, video noise, black and white scratch lines, vertical and horizontal scratches, hairlines, streaks, dust, dirt, flicker, and compression artifacts from aged, damaged, or archival footage while preserving every person, object, action, composition, camera movement, and timing. Use whenever the user asks to restore, clean, denoise, or repair old, aged, or archival footage, remove grain or noise, erase scratch lines or film damage, or \"clean up\" damaged film through the Seedance generative-edit route. Composes the prompt and specifies the diagnosis and verification steps; the caller owns submission and the generation lifecycle.",
       "readme_summary": "Write Seedance 2.5 video-to-video restoration prompts that remove film grain, noise, scratch lines, dust, and flicker from aged or archival footage while preserving the shot.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -485,7 +485,7 @@
       "dependencies": [],
       "source_revision": null,
       "upstream_hash": "c696f32f2d953d767d847cb5eb7a0a23e0f0e33641f043a3b830c1ea3b721b33",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring. The upstream media-use skill is intentionally not installed; its pointers inside hyperframes* skills are unresolved and routing.md names the replacement route."
     },
     "hyperframes-animation": {
       "kind": "vendored",
@@ -548,15 +548,6 @@
       "dependencies": [],
       "source_revision": null,
       "upstream_hash": "0694f970b3613b9f0a63dc44c06404ea4f6506819f4afdbc9da3323b420cb9ae",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
-    },
-    "media-use": {
-      "kind": "vendored",
-      "description": "Agent Media OS, the single skill for every media need in a HyperFrames project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into a frozen local file or paste-ready block + ledger record (one verb, `resolve`); generate via TTS / music / image models when the catalog misses; produce voiceover, transcription, captions, and background removal through one shared audio engine; operate on media (cut / reframe / transform); and reuse assets across projects. Also use for vague feedback that real footage looks dark, flat, boring, should feel retro/camcorder/print/ASCII, needs privacy, or needs a media reveal.",
-      "readme_summary": "Agent Media OS \u2014 resolve BGM, SFX, images, icons, logos, voices, and grades into local files; generate via TTS/music/image models; produce voiceover, transcription, captions, and media operations.",
-      "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "1301ea7cb53a0a44f5c7d62c34cba7e00b9e69b31bed57dc8d645417cea0da7c",
       "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
     },
     "ugc-motion-presets": {

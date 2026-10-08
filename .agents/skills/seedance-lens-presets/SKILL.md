@@ -155,13 +155,13 @@ single camera/visual line. **Pair the number with the visible result** using
 this template:
 
 ```
-Camera: <focal length>mm, <aperture> — <visible result>.
+<focal length>mm, <aperture> — <visible result>.
 ```
 
 Example:
 
 ```
-Camera: 85mm, f/1.4 — shallow depth of field, face sharp, background soft with
+85mm, f/1.4 — shallow depth of field, face sharp, background soft with
 compressed creamy bokeh.
 ```
 

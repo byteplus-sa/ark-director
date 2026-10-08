@@ -130,7 +130,6 @@ Return this schema:
   "videos": [{ "kind": "url", "url": "<presigned pin url>" }],
   "prompt": "<analysis prompt above, with mode, {DUR}, {TARGET}, {CUTS} filled>",
   "temperature": 0.2,
-  "thinking": true,
   "reasoning_effort": "high",
   "max_tokens": 32768
 }
@@ -139,8 +138,9 @@ Return this schema:
 Notes:
 - Video inputs must be HTTPS URLs (Base64 unsupported) — upload via
   `media_upload` first and pass the presigned URL.
-- Beat-level analysis benefits from `thinking=true`; cut-level analysis can use
-  `thinking=false` for speed.
+- Deep thinking is always on; use `reasoning_effort` (`low`, `medium`, `high`)
+  to trade depth for speed. Beat-level analysis benefits from `high`; cut-level
+  analysis can use `medium`.
 - Results are large because every beat includes motion detail (the text payload
   may be duplicated in `structured_content` and include `reasoning_content`).
   Keep descriptions concise. When the tool result is persisted to a file, parse

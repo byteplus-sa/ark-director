@@ -141,7 +141,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **71 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **70 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -262,7 +262,6 @@ The workspace ships with **71 skills** across 14 categories. Independent skills 
 | **hyperframes-creative** | Non-animation creative direction — design specs, palettes, typography, narration, beat planning, audio-reactive visuals, and brand style. |
 | **hyperframes-keyframes** | Seek-safe 2D/3D keyframes — punch-ins, camera moves, Ken Burns, match-cut handoffs, masks, SVG morph/draw, and runtime-specific APIs. |
 | **hyperframes-registry** | Search, install, and wire hosted registry blocks and components into compositions before hand-building named visuals. |
-| **media-use** | Agent Media OS — resolve BGM, SFX, images, icons, logos, voices, and grades into local files; generate via TTS/music/image models; produce voiceover, transcription, captions, and media operations. |
 
 ### Blender — 3D Pipeline
 
@@ -293,7 +292,7 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 | Source | Type | Examples |
 |---|---|---|
 | **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `micro-drama`, `filipino-micro-drama`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `ark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
-| **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes` + `hyperframes-*` (8 skills), `media-use` — workflow skills are installed on demand, not vendored |
+| **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes` + `hyperframes-*` (8 skills) — workflow skills are installed on demand, not vendored; the upstream `media-use` skill is intentionally not installed |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |
 

@@ -63,7 +63,7 @@ Do **not** use when:
 
 ### 1. Build the blockout (via the Blender MCP tools)
 
-Build via the Blender MCP tools (`blender_execute_blender_code` etc.; see
+Build via the Blender MCP tools (`mcp__blender__execute_blender_code` etc.; see
 [Blender setup](../../contracts/blender-mcp-setup.md)). Before using a
 minor-version-specific API, run
 `scripts/probe_blender_runtime.py` in the connected Blender session and retain

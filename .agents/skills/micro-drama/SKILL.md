@@ -42,7 +42,7 @@ and an optional full-episode showreel.
 1. **Brief.** Lock logline, formula, a cast of at most three recurring
    characters, one or two locations, threshold props, and exact dialogue per
    scene. Record `approval_mode`, format and run budget in `project.md`,
-   run `brief-intake` in fast mode, then initialize the canvas with the
+   run `brief-intake` with a fast proposal, then initialize the canvas with the
    canonical `--init` command.
 2. **Breakdown.** Three scenes: Hook (about 15 s), Turn (about 20 s),
    Cliffhanger (about 15 s). Each scene is one multi-shot Seedance clip with

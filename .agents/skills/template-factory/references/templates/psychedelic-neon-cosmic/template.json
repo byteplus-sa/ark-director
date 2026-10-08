@@ -11,14 +11,12 @@
     "system": "You are a film-analysis expert. Extract a reproducible breakdown as JSON.",
     "schema_ref": "VideoBreakdown v1.1",
     "temperature": 0.2,
-    "thinking": true,
     "reasoning_effort": "high",
     "max_tokens": 32768,
     "deidentify": true
   },
   "motion_review": {
     "purpose": "generated_take_comparison_only",
-    "thinking": true,
     "reasoning_effort": "high",
     "temperature": 0.2
   },

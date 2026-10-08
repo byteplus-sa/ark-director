@@ -39,10 +39,6 @@ keyframes and high-risk panels. For ordinary continuity panels, first generate
 one low-cost draft sequence; add alternatives only where composition or
 continuity is unresolved.
 
-If the user explicitly says they are working in Lumina, return clean
-copy-pasteable prompts and parameters only. Do not call generation tools or
-write local assets.
-
 ### 11. Persist every generated result locally
 
 Never rely only on a provider URL. Use durable artifact persistence and save the
@@ -85,41 +81,13 @@ panel numbers.
 
 ### Downloading artifacts
 
-`seed_media_get_artifact` returns Base64-encoded media bytes that can be large
-(1MB+ for grid images). The tool output may be truncated for large artifacts.
-To reliably save the file locally, extract the Base64 data from the tool
-response and decode it:
-
-```python
-import json, base64
-
-with open('<tool_output_file>', 'r') as f:
-    data = json.load(f)
-
-result = data.get('result', data)
-if isinstance(result, str):
-    result = json.loads(result)
-
-b64 = result.get('data')
-if not b64 and 'result' in result and isinstance(result['result'], dict):
-    b64 = result['result'].get('data')
-if not b64 and 'content' in result:
-    for item in result['content']:
-        if isinstance(item, dict) and item.get('type') == 'text':
-            text = item.get('text', '')
-            if text.startswith('{'):
-                b64 = json.loads(text).get('data')
-                break
-
-img_bytes = base64.b64decode(b64)
-with open('<output_path>', 'wb') as out:
-    out.write(img_bytes)
-```
-
-Alternatively, if `persist: true` was set on the generation call, use the
-artifact URI (`seed-media://artifacts/<id>`) to retrieve the bytes via
-`seed_media_get_artifact` in a follow-up call, or pass `response_format: "url"`
-to get a direct presigned URL for `curl`/`wget` download.
+Set `output_path` on the generation call (an absolute file path, or a directory
+ending in `/`, inside an allowed output root) so the file is written locally and
+reported in the artifact's `local_path`. The durable artifact is always kept. If
+the call did not set it, copy the persisted artifact with
+`seed_media_export_artifact`, or pass `response_format: "url"` and download the
+presigned URL promptly. Do not hand-decode Base64 from tool output: large
+artifacts are truncated.
 
 ### Manifest and metadata
 
