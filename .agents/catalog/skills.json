@@ -639,6 +639,15 @@
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
+    },
+    "seedance-effects-studio": {
+      "kind": "orchestrator",
+      "description": "Orchestrator. Offer a menu of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and grab and more), let the user pick one, inspect their photo or clip, write that effect's Seedance 2.5 prompt from its recipe, run prompt-review, submit a 480p draft through ark-mcp, save and QA the take, then ask before any higher resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp, seedance-restyle (video-to-video effects), showcase-html and the post tools named in each recipe. Use when the user wants a named visual effect applied to their own photo, product or clip, or asks what effects are available. Not for free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the menu (seedance-restyle), or multi-scene films (film-production).",
+      "readme_summary": "Orchestrator: pick one of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, smash and grab and more), fit your photo or clip to the effect's recipe, write the Seedance 2.5 prompt, run prompt-review and a 480p draft through ark-mcp, inspect it against the recipe's checks, and ask before any final. Twelve recipes are probed; the rest are labelled untested.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
     }
   }
 }

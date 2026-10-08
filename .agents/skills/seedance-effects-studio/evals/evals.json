@@ -1,0 +1,92 @@
+{
+  "skill_name": "seedance-effects-studio",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "What effects can I put on my photo?",
+      "expected_output": "The five-group menu of 45 effects with labels, one-line looks and the start input each needs, then a question asking which one to apply and for the photo.",
+      "files": [],
+      "assertions": [
+        "The reply lists effects grouped as camera and motion, clones and identity, world and transformation, art and style, and product creature and spectacle.",
+        "Each listed effect names the start input it needs (a person photo, a product photo, a vehicle, or a source clip).",
+        "The reply asks the user to pick one effect and supply the asset; it does not start generation.",
+        "The reply states that Higgsfield-style names are menu labels and the skill is not affiliated."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Apply Street colossus to this full-body photo of me standing on a sidewalk and generate it.",
+      "expected_output": "A run that fits the photo to the recipe, builds a giant start frame with Seedream because the raw photo has no city scale, fills the street-colossus template with counts and cut times, runs prompt-review, registers the request, submits one 480p draft with the giant frame as first_frame, inspects it, and asks before any final.",
+      "files": [],
+      "assertions": [
+        "The photo is hashed and checked against the Start photo contract before any prompt is written.",
+        "A Seedream start frame of the same person at building height on a city street is generated, reviewed and approved before it is used as the first frame.",
+        "The prompt keeps the recipe's two hard cuts at 4s and 7s, one helicopter, exact pedestrian and taxi counts, and the outfit described once.",
+        "The Seedance request uses role first_frame, draft true, resolution 480p, generate_audio false and no camera_fixed or seed field.",
+        "prompt-review runs on the Seedance prompt and the Seedream prompt and resolves CRITICAL and MAJOR findings before submission.",
+        "The provider task ID is saved as soon as it is acknowledged and the same task is polled after a timeout.",
+        "After the draft the reply reports QA against the recipe's checks and asks before a 1080p promotion with a cost estimate."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Do the Eyes in effect on this close-up portrait.",
+      "expected_output": "The eyes-in recipe with the opening framing slot set to an extreme close portrait, the push-in timeline, and an ending on pure black, as a first_frame draft.",
+      "files": [],
+      "assertions": [
+        "The 0-1s beat matches the first frame (extreme close portrait), not a medium shot.",
+        "The prompt states no blink, one round pupil and a uniform black frame from 6.5s.",
+        "The eye side is named by frame side.",
+        "The route is i2v-first-frame with generate_audio false."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Run Clones on my photo but I need exactly 5 copies.",
+      "expected_output": "The clones recipe with the count stated at every timestamp, plus a warning that the model overshot the count in the probe and an offer to request 4 or revise after the draft.",
+      "files": [],
+      "assertions": [
+        "The prompt states 1 figure, then exactly 5 copies plus the original (6 figures) from 3.5s.",
+        "The reply warns that counts ran high in the probe and that the count is treated as approximate.",
+        "Each copy has one face and one outfit and its own idle pose.",
+        "The reply does not claim the exact count is guaranteed."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Make the Comic effect on my 5 second clip.",
+      "expected_output": "A hand-off to seedance-restyle with the comic style block, the source-clip requirements, the muted master, and the post-audio route, since the effect is video-to-video.",
+      "files": [],
+      "assertions": [
+        "The route is v2v-restyle and the restyle contract (muted master, generate_audio false, no baked text) applies.",
+        "The reply asks for the source clip and a rights statement for the footage and the people in it.",
+        "No image-to-video prompt is written for a photo.",
+        "Real people in the clip route through Virtual Portrait identity anchors, not a liveness check."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Do Particles on my portrait and put readable labels like 'SUBJECT 01' on the screen.",
+      "expected_output": "A text-free generated clip plus a post step: the labels are authored with html-graphic-render or HyperFrames and composited, not prompted into the video.",
+      "files": [],
+      "assertions": [
+        "The Seedance prompt contains no label text, HUD words or numbers.",
+        "The reply routes the labels to HyperFrames or html-graphic-render in post.",
+        "The route is composite and generate_audio is false.",
+        "The reply says Particles has a thin description and that its recipe is an untested hypothesis."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Just write me the Smash and grab prompt for my lip balm tube, don't generate anything.",
+      "expected_output": "A prompt-only package: the recipe's template filled for an unlabelled or labelled tube, no files and no submission, with the label coming from a real asset and not from generation.",
+      "files": [],
+      "assertions": [
+        "The run stops after prompt composition and review; it creates no project files and submits nothing.",
+        "The product is described positively with no invented lettering; the label clause matches whether the tube is labelled.",
+        "The brand label, if any, is stated to come from the user's real photo or an authorized asset, never generated.",
+        "The thief outfit is written once and repeated verbatim in both shots; the hard cut is at 7.6s."
+      ]
+    }
+  ]
+}
