@@ -60,7 +60,7 @@ mode selection and caller responsibilities.
 | Bounce speed ramp | Acceleration/deceleration points; final state |
 
 ### Reproducibility
-- `seed`: pin once a look is approved to reproduce the same visual family.
+- `seed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool; reproduce a look by reusing the approved prompt and references.
 - `camera_fixed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool (checked 2026-10-06; `seedance-prompt-20` documents it for the 2.0 REST API), so state a locked camera in the prompt and record its `static_reason`.
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 

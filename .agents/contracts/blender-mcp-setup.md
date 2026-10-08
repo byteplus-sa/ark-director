@@ -4,25 +4,29 @@ Reference for the eight `blender-*` skills vendored from
 `ra100/blender-claude-plugin` (see `skills-lock.json`). The skills were written
 against the upstream "Blender Lab" MCP server whose tools are unprefixed
 (`execute_blender_code`, `get_objects_summary`, `search_api_docs`, …). This
-workspace connects to a different Blender MCP surface whose tools carry a
-`blender_` prefix. Treat this mapping as adapter guidance; resolve actual callable names from the connected tool inventory before use.
+workspace connects to a different Blender MCP server, named `blender`, whose
+tools are exposed to the agent as `mcp__blender__<tool>` (for example
+`mcp__blender__execute_blender_code`). Skill and local text that writes
+`blender_<tool>` means that same tool. Treat this mapping as adapter guidance;
+resolve actual callable names from the connected tool inventory before use.
 
 ## Tool-name mapping
 
-| Vendored (upstream) tool | Connected (`blender_`) tool |
+| Vendored (upstream) tool | Connected tool (also written `blender_<tool>` in skills) |
 |---|---|
-| `execute_blender_code` | `blender_execute_blender_code` |
-| `get_objects_summary` | `blender_get_scene_info` |
-| `get_object_detail_summary` | `blender_get_object_info` |
-| `get_screenshot_of_window_as_image` / `get_screenshot_of_area_as_image` | `blender_get_viewport_screenshot` |
-| `render_thumbnail_to_path` / `render_viewport_to_path` | `blender_get_viewport_screenshot` |
-| `get_blendfile_summary_*`, `jump_to_*`, `search_api_docs`, `get_python_api_docs`, `search_manual_docs` | No connected equivalent — use `blender_execute_blender_code` to inspect data, and confirm API/doc details via a docs lookup tool such as Context7. |
+| `execute_blender_code` | `mcp__blender__execute_blender_code` |
+| `get_objects_summary` | `mcp__blender__get_scene_info` |
+| `get_object_detail_summary` | `mcp__blender__get_object_info` |
+| `get_screenshot_of_window_as_image` / `get_screenshot_of_area_as_image` | `mcp__blender__get_viewport_screenshot` |
+| `render_thumbnail_to_path` / `render_viewport_to_path` | `mcp__blender__get_viewport_screenshot` |
+| `get_blendfile_summary_*`, `jump_to_*`, `search_api_docs`, `get_python_api_docs`, `search_manual_docs` | No connected equivalent — use `mcp__blender__execute_blender_code` to inspect data, and confirm API/doc details via a docs lookup tool such as Context7. |
 
 ## Detection
 
-The connected Blender MCP server is available when tools prefixed `blender_`
-are present (e.g. `blender_execute_blender_code`, `blender_get_scene_info`,
-`blender_get_object_info`, `blender_get_viewport_screenshot`). When those tools
+The connected Blender MCP server is available when tools prefixed
+`mcp__blender__` are present (e.g. `mcp__blender__execute_blender_code`,
+`mcp__blender__get_scene_info`, `mcp__blender__get_object_info`,
+`mcp__blender__get_viewport_screenshot`, `mcp__blender__get_addon_status`). When those tools
 are absent, fall back to emitting self-contained `bpy` scripts.
 
 Core connection, add-on compatibility, and optional generators are separate
@@ -48,8 +52,8 @@ EEVEE identifier selected by the probe rather than hard-coding
 ## Workflow
 
 1. Inspect core, add-on, optional-generator, and runtime capabilities.
-2. Inspect the scene with `blender_get_scene_info` / `blender_get_object_info`.
-3. Mutate via small, idempotent `blender_execute_blender_code` calls.
+2. Inspect the scene with `mcp__blender__get_scene_info` / `mcp__blender__get_object_info`.
+3. Mutate via small, idempotent `mcp__blender__execute_blender_code` calls.
 4. Verify data state and viewport appearance.
 5. For animation or video work, verify the rendered media temporally; a
    screenshot does not prove motion or timing.

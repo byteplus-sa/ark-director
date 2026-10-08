@@ -48,7 +48,7 @@ Do **not** use this skill for:
 > **2.5 resolution guard**: Seedance 2.5 supports 480p/720p/1080p output. The
 > 4K face-protection methodology below is 2.0-only. For face-critical structured
 > edits on 2.5, weigh 1080p fidelity against 2.0's 4K path. For 4K output,
-> stay on 2.0.
+> follow the 4K routing in `contracts/routing.md`.
 
 This skill is designed to partner with:
 - `seedance-vfx-pipeline` for the end-to-end submission, poll, and save pipeline

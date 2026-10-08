@@ -14,13 +14,12 @@ mode, and change contract. Submit through the selected tool only after preflight
 The sample below is for the supported legacy `seedance_create_task` branch;
 use the 2.5 branch parameters below for the default model.
 
-**MCP request structure:**
+**MCP request structure** (submit through `ark_job_submit`, the default path):
 
 ```json
 {
-  "server_name": "ark-mcp",
   "tool_name": "seedance_create_task",
-  "args": {
+  "arguments": {
     "input": {
       "prompt": "<full VFX prompt text from Step 1>",
       "videos": [
@@ -77,23 +76,25 @@ Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
 - **`safety_identifier`** — set to `<project>-<scene>-<shot>` for
   traceability.
 
-The tool returns a `task_id` and `polling_interval`. Immediately store the task,
-shot, take, version, model, status, intended asset path, and submission time in
-`projects/<project>/task_ids.json` before polling. A local timeout never
+`ark_job_submit` returns an Ark job ID; the finished job carries the provider
+task ID (`cgt-...`). Register that provider ID as soon as it exists (it is
+write-once) and keep the Ark job ID in `extensions.ark_job_id`. Immediately store
+the task, shot, take, version, model, status, intended asset path, and
+submission time in `projects/<project>/task_ids.json` before polling. A local timeout never
 authorizes a duplicate submission; resume the recorded task until terminal.
 
 ## Step 4 — Poll for completion
 
-Call `seedance_get_task` repeatedly, respecting the `polling_interval` from
-creation:
+Call `seedance_get_task` through `ark_job_submit` repeatedly:
 
 ```json
 {
-  "server_name": "ark-mcp",
   "tool_name": "seedance_get_task",
-  "args": {
-    "task_id": "<task_id from Step 3>",
-    "persist_output": true
+  "arguments": {
+    "input": {
+      "task_id": "<task_id from Step 3>",
+      "persist_output": true
+    }
   }
 }
 ```

@@ -69,7 +69,7 @@ the three-image sampling default where applicable, and the requested delta.
 
 ## Prerequisites
 
-- `ARK_API_KEY` (or `BYTEPLUS_MODELARK_API_KEY`) set in environment or `.env`
+- `BYTEPLUS_MODELARK_API_KEY` (compatibility alias `ARK_API_KEY`) set in environment or `.env`
 - `ark-mcp` MCP server running and healthy
 - Source video clip accessible as a local file path or URL
 - Project directory exists under `projects/<project-name>/`

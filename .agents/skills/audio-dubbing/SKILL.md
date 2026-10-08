@@ -38,8 +38,8 @@ Do not load every reference for a simple mix or mux request.
 
 1. Probe source streams/durations and verify the target script. Preserve
    user-locked dialogue and speaker information. In project work,
-   `approve_for_me` permits agent confirmation only after semantic review;
-   `ask_for_approval` waits for the user's script choice. A missing script
+   the script choice is confirmed after semantic review under the project's
+   `approval_mode` ([Production policy](../../contracts/production-policy.md)). A missing script
    decision, unresolved speaker assignment, or unverified voice consent blocks
    dependent generation, not read-only source analysis.
 2. Plan source segments at dialogue boundaries. Include overlap and encoding padding in reference limits. Record each actual start/end and measured clip size/duration before uploading.
