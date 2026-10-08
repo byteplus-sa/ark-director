@@ -5,6 +5,7 @@
 | Platform administration, catalog, pricing, billing, interactive generation | Available Ark CLI skills and current CLI help |
 | In-agent durable generation | `ark-mcp` preferred; persist project-local media and request/task evidence |
 | MCP unavailable before submission | Equivalent Ark CLI transport if it supports the same required contract and authorized operation |
+| User explicitly requests direct HTTP/curl generation | Use the documented endpoint and exact API contract; resolve credentials from runtime configuration, record `curl` as the transport, and preserve the same review, registry, persistence and reconciliation gates |
 | Timeout after possible submission | Reconcile the existing operation; changing transport is not permission to submit twice |
 | User explicitly chooses Lumina | Author copy-paste prompts in chat; do not generate through MCP/CLI or create production files unless requested |
 | Prompt composition only | Relevant independent prompt skill; no asset-generation or production-lock ceremony for a writing-only task |

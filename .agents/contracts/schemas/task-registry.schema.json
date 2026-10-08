@@ -59,7 +59,8 @@
         "transport": {
           "enum": [
             "ark-mcp",
-            "arkcli"
+            "arkcli",
+            "curl"
           ]
         },
         "model": {
@@ -291,7 +292,8 @@
         "transport": {
           "enum": [
             "ark-mcp",
-            "arkcli"
+            "arkcli",
+            "curl"
           ]
         },
         "model": {
