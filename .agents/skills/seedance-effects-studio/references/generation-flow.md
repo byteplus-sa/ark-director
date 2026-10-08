@@ -1,6 +1,6 @@
 # Generation flow
 
-Exact calls, parameters, records and checks for stages 7 to 10 of the
+Exact calls, parameters, records and checks for stages 6 to 10 of the
 [orchestrator procedure](../SKILL.md). Observed on 2026-10-08 with the live
 `ark-mcp` tools; recheck the tool schema before relying on a field.
 
@@ -26,15 +26,23 @@ observations, limitations, recommendation), a decision record and a manifest
 with `selection_evidence`. `prepare_request.py --ref path:role:manifest`
 rejects an unapproved reference.
 
-## Prepare, review, register
+## Hash, review, register
 
-1. Write the prompt to its snapshot path. Run `prompt-review` and resolve
-   CRITICAL and MAJOR findings; re-review changed prompts.
-2. Resolve capability evidence into `capabilities/<name>.json` (model, source,
-   `verified_at`, parameter schemas, `reference_roles`, `max_references`,
+Review is bound to the request hash, so the order is hash first.
+
+1. Write the prompt to its snapshot path and resolve capability evidence into
+   `capabilities/<name>.json` (model, source, `verified_at`, parameter schemas,
+   `reference_roles`, `max_references`,
    `supports_first_frame_with_reference_images`). First-frame and reference
    images cannot be mixed.
-3. Build and register the request:
+2. Run `prepare_request.py` with the arguments below but **without** `--review`,
+   `--write` and `--register`. It validates the bindings and prints
+   `request_sha256`; nothing is written.
+3. Run `prompt-review` bound to that hash and write the review record with
+   that `request_sha256`. Resolve CRITICAL and MAJOR findings; any changed
+   prompt, parameter or reference byte changes the hash and needs a new review.
+4. Re-run the same command with `--review`, `--capabilities`, the
+   `--required-rule` values and `--write --register`:
 
    ```bash
    .venv/bin/python .agents/scripts/prepare_request.py \
@@ -59,6 +67,21 @@ rejects an unapproved reference.
    first-frame route (it locks to the image) and set it for `reference_image`.
    The request hash covers prompt bytes, parameters and ordered reference
    hashes and roles; a changed byte needs a new review.
+
+   Shot rules: each recipe carries an explicit per-shot camera plan, so record
+   that exemption in the shot manifest and do not pass `shot.plan_bound`,
+   `shot.variety` or `shot.axis_carry` as required rules; the reviewer records
+   them as `not_applicable` with the exemption as the reason.
+
+### Start frames are operations too
+
+A Seedream start frame (giant frame, destination image, water wall, palm-up
+frame) follows the same sequence: prompt snapshot, hash, review, registry entry
+(`--model dola-seedream-5-0-pro-260628 --operation generate`, the user's photo
+as a `reference_image` bound as `@Image 1`), submission, local copy, hash, an
+inspection record and an approval decision. One sample is enough for a start
+frame; record that choice and offer three samples when the user wants
+alternatives. Only an approved start frame may be passed to Seedance.
 
 ## Submit a draft
 
@@ -113,7 +136,13 @@ listen, not proof.
   at most 7 days old) and only `resolution`, `watermark`, `return_last_frame`.
   Prompt, images, duration and audio come from the draft. Promotion renders
   1080p; for 720p run a new non-draft generation instead. Ask the user first and
-  state the estimated cost (about five times the draft tokens).
+  state the estimated cost (about five times the draft tokens). A promotion is a
+  paid operation and is registered before it is submitted: operation ID
+  `<draft operation>-promote`, the draft's prompt snapshot and references, params
+  `draft_task_id`, `resolution`, `watermark`, so a timeout can be reconciled. Its
+  review is the draft's (the prompt is unchanged). This path is not yet exercised
+  in the probe project, so check the registry accepts the shape on first use.
+  Check the draft's audio track first: the promotion reuses it.
 - Apply the recipe's **Post** steps to the accepted master; keep the provider
   master untouched.
 

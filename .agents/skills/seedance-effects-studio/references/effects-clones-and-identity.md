@@ -32,7 +32,7 @@ Route note: Seedance 2.5 cannot mix a `first_frame` image with `reference_image`
 **Prompt template:**
 ```text
 @Image 1 is the first frame. {subject} stands full-body at {position} in {location}, wearing {outfit}, exactly as in the photo.
-Locked-off static wide camera at eye level, 35mm look, deep focus, no camera movement for the whole clip.
+Locked-off static wide camera at eye level, 35mm look, deep focus, no camera movement for the whole clip. Every sign, vehicle and garment shows plain colour with no lettering.
 0-1.5s: the original is the only copy in frame (1 figure); {original_idle}. {background_life} continues behind.
 Copies pop in one by one. Each is fully solid from its first frame, with light and shadow matching the scene: no fade, dissolve, glow or particles. At 1.5s copy 1 appears at {spot_1}; at 2s copy 2 at {spot_2}; at 2.5s copy 3 at {spot_3}; at 3s copy 4 at {spot_4}; at 3.5s copy 5 at {spot_5}. From 3.5s there are exactly 5 copies plus the original, 6 figures. Every copy is the same person: one face, identical hair, identical outfit ({outfit}), smaller with distance. Each copy holds its own idle pose ({idle_poses}) and moves independently, never mirroring another.
 At 4s a sixth copy rises into the bottom of the frame right in front of the lens and fills the lower third facing the camera, face large and sharp; the original stays in place and the five background copies keep making small adjustments.
@@ -46,21 +46,21 @@ At 5.5s the near copy raises their open right palm (the hand on the frame-left s
 - `{original_idle}`: default "they turn their head slightly and shift weight onto one foot".
 - `{background_life}`: default "distant traffic and a few pedestrians", only what the photo shows.
 - `{spot_1}`, `{spot_2}`, `{spot_3}`, `{spot_4}`, `{spot_5}`: five distinct named places with depth, for example left sidewalk mid-distance, far crosswalk, far right kerb, near left kerb, middle distance right.
-- `{idle_poses}`: default "arms crossed, hand in hair, hand on hip, hands behind back, one hand shading the eyes".
+- `{idle_poses}`: default "arms crossed, left hand (frame-right side) in hair, right hand (frame-left side) on hip, hands behind back, left hand (frame-right side) shading the eyes"; name the side of every one-handed pose by anatomy plus frame side.
 **Post:** none. Optional chaining: the black end frame is a clean handle for the next clip; join with FFmpeg concat. Optional street ambience bed from Seed Audio.
 **QA:**
 - Exactly 1 figure until 1.5 s, then 6 figures from 3.5 s, then 7 with the near copy; count by pausing at 1 s, 3.5 s and 5 s.
 - All copies share one face, hair and outfit with no colour change, including the smallest distant ones.
 - Pop-ins read as instant appearances, with no cross-dissolve or morph.
-- The original stays where she was; the near copy does not replace her.
+- The original stays where it was; the near copy does not replace her.
 - Picture ends black behind the palm; no text anywhere.
-**Risks:** Count drift (5 becomes 8-12). Identity and outfit drift in tiny distant copies. Dissolve or morph instead of a hard pop-in. Shadows pointing the wrong way. The near copy replacing the original. Copies mirroring each other when independence was asked. Probe result: the model drew about 8 copies instead of 5 even with the count stated; treat the count as approximate, or ask for 4 when at most 5 is acceptable.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-08): copies popped in one by one on distant car roofs, a near copy rose into the lens, raised a palm that covered it, and the picture went black. Count overshot: about 8 copies at 3.6 s against the 5 requested.
+**Risks:** Count drift (5 becomes 8-12). Identity and outfit drift in tiny distant copies. Dissolve or morph instead of a hard pop-in. Shadows pointing the wrong way. The near copy replacing the original. Copies mirroring each other when independence was asked. Probe result: the model drew about 8 copies instead of 5 even with the count stated; treat the count as approximate, or ask for 4 when at most 5 is acceptable. Probe result: copies stood between cars rather than on roofs and counts ran about two above the request.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-08): copies popped in one by one on distant car roofs, a near copy rose into the lens, raised a palm that covered it, and the picture went black. Count overshot: about 8 copies at 3.6 s against the 5 requested. A frame-by-frame scan counted about nine figures at about 4 s against seven requested, copies standing between the cars rather than on roofs, and pop-ins starting at about 1.4 s, earlier than the 1.5 s asked. The template was amended after review (a positive text-free clause; one-handed idle poses name their side); the amendment is not re-probed.
 
 ### `infinite-clones` - Infinite clones
 
 **Look:** A single car brakes to a stop and an unending stream of identical people clown-car out of every door and sprint off in all directions, filmed from a locked high angle.
-**Route:** `reference-images`. `@Image 1` = reference image (identity, hair, headwear, outfit). Optional `@Image 2` = reference image of the car. No first-frame image, because the clip opens on an empty lot.
+**Route:** `reference-images`. `@Image 1` = reference image (identity, hair, headwear, outfit). Optional `@Image 2` = reference image of the car. No first-frame image, because the clip opens on an empty lot. With two images both use role `reference_image`, in order: person first, car second.
 **Parameters:** duration 7 s; ratio 16:9 by default (wide lot), 9:16 also fine; `generate_audio` false (an SFX-only sting, tire screech then doors, could help but risks baked music; add SFX in post by default); draft 480p.
 **Start photo:** Full-body, distinctive outfit and headwear (a beanie, cap or bold hair accessory) so tiny top-down copies still read as one person. Bad inputs: plain outfit with no headwear, face-only crop, heavy accessories that vary by angle, a photo with several people.
 **Beats (from the originals):**
@@ -72,8 +72,9 @@ At 5.5s the near copy raises their open right palm (the hand on the frame-left s
 **Prompt template:**
 ```text
 @Image 1 defines the person's face, hair, {headwear} and outfit ({outfit}); every figure in the clip is this one person. Use @Image 1 only for the person's identity; ignore its pose, background and light.
+@Image 2 defines only the car's shape and colour.
 Locked-off static high-angle wide shot, about 45 degrees down from a rooftop perch, deep focus, no zoom and no camera movement at any point. Setting: {location}, {light}.
-0-1s: the lot is empty. {car_description} drifts sideways into frame from the bottom edge, leaves tire smoke, and brakes to a stop in a marked bay. The car stays parked for the rest of the clip; only the smoke drifts away slowly.
+0-1s: the lot is empty. {car_description} drifts sideways into frame from the bottom edge, leaves tire smoke, and brakes to a stop in a marked bay. The car stays parked for the rest of the clip; only the smoke drifts away slowly. The car, bay markings and clothing show plain colour with no lettering.
 At 2.5s all four doors swing open at once and stay open.
 From 3s figures climb out of the open doors and run away immediately; the stream never pauses. Figures in frame: 2 at 3s, 4 at 3.5s, 8 at 4s, 12 at 5s, 16 at 6s, 20 at 7s. Nobody leaves the frame. At 7s the 20 runners head in four groups: 6 toward the camera, 5 toward the far side of the lot, 4 to frame-left, 5 to frame-right.
 All 20 are identical: same face, same {headwear}, same outfit, same height, each with its own running stride.
@@ -84,6 +85,7 @@ End state at 7s: 20 figures scattered across the lot, the car parked with four o
 - `{outfit}`: garments and colours as seen, one sentence.
 - `{location}`: default "an empty rooftop parking lot with white bay markings".
 - `{light}`: default "golden-hour light with long shadows".
+- The line "@Image 2 defines only the car's shape and colour." is included only when a car image is supplied; delete it otherwise, and then use no second reference image.
 - `{car_description}`: from `@Image 2` if supplied; otherwise default "a low blue four-door sports car with plain unmarked panels". For a real branded car, acquire an authorised image per the element-identification contract rather than naming a brand.
 **Post:** none by default. Optional SFX bed (tire screech, door swings, footsteps) from Seed Audio, mixed under the clip.
 **QA:**
@@ -92,15 +94,15 @@ End state at 7s: 20 figures scattered across the lot, the car parked with four o
 - Car stays parked with four open doors; it does not drive off or close doors.
 - Camera is static and high-angle throughout; no second cut.
 - No lettering on the car, ground or clothing.
-**Risks:** The stream fades out at 6-10 figures. Dense runners merge or lose limbs. Floaty drift physics. Car drives away or doors close. Outfit and size drift across copies. Car design unconstrained without a description or reference. Painted lot markings may render as glyphs. Probe result: runner count came in near 15 against 20; keep the count as a ramp, not an exact figure.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-11, `reference_image` route): the car drifted in, stopped, all four doors opened, and a continuous stream of identical runners spread across the intersection (about 15 counted at 7 s against 20 requested).
+**Risks:** The stream fades out at 6-10 figures. Dense runners merge or lose limbs. Floaty drift physics. Car drives away or doors close. Outfit and size drift across copies. Car design unconstrained without a description or reference. Painted lot markings may render as glyphs. Probe result: runner count came in near 15 against 20; keep the count as a ramp, not an exact figure. Probe result: only two of four doors showed open and runners left the frame, so 'nobody leaves the frame' did not hold.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-11, `reference_image` route): the car drifted in, stopped, all four doors opened, and a continuous stream of identical runners spread across the intersection (about 15 counted at 7 s against 20 requested). A frame-by-frame scan saw the runner count peak at 15 to 17 at about 5.5 s and then thin as runners left the frame, and only two car doors open rather than four. The template was amended after review (the conditional `@Image 2` binding line; a positive text-free clause); the amendment is not re-probed.
 
 ### `selfception` - Selfception
 
 **Look:** The camera dives into the tiny self on a palm and that figure becomes the full-size subject holding another tiny self, Droste-style.
 **Route:** `i2v-first-frame`. `@Image 1` = first frame. The first frame must already contain the miniature (see Start photo).
 **Parameters:** duration 5 s; ratio 9:16 by default, otherwise follows the photo; `generate_audio` false; draft 480p.
-**Start photo:** Standing person, upper body to full body, outfit with texture (fur trim, lace, denim) in a real street or outdoor scene with depth, one open palm held out at waist height with a figurine-sized copy of themself standing on it, in the same outfit and pose. If the user's photo shows an empty palm, the orchestrator makes the prepared first frame with a Seedream edit of the user's photo ("add exactly one figurine-sized replica of the same person standing on the open palm, identical face, hair and outfit"), inspects it, and uses that image. Bad inputs: no free hand, arms crossed, pocketed hands, a front-on pose that hides the palm, outfit with plain flat colour (tiers look identical to the background).
+**Start photo:** Standing person, upper body to full body, outfit with texture (fur trim, lace, denim) in a real street or outdoor scene with depth, one open palm held out at waist height with a figurine-sized copy of themself standing on it, in the same outfit and pose. If the user's photo shows an empty palm, the orchestrator makes the prepared first frame with `seedream_generate_image`, binding the user's photo as `@Image 1` for identity ("the same person as @Image 1, standing as in the photo, holding exactly one figurine-sized replica of themself standing on the open palm, identical face, hair and outfit"), inspects it, and uses that image. Bad inputs: no free hand, arms crossed, pocketed hands, a front-on pose that hides the palm, outfit with plain flat colour (tiers look identical to the background).
 **Beats (from the originals):**
 - 0-1.5 s: the subject holds a tiny replica on an open palm; the camera starts wide at hip height and pushes toward the hand while gently orbiting.
 - 1.5-3 s: the camera glides past the torso onto the palm; the miniature grows to full frame as the new full-size subject; the previous giant's hand drops out at the bottom.
@@ -108,11 +110,11 @@ End state at 7s: 20 figures scattered across the lot, the car parked with four o
 - 4.5-5 s: the push-in finishes tight on the back of the coat and hair, a handoff point for the next tier.
 **Prompt template:**
 ```text
-@Image 1 is the first frame: {subject} stands in {location}, wearing {outfit}, holding their {hand_side} palm open at waist height with a figurine-sized replica of themself standing on it. The replica has the same face, hair, outfit and pose.
-One continuous camera glide, no cuts, about 35mm, shallow depth of field.
+@Image 1 is the first frame: {subject} stands in {location}, wearing {outfit}, holding their {hand_side} open at waist height with a figurine-sized replica of themself standing on it. The replica has the same face, hair, outfit and pose.
+One continuous camera glide, no cuts, about 35mm, shallow depth of field. Every sign, screen and garment shows plain colour with no lettering.
 0-1.5s: the camera starts wide at hip height and pushes toward the palm while orbiting {orbit_direction} about 20 degrees around the subject.
-1.5-3s: the camera glides past the subject's torso and down onto the palm. The replica grows in frame until it is the full-size subject, in the same frame position the large subject held. The previous large subject slips out through the bottom of the frame, leaving only their hand and sleeve at the bottom edge before it exits.
-3-4.5s: the camera arcs {orbit_direction} behind the new subject, now seen from behind, who extends an open palm holding another figurine-sized replica of themself with the same hair and the same {outfit}.
+1.5-3s: the camera glides past the subject's torso and down onto the palm. The replica grows in frame until it is the full-size subject, in the same frame position the large subject held. The previous large subject slips out through the bottom of the frame, leaving only the sleeve and palm of that same arm at the bottom edge before it exits.
+3-4.5s: the camera arcs {orbit_direction} behind the new subject, now seen from behind, who extends their {hand_side_rear} open, holding another figurine-sized replica of themself with the same hair and the same {outfit}.
 4.5-5s: the push-in settles tight on the back of the coat and hair.
 Exactly two complete figures are visible at any moment, one large and one figurine-sized. Every tier wears the identical {outfit} with the same hair and one shared face. The {background} keeps consistent parallax with the orbit.
 ```
@@ -120,7 +122,8 @@ Exactly two complete figures are visible at any moment, one large and one figuri
 - `{subject}`: from the photo.
 - `{location}`: from the photo background.
 - `{outfit}`: garments, colours and textures as seen (for example "yellow-green fur-trimmed denim coat over a white top").
-- `{hand_side}`: anatomy plus frame side, for example "right palm (frame-left side)".
+- `{hand_side}`: anatomy plus frame side as seen in the photo, for example "right palm (frame-left side)".
+- `{hand_side_rear}`: the same palm seen from behind, so the frame side flips, for example "right palm (frame-right side)".
 - `{orbit_direction}`: default "counterclockwise".
 - `{background}`: default "street, buildings and crossing".
 **Post:** none. Optional: join several clips whose last frame is the next first frame for deeper recursion; each extra tier is a separate generation.
@@ -146,7 +149,7 @@ Exactly two complete figures are visible at any moment, one large and one figuri
 ```text
 @Image 1 is the first frame. {subject} is caught mid-action ({frozen_action}) in {location}.
 From 0s to the end the subject and everything tied to the action ({frozen_objects}) hold the exact photo pose: the subject is rigid like a statue, eyes fixed on {gaze}, hair strands and clothing hold their positions, the chest and shoulders stay level.
-The rest of the world runs at normal speed: exactly {background_count} background people ({background_motion}); at 3s {crossing_event}. The light and weather stay as in the photo.
+The rest of the world runs at normal speed: exactly {background_count} background people ({background_motion}); at 3s {crossing_event}. The light and weather stay as in the photo. Every sign, screen and package shows plain colour with no lettering.
 Camera: slow lateral orbit {orbit_direction} through about 30 degrees around the subject at eye level for the full duration, 35-50mm look, deep focus, the subject staying centred so parallax separates the frozen foreground from the moving background. No cuts.
 End state at the final frame: the subject in the identical pose, the camera 30 degrees around from where it started, the background people and vehicle in new positions.
 ```
@@ -156,7 +159,7 @@ End state at the final frame: the subject in the identical pose, the camera 30 d
 - `{frozen_action}`: from the photo (for example "bending to pick up spilled groceries").
 - `{frozen_objects}`: every object in contact with the action, named from the photo (bag, spilled items, cup).
 - `{gaze}`: where the eyes point in the photo (the lens, the groceries).
-- `{background_count}`: default 3, count the people visible in the photo; the crossing event must not add a person.
+- `{background_count}`: default 3, count the people visible in the photo; the crossing event must not add a person. When the count is 1 write "1 background person" in the sentence.
 - `{background_motion}`: what each does ("two walk left to right, one pushes a hand truck").
 - `{crossing_event}`: default "a white delivery van drives across the background from frame-right to frame-left"; in a room use an unattended object ("a wheeled food trolley, with no extra person, rolls across").
 - `{orbit_direction}`: default "clockwise".
@@ -168,7 +171,7 @@ End state at the final frame: the subject in the identical pose, the camera 30 d
 - Frozen items do not slide or fall; no new objects or people join the frozen group.
 - Packaging shows no readable lettering.
 **Risks:** Micro-motion (breathing, blinking, hair sway) creeps in. Frozen items slide. The whole frame freezes. Objects pull out of frame as the camera moves. Packaging text garbles. The subject drifts when the orbit is not explicit.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-04): the subject held the mug pose for the whole clip while the waiter and patrons moved; the 30-degree orbit was subtle but visible as parallax.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-04): the subject held the mug pose for the whole clip while the waiter and patrons moved; the 30-degree orbit was subtle but visible as parallax. The template was amended after review (a positive text-free clause; singular noun for a count of 1); the amendment is not re-probed.
 
 ### `stop-world` - Stop world
 
@@ -183,7 +186,7 @@ End state at the final frame: the subject in the identical pose, the camera 30 d
 **Prompt template:**
 ```text
 @Image 1 is the first frame. {subject} stands calm at {start_spot} in {location}, eyes on the camera.
-Locked-off camera at eye level, 35mm look, deep focus, no cuts.
+Locked-off camera at eye level, 35mm look, deep focus, no cuts. Every sign, screen and garment shows plain colour with no lettering.
 Time contrast: the subject moves at normal speed and stays sharp and clear. All {crowd_count} other people move at fast time-lapse speed, about eight times normal, streaking past in different directions with motion blur; nobody stops, duplicates or merges.
 0-2s: the subject stands still and calm while the crowd streams past in blur.
 At 3s the subject snaps the fingers of their {snap_hand} once at chest height, then walks slowly toward the camera at an unhurried pace, upright, arms relaxed, the crowd still rushing around them.
@@ -194,7 +197,7 @@ End state: one calm sharp figure in medium shot in the foreground, {crowd_count}
 - `{subject}`: from the photo.
 - `{start_spot}`: for example "the far end of the subway car".
 - `{location}`: from the photo.
-- `{crowd_count}`: default 8; count the people visible in the photo and keep the number small.
+- `{crowd_count}`: default 8; count the people visible in the photo and keep the number small. When the count is 1 write "the 1 other person" and "1 blurred person" in the sentences.
 - `{snap_hand}`: anatomy plus frame side, for example "right hand (frame-left side)".
 **Post:** optional finger-snap and whoosh sting plus ambience from Seed Audio, placed at 3 s.
 **QA:**
@@ -204,7 +207,7 @@ End state: one calm sharp figure in medium shot in the foreground, {crowd_count}
 - Subject ends in medium shot near the lens; crowd arrangement differs from the opening and does not rewind.
 - No cuts; camera stays locked.
 **Risks:** Everything renders at the same speed (no contrast). Crowd speed-up looks like jitter. The subject gets motion-blurred too. The gesture reads as a wave. Crowd members merge or duplicate. Do not prompt a rewind: the originals do not show one.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-09): the crowd streaked in time-lapse blur while the subject stayed sharp, snapped her fingers, walked to a medium shot and smiled.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-09): the crowd streaked in time-lapse blur while the subject stayed sharp, snapped her fingers, walked to a medium shot and smiled. The template was amended after review (a positive text-free clause; singular noun for a count of 1); the amendment is not re-probed.
 
 ### `eyes-in` - Eyes in
 
@@ -221,7 +224,7 @@ End state: one calm sharp figure in medium shot in the foreground, {crowd_count}
 **Prompt template:**
 ```text
 @Image 1 is the first frame: {subject} stands in {location}, looking into the lens, with open {eye_color} eyes.
-One unbroken accelerating push-in. No cuts and no blink: the eyelid stays open from start to end.
+One unbroken accelerating push-in. No cuts and no blink: the eyelid stays open from start to end. Every sign and garment in the opening frame shows plain colour with no lettering.
 0-1s: {opening_framing}, the subject holds still, eyes on the lens.
 1-3s: the camera pushes in fast toward the face, rolling about 10 degrees, to an extreme close-up of their {eye_side} eye (the one nearer the lens); lashes, skin pores and the wet cornea reflection are visible.
 3-5s: macro of the iris fills the frame, {iris_description} radial fibres, exactly one round pupil at the centre, growing slowly.
@@ -246,7 +249,7 @@ Join with FFmpeg: normalise both clips to the same size, frame rate and timebase
 - No scene change inside the eye; no signage-style text in the first seconds.
 - With the optional join: the circle opens from the black frame onto the destination.
 **Risks:** Eye shape or colour drift in the macro. Double or off-centre pupil. A blink. The model cutting to a different scene halfway instead of staying in the eye. The dive stopping at the iris. Street reflection in the cornea not matching the photo. Text on clothing or signs in the opening frame warps during the push.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-10): the dive through the eye, the iris macro, the pupil filling the frame and the black ending all landed in one unbroken move without a blink. The probe photo was a face-filling close-up.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-10): the dive through the eye, the iris macro, the pupil filling the frame and the black ending all landed in one unbroken move without a blink. The probe photo was a face-filling close-up. The template was amended after review (a positive text-free clause); the amendment is not re-probed.
 
 ### `lacewalker` - Lacewalker
 
@@ -264,14 +267,15 @@ Join with FFmpeg: normalise both clips to the same size, frame rate and timebase
 Ground-level camera, about 35mm look, shallow depth of field.
 Shot 1, 0-4.8s: the giant person's head lies on its side on the ground, eyes open and smiling toward the camera, filling the upper left of the frame (head and shoulder edge only). In front of its face walks exactly one figurine-sized copy of the same person, roughly one fifteenth the height of the giant head, in the same outfit, strolling toward frame-left with a relaxed stride. The camera trucks left at walking pace, keeping the miniature sharp.
 From 3.5s to 4.8s a giant {bag_name} sweeps in from frame-right and fills the entire frame with plain smooth {bag_material}.
-At 4.8s, while the bag fills the frame, cut to Shot 2, 4.8-8s: a fixed low shot at the same ground level in a new setup. Exactly two giant {bag_name}s stand left and right, many times taller than the miniature, joined by exactly one taut {strap} stretched between them at the height of their handles. The same miniature stands on the strap, arms out, wobbles, raises one arm for balance and keeps walking along it. The giant head is not in Shot 2.
+At 4.8s, while the bag fills the frame, cut to Shot 2, 4.8-8s: a fixed low shot at the same ground level in a new setup. Exactly two giant {bag_name}s stand left and right, many times taller than the miniature, joined by exactly one taut {strap} stretched between them at the height of their handles. The same miniature stands on the strap, arms out, wobbles, raises their {balance_arm} for balance and keeps walking along it. The giant head is not in Shot 2. The bags, hardware and ground show plain surfaces with no lettering or logos.
 End state: one miniature on one strap between two giant bags.
 ```
 **Slots:**
-- `{accessories}`: glasses, hat or earrings as seen.
+- `{accessories}`: glasses, hat or earrings as seen; if none are visible, delete "{accessories} and" so the clause reads "hair and outfit".
 - `{outfit}`: garments and colours as seen.
-- `{lower_outfit}`: garments below the frame edge when the photo is cropped (trousers, shoes), written once in text.
-- `{photo_leak_items}`: objects and surfaces in the photo that must not carry over (a handbag, sand, a desk).
+- `{lower_outfit}`: a conditional sentence. Write "The miniature also wears <garments below the frame edge>." (trousers, shoes) only when the photo is cropped; when the photo is full-body, delete the whole sentence.
+- `{photo_leak_items}`: objects and surfaces in the photo that must not carry over (a handbag, sand, a desk). If nothing leaks, delete the "{photo_leak_items} and" clause so the sentence ends "ignore its framing".
+- `{balance_arm}`: anatomy plus frame side of the miniature's raised arm, for example "right arm (frame-left side)".
 - `{bag_description}`: when `@Image 2` is given, "giant bag's shape, colour and hardware"; when absent, delete the `@Image 2` sentence and write the bag in text (default "a glossy dark-brown leather satchel with brass hardware, plain unmarked leather").
 - `{bag_name}`: "bag" by default; "sneaker" for a shoe product.
 - `{bag_material}`: from the product.
@@ -285,7 +289,7 @@ End state: one miniature on one strap between two giant bags.
 - Giant head and miniature read as the same person; the miniature keeps the outfit.
 - No hardware text, logos or lettering.
 **Risks:** Scale ratios collapse (the miniature grows). Giant head and miniature differ in identity. Extra bags or straps. The strap sags unrealistically or the miniature floats. Hardware text or logos garble. No cut, so the second setup never appears. Unnatural walking cadence.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-07, `reference_image` route): the giant head and the walking miniature, the bag sweep hiding the cut at 4.8 s, and the miniature balancing on one strap between two giant bags all landed. Scale held as a ratio only; the identity-only wording was used.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-07, `reference_image` route): the giant head and the walking miniature, the bag sweep hiding the cut at 4.8 s, and the miniature balancing on one strap between two giant bags all landed. Scale held as a ratio only; the identity-only wording was used. The template was amended after review (a positive text-free clause; the raised arm is named by anatomy plus frame side; conditional sentence slots); the amendment is not re-probed.
 
 ### `superstar` - Superstar
 
@@ -301,7 +305,7 @@ End state: one miniature on one strap between two giant bags.
 **Prompt template:**
 ```text
 @Image 1 defines the performer's face, hair and outfit ({outfit}); the performer on stage and the face on the giant screen are this same person.
-A fan's smartphone video of a packed stadium concert from an elevated seat: handheld with natural shake, slight rolling shutter, phone-camera colour, one pinch-style zoom. The stage, screens and clothing carry no lettering, numbers or logos, and phone screens show only a small bright image of the stage.
+A fan's smartphone video of a packed stadium concert from an elevated seat: handheld with natural shake, slight rolling shutter, phone-camera colour, one pinch-style zoom. Every sign, screen, banner, stage panel and garment shows plain abstract colour and shape with no lettering, numbers or logos, and phone screens show only a small bright image of the stage.
 0-2s: wide from behind the crowd: exactly 4 phones raised in the foreground among the backs of fans' heads, a long runway stage in the distance, the performer centre stage with exactly 2 backup dancers, and a large LED screen above showing the performer's face.
 2-5s: handheld digital zoom toward the performer as they walk to the stage edge, singing into a handheld microphone; one phone screen at the bottom of the frame shows them too.
 5-12.5s: tight handheld medium shot of the performer singing, then raising their {arm} (frame {arm_side}) to cue the crowd, then turning away to face the stage; the 2 backup dancers stay behind them.
@@ -334,15 +338,15 @@ At 12.5s hard cut, the only cut in the clip, to a wide pan across the full stadi
 - 3-5 s: clothing lies still; the empty scene is held to the end, with no black frame.
 **Prompt template:**
 ```text
-@Image 1 is the first frame. {subject} {pose} on {surface}, wearing exactly {garment_count} garments: {garments}. Locked-off static camera, no movement, no cuts.
+@Image 1 is the first frame. {subject} {pose} on {surface}, wearing exactly {garment_count} garments: {garments}. Locked-off static camera, no movement, no cuts. The surface and background show plain colour with no lettering.
 0-2s: the subject holds the photo pose, almost motionless, looking into the lens.
 At 2s, in a single frame, the subject's body vanishes completely: head, hair, face, neck, hands, feet and all bare skin are gone at once, with no fade, dissolve, particles, glow or see-through residue. The {garments} stay exactly where they were, still holding the body's shape, hollow and empty with no neck, hands, legs or feet inside, and the scene behind is clear through the gap.
 From 2s to 3s the garments collapse under gravity in this order: {collapse_order}, crumpling flat onto {surface}.
 From 3s to the end the clothes lie completely still; the empty scene stays in frame. {accessories_rule}
 ```
 **Slots:**
-- `{subject}`, `{pose}`, `{surface}`: from the photo (for example "kneels with one hand on the mat").
-- `{garment_count}`, `{garments}`: count and name every garment in the photo (for example 2: a blue knit sweater and a denim skirt).
+- `{subject}`, `{pose}`, `{surface}`: from the photo (for example "kneels with the right hand (frame-left side) on the mat"); name the side of any hand or arm by anatomy plus frame side.
+- `{garment_count}`, `{garments}`: count and name every garment in the photo (for example 2: a blue knit sweater and a denim skirt). When the count is 1 write "1 garment" in the sentence.
 - `{collapse_order}`: default "sweater first, then skirt".
 - `{accessories_rule}`: default "Hair ties, jewellery and shoes vanish with the body, and no new objects appear." If shoes are a visible garment, list them in `{garments}` instead.
 **Post:** none. Optional soft cloth-thud effect from Seed Audio at 2-3 s.
