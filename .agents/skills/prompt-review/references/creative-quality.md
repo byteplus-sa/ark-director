@@ -50,6 +50,11 @@ inspect actual artifacts and report stochastic variation and generation costs.
 
 ## Case design
 
+For shot planning, `tests/fixtures/creative_quality_shot_design_cases.json` holds
+matched briefs (family drama, restrained brand, kinetic chase, dialogue argument
+and a locked selfie frame) scored on intent, camera and light, variety and
+preservation; run it through the same `pack` and `summarize` commands.
+
 Include short briefs, awkward constraints and unconventional choices:
 soft shadowless product photography, a quiet repeated chorus, a masked wide-shot
 performance, locked literary Tagalog dialogue, a product with no numerical

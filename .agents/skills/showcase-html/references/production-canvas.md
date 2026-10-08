@@ -119,7 +119,7 @@ gallery:
 | Stage | Required canvas evidence |
 | --- | --- |
 | Brief and development | `project.md`, treatments, locked axes, constraints, unresolved decisions |
-| Scene breakdown | scene/shot manifests, beat summaries, cast/location/prop/audio inventory |
+| Scene breakdown | scene/shot manifests, beat summaries, the scene shot plan (or its recorded exemption), cast/location/prop/audio inventory |
 | Canon and elements | all element variants, exact prompt snapshots, manifests, hashes, recommendations and selections |
 | Storyboard and visual plan | panel variants, storyboard prompts, bound canon, continuity state and panel eligibility |
 | Audio preparation | audio variants, exact prompts, transcript/dialogue timing, duration and inspection results |

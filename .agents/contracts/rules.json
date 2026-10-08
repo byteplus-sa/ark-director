@@ -72,6 +72,41 @@
       "exceptions": []
     },
     {
+      "id": "shot.plan_bound",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "A narrative, ad, micro-drama, music-video or showcase shot carries a recorded shot plan with duration, size, angle, camera move, lens intent and a named light source with its key side, or a recorded static reason.",
+      "exceptions": [
+        "User lock, static-by-design format (the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), plate for cutdown, source-preserving edit, extension continuation, or no video shot record the exemption instead."
+      ]
+    },
+    {
+      "id": "shot.variety",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/skills/seedance-shot-design/SKILL.md",
+      "summary": "Adjacent shots in a cutting clip differ in at least two of size family, angle class, camera move and key side; each scene has a non-eye-level angle, a motivated move at its energy level and uneven shot lengths, or a recorded reason.",
+      "exceptions": [
+        "A single continuous take records its camera path and light progression instead of neighbor contrast.",
+        "A shot plan derived from another skill's camera plan treats these checks as advisory."
+      ]
+    },
+    {
+      "id": "shot.axis_carry",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "A confirmed project camera, lens, lighting, pacing or energy axis recorded in directorial_axes or the locked block appears in the shot prompt, or the scene records an override with its reason.",
+      "exceptions": []
+    },
+    {
       "id": "asset.visible_consistency",
       "severity": "error",
       "applies_to": [

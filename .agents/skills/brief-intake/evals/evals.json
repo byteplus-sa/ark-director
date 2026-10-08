@@ -64,6 +64,29 @@
         "Proposes a feasible visible reveal tied to product fidelity.",
         "States consequential missing information only if needed, without invented locks."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "A 20-second ad for a rooftop restaurant. Viewers should feel it is a destination worth dressing up for. Give one compact direction.",
+      "expected_output": "One compact treatment whose camera and light stance and energy level are tied to the intended reaction.",
+      "files": [],
+      "expectations": [
+        "Names a camera stance and a light source, each tied to the destination feeling.",
+        "Names an energy level (restrained, standard or kinetic).",
+        "Does not default to static wide shots or mood words alone, and gives a reason for any static choice.",
+        "Returns one proposal without an unwanted alternatives exercise."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "A selfie-style demo ad: a creator holds the phone at arm's length and shows how to use a pocket blender. Give one compact direction.",
+      "expected_output": "A proportionate direction that treats the locked selfie frame as the format and puts variety in light, props and demonstration beats.",
+      "files": [],
+      "expectations": [
+        "Recognizes the selfie frame as static by design and records it as the reason.",
+        "Does not impose a crane, orbit or whip pan on the selfie frame.",
+        "Still names a light stance and the beats of the demonstration."
+      ]
     }
   ]
 }

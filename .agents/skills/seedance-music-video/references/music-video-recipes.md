@@ -8,7 +8,7 @@ prompt.
 
 Only the **prompt opening** and **style seal** are drop-in sentences. The
 "Camera grammar" and "Motion & edit rhythm" fields are a vocabulary for
-selecting cues — pick at most two camera moves per clip and fold them into the
+selecting cues — pick at most two camera moves per shot and fold them into the
 Camera/Cut slot; do not paste the whole field.
 
 ## Hip-hop / trap

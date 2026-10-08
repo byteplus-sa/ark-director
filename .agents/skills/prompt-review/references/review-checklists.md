@@ -100,7 +100,8 @@ Source skill: `seedance-prompt-25`
 ### Formula check
 
 1. **Subject + Action present.** The prompt contains at minimum a clear subject and a
-   primary action or event. These are the only required parts.
+   primary action or event. These are the only grammar-required parts; Camera and
+   light are craft-required for narrative shots (items 24a-24e).
 
 2. **Six-part formula.** The prompt follows: Subject + Action/Event + Scene/Environment
    (optional) + Visual Style (optional) + Camera Movement/Cut (optional) + Audio
@@ -112,7 +113,7 @@ Source skill: `seedance-prompt-25`
    level (hands, arms, legs, head, shoulders, back, hips, feet) with range,
    speed, and force, grounded in weight, balance, momentum, and contact — not
    as bare verbs. High-burst, large-dynamic actions are avoided unless the
-   shot requires them.
+   shot or the energy level requires them.
 
 ### Reference materials
 
@@ -152,8 +153,8 @@ Source skill: `seedance-prompt-25`
 
 ### Scene staging
 
-15. **Stage structure.** The story is divided into consecutive stages. Each stage has
-    ONE primary state change and a clear end state.
+15. **Stage structure.** The story is divided into consecutive stages (or, in a clip
+    that cuts, shots). Each stage has ONE primary state change and a clear end state.
 
 16. **Natural duration.** Each scene is generated at its natural duration (4-30s),
     not padded to 30s. 30s single-pass or extension is the exception, not the default.
@@ -190,9 +191,55 @@ Source skill: `seedance-prompt-25`
 
 ### Camera language
 
-24. **Coherent camera direction.** Use one or two clear camera movements when
-    requested, with the subject, beginning, and endpoint of each stated. Avoid
-    competing simultaneous moves; preserve a requested static camera.
+24. **Coherent camera direction.** Use one or two clear camera movements per
+    shot when movement is used, with the subject, beginning, and endpoint of each
+    stated. Avoid competing simultaneous moves within a shot; preserve a
+    requested static camera.
+
+24a. **Shot plan bound (`shot.plan_bound`).** A narrative, ad, micro-drama,
+    music-video or showcase shot carries a recorded shot plan: per shot,
+    duration, size, angle, camera move (or a recorded `static_reason`), lens
+    intent as a visible result, and a declared light source with its key side
+    relative to the lens. A light fact names a source and a side; "cinematic
+    lighting" or "soft fill" alone is not one. An exempt format (user lock,
+    the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` or
+    `ugc-virtual-try-on` mode, named UGC preset with a locked
+    camera block, talking-head, avatar or news take, frame-break, an explicit
+    per-shot camera plan from another skill, a plate for cutdown, a source-preserving edit, an
+    extension continuation) records its exemption; the caller omits the `shot.*`
+    rules for it and the reviewer reports `not_applicable` with that exemption
+    as the reason. A missing plan without an exemption is a MAJOR finding.
+
+24b. **Neighbor contrast and angle range (`shot.variety`).** In a clip that
+    cuts, adjacent shots differ in at least two of size family (wide, medium,
+    close), angle class (eye level, over-the-shoulder, low, high, overhead,
+    first-person), camera move and key side from a declared source. A step
+    within a family and a reworded light phrase do not count. The scene has a
+    non-plain-eye-level shot, moving shots at its energy level, uneven shot
+    lengths and one turn shot, or a recorded reason. A continuous take instead
+    shows a motivated camera path, a named light at each stage and a distinct
+    payoff. A failure is MAJOR when the clip repeats one framing, MINOR when
+    one dimension is thin.
+
+24c. **Light sources declared (`shot.plan_bound`).** The scene keeps one set of
+    declared light sources across its cuts; a shot never introduces an undeclared
+    source, and a new source has a motivating event such as a door opening. No
+    silhouette on a shot with spoken lines.
+
+24d. **Axis carried (`shot.axis_carry`).** Compare the confirmed project axes
+    (camera, lens, lighting, pacing, energy) in `directorial_axes` or the
+    `locked` block to the shot lines. Each recorded move or light stance appears
+    on a named shot, or the scene records an override with its reason. A
+    `proposed` or `defaulted` axis may be revised freely.
+
+24e. **Static locks carry a reason (`shot.plan_bound`).** "Hold steady",
+    "locked-off" or "no camera movement" appears with a recorded
+    `static_reason` and is not boilerplate copied into every prompt. A scene has
+    at most one `performance_hold` and one `contrast_hold`; a `contrast_hold`
+    follows a moving shot; in a scene of four or more shots, any one reason on more than a third of its shots is a
+    MAJOR finding. A "single continuous shot" is a one-take and is checked for a
+    recorded camera path instead. Quiet moves are acceptable during a spoken
+    line; large moves there are a MINOR finding.
 
 25. **Uncommon cinematography terms.** If used, they follow the format:
     Term + Target Subject + Visual Change + Foreground/Background Relationship +
@@ -576,6 +623,11 @@ Source skill: `seedance-prompt-20`
 12. **Timeline storyboard.** Uses `Shot 1 / Shot 2 / Shot 3` format. Each shot
     covers one coherent unit of action.
 
+12a. **Shot plan carried (`shot.plan_bound`, `shot.variety`, `shot.axis_carry`).**
+    The Seedance 2.5 items 24a-24e apply to a 2.0 prompt: each shot line carries
+    its size, angle, camera move (or a recorded static reason) and a declared
+    light source with its key side, and neighboring shots differ.
+
 13. **Per-shot references repeated.** Every shot repeats applicable `@Image N`,
     `@Video N`, `@Audio N` references inline.
 
@@ -592,8 +644,10 @@ Source skill: `seedance-prompt-20`
 17. **Action detail.** Body-part level detail (hands, legs, head, shoulders, back)
     with range, speed, force.
 
-18. **Motion preference.** Prefers slow, gentle, continuous motion. Avoids
-    high-burst, large-dynamic actions.
+18. **Motion preference.** The performer's body prefers slow, gentle,
+    continuous motion and avoids high-burst, large-dynamic actions unless the
+    brief calls for them. Camera and cut energy follow the shot plan, not this
+    item.
 
 19. **Emotion externalization.** Emotions are externalized as physical details,
     never bare labels.

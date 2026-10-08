@@ -24,7 +24,7 @@
         "id": "scene-breakdown",
         "label": "Scene and production breakdown",
         "status": "pending",
-        "summary": "Inventory scenes, shots, cast, locations, props, dialogue, and sound needs.",
+        "summary": "Inventory scenes, shots with their shot plan, cast, locations, props, dialogue, and sound needs.",
         "sources": []
       },
       {

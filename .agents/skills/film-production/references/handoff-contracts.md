@@ -45,7 +45,7 @@ notes, and known defects. Do not treat `succeeded` as creative approval.
 
 ## Dependency invalidation
 
-When a selected element, audio file, storyboard anchor, or exact prompt changes,
+When a selected element, audio file, storyboard anchor, shot plan, confirmed project axis, or exact prompt changes,
 identify every dependent artifact. Return affected downstream artifacts to
 `review`; preserve their files, prompts, task IDs, hashes, and rejection history.
 Update the canvas statuses, decision sources, and locks, then regenerate and

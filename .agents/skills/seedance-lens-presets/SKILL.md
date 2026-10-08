@@ -5,7 +5,8 @@ description: >
   visible-result phrase for Seedance 2.5 prompts or the Seedream style.
   Trigger words: lens, focal length, 35mm, 50mm, 85mm, wide angle, telephoto,
   anamorphic, fisheye, macro, aperture, f-stop, f/1.4, depth of field, bokeh,
-  shallow DOF, deep focus. Keep optical look separate from supported output
+  shallow DOF, deep focus, or a lens intent from a shot plan. Keep optical look
+  separate from supported output
   parameters; preserve the selected model and send unresolved resolution needs
   to the caller rather than switching models automatically.
 ---

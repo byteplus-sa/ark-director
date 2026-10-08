@@ -46,7 +46,10 @@ and an optional full-episode showreel.
    canonical `--init` command.
 2. **Breakdown.** Three scenes: Hook (about 15 s), Turn (about 20 s),
    Cliffhanger (about 15 s). Each scene is one multi-shot Seedance clip with
-   internal cuts. Walk every beat against the element-identification contract.
+   internal cuts, and each gets a shot plan (size, angle, move and light per
+   shot) from `seedance-shot-design` at standard energy by default; kinetic is for
+   shots without spoken lines. Walk every beat against the element-identification
+   contract.
 3. **Canon.** Character sheets, location plates and threshold props as
    three-sample Seedream sets. Inspect every image and select with hash-bound
    decisions.
@@ -54,7 +57,7 @@ and an optional full-episode showreel.
    composition anchor only.
 5. **Audio preparation.** Mark it skipped unless the user requests a separate
    lip-sync track. Native Seedance audio carries the dialogue.
-6. **Shots.** Write each clip prompt with `seedance-prompt-25` and the market's
+6. **Shots.** Write each clip prompt from its shot plan with `seedance-prompt-25` and the market's
    dialogue partner skill (for Filipino, `seedance-prompt-25-filipino`). Apply
    the storyboard-leak and dialogue rules in the
    [production recipe](references/production-recipe.md). Run `prompt-review`,

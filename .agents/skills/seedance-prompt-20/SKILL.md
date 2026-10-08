@@ -127,7 +127,7 @@ Task type: Multimodal Reference | Video Editing | Video Extension | Combined Tas
 
 ### 4. Shots
 
-Write a timeline-based storyboard using `Shot 1 / Shot 2 / Shot 3` in event order. Each shot covers one coherent unit of action. The official Seedance 2.0 guide recommends shot sequencing, but it does not require second-level timecodes or a declared duration for every shot.
+Write a timeline-based storyboard using `Shot 1 / Shot 2 / Shot 3` in event order. Each shot covers one coherent unit of action. For narrative, ad, micro-drama, music-video and showcase shots, plan each shot's size, angle, move and light source with `seedance-shot-design` first and carry those facts into the shot lines. The official Seedance 2.0 guide recommends shot sequencing, but it does not require second-level timecodes or a declared duration for every shot.
 
 Before writing shots for movement-heavy scenes, define a spatial continuity contract:
 
@@ -171,7 +171,7 @@ For each shot, describe in this order:
 1. Camera movement or shot transition (one per shot only)
 2. Subject actions and expressions (body-part level detail)
 3. Position or spatial changes
-4. Lighting & color tone (optional per shot, e.g. "warm dusk light", "cool blue key light")
+4. Lighting & color tone (recommended per shot: carry the plan's source and key side, e.g. "warm dusk light from camera-left", "cool blue key light")
 5. Audio information (dialogue, SFX, ambience)
 
 ```
@@ -343,7 +343,7 @@ Model IDs are version-dated and change on release. Always copy the live ID from 
 
 ### Reproducibility
 - `seed`: pin the seed once a look is approved to reproduce the same visual family.
-- `camera_fixed`: default `false`; set to `true` to lock camera position.
+- `camera_fixed`: default `false`; set to `true` to lock camera position (documented for the 2.0 REST API; the MCP tools expose no such field as of 2026-10-06, so also state the lock in the prompt).
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 
 ### Prompt limits

@@ -7,7 +7,8 @@ they are prompt-composition only and never call the API themselves.
 
 | Axis | Skill | Notes |
 |---|---|---|
-| Camera movement & camera styles | `seedance-camera-presets` | Moves, techniques (dolly zoom, FPV, bullet-time orbit, one-take), and 10 camera styles; keep ≤2 moves per clip |
+| Shot plan: coverage, per-shot camera, lens intent and light | `seedance-shot-design` | Decides shot count, each shot's job, size, angle, move and light source, and checks neighbor contrast, angle range and light per shot; the preset skills below resolve each decision into canonical wording |
+| Camera movement & camera styles | `seedance-camera-presets` | Moves, techniques (dolly zoom, FPV, bullet-time orbit, one-take), and 10 camera styles; keep ≤2 moves per shot |
 | Lens / focal length / aperture / sensor | `seedance-lens-presets` | Always pairs numeric optics with the visible result; resolve requested 4K against current model capabilities |
 | Lighting | `seedance-lighting-presets` | Causal lighting presets; emit both the Seedream `Lighting:` recipe (elements) and the Seedance visual-style phrase so image + video share one lighting intent |
 | Color grading | `color-grade-palettes` | Named palettes + film looks in the Visual Style slot; keep one project-wide palette; optional FFmpeg match graphs in the mix step |
@@ -22,12 +23,24 @@ they are prompt-composition only and never call the API themselves.
 
 ## Composition rules
 
-Use a preset skill only when the user asks for a concrete axis ("dolly in on her
-face", "teal and orange grade", "Rage at medium intensity", "bullet-time
-slow-mo"). For ordinary shots without such direction, `seedance-prompt-25` alone
-is sufficient. Do not let two skills fight: exactly one grade, one dominant
-lighting direction, and 1–2 camera moves per clip. Record the chosen axis
-choices and their canonical phrases in `shot.md` alongside the prompt snapshot.
+Narrative, ad, micro-drama, music-video and showcase shots get a shot plan by
+default: size, angle, camera move, lens intent and light source per shot, from
+`seedance-shot-design`. Resolve each planned choice through the matching preset
+skill, or load a preset directly when the user names a concrete axis ("dolly in
+on her face", "teal and orange grade", "Rage at medium intensity", "bullet-time
+slow-mo"). A user-confirmed lock always wins; the plan fills the gaps.
+
+A static camera or an unchanging light is a choice that carries a recorded
+reason (`static_reason`); the allowed values and the exempt formats are in
+`seedance-shot-design`. A confirmed project camera, lens, lighting, pacing or
+energy axis, recorded in `directorial_axes` or the `locked` block, must appear in
+the shot prompts, or the scene records an override with its reason. A
+`proposed`, `defaulted` or `agent_confirmed` choice is not a user lock.
+
+Do not let two skills fight: exactly one grade per clip, one dominant lighting
+direction per shot with the same physical light source across the cuts of a
+scene, and 1–2 camera moves per shot. Record the plan and the chosen canonical
+phrases in `shot.md` alongside the prompt snapshot.
 
 Load `seedance-lighting-presets` / `color-grade-palettes` alongside
 `seedream-prompt` when generating matching element sheets. Use

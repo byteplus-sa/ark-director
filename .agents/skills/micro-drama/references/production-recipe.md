@@ -22,7 +22,12 @@ composition anchors, not identity sources.
 
 ## Clip prompt
 
-Build with `seedance-prompt-25`. Every storyboard-conditioned clip prompt must:
+Build with `seedance-prompt-25` from the scene's shot plan: each internal shot
+keeps its planned size, angle, camera move and light direction, and the hook,
+turn and cliffhanger each get the plan's most distinct shot. A close-up
+cliffhanger can hold still as a recorded `contrast_hold` after motion. Each
+spoken line sits inside one shot at least spoken words / 2.2 + 1 s long. Every
+storyboard-conditioned clip prompt must:
 
 1. Bind the grid as a planning sheet and name its annotations (panel numbers,
    digits, badges, corner labels, dividers, captions, sketch style) as marks
@@ -61,8 +66,10 @@ Also state:
 | Listening | `seed_audio_understand` on an audio extract under 25 MB (the video file can exceed the limit) |
 
 Hard-gate failures: identity swap, wrong speaker, missing or wrong word in a
-locked line, baked-in text, broken anatomy, impossible motion, wrong location.
-Soft defects (small continuity slips, softness) are recorded, not retaken.
+locked line, baked-in text, broken anatomy, impossible motion, wrong location, and a
+missing planned move or light on the shot flagged as the turn. Soft defects (small
+continuity slips, softness, a missing planned cut or move on another shot) are
+recorded, not retaken.
 
 ## Retakes and repairs
 

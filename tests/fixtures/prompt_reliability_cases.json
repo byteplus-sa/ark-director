@@ -262,6 +262,73 @@
         ],
         "preserve_unrequested_axes": true
       }
+    },
+    {
+      "id": "shot_plan_before_prompt",
+      "skill": "seedance-shot-design",
+      "prompt": "Write the Seedance 2.5 prompt for a 12-second family-drama kitchen scene. No camera or lighting has been chosen and there is no shot plan.",
+      "expected_decisions": {
+        "next_action": "write_shot_plan_first",
+        "shot_plan_required": true,
+        "new_generation_calls": 0
+      }
+    },
+    {
+      "id": "selfie_format_static_by_design",
+      "skill": "seedance-shot-design",
+      "prompt": "Plan a 10-second selfie-style product demo where the creator holds the phone at arm's length and talks to camera.",
+      "expected_decisions": {
+        "shot_plan_required": false,
+        "static_reason": "format_static_by_design",
+        "large_camera_moves_allowed": false
+      }
+    },
+    {
+      "id": "user_locked_static_wide",
+      "skill": "seedance-shot-design",
+      "prompt": "The approved brief locks one static wide shot with warm daylight. Plan the shot.",
+      "expected_decisions": {
+        "lock_overridden": false,
+        "static_reason": "user_lock",
+        "light_changed": false
+      }
+    },
+    {
+      "id": "project_axis_missing_from_shots",
+      "skill": "prompt-review",
+      "prompt": "Review a scene prompt whose project camera axis promises gentle dolly and crane moves, but every shot line lists only a size and no camera move. No scene override is recorded.",
+      "expected_decisions": {
+        "axis_carry_rule_status": "fail",
+        "submission_allowed": false
+      }
+    },
+    {
+      "id": "static_hold_without_reason",
+      "skill": "prompt-review",
+      "prompt": "Review a narrative clip where every shot says hold steady at eye level with no recorded reason, in a project that is not a selfie or plate format.",
+      "expected_decisions": {
+        "plan_bound_rule_status": "fail",
+        "submission_allowed": false
+      }
+    },
+    {
+      "id": "plate_for_cutdown_exempt",
+      "skill": "prompt-review",
+      "prompt": "Review a 6-second static medium plate recorded as plate_for_cutdown, generated to be cut later in the edit.",
+      "expected_decisions": {
+        "plan_bound_rule_status": "not_applicable",
+        "variety_rule_status": "not_applicable"
+      }
+    },
+    {
+      "id": "scene_breakdown_requires_shot_plan",
+      "skill": "film-production",
+      "prompt": "The scene breakdown for a narrative ad lists cast, locations and props but no shot plan. Advance to shot generation.",
+      "expected_decisions": {
+        "next_action": "complete_shot_plan",
+        "stage_exit_allowed": false,
+        "new_generation_calls": 0
+      }
     }
   ]
 }

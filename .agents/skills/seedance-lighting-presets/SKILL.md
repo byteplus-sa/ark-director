@@ -4,9 +4,9 @@ description: >
   Translate a named lighting setup into a canonical Seedream `Lighting:` recipe
   and a matching Seedance visual-style lighting phrase, so the same lighting
   intent works for images (elements, storyboards) and video. Use when the user
-  asks for lighting, light, rim light, backlight, golden hour, soft or hard
-  light, three-point, Rembrandt, practical lights, silhouette, contre-jour, or
-  key light direction. Golden hour here means the physical lighting (sun
+  or a shot plan asks for lighting, light, rim light, backlight, golden hour,
+  soft or hard light, three-point, Rembrandt, practical lights, silhouette,
+  contre-jour, or key light direction. Golden hour here means the physical lighting (sun
   position and light); for a golden-hour color grade, use color-grade-palettes.
 ---
 
@@ -150,16 +150,18 @@ Worked example:
 ```
 A detective sits alone in a windowless interrogation room under a single bare bulb.
 The visuals feature soft cross lighting — a large diffused source at 90 degrees camera-left, cold 5600K, one half of the face in deep shadow with a gentle wrap on the lit side.
-Hold a static locked-off shot at eye level.
+Hold a locked-off eye-level shot; stillness is the beat (`performance_hold`).
 ```
 
 ### Six-part formula placement
 
-The lighting phrase always lives in the **Visual Style** slot of the Seedance
+The lighting phrase lives in the **Visual Style** slot of the Seedance
 six-part formula (Subject + Action or Event + Scene and Environment + **Visual
 Style** + Camera Movement/Cut + Audio). Do not bury lighting in the Subject or
 Action slot. Keep lighting to one sentence; grade, film stock, and lens
-character may share the same slot after it. For Seedream, the same intent goes
+character may share the same slot after it. In a clip that cuts, the slot carries
+the scene's shared source, and each shot line carries its own key-side phrase
+from this bank so the light changes meaning from shot to shot. For Seedream, the same intent goes
 in the `Lighting:` section only — never in `Style:` or `Subject:`.
 
 ## Edge cases and guardrails
@@ -192,9 +194,9 @@ Before handing off a lighting block, verify:
 
 1. The preset is from the bank, or the custom recipe follows the direction/quality/color-temperature recipe.
 2. Seedream output puts the lighting in the `Lighting:` section only.
-3. Seedance output puts the lighting phrase in the Visual Style slot ("The visuals feature ... lighting").
+3. Seedance output puts the lighting phrase in the Visual Style slot ("The visuals feature ... lighting"); in a clip that cuts, each shot line adds its own key side.
 4. Exactly one dominant lighting direction is named.
 5. Every phrase names direction, quality (soft or hard), and color temperature or gel.
 6. Practicals and Silhouette outputs add no hidden off-camera fill source.
 7. No "well lit", "bright", or "good lighting" empty phrasing appears.
-8. The phrase is stable and reusable verbatim across chained scenes that must match.
+8. The phrase is stable and reusable verbatim across chained scenes that must match; per-shot key sides may differ within a scene.

@@ -83,6 +83,7 @@ between modalities.
 | Storyboard and visual continuity | `seedream-storyboard` |
 | Seed Audio prompt | `seed-audio-prompt` |
 | Narrative audio commercial | `seed-audio-commercial` |
+| Per-shot coverage, camera, lens intent and light for a scene | `seedance-shot-design` |
 | Seedance 2.5 video prompt | `seedance-prompt-25` |
 | Filipino or Taglish video dialogue | `seedance-prompt-25-filipino` with `seedance-prompt-25` |
 | Seedance 2.0 video prompt | `seedance-prompt-20` |
@@ -130,10 +131,23 @@ For the active stage:
 9. Advance only when the stage exit contract is satisfied.
 
 At the brief/development stage, run `brief-intake` before writing the brief's
-required output: it proposes genre-appropriate defaults per directorial axis
-(structure, camera, lens, lighting, grade, pacing, acting, staging, medium,
-audio) in fast mode by default, or full Q&A when the user opts in, and persists
-the mode-authorized confirmed set as a `locked` block in `project.md`.
+required output: it proposes directing defaults derived from the idea (structure,
+camera and light stance, energy level, lens, grade, pacing, acting, staging,
+medium, audio) in fast mode by default, or full Q&A when the user opts in, and
+persists the mode-authorized confirmed set as a `locked` block in `project.md`.
+
+At the scene breakdown stage, run `seedance-shot-design` for every narrative,
+ad, micro-drama, music-video or showcase scene before any shot prompt is
+written, and store the shot plan in the scene file's `## Shot plan` section. The
+plan stays `draft` until the scene's locations are approved, then is revalidated
+before shot generation. A scene that is exempt (user lock, static-by-design
+format, an explicit per-shot camera plan from another skill, plate for cutdown,
+source-preserving edit, extension continuation, or no video shot) records its
+`static_reason` instead. The plan carries the
+project's confirmed camera, lens, lighting, pacing and energy axes into the shot
+lines or records a scene override. At shot generation, inspect each take against
+its plan: a missing planned cut, move or light change is a soft defect to record,
+and a missing move or light on the turn shot is a hard-gate failure.
 
 ## Approval and spending gates
 
