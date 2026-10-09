@@ -10,8 +10,8 @@ description: >
   grammar (prompt), ark-mcp (submit/poll/download), and
   seedance-vfx-pipeline's save/manifest pattern. This is an orchestrator skill:
   it delegates the build to the blender-* skills, the grammar to
-  seedance-prompt-25, submission to ark-mcp, and persistent stage review to
-  showcase-html. Use whenever the user wants to
+  seedance-prompt-25, submission to ark-mcp, and stage review to the
+  project's Studio project. Use whenever the user wants to
   direct a shot from 3D — "blockout to video", "graybox previz to Seedance",
   "3D to Seedance", "previz the camera then render", "Blender blocking to
   Seedance" — or wants camera, cuts, and timing locked down before spending
@@ -28,10 +28,13 @@ Core principle: **block it in 3D, lock the camera, then make the AI execute
 your shot instead of rolling the dice.** The blocking is reusable — swap the
 character, swap the location, keep the exact same moves.
 
-For project work, initialize or resume the persistent production canvas. Put the
-blockout, dummy map and prompt in `storyboard-visual-plan`; put generated takes,
-their exact prompts/references and QA in `shot-generation`. Regenerate and
-freshness-check the HTML after each step rather than opening assets separately.
+For project work, resume the project's Studio project (see the
+[production policy](../../contracts/production-policy.md)). Put the blockout,
+dummy map and prompt in the storyboard; put generated takes, their exact
+prompts/references and QA in the shot manifests. Run `studio_project.py sync`
+after each step rather than opening assets separately. Pre-Studio canvas projects with
+`showcase.json` keep the canvas: `storyboard-visual-plan` and `shot-generation`
+sections, regenerated and freshness-checked after each step.
 
 ```mermaid
 flowchart LR
@@ -153,9 +156,10 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
 - Use a synchronized previz-vs-output side-by-side comparison to support camera,
   cut, blocking, and trajectory review. Record observed deviations; the
   comparison is evidence rather than proof of frame-exact correspondence.
-- Update and open the project's HTML production canvas with the previz, output,
-  exact prompt, element bindings, side-by-side comparison and QA results; run
-  `--check --stage shot-generation` before completing the stage.
+- Record the previz, output, exact prompt, element bindings, side-by-side
+  comparison and QA results in the manifests, run `studio_project.py sync` and
+  open the project in Studio; pass the stage-exit checks before completing the
+  stage (pre-Studio canvas: `--check --stage shot-generation`).
 - Technical success = `review`. A passing temporal review and hash-bound agent
   decision in `approve_for_me`, or explicit user choice in
   `ask_for_approval`, may set `approved` through the validated selection writer.
@@ -213,8 +217,9 @@ references: 4
 10. Manifest, previz, selection, request, `object_key`, and `task_id` evidence is recorded.
 11. The generated result has direct temporal review against the manifest and
    previz; contact sheets are not used as motion evidence.
-12. The synchronized project canvas contains the blockout and shot stages and its
-   `shot-generation` freshness check passes.
+12. The synchronized Studio project contains the shot frames, the manifests hold the blockout, and
+   the stage-exit checks pass (pre-Studio canvas: the `shot-generation` freshness
+   check).
 
 ## Intentional conditioning representation
 

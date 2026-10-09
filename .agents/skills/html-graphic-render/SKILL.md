@@ -17,7 +17,7 @@ description: >-
 Create a versioned static graphic from one project-local HTML entrypoint with
 local CSS/SVG dependencies and render it to an exact-size PNG. Standalone CSS or
 SVG is not an accepted entrypoint. This is a leaf capability: it does not acquire assets,
-generate imagery, animate, update the production canvas, or approve a result.
+generate imagery, animate, update the review surface, or approve a result.
 
 ## Route before authoring
 
@@ -28,7 +28,7 @@ generate imagery, animate, update the production canvas, or approve a result.
 | Generated or acquired image with exact copy/layout | Hybrid: select the image first, then finish here |
 | Rendered static layers timed onto an existing take (fades, rise-ins, end card) | `scripts/overlay_timeline.py` (see Timed overlays on video) |
 | Animated graphics, kinetic type beyond fades and rises, or full video composition | Motion/video compositor (HyperFrames, FFmpeg) |
-| Gallery, comparison, selection, or lifecycle review | Production canvas |
+| Gallery, comparison, selection, or lifecycle review | The project manifests and decision writer (shot takes in the Studio storyboard; pre-Studio canvas projects: `showcase-html` canvas) |
 
 Do not use a generative model merely to reproduce typography or geometry that
 an HTML entrypoint with local CSS/SVG can render exactly. Do not force HTML to
@@ -200,8 +200,11 @@ Before returning the result, verify:
 5. Output dimensions, source/input hashes, and PNG hash match the render record.
 6. The design remains readable at thumbnail size and the focal subject is not
    blocked by a central poster panel or oversized copy.
-7. The calling production workflow lists the source, raster, provenance, and
-   review state on its canvas.
+7. The calling production workflow records the source, raster, provenance, and
+   review state beside the PNG in its render record and manifest (pre-Studio
+   canvas projects list it on the canvas); Studio frames exist for shot takes
+   only. See the
+   [production policy](../../contracts/production-policy.md).
 
 A successful render enters `review`. Exact-copy, font, overflow, dimension,
 alpha, thumbnail, and visible-design QA must pass before selection. In a

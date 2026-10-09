@@ -231,12 +231,24 @@ def candidate_review_findings(
     return findings
 
 
+def studio_project(root: Path) -> bool:
+    return (root / "studio").is_dir() and not (root / "showcase.json").exists()
+
+
 def decision_findings(
     root: Path, decision: Any, *, require_current_project: bool = False
 ) -> list[Finding]:
     findings = schema_findings(decision, "production-decision.schema.json")
     if findings:
         return findings
+    authorization = decision.get("authorization") or {}
+    if authorization.get("source") == "chat" and not studio_project(root):
+        findings.append(
+            Finding(
+                "approval.authorization",
+                "Chat authorization is valid only in a Studio project",
+            )
+        )
     if decision["result"] != "approved":
         findings.append(Finding("approval.decision_result", "Decision is not approved"))
     subject_sha256 = decision.get("selected_sha256", decision.get("subject_sha256"))

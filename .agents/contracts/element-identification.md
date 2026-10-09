@@ -62,7 +62,7 @@ authorizes real identity.
 
 Acquired brand/product assets skip `prompt-review` and the default three-sample
 Seedream set because there is no generation-bound prompt. They still require
-local persistence, hashes, canvas listing, and mode-authorized selection or
+local persistence, hashes, a manifest entry, and mode-authorized selection or
 approval before dependent video use. Real-brand use still depends on the
 brief's authorization; an agent's creative choice does not grant rights.
 
@@ -86,7 +86,7 @@ record.
 
 Deterministic graphics skip prompt-review, provider registration, and the
 three-sample image default. They still require exact-copy, font, overflow,
-dimension, alpha, thumbnail-legibility, canvas, provenance, and mode-authorized
+dimension, alpha, thumbnail-legibility, provenance, and mode-authorized
 selection checks. If both a white-background model reference and transparent
 delivery cutout are needed, create and label separate files. Never globally
 remove white from a product image when that would erase labels, highlights, or

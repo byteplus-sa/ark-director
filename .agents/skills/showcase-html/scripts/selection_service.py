@@ -309,7 +309,7 @@ def validate_stage_media(root, lock_kind, subject_path, review, audio_required=F
         raise SelectionError(f'{lock_kind} lock requires a {missing} stream')
 
 
-def validated_decision(root, decision, subject_path, subject_sha256, mode, user_event=None):
+def validated_decision(root, decision, subject_path, subject_sha256, mode, user_event=None, allow_chat=False):
     if not isinstance(decision, dict):
         raise SelectionError('Expected a structured production decision')
     validate_schema(decision, 'production-decision.schema.json')
@@ -320,8 +320,16 @@ def validated_decision(root, decision, subject_path, subject_sha256, mode, user_
         raise SelectionConflict('Project mode or project.md changed before decision')
     if decision['actor'] == 'agent' and mode != 'approve_for_me':
         raise SelectionError('Agent cannot approve in ask_for_approval mode')
-    if decision['actor'] == 'user' and (decision['authorization']['source'] != 'local_ui' or user_event != decision['authorization']['evidence']):
-        raise SelectionError('User authorization must come from the local review server')
+    if decision['actor'] == 'user':
+        authorization = decision.get('authorization') or {}
+        evidence = authorization.get('evidence', '')
+        if authorization.get('source') == 'chat':
+            if not allow_chat:
+                raise SelectionError('Chat authorization is only accepted for Studio projects')
+            if len(evidence.strip()) < 3:
+                raise SelectionError("Chat authorization must quote the user's own words")
+        elif authorization.get('source') != 'local_ui' or user_event != evidence:
+            raise SelectionError('User authorization must come from the local review server')
     if decision['result'] != 'approved':
         raise SelectionError('Only approved decisions can promote an artifact')
     if decision['subject_path'] != subject_path:
@@ -482,7 +490,7 @@ def current_selection(metadata, meta):
     return selected, evidence
 
 
-def apply_selection_batch(root, batch, expected_revision, decisions=None, user_event=None):
+def apply_selection_batch(root, batch, expected_revision, decisions=None, user_event=None, allow_chat=False):
     registry = batch['registry']
     if expected_revision != revision(root, registry):
         raise SelectionConflict('Stale selection revision; reload the page or preview current manifests')
@@ -518,7 +526,7 @@ def apply_selection_batch(root, batch, expected_revision, decisions=None, user_e
             previous, previous_evidence = current_selection(metadata, meta)
             if decision.get('actor') == 'agent' and previous is not None and (not isinstance(previous_evidence, Mapping) or previous_evidence.get('actor') != 'agent'):
                 raise SelectionError(f'{asset_id}: an agent cannot replace or adopt an existing user selection')
-            decision_path, decision_content, decision_sha256 = validated_decision(root, decision, source, subject_sha256, mode['mode'], user_event)
+            decision_path, decision_content, decision_sha256 = validated_decision(root, decision, source, subject_sha256, mode['mode'], user_event, allow_chat)
             if decision_path in targets:
                 raise SelectionError('Duplicate decision ID in selection batch')
             targets[decision_path] = decision_content

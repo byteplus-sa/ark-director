@@ -12,8 +12,9 @@
 | Invented photographic or illustrative still | Appropriate Seedream skill; hybrid work finishes exact copy/layout through `html-graphic-render` after the image is selected |
 | Animated exact graphic or timed overlay | HyperFrames for animation; HyperFrames or FFmpeg for final video composition |
 | Media sourcing or generation: images, icons, voiceover, music, SFX, captions | Generate through `ark-mcp` (Seedream, Seed Audio, `speech_to_text`); acquire authorized real assets per [Element identification](element-identification.md); finish, including grades and LUTs, with FFmpeg or HyperFrames. The upstream `media-use` skill is not installed; ignore its pointers inside vendored HyperFrames skills |
-| Production stage review | Required persistent `showcase-html` canvas; update and freshness-check it at every stage |
-| Ad-hoc media comparison | `showcase-html --quick`; `media-review` only for an explicitly requested OS player or unavailable browser |
+| Production stage review | HyperFrames Studio project through `studio_project.py` (`sync`, `stage complete` with its `status` and `check`) at every stage; pre-Studio canvas projects with `showcase.json` keep the `showcase-html` canvas |
+| Interactive editing, assembly and final render of a production | HyperFrames Studio; `studio_project.py render` is the only authority for final files and writes the hash-bound render record; post work made elsewhere is placed in Studio and rendered. Skills stay local; no `hyperframes skills` installs; `publish`, `cloud`, `lambda`, `cloudrun` and other account commands only on explicit request |
+| Ad-hoc media comparison, also an optional look at a Studio project's elements, audio or candidate takes (never a gate) | `showcase-html --quick`; `media-review` only for an explicitly requested OS player or unavailable browser |
 | Mermaid system/process diagram | `design-doc-mermaid` when available; cinematic blocking requests use `tig-blocking-map` |
 | Brand-ad / reference-video inspiration | Obtain watchable media first: pass a public HTTPS URL that `seed_understand` accepts, or download then `media_upload` when the link is unusable; do not substitute scripts or article text. Full reverse-engineering → `template-factory`; lighter visual/motion analysis → `ark-mcp` (`seed_understand`) |
 

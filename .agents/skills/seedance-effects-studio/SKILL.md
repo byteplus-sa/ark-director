@@ -7,7 +7,7 @@ description: >-
   effect's Seedance 2.5 prompt from its recipe, run prompt-review, submit a 480p
   draft through ark-mcp, save and QA the take, then ask before any higher
   resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp,
-  seedance-restyle (video-to-video effects), showcase-html and the post tools
+  seedance-restyle (video-to-video effects), the Studio project and the post tools
   named in each recipe. Use when the user wants a named visual effect applied to
   their own photo, product or clip, or asks what effects are available. Not for
   free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the
@@ -40,7 +40,7 @@ effect by another name, match it to the nearest entry or say that none fits.
 | A custom prompt with no named effect | `seedance-prompt-25` | No recipe to fill |
 | Redraw a whole clip in a medium that is not a menu entry | `seedance-restyle` | The four restyle effects here delegate to it |
 | Swap one element in a kept take | `seedance-object-swap` | Edit, not an effect |
-| Multi-scene film or ad | `film-production` | Stage canvas and canon, not one effect |
+| Multi-scene film or ad | `film-production` | Studio project, stage gates and canon, not one effect |
 | Exact on-screen text, HUD or UI | `html-graphic-render` or HyperFrames in post | Never baked into generated video |
 
 ## Menu
@@ -191,10 +191,10 @@ states what is missing.
     stack, fisheye, ambience bed) only after the picture is accepted.
 
 A project folder is required for any submission: `projects/<name>/` with
-`project.md`, `task_ids.json` and the showcase canvas, as in the production
-policy. For a prompt-only request (the user only wants the prompt, or works in
-Lumina) stop after step 6 and return the prompt package; no files, no
-submission.
+`project.md`, `task_ids.json` and, once a take exists, the Studio project
+(`studio_project.py sync`), as in the production policy. For a prompt-only
+request (the user only wants the prompt) stop after step 6 and return the prompt
+package; no files, no submission.
 
 ## Routes
 

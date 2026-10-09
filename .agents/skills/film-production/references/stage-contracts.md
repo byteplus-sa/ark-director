@@ -4,45 +4,64 @@ Use these contracts to determine the next safe stage. A later stage may begin
 only when its entry evidence exists. Keep unavailable future departments as
 explicit gaps rather than fabricating their outputs.
 
-## Canvas checkpoint for every stage
+## Stage checkpoint for every stage
 
-Create the project's `showcase.json` and generated `index.html` during Stage 1.
-The manifest must be created by the canonical tool —
-`uv run python .agents/skills/showcase-html/scripts/generate_showcase.py
-<project> --init` (requires `project.md` to exist first) — never
-hand-written; the canonical shape is `canvas.stages[]`, and a hand-authored
-canvas is not schema-compatible with `--check`, which blocks every later
-stage update. Keep all eight stage records in the manifest from
-initialization onward. Each
-stage adds its sources and stage-tagged sections without deleting prior variants
-or decisions. Exact generation prompts use `promptFile` so their immutable
-snapshot is embedded into the portable page.
+The project's stage ledger is `studio/stages.json`, kept only by
+`uv run python .agents/scripts/studio_project.py stage <project> {show|start|complete|reopen|skip}`.
+It holds the eight stages in fixed order (`brief-development`,
+`scene-breakdown`, `canon-elements`, `storyboard-visual-plan`,
+`audio-preparation`, `shot-generation`, `assembly-review`, `delivery`) and is
+never hand-written. `studio_project.py init` creates an empty Studio project and
+`sync` creates it from the shot manifests: an outline frame for each planned shot and a built frame for
+each take, without deleting prior frames, variants or decisions. Exact
+generation prompts stay in their immutable snapshot files, referenced from the
+manifests.
 
 Read `approval_mode` from `project.md` at start/resume and before each stage
-decision. New projects write `approval_mode: approve_for_me` before `--init`;
-`ask_for_approval` requires user choices. A legacy project without the field
-uses the default for new decisions only. Both modes keep all eight stages and
-the same canvas checkpoint. Include the effective mode, decision actor, reason,
+decision. New projects write `approval_mode: approve_for_me` before the first
+stage; `ask_for_approval` requires user choices. A legacy project without the
+field uses the default for new decisions only. Both modes keep all eight stages
+and the same checkpoint. Record the effective mode, decision actor, reason,
 review outcome, current selection or stage lock, and unresolved gaps in the
-relevant section. Add review and decision files to stage `sources` so a changed
-file makes the HTML freshness check fail.
+relevant manifest. `status` detects only the codes listed in the production
+policy (missing, modified or unmanaged assets, a changed take, a placed take that
+differs from the selection, a frame and its timeline host disagreeing, a pending selection); it
+checks takes and Studio assets and does not read review, decision or scene
+files. Re-run prompt-review or reopen the stage when those files change. The
+storyboard `approval:` line is refreshed from the manifest by `sync`.
 
 Every stage exit additionally requires:
 
-1. the canvas current stage and status match the stage being completed;
-2. the stage shows its inputs, outputs, prompts, bindings, review evidence and
-   mode-authorized decisions or pending recommendations;
-3. `index.html` has been regenerated and opened after the latest material edit;
-4. `generate_showcase.py <project> --check --stage <stage-id>` passes;
-5. `handoff.md` records the completed stage, current selections, operations
+1. `studio_project.py stage <project> complete <stage-id>` passes. It requires
+   a `project.md` with a valid `approval_mode` for `brief-development`; for `scene-breakdown` through
+   `audio-preparation` a Studio project with no blocking `status` issue; for
+   `shot-generation`, `assembly-review` and `delivery` also a placed take for
+   every shot and a passing pinned `check`; for `assembly-review` and `delivery`
+   also no pending selection and the stage locks (a `picture` lock, plus an
+   `audio` lock unless audio-preparation was skipped, at `assembly-review`; a
+   `final_master` lock on the delivery render at `delivery`, each recorded with
+   `record-lock`); and for `delivery` the newest `render` record at a
+   delivery-level quality (`standard`, `delivery` or `high`; drafts and manual
+   records are ignored) still matches its file, was rendered from the Studio tree
+   as it is now (`index.html`, `hyperframes.json`, `compositions/`, `assets/`),
+   and its frames equal the placed takes. `storyboard-visual-plan` and
+   `audio-preparation` may instead be `skip`ped with `--reason`; a skipped stage
+   counts as done for later stages;
+2. the stage's inputs, outputs, prompts, bindings, review evidence and
+   mode-authorized decisions or pending recommendations are in the manifests;
+3. the project has been opened in Studio for visual review after the latest
+   material edit;
+4. `handoff.md` records the completed stage, current selections, operations
    still in flight with their registry IDs, open defects, and the next action.
 
-`handoff.md` is plain Markdown for resuming work, not a canvas source or an
-approval record. Keep it short and overwrite it at each exit rather than
-appending history.
+`handoff.md` is plain Markdown for resuming work, not an approval record. Keep
+it short and overwrite it at each exit rather than appending history.
 
-The stage-specific required outputs below describe what the matching canvas
-section must expose. A CLI/OS-player review does not replace this checkpoint.
+A pre-Studio canvas project with `showcase.json` keeps its canvas checkpoint instead
+(`generate_showcase.py <project> --check --stage <stage-id>`). The
+stage-specific required outputs below describe what the matching stage must
+expose in the manifests; Studio frames exist for shot video takes only. A CLI/OS-player review does
+not replace this checkpoint.
 
 ## 1. Brief and development
 
@@ -54,7 +73,7 @@ posture, and unresolved questions recorded in `project.md`. Confirmed
 directorial defaults (structure, energy level, camera and light stance, lens,
 grade, pacing, acting, staging, medium, audio) from
 `brief-intake` persisted as a `locked` block in `project.md` frontmatter.
-The canvas embeds or links this brief as the `brief-development` stage source.
+The brief is the `brief-development` stage source; `stage complete` checks that `project.md` is a valid record.
 
 Exit: the production objective, constraints, and directorial defaults are clear
 enough to break down. When the brief cites brand ads or other footage for
@@ -82,9 +101,9 @@ confirmed project axis appears. The plan is `draft` until the scene's locations
 are approved in Stage 3 and is revalidated before Stage 6. A scene that is exempt
 (user lock, static-by-design format, an explicit per-shot camera plan from another skill, plate
 for cutdown, source-preserving edit, extension continuation, or no video shot)
-records its `static_reason` instead. The `scene-breakdown` canvas stage lists
-every scene/shot manifest, its shot plan section, and its required
-production-input inventory.
+records its `static_reason` instead. The `scene-breakdown` stage lists
+every scene/shot manifest (each shot becomes an outline frame in the Studio
+storyboard), its shot plan section, and its required production-input inventory.
 
 Exit: every planned scene has observable action, a draft shot plan or a recorded
 exemption, and an inventory of required production inputs, with missing
@@ -119,9 +138,9 @@ Seedream for synthesized image content; a
 hybrid binds the selected image as a hashed input and finishes exact copy/layout
 deterministically.
 Record missing required references before dependent tasks are submitted.
-The `canon-elements` canvas section shows every variant (acquired, generated, or
-deterministically rendered), its prompt or provenance/render record, manifest,
-recommendation/selection state and downstream role.
+The `canon-elements` manifests record every variant (acquired, generated, or
+deterministically rendered), its prompt or provenance/render record,
+recommendation/selection state and downstream role; Studio does not show them.
 
 Exit: every required canonical element has an approved selected variant, or the
 dependent scene is explicitly marked unresolved. The element list has been
@@ -140,7 +159,7 @@ earlier and stays draft until its input requirements are satisfied.
 Required output: beat/panel plan that follows the scene's shot plan, bound
 references, prompts, generated panels or prompt package, continuity review,
 provenance, and video-handoff eligibility.
-Expose these together in the `storyboard-visual-plan` canvas stage.
+Record these together in the `storyboard-visual-plan` manifests; Studio shows shot takes only.
 
 Exit: required panels have a mode-authorized approval and all source element
 hashes remain current, or the scene has a mode-authorized direct-to-video path.
@@ -174,13 +193,14 @@ Required output: task registry entry, local media, exact prompt snapshot,
 provider metadata, actual media properties, cost fields, SHA-256, semantic QA
 including a comparison of the take against its shot plan, and `review` status. Resolution is raised only after the current pass is
 approved (final-candidate gate).
-The `shot-generation` stage shows every take, exact prompt, ordered element
+The `shot-generation` stage records every take, exact prompt, ordered element
 bindings, metadata, inspection result and selection state. When a style/grammar
 reference pin (or other watchable reference video) exists, that pin and each
-generated take must appear as playable players on this stage in the same
-`kind: "takes"` group using `groups[].takes[].media` objects
-(`{ "type": "video", "src": "…" }`). Flat `cards` or string `media` paths do
-not render players — follow `showcase-html` production-canvas and schema.
+generated take must be playable for review: each take is viewable in its Studio
+frame, and the pin is recorded in the manifest and played from its file. A pre-Studio canvas
+project instead lists them in one `kind: "takes"` group using
+`groups[].takes[].media` objects (`{ "type": "video", "src": "…" }`); follow
+`showcase-html` production-canvas and schema.
 
 Exit: a passing take has a hash-bound, mode-authorized selection. In
 `ask_for_approval`, the recommendation remains pending until the user chooses.

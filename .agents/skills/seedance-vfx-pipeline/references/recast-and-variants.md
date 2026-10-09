@@ -172,9 +172,12 @@ stable; it does not wait for unrelated rows.
 6. **Side-by-side.** Render the final against the source with
    `ffmpeg-side-by-side-comparison`: a simultaneous `hstack` for visual
    changes, the staggered split when the rows differ mainly in audio.
-7. **Canvas entry.** Add the source, prompt, probe, final, comparison, QA and
-   task provenance to the `shot-generation` section, regenerate the canvas and
-   pass `--check --stage shot-generation`. Set `review`; approval follows the
+7. **Studio entry.** Record the source, prompt, probe, final, comparison, QA and
+   task provenance in the row's shot manifest, run `studio_project.py sync`, and
+   pass the stage-exit checks in the
+   [production policy](../../../contracts/production-policy.md) (pre-Studio canvas projects
+   with `showcase.json`: regenerate the canvas and pass
+   `--check --stage shot-generation`). Set `review`; approval follows the
    project's `approval_mode` after QA passes.
 
 ## Parallel execution
@@ -189,9 +192,9 @@ Apply the parallel production rules in AGENTS.md.
   probe run before the fan-out. Element work for all rows may start in parallel
   with them.
 - **Serialize shared state.** The main agent, or a single designated writer,
-  applies every change to `task_ids.json`, `showcase.json`, `ref_cache.json`,
-  `variants.md` and selection manifests. Row agents hand prepared operations,
-  acknowledged task IDs and canvas entries to that writer; they never write
+  applies every change to `task_ids.json`, the Studio project (or pre-Studio
+  canvas `showcase.json`), `ref_cache.json`, `variants.md` and selection manifests. Row agents hand prepared operations,
+  acknowledged task IDs and review entries to that writer; they never write
   those files concurrently.
 - **Never submit the same request twice.** Each prepared operation has one
   owner and one transport. A row agent never resubmits another row's request,
@@ -203,7 +206,7 @@ Apply the parallel production rules in AGENTS.md.
   element invalidates dependent prompts, reviews and probes in every row.
   Speculative row work never changes an approved input or user selection.
 - **Concurrency limits.** Respect transport and account concurrency; queue rows
-  rather than exceed them. The main agent integrates rows, runs final canvas
+  rather than exceed them. The main agent integrates rows, runs final Studio
   verification and reports to the user.
 
 ## Cost preview
@@ -260,7 +263,7 @@ the production policy ([production policy](../../../contracts/production-policy.
 
 Inspect the actual probe and final by playback, not only a contact sheet.
 Record each check as pass, fail or not applicable in the row's `shot.md` and
-canvas entry.
+Studio frame (pre-Studio canvas: canvas entry).
 
 - [ ] **Residual originals.** The replaced product, wardrobe, prop, person or
       location does not appear in any frame, including reflections, edges,

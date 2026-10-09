@@ -280,8 +280,9 @@ extension). For a scene-level commercial mix: `prompt_mix_s01_v01.md` beside
 
 ### Step 8 — Present for review (generation stage)
 
-For project work, present the result in the production canvas; for a standalone
-audio request, present it to the user. Include:
+For project work, record the result in the manifests, where the audio file is reviewed by
+listening (pre-Studio canvas projects: the production canvas); for a standalone audio request,
+present it to the user. Include:
 - The local file path
 - Duration and format
 - The story arc summary (one line per act)

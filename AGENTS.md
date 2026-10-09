@@ -31,7 +31,8 @@ Load only the contract relevant to the current stage:
 | Need | Tracked source |
 | --- | --- |
 | Production stages, approval, review, durable submission and QA | [Production policy](.agents/contracts/production-policy.md) |
-| Required stage canvas and HTML freshness checks | [Production canvas](.agents/skills/showcase-html/references/production-canvas.md) |
+| Studio project, stage-exit checks and render records | [Production policy](.agents/contracts/production-policy.md) |
+| Pre-Studio HTML canvas (projects with `showcase.json`) | [Production canvas](.agents/skills/showcase-html/references/production-canvas.md) |
 | MCP, Ark CLI and capability routing | [Routing](.agents/contracts/routing.md) |
 | Canon, props, screens and control references | [Element identification](.agents/contracts/element-identification.md) |
 | File prefixes and numbering | [Asset naming](.agents/contracts/asset-naming.md) |
@@ -121,7 +122,9 @@ downstream preparation begin earlier.
   any long wait, so a replacement agent can resume after a session ends. On
   resume, read it together with `task_ids.json` and the manifests; the
   manifests and registry win on conflict.
-- Serialize edits to shared mutable state, including `showcase.json`,
+- Serialize edits to shared mutable state, including `showcase.json`, the Studio
+  project files (`studio/index.html`, `compositions/`, `assets/`, `STORYBOARD.md`,
+  `stages.json`),
   `task_ids.json`, selection manifests, Lark documents, assemblies and shared
   registries, unless the tool provides an explicit conflict-safe transaction.
 - Never submit the same paid generation through multiple agents or transports.
@@ -201,7 +204,7 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   static renders (`generation: deterministic_html`) do not trigger paid
   generation or prompt-review; changed worked examples are reviewed offline.
   Deterministic renders still require exact-copy, font, overflow, dimension,
-  alpha, thumbnail-legibility, provenance, canvas, and visible-design QA.
+  alpha, thumbnail-legibility, provenance, and visible-design QA.
 - Freeze the exact prompt beside its intended output before submission. Verify
   request hash, current reference hashes, ordered roles/bindings, explicit
   selections and supported parameters. Changed inputs invalidate review.
@@ -212,12 +215,31 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   SHA-256, actual media properties and separate estimated/confirmed costs. Save
   deterministic static source and render records beside their raster outputs;
   they do not enter the provider task registry.
-- Create one project `showcase.json` and generated `index.html` at initialization.
-  Keep that production canvas synchronized with briefs, manifests, prompts,
-  elements, audio, video, review evidence, assemblies and delivery state after
-  every material stage change in either approval mode. Regenerate and inspect
-  `index.html` and pass `showcase-html --check --stage <stage-id>` before every
-  stage exit, including autonomous stage exits.
+- Create the project's HyperFrames Studio project with `studio_project.py init`
+  (or `sync` once shots exist) and keep it synchronized with the breakdown, shot
+  manifests, takes, selections and assemblies after every material stage change
+  in either approval mode. A stage exits only through
+  `studio_project.py stage <project> complete <stage-id>`, which requires a
+  valid `project.md` for `brief-development`; a Studio project with no blocking
+  `status` issue from `scene-breakdown` on; a placed take for every shot and a
+  passing `check` for `shot-generation`, `assembly-review` and `delivery`; no
+  pending selection for `assembly-review` and `delivery`; and for `delivery` a
+  newest `render` record at a delivery-level quality (`standard` or higher) that
+  matches the current files and placed takes. `render` is the only authority for
+  final files: post work made elsewhere (FFmpeg, `render_short.py`) is placed in
+  Studio as a clip or overlay and rendered; `record-render` registers a
+  non-gating render only. Variants are chosen with `candidates`, a swap in
+  Studio (or `place`), then `record-selection` (an agent decision under `approve_for_me`; a user
+  decision, in either mode, quotes the user's own chat words as its
+  authorization). Picture, audio and final-master locks are recorded with
+  `record-lock` on the same terms, and `stage complete` requires them at
+  `assembly-review` and `delivery`. A project that already has `showcase.json` is a pre-Studio canvas
+  project: it keeps its canvas and its `showcase-html --check --stage
+  <stage-id>` checkpoint, and `studio_project.py` refuses to run in it.
+  HyperFrames runs only through the privacy-safe, pinned entry points in the
+  production policy; skills stay in `.agents/skills/` and are never installed
+  globally. Command details are in the
+  [Production policy](.agents/contracts/production-policy.md).
 - Provider success sets `review`, not `approved`. A validated agent decision in
   `approve_for_me` or an explicit user decision in `ask_for_approval` approves a
   variant only after required QA passes. Use the same mode for picture, audio,
@@ -247,7 +269,8 @@ repository maintenance unless explicitly scoped.
 | Location | Contents |
 | --- | --- |
 | `projects/<project>/project.md` | Brief, `approval_mode`, proposed/confirmed axes, project state |
-| `projects/<project>/showcase.json` and `index.html` | Canonical canvas manifest and synchronized stage review surface |
+| `projects/<project>/studio/` | HyperFrames Studio project: `index.html`, `hyperframes.json`, `compositions/`, `assets/`, `STORYBOARD.md`, `stages.json`, `renders/`, `provenance.json` |
+| `projects/<project>/showcase.json` and `index.html` | Canvas manifest and review surface of a pre-Studio canvas project |
 | `projects/<project>/task_ids.json` | Single provider-operation registry |
 | `projects/<project>/ref_cache.json` | Content hashes and storage-scoped object keys |
 | `projects/<project>/elements/<element-id>/` | Reusable identity/location/prop manifests, references, and deterministic graphic sources/renders |
@@ -327,8 +350,9 @@ appropriate explicit generation scope. Report pass/fail/not-applicable for
 unit, smoke, lint, type, build/syntax, diff and secrets checks. A missing runtime
 or unavailable tool is not a passing test.
 
-Production-stage verification also runs the project canvas checkpoint from the
-showcase skill. `media-review` is an unavailable-browser or explicitly requested
-OS-player fallback and does not satisfy this checkpoint.
+Production-stage verification runs `studio_project.py stage <project> complete
+<stage-id>` (with `status` and `check`) for Studio projects, or the canvas
+checkpoint from the showcase skill for pre-Studio canvas projects. `media-review` is an unavailable-browser or
+explicitly requested OS-player fallback and does not satisfy this checkpoint.
 
 For reviewed skill changes, preview `uv run python .agents/scripts/sync_catalog.py --refresh-integrity`; add `--write` only after inspecting the listed source changes. Catalog summaries determine README rows. This command preserves upstream hash semantics and does not stage or commit files.

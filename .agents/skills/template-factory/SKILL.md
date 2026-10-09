@@ -9,11 +9,11 @@ description: >-
   (Seedream for invented identity; web/user download-first for authorized real
   brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards,
   screens, product layouts, and overlays), and a Seedance 2.5 video —
-  generation-bound prompts through prompt-review; stages on the showcase-html
-  canvas. Explicit orchestrator composing ark-mcp (including
+  generation-bound prompts through prompt-review; reviewed in a HyperFrames
+  Studio project. Explicit orchestrator composing ark-mcp (including
   seed_audio_understand), seedream-storyboard,
   seedance-prompt-25, prompt-review, html-graphic-render, hyperframes,
-  showcase-html, and ffmpeg; never calls the Ark REST API. Use to
+  and ffmpeg; never calls the Ark REST API. Use to
   replicate style/composition/grammar, build a reusable template, or turn a
   cited brand ad, Pinterest pin, or other reference video into elements and
   video.
@@ -38,7 +38,8 @@ the current workspace contracts taking precedence where the plan is stale.
 
 - Act as the single manager communicating with the user.
 - Treat `project.md`, `task_ids.json`, `ref_cache.json`, shot manifests and the
-  persistent `showcase.json`/`index.html` production canvas as production memory.
+  Studio project (pre-Studio canvas projects: the `showcase.json`/`index.html` canvas) as
+  production memory; see the [production policy](../../contracts/production-policy.md).
 - Never infer approval from technical success. An output enters `review`, then
   only a passing inspection and mode-authorized decision can set `approved`.
 - **Every generation-bound prompt this factory submits — Seedream storyboard,
@@ -46,7 +47,7 @@ the current workspace contracts taking precedence where the plan is stale.
   gate first.** Acquired brand/product/logo assets (`generation: none`) skip
   prompt-review. Deterministic static graphics (`generation:
   deterministic_html`) also skip prompt-review and provider registration. Both
-  still need hashes, canvas listing, visible QA, and explicit selection.
+  still need hashes, a manifest entry, visible QA, and explicit selection.
 - Replicate style, composition, and grammar. Do not clone copyrighted footage.
   De-identify real people in analysis. For brands: de-identify when unknown or
   unauthorized; when the user authorizes a real brand, preserve that identity and
@@ -54,9 +55,10 @@ the current workspace contracts taking precedence where the plan is stale.
   Seedream (see [element identification](../../contracts/element-identification.md)).
 - Default `watermark: false` only where the selected live tool supports the
   parameter, unless the user requests otherwise.
-- Initialize the eight-stage HTML canvas at intake. After every numbered step,
-  update its stage sources/sections, regenerate `index.html`, and pass the
-  matching `--check --stage` checkpoint before advancing.
+- Set up the Studio project at intake. After every numbered step, update the
+  manifests, run `studio_project.py sync`, and pass the stage-exit checks in the
+  production policy before advancing. Pre-Studio canvas projects with `showcase.json` keep
+  the eight-stage canvas and its matching `--check --stage` checkpoint.
 - Resolve live model and operation capabilities before authoring request-bound
   parameters or reference roles. Defaults remain proposals until accepted.
 
@@ -161,7 +163,8 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    in the edit (trim a held tail, clone-pad the final hold, crossfade audio)
    rather than regenerating, and record the edit operations on the take.
    Measure take loudness and normalise delivery masters (e.g. `loudnorm`
-   -16 LUFS / -1.5 dBTP) after mode-authorized take locks.
+   -16 LUFS / -1.5 dBTP) after mode-authorized take locks; place the result in
+   Studio and deliver it with `studio_project.py render`.
    When the picture needs several clips, follow the shot budget, trim-point,
    state-ledger, and continuous-audio rules in
    [long pins and multi-clip takes](references/long-pins-and-multi-clip.md).
@@ -171,12 +174,13 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    measured cuts rather than the prompt timestamps.
 8. **Review** — compare the reference and take in playback for shot timing,
    motion direction and intensity, action progression, camera movement,
-   transitions, opening/ending state, and requested audio arc. Add the pin and
-   every take as playable players on the `shot-generation` canvas in one
+   transitions, opening/ending state, and requested audio arc. Each take appears
+   in its Studio frame and the pin is played from its file; include exact prompt,
+   ordered references and QA evidence in the shot manifest; run `studio_project.py sync`, open the project
+   in Studio, pass the stage-exit checks, and set `review`. Pre-Studio canvas: add
+   the pin and takes as playable players on the `shot-generation` canvas in one
    `kind: "takes"` group (`groups[].takes[].media` as `{type, src}` — never
-   flat `cards` or string media paths); include exact prompt, ordered
-   references and QA evidence; regenerate/open the page, pass its stage
-   freshness check, and set `review`. If playback finds a motion mismatch that
+   flat `cards` or string media paths) and pass its stage freshness check. If playback finds a motion mismatch that
    needs diagnosis, use `references/motion-review-prompt.md` in comparison mode
    against the generated take; do not rerun source-motion analysis. Apply the project
    mode: the agent may choose a passing take with a recorded decision in `approve_for_me`; in
@@ -204,8 +208,9 @@ Reference stills (photos, key visuals) run as a parallel poster track, not as
 video pins: describe the still's camera angle, pose, lens and grade in text,
 bind only the official product packshot as `@Image 1` (I2I), write the prompt
 under `posters/<id>/`, pass prompt-review, generate 3 variants, and add any
-logo or copy as a deterministic overlay. List variants on the canvas as
-selectable cards with a `poster.md` manifest.
+logo or copy as a deterministic overlay. Record variants with a `poster.md`
+manifest (pre-Studio canvas: selectable cards); Studio frames exist for shot
+takes only.
 
 ## Route specialist work
 
@@ -228,25 +233,30 @@ selectable cards with a `poster.md` manifest.
 | Animated exact graphic | HyperFrames; FFmpeg or HyperFrames for final video composition |
 | Seedance 2.5 video prompt | `seedance-prompt-25` |
 | Prompt quality gate (generation-bound only) | `prompt-review` |
-| Persistent stage canvas and visual review | `showcase-html` |
+| Persistent Studio review surface for shot takes (pre-Studio canvas: stage canvas) | `studio_project.py` (pre-Studio canvas: `showcase-html`) |
 
-## Canvas stage mapping
+## Stage mapping
 
-| Factory work | Canvas stage | Exit evidence |
+The stage IDs below apply to Studio projects and pre-Studio canvas projects
+alike; Studio projects add the stage-exit checks in the production policy.
+
+| Factory work | Stage | Exit evidence |
 | --- | --- | --- |
 | Pin intake and template intent | `brief-development` | source hash, constraints, recipe target |
 | Analysis and keyframes | `scene-breakdown` | valid VideoBreakdown v1.1 with per-beat motion, audio sound map or absence/unavailability record, approved revision |
 | Element acquisition/generation/rendering and selection | `canon-elements` | hashes, explicit selections; acquired, generated, or deterministic variants |
 | Storyboard generation and selection | `storyboard-visual-plan` | ordered panels, prompts, eligibility state |
-| Audio decision | `audio-preparation` | sound map translated into requested assets and timing, or `skipped` with reason |
-| Video generation and take review | `shot-generation` | prepared requests, task provenance, pin + take players in one `takes` group, QA |
-| Multi-shot edit and final review | `assembly-review` | approved inputs and inspected assembly, or `skipped` for one clip |
-| Final output | `delivery` | master/proxy hashes and approval, or `skipped` when outside scope |
+| Audio decision | `audio-preparation` | sound map translated into requested assets and timing, or skipped with `stage skip audio-preparation --reason` |
+| Video generation and take review | `shot-generation` | prepared requests, task provenance, a Studio frame per take (pre-Studio canvas: pin + take players in one `takes` group), QA |
+| Multi-shot edit and final review | `assembly-review` | approved inputs and inspected assembly (a single clip is inspected as one take) |
+| Final output | `delivery` | master/proxy hashes, approval and, in a Studio project, a delivery-level `render` record |
 
 Combined visual and motion analysis, separate audio analysis, and keyframes
 update the same `scene-breakdown` stage;
-run its freshness check after each material update. Mark optional stages
-`skipped` explicitly before advancing so no earlier stage remains pending.
+run its stage-exit check after each material update. Only
+`storyboard-visual-plan` and `audio-preparation` may be skipped, with
+`studio_project.py stage <project> skip <stage-id> --reason TEXT`; every other
+stage is completed before advancing so no earlier stage remains pending.
 
 ## Capability and request preflight
 
@@ -288,8 +298,9 @@ record a passing hash-bound review and agent decision, then select. In
 `ask_for_approval`, store a suggestion under `recommended_variant`, keep
 `status: review`, and wait for the user's choice before video promotion.
 Neither a recommendation nor technical success alone writes `selected_variant`
-or `approved`. Regenerate and inspect `index.html` and pass the stage freshness
-check after the decision in either mode.
+or `approved`. Run `studio_project.py sync` and the stage-exit checks after the
+decision in either mode (pre-Studio canvas projects: regenerate and inspect
+`index.html` and pass its stage freshness check).
 
 ## Prompt review gates (generation-bound)
 
@@ -305,7 +316,7 @@ CRITICAL/MAJOR findings must be fixed before submission. Skip this gate for
 acquired brand/product/logo assets and deterministic HTML-entrypoint renders that
 have no generation prompt. Deterministic renders still require source/output
 hashing, exact-copy, font, layout, dimension, alpha, thumbnail-legibility,
-canvas, and selection checks.
+provenance, and selection checks.
 
 ## Reusable recipe contract
 

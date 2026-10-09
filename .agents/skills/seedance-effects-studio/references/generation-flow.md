@@ -7,9 +7,9 @@ Exact calls, parameters, records and checks for stages 6 to 10 of the
 ## Project
 
 Every submission lives in `projects/<name>/` with `project.md` (frontmatter
-`approval_mode`, default `approve_for_me`), `task_ids.json` and the canvas
-(`generate_showcase.py projects/<name> --init`). Use `.venv/bin/python` for the
-repo scripts. Local state follows the repo naming contract: prompt snapshot
+`approval_mode`, default `approve_for_me`), `task_ids.json` and, once a take
+exists, the Studio project (`studio_project.py sync`). Use `uv run python` for
+the repo scripts. Local state follows the repo naming contract: prompt snapshot
 `prompt_<stem>.md` beside the output, `<stem>.mp4` for the take.
 
 ## Start assets
@@ -87,7 +87,7 @@ Review is bound to the request hash, so the order is hash first.
    `--required-rule` values and `--write --register`:
 
    ```bash
-   .venv/bin/python .agents/scripts/prepare_request.py \
+   uv run python .agents/scripts/prepare_request.py \
      --project projects/<name> --asset s01_sh010_t01_v01 \
      --prompt scenes/scene-01/s01_sh010/prompt_s01_sh010_t01_v01.md \
      --model dreamina-seedance-2-5-260628 --operation generate \

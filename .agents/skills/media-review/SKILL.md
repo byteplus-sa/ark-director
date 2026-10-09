@@ -2,18 +2,21 @@
 name: media-review
 description: >
   Emergency CLI fallback for opening generated images or videos in macOS when
-  HTML/browser review is unavailable, or when the user explicitly requests an
-  OS-native player. Never use it as production-stage review evidence: project
-  workflows require the synchronized showcase-html canvas and freshness check.
+  Studio preview or the pre-Studio canvas is unavailable, or when the user
+  explicitly requests an OS-native player. Never use it as production-stage
+  review evidence: project workflows require the Studio stage-exit checks (or,
+  for a pre-Studio canvas project with showcase.json, the showcase-html freshness check).
 ---
 
 # Media Review
 
-> **Fallback only.** Project workflows use their persistent `showcase-html`
-> canvas at every stage. Use this skill only when the HTML/browser surface is
-> unavailable or the user explicitly requests the OS default player. Record the
-> unavailable canvas evidence and restore the synchronized HTML before the stage
-> exits; this fallback never satisfies the production canvas checkpoint.
+> **Fallback only.** Project workflows review shot takes in HyperFrames Studio
+> and everything else from its manifests at every stage (pre-Studio canvas projects with `showcase.json` keep the `showcase-html` canvas);
+> see the [production policy](../../contracts/production-policy.md). Use this
+> skill only when the Studio preview or pre-Studio canvas is unavailable or the user
+> explicitly requests the OS default player. Record the unavailable-surface
+> evidence and restore it before the stage exits; this fallback never satisfies
+> the stage checkpoint.
 
 Help the user visually review generated media assets on macOS. Since the agent
 runs in a CLI with no graphical display, the practical way to let the user
@@ -96,8 +99,9 @@ open _review_sheet.png
 3. **Videos**: open the files directly with `open`. Do not extract keyframes.
 4. Tell the user the file paths and ask which variant they prefer.
 5. If this is project work, return the result to the orchestrator so it can add
-   the files and decision to `showcase.json`, regenerate `index.html`, and pass
-   the stage freshness check.
+   the files and decision to the manifests, run `studio_project.py sync` and the
+   stage-exit checks (pre-Studio canvas projects: regenerate the canvas and pass its
+   freshness check).
 
 ## Notes
 

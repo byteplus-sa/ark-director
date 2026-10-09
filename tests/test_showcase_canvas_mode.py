@@ -122,7 +122,7 @@ class ShowcaseCanvasModeTests(unittest.TestCase):
         decision_content = json.dumps(decision)
         (self.root / 'decisions/picture-1.json').write_text(decision_content)
         lock['decision_sha256'] = hashlib.sha256(decision_content.encode()).hexdigest()
-        self.assertIn('production-decision.schema.json', ' '.join(showcase.canvas_validation_errors(data, self.root, 'assembly-review')))
+        self.assertIn('requires local UI authorization', ' '.join(showcase.canvas_validation_errors(data, self.root, 'assembly-review')))
         decision['actor'] = 'agent'
         decision['approval_mode'] = 'approve_for_me'
         decision.pop('authorization')

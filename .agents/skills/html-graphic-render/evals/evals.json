@@ -50,11 +50,11 @@
     {
       "id": 5,
       "prompt": "Make a gallery where I can compare these five finished poster PNGs, choose my favorite, and approve it for the campaign.",
-      "expected_output": "A routing decision to the persistent production canvas because comparison, selection, and approval are outside the static renderer.",
+      "expected_output": "A routing decision to the project manifests and decision writer (pre-Studio canvas: the persistent production canvas) because comparison, selection, and approval are outside the static renderer.",
       "files": [],
       "expectations": [
         "Does not use html-graphic-render to build the review gallery.",
-        "Routes comparison and selection to showcase-html.",
+        "Routes comparison and selection to the project manifests and decision writer (pre-Studio canvas: showcase-html).",
         "Leaves approval to the user and does not set selected_variant automatically."
       ]
     }

@@ -130,26 +130,26 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 1. **Clone the repo** and open it in your agent-compatible editor.
 2. **Set the environment variables** above in a `.env` file (gitignored).
-3. **Start a project and its canvas** — create `projects/<your-project>/project.md`, the eight-stage `showcase.json`, and generated `index.html`.
-4. **Break into scenes and shots** — write `scene.md` and `shot.md` manifests, plan each scene's camera and light with `seedance-shot-design`, and update the canvas inventory.
-5. **Build Elements** — acquire authorized real brand/product assets, use `html-graphic-render` for exact static graphics, and use the `seedream-*` skills for synthesized character, location, prop, or illustrative sheets; add source/provenance and review state to the canvas.
+3. **Start a project and its Studio project** — create `projects/<your-project>/project.md`, then run `uv run python .agents/scripts/studio_project.py init <your-project>` and `stage <your-project> start brief-development`.
+4. **Break into scenes and shots** — write `scene.md` and `shot.md` manifests, plan each scene's camera and light with `seedance-shot-design`, and run `studio_project.py sync` so every planned shot has a Studio frame.
+5. **Build Elements** — acquire authorized real brand/product assets, use `html-graphic-render` for exact static graphics, and use the `seedream-*` skills for synthesized character, location, prop, or illustrative sheets; record source/provenance and review state in the element manifests (Studio shows shot takes only).
 6. **Generate** — use the `seedance-*` and `seed-audio-*` skills to author prompts, then submit via the MCP tools.
-7. **Assemble** — use the `ffmpeg-*` skills to concatenate approved takes with crossfades and mix audio.
-8. **Review throughout** — after every stage, update and regenerate the same `showcase-html` production canvas, open it in-browser, and pass `--check --stage <stage-id>`. Use `--quick` only for ad-hoc files outside a tracked project.
+7. **Assemble** — place approved takes, and any post work made with the `ffmpeg-*` skills, in Studio as clips or overlays, then `studio_project.py render` produces the final file.
+8. **Review throughout** — after every stage, run `studio_project.py sync`, open the project in HyperFrames Studio, and pass `studio_project.py stage <project> complete <stage-id>`. Pre-Studio canvas projects (those with a `showcase.json`) keep the `showcase-html` canvas and its `--check --stage <stage-id>` checkpoint. `showcase-html --quick` is optional for a side-by-side look at elements, audio or candidate takes (never a gate), and for ad-hoc files.
 
 ---
 
 ## Skills
 
-The workspace ships with **71 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **73 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
 | Skill | Description |
 |---|---|
-| **film-production** | Orchestrates multi-scene, multi-modality production one stage at a time while keeping a required HTML production canvas synchronized for review and handoff. |
+| **film-production** | Orchestrates multi-scene, multi-modality production one stage at a time while keeping one HyperFrames Studio project synchronized for review and handoff. |
 | **seedance-effects-studio** | Orchestrator: pick one of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, smash and grab and more), fit your photo or clip to the effect's recipe, write the Seedance 2.5 prompt, run prompt-review and a 480p draft through ark-mcp, inspect it against the recipe's checks, and ask before any final. Twelve recipes are probed; the rest are labelled untested. |
-| **template-factory** | Reverse-engineer a reference video and soundtrack into a timed visual and audio recipe, with reviewable assets and a synchronized production canvas. |
+| **template-factory** | Reverse-engineer a reference video and soundtrack into a timed visual and audio recipe, with reviewable assets and shot takes reviewed in a synchronized Studio project. |
 | **micro-drama** | Produce vertical micro-drama episodes end to end for any market: hook, reveal and cliffhanger clips with text-free storyboard conditioning, dialogue-accuracy QA, loudness-matched delivery and a full-episode showreel. |
 | **filipino-micro-drama** | Write Filipino-market micro-drama stories: proven Pinoy formulas, locked episode briefs with English-dominant Taglish dialogue, honorifics, authentic settings and subtitle translations. |
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
@@ -190,7 +190,7 @@ The workspace ships with **71 skills** across 14 categories. Independent skills 
 | Skill | Description |
 |---|---|
 | **seedance-vfx-prompt** | Write Seedance 2.5 video-to-video edit prompts for background replacement, object integration, relighting, weather and timed effects, with a may-change/must-preserve contract. |
-| **seedance-vfx-pipeline** | Run a complete Seedance video-to-video VFX, Object Swap, Motion Transfer or Restyle shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project canvas. |
+| **seedance-vfx-pipeline** | Run a complete Seedance video-to-video VFX, Object Swap, Motion Transfer or Restyle shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project manifests and Studio project. |
 | **seedance-motion-recast** | Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, Virtual Portrait identities, a muted source with post audio and a 480p probe ladder. |
 | **seedance-object-swap** | Write Seedance 2.5 Object Swap prompts that replace one character, outfit, product, prop, object or location in existing footage and keep the rest of the shot, with the five-part swap contract, Virtual Portrait characters, a muted source with post audio and swap QA. |
 | **seedance-restyle** | Write Seedance 2.5 Restyle prompts that redraw a whole clip in one of 24 visual styles or a custom style reference while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, an environment-image recipe that keeps the same place and restyles the background too, a muted source with post audio and a 480p probe ladder. |
@@ -255,14 +255,16 @@ The workspace ships with **71 skills** across 14 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **hyperframes** | Mandatory HyperFrames entry point — resumes project state, selects and installs the owning workflow, and routes all video, animation, and motion-graphic capabilities. |
+| **general-video** | Custom HyperFrames compositions when no specialized workflow fits — multi-scene pieces, reels, montages, footage remixes, static title cards, and freeform builds. |
+| **hyperframes** | Mandatory HyperFrames entry point — resumes project state, selects the owning workflow (nothing is installed), and routes all video, animation, and motion-graphic capabilities. |
 | **hyperframes-animation** | Atomic motion rules, multi-phase scene blueprints, transitions, and the seven runtime adapters (GSAP, Lottie, Three.js, Anime.js, CSS, WAAPI, TypeGPU). |
 | **hyperframes-audio** | Mixing audio already placed in a composition — fades, crossfades, ducking, effect chains, automation envelopes, and submix buses. |
-| **hyperframes-cli** | HyperFrames CLI development loop — init, add, catalog, capture, lint, check, snapshot, and render workflows. |
+| **hyperframes-cli** | HyperFrames CLI development loop — init, add, catalog, capture, lint, check, snapshot, and render workflows, run through the pinned workspace entry. |
 | **hyperframes-core** | Composition contract for renderable HTML video — timing data-attributes, clips, tracks, sub-compositions, variables, determinism rules, and validation. |
 | **hyperframes-creative** | Non-animation creative direction — design specs, palettes, typography, narration, beat planning, audio-reactive visuals, and brand style. |
 | **hyperframes-keyframes** | Seek-safe 2D/3D keyframes — punch-ins, camera moves, Ken Burns, match-cut handoffs, masks, SVG morph/draw, and runtime-specific APIs. |
 | **hyperframes-registry** | Search, install, and wire hosted registry blocks and components into compositions before hand-building named visuals. |
+| **hyperframes-studio** | Working with a person in HyperFrames Studio — when a message asks for a change at all, how a new film is planned and built, and timeline layout conventions with safe zones; the final gate runs through studio_project.py check. |
 
 ### Blender — 3D Pipeline
 
@@ -282,7 +284,7 @@ The workspace ships with **71 skills** across 14 categories. Independent skills 
 | Skill | Description |
 |---|---|
 | **lark-showcase-aigc** | Orchestrates ffmpeg-scene-transitions, lark-demo-doc-builder, lark-doc, lark-wiki, lark-drive, and design-doc-mermaid to build enterprise-facing Lark documents that showcase AIGC (AI-generated content) with prompts, results, and inline media. |
-| **showcase-html** | Maintain one synchronized HTML production canvas across every project stage. |
+| **showcase-html** | Maintain the HTML production canvas of pre-Studio canvas projects and build ad-hoc comparison pages (optional for Studio projects). |
 
 ---
 
@@ -293,7 +295,7 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 | Source | Type | Examples |
 |---|---|---|
 | **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `micro-drama`, `filipino-micro-drama`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `ark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
-| **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes` + `hyperframes-*` (8 skills) — workflow skills are installed on demand, not vendored; the upstream `media-use` skill is intentionally not installed |
+| **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes`, `hyperframes-*` and `general-video` (10 skills; `hyperframes-studio` is the Studio conventions skill) — other workflow skills are not vendored and are never installed on demand; the upstream `media-use` skill is intentionally not installed |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |
 
