@@ -32,7 +32,7 @@ Load only the contract relevant to the current stage:
 | --- | --- |
 | Production stages, approval, review, durable submission and QA | [Production policy](.agents/contracts/production-policy.md) |
 | Required stage canvas and HTML freshness checks | [Production canvas](.agents/skills/showcase-html/references/production-canvas.md) |
-| MCP, Ark CLI, Lumina and capability routing | [Routing](.agents/contracts/routing.md) |
+| MCP, Ark CLI and capability routing | [Routing](.agents/contracts/routing.md) |
 | Canon, props, screens and control references | [Element identification](.agents/contracts/element-identification.md) |
 | File prefixes and numbering | [Asset naming](.agents/contracts/asset-naming.md) |
 | Requested dialogue synchronization and assembly | [Audio-video alignment](.agents/contracts/audio-video-alignment.md) |
@@ -72,8 +72,6 @@ In this workspace, the shorthand "HTML/CSS/SVG" means one HTML entrypoint with
 project-local CSS and SVG dependencies. The deterministic renderer does not
 accept standalone CSS or SVG entrypoints.
 
-Lumina is opt-in. When the user explicitly works in Lumina, deliver prompts in
-chat without MCP/CLI generation or production file writes unless requested.
 Prompt-only work may deliver drafts without generating assets or demanding
 production locks. Software/system diagrams use Mermaid; cinematic blocking
 uses the blocking-map capability.

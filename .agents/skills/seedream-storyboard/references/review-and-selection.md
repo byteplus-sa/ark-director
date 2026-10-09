@@ -49,11 +49,8 @@ Reject or repair:
 Present candidates in panel order with filename or artifact ID, material
 differences, known continuity or anatomy issues, and a recommendation.
 
-For project selection, read the project mode before choosing. In
-`approve_for_me`, select the best passing panel against the recorded beat,
-canon, and continuity criteria, then
-save the hash-bound review and agent decision. In `ask_for_approval`, record a
-recommendation and ask the user to choose. If no panel passes or inspection is
+For project selection, follow the project's `approval_mode` per the
+[Production policy](../../../contracts/production-policy.md): against the recorded beat, canon, and continuity criteria, save the hash-bound review and either the validated agent decision or a recommendation awaiting the user's choice. If no panel passes or inspection is
 unavailable, leave selection unresolved. After a mode-authorized choice:
 
 - set `selected_variant` to the chosen file;

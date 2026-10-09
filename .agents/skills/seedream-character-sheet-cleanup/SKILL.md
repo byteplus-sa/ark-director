@@ -193,7 +193,10 @@ Recommended sequence:
 1. Assumes a three-panel sheet exists (e.g. from `seedream-character-sheet`).
 2. Inspect the full-body panels for duplicate readable faces.
 3. If an extra face violates the requested single-face policy, apply this cleanup.
-4. Use the `seedream_edit_image` MCP tool to remove the extra face.
+4. Supply the source sheet to `seedream_edit_image` in `images` (an HTTPS URL
+   from `media_upload`, base64, or an `asset://` reference), pass the bbox and
+   the cleanup prompt, and set `output_path` to the new versioned file so the
+   source image is never overwritten. Remove the extra face with that call.
 5. Compare original and edited panels directly against the approved visible
    descriptors: target body panel headless, close-up intact. A visual-understanding
    tool may assist. Unavailable visual verification stays unresolved; re-edit only

@@ -161,7 +161,7 @@ At project initialization, create `project.md`, then scaffold the full
 eight-stage canvas and generate `index.html` without overwriting existing work:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --init --open
 ```
 
@@ -176,14 +176,14 @@ For each active stage:
 4. Regenerate the HTML with the expected stage:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --stage <stage-id> --open
 ```
 
 5. Before declaring the stage complete, run the read-only freshness check:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --check --stage <stage-id>
 ```
 

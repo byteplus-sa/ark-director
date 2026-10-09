@@ -342,7 +342,7 @@ variants, and approval states in the shot manifest before submission.
 Model IDs are version-dated and change on release. Always copy the live ID from the [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) (Video generation section) or the console model-activation page before making API calls.
 
 ### Reproducibility
-- `seed`: pin the seed once a look is approved to reproduce the same visual family.
+- `seed`: documented for the 2.0 REST API; the MCP `seedance_create_task` tool exposes no seed field, so reproduce a look by reusing the approved prompt and references.
 - `camera_fixed`: default `false`; set to `true` to lock camera position (documented for the 2.0 REST API; the MCP tools expose no such field as of 2026-10-06, so also state the lock in the prompt).
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 

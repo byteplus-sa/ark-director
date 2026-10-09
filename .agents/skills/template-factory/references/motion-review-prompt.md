@@ -66,8 +66,8 @@ level, and the relevant aesthetic.
 - Add "Output STRICT valid JSON only: no fences, no trailing commas, escape
   double quotes inside strings, keep each string under 300 characters." Long
   free-text fields are the usual source of unparseable output.
-- Start with `thinking=true, reasoning_effort=medium`. On a provider timeout or
-  unparseable result, retry once with `thinking=false, temperature=0.1`. If the
+- Start with `reasoning_effort=medium`. On a provider timeout or
+  unparseable result, retry once with `reasoning_effort=low, temperature=0.1`. If the
   retry also fails, record the comparison as skipped with the reason and use
   standard playback QA against the source motion fields — do not block further
   work on the optional comparison.
