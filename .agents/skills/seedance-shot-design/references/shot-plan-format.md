@@ -11,7 +11,7 @@ for the procedure and the variety rules.
 ## Where the plan lives
 
 Store the plan with the scene so the prompt author, the reviewer and the
-production canvas read the same facts.
+reviewer (pre-Studio canvas: the production canvas) read the same facts.
 
 | Location | Contents |
 | --- | --- |
@@ -20,8 +20,11 @@ production canvas read the same facts.
 | `project.md` `directorial_axes` or `locked` | The confirmed project-wide camera, lens, lighting and pacing stance the plan must carry |
 
 In chat-only or prompt-only work, return the record without creating files. When
-project files are in scope, add the scene file to the `scene-breakdown` stage
-sources so a changed plan fails the freshness check. Mark the plan `draft` until
+project files are in scope, save the plan in the scene file; Studio's `status`
+does not read scene files, so reopen `scene-breakdown` and re-run prompt-review
+when the plan changes (pre-Studio canvas: add the scene file to the
+`scene-breakdown` stage sources so a changed plan fails the freshness check).
+Mark the plan `draft` until
 the scene's locations are approved, then revalidate it before shot generation.
 
 ## The plan record

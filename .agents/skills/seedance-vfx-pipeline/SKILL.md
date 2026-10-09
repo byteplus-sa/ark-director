@@ -1,6 +1,6 @@
 ---
 name: seedance-vfx-pipeline
-description: End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-object-swap, seedance-motion-recast, seedance-restyle, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (character, outfit, product, prop, object, or location swap), a Motion Transfer recast (keep source motion, rebuild cast and world), or a Restyle (redraw the clip in a new medium), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot — write prompt, submit task, poll, download, compare, and review — rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.
+description: End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-object-swap, seedance-motion-recast, seedance-restyle, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the project's Studio review surface to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (character, outfit, product, prop, object, or location swap), a Motion Transfer recast (keep source motion, rebuild cast and world), or a Restyle (redraw the clip in a new medium), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot — write prompt, submit task, poll, download, compare, and review — rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.
 ---
 
 # Seedance VFX Pipeline
@@ -12,12 +12,13 @@ This skill composes the `seedance-vfx-prompt` skill (prompt writing) with the
 manifested asset following the workspace's `projects/<project>/` directory
 conventions. This is an explicitly declared orchestrator.
 
-Initialize or resume the project `showcase.json`/`index.html` canvas before the
-run. Keep the source clip, exact prompt, references, before/after outputs,
-comparison render, QA, task provenance and selection state together in the
-appropriate `shot-generation` section. Regenerate the canvas after each material
-change and pass `--check --stage shot-generation` before reporting the shot stage
-complete.
+Resume the project's HyperFrames Studio project before the run. Keep the source
+clip, exact prompt, references, before/after outputs, comparison render, QA,
+task provenance and selection state together in the shot manifest. Run
+`studio_project.py sync` after each material change and pass the Studio
+stage-exit checks in the [production policy](../../contracts/production-policy.md)
+before reporting the shot stage complete. Pre-Studio canvas projects with `showcase.json`
+keep the `showcase-html` canvas and its `--check --stage shot-generation`.
 
 > **Version note**: This pipeline runs on **both** Seedance generations.
 > **Default to Seedance 2.5** (`dreamina-seedance-2-5-260628`,
@@ -104,7 +105,7 @@ Transfer and Restyle submit the muted source master with audio added in post
 and Object Swap and Motion Transfer first run `source-subject-map` once per
 source. Batch variants repeat Steps 1–8
 per variant row, with a 480p key-beat probe before each final, a side-by-side
-against the source, and a canvas entry per row. This orchestrator owns that
+against the source, and a Studio frame per row. This orchestrator owns that
 sequencing; see [Recast And Variants](references/recast-and-variants.md).
 
 ## Before/after demo recipe (turnkey)
@@ -124,9 +125,12 @@ The workspace's recurring pattern for a text-only before/after VFX demo:
 5. Comparison — if the halves differ mainly in audio (language swap / dialogue
    rewrite), use the staggered one-at-a-time split from
    `ffmpeg-side-by-side-comparison`; otherwise a simultaneous `hstack`.
-6. Canvas and manifests — complete Steps 6–7, add the source, prompt, outputs,
-   comparison and QA to the project canvas, regenerate/open it, and pass the
-   `shot-generation` freshness check. Then set `review`; a passing temporal
+   The comparison and the H.264 transcode are review material; a deliverable
+   composite is placed in Studio and rendered with `studio_project.py render`.
+6. Studio and manifests — complete Steps 6–7, add the source, prompt, outputs,
+   comparison and QA to the manifests, run `studio_project.py sync`, open the
+   project in Studio, and pass the stage-exit checks (pre-Studio canvas projects: the
+   canvas `shot-generation` freshness check). Then set `review`; a passing temporal
    review and mode-authorized, hash-bound decision may set `approved`.
 
 ## Inputs

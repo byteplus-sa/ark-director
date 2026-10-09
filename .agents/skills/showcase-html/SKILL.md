@@ -1,17 +1,27 @@
 ---
 name: showcase-html
 description: >
-  Build and maintain a self-contained HTML production canvas for generated-media
-  projects. Keep briefs, stage status, elements, prompts, references, images,
-  audio, video takes, selections, review evidence, assemblies, and deliverables
-  synchronized in one data-driven page throughout every production stage. Also
-  supports ad-hoc comparison pages and locking variants back into manifests.
-  Use for every project production review or lifecycle checkpoint, and whenever
-  the user asks for an HTML gallery, showcase, canvas, before/after comparison,
-  combined view, or local interface for reviewing assets and choosing variants.
+  Build and maintain a self-contained HTML canvas for generated-media projects
+  created before HyperFrames Studio (projects with a showcase.json), and ad-hoc
+  comparison pages (optional for Studio projects). For a pre-Studio canvas project, keep briefs, stage status,
+  elements, prompts, references, images, audio, video takes, selections, review
+  evidence, assemblies, and deliverables synchronized in one data-driven page
+  throughout every production stage, and lock variants back into manifests. New
+  production projects use a HyperFrames Studio project through
+  studio_project.py instead. Use for pre-Studio canvas project review or lifecycle
+  checkpoints, and whenever the user asks for an HTML gallery, before/after
+  comparison, combined view, or local interface for comparing assets and
+  choosing variants.
 ---
 
 # Showcase HTML
+
+> **Scope:** new production projects use a HyperFrames Studio project
+> (`studio_project.py`, see the [production policy](../../contracts/production-policy.md)).
+> This skill serves pre-Studio canvas projects that already have a `showcase.json`, and
+> ad-hoc comparison pages. For a Studio project, `--quick` is an optional way to
+> look at elements, audio or candidate takes side by side; it is never a gate and
+> never creates a `showcase.json` at the project root.
 
 Build a **self-contained, data-driven HTML production canvas** for a project's
 generated media. The page is one portable file: it embeds lifecycle status,
@@ -267,9 +277,10 @@ written to `_quick_review.html` in the current directory (override with
 `--out`). Media paths are converted to `file://` URIs so the browser can
 load them from anywhere on disk.
 
-Use `--quick` only for ad-hoc files outside a tracked project. A project review
-uses its persistent production canvas so the result remains part of lifecycle
-state. `media-review` remains an emergency or explicitly requested OS-player
+Use `--quick` for ad-hoc files, or optionally for a Studio project's elements,
+audio and candidate takes (write it under `projects/<project>/review/`, never at
+the project root). A pre-Studio canvas project's review uses its persistent
+production canvas so the result remains part of lifecycle state. `media-review` remains an emergency or explicitly requested OS-player
 fallback.
 
 ## Section recipes

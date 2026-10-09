@@ -1,6 +1,6 @@
 ---
 name: film-production
-description: Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between deterministic HTML-entrypoint graphics, Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.
+description: Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one HyperFrames Studio project through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between deterministic HTML-entrypoint graphics, Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.
 ---
 
 # Film Production
@@ -15,8 +15,12 @@ evidence and mode-authorized decisions permit.
 - Act as the single manager communicating with the user.
 - Treat project files and manifests as production memory; do not rely on chat
   history alone.
-- Treat the persistent `showcase.json` plus generated `index.html` as the
-  cumulative production canvas used for every stage review and handoff.
+- Treat the project's HyperFrames Studio project (`projects/<project>/studio/`,
+  kept in step with the manifests by `studio_project.py`) as the cumulative
+  production workspace used for every stage review and handoff. A project that
+  has a `showcase.json` is a pre-Studio canvas project: it keeps its canvas,
+  never gets a `studio/` directory or `stages.json`, and `studio_project.py`
+  refuses to run in it.
 - Delegate modality work by invoking the narrowest applicable project skill.
 - Prefer a deterministic workflow when the next action is known. Use agentic
   judgment for creative choices, contradiction resolution, and review.
@@ -32,27 +36,26 @@ evidence and mode-authorized decisions permit.
 1. Resolve the project directory. Search before creating a project, scene,
    element, shot, or same-purpose artifact.
 2. Read `project.md`, `handoff.md` when present, `task_ids.json`,
-   `showcase.json`, relevant element manifests, scene and shot manifests,
-   prompt snapshots, and the latest review decisions. `handoff.md` is a resume
-   hint; manifests and the registry are authoritative on conflict. If a production project has no canvas, initialize the eight-stage
-   skeleton before advancing it. New projects set
-   `approval_mode: approve_for_me` in `project.md` frontmatter before `--init`.
-   The alternative is `ask_for_approval`. A missing field in a legacy project
+   `studio/stages.json` (`showcase.json` for a pre-Studio canvas project), relevant element
+   manifests, scene and shot manifests, prompt snapshots, and the latest review
+   decisions. `handoff.md` is a resume hint; manifests and the registry are
+   authoritative on conflict. If a production project has no `showcase.json` and
+   no stage ledger, run `studio_project.py init <project>` and then
+   `studio_project.py stage <project> start brief-development`. New projects set
+   `approval_mode: approve_for_me` in `project.md` frontmatter before the first
+   stage.
+   The alternative is `ask_for_approval`. A missing field in a pre-Studio canvas project
    means `approve_for_me` for new decisions only; historical selections stay as
    recorded. Reject an invalid or unreadable mode.
-   - **Never hand-write `showcase.json`.** Create the canvas only with the
-     canonical tool: `uv run python
-     .agents/skills/showcase-html/scripts/generate_showcase.py <project>
-     --init`, then open the generated `index.html`. The project directory must
-     already contain `project.md` (the tool validates it before initializing)
-     and the canonical shape is `canvas.stages[]` — not a top-level `stages`
-     object. A hand-written manifest drifts from the schema the checker
-     enforces and silently fails later stage updates. If you inherit a
-     hand-written manifest, run the tool's `--check` against it and rebuild
-     from the tool rather than patching the structure by hand. Delegating
-     scaffolding to a sub-agent does not exempt this: the scaffold prompt must
-     include the exact `--init` command, the `project.md` prerequisite, and a
-     prohibition on hand-authoring the manifest.
+   - **Never hand-write Studio state.** `studio/stages.json`, `provenance.json`,
+     the storyboard frames, the compositions and the render records are created
+     by `studio_project.py` (`init`, `sync`, `stage`, `render`); Studio edits write
+     the timeline and composition source. A completed stage must carry its
+     evidence, so a hand-edited ledger is rejected. For a
+     pre-Studio canvas project, never hand-write `showcase.json`: create it only with
+     `generate_showcase.py <project> --init`. Delegating scaffolding to a
+     sub-agent does not exempt this: the scaffold prompt must name the exact
+     command and prohibit hand-authoring.
 3. Determine the current stage from recorded artifacts and lifecycle states.
    Do not infer completion from filenames alone.
 4. Identify contradictions, missing inputs, stale dependencies, pending provider
@@ -91,8 +94,8 @@ between modalities.
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
 | Model submission, polling, or artifact access | `ark-mcp` |
 | Animated exact graphics or timed overlays | appropriate HyperFrames skill |
-| Assembly, media transforms, captions, or final video composition | appropriate HyperFrames or FFmpeg skill |
-| Persistent stage canvas, review and selection | `showcase-html` |
+| Assembly, media transforms, captions, or final video composition | appropriate HyperFrames or FFmpeg skill; the result is placed in Studio and rendered with `studio_project.py render` |
+| Studio project, stage gates, review and selection | `studio_project.py` with the `hyperframes-studio` conventions; pre-Studio canvas projects use `showcase-html` |
 
 <!-- markdownlint-enable MD013 -->
 
@@ -123,11 +126,29 @@ For the active stage:
    `ask_for_approval`, record a recommendation and wait for the user's decision;
    a recommendation does not set `selected_variant` or `approved`. Preserve
    explicit user locks in either mode.
-7. Update the active stage in `showcase.json` with every input, exact prompt,
-   element binding, output, QA result and decision. Regenerate and inspect
-   `index.html` after every material change, including autonomous decisions.
-8. Run `generate_showcase.py <project> --check --stage <stage-id>`. A missing,
-   stale, or incomplete canvas keeps the stage open in either mode.
+7. Run `studio_project.py sync` after every material change, including
+   autonomous decisions, and keep the manifests current with every input, exact
+   prompt, element binding, output, QA result and decision. Open the project in
+   Studio for visual review of shot takes; elements, posters and audio are
+   reviewed from their manifests and files, optionally on a throwaway
+   `showcase-html --quick` page (never a gate; under `approve_for_me` the agent
+   normally chooses without it). To choose between takes run
+   `studio_project.py candidates <shot>`, swap the chosen take in with Studio's
+   Assets panel (or `place <shot> <file>`), then `record-selection`.
+8. Run `studio_project.py stage <project> complete <stage-id>`. It enforces,
+   per stage, a clean `status`, a placed take for every shot with a passing
+   pinned `check` (`shot-generation`, `assembly-review`, `delivery`), no pending
+   selection and the stage locks (`assembly-review`, `delivery`; recorded with
+   `record-lock`) and, for `delivery`, a `render` record that matches the placed
+   takes, and it records the evidence; a failure
+   keeps the stage open in either mode. Out-of-scope `storyboard-visual-plan`
+   and `audio-preparation` use `stage <project> skip <stage-id> --reason TEXT`.
+   Under `ask_for_approval` ask the user in chat and record their answer with
+   `record-selection`, quoting their words as the authorization. See the
+   [production policy](../../contracts/production-policy.md). A pre-Studio canvas project runs
+   `generate_showcase.py <project> --check --stage <stage-id>` instead. Send a
+   completed stage back to review with `stage <project> reopen <stage-id>` when
+   an upstream input changes.
 9. Advance only when the stage exit contract is satisfied.
 
 At the brief/development stage, run `brief-intake` before writing the brief's
@@ -185,8 +206,8 @@ approved. Preserve rejected history and never overwrite source media.
 
 ## Finish the run
 
-Report the stage reached, artifacts created or changed, canvas path and freshness
-check, review status, provider tasks still running, costs when known, unresolved
+Report the stage reached, artifacts created or changed, Studio project path and
+stage-exit evidence, review status, provider tasks still running, costs when known, unresolved
 risks, and the next production decision. A production run is complete only when
 its active stage exit contract is satisfied; the local film is complete only
 after its inspected master has a mode-authorized final lock. External delivery

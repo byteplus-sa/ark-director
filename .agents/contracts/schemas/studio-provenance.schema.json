@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Studio project provenance",
+  "type": "object",
+  "required": ["schema_version", "hyperframes_version", "frames"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "hyperframes_version": {"type": "string", "minLength": 1},
+    "frames": {"type": "array", "items": {"$ref": "#/$defs/frame"}}
+  },
+  "$defs": {
+    "frame": {
+      "type": "object",
+      "required": ["shot_id", "composition", "asset", "asset_sha256", "take", "manifest", "manifest_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "shot_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"},
+        "composition": {"type": "string", "minLength": 1},
+        "asset": {"type": "string", "minLength": 1},
+        "asset_sha256": {"type": "string", "pattern": "^[0-9a-f]{12,64}$"},
+        "take": {"type": "string", "minLength": 1},
+        "manifest": {"type": "string", "minLength": 1},
+        "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

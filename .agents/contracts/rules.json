@@ -175,7 +175,7 @@
         "stage_exit"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "The production canvas declares the stage being completed and exposes its required evidence.",
+      "summary": "A pre-Studio canvas project's production canvas declares the stage being completed and exposes its required evidence.",
       "exceptions": []
     },
     {
@@ -185,7 +185,37 @@
         "stage_exit"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "The generated HTML matches the current canvas manifest and all referenced local sources.",
+      "summary": "A pre-Studio canvas project's generated HTML matches the current canvas manifest and all referenced local sources.",
+      "exceptions": []
+    },
+    {
+      "id": "studio.project_synced",
+      "severity": "error",
+      "applies_to": [
+        "stage_exit"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "A Studio project exists and `studio_project.py stage complete` finds no blocking `status` issue (asset, take, frame or selection drift) from `scene-breakdown` on; a pending selection also blocks `assembly-review` and `delivery`.",
+      "exceptions": []
+    },
+    {
+      "id": "studio.check_clean",
+      "severity": "error",
+      "applies_to": [
+        "stage_exit"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "For `shot-generation`, `assembly-review` and `delivery`, the pinned `hyperframes check` passes and every shot has a placed take; `delivery` also requires the newest `studio_project.py render` record at a delivery-level quality (drafts and manual records are ignored) to match its file, the current Studio tree and the placed takes.",
+      "exceptions": []
+    },
+    {
+      "id": "studio.stage_locked",
+      "severity": "error",
+      "applies_to": [
+        "stage_exit"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "`assembly-review` needs a picture lock (and an audio lock unless audio-preparation was skipped) and `delivery` needs a final_master lock on the delivery render; each is a hash-bound decision authorized by the agent under approve_for_me or by the user's chat words, and goes stale if its files change.",
       "exceptions": []
     },
     {

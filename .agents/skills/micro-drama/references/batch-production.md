@@ -30,8 +30,11 @@ episodes or dramas at once.
 
 ## Portfolio and showreel
 
-- Build the portfolio page and full-episode showreel with the showcase-html
-  `portfolio.py` tool: `portfolio.py <out_dir> <project>... --showreel`. It
+- Studio projects deliver each episode master from `studio_project.py render`.
+  A cross-episode showreel is not a project delivery: join the rendered masters
+  with FFmpeg outside any delivery gate. For pre-Studio canvas projects, build the
+  portfolio page and full-episode showreel with the showcase-html `portfolio.py`
+  tool: `portfolio.py <out_dir> <project>... --showreel`. It
   reads each episode's final-master lock, adds a WebVTT subtitle track and a
   canvas link per card, and joins the locked masters back to back with hard
   cuts (each episode already opens on its title and closes on its card),
