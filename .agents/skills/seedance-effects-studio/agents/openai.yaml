@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Effects Studio"
+  short_description: "Pick a named video effect from a 45-entry menu, then write and draft it with Seedance 2.5 from your photo or clip"
+  default_prompt: "Use $seedance-effects-studio to show the effects menu, then apply the one I pick to my photo and generate a 480p draft."

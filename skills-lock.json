@@ -432,6 +432,12 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/filipino-micro-drama/SKILL.md",
       "computedHash": "deca9b8e833ce8ed0118af7ed16e2b9e760f9593a143382ca5e3eaeb5cbb5892"
+    },
+    "seedance-effects-studio": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-effects-studio/SKILL.md",
+      "computedHash": "a67db2c3c8b56280c1cc84ca0eacce2be45c662d76ca31cf44c1d403ce911cac"
     }
   }
 }
