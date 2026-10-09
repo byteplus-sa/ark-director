@@ -19,7 +19,7 @@ Nine effects that change how a clip or portrait is rendered: four whole-clip res
 ### `comic` - Comic
 
 **Look:** the live clip redrawn as an inked, cel-shaded comic page whose sky, clouds and pattern overlays change look every third of a second while the subject's geometry stays locked.
-**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. Whole-frame medium change, so the contract's environment image is required: a Seedream text-to-image of the empty set of the source's own place in the comic style, bound as `@Image 1`. Style block is the `Style:` paragraph below (catalog base `comic-halftone`, extended with the stepped cadence and background-variant clause).
+**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. Whole-frame medium change, so the contract's environment image is required: a Seedream text-to-image of the empty set of the source's own place in the comic style, bound as `@Image 1`. Style block is the `Style:` paragraph below (catalog base `comic-halftone`, extended with the stepped cadence and background-variant clause). Run 2026-10-08: a restyle input cannot contain a realistic person, so the run used a person-free 5 s source clip (scene-46, a parked coupe with leaves and steam) as the muted `@Video 1`; it was submitted at `resolution: 480p` without `draft` (draft mode on the edit route stays unproven) and with sound on, which the muted-master rule below still replaces for delivery. The Seedream environment image was bound as a `reference_image` next to the source video with `omni_reference_task_type: edit` and was accepted.
 **Parameters:** duration = source length, 8n+1 frames (121 at 24 fps); ratio = source (16:9 in the originals); `generate_audio: false` (muted master, original sound restored in post); test ladder per `seedance-restyle`: (1) a 480p probe of the hardest beat (the 1-2.5 s speed-line burst with the stepped background changes), (2) the full clip at 480p, (3) the final resolution after the user's go-ahead. Use `resolution: 480p` on rungs 1-2; `draft: true` is unproven on edit routes and is not used. Source intake, muted master, 8n+1 trim, `asset://` binding and QA stay with the `seedance-restyle` contract. Final delivery retimed to the stepped cadence in post.
 **Start photo:** source clip requirements: user-owned footage with a recorded rights decision; 4-8 s single take; one clear central subject against sky or a simple backdrop; no cuts; no readable signage in frame (source text becomes abstract shapes). Poor input: crowds, many small subjects, busy text-heavy scenes, handheld footage with heavy blur.
 **Beats (from the originals):**
@@ -53,12 +53,12 @@ Silent output. Sound is added in post.
 - No letters, digits or words on any surface.
 - After post, frame holds are an even three frames at 30 fps.
 **Risks:** Seedance smooths the flicker into one steady grade, so the cadence is also enforced in post; outfit colour drift is intended only if `{outfit_policy}` allows it; invented container lettering; speed lines can render static; a Seedream environment image gives one look, so the background variants rely on text. The page for this effect had no copy beyond a title, so the look is read from frames only.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-28, video edit with an environment image, 480p, no draft mode, sound on, person-free source clip at 9:16): usable with defects; the background changes about every second, not every 0.3 s; no stepped look until retimed in post. Not verified on other clips or at a higher resolution.
 
 ### `canvas` - Canvas
 
 **Look:** real footage where the one main subject carries a thick white spray-painted sticker outline and the whole scene is scribbled over with bright marker doodles that redraw differently at every step.
-**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. The footage stays photographic, so this behaves like the contract's capture-look styles: no environment image is generated; the plate is kept and a drawn layer is added. Confirm at the 480p probe that the plate stays photographic. Custom style entry `custom-sticker-doodle-overlay` (block below).
+**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. The footage stays photographic, so this behaves like the contract's capture-look styles: no environment image is generated; the plate is kept and a drawn layer is added. Confirm at the 480p probe that the plate stays photographic. Custom style entry `custom-sticker-doodle-overlay` (block below). Run 2026-10-08: a restyle input cannot contain a realistic person, so the run used a person-free 5 s source clip (scene-46, a parked coupe with leaves and steam) as the muted `@Video 1`; it was submitted at `resolution: 480p` without `draft` (draft mode on the edit route stays unproven) and with sound on, which the muted-master rule below still replaces for delivery. Submitted with the source video only (`omni_reference_task_type: edit`); doodles stayed in the sky and, on the retake, spilled onto the car, so keep the 'no doodle covers the subject' rule as a QA gate, not a promise.
 **Parameters:** duration = source length, 8n+1 frames; ratio = source (16:9, 1:1 and 2:3 all appear in the originals); `generate_audio: false`; test ladder per `seedance-restyle`: (1) a 480p probe of the hardest beat (the moving subject's outline with doodles, including the 4.5 s bystander entry), (2) the full clip at 480p, (3) the final resolution after the user's go-ahead. Use `resolution: 480p` on rungs 1-2; `draft: true` is unproven on edit routes and is not used. Source intake, muted master, 8n+1 trim, `asset://` binding and QA stay with the `seedance-restyle` contract. Retime to 12 fps steps in post.
 **Start photo:** source clip requirements: user-owned footage with a recorded rights decision; 4-8 s; one clearly separable moving subject (skater, cyclist, walker) who stays inside frame; bystanders allowed but few. Poor input: several equal-sized subjects (the outline lands on the wrong one), a subject that touches frame edges, very dark footage.
 **Beats (from the originals):**
@@ -90,12 +90,12 @@ Silent output. Sound is added in post.
 - Footage remains photographic and the subject path matches the source.
 - No scribble reads as a letter or word.
 **Risks:** outline drift or doubling; outline applied to bystanders; doodles smoothed into one static drawing; text-like scribbles; sticker edge flicker; doodles dimming the footage. Page copy was thin, so the rule that no environment image is needed is an assumption to verify at the probe.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-29, video edit, 480p, no draft mode, sound on, person-free source clip at 9:16): not achieved; take 1 doodled only the sky between 1.5 and 4 s; take 2 put doodles on the car body, which the prompt forbade. Not verified on other clips or at a higher resolution.
 
 ### `palette` - Palette
 
 **Look:** the clip rendered as one continuous thick-impasto oil painting, with visible knife ridges and brush-streak smears on fast-moving objects.
-**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. Whole-frame medium change, so an environment image of the same place in thick oil is required (Seedream text-to-image from a text description of the source place). Catalog base `oil-impasto`, with a stepped 12 fps shimmer and a motion-smear clause.
+**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. Whole-frame medium change, so an environment image of the same place in thick oil is required (Seedream text-to-image from a text description of the source place). Catalog base `oil-impasto`, with a stepped 12 fps shimmer and a motion-smear clause. Run 2026-10-08: a restyle input cannot contain a realistic person, so the run used a person-free 5 s source clip (scene-46, a parked coupe with leaves and steam) as the muted `@Video 1`; it was submitted at `resolution: 480p` without `draft` (draft mode on the edit route stays unproven) and with sound on, which the muted-master rule below still replaces for delivery. The edit route (environment image plus source video) painted only the sky; the retake on the reference route (`@Video 1` as the strict visual and temporal reference, the environment image as the whole world, `ratio` and `duration` set, `omni_reference_task_type: auto`) painted sky and buildings strongly but the car and road only lightly.
 **Parameters:** duration = source length, 8n+1 frames; ratio = source (16:9 in the originals); `generate_audio: false`; test ladder per `seedance-restyle`: (1) a 480p probe of the hardest beat (the fastest-moving object smearing into streaks), (2) the full clip at 480p, (3) the final resolution after the user's go-ahead. Use `resolution: 480p` on rungs 1-2; `draft: true` is unproven on edit routes and is not used. Source intake, muted master, 8n+1 trim, `asset://` binding and QA stay with the `seedance-restyle` contract. Retime to 12 fps steps in post.
 **Start photo:** source clip requirements: user-owned footage with a recorded rights decision; 4-8 s; wide-angle or dynamic motion (low fisheye walk-over, subject leaning from a moving car) gains most; faces large enough to hold likeness under strokes. Poor input: static talking head, tiny faces, dark or low-contrast footage.
 **Beats (from the originals):**
@@ -123,12 +123,12 @@ Silent output. Sound is added in post.
 - Camera distortion and move match the source; subject count unchanged.
 - Faces remain recognisable as the same person.
 **Risks:** drift to a smooth painting filter instead of coarse strokes; strokes frozen instead of shimmering; face likeness lost under heavy texture; fisheye straightened; the environment image for a wide-angle street gives the model a flatter perspective than the source. Confidence in the original look is high.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-30, video edit, then reference-to-video retake, 480p, no draft mode, sound on, person-free source clip at 9:16): not achieved; the edit route painted only the sky; the retake paints sky and buildings but the car and road stay lightly painterly (review fail). Not verified on other clips or at a higher resolution.
 
 ### `lsd` - LSD
 
 **Look:** a strobing alternation between a scratched high-contrast black-and-white photocopy and oil-slick rainbow swirl floods, with people turned to cracked white silhouettes.
-**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. The world stays photographic and only the capture look changes, so no environment image is generated; confirm at the probe. Custom style entry `custom-photocopy-oilslick` with two named states.
+**Route:** `v2v-restyle`, Route A (edit) per `seedance-restyle`. The world stays photographic and only the capture look changes, so no environment image is generated; confirm at the probe. Custom style entry `custom-photocopy-oilslick` with two named states. Run 2026-10-08: a restyle input cannot contain a realistic person, so the run used a person-free 5 s source clip (scene-46, a parked coupe with leaves and steam) as the muted `@Video 1`; it was submitted at `resolution: 480p` without `draft` (draft mode on the edit route stays unproven) and with sound on, which the muted-master rule below still replaces for delivery. The first sound-on submission was rejected by the provider for its output audio (`OutputAudioSensitiveContentDetected.PolicyViolation`); the retake changed only the audio sentence and was accepted, but the warp peak and halftone dots did not appear.
 **Parameters:** duration = source length, 8n+1 frames; ratio = source (3:2 and 2:3 in the originals); `generate_audio: false`; test ladder per `seedance-restyle`: (1) a 480p probe of the hardest beat (the 3-4 s warp peak with people close to camera), (2) the full clip at 480p, (3) the final resolution after the user's go-ahead. Use `resolution: 480p` on rungs 1-2; `draft: true` is unproven on edit routes and is not used. Source intake, muted master, 8n+1 trim, `asset://` binding and QA stay with the `seedance-restyle` contract. Retime to 10 fps steps in post. Default hold per look is 0.4 s with no full-white frames (photosensitivity cap); the original's 0.25 s strobe is a faithful mode and requires a visible warning wherever the clip is shown.
 **Start photo:** source clip requirements: user-owned footage with a recorded rights decision; 4-8 s; people close to camera or strong wide shapes (shelves, tables) that can warp; no flashing lights already in the footage. Poor input: footage that already strobes, very dark or very bright scenes.
 **Beats (from the originals):**
@@ -159,7 +159,7 @@ Silent output. Sound is added in post.
 - Warp peaks in the 3-4 s window and the clip returns to Look A at the end.
 - People remain countable and readable; subject count matches the source.
 **Risks:** Seedance settles into one steady style; photosensitivity from strobing and blowouts (cap by default, disclose otherwise); faces melt and identity drifts under warp; crackle reads as lens dirt; the pastel peak replaces the original blowout and is a deliberate deviation. Page confidence is medium.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-31, video edit; the first submission was rejected for its output audio, 480p, no draft mode, sound on, person-free source clip at 9:16): not achieved; no wave warp or halftone dots, a slow look hold, and the car turns dark grey (review fail). Not verified on other clips or at a higher resolution.
 
 ### `scrapbook-collage` - Scrapbook collage
 
@@ -196,13 +196,13 @@ Silent output. Sound is added in post.
 - Kick holds between 2 s and 4 s; last frame matches the first.
 - Matte has no backdrop halo, and no text in any panel.
 **Risks:** leg, shoe and heel anatomy during the kick; hair flyaways break the matte; crop-derived insets cannot show a profile unless the head actually turns (accepted trade for sync); backdrop shadow or colour matching the garment ruins the key; count errors if insets are generated rather than cropped.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-32, first-frame plus deterministic layout, 480p draft, sound on, one invented subject at 9:16): clean; the kick goes to frame-left; the cadence reads stepped. Not verified on other photos or at a higher resolution.
 
 ### `cutout` - Cutout
 
 **Look:** the surroundings erode to a pure white void and separate into floating paper-flat cut-out layers around an untouched person, then snap back to the exact original photo.
 **Route:** `i2v-first-and-last`: `@Image 1` is the first frame, `@Image 2` is the last frame, both the same file (copy it to a second role so the two bindings are separate inputs). Ratio locked to the photo; both match by construction. No reference images (Seedance 2.5 cannot mix first_frame with reference_image).
-**Parameters:** duration 8; ratio follows the photo (4:3, 3:4, 16:9, 1:1 seen); `generate_audio: false` (optional light paper-rustle bed via Seed Audio in post); draft 480p. The same image as first and last frame is an unproven route; confirm at the draft that the clip ends on the photo. Fallback if it does not: `i2v-first-frame` with `@Image 1` only, drop every `@Image 2` sentence, and end the prompt with "By 8s the scene is back to the original photo: every piece in its original position and size, no white remaining, the camera at the start framing."
+**Parameters:** duration 8; ratio follows the photo (4:3, 3:4, 16:9, 1:1 seen); `generate_audio: false` (optional light paper-rustle bed via Seed Audio in post); draft 480p. The same image as first and last frame was accepted by the provider and the 2026-10-08 draft ended on the photo (scene-33), so the route works; the fallback below is only for a draft that does not end on the photo: `i2v-first-frame` with `@Image 1` only, drop every `@Image 2` sentence, and end the prompt with "By 8s the scene is back to the original photo: every piece in its original position and size, no white remaining, the camera at the start framing."
 **Start photo:** a person standing in a recognisable structured scene (stair block, cafe counter, street, bookshop) with separable objects (lamps, counter, floor tiles, balconies, laundry line); the whole person visible and fairly small in frame. Poor input: close-up portraits, plain walls, cluttered scenes with dozens of tiny items, subject touching frame edges.
 **Beats (from the originals):**
 - 0-1s: the original scene, subject still, camera locked.
@@ -238,7 +238,7 @@ Silent output. Sound is added in post.
 - At 4 s exactly `{kept_count}` pieces float and `{erased_count}` are erased, with no added or extra piece.
 - Last frame matches the first frame; no residual white.
 **Risks:** background kept instead of white; layers melt instead of cut flat; subject drifts or is carried away with debris; pieces fail to return to original positions; item counts change; first-and-last with identical images is unproven.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-33, first and last frames with the same image, 480p draft, sound on, one invented subject at 9:16): usable with defects; a quiet orchestral underscore leaked; the floating pieces read as crumpled paper, not clearly the lamps and counter. Not verified on other photos or at a higher resolution.
 
 ### `pearl-earring` - Pearl earring
 
@@ -273,7 +273,7 @@ Both inputs are scaled to the same width, so a 480p draft clip and the square pa
 - The two halves are 1:1 each, stacked 1:2, with no text and no gap.
 - Top half does not reproduce the painting's face; it is the user's face.
 **Risks:** identity drift when re-costuming a casual portrait; earring count or ear side; turban fold geometry; head turning past three-quarter; lighting not matching; speech or music baked into native audio (generate_audio stays false). Gallery clips were matched to presets by thumbnail inspection, so the beats are read with medium certainty.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-34, first-frame plus FFmpeg stack, 480p draft, sound on, one invented subject at 9:16): clean; the fabric rustle is not audible; the turban top sits close to the crop edge. Not verified on other photos or at a higher resolution.
 
 ### `cyclope` - Cyclope
 
@@ -307,7 +307,7 @@ Silent output. Sound is added in post.
 - Last frame matches `@Image 2`; seagull leaves; person count never changes.
 - Stack is 1:2 with no text.
 **Risks:** two eyes or extra fingers; scale (the giant must tower); the hand not gripping the rock convincingly; person identity from a prone pose; the seagull multiplying; the painting must not be reproduced in the top half. The first/last stills double the prep cost and need scene continuity between them. Gallery matching by thumbnail inspection, medium certainty.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-35, first and last frames plus FFmpeg stack, 480p draft, sound on, one invented subject at 9:16): usable with defects; a rising orchestral score leaked; the giant head arrives about 1 s late; her face is small and turned away. Not verified on other photos or at a higher resolution.
 
 ### `fallen-angel` - Fallen angel
 
@@ -340,4 +340,4 @@ Silent output. Sound is added in post.
 - Face identity and skin tone match the still before and after the arm lift.
 - Stack is 1:2, clean crop, no text.
 **Risks:** wings fusing with the back or doubling during the arm lift; fingers and eye contact artifacts when the hand covers the face; identity drift while the face is covered; skin-tone drift; the nude source painting (crop it, do not generate nudity). Gallery matching by thumbnail inspection, medium certainty.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-36, first-frame plus FFmpeg stack, 480p draft, sound on, one invented subject at 9:16): clean; the lift is about 0.5 s early; one quiet sigh in the sound. Not verified on other photos or at a higher resolution.

@@ -26,6 +26,48 @@ observations, limitations, recommendation), a decision record and a manifest
 with `selection_evidence`. `prepare_request.py --ref path:role:manifest`
 rejects an unapproved reference.
 
+## Provider rules observed
+
+Found in the 2026-10-08 full run (see [evidence status](evidence-status.md));
+recheck the tool schema before relying on them.
+
+- **Person crops are rejected as `reference_image`.** A face close-up and a clean
+  full-body crop of a person were refused before any cost
+  (`InputImageSensitiveContentDetected.PrivacyInformation`). Seedream accepted
+  the same crops as identity references for a start frame. Effects that relied on
+  person references (`infinite-clones`, `lacewalker`, `superstar`,
+  `mighty-fighter`) ran through a Seedream first-frame still that already shows
+  the person; each recipe's Route carries the fallback wording. After one
+  rejection switch routes; do not retry the same references.
+- **Last-frame-only is rejected.** `last_frame` without `first_frame` fails with
+  "last frame image content cannot be mixed with first frame or reference image
+  content", at no cost. `earth-zoom` and `lidar` use a generated first frame plus
+  the photo as the last frame. The same file as first and last frame is accepted
+  (`cutout`).
+- **Ratio.** A first frame locks the ratio; start frames generated at 1152x2048
+  gave 9:16 clips, so omit `ratio`. A route with no first frame must set `ratio`.
+- **Native audio leaks.** With the audio sentence present, music or singing still
+  appeared in 7 of 45 drafts (`moonwalk`, `lacewalker`, `superstar`, `cutout`,
+  `cyclope`, `agamemnon`, `fairytale-castle`) and stray human sounds in three more
+  (`bullet-time`, `act-natural`, `fallen-angel`); one restyle take was rejected for
+  its output audio (`OutputAudioSensitiveContentDetected.PolicyViolation`). The
+  sentence stays in every template, but the review must analyse the track, and a
+  clean track needs `generate_audio: false` plus a Seed Audio bed in post.
+- **Video-to-video.** Restyle inputs cannot contain a realistic person; the run
+  used a person-free source clip. Edit-route draft mode is unproven, so those
+  requests used `resolution: 480p` without `draft`. Of the four restyle effects
+  only `comic` produced a usable take.
+- **Invented lettering.** Generated ticket, UI, screen and panel surfaces invent
+  lettering and digits even when told to be blank (`boarding-pass` ticket prices
+  and digits, `desktop-glitch` title bars and terminal panels, `particles`
+  outline boxes). Name plain smooth single-colour surfaces with nothing printed
+  and avoid naming parts that normally carry text (header band, barcode, title
+  bar, dialog); keep readable overlays for post.
+- **Counts drift.** Fish and jellyfish, sheep, fireworks, panels (4 and 6 for 5
+  and 7), clones (7 to 8 for 7; 20 to 25 for 20) came out approximate. Request
+  counts at every timestamp, then count on a full-size frame and report the
+  number found.
+
 ## Hash, review, register
 
 Review is bound to the request hash, so the order is hash first.
@@ -103,6 +145,8 @@ ark_job_submit {tool_name: "seedance_2_5_create_task",
 - Poll with `ark_job_submit {tool_name: "seedance_get_task", arguments: {input:
   {task_id, persist_output: true}}}`. Observed render times: 1 to 2.5 minutes for
   a 6 to 10 second draft. After a timeout keep the ID and resume the same task.
+- Two images use roles `first_frame` and `last_frame` and no `ratio`; the first
+  frame locks it.
 - Never resubmit after an ambiguous timeout; reconcile first.
 
 ## Persist and inspect
@@ -126,7 +170,8 @@ Check each QA item of the recipe against the sheet. Count people and copies on a
 full-size frame at the timestamp the recipe names. For a native-audio take,
 extract the track (`-vn -ac 1 -ar 16000`), upload it with `media_upload` and ask
 `seed_audio_understand` what is audible; treat the answer as a flag for a human
-listen, not proof.
+listen, not proof. Check for music, singing and speech even though the prompt
+forbade them.
 
 ## Decide and promote
 
@@ -151,8 +196,8 @@ listen, not proof.
 | Post | Tool and note |
 | --- | --- |
 | HUD, labels, UI text, city names, captions | Author with `html-graphic-render` (static) or HyperFrames (timed), composite with FFmpeg; text is never prompted into the clip |
-| Split-screen stack (painting effects) | `ffmpeg -i person.mp4 -loop 1 -i painting.png -filter_complex "[0]scale=W:W[a];[1]scale=W:W[b];[a][b]vstack" -t D out.mp4`; the painting is a public-domain scan with source URL and SHA-256 recorded |
-| Fisheye (animal ride) | FFmpeg `v360` flat-to-fisheye; untested, tune on the first take |
+| Split-screen stack (painting effects) | `ffmpeg -i person.mp4 -loop 1 -i painting.png -filter_complex "[0]scale=W:W[a];[1]scale=W:W[b];[a][b]vstack" -t D out.mp4`; the painting is a public-domain scan with source URL and SHA-256 recorded. From a 9:16 clip: crop a 9:8 band (`crop=iw:iw*8/9:0:Y`, Y chosen so the head stays in), scale it to 720x640, stack it over a 720x640 painting panel for a 720x1280 result |
+| Fisheye (animal ride) | Verified on a 9:16 clip: scale to 720x1280, pad to a 1280 square, `v360=input=flat:output=fisheye:ih_fov=90:iv_fov=90:h_fov=90:v_fov=90:w=1280:h=1280`, black mask outside a circle of radius 630, crop the centre 720x1280. FOV 110 and 140 magnified the centre too much; the circle is wider than the frame, so black arcs show only at top and bottom |
 | Stepped 10 to 12 fps cadence (restyle looks) | Drop to the stepped rate then hold-frame back to 24 fps (`fps=12,fps=24`) |
 | Ambience or sound effects bed | `seed_audio_generate`, "no voices, no music" last in the prompt, loudness-normalise, mux over the stream-copied picture; the bed is not frame-synced |
 | Chained second clip (eyes-in destination) | A separate draft whose first frame is the destination image, joined in FFmpeg |
@@ -164,5 +209,8 @@ listen, not proof.
 | Photo does not fit the recipe | Say what is wrong; rebuild the start frame or ask for a better asset |
 | Moderation rejection | Keep the original error as evidence; revise only with a recorded, authorized delta |
 | Count or position drift | Revise through Locked / Delta / Acceptance; recipes note which counts run approximate |
+| Reference image rejected (privacy detection) | Keep the error as evidence; switch to a first-frame still that shows the person, as the recipe's Route describes |
+| Last-frame-only rejected | Add a generated first frame; the same file as first and last frame is accepted |
+| Output audio rejected | Keep the error as evidence; retake with a recorded audio-sentence change or `generate_audio: false` |
 | Native audio contains speech or music | Regenerate with audio off or add a post bed; do not claim the take is clean |
 | Provider task failed | Evidence to review, not an automatic resubmission |

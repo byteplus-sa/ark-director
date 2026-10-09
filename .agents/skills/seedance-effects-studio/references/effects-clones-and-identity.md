@@ -55,12 +55,12 @@ At 5.5s the near copy raises their open right palm (the hand on the frame-left s
 - The original stays where it was; the near copy does not replace her.
 - Picture ends black behind the palm; no text anywhere.
 **Risks:** Count drift (5 becomes 8-12). Identity and outfit drift in tiny distant copies. Dissolve or morph instead of a hard pop-in. Shadows pointing the wrong way. The near copy replacing the original. Copies mirroring each other when independence was asked. Probe result: the model drew about 8 copies instead of 5 even with the count stated; treat the count as approximate, or ask for 4 when at most 5 is acceptable. Probe result: copies stood between cars rather than on roofs and counts ran about two above the request.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-08): copies popped in one by one on distant car roofs, a near copy rose into the lens, raised a palm that covered it, and the picture went black. Count overshot: about 8 copies at 3.6 s against the 5 requested. A frame-by-frame scan counted about nine figures at about 4 s against seven requested, copies standing between the cars rather than on roofs, and pop-ins starting at about 1.4 s, earlier than the 1.5 s asked. The template was amended after review (a positive text-free clause; one-handed idle poses name their side); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-08): copies popped in one by one on distant car roofs, a near copy rose into the lens, raised a palm that covered it, and the picture went black. Count overshot: about 8 copies at 3.6 s against the 5 requested. A frame-by-frame scan counted about nine figures at about 4 s against seven requested, copies standing between the cars rather than on roofs, and pop-ins starting at about 1.4 s, earlier than the 1.5 s asked. The template was amended after review (a positive text-free clause; one-handed idle poses name their side); the amendment is not re-probed. Showcase run 2026-10-08 (scene-10, first-frame, sound on): usable with defects; the figure count runs about one above the request (7 to 8 for 7).
 
 ### `infinite-clones` - Infinite clones
 
 **Look:** A single car brakes to a stop and an unending stream of identical people clown-car out of every door and sprint off in all directions, filmed from a locked high angle.
-**Route:** `reference-images`. `@Image 1` = reference image (identity, hair, headwear, outfit). Optional `@Image 2` = reference image of the car. No first-frame image, because the clip opens on an empty lot. With two images both use role `reference_image`, in order: person first, car second.
+**Route:** `reference-images`. `@Image 1` = reference image (identity, hair, headwear, outfit). Optional `@Image 2` = reference image of the car. No first-frame image, because the clip opens on an empty lot. With two images both use role `reference_image`, in order: person first, car second. Provider rule (run 2026-10-08): the `reference_image` role was rejected before any cost (`InputImageSensitiveContentDetected.PrivacyInformation`) for a face close-up and a clean full-body crop of a person; a generated still of the woman inside a scene was accepted as a `reference_image` in the earlier probe, so treat person-crop references as likely to fail and have the first-frame fallback ready. Verified fallback (scene-11): `i2v-first-frame` with a Seedream still of the person standing alone beside the parked car with all four doors closed (built from the person's references); replace the two role lines with `@Image 1 is the first frame: <what the frame shows>`, delete the `@Image 2` sentence, hold 'the car stays parked with its doors closed and the person holds still' for 0-2.5 s, and count the person among the figures (1 figure to 3 s, then the ramp to 20 including the person).
 **Parameters:** duration 7 s; ratio 16:9 by default (wide lot), 9:16 also fine; `generate_audio` false (an SFX-only sting, tire screech then doors, could help but risks baked music; add SFX in post by default); draft 480p.
 **Start photo:** Full-body, distinctive outfit and headwear (a beanie, cap or bold hair accessory) so tiny top-down copies still read as one person. Bad inputs: plain outfit with no headwear, face-only crop, heavy accessories that vary by angle, a photo with several people.
 **Beats (from the originals):**
@@ -95,7 +95,7 @@ End state at 7s: 20 figures scattered across the lot, the car parked with four o
 - Camera is static and high-angle throughout; no second cut.
 - No lettering on the car, ground or clothing.
 **Risks:** The stream fades out at 6-10 figures. Dense runners merge or lose limbs. Floaty drift physics. Car drives away or doors close. Outfit and size drift across copies. Car design unconstrained without a description or reference. Painted lot markings may render as glyphs. Probe result: runner count came in near 15 against 20; keep the count as a ramp, not an exact figure. Probe result: only two of four doors showed open and runners left the frame, so 'nobody leaves the frame' did not hold.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-11, `reference_image` route): the car drifted in, stopped, all four doors opened, and a continuous stream of identical runners spread across the intersection (about 15 counted at 7 s against 20 requested). A frame-by-frame scan saw the runner count peak at 15 to 17 at about 5.5 s and then thin as runners left the frame, and only two car doors open rather than four. The template was amended after review (the conditional `@Image 2` binding line; a positive text-free clause); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-11, `reference_image` route): the car drifted in, stopped, all four doors opened, and a continuous stream of identical runners spread across the intersection (about 15 counted at 7 s against 20 requested). A frame-by-frame scan saw the runner count peak at 15 to 17 at about 5.5 s and then thin as runners left the frame, and only two car doors open rather than four. The template was amended after review (the conditional `@Image 2` binding line; a positive text-free clause); the amendment is not re-probed. Showcase run 2026-10-08 (scene-11, first-frame (reference route replaced), sound on): usable with defects; the runner count overshoots the ramp (about 20 to 25 against 20); the tyre screech is not confirmed; the car resembles a real sedan.
 
 ### `selfception` - Selfception
 
@@ -134,7 +134,7 @@ Exactly two complete figures are visible at any moment, one large and one figuri
 - Camera glides continuously; no cut and no plain push-in with no recursion.
 - Ends on the back of the coat and hair.
 **Risks:** Wrong miniature scale (both similar size). Hand and finger anatomy on the palm. Tier outfit drift. A cut replaces the glide. Zoom becomes a plain push-in with no handoff. Background not rotating with the orbit. Visible nesting past two tiers is unreliable, so do not ask for more.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-12, first-frame, 480p draft, sound on, one invented subject at 9:16): usable with defects; the copy never grows into a full-size second woman, so the hand-over is not clearly shown. Not verified on other photos or at a higher resolution.
 
 ### `act-natural` - Act natural
 
@@ -171,7 +171,7 @@ End state at the final frame: the subject in the identical pose, the camera 30 d
 - Frozen items do not slide or fall; no new objects or people join the frozen group.
 - Packaging shows no readable lettering.
 **Risks:** Micro-motion (breathing, blinking, hair sway) creeps in. Frozen items slide. The whole frame freezes. Objects pull out of frame as the camera moves. Packaging text garbles. The subject drifts when the orbit is not explicit.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-04): the subject held the mug pose for the whole clip while the waiter and patrons moved; the 30-degree orbit was subtle but visible as parallax. The template was amended after review (a positive text-free clause; singular noun for a count of 1); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-04): the subject held the mug pose for the whole clip while the waiter and patrons moved; the 30-degree orbit was subtle but visible as parallax. The template was amended after review (a positive text-free clause; singular noun for a count of 1); the amendment is not re-probed. Showcase run 2026-10-08 (scene-13, first-frame, sound on): usable with defects; the neon sign lettering is garbled; the orbit is modest; a faint murmur in the sound.
 
 ### `stop-world` - Stop world
 
@@ -207,7 +207,7 @@ End state: one calm sharp figure in medium shot in the foreground, {crowd_count}
 - Subject ends in medium shot near the lens; crowd arrangement differs from the opening and does not rewind.
 - No cuts; camera stays locked.
 **Risks:** Everything renders at the same speed (no contrast). Crowd speed-up looks like jitter. The subject gets motion-blurred too. The gesture reads as a wave. Crowd members merge or duplicate. Do not prompt a rewind: the originals do not show one.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-09): the crowd streaked in time-lapse blur while the subject stayed sharp, snapped her fingers, walked to a medium shot and smiled. The template was amended after review (a positive text-free clause; singular noun for a count of 1); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-09): the crowd streaked in time-lapse blur while the subject stayed sharp, snapped her fingers, walked to a medium shot and smiled. The template was amended after review (a positive text-free clause; singular noun for a count of 1); the amendment is not re-probed. Showcase run 2026-10-08 (scene-14, first-frame, sound on): usable with defects; the crowd is lighter than packed and some people are only partly blurred.
 
 ### `eyes-in` - Eyes in
 
@@ -249,12 +249,12 @@ Join with FFmpeg: normalise both clips to the same size, frame rate and timebase
 - No scene change inside the eye; no signage-style text in the first seconds.
 - With the optional join: the circle opens from the black frame onto the destination.
 **Risks:** Eye shape or colour drift in the macro. Double or off-centre pupil. A blink. The model cutting to a different scene halfway instead of staying in the eye. The dive stopping at the iris. Street reflection in the cornea not matching the photo. Text on clothing or signs in the opening frame warps during the push.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-10): the dive through the eye, the iris macro, the pupil filling the frame and the black ending all landed in one unbroken move without a blink. The probe photo was a face-filling close-up. The template was amended after review (a positive text-free clause); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-10): the dive through the eye, the iris macro, the pupil filling the frame and the black ending all landed in one unbroken move without a blink. The probe photo was a face-filling close-up. The template was amended after review (a positive text-free clause); the amendment is not re-probed. Showcase run 2026-10-08 (scene-15, first-frame, sound on): usable with defects; the iris turns amber-orange instead of her dark brown.
 
 ### `lacewalker` - Lacewalker
 
 **Look:** A figurine-sized copy of the person strolls the ground in front of their giant sideways head, then, after a hard cut, balances on a thin strap stretched between two giant bags.
-**Route:** `reference-images`. `@Image 1` = reference image (identity, outfit, glasses or hat). Optional `@Image 2` = reference image of the product that becomes the giant object. No first-frame image, because neither shot opens on the photo.
+**Route:** `reference-images`. `@Image 1` = reference image (identity, outfit, glasses or hat). Optional `@Image 2` = reference image of the product that becomes the giant object. No first-frame image, because neither shot opens on the photo. Provider rule (run 2026-10-08): the `reference_image` role was rejected before any cost (`InputImageSensitiveContentDetected.PrivacyInformation`) for a face close-up and a clean full-body crop of a person; a generated still of the woman inside a scene was accepted as a `reference_image` in the earlier probe, so treat person-crop references as likely to fail and have the first-frame fallback ready. Verified fallback (scene-16): `i2v-first-frame` with a Seedream still of the giant sideways head and exactly one figurine-sized copy on the sand; replace the first paragraph with `@Image 1 is the first frame. It shows <the giant head and the one miniature>`, keep the in-clip hard cut behind the bag, and shot 2 needs no image.
 **Parameters:** duration 8 s; ratio 3:4 (as seen) or follows the photo; `generate_audio` false; draft 480p.
 **Start photo:** Full-body shot with a distinct outfit, plus a clear face with glasses or a hat for the giant head. Product reference (optional): one clean image of a handbag, sneaker or similar item. Bad inputs: plain outfit, face partly hidden, a product with visible lettering or logo (it garbles at giant scale; use a plain unmarked version or describe it), several products in one image.
 **Beats (from the originals):**
@@ -289,12 +289,12 @@ End state: one miniature on one strap between two giant bags.
 - Giant head and miniature read as the same person; the miniature keeps the outfit.
 - No hardware text, logos or lettering.
 **Risks:** Scale ratios collapse (the miniature grows). Giant head and miniature differ in identity. Extra bags or straps. The strap sags unrealistically or the miniature floats. Hardware text or logos garble. No cut, so the second setup never appears. Unnatural walking cadence.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-07, `reference_image` route): the giant head and the walking miniature, the bag sweep hiding the cut at 4.8 s, and the miniature balancing on one strap between two giant bags all landed. Scale held as a ratio only; the identity-only wording was used. The template was amended after review (a positive text-free clause; the raised arm is named by anatomy plus frame side; conditional sentence slots); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-07, `reference_image` route): the giant head and the walking miniature, the bag sweep hiding the cut at 4.8 s, and the miniature balancing on one strap between two giant bags all landed. Scale held as a ratio only; the identity-only wording was used. The template was amended after review (a positive text-free clause; the raised arm is named by anatomy plus frame side; conditional sentence slots); the amendment is not re-probed. Showcase run 2026-10-08 (scene-16, first-frame (reference route rejected), sound on): usable with defects; a drum-like musical beat from about 5 s; the handbag shape differs between the two shots.
 
 ### `superstar` - Superstar
 
 **Look:** A fan's handheld phone video of a packed stadium concert in which the person is the star on stage and on the jumbotron.
-**Route:** `reference-images`. `@Image 1` = reference image (face, hair, outfit). No first-frame image, because the clip opens on a crowd POV. The stage, crowd, phones and dancers are generated.
+**Route:** `reference-images`. `@Image 1` = reference image (face, hair, outfit). No first-frame image, because the clip opens on a crowd POV. The stage, crowd, phones and dancers are generated. Provider rule (run 2026-10-08): the `reference_image` role was rejected before any cost (`InputImageSensitiveContentDetected.PrivacyInformation`) for a face close-up and a clean full-body crop of a person; a generated still of the woman inside a scene was accepted as a `reference_image` in the earlier probe, so treat person-crop references as likely to fail and have the first-frame fallback ready. Verified fallback (scene-17): `i2v-first-frame` with a Seedream still of the opening crowd POV (4 raised phones, the performer centre stage, 2 backup dancers, an abstract LED screen); replace the role line with `@Image 1 is the first frame. It shows <that view>` and keep every timestamp.
 **Parameters:** duration 15 s; ratio 9:16 (phone video) by default; `generate_audio` false (native audio stays off so no crowd chanting, sung words or music are baked in); draft 480p, final 720p or 1080p.
 **Start photo:** Clear face and a distinctive outfit; waist-up portrait is enough. A person holding or near a microphone is helpful but not required. Bad inputs: sunglasses, a face turned away, tiny face in a wide photo, heavy costume details that change per angle.
 **Beats (from the originals):**
@@ -323,7 +323,7 @@ At 12.5s hard cut, the only cut in the clip, to a wide pan across the full stadi
 - No lettering, numbers or logos on stage, screens, phones or clothing.
 - Generated clip carries no baked-in speech, chant or music.
 **Risks:** Too clean a cinematic look. Warped hands and phones in the crowd. Screen content not matching the performer. Backup dancers duplicating. Mouth and mic mismatch. Logo-like glyphs on the stage. A second cut inserted. Native audio would bake in chanting, so it stays off.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-17, first-frame (reference route rejected), 480p draft, sound on, one invented subject at 9:16): usable with defects; a sung vocal in the first seconds; the face is small in the opening wide shot; unreadable cursive on the jacket back. Not verified on other photos or at a higher resolution.
 
 ### `vanish` - Vanish
 
@@ -356,4 +356,4 @@ From 3s to the end the clothes lie completely still; the empty scene stays in fr
 - Garments hold body shape for a moment, then collapse and come to rest by about 3 s; no floating clothes.
 - Camera is locked; the empty scene is held to the end; no black frame; no text on the surface.
 **Risks:** The body fades out gradually. Ghost or semi-transparent residue. Clothing does not collapse and keeps floating in body shape. Invisible-body shapes remain. Extra garments, shoes or hair appear. Collapse timing off. Text on the mat garbles.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-18, first-frame, 480p draft, sound on, one invented subject at 9:16): usable with defects; she vanishes about 0.3 to 0.5 s before the 2 s beat; dark trouser patches show at the hoodie shoulders. Not verified on other photos or at a higher resolution.

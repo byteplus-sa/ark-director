@@ -94,8 +94,8 @@ Recipes: [effects-world-and-transform.md](references/effects-world-and-transform
 | `melting` | Melting | `i2v-first-frame` | 7 s | Full-body standing person, flat clear ground |
 | `burning-man` | Burning man | `i2v-first-frame` | 7 s | Full-body person, empty space beside, dusk |
 | `particles` | Particles | `composite` | 5 s | Single subject, dark high-contrast scene |
-| `lidar` | Lidar transition | `i2v-last-frame` | 7 s | Person outdoors, distinct posts and skyline |
-| `earth-zoom` | Earth zoom | `i2v-last-frame` | 10 s | Eye-level person on a plausible city street |
+| `lidar` | Lidar transition | `i2v-first-and-last` | 7 s | Person outdoors, distinct posts and skyline |
+| `earth-zoom` | Earth zoom | `i2v-first-and-last` | 10 s | Eye-level person on a plausible city street |
 | `blue-depth` | Blue depth | `i2v-first-frame` | 8 s | Waist-up person in front of dark blue water |
 | `desktop-glitch` | Desktop glitch | `composite` | 5 s | Cool-toned action shot with negative space |
 
@@ -201,15 +201,28 @@ submission.
 | Route | Seedance inputs | Notes |
 | --- | --- | --- |
 | `i2v-first-frame` | One image with role `first_frame` | The photo is the opening frame; ratio locks to it |
-| `i2v-last-frame` | One image with role `last_frame` | The clip ends on the photo; confirm live support, else build a first frame |
-| `i2v-first-and-last` | `first_frame` and `last_frame` images | Both ratios match |
-| `reference-images` | Images with role `reference_image` | The clip does not open on the photo; state ratio; add identity-only wording |
+| `i2v-first-and-last` | `first_frame` and `last_frame` images | Both ratios match; a `last_frame` alone is rejected, so build the missing first frame (`earth-zoom`, `lidar`) |
+| `reference-images` | Images with role `reference_image` | The clip does not open on the photo; state ratio; add identity-only wording; a face or body crop of a person can be rejected, so keep the first-frame fallback in the recipe ready |
 | `v2v-restyle` | Source clip, muted master | Delegate to `seedance-restyle`; its rules replace this table |
 | `composite` | Generated clip plus a deterministic step | FFmpeg stack, HyperFrames overlay or `html-graphic-render` layout named in the recipe |
 
 A first-frame image cannot be combined with reference images. Parameters that the
 live tool does not expose (there is no `camera_fixed` and no seed field) are
 expressed in prose or omitted.
+
+Provider rules from the 2026-10-08 full run (details and wording in
+[generation flow](references/generation-flow.md#provider-rules-observed), results
+in [evidence status](references/evidence-status.md)):
+
+- `reference_image` rejected person face and body crops (privacy detection); the
+  four effects that used person references run through a first-frame still.
+- A `last_frame` without a `first_frame` is rejected.
+- Generated sound leaked music, singing or stray voices in 10 of 45 drafts despite
+  the audio sentence; check the track, and use post audio for a clean master.
+- Video-to-video inputs cannot hold a realistic person; edit-route draft mode is
+  unproven.
+- Generated tickets, UI and panels invent lettering; describe plain surfaces and
+  add readable overlays in post. Counts drift, so verify them on a full-size frame.
 
 ## Hard rules
 
@@ -221,8 +234,8 @@ expressed in prose or omitted.
    a template is conditional on `generate_audio`: when it is on, list sound effects
    only and end with "with ambience only, no music and no speech", then check the
    draft's track before promoting (a promotion reuses the draft's audio). Native
-   audio has baked music and speech into other runs, including a shouted voice in
-   the smash-and-grab probe.
+   audio has baked music and speech into other runs: a shouted voice in the
+   smash-and-grab probe, and music or singing in 7 of the 45 full-run drafts.
 4. **Counts are explicit** at every timestamp, and copies share one face and one
    outfit.
 5. **Always a draft first.** 480p draft, inspect, then ask before the final.

@@ -55,7 +55,7 @@ The vehicle keeps {wheel_count} wheels and one body shape throughout, and the pe
 - Wheel count and body shape unchanged during the overhead pass; no legible licence plate or sign text.
 - Ends on a low side view with the person leaning out.
 **Risks:** Person detaching or doubling; wheel count or geometry drifting on the overhead pass; orbit direction flipping mid-clip; mushy crowd faces; invented plate and billboard lettering; motion blur swallowing identity; a single first frame gives no side or rear view of the vehicle, so unseen faces of the car are invented.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-03): the burnout, the overhead sweep and the return to a low side track all landed, with one person attached to the car throughout. The opening view must follow the photo (the template had assumed a rear view). The template was amended after review (a positive unlettered-surfaces clause was added and the gesture default now names the hand by anatomy and frame side); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-03): the burnout, the overhead sweep and the return to a low side track all landed, with one person attached to the car throughout. The opening view must follow the photo (the template had assumed a rear view). The template was amended after review (a positive unlettered-surfaces clause was added and the gesture default now names the hand by anatomy and frame side); the amendment is not re-probed. Showcase run 2026-10-08 (scene-01, first-frame, sound on): usable with defects; the person is out of view during the overhead orbit; the start frame seats her on the bonnet instead of leaning from a window.
 
 ---
 
@@ -95,7 +95,7 @@ Exactly {slider_count} sliding things appear in total: {slider_names}. Every sig
 - Walls and furniture tilt coherently with the floor; gravity direction matches the slide.
 - Last frame matches the first frame's composition, floor clear.
 **Risks:** Subject also sliding or changing pose; furniture not tilting with the room; object or animal counts and species drifting; gravity contradicting the tilt; background architecture staying level while the floor tilts.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-02): the room rolled and levelled again, the paper stack, cart and cat slid, the subject stayed put. The prompt-review fix (sliders start on a named surface, fixed items listed) is now in the template. The template was amended after review (a positive unlettered-surfaces clause was added); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-02): the room rolled and levelled again, the paper stack, cart and cat slid, the subject stayed put. The prompt-review fix (sliders start on a named surface, fixed items listed) is now in the template. The template was amended after review (a positive unlettered-surfaces clause was added); the amendment is not re-probed. Showcase run 2026-10-08 (scene-02, first-frame, sound on): clean; the tilt is subtle; the sound is a hum and scrapes, not the paper, cart and cat foley.
 
 ---
 
@@ -135,7 +135,7 @@ The giant's face, hair and outfit are identical in all three shots, and the buil
 - Face, hair and outfit identical across the three shots.
 - No readable lettering on shirts, signs or taxis.
 **Risks:** Scale collapsing into a normal-sized person; feet floating or not touching the street; outfit pattern drifting between shots; inconsistent glass reflections; helicopter count; mushy crowd faces; a single continuous prompt loses scale, so the three-shot cut list is mandatory; identity drift on the extreme scale change. Probe result: a second helicopter appeared at about 6 s despite 'exactly one'.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-01): the three shots and both cuts landed (low striding giant, circular window POV with one helicopter, low shot with a hand on a tower); the Seedream giant start frame worked first try. One photo and one subject only. A defect scan found a second helicopter drifting in at about 6 s although the prompt asks for exactly one. The template was amended after review (a positive unlettered-surfaces clause was added and the tower hand is now a named slot); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-01): the three shots and both cuts landed (low striding giant, circular window POV with one helicopter, low shot with a hand on a tower); the Seedream giant start frame worked first try. One photo and one subject only. A defect scan found a second helicopter drifting in at about 6 s although the prompt asks for exactly one. The template was amended after review (a positive unlettered-surfaces clause was added and the tower hand is now a named slot); the amendment is not re-probed. Showcase run 2026-10-08 (scene-03, first-frame (Seedream giant frame), sound on): clean; pedestrian and taxi counts are approximate; the footfall thuds may read as explosions.
 
 ---
 
@@ -169,7 +169,7 @@ Rolling dutch-angle camera. 0-1s: low dutch angle, slowly orbiting counter-clock
 - Performer count matches `{performer_count_line}`; face and hands visible in each shot.
 - After post: brackets stay attached to face, hands and mic through every cut.
 **Risks:** The model drawing its own gibberish HUD or screen lettering despite the clean-picture wording; tracking drift when a cut changes the subject's scale; hands lost behind the mic; thin source description (confidence medium); several cuts in 5 s can reduce identity stability.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-04, first-frame plus tracking overlay in post, 480p draft, sound on, one invented subject at 9:16): usable with defects; the cuts land at about 1.4 s and 2.7 s, not at the prompted times. Not verified on other photos or at a higher resolution.
 
 ---
 
@@ -207,7 +207,7 @@ At 13s, hard cut to a tight longer-lens close-up with shallow focus of {subject}
 - Subject head and hands do not move during the freeze; exactly one server before and after.
 - Ends on a smirk in the close-up with no readable lettering.
 **Risks:** Item counts and physics drifting; subject moving during the freeze; orbit stopping short of 360 degrees; server duplicating or changing identity; food merging with the subject; 15 s is long, so keep the beats compact and expect a trimmed take; the originals were upscaled low-resolution, so expect more softness in the references than in the model's output.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-05, first-frame, 480p draft, sound on, one invented subject at 9:16): usable with defects; faint chatter and a gasp in the sound; frozen-item counts are approximate. Not verified on other photos or at a higher resolution.
 
 ---
 
@@ -241,7 +241,7 @@ Scene A contains only {subject_a} and scene B contains only {subject_b} and {cro
 - Last frames match `@Image 2` in subject, wardrobe and location.
 - Subject A has exactly one person; scene B person and crowd counts match the description.
 **Risks:** Scene B leaking into scene A early; subject A staying visible after the flip; up-axis confusion during the roll; crowd density artefacts in B; the "seamless" blend becoming a visible morph; first-and-last conditioning not guaranteeing frame-accurate arrival at `@Image 2`; the analysis did not observe the roll in the model description, only in frames (confidence medium).
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-06, first and last frames, 480p draft, sound on, one invented subject at 9:16): usable with defects; the camera closes to chest-up within 0.5 s; the second person reads as two or three chains and his hands pass through the cards. Not verified on other photos or at a higher resolution.
 
 ---
 
@@ -279,7 +279,7 @@ Exactly {item_count} items float and land; every item keeps the shape and colour
 - Macro shots show crisp items; any text is as photographed, not invented.
 - Subject lands flat on the back; exactly one bystander before and after.
 **Risks:** Item identity and count drift; invented or garbled label text in macro (avoid asking for legible text); subject limbs distorting in the fall; bystander appearing or vanishing; items falling too early; the original opening on the legs cannot be reproduced from a normal first-frame photo.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-07, first-frame, 480p draft, sound on, one invented subject at 9:16): clean; the straw is not clear in the macro shot; the landing is a clatter, not a soft thud. Not verified on other photos or at a higher resolution.
 
 ---
 
@@ -313,7 +313,7 @@ Props slide vertically and never pop; {subject} keeps the outfit, shoes and stan
 - Outfit and face constant; no foot sliding that looks like skating.
 - End frame matches `@Image 2` composition.
 **Risks:** Subject drifting left or right instead of staying centred; props popping instead of sliding; gait foot-slide; ball swaps showing a visible cut; outfit change across 15 s; the original description says crowned but the frames show no crown (confidence medium); a single image-to-video is hard to hold for 15 s, so consider two chained 7 s takes with the mid-state as a middle keyframe if drift appears.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-08, first and last frames, 480p draft, sound on, one invented subject at 9:16): usable with defects; a sustained bowed-string drone (music-like) leaked into the sound; she ends facing forward, not up at the cloud. Not verified on other photos or at a higher resolution.
 
 ---
 
@@ -349,4 +349,4 @@ One continuous lateral dolly: 0-3s dolly back and to the left; 3-6s dolly forwar
 - Foreground crop never fully hides the focal copy's face for more than a moment.
 - Ends close on the back of a neck.
 **Risks:** Copy count errors (the most likely failure); identity or outfit drift between copies; copies merging at overlaps; identical poses on clones; foreground crop covering the face; backdrop gaining gradients; no second reference image can be added to a first-frame route, so identity comes from the photo alone.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-09, first-frame, 480p draft, sound on, one invented subject at 9:16): clean; three copies counted, a fourth not ruled out; the choker is only partly visible at the end. Not verified on other photos or at a higher resolution.

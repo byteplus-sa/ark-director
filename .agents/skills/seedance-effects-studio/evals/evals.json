@@ -75,7 +75,7 @@
         "The Seedance prompt contains no label text, HUD words or numbers.",
         "The reply routes the labels to HyperFrames or html-graphic-render in post.",
         "The route is composite and generate_audio is false.",
-        "The reply says Particles has a thin description and that its recipe is an untested hypothesis."
+        "The reply says Particles has a thin description and was tested once with the signature look landing but defects recorded (outline boxes held text-like line patterns and the subject barely moved)."
       ]
     },
     {
@@ -109,7 +109,7 @@
       "files": [],
       "assertions": [
         "The audio sentence lists sound effects only and ends with ambience only, no music and no speech.",
-        "The reply warns that a shouted voice leaked into native audio in the probe.",
+        "The reply warns that native audio leaked a shouted voice in the probe and music or singing in several full-run drafts despite the audio sentence.",
         "After the draft the track is extracted and checked for music and speech, and the result is reported as a flag for a human listen, not proof.",
         "Before promoting, the reply says the promotion reuses the draft's audio."
       ]
@@ -117,13 +117,13 @@
     {
       "id": 10,
       "prompt": "Do Earth zoom on this photo of me on a street.",
-      "expected_output": "An i2v-last-frame run with an explicit ratio, a live check that the tool accepts a last frame with no first frame, and the documented fallback to first-and-last frames with a generated first frame if it does not.",
+      "expected_output": "An i2v-first-and-last run: a generated low-orbit first frame plus the photo as the last frame, no explicit ratio, because a last frame alone is rejected by the live tool.",
       "files": [],
       "assertions": [
-        "The photo is bound with role last_frame and the request sets ratio explicitly because there is no first image to lock it.",
-        "The run checks that the live tool accepts last_frame without first_frame before spending, and states the fallback (a generated first frame with the photo as the last frame) if it does not.",
+        "The photo is bound with role last_frame and a generated low-orbit planet frame at the photo's ratio is bound with role first_frame; the run does not submit a last_frame alone, which the live tool rejects.",
+        "The Seedream first frame is reviewed, approved and registered before it is used, and the request omits ratio because the first frame locks it.",
         "The prompt describes the approach into the photo, ending at street level in front of the person.",
-        "The recipe is reported as an untested hypothesis."
+        "The recipe is reported as tested once on an invented subject at 480p, not as proven on the user's photo."
       ]
     },
     {

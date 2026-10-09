@@ -11,8 +11,8 @@ Nine effects where the world, the body, or the camera scale changes around one p
 | `melting` | Melting | `i2v-first-frame` | 7 s | Full-body standing person, flat clear ground |
 | `burning-man` | Burning man | `i2v-first-frame` | 7 s | Full-body person, empty space beside, dusk |
 | `particles` | Particles | `composite` | 5 s | Single subject, dark high-contrast scene |
-| `lidar` | Lidar transition | `i2v-last-frame` | 7 s | Person outdoors, distinct posts and skyline |
-| `earth-zoom` | Earth zoom | `i2v-last-frame` | 10 s | Eye-level person on a plausible city street |
+| `lidar` | Lidar transition | `i2v-first-and-last` | 7 s | Person outdoors, distinct posts and skyline |
+| `earth-zoom` | Earth zoom | `i2v-first-and-last` | 10 s | Eye-level person on a plausible city street |
 | `blue-depth` | Blue depth | `i2v-first-frame` | 8 s | Waist-up person in front of dark blue water |
 | `desktop-glitch` | Desktop glitch | `composite` | 5 s | Cool-toned action shot with negative space |
 
@@ -57,7 +57,7 @@ The visuals feature natural daylight, photorealistic detail and the color grade 
 - Final framing is a medium shot close to the opening framing.
 - No readable lettering appears on signs.
 **Risks:** Identity drift when the subject turns away and back; the subject flipping upside down with the world; buildings melting instead of folding; crosswalk stripe or vehicle counts changing; signage garbling; the fold not completing by 6s (move the peak earlier or raise duration to 10 s).
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-06): the street peeled up and closed over the subject as a ceiling with the city hanging inverted; she stayed upright. One photo and one subject only. The template was amended after review (added a positive text-free clause on shop signs); the amendment is not re-probed.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-06): the street peeled up and closed over the subject as a ceiling with the city hanging inverted; she stayed upright. One photo and one subject only. The template was amended after review (added a positive text-free clause on shop signs); the amendment is not re-probed. Showcase run 2026-10-08 (scene-19, first-frame, sound on): usable with defects; the towers tilt like leaning blocks rather than folding; the sound reads as a passing vehicle.
 
 ### `architecture-wave` - Architecture wave
 
@@ -95,7 +95,7 @@ The visuals feature crisp natural daylight, photorealistic materials and clear s
 - Subject identity matches the photo at 7 s.
 - Structure bends as one body, not shattered fragments.
 **Risks:** The warp spreading to the subject or ground; the structure shattering instead of bending; lattice and window detail smearing; identity drift if the subject walks toward the camera (prefer a pose); the wave not reaching its peak within the short duration (the prompt already places the peak in the last 2 s).
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-20, first-frame, 480p draft, sound on, one invented subject at 9:16): clean; no wind bed was audible; a low groan and creaking instead. Not verified on other photos or at a higher resolution.
 
 ### `melting` - Melting
 
@@ -134,7 +134,7 @@ The visuals feature glossy liquid with sharp reflections of the sky, rich satura
 - By 7s the subject is gone, the remnant count matches the slot, the background is unchanged.
 - Camera does not move.
 **Risks:** Faces or skin melting grotesquely (the clothing-first wording reduces this); body-horror tone; puddle color mismatch; accessory counts drifting; the subject remaining as a statue; the background also melting. For a group, state the exact count and per-person colors at every stage.
-**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-05): clothes liquefied into colour-matched puddles, the subject knelt and dissolved, and the hat and boots were left floating on one marbled puddle.
+**Status:** probed 2026-10-08, one 480p draft in project `effects-probe` (scene-05): clothes liquefied into colour-matched puddles, the subject knelt and dissolved, and the hat and boots were left floating on one marbled puddle. Showcase run 2026-10-08 (scene-21, first-frame, sound on): usable with defects; only one boot is left at the end; brown drips also run down her arms.
 
 ### `burning-man` - Burning man
 
@@ -177,7 +177,7 @@ The visuals feature warm firelight against the cool {ambient_light}, natural fil
 - The handshake shows two hands with five fingers each and no fusion.
 - Fire does not spread to the original, the ground or the scene.
 **Risks:** Both figures burning; a third person appearing; the double's face or outfit not matching; finger fusion at the handshake; fire spreading into the scene; crowd count changing in the background; moderation flags on fire plus a real person's face (reflect before submit; moderation rejection is evidence to diagnose, not proof of a false positive).
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-22, first-frame, 480p draft, sound on, one invented subject at 9:16): clean; the footsteps sound hard-soled on tile; the flame reflection on the pavement is subtle. Not verified on other photos or at a higher resolution.
 
 ### `particles` - Particles
 
@@ -212,15 +212,15 @@ The visuals feature luminous cyan, silver and iridescent particles on dark tones
 - Point-cloud shots keep the subject's silhouette and face readable.
 - No lettering or digits inside the generated clip.
 - Particles do not hide the face in real-scene shots.
-**Risks:** Gibberish HUD text if the model invents labels (the template keeps boxes abstract and puts text in post); identity lost in the point-cloud shots; over-bright particles hiding the face; cut count drifting. Lowest-confidence effect in this category: the page gave one line and the two examples differ (night street and surf), so treat the beats as indicative.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Risks:** Run 2026-10-08: the outline boxes still held text-like line patterns at 480p, and the near-static subject left the overlay to carry the effect, so give the subject a continuous action. Gibberish HUD text if the model invents labels (the template keeps boxes abstract and puts text in post); identity lost in the point-cloud shots; over-bright particles hiding the face; cut count drifting. Lowest-confidence effect in this category: the page gave one line and the two examples differ (night street and surf), so treat the beats as indicative.
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-23, first-frame, 480p draft, sound on, one invented subject at 9:16): usable with defects; she barely moves, so the overlay carries the effect; the overlay boxes hold text-like line patterns. Not verified on other photos or at a higher resolution.
 
 ### `lidar` - Lidar transition
 
 **Look:** A neon-cyan point-cloud flythrough of the location solidifies into the real photographed scene with the person scanned into place.
-**Route:** `i2v-last-frame`. `@Image 1` is the last frame (the user's photo); no first-frame image. If the live tool does not accept a last-frame-only role, fall back to `i2v-first-and-last` with a generated black-and-cyan ground-plane first frame from Seedream (same ratio as the photo).
-**Parameters:** 7 s; `ratio` set explicitly because the tool locks ratio to the first image only and this route has none: default 16:9, or 9:16 for a portrait photo; the last image should match that ratio; `generate_audio` false (a rising electronic hum would help; add it in post); draft at 480p.
-**Start photo:** Person in a wide outdoor location with distinct foreground posts or rails and a skyline or tree line, so the scan has geometry to trace. Bad: indoor flat wall, close-up face, cluttered scene without clear objects, heavy overexposure.
+**Route:** `i2v-first-and-last`. `@Image 1` is the first frame, a generated black-and-cyan point-cloud ground plane from `seedream_generate_image`; `@Image 2` is the last frame (the user's photo). The live tool rejects a last-frame-only request before any cost (last frame image content cannot be mixed with first frame or reference image content), so the generated first frame is part of the recipe. Verified 2026-10-08 (scene-24).
+**Parameters:** 7 s; ratio locks to the first image, so generate it at the photo's ratio (16:9 by default, 9:16 for a portrait photo) and omit `ratio`; `generate_audio` false (a rising electronic hum would help; add it in post); draft at 480p.
+**Start photo:** First frame (generated): "vertical digital scan scene on a pure black background: a bright glowing cyan line marks the far edge of a flat ground plane across the lower third of the frame, and below it a field of luminous cyan points forms a flat grid-like terrain that recedes into darkness, with a soft cyan glow along the edge; nothing printed or written anywhere", at the photo's ratio. Last frame (the user's photo): person in a wide outdoor location with distinct foreground posts or rails and a skyline or tree line, so the scan has geometry to trace. Bad: indoor flat wall, close-up face, cluttered scene without clear objects, heavy overexposure.
 **Beats (from the originals):**
 - 0-0.5s: black frame with a bright cyan ground edge rising from the bottom.
 - 0.5-2s: fast low forward dolly over a roiling cyan point-cloud ground with heavy radial blur; wireframe posts and rail trace in.
@@ -230,15 +230,16 @@ The visuals feature luminous cyan, silver and iridescent particles on dark tones
 - No cuts.
 **Prompt template:**
 ```text
-@Image 1 is the last frame. It defines the final location, the {foreground_objects}, {subject} and the settled medium framing.
-One continuous first-person forward dolly with no cuts.
-0-0.5s: a black frame with a bright cyan glowing ground-plane edge rising from the bottom.
+@Image 1 is the first frame. It defines the opening: a black frame with a bright cyan glowing ground-plane edge and a field of cyan points below it.
+@Image 2 is the last frame. It defines the final location, the {foreground_objects}, {subject} and the settled medium framing.
+One continuous first-person forward dolly with no cuts, starting exactly on @Image 1 and ending exactly on @Image 2.
+0-0.5s: the opening frame holds, a black frame with a bright cyan glowing ground-plane edge, and the cyan ground starts to roil.
 0.5-2s: a fast low dolly forward over a roiling cyan point-cloud ground with heavy radial motion blur; glowing wireframe outlines of {foreground_count} {foreground_objects} trace in along the way.
 2-3.5s: a glowing particle skyline of {background_landmarks} builds behind them as the camera passes the nearest {foreground_object}.
 3.5-4.5s: a cyan hologram figure of {subject} appears beside the {foreground_object}; the sky lightens and the scan dissolves into real color, completed at 4.5s.
-4.5-7s: the photographed scene is fully solid; the camera decelerates to a gentle slow dolly and settles in the exact composition of @Image 1, with {subject} standing {pose}.
+4.5-7s: the photographed scene is fully solid; the camera decelerates to a gentle slow dolly and settles in the exact composition of @Image 2, with {subject} standing {pose}.
 Color appears only during the dissolve; before 3.5s everything is cyan on black. The visuals feature luminous cyan points on black, heavy radial blur on the fast run, and a glow that fades to natural exposure at the end.
-Camera: wide-angle first-person dolly forward at low height, fast at the start, decelerating from 4s, ending in the framing of @Image 1.
+Camera: wide-angle first-person dolly forward at low height, fast at the start, decelerating from 4s, ending in the framing of @Image 2.
 ```
 **Slots:**
 - `{foreground_objects}` / `{foreground_object}` / `{foreground_count}`: the posts, rails or trees in the photo, with the exact count visible; the plural noun goes in `{foreground_objects}`, the singular in `{foreground_object}`, the number word in `{foreground_count}` ("3", "wooden bollards", "wooden bollard"). Use a photo with at least 2 such objects, so the plural always reads correctly.
@@ -248,17 +249,17 @@ Camera: wide-angle first-person dolly forward at low height, fast at the start, 
 **QA:**
 - No color before about 3.5s; the dissolve completes near 4.5s.
 - Wireframe objects match the photo's objects and count.
-- The camera decelerates; the final 2 s match `@Image 1`.
+- The camera decelerates; the final 2 s match `@Image 2`.
 - The subject does not appear as a real person before the dissolve.
-**Risks:** The page text describes a tilting world with sliding objects, but the footage shows a point-cloud flythrough; this recipe follows the footage (the discrepancy is unresolved and the page text may belong to another effect). The scan not matching the photo's objects; the subject appearing early as a real person; overglow washing out the final frame; constant camera speed; identity drift at materialisation; last-frame-only conditioning support is unverified. Confidence is medium.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Risks:** The page text describes a tilting world with sliding objects, but the footage shows a point-cloud flythrough; this recipe follows the footage (the discrepancy is unresolved and the page text may belong to another effect). The scan not matching the photo's objects; the subject appearing early as a real person; overglow washing out the final frame; constant camera speed; identity drift at materialisation; a last-frame-only request is rejected, so the first frame must be generated. In the run the change into real colour finished about 1 s later than the 4.5 s plan. Confidence is medium.
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-24, first and last frames (generated cyan first frame; last-frame-only rejected), 480p draft, sound on, one invented subject at 9:16): clean; the change into real colour finishes about 1 s later than planned. Not verified on other photos or at a higher resolution.
 
 ### `earth-zoom` - Earth zoom
 
 **Look:** One unbroken dive from orbit through clouds and over the city that lands in front of the person in the photo.
-**Route:** `i2v-last-frame`. `@Image 1` is the last frame (the user's street photo); no first-frame image. If last-frame-only is unsupported, fall back to `i2v-first-and-last` with a Seedream-generated low-orbit planet frame at the same ratio as the photo.
-**Parameters:** 10 s; `ratio` set explicitly because the tool locks ratio to the first image only and this route has none: default 16:9, or 9:16 for a portrait photo; the last image should match that ratio; `generate_audio` false (a rushing-air sting then street ambience would help; add it in post); draft at 480p. The dive is about 6 s and the settled shot about 4 s.
-**Start photo:** Street-level eye-level medium or full shot of a person standing on a sidewalk or intersection, photoreal daylight, with the street receding behind or beside them. Bad: indoor, night, close-up face, a location implausible from above (interior courtyard, forest trail).
+**Route:** `i2v-first-and-last`. `@Image 1` is the first frame, a Seedream-generated low-orbit planet frame at the photo's ratio; `@Image 2` is the last frame (the user's street photo). The live tool rejects a last-frame-only request before any cost, so the generated first frame is part of the recipe. Verified 2026-10-08 (scene-25).
+**Parameters:** 10 s; ratio locks to the first image, so generate it at the photo's ratio (16:9 by default, 9:16 for a portrait photo) and omit `ratio`; `generate_audio` false (a rushing-air sting then street ambience would help; add it in post); draft at 480p. The dive is about 6 s and the settled shot about 4 s.
+**Start photo:** First frame (generated): "photorealistic view from low Earth orbit looking down at a slight angle: black space fills the top third of the frame, the curved bright blue edge of the planet with a thin glowing atmosphere crosses the middle, and below it lie deep blue ocean and patches of white cloud; nothing printed or written anywhere". Last frame (the user's photo): street-level eye-level medium or full shot of a person standing on a sidewalk or intersection, photoreal daylight, with the street receding behind or beside them. Bad: indoor, night, close-up face, a location implausible from above (interior courtyard, forest trail).
 **Beats (from the originals):**
 - 0-1s: low Earth orbit, black space, bright blue curved limb, patchy clouds; the dive starts.
 - 1-2s: dive through a thick white cloud deck with heavy blur; emerges over forest and river terrain.
@@ -268,15 +269,16 @@ Camera: wide-angle first-person dolly forward at low height, fast at the start, 
 - No cuts.
 **Prompt template:**
 ```text
-@Image 1 is the last frame. It defines the final street, the buildings, the daylight and {subject} standing in the final medium shot.
-One continuous plunge with no cuts, ending exactly on @Image 1. The video opens in low Earth orbit: black space above, the curved bright blue edge of the planet, patchy white clouds below.
+@Image 1 is the first frame. It defines the opening view: low Earth orbit with black space above, the curved bright blue edge of the planet and patchy white clouds below.
+@Image 2 is the last frame. It defines the final street, the buildings, the daylight and {subject} standing in the final medium shot.
+One continuous plunge with no cuts, starting exactly on @Image 1 and ending exactly on @Image 2.
 0-1s: the camera dives straight down toward the planet at accelerating speed.
 1-2s: it plunges through a thick white cloud deck with heavy blur and emerges over {terrain}.
 2-4s: it descends rapidly over a city grid and a winding river, following {road_type} with strong radial zoom blur as the buildings rush past.
-4-6s: it drops between the facades to sidewalk level and decelerates sharply; {tree_count} trees, {pedestrian_count} pedestrians and traffic come into focus along the street of @Image 1; {subject} first becomes visible at 5s.
+4-6s: it drops between the facades to sidewalk level and decelerates sharply; {tree_count} trees, {pedestrian_count} pedestrians and traffic come into focus along the street of @Image 2; {subject} first becomes visible at 5s.
 6-10s: the camera comes to rest at eye level and pushes in slowly on {subject}, who {end_action}, while street motion continues.
-Camera: top-down orbital start, exponential dive, rapid ease-out at eye level at 5s, then a slow push in, ending in the framing of @Image 1.
-The visuals feature photorealistic daylight, a motion-blurred descent and the sharp color of @Image 1 in the final seconds. All signs and screens hold plain abstract color blocks.
+Camera: top-down orbital start, exponential dive, rapid ease-out at eye level at 5s, then a slow push in, ending in the framing of @Image 2.
+The visuals feature photorealistic daylight, a motion-blurred descent and the sharp color of @Image 2 in the final seconds. All signs and screens hold plain abstract color blocks.
 ```
 **Slots:**
 - `{subject}`: read from the photo.
@@ -288,10 +290,10 @@ The visuals feature photorealistic daylight, a motion-blurred descent and the sh
 **QA:**
 - Orbit, clouds, terrain, avenue, facade drop and eye-level stop appear in that order, without cuts.
 - Subject is absent until about 5s and matches the photo at the end.
-- The final 2 s match `@Image 1`'s street and framing.
+- The final 2 s match `@Image 2`'s street and framing.
 - No lettering on signs or screens.
-**Risks:** City geography not matching the photo's street; the subject appearing during the dive; a scale seam at the cloud break; motion blur hiding the landing so the person looks new (identity drift); 10 s costs more than the shorter recipes; last-frame-only conditioning is unverified.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Risks:** City geography not matching the photo's street; the subject appearing during the dive; a scale seam at the cloud break; motion blur hiding the landing so the person looks new (identity drift); 10 s costs more than the shorter recipes; a last-frame-only request is rejected, so the first frame must be generated.
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-25, first and last frames (generated orbit first frame; last-frame-only rejected), 480p draft, sound on, one invented subject at 9:16): clean; one continuous move; street counts are approximate in motion. Not verified on other photos or at a higher resolution.
 
 ### `blue-depth` - Blue depth
 
@@ -325,7 +327,7 @@ The visuals feature deep blue low-key light, a moody hypnotic mood and soft high
 - Subject stays still after the 2-4s head turn, same identity at 8s.
 - Jellyfish pulse slowly.
 **Risks:** The water wall origin is unconfirmed in the originals (the recipe adds it; if the Seedream prep alters the person, rerun the generation before submitting); fish counts and species changing; fish merging with the subject or crossing the face; jellyfish pulsing too fast; micro-motion identity drift over long durations (hence 8 s); fish passing through the body. Confidence is medium.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-26, first-frame, second take, 480p draft, sound on, one invented subject at 9:16): usable with defects; the first take let fish cross her face (fixed in the retake); fish and jellyfish counts are approximate. Not verified on other photos or at a higher resolution.
 
 ### `desktop-glitch` - Desktop glitch
 
@@ -341,16 +343,16 @@ The visuals feature deep blue low-key light, a moody hypnotic mood and soft high
 **Prompt template:**
 ```text
 @Image 1 is the first frame. It defines {subject}, the {location} and the framing; {subject} keeps moving naturally ({action}) in every shot, unchanged.
-The whole clip is heavily blue-duotone with a CRT look: fine horizontal scanlines rolling slowly downward and a slight phosphor glow. Every panel holds abstract bars and color blocks only, with plain solid strips as title bars, and every panel stays clear of {subject}'s face.
-0-1s: stacked rectangular panels with title bars, solid blue full-screen panels and small arrow cursors fill the empty areas of the frame, with {cursor_count} cursors in total.
-Cut to 1s: a new layout of {panel_count} overlapping panels with progress bars and folder-style panels, and a swarm of about 12 cursors; blocky pixel corruption flickers on {subject}.
+The whole clip is heavily blue-duotone with a CRT look: fine horizontal scanlines rolling slowly downward and a slight phosphor glow. Every panel is a plain rectangle holding only flat blue and white colour blocks and thin horizontal bars, with a plain solid strip along its top edge, and every surface except the thumbnails is plain and blank. Panels stay at the empty top and the thin side edges, clear of {subject}'s whole silhouette and arms.
+0-1s: stacked rectangular panels with plain top strips, solid blue full-screen panels and small arrow cursors fill the empty areas of the frame, with {cursor_count} cursors in total.
+Cut to 1s: a new layout of {panel_count} overlapping panels with thin horizontal bars and small tab-shaped blocks, and a swarm of about 12 cursors; blocky pixel corruption flickers on {subject}.
 Cut to 2s: the panels freeze in stacks along the frame edges with 4 small duplicated thumbnails of the clip; scanline banding rolls.
-3-5s: rapid glitch cuts about every half second swap in dark terminal-style panels and dialog boxes, with colored bars strobing at the frame edge; the footage of {subject} keeps moving beneath.
+3-5s: rapid glitch cuts about every half second swap in dark-blue panels holding thin horizontal bars, with colored bars strobing at the frame edge; the footage of {subject} keeps moving beneath.
 Camera: locked off at {shot_size}, no pan or tilt.
 The visuals feature a cold blue duotone, scanlines and a phosphor glow.
 ```
 **Slots:**
-- `{subject}`, `{location}`, `{action}`: read from the photo ("the skateboarder", "an empty parking lot", "preparing to ollie").
+- `{subject}`, `{location}`, `{action}`: read from the photo ("the skateboarder", "an empty parking lot", "preparing to ollie"); `{action}` must be a continuous movement (the run's subject froze in a held lunge when the action was a pose).
 - `{cursor_count}`: default "6".
 - `{panel_count}`: default "7".
 - `{shot_size}`: read from the photo ("wide shot", "medium shot").
@@ -360,5 +362,5 @@ The visuals feature a cold blue duotone, scanlines and a phosphor glow.
 - Panels hold abstract shapes only, with no readable text, digits or logos.
 - The subject stays readable and uncovered and keeps moving.
 - Blue duotone and scanlines persist throughout.
-**Risks:** Gibberish text if the model writes labels (the template keeps panels abstract and moves text to post); panels covering the subject; text baked into video violating the no-overlay rule; trademark risk from reproducing a real operating system's interface; cut timing drifting (timestamps are a time budget, not frame-accurate); stutter look needing post. Confidence is medium and the page gave one line.
-**Status:** untested hypothesis (analysis 2026-10-08)
+**Risks:** Run 2026-10-08: panels described as title bars, progress bars, folder or terminal panels drew pseudo-lettering and code-like lines; the plain-panel wording above removed the lettering but panel counts came out 4 and 6 for the requested 5 and 7 (counts are approximate) and the subject barely moved. Gibberish text if the model writes labels (the template keeps panels abstract and moves text to post); panels covering the subject; text baked into video violating the no-overlay rule; trademark risk from reproducing a real operating system's interface; cut timing drifting (timestamps are a time budget, not frame-accurate); stutter look needing post. Confidence is medium and the page gave one line.
+**Status:** tested once in the 2026-10-08 showcase run (project `effects-showcase`, scene-27, first-frame, retake, 480p draft, sound on, one invented subject at 9:16): usable with defects; both takes have review status fail: take 1 panels carried pseudo-lettering; the retake has plain panels but she barely moves and the panel counts are 4 and 6 for 5 and 7. Not verified on other photos or at a higher resolution.
