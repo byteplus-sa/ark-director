@@ -259,6 +259,12 @@
       "skillPath": ".agents/skills/seedream-character-sheet-cleanup/SKILL.md",
       "computedHash": "955dc6055bf31e24ac46e53d8188b9a6c5358e62e46a2eea9cbeb9e8ff8be4a1"
     },
+    "seedream-handcrafted-3d": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedream-handcrafted-3d/SKILL.md",
+      "computedHash": "8d7509c4062da3e91e8799bc754aad1a4897e4d2f46b9cd257c7c156cf97d99b"
+    },
     "seedream-edit": {
       "source": "./local",
       "sourceType": "local",

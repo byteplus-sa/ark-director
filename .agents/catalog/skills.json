@@ -388,6 +388,15 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "seedream-handcrafted-3d": {
+      "kind": "leaf",
+      "description": "Write Seedream prompts for handcrafted stylized 3D characters, portraits, superheroes, and wardrobe material studies with expressive proportions, painterly matte surfaces, pencil hatching, and tactile fabrics. Use when this visual treatment is requested or a supplied reference shows it; not for every character sheet, photorealism, animation, or exact graphic layouts.",
+      "readme_summary": "Writes handcrafted stylized 3D character and material-study prompts with painterly surfaces, tactile fabrics, reference roles, and visual QA.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
     "seedream-edit": {
       "kind": "leaf",
       "description": "Guide for using the seedream_edit_image MCP tool for interactive image editing with Seedream 5.0 Pro. Use when the user wants to edit an existing image (replace objects, change regions, add elements at specific positions), especially when coordinate-based precision is needed via point or bounding-box selection.",

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedream Handcrafted 3D"
+  short_description: "Tactile painterly 3D characters and costume studies"
+  default_prompt: "Use $seedream-handcrafted-3d to write a Seedream prompt package for the requested handcrafted stylized 3D character or wardrobe study."
