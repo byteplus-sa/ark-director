@@ -21,7 +21,12 @@ The script prints `index start-end word`. Map caption chunks to those
 indices. STT can merge or split tokens ("115 inch", "2195"), so always build
 the chunks from this printout, never from the script.
 
-## 2. Render
+## 2. Build the edit
+
+`render_short.py` builds the edit. Place its output in the project's Studio
+project as a clip and produce the deliverable with `studio_project.py render`
+(see the [production policy](../../../contracts/production-policy.md)); the
+script's own file is not a delivery master.
 
 ```bash
 uv run .agents/skills/seedance-avatar-news/scripts/render_short.py projects/<slug>/options/<x>/edl.json
@@ -120,9 +125,11 @@ subject to change" disclaimers from the source.
 
 ## Review
 
-The project's required review surface is the `showcase-html` production canvas
-(`showcase.json` → `index.html`), updated after each take and render. A quick
-side-by-side `viewer.html` is optional. Serve either over http
+The project's required review surface is its HyperFrames Studio project,
+synced after each take and render (see the
+[production policy](../../../contracts/production-policy.md)); pre-Studio canvas projects
+with `showcase.json` keep the `showcase-html` canvas. A quick side-by-side
+`viewer.html` is optional. Serve any such page over http
 (`python3 -m http.server <port> --directory projects/<slug>`), because a
 `file://` page in the browser pane is a static snapshot and cannot load
 relative media.

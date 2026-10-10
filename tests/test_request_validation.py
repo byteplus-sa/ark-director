@@ -288,7 +288,31 @@ class RequestValidationTests(unittest.TestCase):
             "source": "chat",
             "evidence": "User chose picture lock",
         }
-        self.assertTrue(validation.decision_findings(self.root, decision))
+        self.assertIn(
+            "approval.authorization",
+            {
+                finding.rule_id
+                for finding in validation.decision_findings(self.root, decision)
+            },
+        )
+        (self.root / "studio").mkdir()
+        self.assertNotIn(
+            "approval.authorization",
+            {
+                finding.rule_id
+                for finding in validation.decision_findings(self.root, decision)
+            },
+        )
+        (self.root / "showcase.json").write_text("{}")
+        self.assertIn(
+            "approval.authorization",
+            {
+                finding.rule_id
+                for finding in validation.decision_findings(self.root, decision)
+            },
+        )
+        (self.root / "showcase.json").unlink()
+        (self.root / "studio").rmdir()
         decision["authorization"] = {
             "source": "local_ui",
             "evidence": "local_review_ui",

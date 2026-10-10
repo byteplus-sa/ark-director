@@ -78,7 +78,8 @@ repeated submissions.
 When one run handles several pins:
 
 - Give each pin its own analysis sub-agent. It owns only
-  `templates/<pin-id>/` and never edits `showcase.json`, `index.html`,
+  `templates/<pin-id>/` and never edits the Studio project (or pre-Studio
+  canvas `showcase.json`, `index.html`),
   `project.md`, or `ref_cache.json`.
 - Every registry write, by any agent, goes through the lock in
   `.agents/scripts/operation_store.py`: `registry_lock`, `read_registry`,

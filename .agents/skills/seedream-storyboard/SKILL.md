@@ -90,10 +90,10 @@ storyboard and visual-anchor review.
   generated image unless visible story-world text is required. Exception: in
   single-image grid mode, thin dividers and panel numbers are part of the
   layout, not annotations — they belong inside the image.
-- A technically successful generation enters `review`. A validated agent
-  decision in `approve_for_me` or an explicit user choice in
-  `ask_for_approval` may set `selected_variant` and `approved` only after a
-  passing hash-bound panel review.
+- A technically successful generation enters `review`. Selection and
+  approval follow the project's `approval_mode` per the
+  [Production policy](../../contracts/production-policy.md), and may set
+  `selected_variant` and `approved` only after a passing hash-bound panel review.
 
 ## Panel delivery mode
 

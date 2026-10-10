@@ -1,17 +1,27 @@
 ---
 name: showcase-html
 description: >
-  Build and maintain a self-contained HTML production canvas for generated-media
-  projects. Keep briefs, stage status, elements, prompts, references, images,
-  audio, video takes, selections, review evidence, assemblies, and deliverables
-  synchronized in one data-driven page throughout every production stage. Also
-  supports ad-hoc comparison pages and locking variants back into manifests.
-  Use for every project production review or lifecycle checkpoint, and whenever
-  the user asks for an HTML gallery, showcase, canvas, before/after comparison,
-  combined view, or local interface for reviewing assets and choosing variants.
+  Build and maintain a self-contained HTML canvas for generated-media projects
+  created before HyperFrames Studio (projects with a showcase.json), and ad-hoc
+  comparison pages (optional for Studio projects). For a pre-Studio canvas project, keep briefs, stage status,
+  elements, prompts, references, images, audio, video takes, selections, review
+  evidence, assemblies, and deliverables synchronized in one data-driven page
+  throughout every production stage, and lock variants back into manifests. New
+  production projects use a HyperFrames Studio project through
+  studio_project.py instead. Use for pre-Studio canvas project review or lifecycle
+  checkpoints, and whenever the user asks for an HTML gallery, before/after
+  comparison, combined view, or local interface for comparing assets and
+  choosing variants.
 ---
 
 # Showcase HTML
+
+> **Scope:** new production projects use a HyperFrames Studio project
+> (`studio_project.py`, see the [production policy](../../contracts/production-policy.md)).
+> This skill serves pre-Studio canvas projects that already have a `showcase.json`, and
+> ad-hoc comparison pages. For a Studio project, `--quick` is an optional way to
+> look at elements, audio or candidate takes side by side; it is never a gate and
+> never creates a `showcase.json` at the project root.
 
 Build a **self-contained, data-driven HTML production canvas** for a project's
 generated media. The page is one portable file: it embeds lifecycle status,
@@ -66,7 +76,7 @@ still requires canvas maintenance and rendered-page inspection.
 Every production stage exit requires this read-only check:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --check --stage <stage-id>
 ```
 
@@ -78,7 +88,7 @@ regenerate and display it.
 Initialize the canvas after `project.md` exists:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --init --open
 ```
 
@@ -97,8 +107,9 @@ Initialize the canvas after `project.md` exists:
      elements a shot binds (`@Image N` / `@Video N` / `@Audio N`) — use it to
      populate the card's `refs` ("Elements used").
 
-2. **Author `showcase.json`.** For production work, add the full lifecycle
-   `canvas` object and set `stage` on every section. Use one `grid` section for elements, one for videos,
+2. **Populate `showcase.json`.** For production work, create the file only
+   with the canonical `--init` command (never hand-write the manifest), then
+   fill the full lifecycle `canvas` object and set `stage` on every section. Use one `grid` section for elements, one for videos,
    plus a `panel` section for the combined view and/or a `table` section for
    before/after. Use relative paths (resolved against the project dir). Read
    prompts verbatim from the `prompt_*.md` snapshots — never retype them.
@@ -122,7 +133,7 @@ Initialize the canvas after `project.md` exists:
 4. **Generate and open** (review-only, no selection write-back):
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --stage <stage-id> --out index.html --open
 ```
 
@@ -131,7 +142,7 @@ Initialize the canvas after `project.md` exists:
    to the manifests:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --stage <stage-id> --serve --port 8000
 ```
 
@@ -157,7 +168,7 @@ The repository environment supplies `ruamel.yaml`; run `uv sync --group dev`
    production canvas requires a decision envelope for an agent selection:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --stage <stage-id> \
   --apply projects/<project>/decisions/selection-envelope.json --expected-revision <revision>
 ```
@@ -172,7 +183,7 @@ The repository environment supplies `ruamel.yaml`; run `uv sync --group dev`
    agent stage decision file:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --stage <stage-id> \
   --stage-decision projects/<project>/decisions/stage-decision.json --expected-revision <revision>
 ```
@@ -194,15 +205,15 @@ The repository environment supplies `ruamel.yaml`; run `uv sync --group dev`
 
 ```bash
 S=.agents/skills/showcase-html/scripts/stage_lock.py
-.venv/bin/python $S review projects/<project> --artifact assembly/master.mp4 \
+uv run python $S review projects/<project> --artifact assembly/master.mp4 \
   --out qa/review_master.json --method "temporal playback review ..." \
   --coverage "whole master" --check "technical=pass: 1080x1920, full decode" \
   --observation "..." --recommendation "Lock picture."
-.venv/bin/python $S lock projects/<project> --kind picture \
+uv run python $S lock projects/<project> --kind picture \
   --artifact assembly/master.mp4 --review qa/review_master.json --reason "..."
-.venv/bin/python $S advance projects/<project> --stage assembly-review \
+uv run python $S advance projects/<project> --stage assembly-review \
   --source assembly/delivery_manifest.json:data
-.venv/bin/python $S reopen projects/<project> --stage assembly-review \
+uv run python $S reopen projects/<project> --stage assembly-review \
   --reason "User asked to remove a shot"
 ```
 
@@ -226,7 +237,7 @@ S=.agents/skills/showcase-html/scripts/stage_lock.py
    combined view in the opened page:
 
 ```bash
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   projects/<project> --check --stage <stage-id>
 ```
 
@@ -243,19 +254,19 @@ setup — no `showcase.json` required.
 
 ```bash
 # Compare two video takes (auto-groups by folder, auto-populates ffprobe metadata):
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   --quick scenes/scene-01/s01_sh010/s01_sh010_t01_v01.mp4 \
          scenes/scene-01/s01_sh010/s01_sh010_t02_v01.mp4 \
   --contact-sheets
 
 # Compare images:
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   --quick elements/lucky-lion/char_lucky-lion_turnaround_v01.png \
          elements/lucky-lion/char_lucky-lion_turnaround_v02.png \
          elements/lucky-lion/char_lucky-lion_turnaround_v03.png
 
 # Mix of videos, images, and audio:
-.venv/bin/python .agents/skills/showcase-html/scripts/generate_showcase.py \
+uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   --quick scenes/scene-01/s01_sh010/s01_sh010_t01_v01.mp4 \
          elements/neon-reels/screen_slot-grid_v01.png \
          library/sfx_sonic-logo_v01.wav
@@ -266,9 +277,10 @@ written to `_quick_review.html` in the current directory (override with
 `--out`). Media paths are converted to `file://` URIs so the browser can
 load them from anywhere on disk.
 
-Use `--quick` only for ad-hoc files outside a tracked project. A project review
-uses its persistent production canvas so the result remains part of lifecycle
-state. `media-review` remains an emergency or explicitly requested OS-player
+Use `--quick` for ad-hoc files, or optionally for a Studio project's elements,
+audio and candidate takes (write it under `projects/<project>/review/`, never at
+the project root). A pre-Studio canvas project's review uses its persistent
+production canvas so the result remains part of lifecycle state. `media-review` remains an emergency or explicitly requested OS-player
 fallback.
 
 ## Section recipes
@@ -418,7 +430,7 @@ token and a bounded JSON body. Media uses streaming and single byte ranges.
 `--contact-sheets`, and returns nonzero on invalid input. It checks references;
 it is not a full media decode or semantic quality audit.
 
-Offline checks: `.venv/bin/python -m unittest discover -s tests -p 'test_showcase*.py'`.
+Offline checks: `uv run python -m unittest discover -s tests -p 'test_showcase*.py'`.
 The localhost tests require loopback access. The separately gated browser smoke
 uses `SHOWCASE_BROWSER_SMOKE=1`, Node with Playwright, Chrome (or
 `SHOWCASE_BROWSER_CHANNEL`), and FFmpeg to create temporary synthetic media.

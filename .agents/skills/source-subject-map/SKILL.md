@@ -89,7 +89,7 @@ probed. Page or platform links are not video inputs.
 
 Submit `seed_understand` through `ark_job_submit` (it requires background
 execution) with the fixed question set as `prompt`, the clip in `videos` as
-`{"kind": "url", "url": ...}`, `thinking: true`, `reasoning_effort: "high"`,
+`{"kind": "url", "url": ...}`, `reasoning_effort: "high"`,
 and a low `temperature`. Poll `ark_job_get` no faster than `poll_after_ms`.
 Save the exact prompt and raw answer to `subject_map_understand.md`. Long
 clips and uncertain timestamps follow the reference.

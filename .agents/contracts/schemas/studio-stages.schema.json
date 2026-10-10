@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Studio production stages",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "current_stage",
+    "stages"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "current_stage": {
+      "enum": [
+        "brief-development",
+        "scene-breakdown",
+        "canon-elements",
+        "storyboard-visual-plan",
+        "audio-preparation",
+        "shot-generation",
+        "assembly-review",
+        "delivery"
+      ]
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "pending",
+              "review",
+              "complete",
+              "skipped"
+            ]
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evidence": {
+            "type": "object",
+            "required": [
+              "status_ok",
+              "check_ran",
+              "check_ok",
+              "provenance_sha256",
+              "index_sha256"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "status_ok": {
+                "type": "boolean"
+              },
+              "check_ran": {
+                "type": "boolean"
+              },
+              "check_ok": {
+                "type": "boolean"
+              },
+              "provenance_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "index_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "render_record": {
+                "type": "string"
+              }
+            }
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "locks": {
+            "type": "object",
+            "propertyNames": {
+              "enum": [
+                "picture",
+                "audio",
+                "final_master"
+              ]
+            },
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "decision_id",
+                "decision_sha256",
+                "result",
+                "artifact_path",
+                "artifact_sha256",
+                "review_path",
+                "review_sha256",
+                "actor",
+                "reason"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "decision_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "decision_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "result": {
+                  "const": "approved"
+                },
+                "artifact_path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "artifact_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "review_path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "review_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "actor": {
+                  "enum": [
+                    "agent",
+                    "user"
+                  ]
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "complete"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "required": [
+                "completed_at",
+                "evidence"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "skipped"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "required": [
+                "completed_at",
+                "reason"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

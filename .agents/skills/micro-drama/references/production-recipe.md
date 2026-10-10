@@ -98,9 +98,14 @@ before exceeding it. Seedream stills are minor by comparison.
   -20 LUFS before normalization.
 - This workspace's ffmpeg build may lack `drawtext`. Render cards as PNGs and
   subtitles as a sidecar.
-- Record reviews and locks with the showcase-html `stage_lock.py` tool
-  (`review`, `lock`, `advance`). For a revision after delivery, such as removing
-  a shot the user dislikes, use `stage_lock.py reopen --stage assembly-review`,
-  build a new master version, and lock it; the earlier version stays on disk.
+- Studio projects record shot-take selections with
+  `studio_project.py record-selection` (shot video takes) and record picture,
+  audio and final-master locks with `studio_project.py record-lock`; for a revision after delivery, such as
+  removing a shot the user dislikes, render a new master version with
+  `studio_project.py render` (it never overwrites an earlier render).
+  Pre-Studio canvas projects record reviews and locks with the showcase-html
+  `stage_lock.py` tool (`review`, `lock`, `advance`) and reopen with
+  `stage_lock.py reopen --stage assembly-review`; the earlier version stays on
+  disk either way.
 - Some platforms play HEVC poorly. Deliver H.264 masters, and convert raw
   Seedance clips to H.264 before embedding them in documents.

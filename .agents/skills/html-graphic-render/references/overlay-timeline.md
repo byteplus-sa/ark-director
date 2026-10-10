@@ -14,7 +14,8 @@ one validated JSON timeline and a hash-bound sidecar record.
 - Time layers to measured cuts and beats of the actual take (scrub it or
   probe it), not to the timestamps written in the generation prompt.
 - Record the sidecar (`overlay_<output-stem>.json`) path and output SHA-256 in
-  the shot or scene manifest `finish` block, then update the canvas.
+  the shot or scene manifest `finish` block, then update the project's review
+  surface per the [production policy](../../../contracts/production-policy.md).
 - The machine ffmpeg has no `drawtext`; this tool uses only `overlay`,
   `scale`, `format`, `fade` (alpha) and `enable` expressions.
 

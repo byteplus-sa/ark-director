@@ -14,41 +14,42 @@ mode, and change contract. Submit through the selected tool only after preflight
 The sample below is for the supported legacy `seedance_create_task` branch;
 use the 2.5 branch parameters below for the default model.
 
-**MCP request structure:**
+**MCP request structure** (submit through `ark_job_submit`, the default path):
 
 ```json
 {
-  "server_name": "ark-mcp",
-  "tool_name": "seedance_create_task",
-  "args": {
-    "input": {
-      "prompt": "<full VFX prompt text from Step 1>",
-      "videos": [
-        {
-          "kind": "url",
-          "url": "<presigned source video URL>",
-          "role": "reference_video"
-        }
-      ],
-      "images": [
-        {
-          "kind": "base64",
-          "data": "<base64-encoded character/location sheet>",
-          "mime_type": "image/png",
-          "role": "reference_image"
-        }
-      ],
-      "model": "dreamina-seedance-2-0-260128",
-      "omni_reference_task_type": "edit_video",
-      "resolution": "1080p",
-      "ratio": "16:9",
-      "duration": 5,
-      "generate_audio": true,
-      "watermark": false,
-      "return_last_frame": true,
-      "execution_expires_after": 3600,
-      "priority": 0,
-      "safety_identifier": "<project>-<scene>-<shot>"
+  "input": {
+    "tool_name": "seedance_create_task",
+    "arguments": {
+      "input": {
+        "prompt": "<full VFX prompt text from Step 1>",
+        "videos": [
+          {
+            "kind": "url",
+            "url": "<presigned source video URL>",
+            "role": "reference_video"
+          }
+        ],
+        "images": [
+          {
+            "kind": "base64",
+            "data": "<base64-encoded character/location sheet>",
+            "mime_type": "image/png",
+            "role": "reference_image"
+          }
+        ],
+        "model": "dreamina-seedance-2-0-260128",
+        "omni_reference_task_type": "edit_video",
+        "resolution": "1080p",
+        "ratio": "16:9",
+        "duration": 5,
+        "generate_audio": true,
+        "watermark": false,
+        "return_last_frame": true,
+        "execution_expires_after": 3600,
+        "priority": 0,
+        "safety_identifier": "<project>-<scene>-<shot>"
+      }
     }
   }
 }
@@ -77,23 +78,30 @@ Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
 - **`safety_identifier`** — set to `<project>-<scene>-<shot>` for
   traceability.
 
-The tool returns a `task_id` and `polling_interval`. Immediately store the task,
-shot, take, version, model, status, intended asset path, and submission time in
-`projects/<project>/task_ids.json` before polling. A local timeout never
+`ark_job_submit` returns an Ark job ID; the finished job result carries the
+provider task ID (`cgt-...`). Store the task, shot, take, version, model,
+status, intended asset path, and submission time in
+`projects/<project>/task_ids.json` as soon as the provider ID exists and before
+polling, and keep the Ark job ID beside it (`extensions.ark_job_id`). A local timeout never
 authorizes a duplicate submission; resume the recorded task until terminal.
 
 ## Step 4 — Poll for completion
 
-Call `seedance_get_task` repeatedly, respecting the `polling_interval` from
-creation:
+Poll `seedance_get_task` in the foreground with `persist_output` off, waiting
+the `recommended_poll_after_ms` from creation between calls:
+
+```json
+{"task_id": "<task_id from Step 3>", "persist_output": false}
+```
+
+Once the status is terminal and succeeded, persist the output once through a
+background job:
 
 ```json
 {
-  "server_name": "ark-mcp",
-  "tool_name": "seedance_get_task",
-  "args": {
-    "task_id": "<task_id from Step 3>",
-    "persist_output": true
+  "input": {
+    "tool_name": "seedance_get_task",
+    "arguments": {"input": {"task_id": "<task_id from Step 3>", "persist_output": true}}
   }
 }
 ```

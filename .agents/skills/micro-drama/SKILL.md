@@ -8,7 +8,7 @@ description: >-
   filipino-micro-drama), then canon sheets, text-free storyboard conditioning,
   Seedance 2.5 scene clips with native dialogue, dialogue-accuracy QA,
   assembly, loudness-matched delivery, and an optional full-episode showreel,
-  all on the showcase-html production canvas. Use for micro-dramas, vertical
+  all in a HyperFrames Studio project. Use for micro-dramas, vertical
   dramas, ReelShort/DramaBox-style series, TikTok drama episodes, or batches of
   several independent episodes produced in parallel. Do not use for a single
   prompt, a non-episodic ad, a music video, or long-form film; use
@@ -21,7 +21,7 @@ Produce one or more vertical micro-drama episodes. Each episode is a complete,
 reviewable 45–60 s unit built from three Seedance scene clips. This skill owns
 the episode format and its production sequencing. Market story craft, such as
 tropes, dialogue register and cultural signifiers, belongs to a market writer
-skill. Stage, approval, canvas and submission rules come from `AGENTS.md` and
+skill. Stage, approval, Studio and submission rules come from `AGENTS.md` and
 the production contracts; this skill does not relax them.
 
 ## Inputs and outputs
@@ -32,7 +32,7 @@ exists for the audience, obtain a locked episode brief from it first. Otherwise
 draft the brief with the fields in
 [episode structure](references/episode-structure.md).
 
-Output per episode: a project under `projects/<slug>/` with all eight canvas
+Output per episode: a project under `projects/<slug>/` with all eight production
 stages closed, a final master (1080×1920 H.264/AAC), an English subtitle
 sidecar, locks, and an honest defect list. For a batch, also a portfolio page
 and an optional full-episode showreel.
@@ -42,8 +42,9 @@ and an optional full-episode showreel.
 1. **Brief.** Lock logline, formula, a cast of at most three recurring
    characters, one or two locations, threshold props, and exact dialogue per
    scene. Record `approval_mode`, format and run budget in `project.md`,
-   run `brief-intake` in fast mode, then initialize the canvas with the
-   canonical `--init` command.
+   run `brief-intake` with a fast proposal, then run `studio_project.py init <project>` (see the
+   [production policy](../../contracts/production-policy.md)) (pre-Studio canvas projects with
+   `showcase.json` keep the `showcase-html` canvas).
 2. **Breakdown.** Three scenes: Hook (about 15 s), Turn (about 20 s),
    Cliffhanger (about 15 s). Each scene is one multi-shot Seedance clip with
    internal cuts, and each gets a shot plan (size, angle, move and light per
@@ -62,11 +63,14 @@ and an optional full-episode showreel.
    the storyboard-leak and dialogue rules in the
    [production recipe](references/production-recipe.md). Run `prompt-review`,
    register the operation, submit the three clips in parallel, and QA each take.
-7. **Assembly.** Cold open first, then the title card, the three clips with
-   short dissolves, and the to-be-continued card. Add a subtitle sidecar and
+7. **Assembly.** In Studio, place the cold open first, then the title card, the
+   three clips with short dissolves, and the to-be-continued card. Add a subtitle sidecar and
    normalize loudness. Picture and audio locks come from real playback and
    listening evidence.
-8. **Delivery.** Final lock and a passing `--check --stage delivery`.
+8. **Delivery.** Final lock and passing Studio stage-exit checks, with the final
+   master from `studio_project.py render`; FFmpeg assembly, subtitle and
+   loudness work is placed in Studio as a clip or overlay and rendered, not
+   delivered directly (pre-Studio canvas: `--check --stage delivery`).
 
 For a batch of episodes, follow [batch production](references/batch-production.md):
 one agent per episode with exclusive project ownership, on-disk checkpoints,

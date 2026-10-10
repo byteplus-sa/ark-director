@@ -93,7 +93,7 @@
     },
     "blender-to-seedance": {
       "kind": "orchestrator",
-      "description": "End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. Builds a graybox previz in Blender (primitives, color-coded proxies, spline camera), renders it to a 24fps MPEG-4 viewport-style clip, uploads it, and submits a video-to-video task where the previz is the locked motion and camera master and the prompt only dresses the world (characters, locations, materials, style). Composes the blender-* skills (build), seedance-prompt-25 blockout grammar (prompt), ark-mcp (submit/poll/download), and seedance-vfx-pipeline's save/manifest pattern. This is an orchestrator skill: it delegates the build to the blender-* skills, the grammar to seedance-prompt-25, submission to ark-mcp, and persistent stage review to showcase-html. Use whenever the user wants to direct a shot from 3D \u2014 \"blockout to video\", \"graybox previz to Seedance\", \"3D to Seedance\", \"previz the camera then render\", \"Blender blocking to Seedance\" \u2014 or wants camera, cuts, and timing locked down before spending video credits.",
+      "description": "End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. Builds a graybox previz in Blender (primitives, color-coded proxies, spline camera), renders it to a 24fps MPEG-4 viewport-style clip, uploads it, and submits a video-to-video task where the previz is the locked motion and camera master and the prompt only dresses the world (characters, locations, materials, style). Composes the blender-* skills (build), seedance-prompt-25 blockout grammar (prompt), ark-mcp (submit/poll/download), and seedance-vfx-pipeline's save/manifest pattern. This is an orchestrator skill: it delegates the build to the blender-* skills, the grammar to seedance-prompt-25, submission to ark-mcp, and stage review to the project's Studio project. Use whenever the user wants to direct a shot from 3D \u2014 \"blockout to video\", \"graybox previz to Seedance\", \"3D to Seedance\", \"previz the camera then render\", \"Blender blocking to Seedance\" \u2014 or wants camera, cuts, and timing locked down before spending video credits.",
       "readme_summary": "End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -147,8 +147,8 @@
     },
     "film-production": {
       "kind": "orchestrator",
-      "description": "Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one required showcase-html production canvas through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between deterministic HTML-entrypoint graphics, Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.",
-      "readme_summary": "Orchestrates multi-scene, multi-modality production one stage at a time while keeping a required HTML production canvas synchronized for review and handoff.",
+      "description": "Orchestrate an AI-assisted film, commercial, music video, or narrative production across brief, development, canon, storyboard, audio, shot generation, review, assembly, and delivery while maintaining one HyperFrames Studio project through every stage. Use when a request spans multiple scenes or modalities, asks to create or continue a film project, requires coordination between deterministic HTML-entrypoint graphics, Seedream, Seed Audio, Seedance, HyperFrames, or FFmpeg, or needs the next safe production step rather than a single prompt. Do not use for an isolated image, audio, video, or editing request that one specialist skill can complete independently.",
+      "readme_summary": "Orchestrates multi-scene, multi-modality production one stage at a time while keeping one HyperFrames Studio project synchronized for review and handoff.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -174,7 +174,7 @@
     },
     "media-review": {
       "kind": "leaf",
-      "description": "Emergency CLI fallback for opening generated images or videos in macOS when HTML/browser review is unavailable, or when the user explicitly requests an OS-native player. Never use it as production-stage review evidence: project workflows require the synchronized showcase-html canvas and freshness check.",
+      "description": "Emergency CLI fallback for opening generated images or videos in macOS when Studio preview or the pre-Studio canvas is unavailable, or when the user explicitly requests an OS-native player. Never use it as production-stage review evidence: project workflows require the Studio stage-exit checks (or, for a pre-Studio canvas project with showcase.json, the showcase-html freshness check).",
       "readme_summary": "Emergency OS-player fallback when the required HTML/browser review surface is unavailable.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -327,7 +327,7 @@
     },
     "seedance-prompt-25": {
       "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, and camera language. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead. For 4K output resolution (unsupported by 2.5) or Fast/Mini speed variants, also use `seedance-prompt-20`.",
+      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, and camera language. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead. For 4K output through legacy 2.0 or Fast/Mini speed variants, also use `seedance-prompt-20`; whitelist-only 2.5 Premium (4K) uses this skill.",
       "readme_summary": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids,.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -345,8 +345,8 @@
     },
     "seedance-vfx-pipeline": {
       "kind": "orchestrator",
-      "description": "End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-object-swap, seedance-motion-recast, seedance-restyle, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the persistent showcase-html production canvas to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (character, outfit, product, prop, object, or location swap), a Motion Transfer recast (keep source motion, rebuild cast and world), or a Restyle (redraw the clip in a new medium), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot \u2014 write prompt, submit task, poll, download, compare, and review \u2014 rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.",
-      "readme_summary": "Run a complete Seedance video-to-video VFX, Object Swap, Motion Transfer or Restyle shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project canvas.",
+      "description": "End-to-end pipeline for Seedance video-to-video VFX shot production. Composes seedance-vfx-prompt, seedance-object-swap, seedance-motion-recast, seedance-restyle, source-subject-map, the ark-mcp tools, ffmpeg-side-by-side-comparison, and the project's Studio review surface to take a source clip and change description through a reviewed, saved, manifested asset. Routes each shot to a VFX edit, an Object Swap (character, outfit, product, prop, object, or location swap), a Motion Transfer recast (keep source motion, rebuild cast and world), or a Restyle (redraw the clip in a new medium), and runs batch variants that turn one approved take into N market, talent, or product variants. Invoke when the user wants to run a full VFX, swap, or recast shot \u2014 write prompt, submit task, poll, download, compare, and review \u2014 rather than just write a prompt. Supports both Seedance 2.0 and 2.5; default to 2.5 (omni_reference_task_type=edit) for full-duration edits.",
+      "readme_summary": "Run a complete Seedance video-to-video VFX, Object Swap, Motion Transfer or Restyle shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project manifests and Studio project.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -354,7 +354,7 @@
     },
     "seedance-restoration": {
       "kind": "leaf",
-      "description": "Write Seedance 2.5 video-to-video restoration prompts that remove film grain, video noise, black and white scratch lines, vertical and horizontal scratches, hairlines, streaks, dust, dirt, flicker, and compression artifacts from aged, damaged, or archival footage while preserving every person, object, action, composition, camera movement, and timing. Use whenever the user asks to restore, clean, denoise, or repair old, aged, or archival footage, remove grain or noise, erase scratch lines or film damage, or \"clean up\" damaged film through the Seedance generative-edit route. Prompt-composition only; the caller owns submission and the generation lifecycle.",
+      "description": "Write Seedance 2.5 video-to-video restoration prompts that remove film grain, video noise, black and white scratch lines, vertical and horizontal scratches, hairlines, streaks, dust, dirt, flicker, and compression artifacts from aged, damaged, or archival footage while preserving every person, object, action, composition, camera movement, and timing. Use whenever the user asks to restore, clean, denoise, or repair old, aged, or archival footage, remove grain or noise, erase scratch lines or film damage, or \"clean up\" damaged film through the Seedance generative-edit route. Composes the prompt and specifies the diagnosis and verification steps; the caller owns submission and the generation lifecycle.",
       "readme_summary": "Write Seedance 2.5 video-to-video restoration prompts that remove film grain, noise, scratch lines, dust, and flicker from aged or archival footage while preserving the shot.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -435,8 +435,8 @@
     },
     "showcase-html": {
       "kind": "tooling",
-      "description": "Build and maintain a self-contained HTML production canvas for generated-media projects. Keep briefs, stage status, elements, prompts, references, images, audio, video takes, selections, review evidence, assemblies, and deliverables synchronized in one data-driven page throughout every production stage. Also supports ad-hoc comparison pages and locking variants back into manifests. Use for every project production review or lifecycle checkpoint, and whenever the user asks for an HTML gallery, showcase, canvas, before/after comparison, combined view, or local interface for reviewing assets and choosing variants.",
-      "readme_summary": "Maintain one synchronized HTML production canvas across every project stage.",
+      "description": "Build and maintain a self-contained HTML canvas for generated-media projects created before HyperFrames Studio (projects with a showcase.json), and ad-hoc comparison pages (optional for Studio projects). For a pre-Studio canvas project, keep briefs, stage status, elements, prompts, references, images, audio, video takes, selections, review evidence, assemblies, and deliverables synchronized in one data-driven page throughout every production stage, and lock variants back into manifests. New production projects use a HyperFrames Studio project through studio_project.py instead. Use for pre-Studio canvas project review or lifecycle checkpoints, and whenever the user asks for an HTML gallery, before/after comparison, combined view, or local interface for comparing assets and choosing variants.",
+      "readme_summary": "Maintain the HTML production canvas of pre-Studio canvas projects and build ad-hoc comparison pages (optional for Studio projects).",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -444,8 +444,8 @@
     },
     "template-factory": {
       "kind": "orchestrator",
-      "description": "Reverse-engineer a reference video (\"pin\") into reproducible AIGC output. Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch; download and media_upload only when unusable), video and audio breakdown, per-beat motion analysis, keyframes, dynamic sketch storyboard, optional element sheets (Seedream for invented identity; web/user download-first for authorized real brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards, screens, product layouts, and overlays), and a Seedance 2.5 video \u2014 generation-bound prompts through prompt-review; stages on the showcase-html canvas. Explicit orchestrator composing ark-mcp (including seed_audio_understand), seedream-storyboard, seedance-prompt-25, prompt-review, html-graphic-render, hyperframes, showcase-html, and ffmpeg; never calls the Ark REST API. Use to replicate style/composition/grammar, build a reusable template, or turn a cited brand ad, Pinterest pin, or other reference video into elements and video.",
-      "readme_summary": "Reverse-engineer a reference video and soundtrack into a timed visual and audio recipe, with reviewable assets and a synchronized production canvas.",
+      "description": "Reverse-engineer a reference video (\"pin\") into reproducible AIGC output. Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch; download and media_upload only when unusable), video and audio breakdown, per-beat motion analysis, keyframes, dynamic sketch storyboard, optional element sheets (Seedream for invented identity; web/user download-first for authorized real brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards, screens, product layouts, and overlays), and a Seedance 2.5 video \u2014 generation-bound prompts through prompt-review; reviewed in a HyperFrames Studio project. Explicit orchestrator composing ark-mcp (including seed_audio_understand), seedream-storyboard, seedance-prompt-25, prompt-review, html-graphic-render, hyperframes, and ffmpeg; never calls the Ark REST API. Use to replicate style/composition/grammar, build a reusable template, or turn a cited brand ad, Pinterest pin, or other reference video into elements and video.",
+      "readme_summary": "Reverse-engineer a reference video and soundtrack into a timed visual and audio recipe, with reviewable assets and shot takes reviewed in a synchronized Studio project.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -478,86 +478,95 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "general-video": {
+      "kind": "vendored",
+      "description": "Author or edit a custom HyperFrames composition when no specialized workflow fits, or when BRIEF.md sets flow: companion. Use for longer or multi-scene pieces, brand and sizzle reels, montages, static loops, static title cards, footage remixes, and freeform builds. Use motion-graphics instead for a short unnarrated motion-first unit, including an animated title. Route fresh creation through hyperframes before using this skill.",
+      "readme_summary": "Custom HyperFrames compositions when no specialized workflow fits \u2014 multi-scene pieces, reels, montages, footage remixes, static title cards, and freeform builds.",
+      "dependencies": [],
+      "source_revision": "v0.8.141",
+      "upstream_hash": "6e0aad276db66d31791bdb19abdd12f3650ce03b7f7329d1c2d2c9176d87214c",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local overlays: a Workspace overlay paragraph replaces the `npx hyperframes skills update general-video` block (skills are managed in .agents/skills/ and never installed globally), forbids running `usage`, `feedback`, `open`, `upgrade`, `publish` and `cloud*` unasked, and points to the pinned privacy environment in the production policy; the `skills update <workflow-name>` step is replaced by reading the workflow under .agents/skills/. The rest of the bundle matches upstream. The `hyperframes init ... --skill=general-video` scaffold command is replaced by `studio_project.py sync`/`init` because init installs skills globally."
+    },
     "hyperframes": {
       "kind": "vendored",
       "description": "Mandatory entry point: read this first for any request to make, create, edit, animate, or render a video, animation, or motion graphic, including a promo, explainer, captioned clip, title card, overlay, slideshow or interactive deck, Remotion port, or any HyperFrames HTML composition. Also use it to inspect, diagnose, validate, preview, publish, or batch-render an existing HyperFrames project. Inputs may be a website URL, GitHub PR, Figma design or URL, text or brief, existing footage, or music. It resumes project state, captures intent when applicable, selects and installs the owning workflow, and routes domain capabilities. HyperFrames is the default output framework unless the user explicitly chooses another framework for the deliverable or asks only to record a browser session.",
-      "readme_summary": "Mandatory HyperFrames entry point \u2014 resumes project state, selects and installs the owning workflow, and routes all video, animation, and motion-graphic capabilities.",
+      "readme_summary": "Mandatory HyperFrames entry point \u2014 resumes project state, selects the owning workflow (nothing is installed), and routes all video, animation, and motion-graphic capabilities.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "c696f32f2d953d767d847cb5eb7a0a23e0f0e33641f043a3b830c1ea3b721b33",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "a277e9e46b3b5b8619639a353a4af3f46f8ae4f2e622ba802d5af730d135f410",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local overlays: workflow skills and references/routes/ are not vendored; when the matched workflow is absent, SKILL.md section 4 asks the owner to vendor it through a reviewed change. SKILL.md drops the Remotion-port state row and the /figma domain row, replaces the route-contract read with a workspace overlay paragraph, changes the BRIEF.md row to execute a workflow only when vendored, replaces the `usage --json` requirement and the `npx hyperframes@latest upgrade` instructions with workspace overlay rules (no `usage`, no upgrade; the release is pinned), states that `publish` and the cloud commands run only on explicit user request, and points the skills-install ban at the production policy privacy environment. references/route-briefs.md and references/workflow-catalog.md point to the owner-vendoring rule instead of on-demand install. Upstream plugin-installation.md and plugin-cli.mjs are vendored because refreshed skills link them. Compare with upstream before re-vendoring. The upstream media-use skill is intentionally not installed; its pointers inside hyperframes* skills are unresolved and routing.md names the replacement route. Section 6 forbids `hyperframes open` and `catch-up` unless the user asks."
     },
     "hyperframes-animation": {
       "kind": "vendored",
       "description": "All animation knowledge for HyperFrames \u2014 atomic motion rules, multi-phase scene blueprints, scene transitions, broader motion-design techniques, AND the seven runtime adapters (GSAP default, plus Lottie, Three.js, Anime.js, CSS keyframes, Web Animations API, TypeGPU). Use for any motion or animation task: pick 2-4 rules and compose, or load a blueprint, or look up runtime-specific API (e.g. GSAP eases / Lottie player / Three.js mixer). Also covers auditing an existing composition's choreography (animation map) and 24 named text-animation effects. HyperFrames-native: single paused timeline, seek-safe, deterministic.",
       "readme_summary": "Atomic motion rules, multi-phase scene blueprints, transitions, and the seven runtime adapters (GSAP, Lottie, Three.js, Anime.js, CSS, WAAPI, TypeGPU).",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "69a9903796e65c66edbe9ec9621eca8953c7cc2a93a718687306891daf0463d4",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "b35f1f8eff68e9ff480a5d5d343a1bf5a40ebb7d0d9be20b0b980cfdb36047f3",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. No local overlays; bundle matches upstream."
     },
     "hyperframes-audio": {
       "kind": "vendored",
       "description": "Use when audio already placed in a HyperFrames composition needs to be mixed: fade-in/fade-out, crossfade, track gain or volume, volume automation, ducking, a music bed that fights a voiceover (voiceover carve), effects on a track (EQ, compressor, limiter, gate, saturation, delay, reverb, chorus, phaser, bitcrush), automation envelopes drawn on a track's volume or any effect parameter, or one submix bus carrying a chain, a fader and an automation clock for several tracks at once (`<hf-audio-group>`). Don't use for sourcing or generating audio \u2014 finding BGM, SFX, or making a voiceover is `/media-use`. Don't use for clip timing or track layout, which is `/hyperframes-core`.",
       "readme_summary": "Mixing audio already placed in a composition \u2014 fades, crossfades, ducking, effect chains, automation envelopes, and submix buses.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "350732899d50648f5d287c43fea17b5cfd20643cf30521918c8828c3f919481a",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "03007db5f0ea61f093c401f681e30d686c4a490f7462c6fd34949722e881b278",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. No local overlays; bundle matches upstream."
     },
     "hyperframes-cli": {
       "kind": "vendored",
-      "description": "Use the HyperFrames CLI development loop: init, add, catalog, capture, lint, check, snapshot, compare, grade-compare, preview, play, present, beats, keyframes, single or batch render, publish, cloud, cloudrun, feedback, lambda, doctor, browser, info, upgrade, skills, compositions, docs, benchmark, telemetry, transcribe, auth, tts, and remove-background. Also use when diagnosing build or render failures. validate, inspect, and layout are deprecated aliases; use check. Covers local, HeyGen-hosted cloud, AWS Lambda, and Google Cloud Run rendering.",
-      "readme_summary": "HyperFrames CLI development loop \u2014 init, add, catalog, capture, lint, check, snapshot, and render workflows.",
+      "description": "Use the HyperFrames CLI development loop: init, add, catalog, capture, lint, check, snapshot, compare, grade-compare, preview, play, present, beats, keyframes, single or batch render, publish, cloud, cloudrun, feedback, lambda, doctor, browser, info, upgrade, skills, compositions, timeline, history, clean, docs, benchmark, telemetry, transcribe, auth, tts, and remove-background. Also use when diagnosing build or render failures. validate, inspect, and layout are deprecated aliases; use check. Covers local, HeyGen-hosted cloud, AWS Lambda, and Google Cloud Run rendering.",
+      "readme_summary": "HyperFrames CLI development loop \u2014 init, add, catalog, capture, lint, check, snapshot, and render workflows, run through the pinned workspace entry.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "433aef24ea350a775cf2aec2d4af7742a017a4d8f729ee538b6c21a629a39a59",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "f722ee03ba20a3a8c6d2ba200729230e0245827a3178a02ef56e8b4b92c92a4e",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local overlay: a Workspace overlay paragraph after the title says to run HyperFrames only through studio_project.py or the pinned privacy environment, never `npx hyperframes@latest` or `upgrade`, and not to run `feedback`, `usage`, `open`/`catch-up`, `auth`, `publish`, `cloud`, `lambda`, `cloudrun` or `skills` unless the user asks. The rest of the bundle matches upstream."
     },
     "hyperframes-core": {
       "kind": "vendored",
       "description": "The HyperFrames composition contract \u2014 build one renderable project. Use for composition structure, the `data-*` timing attributes, `class=\"clip\"`, tracks, sub-compositions, variables, framework-owned media playback, deterministic-render rules, and validation. Read before writing composition HTML.",
       "readme_summary": "Composition contract for renderable HTML video \u2014 timing data-attributes, clips, tracks, sub-compositions, variables, determinism rules, and validation.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "5d784d5af66f7230b50dde10bde53cf7c35b6786868783a5a638cf05c988c54f",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "18ac7784765cc29af5a4d88f2a63a15deaf5395985009af188b5e3718edcfe3d",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. No local overlays; bundle matches upstream."
     },
     "hyperframes-creative": {
       "kind": "vendored",
       "description": "Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`.",
       "readme_summary": "Non-animation creative direction \u2014 design specs, palettes, typography, narration, beat planning, audio-reactive visuals, and brand style.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "488782fc741a43e002b5c6ac0da69cc2b12abaa42b6c0056df2aa53bea553c16",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "9da7b7ac84c8d884b54125887ecca1a645a38337013082b96af2fdc0259c945a",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. No local overlays; bundle matches upstream."
     },
     "hyperframes-keyframes": {
       "kind": "vendored",
       "description": "Use when a HyperFrames composition needs a punch-in, punch-out, zoom, reframe, Ken Burns treatment, camera move, visual match/whip handoff, or other seek-safe 2D/3D keyframes; also for GSAP, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, text trails, 3D depth, or `hyperframes keyframes` diagnostics. Don't use for broad scene strategy, brand design, media sourcing, captions, or general video planning.",
       "readme_summary": "Seek-safe 2D/3D keyframes \u2014 punch-ins, camera moves, Ken Burns, match-cut handoffs, masks, SVG morph/draw, and runtime-specific APIs.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "924d038dc7eb20d16e05fa0e9837fa50bdcac0ce131aee80ebd8188cb67110d1",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "d6484e8367ed522f2a89af9ec30ae3cd86ae243b5a23c5ab00a7a682e3d1a791",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. No local overlays; bundle matches upstream."
     },
     "hyperframes-registry": {
       "kind": "vendored",
       "description": "Search, install, and wire registry blocks and components into HyperFrames compositions. Use BEFORE hand-building any named visual \u2014 whenever a brief, a user, or a storyboard names a look, effect, treatment, or transition such as CRT scanlines, glitch, chromatic aberration, film grain, a shimmer sweep, a chart, a code or terminal window, a map, or a confetti burst \u2014 because roughly 400 hosted items already cover many of them and the search ranks all of them with nothing installed, no project, and no account. Also use when running hyperframes add or hyperframes catalog, installing one item or every block matching a tag, wiring an installed item into index.html, or working with hyperframes.json. Covers discovery, install locations, block sub-composition wiring, component snippet merging, and authoring a new block or component to contribute upstream (idea \u2192 scaffold \u2192 validate \u2192 PR).",
       "readme_summary": "Search, install, and wire hosted registry blocks and components into compositions before hand-building named visuals.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "0694f970b3613b9f0a63dc44c06404ea4f6506819f4afdbc9da3323b420cb9ae",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "f1925b202cabd125b509658b11db593b55340b1926ecb056fc31aa4233a2b4f6",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local overlay: one paragraph in SKILL.md; the rest of the bundle matches upstream. Workspace overlay: `hyperframes feedback --search-miss` is replaced by a note in handoff.md because it sends a report to an external service."
     },
-    "media-use": {
+    "hyperframes-studio": {
       "kind": "vendored",
-      "description": "Agent Media OS, the single skill for every media need in a HyperFrames project. Resolve BGM, SFX, image, icon, brand logo, voice, color grade, or LUT into a frozen local file or paste-ready block + ledger record (one verb, `resolve`); generate via TTS / music / image models when the catalog misses; produce voiceover, transcription, captions, and background removal through one shared audio engine; operate on media (cut / reframe / transform); and reuse assets across projects. Also use for vague feedback that real footage looks dark, flat, boring, should feel retro/camcorder/print/ASCII, needs privacy, or needs a media reveal.",
-      "readme_summary": "Agent Media OS \u2014 resolve BGM, SFX, images, icons, logos, voices, and grades into local files; generate via TTS/music/image models; produce voiceover, transcription, captions, and media operations.",
+      "description": "Use when working with a person on a HyperFrames project in Studio: first, whether their message asks for a change at all (questions, loose ideas and \"don't change anything\" get an answer and a plan, not an edit); for a new film, the plan, storyboard and build order that the HyperFrames launch films follow; and how the timeline should be laid out so it reads well (one caption track, one element kind per track, every scene a sub-composition) and where captions and key content may sit (safe zones). Don't use for how to perform an individual edit (split, trim, retime, volume, copy, swap): that is `creator-editing-recipes.md` in `/hyperframes-core`.",
+      "readme_summary": "Working with a person in HyperFrames Studio \u2014 when a message asks for a change at all, how a new film is planned and built, and timeline layout conventions with safe zones; the final gate runs through studio_project.py check.",
       "dependencies": [],
-      "source_revision": null,
-      "upstream_hash": "1301ea7cb53a0a44f5c7d62c34cba7e00b9e69b31bed57dc8d645417cea0da7c",
-      "overlay_notes": "Installed via the hyperframes skills CLI (0.8.38) from github:heygen-com/hyperframes; upstream commit not recorded. Compare with upstream before re-vendoring."
+      "source_revision": "v0.8.141",
+      "upstream_hash": "7449da3952155e40e7d76fc29d4415b4030ab6f7f3ff9c3b94fa1b159cad46c4",
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local overlay: a Workspace overlay paragraph and the Checking-your-work step use `studio_project.py check` instead of bare `hyperframes check`, route Studio feedback through storyboard comments and Ask agent / Copy to Agent read with `hyperframes preview --context --json` and `--selection --json`, and forbid `feedback`, `usage` and `open` unasked. The rest of the bundle matches upstream."
     },
     "ugc-motion-presets": {
       "kind": "leaf",
@@ -579,7 +588,7 @@
     },
     "seedance-avatar-news": {
       "kind": "orchestrator",
-      "description": "Produce a creator-style 9:16 tech/news explainer short hosted by an approved AI avatar: reference-format breakdown, sourced topic research, a hook-driven 20\u201330s script, a Seedance 2.5 talking-head take (built with seedance-ai-avatar), official B-roll acquisition with provenance and usage basis, and a deterministic ffmpeg edit via scripts/render_short.py (split-screen, full-screen, framed-card layouts, STT-timed caption pills, source and channel badges), plus parallel topic/edit variants on the production canvas. Use to recreate a TikTok/Reels/Shorts talking-head news format with an avatar, turn a news story into an avatar short, or batch several options of the same show.",
+      "description": "Produce a creator-style 9:16 tech/news explainer short hosted by an approved AI avatar: reference-format breakdown, sourced topic research, a hook-driven 20\u201330s script, a Seedance 2.5 talking-head take (built with seedance-ai-avatar), official B-roll acquisition with provenance and usage basis, and a deterministic edit built with scripts/render_short.py that is placed in Studio and rendered (split-screen, full-screen, framed-card layouts, STT-timed caption pills, source and channel badges), plus parallel topic/edit variants in the project's Studio review surface. Use to recreate a TikTok/Reels/Shorts talking-head news format with an avatar, turn a news story into an avatar short, or batch several options of the same show.",
       "readme_summary": "Creator-style news shorts hosted by an AI avatar: sourced script, official B-roll with provenance, and a deterministic split/full/card caption edit.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -624,7 +633,7 @@
     },
     "micro-drama": {
       "kind": "orchestrator",
-      "description": "Produce vertical short-form micro-drama episodes end to end for any market: a hook in the first seconds, a mid-episode reveal or confrontation, and a close-up cliffhanger, delivered as 9:16 episodes with a to-be-continued card. Orchestrates a market story writer when one exists (for example filipino-micro-drama), then canon sheets, text-free storyboard conditioning, Seedance 2.5 scene clips with native dialogue, dialogue-accuracy QA, assembly, loudness-matched delivery, and an optional full-episode showreel, all on the showcase-html production canvas. Use for micro-dramas, vertical dramas, ReelShort/DramaBox-style series, TikTok drama episodes, or batches of several independent episodes produced in parallel. Do not use for a single prompt, a non-episodic ad, a music video, or long-form film; use film-production for general multi-scene work.",
+      "description": "Produce vertical short-form micro-drama episodes end to end for any market: a hook in the first seconds, a mid-episode reveal or confrontation, and a close-up cliffhanger, delivered as 9:16 episodes with a to-be-continued card. Orchestrates a market story writer when one exists (for example filipino-micro-drama), then canon sheets, text-free storyboard conditioning, Seedance 2.5 scene clips with native dialogue, dialogue-accuracy QA, assembly, loudness-matched delivery, and an optional full-episode showreel, all in a HyperFrames Studio project. Use for micro-dramas, vertical dramas, ReelShort/DramaBox-style series, TikTok drama episodes, or batches of several independent episodes produced in parallel. Do not use for a single prompt, a non-episodic ad, a music video, or long-form film; use film-production for general multi-scene work.",
       "readme_summary": "Produce vertical micro-drama episodes end to end for any market: hook, reveal and cliffhanger clips with text-free storyboard conditioning, dialogue-accuracy QA, loudness-matched delivery and a full-episode showreel.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -635,6 +644,15 @@
       "kind": "leaf",
       "description": "Develop Filipino-market micro-drama stories: pick a proven Pinoy formula (kontrabida matriarch, hidden heir, kabit and legal-wife revenge, OFW homecoming, switched at birth, CEO fake relationship, aswang folk horror and more), then write a locked episode brief with a three-beat hook, sampal or reveal, and cliffhanger, a light cast, authentic Filipino settings, props and wardrobe, English-dominant Taglish dialogue with correct honorifics and class markers, and English subtitle translations. Use for Filipino or Taglish micro-drama concepts, loglines, episode briefs, series bibles or dialogue passes, including concept-only or prompt-only work. This leaf writes story material only; it does not generate media. Pair it with micro-drama for production and seedance-prompt-25-filipino for spoken-delivery direction.",
       "readme_summary": "Write Filipino-market micro-drama stories: proven Pinoy formulas, locked episode briefs with English-dominant Taglish dialogue, honorifics, authentic settings and subtitle translations.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "seedance-effects-studio": {
+      "kind": "orchestrator",
+      "description": "Orchestrator. Offer a menu of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and grab and more), let the user pick one, inspect their photo or clip, write that effect's Seedance 2.5 prompt from its recipe, run prompt-review, submit a 480p draft through ark-mcp, save and QA the take, then ask before any higher resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp, seedance-restyle (video-to-video effects), the Studio project and the post tools named in each recipe. Use when the user wants a named visual effect applied to their own photo, product or clip, or asks what effects are available. Not for free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the menu (seedance-restyle), or multi-scene films (film-production).",
+      "readme_summary": "Orchestrator: pick one of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, smash and grab and more), fit your photo or clip to the effect's recipe, write the Seedance 2.5 prompt, run prompt-review and a 480p draft through ark-mcp, inspect it against the recipe's checks, and ask before any final. Twelve recipes are probed; the rest are labelled untested.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

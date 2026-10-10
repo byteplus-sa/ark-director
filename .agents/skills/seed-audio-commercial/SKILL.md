@@ -247,7 +247,10 @@ mitigation strategies.
 
 After generation succeeds:
 
-1. **Download** the audio from the `source_url` to the project asset path.
+1. **Save** the audio to the project asset path from the durable artifact the
+   tool returns (set `output_path` on `seed_audio_generate`, or export the
+   artifact with `seed_media_export_artifact`); do not rely on a provider URL,
+   which expires.
 2. **Verify with ffprobe** — record duration, format, sample rate, channels,
    bit rate, and file size.
 3. **Full decode check** — run `ffmpeg -v error -i <file> -f null -` to confirm
@@ -277,8 +280,9 @@ extension). For a scene-level commercial mix: `prompt_mix_s01_v01.md` beside
 
 ### Step 8 — Present for review (generation stage)
 
-For project work, present the result in the production canvas; for a standalone
-audio request, present it to the user. Include:
+For project work, record the result in the manifests, where the audio file is reviewed by
+listening (pre-Studio canvas projects: the production canvas); for a standalone audio request,
+present it to the user. Include:
 - The local file path
 - Duration and format
 - The story arc summary (one line per act)
@@ -288,9 +292,9 @@ audio request, present it to the user. Include:
 
 Set the manifest `status` to `review`. Listen to the actual audio and record
 dialogue, sound-arc, continuity, technical, and hash-bound review evidence.
-`approve_for_me` may select only a passing result through a validated agent
-decision; `ask_for_approval` leaves the recommendation pending for the user.
-Picture/audio lock and final master acceptance use separate stage decisions.
+Selection follows the project's `approval_mode` per the
+[Production policy](../../contracts/production-policy.md), and only a passing
+result may be selected. Picture/audio lock and final master acceptance use separate stage decisions.
 
 ## Multilingual and Taglish guidance
 

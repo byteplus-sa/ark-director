@@ -15,7 +15,6 @@ Submit through `ark_job_submit` with `tool_name: "seed_understand"`:
     "prompt": "<question set below>",
     "system": "<system text below>",
     "videos": [{"kind": "url", "url": "https://..."}],
-    "thinking": true,
     "reasoning_effort": "high",
     "temperature": 0.1,
     "max_tokens": 8192

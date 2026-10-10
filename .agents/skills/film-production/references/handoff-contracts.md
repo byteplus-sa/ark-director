@@ -1,11 +1,14 @@
 # Cross-Modality Handoff Contracts
 
 Before each handoff, recheck `project.md` approval mode and the source decision,
-review, artifact, and upstream hashes. Update the source and destination stage
-entries in the project canvas, regenerate and inspect `index.html`, and run the
-source stage freshness check. These steps apply in `approve_for_me` and
-`ask_for_approval`. The receiving stage reads its inputs from that synchronized
-canvas and owning manifests rather than reconstructing state from chat.
+review, artifact, and upstream hashes. Run `studio_project.py sync`, then
+complete the source stage with `studio_project.py stage <project> complete
+<stage-id>` and start the destination stage. These steps apply in
+`approve_for_me` and `ask_for_approval`. The receiving stage reads its inputs
+from the synchronized Studio project and owning manifests rather than
+reconstructing state from chat. A pre-Studio canvas project updates its canvas
+stage entries, regenerates `index.html` and runs the canvas freshness check
+instead.
 
 ## Canon to storyboard
 
@@ -48,7 +51,7 @@ notes, and known defects. Do not treat `succeeded` as creative approval.
 When a selected element, audio file, storyboard anchor, shot plan, confirmed project axis, or exact prompt changes,
 identify every dependent artifact. Return affected downstream artifacts to
 `review`; preserve their files, prompts, task IDs, hashes, and rejection history.
-Update the canvas statuses, decision sources, and locks, then regenerate and
-inspect `index.html` in the same stage change so the visible dependency state
-cannot lag behind the manifests. Preserve earlier decisions while returning
+Run `studio_project.py sync` and `stage <project> reopen <stage-id>` in the same
+stage change so the visible dependency state cannot lag behind the manifests
+(a pre-Studio canvas project updates its statuses and regenerates `index.html`). Preserve earlier decisions while returning
 affected artifacts to `review`.

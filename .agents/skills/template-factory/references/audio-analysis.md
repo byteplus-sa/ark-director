@@ -80,7 +80,7 @@ cuts and visible action. Recheck uncertain claims with shorter audio windows,
 ASR, or separated stems where useful. Do not infer that a visible event made a
 sound merely because its timing overlaps an audio accent.
 
-A human may listen in the project canvas and supply timestamped notes; link
+A human may listen (to the audio file, to a take in its Studio frame, or in the pre-Studio project canvas) and supply timestamped notes; link
 those notes as `auditory_review.evidence_ref`. Opening a player for the user
 does not count as agent listening. If the audio tool or source is unavailable
 and no reviewer can hear the clip, set `auditory_review.status: unavailable`.
@@ -111,6 +111,6 @@ For `absent` or `unavailable` audio, leave `events` empty, set unknown stream
 properties to `null`, and state the condition in `soundscape.dynamic_arc`. Set
 `auditory_review.status` to `not_needed` for an absent stream and `unavailable`
 when audio cannot be decoded. Mark
-the audio-preparation canvas stage `skipped` only when the intended output is
+the audio-preparation stage skipped (`stage skip audio-preparation --reason`) only when the intended output is
 silent or audio production is outside the current scope. A sound map by itself
 does not authorize generation or use of a source soundtrack.

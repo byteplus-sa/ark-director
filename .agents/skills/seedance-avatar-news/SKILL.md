@@ -5,10 +5,10 @@ description: >-
   AI avatar: reference-format breakdown, sourced topic research, a hook-driven
   20–30s script, a Seedance 2.5 talking-head take (built with
   seedance-ai-avatar), official B-roll acquisition with provenance and usage
-  basis, and a deterministic ffmpeg edit via scripts/render_short.py
-  (split-screen, full-screen, framed-card layouts, STT-timed caption pills,
-  source and channel badges), plus parallel topic/edit variants on the
-  production canvas. Use to recreate a TikTok/Reels/Shorts talking-head news
+  basis, and a deterministic edit built with scripts/render_short.py that is
+  placed in Studio and rendered (split-screen, full-screen, framed-card layouts, STT-timed caption pills,
+  source and channel badges), plus parallel topic/edit variants in the
+  project's Studio review surface. Use to recreate a TikTok/Reels/Shorts talking-head news
   format with an avatar, turn a news story into an avatar short, or batch
   several options of the same show.
 ---
@@ -37,8 +37,9 @@ per-option work here.
 3. Only choose topics that have official footage available. Check this
    before writing.
 4. **Shared state is serialized.** The main agent owns the project
-   `task_ids.json` and the `showcase-html` canvas. Option agents report IDs and
-   results back; they never write shared files.
+   `task_ids.json` and the Studio project (pre-Studio canvas: the `showcase-html`
+   canvas). Option agents report IDs and results back; they never write shared
+   files.
 5. Keep renders private unless the presenter signs off. Label them as
    AI-generated when posted.
 
@@ -46,7 +47,7 @@ per-option work here.
 
 ```
 projects/<slug>/
-  showcase.json, index.html   production canvas (showcase-html)
+  studio/                     HyperFrames Studio project (pre-Studio canvas: showcase.json, index.html canvas)
   task_ids.json               project task registry (main agent only)
   references/                 ref_01_<source>.mp4, frames/contact.jpg, ref_03_voice-isolated.wav
   elements/<id>/              avatar assets from seedance-ai-avatar
@@ -83,16 +84,19 @@ usage basis, in `broll/PROVENANCE.md`.
 
 ### 5. Edit
 Get word timings with `stt_words.py`, write a contiguous `edl.json`, and
-render with `uv run …/scripts/render_short.py`. The details are in
+build the edit with `uv run …/scripts/render_short.py`. The details are in
 [edit recipes](references/edit-recipes.md). The script validates the EDL, then
 builds layouts, the framed card, caption pills timed to the speech, badges and
 loudness. It also checks every segment's frame count, so picture and speech
-cannot drift. Make a 12-frame contact sheet and write `NOTES.md` (topic,
+cannot drift. The deliverable is not the script's output: place that edit in
+Studio as a clip and render it with `studio_project.py render`. Make a 12-frame contact sheet and write `NOTES.md` (topic,
 script, task IDs, QA, defects).
 
 ### 6. Review
-The main agent adds each take and render to the `showcase-html` canvas and
-serves it locally.
+The main agent records each take and render in the manifests, runs
+`studio_project.py sync`, and opens the project in Studio; see the
+[production policy](../../contracts/production-policy.md). Pre-Studio canvas
+projects add them to the `showcase-html` canvas and serve it locally.
 
 ## Parallel options
 
@@ -101,4 +105,4 @@ since they are shared and approved. Then give one sub-agent per option
 exclusive ownership of `options/<x>/` for stages 2–5. Vary the options on
 topic and on edit style, for example a faithful split-screen and a dynamic
 remix. The main agent registers every provider task, reconciles restarts,
-runs final QA, and updates the canvas.
+runs final QA, and syncs Studio (pre-Studio canvas: updates the canvas).

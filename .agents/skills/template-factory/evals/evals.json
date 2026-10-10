@@ -12,7 +12,7 @@
         "The explicit three-panel budget is honored and every source shot maps to a panel or documented combined beat.",
         "The monochrome sketch remains control_only and is omitted from video inputs unless the user explicitly promotes it.",
         "The storyboard and Seedance prompts pass prompt-review before submission.",
-        "The audio-preparation canvas stage is explicitly skipped with the user's no-audio decision."
+        "The audio-preparation stage is explicitly skipped with the user's no-audio decision."
       ]
     },
     {
@@ -61,7 +61,7 @@
         "The sequence splits at shot boundaries into supported natural-duration clips and records assembly work.",
         "Exactly two limited-palette storyboard variants are planned; a seed differs only when supported.",
         "No request exceeds the live two-reference limit.",
-        "All eight canvas stages are completed, approved, or explicitly skipped before delivery."
+        "Every production stage is completed before delivery; only storyboard-visual-plan and audio-preparation may be skipped, with a recorded reason."
       ]
     },
     {
