@@ -444,6 +444,12 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-effects-studio/SKILL.md",
       "computedHash": "d5ea5f2c2aeb71627c6667131cbd5649b973ea27c1dab35949aca82a9469d3c7"
+    },
+    "seedream-woodblock-poster": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedream-woodblock-poster/SKILL.md",
+      "computedHash": "28f2c93d3549cc0e5fab399b6cb39df2072324746bb45c16c5757018889816a2"
     }
   }
 }
