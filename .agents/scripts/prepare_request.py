@@ -320,7 +320,9 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--param", action="append", default=[])
     parser.add_argument("--ref", action="append", default=[])
     parser.add_argument("--expected-output", required=True)
-    parser.add_argument("--transport", choices=("ark-mcp", "arkcli"), default="ark-mcp")
+    parser.add_argument(
+        "--transport", choices=("ark-mcp", "arkcli", "curl"), default="ark-mcp"
+    )
     parser.add_argument("--operation-id")
     parser.add_argument("--schema-version", type=int, choices=(1, 2))
     parser.add_argument("--ref-legacy", action="append", default=[])

@@ -281,7 +281,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-prop-asset/SKILL.md",
-      "computedHash": "b4e60eb0eed653de614918da30d75e1def753dbd1a3a25b4d724cb9d1f92e8c7"
+      "computedHash": "b32fac46cc0773af78b7139156402eb90a76f6f33be381ec2d7e9aab21204848"
     },
     "seedream-storyboard": {
       "source": "./local",

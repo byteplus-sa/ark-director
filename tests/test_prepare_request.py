@@ -155,6 +155,19 @@ class PrepareRequestTests(unittest.TestCase):
         self.assertFalse((self.root / "requests").exists())
         self.assertFalse((self.root / "task_ids.json").exists())
 
+    def test_explicit_curl_transport_is_recorded_in_request(self) -> None:
+        code, result = self.run_cli(self.argv("--transport", "curl"))
+        self.assertEqual(code, 0, result)
+        request = result["request"]
+        self.assertEqual(request["transport"], "curl")
+        self.assertEqual(
+            validation.schema_findings(
+                {"schema_version": 1, "tasks": [request]},
+                "task-registry.schema.json",
+            ),
+            [],
+        )
+
     def test_hash_is_deterministic_and_matches_validator(self) -> None:
         _, first = self.run_cli(self.argv())
         _, second = self.run_cli(self.argv())
