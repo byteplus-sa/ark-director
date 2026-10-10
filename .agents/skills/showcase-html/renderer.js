@@ -168,7 +168,6 @@
     const head = el('div', 'section-head');
     if (s.icon) {
       const ic = el('span', 'icon', s.icon);
-      ic.style.background = s.iconBg || 'var(--accent-soft)';
       head.appendChild(ic);
     }
     head.appendChild(el('h2', null, s.title));
