@@ -106,7 +106,10 @@ the same pattern (`~/.claude/skills/<name>` → `~/.agents/skills/<name>`).
 When multiple assets, videos, scenes or production stages are independent, run
 them in parallel. An agent assigned a bounded workstream may delegate
 independent subtasks to its own sub-agents when this reduces waiting or lets
-downstream preparation begin earlier.
+downstream preparation begin earlier. Prompt-review delegation is an exception:
+review prompts inline unless the user explicitly requests sub-agent prompt review
+for the project or specific generation. General delegation guidance and
+`approval_mode: approve_for_me` do not authorize a prompt-review sub-agent.
 
 - Give every agent explicit, non-overlapping ownership of files, assets,
   document sections and provider operations.
@@ -198,9 +201,11 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   post with FFmpeg or HyperFrames.
 - Preserve exact canonical descriptors where applicable. Prefer positive,
   observable direction; necessary edit-scope exclusions are allowed.
-- Run prompt-review for every generation-bound prompt. Resolve CRITICAL/MAJOR
-  findings. Missing reviewer output is incomplete. Documentation/manifest-only
-  edits, acquired brand/product assets (`generation: none`), and deterministic
+- Run prompt-review for every generation-bound prompt, inline by default. Use
+  a sub-agent only when the user explicitly requests sub-agent prompt review for
+  the project or specific generation. Resolve CRITICAL/MAJOR findings. Missing
+  reviewer output is incomplete. Documentation/manifest-only edits, acquired
+  brand/product assets (`generation: none`), and deterministic
   static renders (`generation: deterministic_html`) do not trigger paid
   generation or prompt-review; changed worked examples are reviewed offline.
   Deterministic renders still require exact-copy, font, overflow, dimension,

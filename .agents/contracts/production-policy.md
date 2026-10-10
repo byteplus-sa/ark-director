@@ -192,7 +192,7 @@ An explicitly selected supported conditioning input is a promoted composition or
 
 ## Request preflight and review
 
-Before submitting a **generation-bound** request, freeze the exact prompt beside its intended asset, compute hashes, verify ordered bindings/roles, check reference approval and current hashes, and resolve current model/mode capabilities. Run prompt-review for generation-bound prompts; CRITICAL/MAJOR findings must be resolved. Editing a manifest or documentation alone does not trigger generation review. A changed worked example is reviewed offline without buying media.
+Before submitting a **generation-bound** request, freeze the exact prompt beside its intended asset, compute hashes, verify ordered bindings/roles, check reference approval and current hashes, and resolve current model/mode capabilities. Run prompt-review for generation-bound prompts, inline by default. Sub-agent prompt review is optional and used only when the user explicitly requests it for the project or specific generation; general parallel-production guidance does not authorize it. Both modes require the same hash-bound review evidence, and CRITICAL/MAJOR findings must be resolved. Editing a manifest or documentation alone does not trigger generation review. A changed worked example is reviewed offline without buying media.
 
 Acquired brand, logo, packshot, or other `generation: none` elements do not run prompt-review or the default three-sample image set. They still require local persistence, content SHA-256, manifest entry, visible inspection, and mode-authorized `selected_variant` / `approved` before dependent production use. See [element-identification.md](element-identification.md).
 

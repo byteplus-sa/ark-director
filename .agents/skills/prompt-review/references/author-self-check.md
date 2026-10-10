@@ -1,6 +1,6 @@
 # Author self-check before review
 
-Run this list on a Seedance prompt before dispatching the review sub-agent.
+Run this list on a Seedance prompt before the inline or explicitly requested sub-agent review.
 Each item was a repeated MINOR or MAJOR finding in production reviews. Fixing
 it first usually saves a second review round. This list does not replace the
 checklist review.

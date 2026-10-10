@@ -36,7 +36,9 @@ mentioned in prose are relative to this skill directory unless a link says other
 ## Submission boundary and failure behavior
 
 The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. A leaf returns its prompt package without
+complete hash-bound prompt review. The caller reviews inline by default and
+uses a sub-agent only when the user explicitly requests sub-agent prompt review
+for the project or specific generation. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
 or technical success does not establish approval. Preserve optional timing,

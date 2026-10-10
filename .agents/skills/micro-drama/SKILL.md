@@ -61,8 +61,10 @@ and an optional full-episode showreel.
 6. **Shots.** Write each clip prompt from its shot plan with `seedance-prompt-25` and the market's
    dialogue partner skill (for Filipino, `seedance-prompt-25-filipino`). Apply
    the storyboard-leak and dialogue rules in the
-   [production recipe](references/production-recipe.md). Run `prompt-review`,
-   register the operation, submit the three clips in parallel, and QA each take.
+   [production recipe](references/production-recipe.md). Run `prompt-review`
+   inline by default; use a sub-agent only when the user explicitly requests
+   sub-agent prompt review for the project or specific generation. Register the
+   operation, submit the three clips in parallel, and QA each take.
 7. **Assembly.** In Studio, place the cold open first, then the title card, the
    three clips with short dissolves, and the to-be-continued card. Add a subtitle sidecar and
    normalize loudness. Picture and audio locks come from real playback and

@@ -44,7 +44,9 @@ the current workspace contracts taking precedence where the plan is stale.
   only a passing inspection and mode-authorized decision can set `approved`.
 - **Every generation-bound prompt this factory submits — Seedream storyboard,
   Seedream element sheet, or Seedance video — must pass the `prompt-review`
-  gate first.** Acquired brand/product/logo assets (`generation: none`) skip
+  gate first.** Review inline by default; use a sub-agent only when the user
+  explicitly requests sub-agent prompt review for the project or specific
+  generation. Acquired brand/product/logo assets (`generation: none`) skip
   prompt-review. Deterministic static graphics (`generation:
   deterministic_html`) also skip prompt-review and provider registration. Both
   still need hashes, a manifest entry, visible QA, and explicit selection.

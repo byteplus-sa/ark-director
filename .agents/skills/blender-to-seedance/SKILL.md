@@ -199,7 +199,9 @@ references: 4
   materials only; proxies give position, scale, and motion only.
 - **Watermark false** by default. Right-size the duration; do not pad to 30s.
 - **Prompt-review gate.** Run the prompt-review gate (per the workspace AGENTS.md)
-  on the blockout prompt before submitting.
+  on the blockout prompt before submitting. Review inline by default; use a
+  sub-agent only when the user explicitly requests sub-agent prompt review for
+  the project or specific generation.
 
 ## Self-check
 

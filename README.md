@@ -153,7 +153,7 @@ The workspace ships with **73 skills** across 14 categories. Independent skills 
 | **micro-drama** | Produce vertical micro-drama episodes end to end for any market: hook, reveal and cliffhanger clips with text-free storyboard conditioning, dialogue-accuracy QA, loudness-matched delivery and a full-episode showreel. |
 | **filipino-micro-drama** | Write Filipino-market micro-drama stories: proven Pinoy formulas, locked episode briefs with English-dominant Taglish dialogue, honorifics, authentic settings and subtitle translations. |
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
-| **prompt-review** | Review and fix prompts written for BytePlus generative models (Seedance, Seed Audio, Seedream) against the repo's skill best practices using a sub-agent review pipeline. |
+| **prompt-review** | Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
 | **blender-to-seedance** | End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. |
 | **seedance-ai-avatar** | Authorized real-presenter AI avatar: consent gate, Seedream character sheet, isolated voice clip, sheet-only lip-synced Seedance talking-head takes and QA. |

@@ -1,9 +1,10 @@
 ---
 name: prompt-review
 description: >-
-  Review BytePlus Seedance, Seedream, and Seed Audio prompts with a sub-agent
-  review pipeline and explicit model, operation, change contract, and request
-  hash. Return rule findings and complete or incomplete status; fix and re-review
+  Review BytePlus Seedance, Seedream, and Seed Audio prompts inline by default,
+  with sub-agent review only when the user explicitly requests it for a project
+  or specific generation. Use explicit model, operation, change contract, and
+  request hash. Return rule findings and complete or incomplete status; fix and re-review
   changed prompts before generation. Use for video, VFX, Filipino dialogue,
   image/character/location/prop/UI/card/storyboard prompts, music, SFX, or ambience.
   Trigger when asked to review, QA, validate, or lint prompts, or before submitting
@@ -13,8 +14,12 @@ description: >-
 
 # Prompt Review
 
-A quality gate for prompts. The main agent writes prompts, a sub-agent reviews them
-against the repo's skill best practices, and the main agent fixes any issues found.
+A quality gate for prompts. The main agent writes and reviews prompts against the
+repo's skill best practices, then fixes any issues found. Sub-agent prompt review
+is optional and requires an explicit user request for the project or specific
+generation. A general prompt-review request or parallel-production policy does
+not authorize delegation. Preserve that choice across revisions within its
+authorized scope; do not extend it to unrelated projects or generations.
 
 ## Core concept
 
@@ -22,8 +27,8 @@ against the repo's skill best practices, and the main agent fixes any issues fou
 Main agent writes/updates prompts
   → identify each prompt's type (Seedance 2.5, Seed Audio, Seedream, etc.)
   → load the matching review checklist from references/review-checklists.md
-  → spawn a sub-agent: give it the prompt text + the checklist
-  → sub-agent returns structured findings (issues by severity with suggested fixes)
+  → review inline, or delegate only within an explicit user-requested scope
+  → record structured findings (issues by severity with suggested fixes)
   → main agent applies fixes to the prompt files
   → re-review only the changed prompts if any fixes were applied
 ```
@@ -58,7 +63,7 @@ micro-drama, music-video or showcase shot, also collect the scene's `shot_plan`
 (or its recorded `static_reason` / exemption), the confirmed project axes from
 `directorial_axes` or the `locked` block with their sources, and any scene
 override. The request hash covers
-the semantic submitted request, not just its prompt. Missing dispatch or request
+the semantic submitted request, not just its prompt. Missing review input or request
 evidence leaves a production review `incomplete`; request it from the caller.
 Filename/content inference is a draft-only fallback with an explicit warning.
 
@@ -103,7 +108,7 @@ a sibling; the applicable checklist is always read from this skill's own bundled
 `references/review-checklists.md`.
 
 When a prompt could match multiple types (e.g., a Seedance 2.5 prompt with Filipino
-dialogue), stack the checklists — the sub-agent checks against all applicable skills.
+dialogue), stack the checklists — the reviewer checks all applicable sections.
 
 UGC intermediate outputs (hooks, scripts) are reviewed at **Stage 1** (before
 composition into a final Seedance prompt). The final composed Seedance prompt is
@@ -137,23 +142,26 @@ For each prompt:
 2. Read the corresponding section from `references/review-checklists.md`.
 3. Also load the **universal directing principles** section (applies to all prompts).
 
-### Step 3 — Spawn the review sub-agent
+### Step 3 — Review inline or use explicitly requested delegation
 
-Delegate the review to a sub-agent. The sub-agent receives:
+Review inline by default. Use a sub-agent only when the user explicitly asks for
+prompt review with a sub-agent for this project or specific generation. Both
+review modes use the same inputs, checklists, findings format, and hash-bound
+review record. The reviewer uses:
 - The full text and explicit review input for each prompt being reviewed.
 - The request hash, change contract, reference evidence, and applicable rule IDs.
 - The applicable checklist section(s) from `references/review-checklists.md`.
 - The universal directing principles.
 - Clear instructions on what to check and how to report.
 
-**Batching strategy:**
+**Batching strategy for explicitly requested sub-agent review:**
 - All prompts of the same type → one sub-agent reviews them all in one pass.
 - Prompts of different types → spawn one sub-agent per type, run in parallel.
-- Maximum 5 sub-agents concurrent.
+- Respect the host's available concurrency limit, with at most 5 sub-agents.
 
 **Delegation mechanisms (host-agnostic):**
 
-Use whichever mechanism the current host provides:
+Only within the explicitly requested scope, use a mechanism the host provides:
 
 - **OpenCode CLI (non-interactive):**
   `opencode run -m <review-model> "<worker prompt>"`
@@ -164,14 +172,15 @@ Use whichever mechanism the current host provides:
   Delegate each review batch as a separate task with the prompt text and checklist
   embedded in the task prompt.
 
-- **Fallback (no sub-agent mechanism):**
-  The main agent runs the review itself using the same checklist and findings format.
-  Do not skip the review — just run it inline.
+- **Default inline review / unavailable delegation:**
+  The main agent runs the review using the same checklist and findings format.
+  If requested delegation is unavailable, disclose that the review ran inline;
+  do not claim a sub-agent reviewed it.
 
-### Step 4 — Sub-agent prompt template
+### Step 4 — Review template
 
-Use this template when constructing the sub-agent's task prompt. Replace the bracketed
-placeholders with actual content.
+Use this template for the inline review record or, when explicitly requested,
+the sub-agent's task prompt. Replace the bracketed placeholders with actual content.
 
 ```text
 You are a prompt quality reviewer for BytePlus generative AI models.
@@ -179,7 +188,7 @@ Your job is to review prompt(s) against a specific checklist of best practices
 and return structured findings. You do NOT fix the prompts — you only identify
 issues and suggest fixes.
 
-## Dispatch and request identity
+## Review input and request identity
 prompt_type: <explicit type>
 model: <resolved model>
 operation: <generate/edit/extend>
@@ -288,14 +297,14 @@ OR
 
 ### Step 5 — Receive and triage findings
 
-If a sub-agent returns an empty, truncated, or content-free result (or findings
-without a complete hash-bound record per prompt), record `reviewer_status:
-incomplete` and retry the same batch once (max 1 retry).
+If an explicitly requested sub-agent returns an empty, truncated, or
+content-free result (or findings without a complete hash-bound record per prompt),
+record `reviewer_status: incomplete` and retry the same batch once (max 1 retry).
 If the retry is still unusable, run the review inline against the same
 checklists. If evidence is still missing, retain incomplete status and block
 submission; never treat an empty sub-agent result as passed.
 
-When the sub-agent returns findings:
+For findings from either review mode:
 
 1. **Read all findings** for each prompt.
 2. **Triage by severity:**
@@ -305,7 +314,7 @@ When the sub-agent returns findings:
    - MINOR issues — fix opportunistically; surface to the user.
 3. **Deduplicate** — if multiple sub-agents found the same issue (e.g., a universal
    principle violation), merge into one finding.
-4. **Cross-check** — if the sub-agent flagged something that you believe is actually
+4. **Cross-check** — if a finding flags something that you believe is actually
    correct, verify against the skill file before dismissing.
 
 ### Step 6 — Apply fixes
@@ -326,8 +335,8 @@ file, pass `--request-sha256 <hash> --asset <id>` instead.
 ### Step 7 — Re-review changed prompts (if any fixes were applied)
 
 If any CRITICAL or MAJOR fixes were applied, re-review the changed prompts:
-- Spawn a new sub-agent (or run inline) with the updated prompt text and the same
-  checklist.
+- Review the updated prompt inline using the same checklist. Use a sub-agent
+  only if the explicit user request still covers this project or generation.
 - Confirm the fixed issues are resolved and no new issues were introduced.
 - If new issues appear, fix and re-review again (maximum 2 re-review rounds).
 - If issues persist after 2 rounds, surface to the user for a decision.
@@ -363,14 +372,15 @@ Summarize the review results:
 When reviewing multiple prompts (e.g., all prompts for a scene's shots):
 
 1. Group prompts by type.
-2. Spawn one sub-agent per type (parallel, max 5 concurrent).
-3. Each sub-agent reviews all prompts of its assigned type in one pass.
+2. Review each group inline by default. Only for explicitly requested sub-agent
+   review, delegate one batch per type within the host's concurrency limit.
+3. Review all prompts of each type against the shared checklist in one pass.
 4. Collect all findings, deduplicate, and apply fixes.
 5. Re-review only the prompts that had CRITICAL or MAJOR fixes applied.
 
 This is efficient because:
-- Same-type prompts share the same checklist — one sub-agent loads it once.
-- Different-type prompts run in parallel without blocking each other.
+- Same-type prompts share the same checklist, loaded once per group.
+- Explicitly requested delegated batches can run in parallel.
 - The main agent only re-reviews prompts that actually changed.
 
 ## Universal directing principles
@@ -392,7 +402,7 @@ tool/mode, and exact screen text remains an output-QA requirement.
 
 ## Element completeness review
 
-In addition to checking prompt quality, the sub-agent **must** review the
+In addition to checking prompt quality, the reviewer **must** review the
 complete set of prompts for a scene or project against the **Element
 identification checklist** in AGENTS.md. This is a separate pass from the
 per-prompt quality review — it checks whether the plan or prompt set is
@@ -401,13 +411,13 @@ well-written.
 
 ### How to run the element completeness pass
 
-When the sub-agent receives a set of prompts for review, it also receives:
+When reviewing a set of prompts, collect these additional inputs:
 
 1. The beat structure / scene description for each shot.
 2. The full Elements table from the project's `project.md` or plan (if
    available).
 
-The sub-agent walks every beat of every scene/shot and checks whether every
+The reviewer walks every beat of every scene/shot and checks whether every
 required visible element has a corresponding reference. Incidental objects
 do not automatically require a sheet, and generated native sound does not
 require a separate library asset. Canonical inputs may be unresolved during
@@ -425,7 +435,7 @@ draft breakdown; dependent production submission requires their evidence:
 
 ### Reporting element findings
 
-The sub-agent reports element completeness findings in a separate section:
+The reviewer reports element completeness findings in a separate section:
 
 ```text
 ### Element Completeness Review
@@ -463,8 +473,8 @@ The sub-agent reports element completeness findings in a separate section:
 The consolidated review checklists for all prompt types live in:
 `references/review-checklists.md`
 
-Load the relevant section(s) when constructing the sub-agent prompt. The reference is
-organized by prompt type with a table of contents at the top for quick navigation.
+Load the relevant section(s) for inline or explicitly requested sub-agent review.
+The reference is organized by prompt type with a table of contents at the top for quick navigation.
 
 ## Compose with other skills
 
