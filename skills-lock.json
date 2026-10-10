@@ -233,7 +233,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-restoration/SKILL.md",
-      "computedHash": "2fb51dddd200504a417b752d3e7de27053c1a29c83b533bc868d37070442c6d0"
+      "computedHash": "4444a2d11e98d2b99c56d8bfecf529049a045c4e451be4a26c8939243940f460"
     },
     "seedance-vfx-pipeline": {
       "source": "./local",
@@ -257,7 +257,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-character-sheet-cleanup/SKILL.md",
-      "computedHash": "955dc6055bf31e24ac46e53d8188b9a6c5358e62e46a2eea9cbeb9e8ff8be4a1"
+      "computedHash": "6933b3530bbffc47edf80e97a5acf5d35e5b07ea97494e9833e8fbabc3a3767d"
     },
     "seedream-handcrafted-3d": {
       "source": "./local",
@@ -443,7 +443,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-effects-studio/SKILL.md",
-      "computedHash": "d5ea5f2c2aeb71627c6667131cbd5649b973ea27c1dab35949aca82a9469d3c7"
+      "computedHash": "494ee306d1050ea66d26d9040a4661e9637b0b90d4db25ac61d1a982a91b98c4"
     }
   }
 }

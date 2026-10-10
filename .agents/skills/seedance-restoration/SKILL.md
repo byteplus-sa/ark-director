@@ -52,8 +52,9 @@ Output: a Seedance 2.5 structured-edit prompt with the source bound as `@Video 1
 
 ## Procedure
 
-1. **Diagnose the defect first — never guess the vocabulary.** Upload the damaged
-   clip and ask `seed_understand` to characterize the artifact precisely: its
+1. **Diagnose the defect first — never guess the vocabulary.** Inspect the damaged
+   clip natively (sampled frames at full resolution, including the frames around
+   the defect window) and characterize the artifact precisely: its
    exact type (grain, scratch line, dust, flicker, a horizontal scan-line tear, a
    rolling wave/ripple, a geometric warp, a luminance band), its direction of
    travel, its timing window, and whether it displaces the image or only changes
@@ -76,8 +77,8 @@ Output: a Seedance 2.5 structured-edit prompt with the source bound as `@Video 1
    explicit and dominant; never bury it in a mixed list.
 6. **Run `prompt-review`** against the Seedance 2.5 edit checklist before
    submission.
-7. **Verify the fix before splicing — do not trust the task.** Re-run
-   `seed_understand` on the Seedance output and check the same three things: the
+7. **Verify the fix before splicing — do not trust the task.** Inspect
+   the Seedance output the same way and check the same three things: the
    defect is gone, the people/scene/camera are intact, and no new artifacts were
    introduced. Only splice a verified-clean clip; a technical `succeeded` is not
    proof the tear/wave/grain actually left.
@@ -111,15 +112,15 @@ frame. They need different vocabulary and a different mental model:
   it to redraw the band cleanly. This is the single most effective phrasing for
   this class.
 - **Name it precisely.** A scan-line tear is not a "wave" and not a "geometric
-  warp" — wrong vocabulary produces a partial fix. Confirm the exact type with
-  `seed_understand` first (see Procedure step 1).
+  warp" — wrong vocabulary produces a partial fix. Confirm the exact type by
+  direct inspection first (see Procedure step 1).
 - **Do not hedge.** For these defects, "aggressively remove" + "completely
   eliminate … through the final frame" is appropriate; the timid "keep everything
   the same" framing lets the model reproduce the band as content.
 - **Center the defect in the clip.** These defects are often a ~1s window; put it
   mid-clip, not at the tail (Procedure step 3).
 - **Expect the model to sometimes reproduce them.** A rolling tear is the hardest
-  restoration case. Verify with `seed_understand` before splicing; if it persists
+  restoration case. Verify by direct inspection before splicing; if it persists
   after 2–3 attempts with correct vocabulary, fall back to a deterministic
   temporal repair (motion-compensated interpolation / temporal median over the
   affected frames), which can rebuild the band from neighboring clean scan lines.
@@ -224,7 +225,7 @@ direction.
 
 ## Self-check checklist
 
-1. The defect was **diagnosed with `seed_understand`** before writing the prompt;
+1. The defect was **diagnosed by direct inspection** before writing the prompt;
    the prompt uses the diagnosis's exact vocabulary (not a guessed name).
 2. `[Edit Goal]` is one sentence, begins "Edit @Video 1 to …", and names the
    dominant defect explicitly.
@@ -240,6 +241,6 @@ direction.
 9. No `[Target Material Role]` section (single `@Video 1` source only).
 10. Source trimmed to ≤29s, and any localized defect is **centered** with ≥1s
     clean margin on both sides — never at the clip boundary.
-11. The Seedance output was **verified with `seed_understand`** (defect gone,
+11. The Seedance output was **verified by direct inspection** (defect gone,
     content intact, no new artifacts) before splicing.
 12. Prompt-review gate passed before submission; original audio re-muxed after.
