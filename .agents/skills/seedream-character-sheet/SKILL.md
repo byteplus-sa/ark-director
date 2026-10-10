@@ -141,6 +141,23 @@ in others) must be **excluded from the character sheet** and generated as a
 are always part of the look
 in every scene.
 
+### Cast distinguishability and panel continuity
+
+Write each sheet against the rest of the cast, not alone. Before submitting a
+sheet for a recurring cast, compare it with the approved sheets and make every
+character differ in at least three of: hair silhouette (length and style), garment
+silhouette (neckline, sleeve, hem, apron or cardigan), dominant color, and
+complexion. Spread complexions across the cast (fair, light-tan, morena, brown)
+and vary age cues. Appeal is a design requirement: describe observable beauty
+(face shape, eyes, lashes, skin texture, hair) for every character, and keep older
+characters warm and graceful, never haggard.
+
+State layered garments (cardigan, jacket, apron) with their sleeves so the back and
+front panels agree; a sheet whose back panel shows a different sleeve length or
+layer than the front fails continuity. Put eyewear in the outfit with
+`clear non-reflective lenses and eyes fully visible through them` so glare does not
+hide the face anchor.
+
 ## 4. Setting
 
 The setting for character sheets is typically simple and controlled.

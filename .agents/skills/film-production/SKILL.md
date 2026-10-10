@@ -221,6 +221,8 @@ or publishing remains a separate action.
 
 Persist each exact prompt snapshot and reviewed prepared request in the project
 registry before submitting. Record the provider task ID as soon as available.
+Studio projects register the same way and need no canvas; only a pre-Studio
+canvas project requires its current `showcase.json` and `index.html`.
 An ambiguous timeout leaves `submission_unknown`: reconcile that operation or
 resume its known task; never repeat submission automatically or switch transport
 to submit a duplicate. Any new authorized take gets a new operation record.

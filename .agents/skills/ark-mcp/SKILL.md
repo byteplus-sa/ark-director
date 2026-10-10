@@ -385,6 +385,13 @@ Returns `SeedMediaExportArtifactOutput` with `artifact_id`, `path`,
 means `path` is the canonical store location (filesystem backend); `copied=true`
 means the artifact was copied to `destination_path`.
 
+When no output root is configured, `destination_path` and `output_dir` are refused
+("no output roots are configured"). Call the export without `destination_path`:
+it returns the store path, `<workspace>/.artifacts/<first two id characters>/<id>.<ext>`.
+Copy that file into the element or shot folder with `cp` and compare its SHA-256
+with the `sha256` the generation result reported before using it. `.artifacts/` is
+gitignored local cache; the project folder holds the durable copy.
+
 #### `seed_media_persist_url`
 
 Persist a temporary provider output URL as a durable artifact. Use it when a
