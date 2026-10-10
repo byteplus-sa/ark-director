@@ -24,8 +24,8 @@ template and renderer hashes, snapshot hash, and generation timestamp used by
 
 ## Section
 
-Common fields: `id`, `title`, `stage`, `icon` (emoji), `iconBg` (CSS color),
-`count`, `desc`, and one of four `kind`s. `stage` is required when the top-level
+Common fields: `id`, `title`, `stage`, `icon` (emoji, rendered monochrome), `iconBg` (accepted, ignored by the
+black theme), `count`, `desc`, and one of four `kind`s. `stage` is required when the top-level
 `canvas` object is present and must use one of its fixed production stage IDs.
 
 ### `kind: "grid"` (Elements / Videos)
