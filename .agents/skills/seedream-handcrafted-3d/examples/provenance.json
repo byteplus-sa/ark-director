@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "model": "dola-seedream-5-0-pro-260628",
+  "generated_on": "2026-10-10",
+  "parameters": {
+    "size": "2560x1704",
+    "output_format": "png",
+    "watermark": false,
+    "prompt_optimization": "standard"
+  },
+  "evidence_type": "observed_generated_results",
+  "preview_derivation": "Resized and encoded WebP review previews; source pixels were not retouched. Source PNG hashes identify original generations.",
+  "references": "Historical prompts bind two style-only input images. Those inputs are not distributed; their hashes identify the reference set. Supply your own authorized references before adapting these prompts.",
+  "reference_sha256": [
+    "74121e1e181fc3d77d8565502de3d40186ff57af8cce0d249d4b3c8faf45c628",
+    "8924f71ad6cbe3581d723e6513d21748b22c710b513d0c4f6ee498fff8240cbb"
+  ],
+  "examples": [
+    {
+      "name": "amara",
+      "format": "sheet",
+      "preview": "amara-sheet-v01.webp",
+      "preview_sha256": "d7eba0062f0b26d148b42484ba2e33bc15d42eb39280f9efd1004f7d3f7a2c7b",
+      "preview_size": [
+        1280,
+        852
+      ],
+      "source_filename": "char_amara_sheet_v01.png",
+      "source_sha256": "ef6198de85abd04afe0a7caa32bd2595fd46adba46854e9517ad7341fddfcb94",
+      "source_size": [
+        2560,
+        1704
+      ],
+      "artifact_id": "21638739-e1b1-4ec5-9c59-95a23cb80151",
+      "prompt_file": "prompt_char_amara_sheet_v01.md",
+      "prompt_sha256": "dab2db79ad99bbb6bedf5848728e70bde91e2702daae428e8816bf7366d2cf11",
+      "review_status": "pass",
+      "observations": [
+        "Pearl studs and off-center wavy bob make a distinct identity; broad shirt silhouette closely follows the intended streetwear proportions."
+      ],
+      "limitations": [
+        "Shoe upper closures read as broad straps; materials macro uses laces. Fine rear pocket and sole geometry are generated interpretations."
+      ]
+    },
+    {
+      "name": "amara",
+      "format": "materials",
+      "preview": "amara-materials-v03.webp",
+      "preview_sha256": "8487dab864aca46e3202740bc6dcea1ce0d06834713e4fff5f73fc85f398ab8b",
+      "preview_size": [
+        1280,
+        852
+      ],
+      "source_filename": "char_amara_materials_v03.png",
+      "source_sha256": "ec13ade6558ff3420d85b7927537dfc7947036f87566e49ba182109581126356",
+      "source_size": [
+        2560,
+        1704
+      ],
+      "artifact_id": "8daf4bc7-1262-4b6c-a013-fcf506fc5059",
+      "prompt_file": "prompt_char_amara_materials_v01.md",
+      "prompt_sha256": "059760667a7b484d98c5fc1f93dd401510651d0429c6fb278137875f6033b4f1",
+      "review_status": "pass",
+      "observations": [
+        "Rich close textile detail without a portrait panel. Lavender rib collar, ivory waistband/pleat and peach/cream sneaker colors are readable."
+      ],
+      "limitations": [
+        "Shoe macro uses ordinary cord laces, while the selected character sheet shows a broad strap-like upper closure. Use for palette and tactile styling; selected character sheet controls exact footwear geometry.",
+        "Pocket/button placement, stitching density and sole segmentation vary from the full-body sheet; these are independently generated material details."
+      ]
+    },
+    {
+      "name": "sinag",
+      "format": "sheet",
+      "preview": "sinag-sheet-v01.webp",
+      "preview_sha256": "05fe839498be78d91bab321eadaf1df2585e6e5751f2decb13af5e327b8259b7",
+      "preview_size": [
+        1280,
+        852
+      ],
+      "source_filename": "char_sinag_sheet_v01.png",
+      "source_sha256": "ab77e9cd7ef88fa2cf7995224d7ac971a9b9f868ec8c7caae3bc0fb2ab9c7437",
+      "source_size": [
+        2560,
+        1704
+      ],
+      "artifact_id": "f59d81d9-164d-4da0-93b3-02ebe917cf2c",
+      "prompt_file": "prompt_char_sinag_sheet_v01.md",
+      "prompt_sha256": "e7218f75f8b9425b4dc7955db22860c5a172052ffef695d2d49b86a25b247755",
+      "review_status": "pass",
+      "observations": [
+        "Variant has long sleeves and a closed marigold jacket chest; the sun ornament is restrained."
+      ],
+      "limitations": [
+        "Sheet front full-body retains a second smaller readable face; close-up remains the authoritative face anchor. Exact small seam topology is synthesized rather than a geometric turnaround.",
+        "Cape ends near the knees and boots are tall rather than initial mid-thigh cape and ankle boots. These visible design variations can become canon if selected; do not reuse initial length descriptions downstream."
+      ]
+    },
+    {
+      "name": "sinag",
+      "format": "materials",
+      "preview": "sinag-materials-v06.webp",
+      "preview_sha256": "f648c5ff41916c797f2c6f500d62beada6f96be9919524be4ed02394e046ce78",
+      "preview_size": [
+        1280,
+        852
+      ],
+      "source_filename": "char_sinag_materials_v06.png",
+      "source_sha256": "1032d35deb3e9b4cf05ae2bb26dbcd4cb00bda6fab92d1607b10eafbc912cf20",
+      "source_size": [
+        2560,
+        1704
+      ],
+      "artifact_id": "53c6f354-15a3-4c40-b4da-b761696e2d71",
+      "prompt_file": "prompt_char_sinag_materials_v02.json",
+      "prompt_sha256": "d5daab23d173e32527648c21c615e8bf1f8c54108593a32e8d073b665fcb30b7",
+      "review_status": "pass",
+      "observations": [
+        "Cleanest entirely garment-only macro set: detached empty jacket, split cream cloth over aubergine weave, separate gauntlet and angular boot."
+      ],
+      "limitations": [
+        "Material study preserves broad visual design but is not an exact garment-pattern specification; selected character sheet v01 remains authoritative for seam topology and small relief contours.",
+        "Empty jacket neckline reads rounder than the selected sheet standing collar; sun-ray curvature and boot sole segmentation vary. No skin, head or face is visible."
+      ],
+      "source_prompt_filename": "prompt_char_sinag_materials_v02.md",
+      "prompt_encoding": "json-string",
+      "decoded_prompt_sha256": "0393f94753327856bea557a32cb8a0ace9dd10c350e97a787819760008657255"
+    },
+    {
+      "name": "sinag",
+      "format": "materials",
+      "preview": "sinag-materials-v01.webp",
+      "preview_sha256": "3611a6ec415e328726d13390e375c4d4e8f0715f175def759ebf939bd3acb197",
+      "preview_size": [
+        1280,
+        852
+      ],
+      "source_filename": "char_sinag_materials_v01.png",
+      "source_sha256": "135fa9657c70eb691037eb3a3898b2a7dd540b0226bf5a38f08020011232edf5",
+      "source_size": [
+        2560,
+        1704
+      ],
+      "artifact_id": "a691e7b2-589a-4b29-911d-71125297846b",
+      "prompt_file": "prompt_char_sinag_materials_v01.md",
+      "prompt_sha256": "081545b7b91c95209fdbd51c76dec186c8c7bb78dad9b8d400870c69ee18b4fd",
+      "review_status": "fail",
+      "observations": [
+        "Material texture is strong, but this candidate needs tighter neck-down framing before selection."
+      ],
+      "limitations": [
+        "Chin/lower-jaw fragment remains visible.",
+        "Independent material generation changes ornamental relief or some garment seam/panel shapes relative to character-sheet canon.",
+        "Material studies variously alter the collar, torso panel geometry, jacket attachment and boot construction. Use the chosen sheet to constrain any replacement material render."
+      ]
+    }
+  ]
+}

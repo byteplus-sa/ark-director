@@ -1,0 +1,43 @@
+{
+  "skill_name": "seedream-handcrafted-3d",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a Seedream prompt package for a new adult Filipino everyday character named Berto: deep brown skin, broad rounded face, short straight black hair, stocky body, ochre woven camp shirt, indigo pleated trousers and cream sandals. Use handcrafted painterly 3D, tactile cloth and subtle pencil hatching. I need a back/front/face sheet and a wardrobe material-study draft. No image generation. There are no image references yet.",
+      "expected_output": "Two consistent prompt drafts with explicit T2I/no invented references, complete requested views, preserved stocky proportions and palette, garment-only macro framing, and no claim of a selected costume reference.",
+      "files": [],
+      "expectations": [
+        "Returns character-sheet and material-study prompts without generating media.",
+        "Preserves Berto's stocky body, skin tone, face, wardrobe and palette.",
+        "Does not invent image bindings or an approved reference.",
+        "Material draft excludes face/hair descriptors and fills the upper frame edge with garment surfaces."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Using the attached Sinag character sheet as the costume reference, write a Seedream prompt for three wardrobe macro panels in the same handcrafted 3D treatment: jacket ornament, waist/cape attachment, and gauntlet/boot details. Preserve the visible costume. Keep every head and face outside the frame. Return reference roles and a visual checklist; do not generate or approve images.",
+      "expected_output": "An I2I macro prompt bound to the supplied sheet, accurate marigold/aubergine/cream costume, tall boots and split cape, cloth-filled upper-edge framing, no portrait descriptors, and an honest geometry/face QA checklist.",
+      "files": [
+        "examples/sinag-sheet-v01.webp"
+      ],
+      "expectations": [
+        "Binds @Image 1 to the supplied costume rather than only general style.",
+        "Preserves visible palette, tall boots and split cape.",
+        "Keeps facial anatomy and hair outside the material-study prompt subject.",
+        "Includes visible face-fragment and costume-construction checks without claiming approval."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write one waist-up portrait prompt for an original 55-year-old Filipina wheelchair user in handcrafted stylized 3D. Keep her curvy body and mature facial features, warm brown skin, silver-streaked shoulder-length hair, knitted terracotta cardigan and jade earrings. Use a warm sunset courtyard and a gentle smile. Do not switch to a gray studio turnaround or redesign her mobility aid. No image references, no generation.",
+      "expected_output": "One text-only portrait prompt preserving age, curvy body, identity, mobility aid and requested setting/light/expression; adaptable handcrafted materials without imposed elongated anatomy or a character-sheet layout.",
+      "files": [],
+      "expectations": [
+        "Returns a waist-up portrait, not a three-panel turnaround.",
+        "Preserves mature features, curvy body and mobility aid.",
+        "Uses the sunset courtyard and gentle smile rather than default studio neutrality.",
+        "Does not introduce references, provider claims or paid generation."
+      ]
+    }
+  ]
+}
