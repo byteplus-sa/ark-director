@@ -1,0 +1,29 @@
+{
+  "skill_name": "seedream-character-outfit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have an approved three-panel sheet for Gloria, a morena woman in her late 20s with shoulder-length black hair, currently in a red dress. Write the Seedream prompt to put her in an ivory silk blouse, charcoal blazer, charcoal trousers and tan loafers. Do not generate anything.",
+      "expected_output": "I2I prompt with the parent as @Image 1 identity and layout authority, a CHANGE/PRESERVE/REMOVE contract, the red dress named as absent, sleeve lengths stated, neutral expression, empty hands, gray studio, and no generation.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Image 1 is Gloria's approved sheet. Image 2 is a photo of a woman in a denim jacket and white sneakers. Dress Gloria in those and give her round gold glasses she always wears. Prompt only.",
+      "expected_output": "Ordered bindings with image 2 used for clothing only and its face, body and background fenced off, glasses with the clear non-reflective lens phrase in all panels, and a note that the close-up differs from the bare-face parent.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Change Gloria's outfit to a green uniform and have her hold a phone in her right hand on the sheet.",
+      "expected_output": "Outfit prompt only. The phone is declined in one line with the direction to describe it in the shot prompt or use seedream-prop-asset; the sheet keeps empty hands.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Gloria wears sunglasses in the pool scene only. Make a sheet with sunglasses on.",
+      "expected_output": "Routes to seedream-prop-asset as a scene-variant wearable, with a one-line reason, and writes no outfit prompt for this request.",
+      "files": []
+    }
+  ]
+}

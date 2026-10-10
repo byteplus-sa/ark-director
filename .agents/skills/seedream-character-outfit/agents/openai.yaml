@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedream Character Outfit"
+  short_description: "Change the outfit on an approved character sheet"
+  default_prompt: "Use $seedream-character-outfit to write a Seedream prompt that changes the outfit on an approved character sheet and keeps the person identical."
