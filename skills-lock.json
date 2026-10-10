@@ -131,7 +131,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "c5b786a1e6bf92c3f1dee18bc4d5bf5f25b6ace1daa683dc9d48461b38d999ab"
+      "computedHash": "90cf13200627cf3f33ab932857e153dd1897e7d99f8750cc560053d369fbc320"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -251,7 +251,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-character-sheet/SKILL.md",
-      "computedHash": "900a71ec8320a365cff1e8ea359d94ce4a8fcb73c20e8d5db6174a89e7102597"
+      "computedHash": "31b14912c2cee3bb8ec672ee8c8572471f07541e138d4f6d6adfc24eacb3dbd2"
     },
     "seedream-character-sheet-cleanup": {
       "source": "./local",
@@ -287,7 +287,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-prop-asset/SKILL.md",
-      "computedHash": "b32fac46cc0773af78b7139156402eb90a76f6f33be381ec2d7e9aab21204848"
+      "computedHash": "0188a8b0959f3a052c678160509d94d0388b164a560b2a47dc1dc25e609dbb82"
     },
     "seedream-storyboard": {
       "source": "./local",
@@ -444,6 +444,12 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-effects-studio/SKILL.md",
       "computedHash": "d5ea5f2c2aeb71627c6667131cbd5649b973ea27c1dab35949aca82a9469d3c7"
+    },
+    "seedream-character-outfit": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedream-character-outfit/SKILL.md",
+      "computedHash": "6c004a5ddd4372bf279f741e06e7ae7043a536519c030ca0e267adb8756ea785"
     }
   }
 }

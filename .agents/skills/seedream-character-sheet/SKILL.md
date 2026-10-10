@@ -334,6 +334,8 @@ Recommended sequence:
 2. Generate the sheet with Seedream.
 3. Inspect the body panels for extra readable faces.
 4. If needed, optionally compose with `seedream-character-sheet-cleanup`.
+   For a new outfit on an approved sheet, compose with
+   `seedream-character-outfit` instead of regenerating the identity.
 5. Save each generated result under `elements/<character-id>/` beside `character.md`.
 6. Record the approved filename as `selected_variant` in `character.md`; keep reference images in the same element folder using the `ref_<NN>_...` convention.
 

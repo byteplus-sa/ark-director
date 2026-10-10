@@ -666,6 +666,15 @@
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
+    },
+    "seedream-character-outfit": {
+      "kind": "leaf",
+      "description": "Write Seedream image-to-image prompts that change the outfit on an approved three-panel character sheet while keeping face, hair, build, layout, background and lighting identical. Always-worn accessories such as glasses, hats, jewelry and shoes are part of the outfit. Use for a new look, costume or wardrobe for an existing character, from a text description or garment photos. Not for handheld props, scene-only wearables, new identities, or face, hair or body changes.",
+      "readme_summary": "Writes Seedream image-to-image prompts that change the outfit on an approved character sheet, with always-worn accessories, a change contract, and identity-drift QA.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
     }
   }
 }
