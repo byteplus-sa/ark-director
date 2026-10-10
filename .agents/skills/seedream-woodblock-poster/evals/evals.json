@@ -1,0 +1,28 @@
+{
+  "skill_name": "seedream-woodblock-poster",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use the attached Kapre poster as STYLE ONLY. Write one Seedream prompt for a Tikbalang in bamboo: horse head, muscular human torso, exactly two human arms with fingers and two supporting legs with hooflike feet. Keep the engraved red, jade and gold print look. No generation.",
+      "expected_output": "One Tikbalang prompt with style-only image binding, human anatomy, bamboo setting, print medium, and anatomy checklist.",
+      "files": [
+        "examples/kapre-v01.png"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write three separate woodblock art poster prompts for a fox, owl and whale. No reference images. Use cobalt, cream and rust on clean paper, borderless. Keep the series cohesive but vary silhouettes and landscapes. Do not generate images.",
+      "expected_output": "Three self-contained text-only prompts with matching print style, borderless framing, distinct subjects and no invented references.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Write one poster prompt. Image 1 is the Tikbalang identity poster; image 2 is the Kapre style poster. Preserve Tikbalang anatomy and silhouette; borrow only print texture and palette from image 2. I need the exact slogan MYTHS LIVE HERE at the bottom. No generation.",
+      "expected_output": "Correct ordered identity/style bindings, Tikbalang anatomy, text-free generated illustration and deterministic slogan finishing.",
+      "files": [
+        "examples/tikbalang-v01.png",
+        "examples/kapre-v01.png"
+      ]
+    }
+  ]
+}
