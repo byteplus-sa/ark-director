@@ -81,7 +81,9 @@ Review is bound to the request hash, so the order is hash first.
    `--write` and `--register`. It validates the bindings and prints
    `request_sha256`; nothing is written.
 3. Run `prompt-review` bound to that hash and write the review record with
-   that `request_sha256`. Resolve CRITICAL and MAJOR findings; any changed
+   that `request_sha256`. Review inline by default; use a sub-agent only when
+   the user explicitly requests sub-agent prompt review for the project or
+   specific generation. Resolve CRITICAL and MAJOR findings; any changed
    prompt, parameter or reference byte changes the hash and needs a new review.
 4. Re-run the same command with `--review`, `--capabilities`, the
    `--required-rule` values and `--write --register`:

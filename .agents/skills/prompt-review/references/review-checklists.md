@@ -1,8 +1,9 @@
 # Review Checklists
 
 Consolidated, actionable validation checklists for every prompt-writing skill in the
-repo. Each section is self-contained — pass the relevant section to the review
-sub-agent along with the prompt text.
+repo. Each section is self-contained — use the relevant section with the prompt
+text for inline review, or pass it to a sub-agent only when the user explicitly
+requests sub-agent prompt review for the project or specific generation.
 
 ## Table of contents
 

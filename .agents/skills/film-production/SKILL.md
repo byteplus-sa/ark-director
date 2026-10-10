@@ -22,6 +22,10 @@ evidence and mode-authorized decisions permit.
   never gets a `studio/` directory or `stages.json`, and `studio_project.py`
   refuses to run in it.
 - Delegate modality work by invoking the narrowest applicable project skill.
+- Run generation-bound prompt review inline by default. Use a prompt-review
+  sub-agent only when the user explicitly requests it for the project or
+  specific generation; autonomous approval and parallel production do not
+  authorize that delegation.
 - Prefer a deterministic workflow when the next action is known. Use agentic
   judgment for creative choices, contradiction resolution, and review.
 - Never infer approval from provider success. Technical success places an

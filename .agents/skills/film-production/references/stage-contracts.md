@@ -184,7 +184,9 @@ default.
 Entry: shot objective, the scene's revalidated shot plan (or recorded exemption), selected
 video mode, approved inputs, reference roles, prompt snapshot target, duration,
 and any requested audio (if Stage 5 was completed) exist. Before submission the `prompt-review` gate has passed for
-every prompt being submitted; the ordered `references:` array is verified 1:1
+every prompt being submitted. Review inline by default; use a sub-agent only
+when the user explicitly requests sub-agent prompt review for the project or
+specific generation. The ordered `references:` array is verified 1:1
 against `shot.md` (same files, same order, same `@Image N` / `@Video N` /
 `@Audio N` bindings); and the pass uses the lowest suitable resolution for the
 current prototype.

@@ -172,7 +172,9 @@ states what is missing.
    current capability evidence, and compute the request hash with
    `prepare_request.py` without `--write` or `--register`. Run `prompt-review`
    bound to that hash (Seedance 2.5 generate; plus Seedream for a generated start
-   frame). Resolve CRITICAL and MAJOR findings; a changed prompt byte changes the
+   frame). Review inline by default; use a sub-agent only when the user
+   explicitly requests sub-agent prompt review for the project or specific
+   generation. Resolve CRITICAL and MAJOR findings; a changed prompt byte changes the
    hash and needs a new review.
 7. **Freeze and register.** Re-run `prepare_request.py` with the review and
    capability files and `--write --register` so the prepared operation is in the

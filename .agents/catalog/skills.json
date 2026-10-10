@@ -192,8 +192,8 @@
     },
     "prompt-review": {
       "kind": "orchestrator",
-      "description": "Review BytePlus Seedance, Seedream, and Seed Audio prompts with a sub-agent review pipeline and explicit model, operation, change contract, and request hash. Return rule findings and complete or incomplete status; fix and re-review changed prompts before generation. Use for video, VFX, Filipino dialogue, image/character/location/prop/UI/card/storyboard prompts, music, SFX, or ambience. Trigger when asked to review, QA, validate, or lint prompts, or before submitting newly authored generation prompts. Exclude manifest-only edits, generated-media review, and frozen snapshots unless re-review is explicitly requested.",
-      "readme_summary": "Review and fix prompts written for BytePlus generative models (Seedance, Seed Audio, Seedream) against the repo's skill best practices using a sub-agent review pipeline.",
+      "description": "Review BytePlus Seedance, Seedream, and Seed Audio prompts inline by default, with sub-agent review only when the user explicitly requests it for a project or specific generation. Use explicit model, operation, change contract, and request hash. Return rule findings and complete or incomplete status; fix and re-review changed prompts before generation. Use for video, VFX, Filipino dialogue, image/character/location/prop/UI/card/storyboard prompts, music, SFX, or ambience. Trigger when asked to review, QA, validate, or lint prompts, or before submitting newly authored generation prompts. Exclude manifest-only edits, generated-media review, and frozen snapshots unless re-review is explicitly requested.",
+      "readme_summary": "Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
