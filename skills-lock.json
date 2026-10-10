@@ -65,7 +65,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/blender-to-seedance/SKILL.md",
-      "computedHash": "60939941ce35fb7b91b8e1310a469ba2381b9cd43d1fefbe7910fa615fb4d56e"
+      "computedHash": "3ef419ed204e667664dde7a95015c0a9e6ff2ef728da430d110c223a976a0de2"
     },
     "brief-intake": {
       "source": "./local",
@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "86cc34dd5b038e677189ac36233ccf45abec85402e87e9eb68a13cfb462050bd"
+      "computedHash": "17a0f34f3f7b34f62457ad5074e79d77024f8cc21f80fc9037917eb11a080a6c"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -125,7 +125,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ark-mcp/SKILL.md",
-      "computedHash": "720f48ddcd7f38c3b3fcc417b7d2de6a86cc9f42b165239808be25cfeb3af5e9"
+      "computedHash": "a292aa593a7a06464479ca64908cbf40ebe06421786b3a6dfbd801ac2f8cbd82"
     },
     "prompt-review": {
       "source": "./local",
@@ -221,7 +221,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25/SKILL.md",
-      "computedHash": "04d20a3f67ce0b08817ac1b416b18c66ceafe4d14539a90bb271e6df5327d1a5"
+      "computedHash": "b9efb2224593141628868c8f7ade5bb453baf540025d8afb0f2df55d86a7201b"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",
@@ -239,7 +239,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "f0c3a9ec5607038aa66579357adbd9b1db3a44fab8e524006b9e3ba20b86309a"
+      "computedHash": "d2bc683cbcaa31d8e1af50af6162e5080334aa62887b1f928daa7aa45e42ebef"
     },
     "seedance-vfx-prompt": {
       "source": "./local",
@@ -299,7 +299,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "a62fb5ac602202e33b148d06691407f9607ab70207a28a10e4bd015110c1ca73"
+      "computedHash": "9f49fbf74dabe925a2c847fbb01d53116230f3d05467cd08eea7643fa5fd386c"
     },
     "tig-blocking-map": {
       "source": "./local",

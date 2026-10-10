@@ -1111,6 +1111,13 @@ Seedance 2.5 (`dreamina-seedance-2-5-260628`) is the newer, higher-capability mo
 
 Create an asynchronous Seedance 2.5 video generation task.
 
+Workspace video drafts explicitly set `resolution: "480p"`; after passing
+review and selection, final requests use the recorded delivery target. Preserve
+explicit user overrides and record verified operation constraints. A 480p
+resolution does not imply provider-native Draft/promotion support: verify the
+live schema and model/operation before using any such fields. Register and
+review every final request independently, then inspect the final output.
+
 | Parameter | Type | Required | Description |
 |---|---|---|---|
 | `prompt` | `str` | No | Text prompt (up to 32,000 chars). Optional when media inputs are provided. |
@@ -1135,13 +1142,13 @@ Returns `Seedance25CreateTaskOutput` with `task_id`, `status="queued"`, and `rec
 > media input — a single BGM, voice, or sound-effect track can drive visual
 > pacing, beat matching, and lip-sync without any image or video reference.
 
-**Example — 30s text-to-video with native audio:**
+**Example — 30s 480p draft with native audio:**
 
 ```json
 {
   "prompt": "A cinematic 30-second scene...",
   "model": "dreamina-seedance-2-5-260628",
-  "resolution": "720p",
+  "resolution": "480p",
   "ratio": "16:9",
   "duration": 30,
   "generate_audio": true

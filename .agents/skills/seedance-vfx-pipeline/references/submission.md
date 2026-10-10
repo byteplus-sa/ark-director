@@ -66,7 +66,10 @@ Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
   what makes it a video-to-video (VFX) task rather than text-to-video.
 - **`images[].role = "reference_image"`** — element references (character
   sheets, location sheets, prop sheets) for identity consistency.
-- **Resolution** — use a value supported by the selected model and operation.
+- **Resolution** — explicitly use 480p for Seedance 2.5 drafts; after passing
+  draft review and selection, use the recorded delivery target. Honor user
+  overrides and record verified operation constraints. Final requests require
+  their own registration and request review, and final outputs require fresh QA.
   Evaluate face/detail fidelity in output QA; resolution is not a guarantee.
 - **`generate_audio = true`** — Seedance 2.0 native audio. The prompt's
   `Audio:` section guides the audio generation. Object Swap, Motion Transfer

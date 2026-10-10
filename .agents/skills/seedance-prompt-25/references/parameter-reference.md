@@ -70,7 +70,14 @@ mode selection and caller responsibilities.
 - Multi-round extensions up to 180s (beta).
 
 ### Cost ladder
-- Prototype at lower resolution → finalize at target resolution.
+- Default to an explicit `resolution: "480p"` for drafts and revisions; after
+  passing review and mode-authorized selection, finalize at the recorded delivery
+  target. Explicit user instructions override the default; record verified
+  operation constraints when 480p is unsupported.
+- Keep resolution in request parameters, separate from prompt text and Studio
+  canvas dimensions. A 480p request does not imply native Draft/promotion support;
+  verify that capability before using it. Final requests and outputs need fresh
+  request review and QA under the workspace production policy.
 - Video generation is billed per successful task completion.
 - Confirm current billing rules on the [Pricing page](https://docs.byteplus.com/en/docs/ModelArk/1544106).
 

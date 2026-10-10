@@ -271,6 +271,11 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   variation. Deterministic renders produce one exact version per specification.
   Explicit requested count or creative alternatives override the generative
   default.
+- Seedance 2.5 video generation defaults to an explicit `resolution: "480p"`
+  draft before final-resolution generation. Review and select the draft under
+  the project approval mode before advancing; explicit user instructions override
+  this default. Follow the production policy for exceptions, final QA and verified
+  native Draft/promotion support. Studio canvas size follows the delivery target.
 - Use the lowest suitable cost/resolution within the request. Set watermark
   false only when the tool supports that parameter, unless the user requests it.
 - Separate lip-sync audio is opt-in. Generate scenes at natural supported

@@ -98,6 +98,20 @@ change the production policy. Source metadata: `rule-provenance.json`.
 
 Source skill: `seedance-prompt-25`
 
+### Draft and final request check
+
+For Seedance 2.5, verify explicit `resolution: "480p"` on initial and revised
+draft requests, or a recorded explicit user override or verified operation
+constraint. Final-resolution requests need a passing, hash-bound draft selection
+under the project's approval mode and a recorded delivery target; multi-shot
+work also needs reviewed draft assembly and picture/audio decisions. Review the
+complete final request hash, parameters and current ordered references even when
+the prompt is unchanged. Native Draft/promotion requires current capability
+evidence, not inference from 480p resolution. Final outputs need fresh playback,
+audio and creative QA before selection; export quality or upscaling alone is
+insufficient. This check applies to edits, extensions and template/preset runs
+as well as text-to-video. Prompt-only work does not require a generated draft.
+
 ### Formula check
 
 1. **Subject + Action present.** The prompt contains at minimum a clear subject and a

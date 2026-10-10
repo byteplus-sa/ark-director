@@ -177,7 +177,7 @@ Narrative shots need events, intent, blocking and observable end states. Static 
 
 Narrative, ad, micro-drama, music-video and showcase shots also need a recorded shot plan before prompt authoring: for each shot, duration, size, angle, camera move, lens intent, and a named light source with its key side, produced by `seedance-shot-design` and stored with the scene. A static camera or an unchanging light needs a recorded `static_reason`. Exemptions are recorded, never assumed: a user lock, a static-by-design format (the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), an explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), a plate for cutdown, a source-preserving edit, an extension continuation, or no video shot at all. A confirmed (`agent_confirmed` or `user_confirmed`) camera, lens, lighting, pacing or energy axis recorded in `directorial_axes` or the `locked` block must reach the shot prompts, or the scene records an override with its reason; `proposed` and `defaulted` axes may be revised freely. A user-confirmed lock is never replaced by the plan.
 
-Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. A 480p Draft is the cheap way to check shot structure before a final render. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.
+Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. A 480p draft is the default way to check shot structure before final-resolution generation. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.
 
 Choose the static-graphics route by fidelity requirement. Exact copy,
 typography, logos, screen/UI layouts, title cards, posters, product lineups,
@@ -237,6 +237,38 @@ Reference cache identity includes content SHA-256 and storage namespace/account 
 Provider moderation errors remain moderation_rejected with original error evidence. Do not label them false positives solely from the error. Legitimate creative revisions or provider escalation stay within authorization and record the exact delta. Cancel/delete/cleanup of provider tasks requires explicit scope; completion alone does not authorize deletion.
 
 ## Generation and review defaults
+
+**Seedance 2.5 is 480p draft-first.** Set `resolution: "480p"` explicitly for
+initial video generations and revised drafts, including edits, extensions and
+independent variants when the selected live operation supports it. Keep the
+intended aspect, natural duration, approved inputs and requested audio behavior.
+Record draft resolution and the separate delivery target in the owning project
+and shot manifests; Studio canvas dimensions follow the delivery target.
+Initialize Studio with `init --resolution <delivery-target>` before syncing
+480p shots when the target differs; do not let draft resolution define the
+delivery canvas by accident.
+An explicit user instruction overrides the default. If an operation cannot
+produce 480p, record current capability evidence and the reason for the lowest
+suitable supported resolution; do not switch models solely to force a draft.
+
+Inspect draft playback and audio, motion, continuity and the shot plan. Record a
+passing, hash-bound draft selection under the project's approval mode before
+final-resolution generation. For multi-shot projects, review the draft assembly
+and record the picture/audio decisions before generating final takes. Preserve
+all draft files, prompt snapshots, references, task IDs and decisions. Generate
+final takes only within the authorized scope and budget at the recorded delivery
+target; do not assume 1080p is always required. A requested 480p delivery can use
+reviewed 480p takes after delivery QA.
+
+A 480p output is not automatically a provider-native Draft task. Use native
+Draft/promotion only after verifying the current tool/model/operation supports
+it and its constraints. Otherwise final-resolution generation is a new paid
+request using the selected prompt and approved inputs; it can change the
+picture, timing or audio. Every final request has its own prepared registry
+entry and complete hash-bound request review, including changed parameters and
+references, even when prompt text is unchanged. Inspect and select the final
+output again before replacing draft takes in Studio and rendering the master.
+Upscaling or a delivery-quality export alone does not establish final-take QA.
 
 Generate scenes at natural duration, then chain supported frame modes or assemble approved takes. Continuous single-take/native extension is exceptional; verify every seam. Separate lip-sync audio remains opt-in; follow [audio-video-alignment.md](audio-video-alignment.md).
 
