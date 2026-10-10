@@ -140,7 +140,12 @@ deterministically.
 Record missing required references before dependent tasks are submitted.
 The `canon-elements` manifests record every variant (acquired, generated, or
 deterministically rendered), its prompt or provenance/render record,
-recommendation/selection state and downstream role; Studio does not show them.
+recommendation/selection state and downstream role. Studio's Assets panel shows
+only the locked (selected, approved) elements, copied as
+`LOCKED_<element>_<vNN>.<ext>`; candidates and rejected samples stay in
+`elements/`. `studio_project.py lock-element` records the decision and does this
+copy; `sync-elements` repairs it and rewrites the static candidates page
+(`review/elements.html`).
 
 Exit: every required canonical element has an approved selected variant, or the
 dependent scene is explicitly marked unresolved. The element list has been

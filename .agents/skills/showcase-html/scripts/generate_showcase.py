@@ -14,6 +14,8 @@ Modes:
   --init     create an eight-stage production canvas without overwriting one.
   (default)  generate index.html in place (read-only review page).
   --check    validate paths; with --stage, verify the generated canvas is current.
+  --quick    write a plain static HTML + CSS review page for ad-hoc media paths
+             (no script, no server, relative links, opened only with --open).
   --serve    generate, then run a local HTTP server so in-browser variant
              selection can persist to the project (writes selection.json, the
              element/shot manifests, and a timestamped selection.log). Opens the
@@ -37,6 +39,7 @@ import secrets
 import subprocess
 import sys
 import threading
+import urllib.parse
 import webbrowser
 from collections.abc import Mapping
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -1107,8 +1110,86 @@ def _detect_media_type(path):
     return None
 
 
+PLAIN_PAGE_CSS = """* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #faf8f5; color: #1d1b19; }
+main { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+h1 { margin: 0 0 4px; }
+.lede, .meta, figcaption { color: #6b645c; font-size: 0.9rem; }
+section { background: #fff; border: 1px solid #e4ded5; border-radius: 12px; padding: 16px; margin: 0 0 20px; }
+h2, h3 { margin: 0 0 4px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 12px; }
+figure { margin: 0; }
+img, video { display: block; width: 100%; height: auto; border-radius: 8px; background: #eee; }
+audio { width: 100%; }
+figcaption { margin-top: 6px; overflow-wrap: anywhere; }
+@media (prefers-color-scheme: dark) {
+  body { background: #151311; color: #ece7df; }
+  section { background: #1f1c19; border-color: #34302b; }
+  .lede, .meta, figcaption { color: #b3aba0; }
+}
+"""
+
+
+def _relative_url(source, page_dir):
+    relative = os.path.relpath(source, page_dir)
+    return urllib.parse.quote(Path(relative).as_posix())
+
+
+def _plain_media(media, page_dir, label):
+    source = _relative_url(media["src"], page_dir)
+    kind = media.get("type")
+    if kind == "video":
+        return f'<video controls preload="metadata" src="{source}"></video>'
+    if kind == "audio":
+        return f'<audio controls preload="none" src="{source}"></audio>'
+    return f'<img src="{source}" alt="{html.escape(label)}" loading="lazy">'
+
+
+def _plain_figure(media, page_dir, label, detail, extra=""):
+    caption = html.escape(label)
+    if detail:
+        caption += " · " + html.escape(detail)
+    return f"<figure>{_plain_media(media, page_dir, label)}{extra}<figcaption>{caption}</figcaption></figure>"
+
+
+def render_plain_page(data, page_dir, stylesheet_name):
+    """Render quick-review data as plain static HTML: no script, relative media links."""
+    body = [f"<h1>{html.escape(data['title'])}</h1>", f'<p class="lede">{html.escape(data["lede"])}</p>']
+    for section in data["sections"]:
+        body.append(f"<section><h2>{html.escape(section['title'])}</h2>")
+        body.append(f'<p class="meta">{html.escape(section["count"])}</p>')
+        if section.get("kind") == "takes":
+            for group in section["groups"]:
+                body.append(f"<h3>{html.escape(group['title'])}</h3>")
+                if group.get("meta"):
+                    body.append(f'<p class="meta">{html.escape(" · ".join(group["meta"]))}</p>')
+                body.append('<div class="grid">')
+                for take in group["takes"]:
+                    sheet = take.get("contactSheet")
+                    extra = ""
+                    if sheet:
+                        extra = _plain_media({"type": "image", "src": sheet}, page_dir, take["label"] + " contact sheet")
+                    body.append(_plain_figure(take["media"], page_dir, take["label"], " · ".join(take.get("chips", [])), extra))
+                body.append("</div>")
+        else:
+            body.append('<div class="grid">')
+            for card in section["cards"]:
+                body.append(_plain_figure(card["media"], page_dir, card["title"], card.get("sub", "")))
+            body.append("</div>")
+        body.append("</section>")
+    head = (
+        '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">'
+        f"<title>{html.escape(data['title'])}</title>"
+        f'<link rel="stylesheet" href="{html.escape(stylesheet_name)}"></head><body><main>'
+    )
+    return head + "\n".join(body) + "</main></body></html>\n"
+
+
 def quick_review(paths, out_path=None, do_contact_sheets=False, open_browser=False):
-    """Build a minimal showcase page from a list of media file paths — no showcase.json needed.
+    """Build a plain static review page (HTML plus CSS beside it) from media file paths.
+
+    No showcase.json, no script and no server: media links are relative to the page.
 
     Videos from the same directory are grouped into takes groups.
     Images are placed in a grid section.
@@ -1253,49 +1334,13 @@ def quick_review(paths, out_path=None, do_contact_sheets=False, open_browser=Fal
         "footer": "Generated with showcase-html --quick.",
     }
 
-    # use absolute paths for media src (since there's no project dir)
-    # convert to file:// URIs for browser access
-    for section in data["sections"]:
-        if section.get("kind") == "takes":
-            for grp in section.get("groups", []):
-                for tk in grp.get("takes", []):
-                    src = tk.get("media", {}).get("src", "")
-                    if src and not src.startswith("http"):
-                        tk["media"]["src"] = "file://" + src
-                    cs = tk.get("contactSheet", "")
-                    if cs and not cs.startswith("http"):
-                        tk["contactSheet"] = "file://" + cs
-        else:
-            for card in section.get("cards", []):
-                src = card.get("media", {}).get("src", "")
-                if src and not src.startswith("http") and not src.startswith("file://"):
-                    card["media"]["src"] = "file://" + src
-
-    # determine output path
-    if out_path:
-        out = Path(out_path)
-    else:
-        out = Path.cwd() / "_quick_review.html"
-    # write to a temp dir, use common_root for relative paths if possible
-    # but since we're using file:// URIs, the output location doesn't matter
-    # generate using the template directly
-    with open(TEMPLATE, "r", encoding="utf-8") as f:
-        template = f.read()
-    with open(RENDERER, "r", encoding="utf-8") as f:
-        renderer = f.read()
-
-    data_json = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    rendered_html = (
-        template
-        .replace("__TITLE__", data["title"])
-        .replace("__DATA__", data_json)
-        .replace(
-            "<script>\n/* renderer injected by generator; see scripts/generate_showcase.py */\n</script>",
-            "<script>\n" + renderer + "\n</script>",
-        )
-    )
-    out.write_text(rendered_html, encoding="utf-8")
-    print(f"wrote {out} ({out.stat().st_size} bytes)")
+    out = Path(out_path) if out_path else Path.cwd() / "_quick_review.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    stylesheet = out.with_suffix(".css")
+    page = render_plain_page(data, out.parent.resolve(), stylesheet.name)
+    stylesheet.write_text(PLAIN_PAGE_CSS, encoding="utf-8")
+    out.write_text(page, encoding="utf-8")
+    print(f"wrote {out} ({out.stat().st_size} bytes) and {stylesheet.name}")
     if open_browser:
         webbrowser.open(f"file://{out.resolve()}")
     return out
@@ -1356,7 +1401,7 @@ def main():
             args.quick,
             out_path=out_path,
             do_contact_sheets=args.contact_sheets,
-            open_browser=True,  # always open in quick mode
+            open_browser=args.open,
         )
         return
 

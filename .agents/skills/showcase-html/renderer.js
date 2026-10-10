@@ -43,9 +43,6 @@
   const navInner = el('div', 'inner');
   const brand = el('span', 'brand');
   brand.appendChild(document.createTextNode('Showcase'));
-  const sep = el('span');
-  sep.textContent = '·';
-  brand.appendChild(sep);
   navInner.appendChild(brand);
   if (data.canvas) {
     const canvasLink = el('a', null, 'Production canvas');
@@ -63,12 +60,14 @@
 
   // ---- header ----
   const header = el('header');
-  if (data.kicker) header.appendChild(el('div', 'kicker', data.kicker));
   header.appendChild(el('h1', null, data.title));
   if (data.lede) header.appendChild(el('p', 'lede', data.lede));
-  if (data.badges && data.badges.length) {
+  const badgeItems = (data.badges || [])
+    .map(b => (typeof b === 'string' ? {value: b} : b || {}))
+    .filter(b => b.value);
+  if (badgeItems.length) {
     const badges = el('div', 'badges');
-    for (const b of data.badges) {
+    for (const b of badgeItems) {
       const span = el('span', 'badge');
       if (b.label) span.appendChild(document.createTextNode(b.label + ' '));
       span.appendChild(el('b', null, b.value));
@@ -190,183 +189,183 @@
     return section;
   }
 
+  function linkRow(pairs) {
+    const links = el('div', 'canvas-links');
+    for (const [label, path] of pairs) {
+      const href = projectHref(path);
+      if (!href) continue;
+      const link = el('a', null, label);
+      link.href = href;
+      links.appendChild(link);
+    }
+    return links.childNodes.length ? links : null;
+  }
+
+  function buildLock(kind, lock) {
+    const row = el('div', 'canvas-lock');
+    const line = el('div', 'canvas-lock-line');
+    line.appendChild(el('strong', null, kind.replaceAll('_', ' ') + ': ' + (lock.result || 'pending')));
+    if (lock.actor) line.appendChild(el('span', null, ' · ' + lock.actor));
+    row.appendChild(line);
+    const links = linkRow([
+      ['Accepted artifact', lock.artifact_path],
+      ['Review', lock.review_path],
+      ['Decision', lock.decision_id && 'decisions/' + lock.decision_id + '.json'],
+    ]);
+    if (lock.reason || links) {
+      const evidence = document.createElement('details');
+      evidence.className = 'canvas-evidence';
+      evidence.appendChild(el('summary', null, 'Evidence'));
+      if (lock.reason) evidence.appendChild(el('p', null, lock.reason));
+      if (links) evidence.appendChild(links);
+      row.appendChild(evidence);
+    }
+    return row;
+  }
+
+  function buildLockCandidate(candidate, stage, canvas, mode) {
+    const row = el('div', 'canvas-lock-candidate');
+    row.appendChild(el('strong', null, candidate.lock_kind.replaceAll('_', ' ') + ' candidate'));
+    row.appendChild(el('p', null, candidate.reason));
+    const artifactHref = projectHref(candidate.artifact_path);
+    const links = linkRow([['Candidate', candidate.artifact_path], ['Review', candidate.review_path]]);
+    if (links) row.appendChild(links);
+    if (artifactHref) {
+      const mediaType = /\.(mp4|mov|mkv|webm)$/i.test(candidate.artifact_path) ? 'video'
+        : /\.(wav|mp3|m4a|aac|flac)$/i.test(candidate.artifact_path) ? 'audio' : 'image';
+      const preview = el('div', 'canvas-source-media');
+      preview.appendChild(mediaNode({type: mediaType, src: artifactHref, alt: candidate.artifact_path}));
+      row.appendChild(preview);
+    }
+    if (viaServer && mode.mode === 'ask_for_approval' && stage.id === canvas.currentStage
+        && !((stage.locks || {})[candidate.lock_kind])) {
+      const button = el('button', 'canvas-lock-approve', 'Approve ' + candidate.lock_kind.replaceAll('_', ' '));
+      button.type = 'button';
+      button.addEventListener('click', () => approveStageCandidate(candidate, button));
+      row.appendChild(button);
+    }
+    return row;
+  }
+
+  function buildDocumentSource(source) {
+    const label = source.label || source.path;
+    if (source.content == null) {
+      const row = el('div', 'canvas-source');
+      row.appendChild(el('span', 'canvas-source-kind', source.kind || 'source'));
+      const link = el('a', null, label);
+      link.href = encodeURI(source.path);
+      row.appendChild(link);
+      return row;
+    }
+    const row = document.createElement('details');
+    row.className = 'canvas-source';
+    const summary = el('summary');
+    summary.appendChild(el('span', 'canvas-source-kind', source.kind || 'source'));
+    summary.appendChild(el('span', 'canvas-source-label', label));
+    row.appendChild(summary);
+    const open = el('a', 'canvas-source-open', 'Open file');
+    open.href = encodeURI(source.path);
+    row.appendChild(open);
+    const content = el('pre');
+    content.textContent = source.content;
+    row.appendChild(content);
+    return row;
+  }
+
+  function buildStageBody(card, stage, canvas, mode) {
+    if (stage.summary) card.appendChild(el('p', 'canvas-summary', stage.summary));
+    if (stage.locks && Object.keys(stage.locks).length) {
+      const locks = el('div', 'canvas-locks');
+      for (const [kind, lock] of Object.entries(stage.locks)) locks.appendChild(buildLock(kind, lock));
+      card.appendChild(locks);
+    }
+    if (Array.isArray(stage.lockCandidates) && stage.lockCandidates.length) {
+      const candidates = el('div', 'canvas-lock-candidates');
+      for (const candidate of stage.lockCandidates) {
+        candidates.appendChild(buildLockCandidate(candidate, stage, canvas, mode));
+      }
+      card.appendChild(candidates);
+    }
+    const sources = stage.sources || [];
+    const mediaSources = sources.filter(source => ['image', 'video', 'audio'].includes(source.kind));
+    const documentSources = sources.filter(source => !mediaSources.includes(source));
+    if (mediaSources.length) {
+      const strip = el('div', 'canvas-figures');
+      for (const source of mediaSources) {
+        const figure = el('figure', 'canvas-figure');
+        figure.appendChild(mediaNode({type: source.kind, src: source.path, alt: source.label || source.path}));
+        figure.appendChild(el('figcaption', null, source.label || source.path));
+        strip.appendChild(figure);
+      }
+      card.appendChild(strip);
+    }
+    if (documentSources.length) {
+      const docs = document.createElement('details');
+      docs.className = 'canvas-sources';
+      docs.appendChild(el('summary', null, 'Documents (' + documentSources.length + ')'));
+      const list = el('div', 'canvas-source-list');
+      for (const source of documentSources) list.appendChild(buildDocumentSource(source));
+      docs.appendChild(list);
+      card.appendChild(docs);
+    }
+  }
+
+  function buildDecisions() {
+    const selected = data.currentSelections || {};
+    const entries = Object.entries(selected);
+    if (!entries.length) return null;
+    const decisions = document.createElement('details');
+    decisions.className = 'canvas-decisions';
+    decisions.appendChild(el('summary', null, 'Selected variants (' + entries.length + ')'));
+    const list = el('div', 'canvas-decision-list');
+    for (const [assetId, filename] of entries) {
+      const evidence = (data.selectionEvidence || {})[assetId] || {};
+      const row = el('div', 'canvas-decision');
+      row.appendChild(el('strong', null, assetId + ': ' + filename));
+      if (evidence.decision_id) {
+        row.appendChild(el('span', null,
+          ' · ' + (evidence.result || evidence.status || 'selected') + ' by ' + (evidence.actor || 'unknown')));
+      }
+      if (evidence.reason) row.appendChild(el('p', null, evidence.reason));
+      const links = linkRow([['Review', evidence.review_path], ['Decision', evidence.decision_path]]);
+      if (links) row.appendChild(links);
+      list.appendChild(row);
+    }
+    decisions.appendChild(list);
+    return decisions;
+  }
+
   function buildProductionCanvas(canvas) {
     const section = el('section', 'canvas-board');
     section.id = 'production-canvas';
-    const heading = el('div', 'canvas-heading');
-    const headingCopy = el('div');
-    headingCopy.appendChild(el('div', 'kicker', 'Live production workspace'));
-    headingCopy.appendChild(el('h2', null, 'Production canvas'));
-    const build = data.canvasBuild || {};
-    const sync = el('div', 'canvas-sync');
-    sync.appendChild(el('span', 'canvas-sync-dot'));
-    sync.appendChild(document.createTextNode(
-      build.generatedAt ? 'Synced ' + build.generatedAt : 'Generated canvas snapshot'
-    ));
-    heading.appendChild(headingCopy);
-    heading.appendChild(sync);
-    section.appendChild(heading);
     const mode = data.approvalMode || {};
-    const modeRow = el('div', 'canvas-mode');
-    modeRow.appendChild(el('strong', null,
+    const heading = el('div', 'canvas-heading');
+    heading.appendChild(el('h2', null, 'Production canvas'));
+    const modeBadge = el('div', 'canvas-mode');
+    modeBadge.appendChild(el('strong', null,
       mode.mode === 'ask_for_approval' ? 'Ask for approval' : 'Approve for me'));
-    modeRow.appendChild(el('span', null,
-      mode.source === 'explicit' ? 'Explicit project setting' : 'Project default'));
-    section.appendChild(modeRow);
+    heading.appendChild(modeBadge);
+    section.appendChild(heading);
 
     const stages = el('div', 'canvas-stages');
     for (const [index, stage] of (canvas.stages || []).entries()) {
-      const card = el('article', 'canvas-stage status-' + (stage.status || 'pending'));
-      if (stage.id === canvas.currentStage) card.classList.add('current');
-      const top = el('div', 'canvas-stage-top');
+      const status = stage.status || 'pending';
+      const isCurrent = stage.id === canvas.currentStage;
+      const card = document.createElement('details');
+      card.className = 'canvas-stage status-' + status + (isCurrent ? ' current' : '');
+      card.open = isCurrent || ['active', 'review', 'blocked'].includes(status);
+      const top = el('summary', 'canvas-stage-top');
       top.appendChild(el('span', 'canvas-step', String(index + 1).padStart(2, '0')));
       top.appendChild(el('h3', null, stage.label || stage.id));
-      top.appendChild(el('span', 'canvas-status', stage.status || 'pending'));
+      top.appendChild(el('span', 'canvas-status', status));
       card.appendChild(top);
-      if (stage.summary) card.appendChild(el('p', 'canvas-summary', stage.summary));
-      if (stage.locks && Object.keys(stage.locks).length) {
-        const locks = el('div', 'canvas-locks');
-        for (const [kind, lock] of Object.entries(stage.locks)) {
-          const row = el('div', 'canvas-lock');
-          row.appendChild(el('strong', null, kind.replaceAll('_', ' ') + ': ' + (lock.result || 'pending')));
-          if (lock.actor) row.appendChild(el('span', null, ' by ' + lock.actor));
-          if (lock.reason) row.appendChild(el('p', null, lock.reason));
-          const links = el('div', 'canvas-links');
-          for (const [label, path] of [
-            ['Accepted artifact', lock.artifact_path],
-            ['Review', lock.review_path],
-            ['Decision', lock.decision_id && 'decisions/' + lock.decision_id + '.json'],
-          ]) {
-            const href = projectHref(path);
-            if (!href) continue;
-            const link = el('a', null, label);
-            link.href = href;
-            links.appendChild(link);
-          }
-          row.appendChild(links);
-          locks.appendChild(row);
-        }
-        card.appendChild(locks);
-      }
-      if (Array.isArray(stage.lockCandidates) && stage.lockCandidates.length) {
-        const candidates = el('div', 'canvas-lock-candidates');
-        for (const candidate of stage.lockCandidates) {
-          const row = el('div', 'canvas-lock-candidate');
-          row.appendChild(el('strong', null, candidate.lock_kind.replaceAll('_', ' ') + ' candidate'));
-          row.appendChild(el('p', null, candidate.reason));
-          const artifactHref = projectHref(candidate.artifact_path);
-          const reviewHref = projectHref(candidate.review_path);
-          const links = el('div', 'canvas-links');
-          for (const [label, href] of [['Candidate', artifactHref], ['Review', reviewHref]]) {
-            if (!href) continue;
-            const link = el('a', null, label);
-            link.href = href;
-            links.appendChild(link);
-          }
-          row.appendChild(links);
-          if (artifactHref) {
-            const mediaType = /\.(mp4|mov|mkv|webm)$/i.test(candidate.artifact_path) ? 'video'
-              : /\.(wav|mp3|m4a|aac|flac)$/i.test(candidate.artifact_path) ? 'audio' : 'image';
-            const preview = el('div', 'canvas-source-media');
-            preview.appendChild(mediaNode({type: mediaType, src: artifactHref, alt: candidate.artifact_path}));
-            row.appendChild(preview);
-          }
-          if (viaServer && mode.mode === 'ask_for_approval' && stage.id === canvas.currentStage
-              && !((stage.locks || {})[candidate.lock_kind])) {
-            const button = el('button', 'canvas-lock-approve', 'Approve ' + candidate.lock_kind.replaceAll('_', ' '));
-            button.type = 'button';
-            button.addEventListener('click', () => approveStageCandidate(candidate, button));
-            row.appendChild(button);
-          }
-          candidates.appendChild(row);
-        }
-        card.appendChild(candidates);
-      }
-      const counts = stage.counts || {};
-      const metrics = el('div', 'canvas-metrics');
-      for (const [label, value] of [
-        ['sections', counts.sections || 0],
-        ['sources', counts.sources || 0],
-        ['media', counts.media || 0],
-        ['prompts', counts.prompts || 0],
-      ]) {
-        const metric = el('span', 'canvas-metric');
-        metric.appendChild(el('b', null, String(value)));
-        metric.appendChild(document.createTextNode(' ' + label));
-        metrics.appendChild(metric);
-      }
-      card.appendChild(metrics);
-      if (stage.sectionIds && stage.sectionIds.length) {
-        const links = el('div', 'canvas-links');
-        for (const sectionId of stage.sectionIds) {
-          const target = (data.sections || []).find(item => item.id === sectionId);
-          const link = el('a', null, target ? target.title : sectionId);
-          link.href = '#' + sectionId;
-          links.appendChild(link);
-        }
-        card.appendChild(links);
-      }
-      if (stage.sources && stage.sources.length) {
-        const sources = el('div', 'canvas-sources');
-        for (const source of stage.sources) {
-          const sourceRow = el('div', 'canvas-source');
-          const sourceHead = el('div', 'canvas-source-head');
-          sourceHead.appendChild(el('span', 'canvas-source-kind', source.kind || 'source'));
-          const sourceLink = el('a', null, source.label || source.path);
-          sourceLink.href = encodeURI(source.path);
-          sourceHead.appendChild(sourceLink);
-          if (source.sha256) {
-            sourceHead.appendChild(el('code', null, source.sha256.slice(0, 10)));
-          }
-          sourceRow.appendChild(sourceHead);
-          if (source.content != null) {
-            const details = document.createElement('details');
-            details.appendChild(el('summary', null, 'View in canvas'));
-            const content = el('pre');
-            content.textContent = source.content;
-            details.appendChild(content);
-            sourceRow.appendChild(details);
-          } else if (['image', 'video', 'audio'].includes(source.kind)) {
-            const preview = el('div', 'canvas-source-media');
-            preview.appendChild(mediaNode({type: source.kind, src: source.path, alt: source.label || source.path}));
-            sourceRow.appendChild(preview);
-          }
-          sources.appendChild(sourceRow);
-        }
-        card.appendChild(sources);
-      }
+      buildStageBody(card, stage, canvas, mode);
+      if (card.childNodes.length === 1) card.classList.add('canvas-stage-empty');
       stages.appendChild(card);
     }
     section.appendChild(stages);
-    const selected = data.currentSelections || {};
-    if (Object.keys(selected).length) {
-      const decisions = el('div', 'canvas-decisions');
-      decisions.appendChild(el('h3', null, 'Variant decisions'));
-      for (const [assetId, filename] of Object.entries(selected)) {
-        const evidence = (data.selectionEvidence || {})[assetId] || {};
-        const row = el('div', 'canvas-decision');
-        row.appendChild(el('strong', null, assetId + ': ' + filename));
-        row.appendChild(el('span', null,
-          evidence.decision_id
-            ? ' · ' + (evidence.result || evidence.status || 'selected') + ' by ' + (evidence.actor || 'unknown')
-            : ' · legacy selection; approval evidence unavailable'));
-        if (evidence.reason) row.appendChild(el('p', null, evidence.reason));
-        const links = el('div', 'canvas-links');
-        for (const [label, path] of [
-          ['Review', evidence.review_path],
-          ['Decision', evidence.decision_path],
-        ]) {
-          const href = projectHref(path);
-          if (!href) continue;
-          const link = el('a', null, label);
-          link.href = href;
-          links.appendChild(link);
-        }
-        row.appendChild(links);
-        decisions.appendChild(row);
-      }
-      section.appendChild(decisions);
-    }
+    const decisions = buildDecisions();
+    if (decisions) section.appendChild(decisions);
     return section;
   }
 
@@ -392,16 +391,17 @@
     }
     const body = el('div', 'body');
     if (c.tag) body.appendChild(el('div', 'tag', c.tag));
-    if (c.title) body.appendChild(el('div', 'title', c.title));
+    if (c.title) body.appendChild(el('h3', 'title', c.title));
     if (c.sub) body.appendChild(el('div', 'sub', c.sub));
+    const more = el('div', 'card-more');
     if (c.chips && c.chips.length) {
       const meta = el('div', 'meta');
       for (const ch of c.chips) meta.appendChild(el('span', 'chip', ch));
-      body.appendChild(meta);
+      more.appendChild(meta);
     }
     if (c.refs && c.refs.length) {
       const refs = el('div', 'refs');
-      refs.appendChild(el('div', 'refs-label', 'Elements used'));
+      refs.appendChild(el('h4', 'refs-label', 'Elements used'));
       for (const r of c.refs) {
         const ref = el('div', 'ref');
         ref.appendChild(el('span', 'dot ' + (r.kind || 'vid')));
@@ -411,21 +411,28 @@
         if (r.role) ref.appendChild(el('span', 'ref-role', r.role));
         refs.appendChild(ref);
       }
-      body.appendChild(refs);
+      more.appendChild(refs);
     }
     if (c.prompt) {
-      body.appendChild(el('div', 'prompt-label', 'Prompt'));
+      more.appendChild(el('h4', 'prompt-label', 'Prompt'));
       const pre = el('pre');
       pre.textContent = c.prompt;
-      body.appendChild(pre);
+      more.appendChild(pre);
     }
     if (c.reviewPath) {
       const review = el('a', 'canvas-review-link', 'Candidate review');
       const href = projectHref(c.reviewPath);
       if (href) {
         review.href = href;
-        body.appendChild(review);
+        more.appendChild(review);
       }
+    }
+    if (more.childNodes.length) {
+      const details = document.createElement('details');
+      details.className = 'card-details';
+      details.appendChild(el('summary', null, c.prompt ? 'Prompt & details' : 'Details'));
+      details.appendChild(more);
+      body.appendChild(details);
     }
     card.appendChild(body);
     return card;
@@ -451,7 +458,7 @@
       const stageClass = row.stageClass || ((row.stage || '').toLowerCase() === 'before' ? 'before' : 'after');
       const stagePill = el('span', 'stage ' + stageClass, row.stage || '');
       tdStage.appendChild(stagePill);
-      if (row.stageTitle) tdStage.appendChild(el('div', 'stage-title', row.stageTitle));
+      if (row.stageTitle) tdStage.appendChild(el('h3', 'stage-title', row.stageTitle));
       if (row.stageSub) tdStage.appendChild(el('div', 'stage-sub', row.stageSub));
       tr.appendChild(tdStage);
       const tdPrompt = el('td');
@@ -583,11 +590,11 @@
         // label
         if (tk.label) col.appendChild(el('h4', null, tk.label));
 
-        // chips
+        const takeMore = el('div', 'card-more');
         if (tk.chips && tk.chips.length) {
           const ci = el('div', 'takes-info');
           for (const c of tk.chips) ci.appendChild(el('span', 'chip', c));
-          col.appendChild(ci);
+          takeMore.appendChild(ci);
         }
 
         // contact sheet
@@ -597,15 +604,22 @@
           cs.src = tk.contactSheet;
           cs.alt = 'Contact sheet';
           cs.loading = 'lazy';
-          col.appendChild(cs);
+          takeMore.appendChild(cs);
         }
         if (tk.reviewPath) {
           const review = el('a', 'canvas-review-link', 'Candidate review');
           const href = projectHref(tk.reviewPath);
           if (href) {
             review.href = href;
-            col.appendChild(review);
+            takeMore.appendChild(review);
           }
+        }
+        if (takeMore.childNodes.length) {
+          const takeDetails = document.createElement('details');
+          takeDetails.className = 'card-details';
+          takeDetails.appendChild(el('summary', null, 'Details'));
+          takeDetails.appendChild(takeMore);
+          col.appendChild(takeDetails);
         }
 
         body.appendChild(col);

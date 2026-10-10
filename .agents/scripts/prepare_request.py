@@ -10,7 +10,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from operation_store import prepare_operation, require_current_approval_contract
+from operation_store import (
+    adopt_submitted_operation,
+    prepare_operation,
+    read_registry,
+    registry_lock,
+    require_current_approval_contract,
+)
 from ruamel.yaml.error import YAMLError
 from validate_request import (
     Finding,
@@ -150,7 +156,9 @@ def canvas_finding(root: Path, request: dict[str, Any]) -> Finding | None:
             f"{error}. Initialize the canvas with `uv run python {generator} "
             f"{root} --init` if showcase.json is missing, set canvas.currentStage, "
             f"then regenerate index.html with `uv run python {generator} {root} "
-            f"--stage {stage}` and retry.",
+            f"--stage {stage}` and retry. A Studio project needs no canvas: create "
+            f"`studio/` with `uv run python .agents/scripts/studio_project.py init "
+            f"{root}` instead.",
             "showcase.json",
         )
     return None
@@ -270,6 +278,25 @@ def write_once(root: Path, relative: str, content: str) -> Path:
     return path
 
 
+def release_unregistered_request(root: Path, asset: str, operation_id: str) -> None:
+    path = (root / f"requests/request_{asset}.json").resolve()
+    if not path.is_relative_to(root):
+        raise ValueError("Request path escapes the project")
+    if not path.exists():
+        return
+    with registry_lock(root) as registry_path:
+        registry = read_registry(registry_path)
+        if any(
+            record["asset_id"] == asset or record["operation_id"] == operation_id
+            for record in registry["tasks"]
+        ):
+            raise ValueError(
+                f"{asset} is already registered; reconcile the registered operation "
+                "instead of replacing its request"
+            )
+        path.unlink()
+
+
 def load_json(root: Path, relative: str) -> Any:
     return json.loads(contained_path(root, relative_path(relative)).read_text())
 
@@ -297,11 +324,28 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
     if findings or not args.write:
         result["request"] = request
         return result, findings
+    if args.replace_unregistered:
+        release_unregistered_request(root, args.asset, request["operation_id"])
     path = write_once(root, f"requests/request_{args.asset}.json", serialize(request))
     result["path"] = path.relative_to(root).as_posix()
     if args.register and review is not None and capabilities is not None:
         try:
-            prepare_operation(root, request, capabilities, review, args.required_rule)
+            if args.adopt_provider_task_id:
+                adopt_submitted_operation(
+                    root,
+                    request,
+                    capabilities,
+                    review,
+                    args.required_rule,
+                    args.adopt_provider_task_id,
+                    args.adopt_provider_status
+                    or ("completed" if args.adopt_terminal else "submitted"),
+                    args.adopt_terminal,
+                )
+            else:
+                prepare_operation(
+                    root, request, capabilities, review, args.required_rule
+                )
         except ValueError as error:
             return result, [Finding("registry.prepare", str(error), "task_ids.json")]
         result["registered"] = request["operation_id"]
@@ -331,6 +375,10 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--review")
     parser.add_argument("--capabilities")
     parser.add_argument("--required-rule", action="append", default=[])
+    parser.add_argument("--replace-unregistered", action="store_true")
+    parser.add_argument("--adopt-provider-task-id")
+    parser.add_argument("--adopt-provider-status")
+    parser.add_argument("--adopt-terminal", action="store_true")
     return parser
 
 
@@ -339,6 +387,16 @@ def main(argv: list[str] | None = None) -> int:
     args = cli.parse_args(argv)
     if args.register and not (args.write and args.review and args.capabilities):
         cli.error("--register requires --write, --review and --capabilities")
+    if args.replace_unregistered and not args.write:
+        cli.error("--replace-unregistered requires --write")
+    adopting = args.adopt_provider_task_id
+    if (adopting or args.adopt_provider_status or args.adopt_terminal) and not (
+        adopting and args.register
+    ):
+        cli.error(
+            "--adopt-provider-status and --adopt-terminal need "
+            "--adopt-provider-task-id, which needs --register"
+        )
     try:
         result, findings = run(args)
     except (OSError, ValueError, TypeError, UnicodeError, YAMLError) as error:

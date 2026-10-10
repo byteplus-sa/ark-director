@@ -86,7 +86,9 @@ Review is bound to the request hash, so the order is hash first.
    specific generation. Resolve CRITICAL and MAJOR findings; any changed
    prompt, parameter or reference byte changes the hash and needs a new review.
 4. Re-run the same command with `--review`, `--capabilities`, the
-   `--required-rule` values and `--write --register`:
+   `--required-rule` values and `--write --register` (a Studio project needs no
+   canvas for this; a pre-Studio canvas project needs its current `showcase.json`
+   and `index.html`):
 
    ```bash
    uv run python .agents/scripts/prepare_request.py \

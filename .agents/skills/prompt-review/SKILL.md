@@ -103,6 +103,12 @@ generative image layer inside a hybrid; the deterministic result uses
 exact-copy, font, layout, dimension, alpha, provenance, and visible-design QA
 instead.
 
+After a review, any edit to the prompt, a parameter or a reference changes the
+hashes. If the request was written but not registered, rewrite it with
+`prepare_request.py --write --replace-unregistered`, then re-review inline against
+the new `request_sha256`; never reuse the old review. A review written after a
+submission must say so, and is used only to adopt that submitted job.
+
 The "Checklist source" column is a provenance label only — this skill never loads
 a sibling; the applicable checklist is always read from this skill's own bundled
 `references/review-checklists.md`.

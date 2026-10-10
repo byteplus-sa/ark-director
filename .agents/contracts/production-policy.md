@@ -25,12 +25,13 @@ archived, is never migrated unasked, and never receives a `studio/` directory or
 a `stages.json`; `studio_project.py` refuses to run in it. A project without a
 `showcase.json` is a Studio project.
 
-Optional visual review. `showcase-html --quick` can build a throwaway comparison
-page of elements, audio, prompt snapshots or candidate takes when the user wants
-to look at them side by side (`--out projects/<project>/review/<name>.html`; it
-needs no setup and opens in the browser). It is never a gate and is not required
-in either approval mode; under `approve_for_me` the agent normally chooses
-without it. Never write a `showcase.json` or an `index.html` canvas at the
+Optional visual review. HTML is only a visual aid: a plain static `.html` file
+with a `.css` file beside it (relative links, no server, no required script),
+opened from disk, for example `projects/<project>/review/elements.html`. It never
+records a decision, never runs a review server, and is never a gate in either
+approval mode; under `approve_for_me` the agent chooses without it.
+`showcase-html --quick` can build such a page for elements, audio, prompt
+snapshots or candidate takes. Never write a `showcase.json` or an `index.html` canvas at the
 project root: a `showcase.json` marks a pre-Studio canvas project, and
 `studio_project.py` refuses to run in one. The lifecycle canvas (`--init`,
 `--check --stage`, `--serve`, `stage_lock.py`) is for pre-Studio canvas projects
@@ -38,7 +39,12 @@ only.
 
 Studio frames exist for shot video takes only. Elements, storyboard panels,
 posters and audio are reviewed from their manifests and files with the existing
-decision writer, not in Studio, and their evidence is recorded in the manifest.
+decision writer, and their evidence is recorded in the manifest. Locked assets
+are the ones in Studio: when an element is locked, copy its selected file to
+`studio/assets/` as `LOCKED_<element>_<vNN>.<ext>` and remove the copy of any
+variant it supersedes. Candidates, rejected samples and unlocked recommendations
+stay in `elements/` and are never copied into Studio's Assets panel. Candidate
+comparison belongs in a plain static HTML page, not in Studio.
 
 Commands.
 
@@ -51,6 +57,8 @@ Commands.
 | `status` | Exit `0` ok, `3` blocking issue. Blocking codes: `asset_missing`, `asset_modified`, `unmanaged_asset`, `take_changed`, `placed_differs_from_selection`, `not_on_timeline`, `frame_missing`, `no_frame`. `selection_pending` is informational in planning stages and blocking for `assembly-review`, `delivery` and delivery-level renders. `orphan_frame` (a composition that is not a shot frame, such as a title card or registry block) is informational and never blocks. It checks takes and Studio assets only; it does not read review files or scene files. |
 | `check` | The pinned `hyperframes check`; passes only when its JSON says ok and the browser pass ran. Use it instead of a bare `hyperframes check`. |
 | `render --name N --quality Q` | Qualities `draft`, `looks`, `standard`, `delivery`, `high`; "delivery-level" means `standard`, `delivery` or `high`. A delivery-level render needs a clean `status` including no pending selection. Refuses to overwrite. Writes `<name>.mp4.render.json` with `produced_by: "render"`. |
+| `lock-element <id> --decision FILE` | Lock an element: record the agent or user decision for `elements/<id>/element.md` through the existing validated writer (the variant must be listed in `variants` and have a passing review), then run `sync-elements`. Needs an initialised Studio project. |
+| `sync-elements` | Make Studio hold exactly the locked elements: copy each approved element's selected image to `studio/assets/` as `LOCKED_<element>_<vNN>.<ext>`, remove any other `LOCKED_*` copy, and rewrite `elements/INDEX.md` and the static `review/elements.html` + `elements.css` (locked element large, other samples as `OTHER` with the review's first observation). |
 | `record-lock --decision FILE` | Record a `picture`, `audio` or `final_master` stage lock for the current stage. The subject of a picture or final-master lock must be a render made by `render` (a final master at standard or higher quality); an audio lock names an audio file. Same authorization as `record-selection`; the review must pass real playback or listening checks. An agent cannot replace a user's lock. |
 | `record-render <file> [args]` | Register a render made elsewhere with the pinned CLI. Recorded as `produced_by: "manual"`; it does not satisfy the delivery gate and does not hide a good delivery render. |
 | `hf <command> [args]` | Run a pinned, privacy-safe HyperFrames command from inside `studio/` for the commands the script does not wrap: `preview`, `lint`, `snapshot`, `add`, `catalog`, `compositions`, `info`, `doctor`, `keyframes`, `compare`. Anything else is refused. Open Studio with `hf <project> preview --no-open --json` and open the returned `studioUrl`. |
@@ -103,7 +111,10 @@ the agent only under `approve_for_me`, and a lock is stale, and blocks stage exi
 if the locked file, its review or its decision file changes. Reopening a stage
 clears its locks. Under `ask_for_approval` the agent records
 a recommendation, asks in chat, and records the decision when the user answers.
-Studio projects need no review server.
+Studio projects need no review server. The default is `approve_for_me`: the
+agent inspects the candidates, records the review and decision, and locks. Only
+when the user says otherwise (`ask_for_approval`) does the agent recommend and
+wait, and the user then confirms in chat, never in a browser UI.
 
 Feedback. The user gives feedback in Studio (storyboard comments, Ask agent /
 Copy to Agent). The agent reads the running Studio with
@@ -217,7 +228,7 @@ The request hash covers exact prompt bytes, model/operation/effective parameters
 
 Use one project task_ids.json registry. New records follow schemas/generation-request.schema.json; the registry follows schemas/task-registry.schema.json. Preserve legacy records and report required migration rather than inventing missing facts.
 
-Persist prepared request and immutable prompt snapshot before calling the provider. Save an acknowledged provider ID immediately. Separate submission_status, provider_status and review_status. On a no-ID timeout use submission_unknown and reconcile. On a poll timeout retain the ID and resume the same task. When acceptance cannot be determined, hold for an explicit retry decision explaining possible duplicate cost. A provider terminal failure is evidence to review, not automatic approval of a replacement operation.
+Persist prepared request and immutable prompt snapshot before calling the provider. Save an acknowledged provider ID immediately. Registration (`prepare_request.py --register`, `operation_store.prepare_operation`) and the `prepared` to `submitting` transition apply the same project-type rule: a Studio project (a real, non-symlink `studio/` directory and no `showcase.json`) registers version-2 requests with no canvas, while a pre-Studio canvas project requires its current `showcase.json` and `index.html`. A project with both, or with a `studio/` symlink or file, is not a Studio project and still needs the canvas. The submission never goes unregistered because a project is a Studio project. If a job was submitted before registration, adopt it: run `prepare_request.py --register` with the matching review and add `--adopt-provider-task-id <id>` (optionally `--adopt-provider-status`, and `--adopt-terminal` for a finished job); it registers the operation and walks it to `acknowledged` or `terminal` with the known provider task, and never resubmits. When a prompt is edited after its request was written but before registration, re-run with `--write --replace-unregistered` to rewrite that request; it refuses an asset that is already registered. Separate submission_status, provider_status and review_status. On a no-ID timeout use submission_unknown and reconcile. On a poll timeout retain the ID and resume the same task. When acceptance cannot be determined, hold for an explicit retry decision explaining possible duplicate cost. A provider terminal failure is evidence to review, not automatic approval of a replacement operation.
 
 On success save each modality locally: Elements under elements/, shot outputs beside the shot, scene outputs in the scene folder, reusable non-shot media in library/. A durable provider URI supplements rather than replaces the local copy. Record artifact/task IDs, actual streams, bytes and SHA-256; download failure can retry the existing artifact without regenerating.
 

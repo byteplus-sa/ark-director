@@ -292,6 +292,108 @@ class PrepareRequestTests(unittest.TestCase):
         tasks = json.loads((self.root / "task_ids.json").read_text())["tasks"]
         self.assertEqual(len(tasks), 1)
 
+    def register_args(self, *extra: str) -> list[str]:
+        return self.argv(
+            "--write",
+            "--register",
+            "--review",
+            "reviews/review_s01_sh010_t01_v01.json",
+            "--capabilities",
+            "capabilities/seedance-2-5.json",
+            "--required-rule",
+            "references.ordered_bindings",
+            *extra,
+        )
+
+    def test_edited_prompt_cannot_overwrite_a_request_without_the_flag(self) -> None:
+        code, _ = self.run_cli(self.argv("--write"))
+        self.assertEqual(code, 0)
+        (self.root / self.prompt).write_text(
+            "@Image 1 walks as in @Video 1 and carefully lifts @Image 2.\n"
+        )
+        code, result = self.run_cli(self.argv("--write"))
+        self.assertEqual(code, 1)
+        self.assertIn("Refusing to overwrite", json.dumps(result))
+
+    def test_replace_unregistered_rewrites_a_never_registered_request(self) -> None:
+        _, first = self.run_cli(self.argv("--write"))
+        (self.root / self.prompt).write_text(
+            "@Image 1 walks as in @Video 1 and carefully lifts @Image 2.\n"
+        )
+        code, result = self.run_cli(self.argv("--write", "--replace-unregistered"))
+        self.assertEqual(code, 0, result)
+        self.assertNotEqual(result["request_sha256"], first["request_sha256"])
+        written = json.loads(
+            (self.root / "requests/request_s01_sh010_t01_v01.json").read_text()
+        )
+        self.assertEqual(written["request_sha256"], result["request_sha256"])
+
+    def test_replace_unregistered_refuses_a_registered_asset(self) -> None:
+        _, dry = self.run_cli(self.argv())
+        self.write_review(dry["request_sha256"])
+        code, _ = self.run_cli(self.register_args())
+        self.assertEqual(code, 0)
+        before = (self.root / "requests/request_s01_sh010_t01_v01.json").read_bytes()
+        (self.root / self.prompt).write_text(
+            "@Image 1 walks as in @Video 1 and carefully lifts @Image 2.\n"
+        )
+        code, result = self.run_cli(self.argv("--write", "--replace-unregistered"))
+        self.assertEqual(code, 1)
+        self.assertIn("already registered", json.dumps(result))
+        after = (self.root / "requests/request_s01_sh010_t01_v01.json").read_bytes()
+        self.assertEqual(before, after)
+
+    def test_adopt_registers_an_already_submitted_job_as_acknowledged(self) -> None:
+        _, dry = self.run_cli(self.argv())
+        self.write_review(dry["request_sha256"])
+        code, result = self.run_cli(
+            self.register_args("--adopt-provider-task-id", "job-123")
+        )
+        self.assertEqual(code, 0, result)
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["submission_status"], "acknowledged")
+        self.assertEqual(record["provider_task_id"], "job-123")
+        self.assertEqual(record["provider_status"], "submitted")
+
+    def test_adopt_terminal_records_a_finished_job(self) -> None:
+        _, dry = self.run_cli(self.argv())
+        self.write_review(dry["request_sha256"])
+        code, result = self.run_cli(
+            self.register_args(
+                "--adopt-provider-task-id", "job-123", "--adopt-terminal"
+            )
+        )
+        self.assertEqual(code, 0, result)
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["submission_status"], "terminal")
+        self.assertEqual(record["provider_status"], "completed")
+
+    def test_adopt_still_needs_a_review_that_matches_the_request(self) -> None:
+        self.write_review("0" * 64)
+        code, result = self.run_cli(
+            self.register_args("--adopt-provider-task-id", "job-123")
+        )
+        self.assertEqual(code, 1)
+        self.assertIn("review.complete_evidence", json.dumps(result))
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_adopt_options_need_register_and_a_task_id(self) -> None:
+        for extra in (
+            ["--adopt-provider-task-id", "job-1"],
+            ["--adopt-terminal"],
+            ["--adopt-provider-status", "completed"],
+        ):
+            with (
+                self.assertRaises(SystemExit),
+                contextlib.redirect_stderr(io.StringIO()),
+            ):
+                self.run_cli(self.argv("--write", *extra))
+        with (
+            self.assertRaises(SystemExit),
+            contextlib.redirect_stderr(io.StringIO()),
+        ):
+            self.run_cli(self.register_args("--adopt-terminal"))
+
     def test_register_rejects_stale_review_before_writing(self) -> None:
         self.write_review("0" * 64)
         code, result = self.run_cli(
@@ -509,6 +611,20 @@ class PrepareRequestTests(unittest.TestCase):
             "approval.current_canvas", [f["rule_id"] for f in result["findings"]]
         )
         self.assertIn("--init", result["findings"][-1]["message"])
+
+    def test_v2_register_on_studio_project_needs_no_canvas(self) -> None:
+        self.record_selection()
+        _, dry = self.run_cli(self.v2_argv())
+        self.write_review(dry["request_sha256"])
+        (self.root / "showcase.json").unlink()
+        (self.root / "index.html").unlink()
+        (self.root / "studio").mkdir()
+        code, result = self.run_cli(self.register_argv())
+        self.assertEqual(code, 0, result)
+        tasks = json.loads((self.root / "task_ids.json").read_text())["tasks"]
+        self.assertEqual(len(tasks), 1)
+        self.assertEqual(tasks[0]["schema_version"], 2)
+        self.assertEqual(tasks[0]["submission_status"], "prepared")
 
     def test_v2_missing_selection_evidence_is_actionable(self) -> None:
         (self.root / "project.md").write_text(

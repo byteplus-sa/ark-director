@@ -68,6 +68,15 @@ When locking a real logo, packshot, or labeled product from the web or the user
 - Do **not** invent a `prompt_prop_*` / `prompt_screen_*` / `prompt_card_*`
   snapshot for assets that were never generated.
 
+### Studio asset labels
+
+Studio's Assets panel holds locked assets only. Copy the selected file there as
+`LOCKED_<element>_<vNN>.<ext>` (for example `LOCKED_mira_v03.png`); the name
+leads with its status because the panel shortens long names in the middle.
+Candidates, rejected samples and unlocked recommendations stay in
+`elements/<element-id>/` and are never copied into Studio. A project may list
+the mapping in `elements/INDEX.md`.
+
 ## Audio
 
 | Asset | Pattern | Example |
