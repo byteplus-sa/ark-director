@@ -2017,3 +2017,235 @@ class StudioProjectTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class StudioElementLockTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.project = Path(self.temp.name).resolve() / "demo"
+        self.project.mkdir()
+        self.write_project("approve_for_me")
+        studio.init_studio(self.project, "9:16", "1080p")
+
+    def write_project(self, mode):
+        (self.project / "project.md").write_text(
+            f"---\napproval_mode: {mode}\n---\n\n# Demo\n"
+        )
+
+    def add_element(
+        self, element_id="mira", versions=("v01", "v02", "v03"), status="review"
+    ):
+        directory = self.project / "elements" / element_id
+        directory.mkdir(parents=True, exist_ok=True)
+        names = []
+        for version in versions:
+            name = f"char_{element_id}_turnaround_{version}.png"
+            (directory / name).write_bytes(f"{element_id}-{version}".encode())
+            names.append(name)
+            self.write_review(element_id, name, version != "v01")
+        (directory / "element.md").write_text(
+            f"---\nelement_id: {element_id}\ntype: character\nstatus: {status}\n"
+            f"variants: [{', '.join(names)}]\n---\n\n# {element_id}\n"
+        )
+        return names
+
+    def write_review(self, element_id, name, passing=True):
+        relative = f"elements/{element_id}/{name}"
+        review = {
+            "schema_version": 1,
+            "artifact_path": relative,
+            "artifact_sha256": sha((self.project / relative).read_bytes()),
+            "status": "pass" if passing else "fail",
+            "inspection_method": "direct visual inspection of the full image",
+            "coverage": "whole sheet",
+            "checks": [
+                {
+                    "criterion": "sheet",
+                    "status": "pass" if passing else "fail",
+                    "evidence": "fixture evidence",
+                }
+            ],
+            "observations": ["Reads well" if passing else "Glossy skin"],
+            "limitations": [],
+            "recommendation": "Select." if passing else "Reject.",
+        }
+        stem = name.rsplit(".", 1)[0]
+        path = self.project / f"elements/{element_id}/review_candidate_{stem}.json"
+        path.write_text(json.dumps(review))
+
+    def decision(
+        self, element_id, name, actor="agent", authorization=None, decision_id=None
+    ):
+        relative = f"elements/{element_id}/{name}"
+        stem = name.rsplit(".", 1)[0]
+        review = f"elements/{element_id}/review_candidate_{stem}.json"
+        mode = (
+            "approve_for_me"
+            if "approve_for_me" in (self.project / "project.md").read_text()
+            else "ask_for_approval"
+        )
+        decision = {
+            "schema_version": 1,
+            "decision_id": decision_id or f"select_{element_id}_{stem[-3:]}",
+            "decision_type": "variant_selection",
+            "asset_id": element_id,
+            "subject_path": relative,
+            "selected_variant": name,
+            "selected_sha256": sha((self.project / relative).read_bytes()),
+            "actor": actor,
+            "approval_mode": mode,
+            "project_sha256": sha((self.project / "project.md").read_bytes()),
+            "result": "approved",
+            "review_path": review,
+            "review_sha256": sha((self.project / review).read_bytes()),
+            "upstream_sha256": {},
+            "reason": "Passes the recorded checks.",
+            "decided_at": datetime.datetime.now(datetime.UTC).isoformat(),
+        }
+        if authorization is not None:
+            decision["authorization"] = authorization
+        return decision
+
+    @property
+    def assets(self):
+        return self.project / "studio/assets"
+
+    def locked_files(self):
+        return sorted(path.name for path in self.assets.glob("LOCKED_*"))
+
+    def test_lock_records_the_decision_and_puts_only_the_locked_file_in_studio(self):
+        names = self.add_element()
+        result = studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[2])
+        )
+        self.assertTrue(result["ok"])
+        manifest = (self.project / "elements/mira/element.md").read_text()
+        self.assertIn(f"selected_variant: {names[2]}", manifest)
+        self.assertIn("status: approved", manifest)
+        self.assertTrue((self.project / "decisions/select_mira_v03.json").is_file())
+        self.assertEqual(self.locked_files(), ["LOCKED_mira_v03.png"])
+        self.assertEqual(
+            sorted(path.name for path in self.assets.iterdir()), ["LOCKED_mira_v03.png"]
+        )
+
+    def test_relocking_replaces_the_previous_studio_copy(self):
+        names = self.add_element()
+        studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[1])
+        )
+        self.assertEqual(self.locked_files(), ["LOCKED_mira_v02.png"])
+        studio.record_element_lock(
+            self.project,
+            "mira",
+            self.decision("mira", names[2], decision_id="select_mira_again"),
+        )
+        self.assertEqual(self.locked_files(), ["LOCKED_mira_v03.png"])
+
+    def test_page_and_index_show_locked_and_other_samples_without_a_script(self):
+        names = self.add_element()
+        studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[2])
+        )
+        page = (self.project / "review/elements.html").read_text()
+        self.assertTrue((self.project / "review/elements.css").is_file())
+        self.assertNotIn("<script", page)
+        self.assertIn('href="elements.css"', page)
+        self.assertIn("LOCKED", page)
+        self.assertEqual(page.count("OTHER"), 2)
+        self.assertIn("../elements/mira/char_mira_turnaround_v03.png", page)
+        self.assertIn("Glossy skin", page)
+        index = (self.project / "elements/INDEX.md").read_text()
+        self.assertIn("LOCKED_mira_v03.png", index)
+        self.assertNotIn("v01.png", index)
+
+    def test_a_variant_outside_the_manifest_is_refused(self):
+        names = self.add_element()
+        rogue = self.project / "elements/mira/char_mira_turnaround_v09.png"
+        rogue.write_bytes(b"rogue")
+        decision = self.decision("mira", names[0])
+        decision["selected_variant"] = rogue.name
+        with self.assertRaises(studio.StudioError):
+            studio.record_element_lock(self.project, "mira", decision)
+        self.assertEqual(self.locked_files(), [])
+
+    def test_unsafe_element_ids_are_refused(self):
+        self.add_element()
+        for bad in ("../mira", "Mira", "mira/../mira", ""):
+            with self.assertRaises(studio.StudioError):
+                studio.record_element_lock(self.project, bad, {})
+
+    def test_agent_cannot_lock_under_ask_for_approval(self):
+        self.write_project("ask_for_approval")
+        names = self.add_element()
+        with self.assertRaises(studio.StudioError):
+            studio.record_element_lock(
+                self.project, "mira", self.decision("mira", names[2])
+            )
+        self.assertEqual(self.locked_files(), [])
+
+    def test_user_chat_lock_works_and_an_agent_cannot_replace_it(self):
+        self.write_project("ask_for_approval")
+        names = self.add_element()
+        user = self.decision(
+            "mira",
+            names[1],
+            actor="user",
+            authorization={"source": "chat", "evidence": "lock Mira v02"},
+        )
+        studio.record_element_lock(self.project, "mira", user)
+        self.assertEqual(self.locked_files(), ["LOCKED_mira_v02.png"])
+        self.write_project("approve_for_me")
+        agent = self.decision("mira", names[2], decision_id="agent_override")
+        with self.assertRaises((studio.StudioError, ValueError)):
+            studio.record_element_lock(self.project, "mira", agent)
+        self.assertEqual(self.locked_files(), ["LOCKED_mira_v02.png"])
+
+    def test_sync_removes_stale_locked_copies_and_keeps_other_assets(self):
+        names = self.add_element()
+        studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[2])
+        )
+        (self.assets / "LOCKED_ghost_v01.png").write_bytes(b"stale")
+        (self.assets / "s01_sh010_t01_v01__abc.mp4").write_bytes(b"take")
+        report = studio.sync_elements(self.project)
+        self.assertEqual(report["removed"], ["LOCKED_ghost_v01.png"])
+        self.assertEqual(self.locked_files(), ["LOCKED_mira_v03.png"])
+        self.assertTrue((self.assets / "s01_sh010_t01_v01__abc.mp4").is_file())
+
+    def test_sync_ignores_elements_that_are_not_approved(self):
+        self.add_element("nena", versions=("v01",), status="review")
+        report = studio.sync_elements(self.project)
+        self.assertEqual(report["locked"], [])
+        self.assertEqual(self.locked_files(), [])
+
+    def test_sync_needs_an_initialised_studio_project(self):
+        shutil.rmtree(self.project / "studio")
+        with self.assertRaises(studio.StudioError):
+            studio.sync_elements(self.project)
+
+    def test_canvas_projects_are_refused(self):
+        self.add_element()
+        (self.project / "showcase.json").write_text("{}")
+        with self.assertRaises(studio.StudioError):
+            studio.sync_elements(self.project)
+
+    def test_cli_lock_element_and_sync_elements(self):
+        names = self.add_element()
+        decision_file = self.project / "decision.json"
+        decision_file.write_text(json.dumps(self.decision("mira", names[2])))
+        with contextlib.redirect_stdout(io.StringIO()):
+            code = studio.main(
+                [
+                    "lock-element",
+                    str(self.project),
+                    "mira",
+                    "--decision",
+                    str(decision_file),
+                ]
+            )
+            self.assertEqual(code, 0)
+            self.assertEqual(self.locked_files(), ["LOCKED_mira_v03.png"])
+            (self.assets / "LOCKED_mira_v03.png").unlink()
+            self.assertEqual(studio.main(["sync-elements", str(self.project)]), 0)
+        self.assertEqual(self.locked_files(), ["LOCKED_mira_v03.png"])

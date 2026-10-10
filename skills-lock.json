@@ -65,7 +65,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/blender-to-seedance/SKILL.md",
-      "computedHash": "60939941ce35fb7b91b8e1310a469ba2381b9cd43d1fefbe7910fa615fb4d56e"
+      "computedHash": "3ef419ed204e667664dde7a95015c0a9e6ff2ef728da430d110c223a976a0de2"
     },
     "brief-intake": {
       "source": "./local",
@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "49dc2bf24dd6be8bfcfcd84e7bb4575f880986220f2ed671d5f06ec0631dfb31"
+      "computedHash": "17a0f34f3f7b34f62457ad5074e79d77024f8cc21f80fc9037917eb11a080a6c"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -125,13 +125,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ark-mcp/SKILL.md",
-      "computedHash": "e852d0287c03a5018dec182b375b8a6043e92969229dcbc3a87fcbfa5a155f32"
+      "computedHash": "a292aa593a7a06464479ca64908cbf40ebe06421786b3a6dfbd801ac2f8cbd82"
     },
     "prompt-review": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "8984dc0e6ee2b5ebceb463ccdcd201ed3a4cf94c25c68e6d9753e1ecb92dbfeb"
+      "computedHash": "c5b786a1e6bf92c3f1dee18bc4d5bf5f25b6ace1daa683dc9d48461b38d999ab"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -221,7 +221,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25/SKILL.md",
-      "computedHash": "04d20a3f67ce0b08817ac1b416b18c66ceafe4d14539a90bb271e6df5327d1a5"
+      "computedHash": "b9efb2224593141628868c8f7ade5bb453baf540025d8afb0f2df55d86a7201b"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",
@@ -239,7 +239,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-pipeline/SKILL.md",
-      "computedHash": "f0c3a9ec5607038aa66579357adbd9b1db3a44fab8e524006b9e3ba20b86309a"
+      "computedHash": "d2bc683cbcaa31d8e1af50af6162e5080334aa62887b1f928daa7aa45e42ebef"
     },
     "seedance-vfx-prompt": {
       "source": "./local",
@@ -251,7 +251,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-character-sheet/SKILL.md",
-      "computedHash": "f9841299dbbba82837083ce9058c7f67634eeeb3585c3176abb83e0e64d27934"
+      "computedHash": "900a71ec8320a365cff1e8ea359d94ce4a8fcb73c20e8d5db6174a89e7102597"
     },
     "seedream-character-sheet-cleanup": {
       "source": "./local",
@@ -275,7 +275,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-location-asset/SKILL.md",
-      "computedHash": "979720b6a6f0e8f2c06c9aac6cce830690edcd609a53e247750a45bc9354fbc8"
+      "computedHash": "6b908389b8d586cf0a745bd1b80edeca19480663152c407cbf38fe4d8b543480"
     },
     "seedream-prompt": {
       "source": "./local",
@@ -299,13 +299,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/showcase-html/SKILL.md",
-      "computedHash": "582c9946ad0f2265be3f042e8d9ea67301497a4bd0792c04ab63b973e02cbc6e"
+      "computedHash": "9388e82bcdc69555720873e8055051c6ce7ac39a77319fcf7f12da5d01e478af"
     },
     "template-factory": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "0cb6f8d367b7866b346cf5feb6e0ece5e70e04155fb62cd3093b91e609599bcc"
+      "computedHash": "9f49fbf74dabe925a2c847fbb01d53116230f3d05467cd08eea7643fa5fd386c"
     },
     "tig-blocking-map": {
       "source": "./local",
@@ -437,7 +437,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/filipino-micro-drama/SKILL.md",
-      "computedHash": "deca9b8e833ce8ed0118af7ed16e2b9e760f9593a143382ca5e3eaeb5cbb5892"
+      "computedHash": "e037b8f31e03c0af514e81788a5f1d7c728e10345575168979cf541244fb63ef"
     },
     "seedance-effects-studio": {
       "source": "./local",

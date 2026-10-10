@@ -18,6 +18,7 @@ from validate_request import (
     prepared_evidence_findings,
     project_mode_findings,
     schema_findings,
+    studio_project,
     validate_request,
     validate_review,
 )
@@ -104,13 +105,19 @@ def require_current_approval_contract(root: Path, record: dict[str, Any]) -> Non
         except (OSError, UnicodeError, ValueError, TypeError, YAMLError) as error:
             raise ValueError(f"Cannot verify legacy project mode: {error}") from error
         if "approval_mode" in metadata:
-            raise ValueError("Explicit approval mode requires a version-2 generation request")
+            raise ValueError(
+                "Explicit approval mode requires a version-2 generation request"
+            )
     path = root / "showcase.json"
     if path.is_symlink():
         raise ValueError("Production canvas must not be a symlink")
     if not path.exists():
-        if version == 2:
-            raise ValueError("Version-2 generation requires showcase.json and current index.html")
+        if version == 2 and not studio_project(root):
+            raise ValueError(
+                "Version-2 generation requires a Studio project (a real studio/ "
+                "directory and no showcase.json) or a pre-Studio canvas "
+                "(showcase.json and current index.html)"
+            )
         return
     try:
         document = json.loads(path.read_text(encoding="utf-8"))
@@ -119,8 +126,14 @@ def require_current_approval_contract(root: Path, record: dict[str, Any]) -> Non
     if not isinstance(document, dict):
         raise TypeError("Production canvas must be a JSON object")
     canvas = document.get("canvas")
-    if version == 1 and isinstance(canvas, dict) and "approvalContractVersion" in canvas:
-        raise ValueError("Versioned production canvas requires a version-2 generation request")
+    if (
+        version == 1
+        and isinstance(canvas, dict)
+        and "approvalContractVersion" in canvas
+    ):
+        raise ValueError(
+            "Versioned production canvas requires a version-2 generation request"
+        )
     if version != 2:
         return
     if not isinstance(canvas, dict) or canvas.get("approvalContractVersion") != 1:
@@ -175,6 +188,48 @@ def prepare_operation(
             )
         registry["tasks"].append(deepcopy(request))
         replace_registry(path, registry)
+
+
+def adopt_submitted_operation(
+    root: Path,
+    request: dict[str, Any],
+    capabilities: dict[str, Any],
+    review: dict[str, Any],
+    required_rule_ids: list[str],
+    provider_task_id: str,
+    provider_status: str,
+    terminal: bool,
+) -> None:
+    if not provider_task_id.strip() or not provider_status.strip():
+        raise ValueError(
+            "Adopting a submitted job needs its provider task ID and status"
+        )
+    prepare_operation(root, request, capabilities, review, required_rule_ids)
+    operation_id = request["operation_id"]
+    try:
+        transition_operation(root, operation_id, "prepared", "submitting")
+        transition_operation(
+            root,
+            operation_id,
+            "submitting",
+            "acknowledged",
+            provider_task_id=provider_task_id,
+            provider_status=provider_status,
+        )
+        if terminal:
+            transition_operation(
+                root,
+                operation_id,
+                "acknowledged",
+                "terminal",
+                provider_status=provider_status,
+            )
+    except ValueError as error:
+        raise ValueError(
+            f"{operation_id} is registered but adoption stopped part-way ({error}); "
+            "inspect task_ids.json and finish the transitions for the known "
+            f"provider task {provider_task_id}, never resubmit"
+        ) from error
 
 
 def transition_operation(

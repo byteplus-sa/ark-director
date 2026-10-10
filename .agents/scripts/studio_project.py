@@ -14,8 +14,10 @@ import tempfile
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from html import escape
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 from validate_request import (
     contained_path,
@@ -1771,6 +1773,249 @@ def parse_requested(values: list[str]) -> dict[str, str]:
     return requested
 
 
+ELEMENT_ID_PATTERN = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+ELEMENT_VERSION_PATTERN = re.compile(r"_(v\d{2,})$")
+ELEMENT_IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp"}
+LOCKED_PREFIX = "LOCKED_"
+ELEMENTS_PAGE_CSS = """* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #faf8f5; color: #1d1b19; }
+main { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+h1 { margin: 0 0 4px; }
+.lede, .sub, figcaption { color: #6b645c; font-size: 0.9rem; }
+section { background: #fff; border: 1px solid #e4ded5; border-radius: 12px; padding: 16px; margin: 0 0 20px; }
+h2 { margin: 0 0 4px; font-size: 1.1rem; }
+.badge { display: inline-block; font: 700 0.75rem/1 system-ui; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; margin-right: 8px; }
+.locked { background: #1f7a4d; color: #fff; }
+.other { background: #e7e1d8; color: #4a443d; }
+figure { margin: 0; }
+img { display: block; width: auto; max-width: 100%; max-height: 640px; margin: 0 auto; border-radius: 8px; }
+.row { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 12px; }
+.row img { width: 100%; max-height: none; }
+figcaption { margin-top: 6px; }
+@media (prefers-color-scheme: dark) {
+  body { background: #151311; color: #ece7df; }
+  section { background: #1f1c19; border-color: #34302b; }
+  .lede, .sub, figcaption { color: #b3aba0; }
+  .other { background: #34302b; color: #d6cec3; }
+}
+"""
+
+
+def element_document(path: Path) -> dict[str, Any]:
+    _, document, _ = selection_service().parse_frontmatter(read_text(path))
+    return dict(document)
+
+
+def element_manifest(project: Path, element_id: str) -> tuple[Path, dict[str, Any]]:
+    if not ELEMENT_ID_PATTERN.fullmatch(element_id):
+        raise StudioError(f"Invalid element id: {element_id!r}")
+    path = project / "elements" / element_id / "element.md"
+    if path.is_symlink() or not path.is_file():
+        raise StudioError(f"{element_id} has no elements/{element_id}/element.md")
+    return path, element_document(path)
+
+
+def locked_label(element_id: str, source: Path) -> str:
+    match = ELEMENT_VERSION_PATTERN.search(source.stem)
+    version = match[1] if match else "v00"
+    return f"{LOCKED_PREFIX}{element_id}_{version}{source.suffix.lower()}"
+
+
+def approved_elements(project: Path) -> list[tuple[str, dict[str, Any], Path]]:
+    found = []
+    for manifest in sorted((project / "elements").glob("*/element.md")):
+        element_id = manifest.parent.name
+        if manifest.is_symlink() or not ELEMENT_ID_PATTERN.fullmatch(element_id):
+            continue
+        document = element_document(manifest)
+        selected = document.get("selected_variant")
+        if document.get("status") != "approved" or not isinstance(selected, str):
+            continue
+        source = manifest.parent / selected
+        if (
+            source.is_symlink()
+            or not source.is_file()
+            or source.suffix.lower() not in ELEMENT_IMAGE_SUFFIXES
+        ):
+            continue
+        found.append((element_id, document, source))
+    return found
+
+
+def element_variant_note(project: Path, element_id: str, variant: str) -> str:
+    review = (
+        project
+        / "elements"
+        / element_id
+        / f"review_candidate_{Path(variant).stem}.json"
+    )
+    if review.is_symlink() or not review.is_file():
+        return ""
+    try:
+        document = json.loads(read_text(review))
+    except ValueError:
+        return ""
+    notes = document.get("observations")
+    return str(notes[0]) if isinstance(notes, list) and notes else ""
+
+
+def write_elements_index(
+    project: Path, approved: list[tuple[str, dict[str, Any], Path]]
+) -> None:
+    lines = [
+        "# Elements index",
+        "",
+        (
+            "Studio holds locked elements only (`LOCKED_<element>_<version>.<ext>`). "
+            "Other samples stay in `elements/` and appear in `review/elements.html`, "
+            "a plain static page opened from disk."
+        ),
+        "",
+        "| Studio file | Element | Source |",
+        "| --- | --- | --- |",
+    ]
+    for element_id, document, source in approved:
+        lines.append(
+            f"| `{locked_label(element_id, source)}` | {element_id} ({document.get('type', 'element')}) "
+            f"| `{source.relative_to(project).as_posix()}` |"
+        )
+    atomic_write(project / "elements" / "INDEX.md", "\n".join(lines) + "\n")
+
+
+def write_elements_page(
+    project: Path, approved: list[tuple[str, dict[str, Any], Path]]
+) -> None:
+    review = project / "review"
+    if review.is_symlink():
+        raise StudioError("review must be a real directory")
+    review.mkdir(exist_ok=True)
+    body = [
+        "<h1>Elements</h1>",
+        '<p class="lede">Locked elements are the ones in HyperFrames Studio. Other samples are kept for reference only.</p>',
+    ]
+    for element_id, document, source in approved:
+        label = locked_label(element_id, source)
+        link = f"../{source.relative_to(project).as_posix()}"
+        body.append(
+            f'<section><h2><span class="badge locked">LOCKED</span>{escape(element_id)}</h2>'
+            f'<p class="sub">{escape(str(document.get("type", "element")))} · Studio file {escape(label)}</p>'
+            f'<figure><img src="{escape(quote(link))}" alt="{escape(element_id)}"></figure>'
+        )
+        others = [
+            name
+            for name in document.get("variants", [])
+            if isinstance(name, str)
+            and name != source.name
+            and (source.parent / name).is_file()
+        ]
+        if others:
+            body.append('<div class="row">')
+            for name in others:
+                note = element_variant_note(project, element_id, name)
+                path = f"../elements/{element_id}/{name}"
+                caption = f'<span class="badge other">OTHER</span>{escape(name)}'
+                if note:
+                    caption += f": {escape(note)}"
+                body.append(
+                    f'<figure><img src="{escape(quote(path))}" alt="{escape(name)}" loading="lazy">'
+                    f"<figcaption>{caption}</figcaption></figure>"
+                )
+            body.append("</div>")
+        body.append("</section>")
+    page = (
+        '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">'
+        '<title>Elements</title><link rel="stylesheet" href="elements.css"></head><body><main>'
+        + "\n".join(body)
+        + "</main></body></html>\n"
+    )
+    atomic_write(review / "elements.css", ELEMENTS_PAGE_CSS)
+    atomic_write(review / "elements.html", page)
+
+
+def sync_elements(project: Path) -> dict[str, Any]:
+    project = project.resolve()
+    if not studio_root(project).is_dir():
+        raise StudioError("This project has no Studio project yet; run init first")
+    assets = studio_path(project, "assets")
+    if assets.is_symlink():
+        raise StudioError("assets must be a real directory")
+    assets.mkdir(exist_ok=True)
+    approved = approved_elements(project)
+    wanted = {
+        locked_label(element_id, source): source for element_id, _, source in approved
+    }
+    removed = []
+    for existing in sorted(assets.glob(f"{LOCKED_PREFIX}*")):
+        if existing.name not in wanted and (
+            existing.is_file() or existing.is_symlink()
+        ):
+            existing.unlink()
+            removed.append(existing.name)
+    copied = []
+    for name, source in wanted.items():
+        target = assets / name
+        if target.is_symlink():
+            raise StudioError(f"{name} must be a real file")
+        if not target.exists() or sha256_file(target) != sha256_file(source):
+            shutil.copy2(source, target)
+            copied.append(name)
+    write_elements_index(project, approved)
+    write_elements_page(project, approved)
+    return {"copied": copied, "removed": removed, "locked": sorted(wanted)}
+
+
+def element_registry(
+    project: Path, element_id: str, document: dict[str, Any]
+) -> dict[str, Any]:
+    directory = project / "elements" / element_id
+    variants = {
+        name: f"elements/{element_id}/{name}"
+        for name in document.get("variants", [])
+        if isinstance(name, str) and (directory / name).is_file()
+    }
+    reviews = {
+        name: f"elements/{element_id}/review_candidate_{Path(name).stem}.json"
+        for name in variants
+        if (directory / f"review_candidate_{Path(name).stem}.json").is_file()
+    }
+    return {
+        element_id: {
+            "manifest": f"elements/{element_id}/element.md",
+            "field": "selected_variant",
+            "key": None,
+            "stage": None,
+            "variants": variants,
+            "reviews": reviews,
+        }
+    }
+
+
+def record_element_lock(
+    project: Path, element_id: str, decision: dict[str, Any]
+) -> dict[str, Any]:
+    project = project.resolve()
+    if not isinstance(decision, dict):
+        raise StudioError("A decision file must contain one JSON object")
+    _, document = element_manifest(project, element_id)
+    studio_root(project)
+    mode, _ = project_mode_snapshot(project)
+    require_authorized(decision, mode)
+    registry = element_registry(project, element_id, document)
+    selected = decision.get("selected_variant")
+    if selected not in registry[element_id]["variants"]:
+        raise StudioError(f"{selected!r} is not a listed variant of {element_id}")
+    service = selection_service()
+    result = service.apply_selection_batch(
+        project,
+        {"registry": registry, "selections": {element_id: selected}},
+        service.revision(project, registry),
+        decisions={element_id: decision},
+        allow_chat=True,
+    )
+    return {**result, "studio": sync_elements(project)}
+
+
 COMMANDS = (
     "init",
     "sync",
@@ -1782,6 +2027,8 @@ COMMANDS = (
     "stage",
     "record-selection",
     "record-lock",
+    "lock-element",
+    "sync-elements",
     "record-render",
     "hf",
 )
@@ -1806,7 +2053,9 @@ def build_parser() -> argparse.ArgumentParser:
             sub.add_argument("shot_id")
         if name == "place":
             sub.add_argument("filename")
-        if name in {"record-selection", "record-lock"}:
+        if name == "lock-element":
+            sub.add_argument("element_id")
+        if name in {"record-selection", "record-lock", "lock-element"}:
             sub.add_argument("--decision", type=Path, required=True)
         if name == "render":
             sub.add_argument("--name", default="final")
@@ -1877,6 +2126,14 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
     if command == "record-lock":
         decision = json.loads(read_text(args.decision))
         return {"ok": True, **record_lock(project, decision)}, 0
+    if command == "lock-element":
+        decision = json.loads(read_text(args.decision))
+        return {
+            "ok": True,
+            **record_element_lock(project, args.element_id, decision),
+        }, 0
+    if command == "sync-elements":
+        return {"ok": True, **sync_elements(project)}, 0
     if command == "hf":
         completed = hf_command(project, args.hyperframes_arguments)
         return {

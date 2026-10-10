@@ -25,12 +25,13 @@ archived, is never migrated unasked, and never receives a `studio/` directory or
 a `stages.json`; `studio_project.py` refuses to run in it. A project without a
 `showcase.json` is a Studio project.
 
-Optional visual review. `showcase-html --quick` can build a throwaway comparison
-page of elements, audio, prompt snapshots or candidate takes when the user wants
-to look at them side by side (`--out projects/<project>/review/<name>.html`; it
-needs no setup and opens in the browser). It is never a gate and is not required
-in either approval mode; under `approve_for_me` the agent normally chooses
-without it. Never write a `showcase.json` or an `index.html` canvas at the
+Optional visual review. HTML is only a visual aid: a plain static `.html` file
+with a `.css` file beside it (relative links, no server, no required script),
+opened from disk, for example `projects/<project>/review/elements.html`. It never
+records a decision, never runs a review server, and is never a gate in either
+approval mode; under `approve_for_me` the agent chooses without it.
+`showcase-html --quick` can build such a page for elements, audio, prompt
+snapshots or candidate takes. Never write a `showcase.json` or an `index.html` canvas at the
 project root: a `showcase.json` marks a pre-Studio canvas project, and
 `studio_project.py` refuses to run in one. The lifecycle canvas (`--init`,
 `--check --stage`, `--serve`, `stage_lock.py`) is for pre-Studio canvas projects
@@ -38,7 +39,12 @@ only.
 
 Studio frames exist for shot video takes only. Elements, storyboard panels,
 posters and audio are reviewed from their manifests and files with the existing
-decision writer, not in Studio, and their evidence is recorded in the manifest.
+decision writer, and their evidence is recorded in the manifest. Locked assets
+are the ones in Studio: when an element is locked, copy its selected file to
+`studio/assets/` as `LOCKED_<element>_<vNN>.<ext>` and remove the copy of any
+variant it supersedes. Candidates, rejected samples and unlocked recommendations
+stay in `elements/` and are never copied into Studio's Assets panel. Candidate
+comparison belongs in a plain static HTML page, not in Studio.
 
 Commands.
 
@@ -51,6 +57,8 @@ Commands.
 | `status` | Exit `0` ok, `3` blocking issue. Blocking codes: `asset_missing`, `asset_modified`, `unmanaged_asset`, `take_changed`, `placed_differs_from_selection`, `not_on_timeline`, `frame_missing`, `no_frame`. `selection_pending` is informational in planning stages and blocking for `assembly-review`, `delivery` and delivery-level renders. `orphan_frame` (a composition that is not a shot frame, such as a title card or registry block) is informational and never blocks. It checks takes and Studio assets only; it does not read review files or scene files. |
 | `check` | The pinned `hyperframes check`; passes only when its JSON says ok and the browser pass ran. Use it instead of a bare `hyperframes check`. |
 | `render --name N --quality Q` | Qualities `draft`, `looks`, `standard`, `delivery`, `high`; "delivery-level" means `standard`, `delivery` or `high`. A delivery-level render needs a clean `status` including no pending selection. Refuses to overwrite. Writes `<name>.mp4.render.json` with `produced_by: "render"`. |
+| `lock-element <id> --decision FILE` | Lock an element: record the agent or user decision for `elements/<id>/element.md` through the existing validated writer (the variant must be listed in `variants` and have a passing review), then run `sync-elements`. Needs an initialised Studio project. |
+| `sync-elements` | Make Studio hold exactly the locked elements: copy each approved element's selected image to `studio/assets/` as `LOCKED_<element>_<vNN>.<ext>`, remove any other `LOCKED_*` copy, and rewrite `elements/INDEX.md` and the static `review/elements.html` + `elements.css` (locked element large, other samples as `OTHER` with the review's first observation). |
 | `record-lock --decision FILE` | Record a `picture`, `audio` or `final_master` stage lock for the current stage. The subject of a picture or final-master lock must be a render made by `render` (a final master at standard or higher quality); an audio lock names an audio file. Same authorization as `record-selection`; the review must pass real playback or listening checks. An agent cannot replace a user's lock. |
 | `record-render <file> [args]` | Register a render made elsewhere with the pinned CLI. Recorded as `produced_by: "manual"`; it does not satisfy the delivery gate and does not hide a good delivery render. |
 | `hf <command> [args]` | Run a pinned, privacy-safe HyperFrames command from inside `studio/` for the commands the script does not wrap: `preview`, `lint`, `snapshot`, `add`, `catalog`, `compositions`, `info`, `doctor`, `keyframes`, `compare`. Anything else is refused. Open Studio with `hf <project> preview --no-open --json` and open the returned `studioUrl`. |
@@ -103,7 +111,10 @@ the agent only under `approve_for_me`, and a lock is stale, and blocks stage exi
 if the locked file, its review or its decision file changes. Reopening a stage
 clears its locks. Under `ask_for_approval` the agent records
 a recommendation, asks in chat, and records the decision when the user answers.
-Studio projects need no review server.
+Studio projects need no review server. The default is `approve_for_me`: the
+agent inspects the candidates, records the review and decision, and locks. Only
+when the user says otherwise (`ask_for_approval`) does the agent recommend and
+wait, and the user then confirms in chat, never in a browser UI.
 
 Feedback. The user gives feedback in Studio (storyboard comments, Ask agent /
 Copy to Agent). The agent reads the running Studio with
@@ -166,7 +177,7 @@ Narrative shots need events, intent, blocking and observable end states. Static 
 
 Narrative, ad, micro-drama, music-video and showcase shots also need a recorded shot plan before prompt authoring: for each shot, duration, size, angle, camera move, lens intent, and a named light source with its key side, produced by `seedance-shot-design` and stored with the scene. A static camera or an unchanging light needs a recorded `static_reason`. Exemptions are recorded, never assumed: a user lock, a static-by-design format (the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), an explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), a plate for cutdown, a source-preserving edit, an extension continuation, or no video shot at all. A confirmed (`agent_confirmed` or `user_confirmed`) camera, lens, lighting, pacing or energy axis recorded in `directorial_axes` or the `locked` block must reach the shot prompts, or the scene records an override with its reason; `proposed` and `defaulted` axes may be revised freely. A user-confirmed lock is never replaced by the plan.
 
-Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. A 480p Draft is the cheap way to check shot structure before a final render. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.
+Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. A 480p draft is the default way to check shot structure before final-resolution generation. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.
 
 Choose the static-graphics route by fidelity requirement. Exact copy,
 typography, logos, screen/UI layouts, title cards, posters, product lineups,
@@ -217,7 +228,7 @@ The request hash covers exact prompt bytes, model/operation/effective parameters
 
 Use one project task_ids.json registry. New records follow schemas/generation-request.schema.json; the registry follows schemas/task-registry.schema.json. Preserve legacy records and report required migration rather than inventing missing facts.
 
-Persist prepared request and immutable prompt snapshot before calling the provider. Save an acknowledged provider ID immediately. Separate submission_status, provider_status and review_status. On a no-ID timeout use submission_unknown and reconcile. On a poll timeout retain the ID and resume the same task. When acceptance cannot be determined, hold for an explicit retry decision explaining possible duplicate cost. A provider terminal failure is evidence to review, not automatic approval of a replacement operation.
+Persist prepared request and immutable prompt snapshot before calling the provider. Save an acknowledged provider ID immediately. Registration (`prepare_request.py --register`, `operation_store.prepare_operation`) and the `prepared` to `submitting` transition apply the same project-type rule: a Studio project (a real, non-symlink `studio/` directory and no `showcase.json`) registers version-2 requests with no canvas, while a pre-Studio canvas project requires its current `showcase.json` and `index.html`. A project with both, or with a `studio/` symlink or file, is not a Studio project and still needs the canvas. The submission never goes unregistered because a project is a Studio project. If a job was submitted before registration, adopt it: run `prepare_request.py --register` with the matching review and add `--adopt-provider-task-id <id>` (optionally `--adopt-provider-status`, and `--adopt-terminal` for a finished job); it registers the operation and walks it to `acknowledged` or `terminal` with the known provider task, and never resubmits. When a prompt is edited after its request was written but before registration, re-run with `--write --replace-unregistered` to rewrite that request; it refuses an asset that is already registered. Separate submission_status, provider_status and review_status. On a no-ID timeout use submission_unknown and reconcile. On a poll timeout retain the ID and resume the same task. When acceptance cannot be determined, hold for an explicit retry decision explaining possible duplicate cost. A provider terminal failure is evidence to review, not automatic approval of a replacement operation.
 
 On success save each modality locally: Elements under elements/, shot outputs beside the shot, scene outputs in the scene folder, reusable non-shot media in library/. A durable provider URI supplements rather than replaces the local copy. Record artifact/task IDs, actual streams, bytes and SHA-256; download failure can retry the existing artifact without regenerating.
 
@@ -226,6 +237,38 @@ Reference cache identity includes content SHA-256 and storage namespace/account 
 Provider moderation errors remain moderation_rejected with original error evidence. Do not label them false positives solely from the error. Legitimate creative revisions or provider escalation stay within authorization and record the exact delta. Cancel/delete/cleanup of provider tasks requires explicit scope; completion alone does not authorize deletion.
 
 ## Generation and review defaults
+
+**Seedance 2.5 is 480p draft-first.** Set `resolution: "480p"` explicitly for
+initial video generations and revised drafts, including edits, extensions and
+independent variants when the selected live operation supports it. Keep the
+intended aspect, natural duration, approved inputs and requested audio behavior.
+Record draft resolution and the separate delivery target in the owning project
+and shot manifests; Studio canvas dimensions follow the delivery target.
+Initialize Studio with `init --resolution <delivery-target>` before syncing
+480p shots when the target differs; do not let draft resolution define the
+delivery canvas by accident.
+An explicit user instruction overrides the default. If an operation cannot
+produce 480p, record current capability evidence and the reason for the lowest
+suitable supported resolution; do not switch models solely to force a draft.
+
+Inspect draft playback and audio, motion, continuity and the shot plan. Record a
+passing, hash-bound draft selection under the project's approval mode before
+final-resolution generation. For multi-shot projects, review the draft assembly
+and record the picture/audio decisions before generating final takes. Preserve
+all draft files, prompt snapshots, references, task IDs and decisions. Generate
+final takes only within the authorized scope and budget at the recorded delivery
+target; do not assume 1080p is always required. A requested 480p delivery can use
+reviewed 480p takes after delivery QA.
+
+A 480p output is not automatically a provider-native Draft task. Use native
+Draft/promotion only after verifying the current tool/model/operation supports
+it and its constraints. Otherwise final-resolution generation is a new paid
+request using the selected prompt and approved inputs; it can change the
+picture, timing or audio. Every final request has its own prepared registry
+entry and complete hash-bound request review, including changed parameters and
+references, even when prompt text is unchanged. Inspect and select the final
+output again before replacing draft takes in Studio and rendering the master.
+Upscaling or a delivery-quality export alone does not establish final-take QA.
 
 Generate scenes at natural duration, then chain supported frame modes or assemble approved takes. Continuous single-take/native extension is exceptional; verify every seam. Separate lip-sync audio remains opt-in; follow [audio-video-alignment.md](audio-video-alignment.md).
 

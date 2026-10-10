@@ -33,21 +33,23 @@ different formula for each episode unless the user asks otherwise.
 
 ## Procedure
 
-1. **Choose the formula.** Use [formulas](references/formulas.md). Match it to
+1. **Plan a series first.** For 6-10 connected episodes, write the bible with
+   [the series bible template](references/series-bible.md) before any episode brief.
+2. **Choose the formula.** Use [formulas](references/formulas.md). Match it to
    the audience and to what can be staged with at most three recurring
    characters and one or two locations.
-2. **Build the beats.** Hook in the first 3 s, then the setup, the sampal or
+3. **Build the beats.** Hook in the first 3 s, then the setup, the sampal or
    reveal with physical proof, and a cliffhanger held on a close-up. Keep each
    scene to 3–5 short lines.
-3. **Write the dialogue.** Follow [Taglish dialogue](references/taglish-dialogue.md):
+4. **Write the dialogue.** Follow [Taglish dialogue](references/taglish-dialogue.md):
    English carries content, Tagalog carries feeling, and honorifics mark
    status. Keep every story-critical line short and speakable. Avoid
    whispering or shouting the one Tagalog word the plot depends on; put it in a
    clear, mid-sentence position.
-4. **Dress the world.** Use [visual signifiers](references/visual-signifiers.md)
+5. **Dress the world.** Use [visual signifiers](references/visual-signifiers.md)
    for settings, props, wardrobe and look. Everything is fictional: no real
    brands, no legible signage, no celebrity likeness.
-5. **Lock the brief.** Use [the episode brief template](references/episode-brief.md)
+6. **Lock the brief.** Use [the episode brief template](references/episode-brief.md)
    and state the formula, the logline and the cliffhanger question in one line
    each.
 

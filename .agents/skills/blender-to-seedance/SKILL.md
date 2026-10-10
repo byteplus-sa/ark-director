@@ -134,7 +134,10 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
    - the edit-mode token documented by the live tool; the current ModelArk MCP
      contract uses `omni_reference_task_type=edit_video`,
    - `@Video 1` = presigned previz URL,
-   - `resolution` (default `720p` for iteration; `1080p` for finals),
+   - `resolution="480p"` for drafts and iterations; after passing draft
+     review and selection, use the recorded delivery target for finals. Honor
+     explicit user overrides and record verified operation constraints. Review
+     and register the final request separately, then inspect its output,
    - verify previz duration against the live edit limit; omit auto-locked
      `duration` and `ratio` parameters,
    - `return_last_frame=true` when chaining.

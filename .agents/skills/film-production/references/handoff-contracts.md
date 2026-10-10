@@ -46,6 +46,17 @@ Accept only mode-authorized approved takes. Pass local paths, hashes, actual
 duration, resolution, frame rate, audio properties, intended order, transition
 notes, and known defects. Do not treat `succeeded` as creative approval.
 
+## Draft to final generation
+
+Pass the selected 480p draft paths and hashes, passing review and selection
+records, exact prompt snapshot, ordered approved reference hashes, requested
+audio behavior and delivery resolution. For multi-shot work, include the
+reviewed draft assembly and picture/audio decisions. Record any user override
+or verified operation constraint. Register and review the final request as a
+new operation, then inspect and select its output before updating placed takes.
+Native Draft/promotion requires current capability evidence; a fresh generation
+may change picture, timing and audio even with the same prompt and references.
+
 ## Dependency invalidation
 
 When a selected element, audio file, storyboard anchor, shot plan, confirmed project axis, or exact prompt changes,

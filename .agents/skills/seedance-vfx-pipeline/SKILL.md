@@ -114,14 +114,18 @@ sequencing; see [Recast And Variants](references/recast-and-variants.md).
 
 The workspace's recurring pattern for a text-only before/after VFX demo:
 
-1. BEFORE — Seedance 2.5 T2V, `720p`, `16:9`, natural duration (4–30s), no
+1. BEFORE — Seedance 2.5 T2V draft, `480p`, `16:9`, natural duration (4–30s), no
    references. Save + manifest.
 2. `media_upload` the BEFORE clip; record its `object_key` in the project
    `ref_cache.json` with content SHA-256 and storage scope. Re-presign unchanged
    objects on demand; re-upload only for changed content or a missing object.
-3. AFTER — `seedance_2_5_create_task`, `omni_reference_task_type=edit`, `1080p`,
+3. AFTER — `seedance_2_5_create_task`, verify the live edit-mode token, `480p` draft,
    `@Video 1` = the BEFORE URL; `duration` and `ratio` auto-lock. Write the
-   prompt with `seedance-vfx-prompt` (2.5 editing section).
+   prompt with `seedance-vfx-prompt` (2.5 editing section). Review and select the
+   draft comparison before final generation. Generate the BEFORE at the delivery
+   target, inspect and select it, then bind that final source to a separately
+   reviewed and registered final AFTER request. Recheck the AFTER output against
+   its current source; a regenerated BEFORE invalidates the draft source binding.
 4. Transcode the AFTER (usually HEVC) to H.264 for review/Lark — see the
    "Delivery transcode" recipe in Step 5. Keep the HEVC master.
 5. Comparison — if the halves differ mainly in audio (language swap / dialogue
@@ -145,7 +149,7 @@ The workspace's recurring pattern for a text-only before/after VFX demo:
 | `scene` | Yes | Scene ID (e.g. `scene-01`) |
 | `shot` | Yes | Shot ID (e.g. `s01_sh010`) |
 | `element_refs` | No | List of element reference paths (characters, locations, props) |
-| `resolution` | No | Lowest suitable supported value; normally 720p prototype, 1080p final on 2.5; 4K only on a supported selected legacy path |
+| `resolution` | No | Explicit 480p for Seedance 2.5 drafts; recorded delivery target after passing draft review and selection. Honor user overrides and verified operation constraints; verify the selected path for 4K |
 | `duration` | No | For 2.5 edit, validate source length and omit auto-locked duration; legacy limits require live operation evidence |
 | `ratio` | No | Inherit the source in edit modes where ratio auto-locks; use supported explicit values only |
 | `return_last_frame` | No | Default `true` (enables shot chaining) |

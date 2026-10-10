@@ -107,6 +107,51 @@ class OperationStoreTests(unittest.TestCase):
             self.prepare()
         self.assertFalse((self.root / "task_ids.json").exists())
 
+    def remove_canvas_and_add_studio(self):
+        (self.root / "showcase.json").unlink()
+        (self.root / "index.html").unlink()
+        (self.root / "studio").mkdir()
+
+    def test_v2_studio_project_prepares_and_submits_without_canvas(self):
+        self.prepare_v2()
+        self.remove_canvas_and_add_studio()
+        self.prepare()
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["submission_status"], "prepared")
+        operation_store.transition_operation(
+            self.root, "fixture-operation", "prepared", "submitting"
+        )
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["submission_status"], "submitting")
+
+    def test_v2_studio_directory_does_not_waive_a_stale_canvas(self):
+        self.prepare_v2()
+        (self.root / "studio").mkdir()
+        (self.root / "index.html").unlink()
+        with self.assertRaisesRegex(ValueError, "Missing generated production canvas"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_studio_symlink_does_not_waive_the_canvas(self):
+        self.prepare_v2()
+        (self.root / "showcase.json").unlink()
+        (self.root / "index.html").unlink()
+        elsewhere = self.root / "elsewhere"
+        elsewhere.mkdir()
+        (self.root / "studio").symlink_to(elsewhere, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, "showcase.json"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_v2_studio_file_does_not_waive_the_canvas(self):
+        self.prepare_v2()
+        (self.root / "showcase.json").unlink()
+        (self.root / "index.html").unlink()
+        (self.root / "studio").write_text("not a directory")
+        with self.assertRaisesRegex(ValueError, "showcase.json"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
     def test_v2_invalid_canvas_blocks_preparation(self):
         self.prepare_v2()
         (self.root / "showcase.json").write_text("{")

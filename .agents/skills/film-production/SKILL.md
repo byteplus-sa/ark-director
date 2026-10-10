@@ -28,6 +28,9 @@ evidence and mode-authorized decisions permit.
   authorize that delegation.
 - Prefer a deterministic workflow when the next action is known. Use agentic
   judgment for creative choices, contradiction resolution, and review.
+- Default Seedance 2.5 video drafts to explicit 480p; record the delivery target
+  separately and follow the stage/handoff contracts for draft selection and
+  final-generation review. Honor user overrides and verified operation constraints.
 - Never infer approval from provider success. Technical success places an
   output in `review`; a passing review and recorded decision may approve it.
 - Never submit a replacement generation because local polling timed out. Resume
@@ -221,6 +224,8 @@ or publishing remains a separate action.
 
 Persist each exact prompt snapshot and reviewed prepared request in the project
 registry before submitting. Record the provider task ID as soon as available.
+Studio projects register the same way and need no canvas; only a pre-Studio
+canvas project requires its current `showcase.json` and `index.html`.
 An ambiguous timeout leaves `submission_unknown`: reconcile that operation or
 resume its known task; never repeat submission automatically or switch transport
 to submit a duplicate. Any new authorized take gets a new operation record.

@@ -44,6 +44,10 @@ and validated blockout manifests; shot-staging for any clip that cuts. Add
 audio-performance-camera only for applicable dialogue, acting, UI, or camera
 detail.
 
+When packaging generation parameters, read the parameter reference: Seedance
+2.5 drafts explicitly default to 480p, with the final delivery target recorded
+separately. Honor user overrides and verified operation constraints.
+
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
 

@@ -86,7 +86,9 @@ Review is bound to the request hash, so the order is hash first.
    specific generation. Resolve CRITICAL and MAJOR findings; any changed
    prompt, parameter or reference byte changes the hash and needs a new review.
 4. Re-run the same command with `--review`, `--capabilities`, the
-   `--required-rule` values and `--write --register`:
+   `--required-rule` values and `--write --register` (a Studio project needs no
+   canvas for this; a pre-Studio canvas project needs its current `showcase.json`
+   and `index.html`):
 
    ```bash
    uv run python .agents/scripts/prepare_request.py \
@@ -179,15 +181,24 @@ forbade them.
 
 - **Revise:** write Locked / Delta / Acceptance, change one thing, re-review,
   new operation ID and a new draft.
-- **Promote:** `seedance_2_5_create_task` with `draft_task_id` (the Draft task ID,
+- **Promote:** first verify current native Draft/promotion support in the live
+  tool/model/operation. A 480p output alone is insufficient. If unavailable,
+  submit a separately registered and reviewed new generation at the delivery
+  target with the selected prompt and approved inputs, then inspect and select
+  its output again. For a supported native promotion, `seedance_2_5_create_task`
+  with `draft_task_id` (the Draft task ID,
   at most 7 days old) and only `resolution`, `watermark`, `return_last_frame`.
   Prompt, images, duration and audio come from the draft. Promotion renders
-  1080p; for 720p run a new non-draft generation instead. Ask the user first and
-  state the estimated cost (about five times the draft tokens). A promotion is a
+  1080p in the documented path; revalidate these constraints and current cost.
+  Use a new generation for a delivery target the promotion path cannot provide.
+  Follow existing generation authorization, project approval mode and budget;
+  request authorization only when the final operation exceeds that scope. A promotion is a
   paid operation and is registered before it is submitted: operation ID
   `<draft operation>-promote`, the draft's prompt snapshot and references, params
   `draft_task_id`, `resolution`, `watermark`, so a timeout can be reconciled. Its
-  review is the draft's (the prompt is unchanged). This path is not yet exercised
+  prompt review may reuse the unchanged prompt findings, but its complete final
+  request hash, parameters, references and current capability evidence need a
+  fresh request review; inspect and select the final output again. This path is not yet exercised
   in the probe project, so check the registry accepts the shape on first use.
   Check the draft's audio track first: the promotion reuses it.
 - Apply the recipe's **Post** steps to the accepted master; keep the provider

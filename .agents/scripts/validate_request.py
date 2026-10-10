@@ -232,7 +232,14 @@ def candidate_review_findings(
 
 
 def studio_project(root: Path) -> bool:
-    return (root / "studio").is_dir() and not (root / "showcase.json").exists()
+    studio = root / "studio"
+    canvas = root / "showcase.json"
+    return (
+        studio.is_dir()
+        and not studio.is_symlink()
+        and not canvas.exists()
+        and not canvas.is_symlink()
+    )
 
 
 def decision_findings(

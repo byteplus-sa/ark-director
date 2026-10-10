@@ -177,8 +177,10 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   `ask_for_approval` is the alternative. A legacy project without the field uses
   the default for new decisions only. In `approve_for_me`, an agent may select
   and approve a passing candidate after modality-appropriate inspection and a
-  hash-bound decision record. In `ask_for_approval`, the agent records a
-  recommendation and waits for the user's selection. Neither mode promotes an
+  hash-bound decision record; this is the default, so the agent selects on
+  the user's behalf. Only when the user asks to decide themselves does the
+  agent switch to `ask_for_approval`, record a recommendation, and wait for the
+  user to confirm in chat; there is no browser selection UI. Neither mode promotes an
   unreviewed candidate or overrides an explicit user lock.
 - Static assets use visible-design criteria. Narrative, ad, micro-drama,
   music-video and showcase shots need action and intent, and a recorded shot
@@ -216,6 +218,19 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 - Persist a prepared operation in the project task registry before submission;
   save an acknowledged task ID immediately. Resume existing tasks after poll
   timeouts. Unknown acceptance holds for reconciliation or explicit retry scope.
+  Every project registers through `prepare_request.py --register`: a Studio
+  project (a real `studio/` directory and no `showcase.json`) needs no canvas,
+  and a pre-Studio canvas project still needs its current `showcase.json` and
+  `index.html`. Never submit a paid generation unregistered; if the registry
+  refuses, fix the cause or stop and ask. A job submitted before registration is
+  adopted with `--adopt-provider-task-id`, never resubmitted, and an edited,
+  still-unregistered request is rewritten with `--replace-unregistered`.
+- Locked assets are the ones in HyperFrames Studio: lock elements with
+  `studio_project.py lock-element` (and refresh with `sync-elements`), which copies
+  a locked element's file into `studio/assets/` as `LOCKED_<element>_<vNN>.<ext>`; keep candidates,
+  rejected samples and unlocked recommendations in `elements/` only. HTML is a
+  visual aid only: a plain static `.html` with a `.css` beside it, opened from
+  disk, with no server, no state and no gate.
 - Save every generated modality locally and record artifact/task IDs, bytes,
   SHA-256, actual media properties and separate estimated/confirmed costs. Save
   deterministic static source and render records beside their raster outputs;
@@ -256,6 +271,11 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   variation. Deterministic renders produce one exact version per specification.
   Explicit requested count or creative alternatives override the generative
   default.
+- Seedance 2.5 video generation defaults to an explicit `resolution: "480p"`
+  draft before final-resolution generation. Review and select the draft under
+  the project approval mode before advancing; explicit user instructions override
+  this default. Follow the production policy for exceptions, final QA and verified
+  native Draft/promotion support. Studio canvas size follows the delivery target.
 - Use the lowest suitable cost/resolution within the request. Set watermark
   false only when the tool supports that parameter, unless the user requests it.
 - Separate lip-sync audio is opt-in. Generate scenes at natural supported
@@ -276,6 +296,7 @@ repository maintenance unless explicitly scoped.
 | `projects/<project>/project.md` | Brief, `approval_mode`, proposed/confirmed axes, project state |
 | `projects/<project>/studio/` | HyperFrames Studio project: `index.html`, `hyperframes.json`, `compositions/`, `assets/`, `STORYBOARD.md`, `stages.json`, `renders/`, `provenance.json` |
 | `projects/<project>/showcase.json` and `index.html` | Canvas manifest and review surface of a pre-Studio canvas project |
+| `projects/<project>/review/` | Optional plain static HTML + CSS visual aids (for example `elements.html`); never a gate, never served |
 | `projects/<project>/task_ids.json` | Single provider-operation registry |
 | `projects/<project>/ref_cache.json` | Content hashes and storage-scoped object keys |
 | `projects/<project>/elements/<element-id>/` | Reusable identity/location/prop manifests, references, and deterministic graphic sources/renders |

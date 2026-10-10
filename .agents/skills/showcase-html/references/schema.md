@@ -12,7 +12,7 @@ HTML.
 | `title` | string | yes | Document title and `<h1>`. |
 | `kicker` | string | no | Small uppercase eyebrow above the title. |
 | `lede` | string | no | One-paragraph description under the title. |
-| `badges` | array | no | `{label, value}` pills (e.g. model, resolution). |
+| `badges` | array | no | Pills: `{label, value}` objects or plain strings (e.g. model, resolution). Empty values are skipped. |
 | `canvas` | object | production projects | Lifecycle stage rail and source inventory. See [production-canvas.md](production-canvas.md). |
 | `sections` | array | yes | Ordered section list. |
 | `footer` | string | no | One-line footer text. |

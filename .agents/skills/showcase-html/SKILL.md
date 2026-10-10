@@ -21,7 +21,9 @@ description: >
 > This skill serves pre-Studio canvas projects that already have a `showcase.json`, and
 > ad-hoc comparison pages. For a Studio project, `--quick` is an optional way to
 > look at elements, audio or candidate takes side by side; it is never a gate and
-> never creates a `showcase.json` at the project root.
+> never creates a `showcase.json` at the project root. `--quick` writes a plain
+> static HTML file with its CSS beside it, opened from disk: no script, no server,
+> no state, and it never records a lock. Do not start `--serve` for a Studio project.
 
 Build a **self-contained, data-driven HTML production canvas** for a project's
 generated media. The page is one portable file: it embeds lifecycle status,
@@ -248,9 +250,10 @@ manifest and source hashes. Legacy non-canvas gallery manifests may omit it.
 ### Quick mode (ad-hoc review from file paths — no showcase.json needed)
 
 When the user says "compare these two takes" or "open these for review",
-use `--quick` with file paths. This builds a minimal showcase page with
-ffprobe auto-populated metadata and optional contact sheets, with zero
-setup — no `showcase.json` required.
+use `--quick` with file paths. This writes a plain static review page (an HTML
+file plus a `.css` file with the same name beside it) with ffprobe-populated
+captions and optional contact sheets, with zero setup — no `showcase.json`
+required and no server.
 
 ```bash
 # Compare two video takes (auto-groups by folder, auto-populates ffprobe metadata):
@@ -272,10 +275,12 @@ uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
          library/sfx_sonic-logo_v01.wav
 ```
 
-Quick mode always opens the generated page in the browser. The output is
-written to `_quick_review.html` in the current directory (override with
-`--out`). Media paths are converted to `file://` URIs so the browser can
-load them from anywhere on disk.
+Quick mode does not open a browser unless you pass `--open`. The output is
+written to `_quick_review.html` and `_quick_review.css` in the current directory
+(override the page with `--out`; the CSS follows its name). The page has no
+script, and media links are relative to the page, so keep the page and the media
+on the same disk and open the HTML file directly (`file://`). Put it under
+`projects/<project>/review/` for a project.
 
 Use `--quick` for ad-hoc files, or optionally for a Studio project's elements,
 audio and candidate takes (write it under `projects/<project>/review/`, never at

@@ -271,6 +271,14 @@ supported clip, split on shot boundaries, generate natural-duration clips, and
 assemble approved takes; do not compress the whole template into an unsupported
 duration.
 
+Seedance 2.5 template runs explicitly default to `resolution: "480p"` for
+video drafts and revisions. Treat the final delivery resolution as a separate
+project decision. Advance only after passing draft review and mode-authorized
+selection (including draft assembly review for multi-shot work). Honor explicit
+user overrides and record verified operation constraints. Every final request
+and output needs fresh review and QA; native Draft/promotion is conditional on
+current capability evidence.
+
 ## Storyboard rules
 
 - **Dynamic panel count by default** — one panel per identified beat. Honor an
@@ -384,6 +392,8 @@ projects/<project>/
 
 Persist each exact prompt snapshot and reviewed prepared request in the project
 registry before submitting. Record the provider task ID as soon as available.
+Studio projects register the same way and need no canvas; only a pre-Studio
+canvas project requires its current `showcase.json` and `index.html`.
 An ambiguous timeout leaves `submission_unknown`: reconcile that operation or
 resume its known task; never repeat submission automatically or switch transport
 to submit a duplicate. Any new authorized take gets a new operation record.

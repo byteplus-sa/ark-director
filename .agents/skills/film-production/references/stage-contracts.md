@@ -140,7 +140,12 @@ deterministically.
 Record missing required references before dependent tasks are submitted.
 The `canon-elements` manifests record every variant (acquired, generated, or
 deterministically rendered), its prompt or provenance/render record,
-recommendation/selection state and downstream role; Studio does not show them.
+recommendation/selection state and downstream role. Studio's Assets panel shows
+only the locked (selected, approved) elements, copied as
+`LOCKED_<element>_<vNN>.<ext>`; candidates and rejected samples stay in
+`elements/`. `studio_project.py lock-element` records the decision and does this
+copy; `sync-elements` repairs it and rewrites the static candidates page
+(`review/elements.html`).
 
 Exit: every required canonical element has an approved selected variant, or the
 dependent scene is explicitly marked unresolved. The element list has been
@@ -188,13 +193,19 @@ every prompt being submitted. Review inline by default; use a sub-agent only
 when the user explicitly requests sub-agent prompt review for the project or
 specific generation. The ordered `references:` array is verified 1:1
 against `shot.md` (same files, same order, same `@Image N` / `@Video N` /
-`@Audio N` bindings); and the pass uses the lowest suitable resolution for the
-current prototype.
+`@Audio N` bindings); and the Seedance 2.5 draft pass explicitly uses `resolution: "480p"`.
+Record the separate delivery target and any explicit user override or verified
+operation constraint under the production policy.
 
 Required output: task registry entry, local media, exact prompt snapshot,
 provider metadata, actual media properties, cost fields, SHA-256, semantic QA
 including a comparison of the take against its shot plan, and `review` status. Resolution is raised only after the current pass is
-approved (final-candidate gate).
+approved (final-candidate gate). For multi-shot productions, review the draft
+assembly and record picture/audio decisions before generating final takes.
+Each final request is separately registered and reviewed against its complete
+request hash; each final output needs fresh playback, audio and creative QA and
+a mode-authorized selection before it replaces the draft in Studio. A 480p
+output alone does not establish native Draft/promotion support.
 The `shot-generation` stage records every take, exact prompt, ordered element
 bindings, metadata, inspection result and selection state. When a style/grammar
 reference pin (or other watchable reference video) exists, that pin and each

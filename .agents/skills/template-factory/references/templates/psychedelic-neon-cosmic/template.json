@@ -5,7 +5,7 @@
   "version": "1.1",
   "category": "animation",
   "model": "dreamina-seedance-2-5-260628",
-  "default_resolution": "720p",
+  "default_resolution": "480p",
   "default_ratio": "1:1",
   "analyze": {
     "system": "You are a film-analysis expert. Extract a reproducible breakdown as JSON.",

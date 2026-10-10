@@ -67,7 +67,7 @@ slot to generate native audio.
 | Setting | Value |
 |---|---|
 | Historical default model | `dreamina-seedance-2-5-260628`; revalidate the live binding before use |
-| Resolution | 720p |
+| Draft resolution | 480p; delivery target is recorded separately after draft review and selection |
 | Ratio | 1:1 |
 | Duration | sum of shot durations (source ≈ 16s) |
 | Storyboard | sketch by default, one panel per source shot, 3 variants, human review |
