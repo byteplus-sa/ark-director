@@ -15,8 +15,7 @@ post audio for Seedance video-to-video work: Motion Transfer
 
 Every person or character identity bound into a video-to-video request is a
 Seedance Virtual Portrait asset: an Advanced Creation Rights AIGC asset,
-referenced as `asset://<asset_id>`. This is the BytePlus-recommended path, and
-these workflows do not use the liveness-verification flow.
+referenced as `asset://<asset_id>`. This is the BytePlus-recommended path.
 
 - **What qualifies.** An approved invented character element, either a
   Seedream sheet view or a user-supplied invented design. A Virtual Portrait
@@ -157,4 +156,6 @@ moderation rule in the [production policy](production-policy.md).
 - When the flagged input is source footage or shows a real person, stop. Never
   blur, crop, stylize, re-encode or swap inputs to pass the check. Offer
   owned or generated source footage, or a Virtual Portrait cast, and resubmit
-  only on the user's explicit decision.
+  only on the user's explicit decision. A real person who has consented can be
+  routed through an authorized real-person asset; see
+  `seedance-virtual-portrait` for the route, consent record and ledger.

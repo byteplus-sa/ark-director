@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Virtual Portrait"
+  short_description: "Reuse authorized face and voice assets in Seedance"
+  default_prompt: "Use $seedance-virtual-portrait to prepare authorized face and voice references, reuse completed onboarding and valid assets, and diagnose privacy input rejections."

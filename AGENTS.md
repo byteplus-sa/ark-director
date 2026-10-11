@@ -284,6 +284,14 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 - Moderation rejection is evidence to diagnose, not proof of a false positive.
   Revisions remain legitimate and authorized; task cleanup requires explicit
   scope rather than being inferred from provider completion.
+- Real-person face, likeness and voice inputs that Seedance flags resolve
+  through authorized Advanced Creation Rights assets, never by disguising the
+  input: reuse completed onboarding and valid `Active` assets without
+  repeating onboarding steps, bind `asset://` references per
+  `seedance-virtual-portrait`, and keep real people out of AIGC Virtual
+  Portrait groups. Without a valid authorization, offer an invented Virtual
+  Portrait or preset digital character. Assets do not affect output
+  moderation.
 
 ## Local production state and naming
 
