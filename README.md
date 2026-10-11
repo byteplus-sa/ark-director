@@ -141,7 +141,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **75 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **76 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -194,6 +194,7 @@ The workspace ships with **75 skills** across 14 categories. Independent skills 
 | **seedance-motion-recast** | Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, Virtual Portrait identities, a muted source with post audio and a 480p probe ladder. |
 | **seedance-object-swap** | Write Seedance 2.5 Object Swap prompts that replace one character, outfit, product, prop, object or location in existing footage and keep the rest of the shot, with the five-part swap contract, Virtual Portrait characters, a muted source with post audio and swap QA. |
 | **seedance-restyle** | Write Seedance 2.5 Restyle prompts that redraw a whole clip in one of 24 visual styles or a custom style reference while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, an environment-image recipe that keeps the same place and restyles the background too, a muted source with post audio and a 480p probe ladder. |
+| **seedance-virtual-portrait** | Prepares authorized face and voice references for Seedance Advanced Creation Rights, reuses completed onboarding and active assets without repeating verification, binds asset:// references, and resolves Seedance privacy and guardrail flags on real-person inputs through the registered asset route. |
 | **source-subject-map** | Map a source clip's cuts, subjects, objects, contacts, speakers and on-screen text into a hash-bound subject_map.json before recast, swap or VFX edits; open ambiguities block prompt writing. |
 
 ### Seedream — Image Prompting
@@ -243,7 +244,7 @@ The workspace ships with **75 skills** across 14 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **ark-mcp** | Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, video transcoding, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage Seedance and 3D. |
+| **ark-mcp** | Uses the Ark multimodal MCP server for image, video, audio and 3D workflows, durable artifacts, and Advanced Creation Rights face/voice assets with existing authorization reuse and privacy rejection triage. |
 
 ### FFmpeg & Media Processing
 

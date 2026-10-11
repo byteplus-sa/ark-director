@@ -69,8 +69,8 @@ the post-audio route and the test-ladder rung it targets.
    authorized downloads) with current SHA-256. Use separate images per view;
    never collages or turnaround strips.
 3. **Every new character is a Virtual Portrait.** Register approved invented
-   designs as Virtual Portrait assets and bind them as `asset://`; liveness
-   verification is not used. A real, identifiable person as the target is out
+   designs as Virtual Portrait assets and bind them as `asset://`. A real,
+   identifiable person as the target is out
    of scope, including when the job is called a test; offer a Virtual Portrait
    character. Source footage needs a recorded rights decision covering the
    footage and the people in it; unknown rights stop the work. See the

@@ -1,6 +1,6 @@
 ---
 name: ark-mcp
-description: Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5 and whitelist-only 2.5 Premium 4K, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, understand or reason about audio, transcribe speech to text, manage the Seedance private asset library (virtual portraits, verified real people, copyright IP referenced as asset://) with BytePlus AK/SK, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.
+description: Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5 and whitelist-only 2.5 Premium 4K, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, understand or reason about audio, transcribe speech to text, manage Advanced Creation Rights face and voice assets (virtual portraits, authorized real people, copyright IP referenced as asset://), reuse completed onboarding and diagnose privacy input rejections with BytePlus AK/SK, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.
 ---
 
 # Ark Seed Multimodal MCP Server
@@ -46,7 +46,7 @@ one server, including products served through ModelArk:
   workflows such as Seedance video references (single or batched uploads).
 - **Private asset library** — `ark_asset_*` tools manage Dreamina Seedance
   Advanced Creation Rights assets: AIGC groups for fictional characters,
-  real-person liveness verification for `LivenessFace` groups, and uploads.
+  authorized real-person subject groups, and uploads.
   Assets are referenced as `asset://<asset_id>` in Seedance. Requires BytePlus
   IAM AK/SK (`BYTEPLUS_MODELARK_ACCESS_KEY` / `_SECRET_KEY`).
 
@@ -173,8 +173,9 @@ Private asset library (signed ModelArk OpenAPI; independent of the API key):
 - `ark_asset_get`
 - `ark_asset_list`
 - `ark_asset_update`
-- `ark_asset_verification_start`
-- `ark_asset_verification_result`   # optional background job
+- `ark_asset_verification_start` / `ark_asset_verification_result` —
+  provider subject-group tools; outside the workspace workflow (see
+  `seedance-virtual-portrait` for the documented route)
 - `ark_asset_delete`, `ark_asset_group_delete` — only with
   `BYTEPLUS_MODELARK_ASSETS_ALLOW_DELETE=true`; each call also requires
   `confirm=true`
@@ -1968,15 +1969,38 @@ default model for that product is used.
 Use this for real people, your own virtual characters, or copyright IP in
 Seedance (Dreamina Seedance Advanced Creation Rights).
 
+**Reuse completed onboarding; add no checks.** Existing onboarding and
+responsible-use opt-in need not be repeated, and the agent runs no identity
+check of its own: the platform's onboarding is the compliance record, so a
+valid `Active` asset is bound immediately. Inspect supplied
+asset/group IDs first; reuse authorized assets for the same subject and
+scope. Account onboarding does not replace the depicted person's likeness or
+voice authorization. Record existing consent once and ask only for missing
+scope or expired authorization.
+
+**Guardrail-flagged real-person inputs recover through the asset route.** When
+a Seedance create call rejects a raw face, likeness or voice input with a
+privacy or sensitive-content error, replace that input with the person's
+authorized `asset://` reference and resubmit — never blur, crop, restyle,
+re-encode, switch codec or account to slip past the check. Distinguish the
+exact input error from output/content moderation: an accepted request whose
+clip is blocked is content policy on the result, not an asset problem. Virtual
+Portrait AIGC groups cover invented characters; real people
+use their authorized subject groups. Any account-specific exception needs its
+applicable BytePlus terms/provider confirmation and a supported tool or console
+route. BytePlus employment alone is not evidence of such an exception.
+
 1. **One subject per group.** Never mix people or characters in one group.
    - Fictional character or product: `ark_asset_create(subject="<exact name>",
      sources=[...])` reuses or creates that subject's AIGC group. AIGC assets
      must not resemble any real person.
-   - Real person: `ark_asset_verification_start(callback_url=...)`, send
-     `h5_link` only to that person (they consent and pass liveness), then
-     `ark_asset_verification_result(verification_token, wait_seconds=...)`
-     for their `LivenessFace` `group_id`, then
-     `ark_asset_create(group_id=..., sources=[...])` with only their media.
+   - Already authorized real person: inspect their existing asset/group and
+     authorization validity; bind the active asset or upload to the same
+     subject group. Do not add onboarding steps for another view or styling
+     of the same authorized person.
+   - A real person without a valid authorization has no route: use an
+     invented Virtual Portrait or preset digital character for the role. Do
+     not register their media.
    - Copyright IP: copy the asset ID from the console Copyright Library.
 2. Sources are public HTTPS `url`s or `media_upload` `object_key`s. Best
    portrait set: a front-facing close-up plus a full-body shot, portrait
@@ -2004,6 +2028,22 @@ separate stdio servers or replicas, pre-create the group and pass its
 `group_id` to avoid a duplicate-name race. If the group scan exceeds its page
 bound, the tool fails with `asset_group_scan_incomplete` rather than assuming
 the subject is absent.
+
+For voice references, record permission for the intended voice use, check the
+audio asset's subject and validity, and inspect the live endpoint's supported
+roles and limits. A portrait asset does not automatically authorize voice
+cloning. If asset tools are unavailable, use the console's authorized asset;
+do not invent a real-person upload API that bypasses authorization. Without
+a valid authorization, advise an invented Virtual Portrait or preset digital
+character for the role. When an authorized
+asset still fails, retain the error and request ID, inspect
+status/access and prepare a provider-review summary. Contacting support
+requires user permission.
+
+Official sources (checked 2026-10-11):
+[authorized real-person assets](https://docs.byteplus.com/en/docs/modelark/upload-real-person-portrait-assets)
+and [portrait video references](https://docs.byteplus.com/en/docs/modelark/seedance-portrait-asset-guide).
+The source search exposed their body text; direct page reads returned shells.
 
 ### URL-only Video References
 

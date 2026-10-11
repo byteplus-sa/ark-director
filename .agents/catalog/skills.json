@@ -183,8 +183,8 @@
     },
     "ark-mcp": {
       "kind": "tooling",
-      "description": "Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5 and whitelist-only 2.5 Premium 4K, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, understand or reason about audio, transcribe speech to text, manage the Seedance private asset library (virtual portraits, verified real people, copyright IP referenced as asset://) with BytePlus AK/SK, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.",
-      "readme_summary": "Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, video transcoding, and voice/background audio separation), understand images and videos through Seed 2.1, transcribe speech to text, manage Seedance and 3D.",
+      "description": "Guide for using the Ark Seed Multimodal MCP server to generate or edit images, audio, video, and 3D models (including Seedance 2.5 and whitelist-only 2.5 Premium 4K, Hyper3D, Hitem3d, BytePlus VOD AI MediaKit enhancement, transcoding, subtitle burn-in/removal, and voice/background audio separation), understand images and videos through Seed 2.1, understand or reason about audio, transcribe speech to text, manage Advanced Creation Rights face and voice assets (virtual portraits, authorized real people, copyright IP referenced as asset://), reuse completed onboarding and diagnose privacy input rejections with BytePlus AK/SK, run background jobs, upload reference media, and fetch persisted artifacts. Long-running work is submitted through ark_job_capabilities, ark_job_submit, ark_job_get, and ark_job_cancel by default, because most clients cannot negotiate MCP task augmentation; clients that do negotiate it may call the tools with native task metadata instead.",
+      "readme_summary": "Uses the Ark multimodal MCP server for image, video, audio and 3D workflows, durable artifacts, and Advanced Creation Rights face/voice assets with existing authorization reuse and privacy rejection triage.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -671,6 +671,15 @@
       "kind": "leaf",
       "description": "Write Seedream image-to-image prompts that change the outfit on an approved three-panel character sheet while keeping face, hair, build, layout, background and lighting identical. Always-worn accessories such as glasses, hats, jewelry and shoes are part of the outfit. Use for a new look, costume or wardrobe for an existing character, from a text description or garment photos. Not for handheld props, scene-only wearables, new identities, or face, hair or body changes.",
       "readme_summary": "Writes Seedream image-to-image prompts that change the outfit on an approved character sheet, with always-worn accessories, a change contract, and identity-drift QA.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "seedance-virtual-portrait": {
+      "kind": "leaf",
+      "description": "Prepare authorized human face, likeness and voice references for Seedance Advanced Creation Rights. Reuse existing authorized assets without repeated onboarding, register invented characters as Virtual Portraits, bind asset:// references, and resolve Seedance privacy and guardrail flags on real-person inputs legally through the registered asset route. Covers images, video and audio; preserves documented account exceptions and authorization scope. Does not submit generation or bypass content moderation.",
+      "readme_summary": "Prepares authorized face and voice references for Seedance Advanced Creation Rights, reuses completed onboarding and active assets without repeating verification, binds asset:// references, and resolves Seedance privacy and guardrail flags on real-person inputs through the registered asset route.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

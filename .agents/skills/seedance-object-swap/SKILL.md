@@ -71,7 +71,7 @@ parameters, the post-audio route, and the test-ladder rung.
    [swap contract](references/swap-contract.md).
 2. **Character targets are Virtual Portraits.** Bind character identities only
    as `asset://` Virtual Portrait assets registered from approved invented
-   designs. Liveness verification is not used. A real, identifiable person as
+   designs. A real, identifiable person as
    the target is out of scope; offer a Virtual Portrait character.
 3. **Submit the muted master.** `@Video 1` is the muted master;
    `generate_audio` is `false`; there are no `@Audio` bindings. Sound returns in

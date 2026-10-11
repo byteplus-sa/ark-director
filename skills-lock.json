@@ -125,7 +125,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ark-mcp/SKILL.md",
-      "computedHash": "a292aa593a7a06464479ca64908cbf40ebe06421786b3a6dfbd801ac2f8cbd82"
+      "computedHash": "7f698400571bbb656a97f5b5a8fc279746c195dce1a97afb8e30d48f2fbe3806"
     },
     "prompt-review": {
       "source": "./local",
@@ -413,13 +413,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
-      "computedHash": "4082da7160ba4cd18e5fca46f81cc57641a74ff90504fea5c7efcf55c55f6bac"
+      "computedHash": "31c6db99d46aa0729aa5fd4a9192d0500f2acdaf71e5c37b4cc0617b3caa7d5e"
     },
     "seedance-object-swap": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-object-swap/SKILL.md",
-      "computedHash": "98c57d6c8ec45efabb63109a947c47868a17b761582d9927a26db2c51f10da41"
+      "computedHash": "ffb6a65cd175a5984ddb6ed165742b84dc683b3d0153f79c6469692abfae22d7"
     },
     "seedance-restyle": {
       "source": "./local",
@@ -450,6 +450,12 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-character-outfit/SKILL.md",
       "computedHash": "6c004a5ddd4372bf279f741e06e7ae7043a536519c030ca0e267adb8756ea785"
+    },
+    "seedance-virtual-portrait": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-virtual-portrait/SKILL.md",
+      "computedHash": "2a265a654a696bc544d788519fba9921faae507fd03949dd8ba0644c90533feb"
     }
   }
 }
