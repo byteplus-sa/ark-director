@@ -149,7 +149,7 @@ states what is missing.
    and a specific real person as the target is outside the workflow (offer an
    invented character). Real brand marks come from an authorized real asset, never
    from generation. Unknown rights stay unresolved.
-3. **Inspect and fit.** Look at the asset (and use `seed_understand` for clips).
+3. **Inspect and fit.** Look at the asset; for clips, inspect sampled frames and the audio natively.
    Compare it with the recipe's **Start photo** contract. If the asset does not
    fit, say what is wrong and either build the missing start frame
    (`seedream_generate_image` with the user's photo as an identity reference, per

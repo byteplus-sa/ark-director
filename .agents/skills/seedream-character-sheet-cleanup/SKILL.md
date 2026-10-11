@@ -24,7 +24,6 @@ original sheet remains available for review, rollback, or alternate use.
 This skill is designed to partner with:
 - `seedream-character-sheet` for generating the original three-panel sheet
 - `seedream-edit` and the `seedream_edit_image` MCP tool for the actual cleanup
-- `ark-mcp` (`seed_understand`) for verifying the cleanup result
 
 ## When to Invoke
 
@@ -70,9 +69,9 @@ only authoritative face and should stay untouched.
 Cleanup can alter silhouette, hair, headwear, costume, or the close-up identity
 anchor. Compare the original and edited image directly against user-approved
 visible descriptors; list the features that must remain unchanged. Do not ask a
-model to infer a person's gender identity from their appearance. A visual
-understanding tool may assist a per-panel inventory, but its answer is evidence
-to review rather than an authority over the user's stated identity.
+model to infer a person's gender identity from their appearance. Take a
+per-panel inventory by direct inspection; it is evidence to review rather than an
+authority over the user's stated identity.
 
 Use one trigger: the intended downstream reference policy requires a single
 readable face and inspection finds an extra readable face in a body panel, or
@@ -139,8 +138,7 @@ in the center panel, and re-run the mandatory verification after every edit.
 
 ## Acceptance Check
 
-Compare original and edited panels directly (see Verification). Use a visual
-understanding tool as supporting evidence where available. The cleanup is
+Compare original and edited panels directly (see Verification). The cleanup is
 technically successful when:
 - the close-up panel is the only readable face on the sheet
 - the front full-body panel shows no head at all — the figure is headless and
@@ -155,13 +153,12 @@ technically successful when:
 
 Inspect the original and edited sheets side by side at readable resolution.
 Check each panel against the approved visible descriptors and exact edit region.
-A multimodal understanding tool can assist but is not the only valid verifier.
-If no image-verification surface is available, record unresolved verification
-and retain `review`; do not promote the output to a canonical input.
+The inspecting agent uses its own native image understanding. If it cannot view
+the images, record unresolved verification and retain `review`; do not promote
+the output to a canonical input.
 
-When using `seed_understand`, provide the original and cleaned
-image and a prompt that forces a per-panel answer. Ask for a structured,
-panel-by-panel inventory of faces and require it to:
+View the original and cleaned image and force a per-panel answer. Write a
+structured, panel-by-panel inventory of faces that:
 
 - confirm the full-body panel is headless: no head, no face, no hair, and no
   headwear in that panel;
@@ -174,7 +171,7 @@ Correct the bounding box or instruction as needed and verify the new version.
 Do not hand the sheet to Seedance until visual verification passes and the
 user selects that version.
 
-### Example verification prompt
+### Example verification questions
 
 ```text
 Look at this character sheet carefully, panel by panel. In every full-body
@@ -198,8 +195,8 @@ Recommended sequence:
    the cleanup prompt, and set `output_path` to the new versioned file so the
    source image is never overwritten. Remove the extra face with that call.
 5. Compare original and edited panels directly against the approved visible
-   descriptors: target body panel headless, close-up intact. A visual-understanding
-   tool may assist. Unavailable visual verification stays unresolved; re-edit only
+   descriptors: target body panel headless, close-up intact. Unavailable visual
+   verification stays unresolved; re-edit only
    when inspection establishes a defect, using a corrected bbox when appropriate.
 6. Save the cleaned sheet as a **new version/file**, not as an overwrite of the
    source image.
