@@ -90,6 +90,7 @@ Use explicit input first; filenames below are fallback hints, not authority:
 | Seed Audio (dialogue/music/SFX/ambience) | `prompt_dlg_*`, `prompt_mus_*`, `prompt_sfx_*`, `prompt_amb_*`, `prompt_mix_*` | `seed-audio-prompt` |
 | Seedream image generation | `prompt_concept_*`, `prompt_sNN_kf*` | `seedream-prompt` |
 | Seedream character sheet | `prompt_char_*` | `seedream-character-sheet` |
+| Seedream character outfit variant | `prompt_char_<character-id>-<outfit-id>_*` | `seedream-character-outfit` |
 | Seedream location asset | `prompt_loc_*` | `seedream-location-asset` |
 | Seedream prop asset | `prompt_prop_*` | `seedream-prop-asset` |
 | Seedream screen UI reference | `prompt_screen_*` | `seedream-prompt` (general image rules apply) |
@@ -437,7 +438,7 @@ draft breakdown; dependent production submission requires their evidence:
 | Screen / UI surfaces | Does every phone screen, laptop screen, tablet, monitor, signage, or text-heavy surface that shows specific content have a `screen_` reference? |
 | Brand / title cards | Does every ad/scene that needs a brand end card, lower third, or logo plate have a `card_` image defined? |
 | Audio assets | Does every explicitly separate or reusable audio asset have a defined source? Native full-soundscape generation does not require separate sound-bed assets. |
-| Costume variants | If a character wears a different outfit in different scenes, is the variant noted or generated as a separate prop sheet? |
+| Costume variants | If a character wears a different outfit in different scenes, is a full-outfit variant a derivative character sheet linked to its parent hash, and is a scene-only wearable a separate prop sheet? |
 
 ### Reporting element findings
 

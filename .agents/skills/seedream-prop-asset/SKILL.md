@@ -29,6 +29,7 @@ Do **not** use this skill for:
 - commercial product scenes, hero ads, or packshots set in an environment
 - exact labels, logos, packaging copy, UI screens, or product lineups
 - local edits to an approved prop image
+- a full outfit change on an approved character sheet (`seedream-character-outfit`)
 
 Composition hints: `seedream-character-sheet` owns people and always-worn
 outfits, `seedream-location-asset` owns places, `seedream-prompt` owns general
