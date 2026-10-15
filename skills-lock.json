@@ -456,6 +456,12 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-virtual-portrait/SKILL.md",
       "computedHash": "2a265a654a696bc544d788519fba9921faae507fd03949dd8ba0644c90533feb"
+    },
+    "omnihuman-prompt-20": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/omnihuman-prompt-20/SKILL.md",
+      "computedHash": "703838a056fde165e4d98bc228cc54d18b468de682e83dc88af16dcdc96f51d1"
     }
   }
 }

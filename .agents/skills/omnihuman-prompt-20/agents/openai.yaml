@@ -1,0 +1,4 @@
+interface:
+  display_name: "OmniHuman 2.0 Prompting"
+  short_description: "Help with OmniHuman 2.0 lip-sync prompt tasks"
+  default_prompt: "Use $omnihuman-prompt-20 to write the OmniHuman 2.0 prompt for this image and audio."

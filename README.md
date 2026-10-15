@@ -21,6 +21,7 @@ Models are accessed through **BytePlus ModelArk** and the BytePlus Seed Speech s
 |---|---|---|---|
 | Seedance | **Seedance 2.5** (`dreamina-seedance-2-5-260628`, default) — up to 30s/pass, 1080p, 30 imgs / 10 vids / 10 audio refs. Seedance 2.0 (`dreamina-seedance-2-0-260128`) as fallback for 4K / Fast / Mini. | Video | Text-to-video, first/last-frame, multimodal references, editing, extension, native audio+video |
 | Seedream | Seedream 5.0 Pro (`dola-seedream-5-0-pro-260628`); configured Lite/4.x bindings | Image | Text-to-image, reference-based generation/editing, multi-reference fusion, sequential output |
+| OmniHuman | OmniHuman 2.0 (BytePlus Vision AI, `realman_avatar_picture_omni20_cv`) — one image + 4-300 s audio, AK/SK-signed | Video | Audio-driven lip-sync digital humans with prompt-directed camera, actions, emotion, multi-person speaker choice and added effects |
 | Seed Audio | Seed Audio 1.0 (`seed-audio-1.0`) | Audio | Voice + music + SFX + ambience in one pass, multi-character dialogue, voice references, cross-lingual generation |
 | Seed / Doubao | `seed-2-0-lite-260228` and siblings | Text | Prompt expansion, scene scripting, structured output |
 
@@ -141,7 +142,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **76 skills** across 14 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **77 skills** across 15 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -196,6 +197,12 @@ The workspace ships with **76 skills** across 14 categories. Independent skills 
 | **seedance-restyle** | Write Seedance 2.5 Restyle prompts that redraw a whole clip in one of 24 visual styles or a custom style reference while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, an environment-image recipe that keeps the same place and restyles the background too, a muted source with post audio and a 480p probe ladder. |
 | **seedance-virtual-portrait** | Prepares authorized face and voice references for Seedance Advanced Creation Rights, reuses completed onboarding and active assets without repeating verification, binds asset:// references, and resolves Seedance privacy and guardrail flags on real-person inputs through the registered asset route. |
 | **source-subject-map** | Map a source clip's cuts, subjects, objects, contacts, speakers and on-screen text into a hash-bound subject_map.json before recast, swap or VFX edits; open ambiguities block prompt writing. |
+
+### OmniHuman — Lip-Sync Avatar Video
+
+| Skill | Description |
+|---|---|
+| **omnihuman-prompt-20** | Writes OmniHuman 2.0 lip-sync prompts from one image and one audio track: camera, emotion, speaking state, ordered actions, speaker choice in group shots, added effects, segmenting long audio, input checks and symptom-based fixes. |
 
 ### Seedream — Image Prompting
 
@@ -332,6 +339,7 @@ sibling hints, and explicitly-marked orchestrators.
 - [BytePlus ModelArk quick start](https://docs.byteplus.com/en/docs/ModelArk/1399008)
 - [Seedance video generation API](https://docs.byteplus.com/en/docs/ModelArk/1520757)
 - [Seedance 2.5 prompt guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh)
+- [OmniHuman 2.0 API reference](https://docs.byteplus.com/en/docs/byteplus-vision/omnihuman-2-0-video-generation)
 - [Seed Audio 1.0 API reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01)
 - [ModelArk model list](https://docs.byteplus.com/en/docs/ModelArk/1330310)
 - [ByteDance Seed](https://seed.bytedance.com)
