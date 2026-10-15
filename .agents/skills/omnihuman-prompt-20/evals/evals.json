@@ -1,0 +1,44 @@
+{
+  "skill_name": "omnihuman-prompt-20",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a portrait of a chef in a kitchen and a 9-second mp3 of her saying 'Taste this, and tell me it is not the best sauce in town.' Write the OmniHuman 2.0 prompt. I want her to lift a spoon toward the camera and the camera to push in on her face.",
+      "expected_output": "A prompt card whose prompt names the speaking state, orders the spoon action, gives the push-in an end state, and does not restate wardrobe or kitchen details.",
+      "files": [],
+      "expectations": [
+        "The prompt contains an explicit speaking state such as 'talks' or 'speaks to the camera'.",
+        "The prompt orders the actions with sequencing words such as 'first' and 'then'.",
+        "The camera move states where it ends, for example focusing on her face.",
+        "The prompt does not describe her clothing, hair or the kitchen furniture already in the image.",
+        "The card reports the 9 s duration as within the 4-300 s limit and estimates cost per second."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Group photo of three friends on a couch, wide shot, faces fairly small. The guy in the middle wears a green cap. The audio is him telling a 40-second story. Write the OmniHuman 2.0 prompt.",
+      "expected_output": "A segmented plan with per-segment prompts that identify the middle man as the only speaker, give the others listening actions, and address the small-face risk.",
+      "files": [],
+      "expectations": [
+        "The output proposes splitting the 40 s audio into segments of 15 s or less at natural pauses.",
+        "Each prompt identifies the speaker by position and a visible attribute and gives only him the speaking state.",
+        "The two other friends receive listening or reaction actions.",
+        "The output flags the small faces and counters it with tighter framing or a camera push-in.",
+        "No prompt has a character leave the frame and re-enter."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "My OmniHuman 2.0 result of a cat singing has the mouth barely moving and the camera orbit I asked for did not happen. My prompt was: 'cute cat, orbit, singing, cinematic, happy'. Fix it.",
+      "expected_output": "A diagnosis tied to the tag-list prompt and missing end state, followed by a rewritten story-form prompt.",
+      "files": [],
+      "expectations": [
+        "The output explains that the prompt is a keyword list rather than coherent sentences.",
+        "The rewrite uses full sentences with an explicit 'the cat sings' speaking state.",
+        "The rewritten orbit states its direction and an end state or focus target, optionally with 'quickly' or 'rapidly'.",
+        "The output checks face size or framing as a cause of the still mouth.",
+        "The output suggests also running a no-prompt baseline take."
+      ]
+    }
+  ]
+}
