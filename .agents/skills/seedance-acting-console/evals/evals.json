@@ -100,6 +100,30 @@
         "Gives a playable interpersonal task and readable physical consequences.",
         "Does not add speech or force facial microexpressions."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Outside a closed door, a mother hears her son being tested inside. She starts in quiet panic and slowly forces herself back under control while reciting a calming litany. Medium close-up, no other dialogue.",
+      "expected_output": "A suppression arc that runs from visible panic toward control through a playable tactic and ends on one residual cue the framing can show.",
+      "files": [],
+      "expectations": [
+        "The arc moves toward control, not from a hidden feeling to a visible one.",
+        "The control comes from a playable tactic (breathing, pressing the palms, the litany) rather than an emotion label.",
+        "It ends on one residual cue that is readable at medium close-up.",
+        "It uses no degree adjectives such as very or extremely."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "A veiled elder whose fine mesh veil leaves only her eyes visible suddenly lunges like a snake to hold a needle at a young man's neck. Keep the veil.",
+      "expected_output": "The snake image turned into observable cues with one burst and still holds, while the veil stays on and the eyes carry the threat.",
+      "files": [],
+      "expectations": [
+        "The animal image is translated into observable body cues and the word snake is not left alone as the direction.",
+        "There is exactly one burst action, with a still hold before it and a still hold after it.",
+        "The veil is kept and the eyes stay readable through it; no lip or nostril expression is required.",
+        "Wardrobe or identity is restated after the burst so it does not drift."
+      ]
     }
   ]
 }

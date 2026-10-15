@@ -185,7 +185,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lens-presets/SKILL.md",
-      "computedHash": "0e9efc3e023d831cc877a39029737a0e0a372460767521a9f7162d36ba0f8354"
+      "computedHash": "7a90dd3a7ce5efeaafc84d2c0693edc1c1fbaccae222642cc8b37554e779d363"
     },
     "seedance-lighting-presets": {
       "source": "./local",
@@ -209,7 +209,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-pacing-presets/SKILL.md",
-      "computedHash": "9947329afd7d3a6b6f61176d0268274624c2f7f59d16ed596e083ead7e8d0b9c"
+      "computedHash": "bc99b9d9011a82afeaad3e794c42f53bfeed3488cf02a6a49ef8e378e954e7a1"
     },
     "seedance-prompt-20": {
       "source": "./local",

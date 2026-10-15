@@ -42,20 +42,14 @@ without adding a sun, headlight, flare, or blurred background. Whether an output
 reads as the intended lens style is judged visually, not by compulsory inclusion
 of every preset cue.
 
-## Focus Left Behind that refocuses
+## Prompted focus loss that stays sharp
 
-Brief: a push-in on a character falling under a compelling voice, with the
-focus left behind so the face goes soft. The draft keeps the face sharp all the
-way in.
+Brief: a push-in on a character falling under a compelling voice, with the face
+drifting out of focus. The draft keeps the face sharp all the way in.
 
-The model followed the face because the prompt named it as the subject of the
-shot, and because "fixed at one distance" and "the spot where he started" ask
-for two different focal planes during a push-in. Name one sharp object at a
-different distance from the face: "focus is locked on the bookshelves behind
-him for the whole shot". Then describe the face as soft from the first frame,
-not as something that goes soft. Keep the move simple and the shot free of
-dialogue. In 480p Seedance 2.5 drafts this rewrite also kept the face sharp
-(0/4, including a version where the subject leans through a fixed plane), so do
-not spend more tries on it: keep the sharp take and add the defocus in post, or
+Do not spend more tries on the wording. In 480p Seedance 2.5 drafts three
+wordings (focus fixed on the starting spot, focus locked on a sharp object
+behind the face, and the subject leaning through a fixed plane) kept the face
+sharp in all six takes. Keep the sharp take and add a defocus ramp in post, or
 carry the loss of control with light and the edit. Do not stack extra blur or a
 second move in the prompt.

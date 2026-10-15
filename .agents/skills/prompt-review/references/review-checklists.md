@@ -261,9 +261,10 @@ as well as text-to-video. Prompt-only work does not require a generated draft.
 24f. **Assembly cuts stay in the edit (`shot.plan_bound`).** A blink cut,
     intercut or vision flash shorter than about 0.8 s is planned as an
     assembly cut and never requested inside one prompt; a prompt that asks the
-    model to skip an action it describes is a MAJOR finding. A focus-left-behind
-    shot carries no spoken line, and a sudden burst action appears at most once
-    per shot with a still hold before and after it (MINOR otherwise).
+    model to skip an action it describes is a MAJOR finding. A prompt that asks
+    a subject to drift out of focus during a move is a MINOR finding: that
+    defocus is added in post. A sudden burst action appears at most once per
+    shot with a still hold before and after it (MINOR otherwise).
 
 25. **Uncommon cinematography terms.** If used, they follow the format:
     Term + Target Subject + Visual Change + Foreground/Background Relationship +

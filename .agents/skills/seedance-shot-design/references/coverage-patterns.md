@@ -72,9 +72,9 @@ action would look silly, such as a compelled walk across a room.
 - Shots: a strong push-in on the character's face while a declared light cue
   dims or switches the room lights off during the move. Then an assembly blink
   cut (see the pacing preset skill) straight to the end state, such as the
-  character already kneeling. Prompted focus loss (the lens preset skill's
-  Focus Left Behind) failed in 480p probes, so generate the push-in with
-  ordinary focus and add any defocus ramp in post.
+  character already kneeling. Prompted focus loss failed in 480p probes (see
+  the lens preset skill), so generate the push-in with ordinary focus and add
+  any defocus ramp in post.
 - What changes: focus, light and position all change between the two clips;
   the missing action is never shown.
 - Generate the push-in and the end state as separate clips at natural lengths.

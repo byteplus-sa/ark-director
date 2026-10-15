@@ -105,32 +105,16 @@ State what should be sharp and what should be soft. Describe bokeh shape only
 when it is requested or visually relevant; aperture alone does not guarantee
 an exact shape or near-to-far focus outcome.
 
-### Focus behavior during a move
+### Focus loss during a move (post only)
 
-| Preset | Intent | Canonical visible-result phrase |
-|---|---|---|
-| **Focus Left Behind** | Loss of control, dissociation, fainting, shock, a compelled state | Focus is locked on <named object at another distance, such as the bookshelves behind <subject>> for the whole shot and never moves. As the camera pushes in, <subject>'s face grows larger in the foreground as a soft, out-of-focus shape in front of the sharp <object>; <subject>'s features never become crisp. |
-
-Focus Left Behind is a storytelling choice: the image fails to follow the
-subject, so the viewer feels the subject's grip slipping. Use it on one
-shot per scene, on a shot without spoken lines, and pair it with a strong,
-simple move such as a push-in. Name one object that stays sharp, at a different
-distance from the face, and describe the face as soft from the first frame
-rather than as a change. Do not write "fixed at one distance" together with
-"the spot where the subject started": during a push-in those are two different
-focal planes, and the model resolves the conflict by keeping the face sharp. A
-deliberate focus change between two named planes is a rack focus and belongs to
-the camera preset skill instead.
-
-**Unverified; failed in testing.** In 480p Seedance 2.5 text-to-video drafts
-the face stayed sharp in every take: 0/2 with the earlier wording, then 0/2 with
-the canonical phrase above and 0/2 with a subject-movement variant ("she leans
-slowly toward the lens and her face drifts out of focus while the table edge
-stays sharp"). During a push-in the model softens the background instead; with
-a static camera it renders deep focus and only a small lean. Do not rely on the
-prompt for this effect. Generate the shot with ordinary focus and add the
-defocus in post (for example a blur ramp in FFmpeg or HyperFrames), or choose
-another device for the slipping grip.
+A face that drifts out of focus while the camera keeps moving can show a
+character losing their grip, but it is **not a prompt preset**. In 480p
+Seedance 2.5 text-to-video drafts the face stayed sharp in all six takes
+across three wordings; the model softened the background instead. Generate the
+shot with ordinary focus and add a defocus ramp in post (FFmpeg or
+HyperFrames), or carry the loss of control with light and the edit. A
+deliberate focus change between two named planes is a rack focus and belongs
+to the camera preset skill.
 
 ### Lens character
 
@@ -166,7 +150,6 @@ Pair it with the actual output resolution set in the generation interface.
 | `lens` | string | Named lens character (anamorphic, fisheye, macro, telephoto, clinical sharp, warm halation, vintage haze, auto) |
 | `focal_length` | string | Numeric focal request (8, 14, 24, 35, 50, 75, 85, 135mm) |
 | `aperture` | string | Aperture request (f/1.4, f/4, f/11) |
-| `focus_behavior` | string | Focus behavior during a move (`focus_left_behind`); omit for ordinary subject-tracking focus |
 | `sensor` | string | Sensor / body character (vhs, film, digital cinema) |
 | `subject` | string | The subject the optics apply to (the sharp plane target) |
 | `target_model` | string | `seedance` \| `seedream` \| `both` — where the phrase lands |
@@ -175,7 +158,6 @@ These fields organize prompt composition and are not API arguments. The caller
 resolves actual supported parameters separately. Only supply authoring values the user asked for. Do not invent an aperture or
 focal length the user never mentioned. `lens`, `focal_length`, and `aperture`
 are independent axes; a shot can request one, two, or all three.
-`focus_behavior` refines the aperture axis and needs a shallow-focus intent.
 
 ## Output grammar
 
@@ -292,10 +274,7 @@ Before delivering a prompt built with this skill, verify:
    texture-only request.
 7. **No optical physics promises** — no claims of exact bokeh geometry or
    aberration behavior.
-8. **Focus Left Behind is grounded** — the phrase names one sharp object at a
-   different distance from the face, describes the face as soft throughout,
-   names the move that carries it, and the shot has no spoken line.
-9. **Supported controls remain separate** — no authoring field is presented
+8. **Supported controls remain separate** — no authoring field is presented
    as a provider parameter without live evidence.
 
 ## Guide disclaimer

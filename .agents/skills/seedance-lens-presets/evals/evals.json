@@ -101,6 +101,18 @@
         "Does not move the camera or replace the medium framing with a close-up.",
         "Treats compression as a requested visual relationship, not a guaranteed consequence of a numeric token."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Write the lens line for a push-in where her face drifts out of focus while the camera keeps moving, to show she is losing control.",
+      "expected_output": "An explanation that prompted focus loss did not hold in testing, with a lens line using ordinary focus and the defocus moved to post.",
+      "files": [],
+      "expectations": [
+        "It does not present the drifting focus as a reliable prompt preset.",
+        "It recommends generating with ordinary focus and adding a defocus ramp in post, or using light and the edit instead.",
+        "It does not stack extra blur or a second move in the prompt.",
+        "It keeps the push-in as the camera move."
+      ]
     }
   ]
 }

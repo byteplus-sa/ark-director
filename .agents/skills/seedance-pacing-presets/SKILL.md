@@ -100,7 +100,7 @@ required; everything else is optional.
 | Parameter | Meaning | Rules |
 |---|---|---|
 | `ramp` | Speed ramp from the bank | Required unless `pacing` is set. Pick exactly one: Linear, Auto, Slow Motion, Bullet Time, Flash In, Flash Out, Impact, Ramp Up, Ramp Down. |
-| `assembly_cut` | Blink Cut, Intercut or Vision Flash | Planned in the same-skill assembly reference; generate each side as its own clip, never in one prompt. |
+| `assembly_cut` | Blink Cut, Intercut or Vision Flash | Planned outside the prompt block in the same-skill assembly reference, so it does not count toward the required pacing knobs; generate each side as its own clip, never in one prompt. |
 | `pacing` | Montage cut rhythm from the bank | Required for multi-shot scenes; one per prompt: Chaotic, Dynamic, Calm, Single Shot. |
 | `beat` | What lands on the beat (optional) | The action, moment, or object that must land at the timestamp. Name it explicitly so the model can place it. |
 | `duration` | Total clip length in seconds | Right-size to the scene's natural length, **4-30s** for 2.5. Do not pad to 30s. Pass to the generation interface, not the prompt. |
