@@ -6,6 +6,7 @@ mode selection and caller responsibilities.
 - [Full-soundscape composition workflow](#full-soundscape-composition-workflow)
 - [Scene transitions and dynamic arcs](#scene-transitions-and-dynamic-arcs)
 - [Scene and atmosphere](#scene-and-atmosphere)
+- [Sonic motifs and voice treatment](#sonic-motifs-and-voice-treatment)
 
 ### Full-soundscape composition workflow
 
@@ -104,3 +105,27 @@ Sound effect template:
 ```text
 As [triggering action], [sound source] produces a [acoustic character] "[optional onomatopoeia]" from [distance/direction or mix layer], then [decay/evolution].
 ```
+
+### Sonic motifs and voice treatment
+
+A scene can give a power, an ordeal or a possession its own sound. These are
+craft heuristics, not verified model controls; listen to the result, and build
+a layer in post when the model merges or drops it.
+
+| Motif | Use when | Prompt shape |
+| --- | --- | --- |
+| Layered voice of power | A character speaks with a force beyond their own (a command, a curse, a summoning) | `[Name] ([voice profile]) commands: "[line]" — beneath her voice, a low chorus of older women's voices speaks the same words a fraction behind, close and dry, so the line sounds ancient and multiplied.` |
+| Abrasive ordeal tone | Pain, interrogation, a test the character must endure | `Background music: a thin, high, grinding drone like a dentist's drill, with a low pulse under it; it tightens in pitch as [ordeal event] continues and never resolves.` |
+| Solo vocal over picture | Transcendence, possession, a vision taking hold | `A solo female voice sings a wordless, wavering line over the scene, rising above the drone as [character] stops resisting.` |
+| Compressed scream | A sound that should feel inhuman but made from people | `A dense, compressed wall of distant human screams, smeared into one sustained tone, sits far behind the drone.` |
+
+Give the motif one dynamic curve keyed to the scene's beats: where it enters,
+where it peaks (usually the turn), and what makes it stop. For example: the
+drone enters when the test begins, tightens through the pain, the solo vocal
+peaks as the character takes control, and both cut to silence on "Enough."
+Write the stop as an event, not a fade time, and state what remains in the
+silence (room tone, a breath).
+
+A layered or multi-voice line is still one speaker for lip-sync. Keep the
+exact words identical across the layers, and when lip-sync audio is opt-in,
+deliver the lead voice clean and add the chorus layer in post.

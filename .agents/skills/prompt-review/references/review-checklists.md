@@ -116,7 +116,7 @@ as well as text-to-video. Prompt-only work does not require a generated draft.
 
 1. **Subject + Action present.** The prompt contains at minimum a clear subject and a
    primary action or event. These are the only grammar-required parts; Camera and
-   light are craft-required for narrative shots (items 24a-24e).
+   light are craft-required for narrative shots (items 24a-24f).
 
 2. **Six-part formula.** The prompt follows: Subject + Action/Event + Scene/Environment
    (optional) + Visual Style (optional) + Camera Movement/Cut (optional) + Audio
@@ -238,8 +238,10 @@ as well as text-to-video. Prompt-only work does not require a generated draft.
 
 24c. **Light sources declared (`shot.plan_bound`).** The scene keeps one set of
     declared light sources across its cuts; a shot never introduces an undeclared
-    source, and a new source has a motivating event such as a door opening. No
-    silhouette on a shot with spoken lines.
+    source, and a new source has a motivating event such as a door opening. A
+    light that goes off, dims or flickers inside a shot matches a cue recorded
+    on a declared source, with its time and trigger. No silhouette on a shot
+    with spoken lines.
 
 24d. **Axis carried (`shot.axis_carry`).** Compare the confirmed project axes
     (camera, lens, lighting, pacing, energy) in `directorial_axes` or the
@@ -255,6 +257,13 @@ as well as text-to-video. Prompt-only work does not require a generated draft.
     MAJOR finding. A "single continuous shot" is a one-take and is checked for a
     recorded camera path instead. Quiet moves are acceptable during a spoken
     line; large moves there are a MINOR finding.
+
+24f. **Assembly cuts stay in the edit (`shot.plan_bound`).** A blink cut,
+    intercut or vision flash shorter than about 0.8 s is planned as an
+    assembly cut and never requested inside one prompt; a prompt that asks the
+    model to skip an action it describes is a MAJOR finding. A focus-left-behind
+    shot carries no spoken line, and a sudden burst action appears at most once
+    per shot with a still hold before and after it (MINOR otherwise).
 
 25. **Uncommon cinematography terms.** If used, they follow the format:
     Term + Target Subject + Visual Change + Foreground/Background Relationship +
@@ -639,7 +648,7 @@ Source skill: `seedance-prompt-20`
     covers one coherent unit of action.
 
 12a. **Shot plan carried (`shot.plan_bound`, `shot.variety`, `shot.axis_carry`).**
-    The Seedance 2.5 items 24a-24e apply to a 2.0 prompt: each shot line carries
+    The Seedance 2.5 items 24a-24f apply to a 2.0 prompt: each shot line carries
     its size, angle, camera move (or a recorded static reason) and a declared
     light source with its key side, and neighboring shots differ.
 

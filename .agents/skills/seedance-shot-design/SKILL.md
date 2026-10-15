@@ -93,22 +93,27 @@ and the per-shot facts the Seedance 2.5 prompt carries.
 4. **Set the shot count and lengths** from the beats. A clip carries at most
    about 7 shots and none shorter than about 0.8 s (observed in this
    workspace's production reviews); split a longer kinetic sequence into
-   several clips. Make lengths uneven and give the turn shot a length unlike its
+   several clips. A shorter cut is planned as an assembly cut: generate each
+   side at a natural length and trim in post (see the pacing preset skill's
+   assembly-only cuts). Make lengths uneven and give the turn shot a length unlike its
    neighbors. One shot across a long clip needs a recorded one-take or
    `static_reason`. A spoken line needs a shot at least words / 2.2 + 1 s long,
    because speech starts late (observed 0.5-1.5 s in this workspace's draft
    runs).
-5. **Declare the scene's light sources** with world positions and the event that
-   switches each on, then give every shot a source, a key side relative to the
+5. **Declare the scene's light sources** with world positions, the event that
+   switches each on, and any in-scene cue that switches it off, dims it or makes
+   it flicker. Then give every shot a source, a key side relative to the
    lens, a quality and a contrast. Assign each shot a size, an angle, a move
    with start and end, and a lens intent as a visible result. Dialogue shots
    vary size and angle; keep their moves quiet so speech and lips stay readable.
 6. **Run the variety rules below** and revise until every shot passes or carries
    a recorded reason. Flag exactly one shot as the turn.
 7. **Tell one light story per scene.** The sources stay fixed in the room. A cut
-   changes which side of a source the camera sees, or a motivated event adds a
-   source (a door opens, a lamp is switched on). A shot never invents a source
-   the scene did not declare. Silhouette is for shots without speech; contre-jour
+   changes which side of a source the camera sees, or a motivated event adds or
+   removes a source (a door opens, a lamp is switched on, the room lights go
+   out). A light cue may land inside a shot, even during a move, when the plan
+   records its time and trigger. A shot never invents a source or a cue the
+   scene did not declare. Silhouette is for shots without speech; contre-jour
    that keeps the face readable is allowed on spoken shots.
 8. **Write the plan** per [shot plan format](references/shot-plan-format.md).
    Choose recurring structures from
@@ -160,8 +165,12 @@ Before returning a plan, confirm:
 3. Locks and confirmed axes are carried, not overwritten.
 4. The shot count and lengths fit the duration, the energy level and any
    dialogue.
-5. No shot stacks competing moves, and no shot invents a light source.
-6. The plan names where it is stored and which prompt carries it.
+5. No shot stacks competing moves, and no shot invents a light source or an
+   undeclared light cue.
+6. A cut shorter than about 0.8 s (a blink cut, a vision flash, a fast
+   intercut) is an assembly cut: the plan names the clips it is cut from, and
+   each clip is generated at a natural length.
+7. The plan names where it is stored and which prompt carries it.
 
 Worked cases are hypothetical teaching repairs in
 [worked repairs](references/worked-repairs.md).

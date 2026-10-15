@@ -57,6 +57,7 @@ Lux (clear, bright young female voice, resonant with a crystalline timbre, voice
 - For multi-character scenes, alternate characters chronologically and place actions, music changes, and SFX between the lines where listeners should hear them.
 - Make each voice contrast with the others through useful traits such as pitch, timbre, accent, pacing, emotional baseline, or performance style.
 - For voices heard through a device or space, describe the filter or acoustics: television reverb, walkie-talkie compression, telephone band-limit, public-address echo, or whispered proximity.
+- For a voice with a power beyond the speaker (a layered chorus under the lead line), use the layered-voice motif in [soundscape arrangement](soundscape-arrangement.md#sonic-motifs-and-voice-treatment).
 - Keep dialogue attribution explicit. Do not write an unlabeled block of alternating quotes.
 - Wrap ambient descriptions and non-speech sounds in square brackets: `[Ambient street sounds: passing cars, distant chatter.]`
 - Prompt language and script language should be the same language.

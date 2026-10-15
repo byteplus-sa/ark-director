@@ -92,6 +92,24 @@ one direction and compose the quality, color, and ratio yourself.
 | **Night neon** | Cool ambient night with saturated neon gel accents. | `Lighting: night neon — cool 6500K ambient, neon-blue and magenta gel accents from signage, wet reflections carrying the color.` | `The visuals feature night-neon lighting — cool ambient night, saturated neon accents, color bleeding across wet surfaces.` |
 | **Dappled light** | Light filtered through foliage or blinds casts broken patches of light and shadow. | `Lighting: dappled light through overhead foliage, broken patches of warm sunlight and shadow moving across the subject.` | `The visuals feature dappled light — sunlight filtered through leaves, broken patches of warm light and shadow playing across the subject.` |
 
+### Intent to preset
+
+When the brief names a feeling rather than a setup, start from this map and
+keep the scene's declared sources. Each row is a creative heuristic; check the
+take, and reach the look through the prompt rather than a post grade.
+
+| Intended feeling | Start from | Make it specific with |
+|---|---|---|
+| Dread, nightmare, no escape | Low-key | Faces just above black, large areas lost to shadow, one muted color accent (a violet floor, a cold rim); no fill that reveals the room's exits |
+| Interrogation, ordeal | Overhead Fall or a hard side key | Eyes in shadow for the one in power; the tested character lit harder than anyone else |
+| Sacred, ritual | Practicals | Few small sources, deep falloff, light that seems to come from the objects of the ritual |
+| Safety, warmth, the other side of a door | Practicals or Window | Warm amber source against dark wood or stone; contrast it with the cold scene it cuts against |
+| Vision, revelation | High-key | Bright, warm, overexposed field that breaks the scene's darkness for a moment |
+| Relief, release | The scene's earlier key | A motivated source returns, or a door opens and adds light; the shadows soften |
+
+A change of feeling inside a scene is a light cue on a declared source (on,
+off, dim or flicker) planned in the shot plan, not a new invented source.
+
 ## Parameter schema
 
 ```

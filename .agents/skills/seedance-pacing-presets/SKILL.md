@@ -71,6 +71,14 @@ accelerates, decelerates, or rebounds, and the **final resting state**.
 | Ramp Up | Gradual acceleration | `From <start time> to <N>s, the motion gradually speeds up, building tension until <N>s when <climax action> bursts forward.` |
 | Ramp Down | Gradual deceleration | `At <N>s, the motion gradually slows from full speed, easing into <end state> by <end time>s with no abrupt stop.` |
 
+### Assembly-only cuts
+
+A blink cut (a lost moment), an intercut between two places, or a vision
+flash needs cuts shorter than one clip can hold. Plan them with
+[Assembly-only cuts](references/assembly-cuts.md): each side is generated as
+its own clip at a natural length, and the cut is made in post. Never ask a
+single prompt for these cuts.
+
 ### Montage pacing
 
 For multi-shot scenes, pick one cut rhythm. Each row gives the intent and a
@@ -92,6 +100,7 @@ required; everything else is optional.
 | Parameter | Meaning | Rules |
 |---|---|---|
 | `ramp` | Speed ramp from the bank | Required unless `pacing` is set. Pick exactly one: Linear, Auto, Slow Motion, Bullet Time, Flash In, Flash Out, Impact, Ramp Up, Ramp Down. |
+| `assembly_cut` | Blink Cut, Intercut or Vision Flash | Planned in the same-skill assembly reference; generate each side as its own clip, never in one prompt. |
 | `pacing` | Montage cut rhythm from the bank | Required for multi-shot scenes; one per prompt: Chaotic, Dynamic, Calm, Single Shot. |
 | `beat` | What lands on the beat (optional) | The action, moment, or object that must land at the timestamp. Name it explicitly so the model can place it. |
 | `duration` | Total clip length in seconds | Right-size to the scene's natural length, **4-30s** for 2.5. Do not pad to 30s. Pass to the generation interface, not the prompt. |
