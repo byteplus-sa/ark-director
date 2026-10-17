@@ -299,7 +299,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/scene-board-sheet/SKILL.md",
-      "computedHash": "f6e478ebcf292cab1f8fd4b304dddb4aaa1e63a9668e9156f1e0930f80183579"
+      "computedHash": "98ea880382d388ccfe3a69b1fdce2d097e7fdd3d60674179c5fa8390485de328"
     },
     "showcase-html": {
       "source": "./local",

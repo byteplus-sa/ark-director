@@ -45,8 +45,8 @@ asks for one.
 A shot is key when it is the turn, has a camera move, changes blocking, crosses or
 restates the axis, changes a prop, wardrobe or location state, or carries a light
 cue. Start, peak and end states show the framing at the start and end of a move,
-the decisive moment and the resulting state. A held shot with only a blocking
-change gets start and end.
+the decisive moment and the resulting state. A held shot whose only trigger is a
+blocking or state change gets start and end.
 
 ## Author the panels
 

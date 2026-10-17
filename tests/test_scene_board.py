@@ -583,30 +583,53 @@ class RepairTests(BoardTestCase):
         self.assertEqual(result["stale"]["sheet_pages"], [1])
         self.assertEqual(result["stale"]["animatic_segments"], ["s02_sh010_p020"])
 
+    def fail_edit(self, panel_id: str, dimension: str, version: int) -> None:
+        previous = self.panel_path(panel_id, version=version - 1)
+        edited = self.panel_path(panel_id, version=version)
+        write_png(edited, 100 + version)
+        MODULE.register_panel(
+            self.root,
+            "scene-02",
+            panel_id,
+            edited.relative_to(self.root).as_posix(),
+            previous.relative_to(self.root).as_posix(),
+            dimension,
+            None,
+            None,
+            None,
+        )
+        MODULE.mark_panel(self.root, "scene-02", panel_id, "needs_edit", None)
+
     def test_two_failed_edits_on_one_dimension_escalate_to_regeneration(self) -> None:
         panel_id = "s02_sh010_p020"
-        previous = self.panel_path(panel_id)
-        for version in (2, 3):
-            edited = self.panel_path(panel_id, version=version)
-            write_png(edited, 100 + version)
-            MODULE.register_panel(
-                self.root,
-                "scene-02",
-                panel_id,
-                edited.relative_to(self.root).as_posix(),
-                previous.relative_to(self.root).as_posix(),
-                "prop count",
-                None,
-                None,
-                None,
-            )
-            previous = edited
-        board = self.board()
-        panel = next(p for p in board["panels"] if p["id"] == panel_id)
-        panel["versions"][-1]["rejected"] = True
-        self.rewrite(board)
-        result = self.plan([panel_id])
-        self.assertEqual(result["actions"][0]["action"], "regenerate_panel")
+        MODULE.mark_panel(self.root, "scene-02", panel_id, "needs_edit", None)
+        self.assertEqual(self.plan([panel_id])["actions"][0]["action"], "edit")
+        self.fail_edit(panel_id, "prop count", 2)
+        self.assertEqual(self.plan([panel_id])["actions"][0]["action"], "edit")
+        self.fail_edit(panel_id, "prop count", 3)
+        self.assertEqual(
+            self.plan([panel_id])["actions"][0]["action"], "regenerate_panel"
+        )
+
+    def test_a_regenerated_panel_starts_its_edit_count_again(self) -> None:
+        panel_id = "s02_sh010_p020"
+        self.fail_edit(panel_id, "prop count", 2)
+        self.fail_edit(panel_id, "prop count", 3)
+        regenerated = self.root / f"scenes/scene-02/s02_sh010/{panel_id}_t02_v01.png"
+        write_png(regenerated, 33)
+        MODULE.register_panel(
+            self.root,
+            "scene-02",
+            panel_id,
+            regenerated.relative_to(self.root).as_posix(),
+            None,
+            None,
+            None,
+            None,
+            None,
+        )
+        MODULE.mark_panel(self.root, "scene-02", panel_id, "needs_edit", None)
+        self.assertEqual(self.plan([panel_id])["actions"][0]["action"], "edit")
 
     def test_a_different_dimension_still_edits(self) -> None:
         panel_id = "s02_sh010_p020"
@@ -700,6 +723,12 @@ class SheetTests(BoardTestCase):
         self.init("L2")
         self.register_all()
 
+    def pretend_rendered(self) -> None:
+        directory = self.root / "scenes/scene-02/board/sheet"
+        for sidecar in MODULE.latest_sidecars(directory, "sheet"):
+            data = json.loads(sidecar.read_text(encoding="utf-8"))
+            write_png(self.root / data["png"], 99)
+
     def test_sheet_paginates_and_writes_exact_copy_keys(self) -> None:
         result = MODULE.build_sheet(self.root, "scene-02", None)
         self.assertEqual(len(result["pages"]), 2)
@@ -741,15 +770,17 @@ class SheetTests(BoardTestCase):
         self.assertIn("_v02.", second["pages"][0]["html"])
         self.assertTrue((self.root / first["pages"][0]["html"]).is_file())
 
-    def test_rejected_panels_are_left_off_the_sheet(self) -> None:
-        board = self.board()
-        board["panels"][0]["status"] = "rejected"
-        self.rewrite(board)
+    def test_rejected_panels_stay_on_the_sheet_with_their_status(self) -> None:
+        panel_id = self.board()["panels"][0]["id"]
+        MODULE.mark_panel(self.root, "scene-02", panel_id, "rejected", None)
         result = MODULE.build_sheet(self.root, "scene-02", None)
-        self.assertEqual(result["panels"], len(board["panels"]) - 1)
+        self.assertEqual(result["panels"], len(self.board()["panels"]))
+        page = (self.root / result["pages"][0]["html"]).read_text(encoding="utf-8")
+        self.assertIn(">rejected<", page)
 
     def test_status_reports_only_the_changed_panels_page_stale(self) -> None:
         MODULE.build_sheet(self.root, "scene-02", None)
+        self.pretend_rendered()
         self.assertEqual(
             MODULE.status_report(self.root, "scene-02")["stale_sheet_pages"], []
         )
@@ -942,6 +973,498 @@ class CommandLineTests(BoardTestCase):
         self.assertTrue(missing.stderr.strip())
         absent = self.run_cli("status", str(self.root / "nope"), "02")
         self.assertEqual(absent.returncode, 2)
+
+
+class ReviewFixTests(BoardTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.init("L2")
+        self.register_all()
+
+    def change_plan(self, old: str, new: str) -> None:
+        scene = self.root / "scenes/scene-02/scene.md"
+        scene.write_text(
+            scene.read_text(encoding="utf-8").replace(old, new), encoding="utf-8"
+        )
+
+    def test_status_reports_a_changed_shot_plan_and_marks_derived_files_stale(
+        self,
+    ) -> None:
+        MODULE.build_sheet(self.root, "scene-02", None)
+        sheet_dir = self.root / "scenes/scene-02/board/sheet"
+        for sidecar in MODULE.latest_sidecars(sheet_dir, "sheet"):
+            write_png(self.root / json.loads(sidecar.read_text())["png"], 90)
+        self.change_plan("hard", "soft")
+        report = MODULE.status_report(self.root, "scene-02")
+        self.assertTrue(report["plan_stale"])
+        self.assertEqual(
+            {item["reason"] for item in report["stale_sheet_pages"]},
+            {"shot plan changed"},
+        )
+
+    def test_plan_hash_ignores_comments_and_whitespace_outside_the_yaml(self) -> None:
+        self.change_plan("## Shot plan\n", "## Shot plan\n\nA note for people.\n\n")
+        self.assertEqual(self.finding_ids(), [])
+
+    def test_overwrite_is_refused_when_panels_are_registered(self) -> None:
+        with self.assertRaises(MODULE.BoardError) as raised:
+            MODULE.init_board(
+                self.root, "scene-02", "L2", "x", [], "pencil", "16:9", True
+            )
+        self.assertIn("rebase-plan", str(raised.exception))
+
+    def test_rebase_keeps_registered_panels_and_flags_changed_ones(self) -> None:
+        before = {p["id"]: p["sha256"] for p in self.board()["panels"]}
+        self.change_plan("size: wide", "size: close-up")
+        result = MODULE.rebase_plan(self.root, "scene-02")
+        board = self.board()
+        self.assertEqual({p["id"]: p["sha256"] for p in board["panels"]}, before)
+        self.assertIn("s02_sh010_p010", result["needs_edit"])
+        panel = next(p for p in board["panels"] if p["id"] == "s02_sh010_p010")
+        self.assertEqual(panel["status"], "needs_edit")
+        self.assertEqual(panel["size"], "close-up")
+        self.assertNotIn("board.plan_stale", self.finding_ids())
+
+    def test_rebase_reports_orphaned_files_when_panels_disappear(self) -> None:
+        self.change_plan(
+            "      move: slow push-in on the plaza\n",
+            "      move: static hold on the plaza\n      static_reason: contrast_hold\n",
+        )
+        result = MODULE.rebase_plan(self.root, "scene-02")
+        self.assertTrue(result["orphaned_files"])
+        self.assertEqual(len(self.board()["panels"]), 7)
+
+    def test_sheet_can_write_only_chosen_pages(self) -> None:
+        result = MODULE.build_sheet(self.root, "scene-02", None, [2])
+        self.assertEqual([page["page"] for page in result["pages"]], [2])
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.build_sheet(self.root, "scene-02", None, [9])
+
+    def test_unrendered_page_is_stale_and_the_review_page_says_so(self) -> None:
+        MODULE.build_sheet(self.root, "scene-02", None)
+        stale = MODULE.status_report(self.root, "scene-02")["stale_sheet_pages"]
+        self.assertEqual(
+            {item["reason"] for item in stale}, {"page is built but not rendered"}
+        )
+        page = (
+            self.root / MODULE.build_review_page(self.root, "scene-02")["page"]
+        ).read_text(encoding="utf-8")
+        self.assertIn("Not rendered yet", page)
+
+    def test_render_rejects_pages_outside_the_board(self) -> None:
+        MODULE.build_sheet(self.root, "scene-02", None)
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.render_sheet(self.root, "scene-02", str(RENDERER), [9])
+
+    def test_derived_directory_symlink_is_refused(self) -> None:
+        outside = Path(tempfile.mkdtemp(prefix="scene-board-outside-"))
+        self.addCleanup(shutil.rmtree, outside)
+        (self.root / "scenes/scene-02/board").symlink_to(outside)
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.build_sheet(self.root, "scene-02", None)
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_symlinked_board_file_is_not_rewritten(self) -> None:
+        outside = Path(tempfile.mkdtemp(prefix="scene-board-outside-"))
+        self.addCleanup(shutil.rmtree, outside)
+        target = outside / "board.md"
+        board_file = self.root / "scenes/scene-02/board.md"
+        shutil.move(str(board_file), target)
+        board_file.symlink_to(target)
+        before = target.read_text(encoding="utf-8")
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.mark_panel(
+                self.root, "scene-02", "s02_sh010_p010", "needs_edit", None
+            )
+        self.assertEqual(target.read_text(encoding="utf-8"), before)
+
+    def test_light_ids_with_markup_are_rejected_by_the_schema(self) -> None:
+        board = self.board()
+        board["layout"] = {
+            "room": {"width": 4, "depth": 4},
+            "lights": [{"id": 'x" onmouseover="alert(1)', "at": [1, 1]}],
+        }
+        self.rewrite(board)
+        self.assertEqual(self.finding_ids(), ["board.schema"])
+
+    def test_overview_labels_every_marker(self) -> None:
+        board = self.board()
+        board["layout"] = {
+            "room": {"width": 8, "depth": 6},
+            "lights": [{"id": "window", "at": [0, 1]}],
+            "figures": [{"id": "A", "label": "mother <b>", "at": [3, 3]}],
+        }
+        self.rewrite(board)
+        page = (
+            self.root / MODULE.build_overview(self.root, "scene-02")["html"]
+        ).read_text(encoding="utf-8")
+        self.assertIn(">window</text>", page)
+        self.assertIn(">A</text>", page)
+        self.assertIn("mother &lt;b&gt;", page)
+
+    def test_repair_plan_ignores_duplicate_panel_ids(self) -> None:
+        result = MODULE.plan_repair(
+            self.root,
+            "scene-02",
+            ["s02_sh010_p010"] * 3,
+            "local",
+            "prop count",
+            "remove the jar",
+            ["one jar"],
+            None,
+        )
+        self.assertEqual(result["actions"][0]["action"], "edit")
+
+    def test_repair_plan_needs_a_dimension_and_leaves_no_files_on_error(self) -> None:
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.plan_repair(
+                self.root,
+                "scene-02",
+                ["s02_sh010_p010"],
+                "local",
+                "",
+                "remove the jar",
+                ["one jar"],
+                None,
+            )
+        board = self.board()
+        board["panels"][3].update(
+            {"file": None, "sha256": None, "status": "planned", "versions": []}
+        )
+        self.rewrite(board)
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.plan_repair(
+                self.root,
+                "scene-02",
+                ["s02_sh010_p010", board["panels"][3]["id"]],
+                "local",
+                "prop count",
+                "remove the jar",
+                ["one jar"],
+                None,
+            )
+        self.assertFalse((self.root / "scenes/scene-02/board/repair").exists())
+
+    def test_edit_of_must_be_a_registered_version_of_the_same_panel(self) -> None:
+        panels = self.board()["panels"]
+        other = self.root / panels[1]["file"]
+        edited = self.panel_path(panels[0]["id"], version=2)
+        write_png(edited, 15)
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.register_panel(
+                self.root,
+                "scene-02",
+                panels[0]["id"],
+                edited.relative_to(self.root).as_posix(),
+                other.relative_to(self.root).as_posix(),
+                None,
+                None,
+                None,
+                None,
+            )
+
+    def test_edit_records_the_parent_file_and_a_bbox_must_be_ordered(self) -> None:
+        panel = self.board()["panels"][0]
+        edited = self.panel_path(panel["id"], version=2)
+        write_png(edited, 15)
+        for bbox in ("300,0,10,50", "0,0,1000,50"):
+            with self.assertRaises(MODULE.BoardError):
+                MODULE.register_panel(
+                    self.root,
+                    "scene-02",
+                    panel["id"],
+                    edited.relative_to(self.root).as_posix(),
+                    panel["file"],
+                    None,
+                    bbox,
+                    None,
+                    None,
+                )
+        MODULE.register_panel(
+            self.root,
+            "scene-02",
+            panel["id"],
+            edited.relative_to(self.root).as_posix(),
+            panel["file"],
+            "prop count",
+            "0,0,10,50",
+            None,
+            None,
+        )
+        newest = self.board()["panels"][0]["versions"][-1]
+        self.assertEqual(newest["parent_file"], panel["file"])
+
+    def test_approval_is_bound_to_the_panel_file_and_needs_review_state(self) -> None:
+        panel_id = self.board()["panels"][0]["id"]
+        (self.root / "decision.json").write_text("{}", encoding="utf-8")
+        MODULE.mark_panel(self.root, "scene-02", panel_id, "needs_edit", None)
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.mark_panel(
+                self.root, "scene-02", panel_id, "approved", "decision.json"
+            )
+        MODULE.mark_panel(self.root, "scene-02", panel_id, "review", None)
+        write_png(self.panel_path(panel_id), 250)
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.mark_panel(
+                self.root, "scene-02", panel_id, "approved", "decision.json"
+            )
+
+    def test_a_panel_that_changes_after_approval_is_reported(self) -> None:
+        panel_id = self.board()["panels"][0]["id"]
+        (self.root / "decision.json").write_text("{}", encoding="utf-8")
+        MODULE.mark_panel(self.root, "scene-02", panel_id, "approved", "decision.json")
+        board = self.board()
+        board["panels"][0]["sha256"] = "f" * 64
+        board["panels"][0]["versions"][-1]["sha256"] = "f" * 64
+        self.rewrite(board)
+        self.assertIn("board.decision_stale", self.finding_ids())
+
+    def test_version_head_must_match_the_newest_version(self) -> None:
+        board = self.board()
+        board["panels"][0]["file"] = board["panels"][1]["file"]
+        self.rewrite(board)
+        self.assertIn("board.version_head", self.finding_ids())
+
+    def test_board_files_are_flagged_by_path_even_with_another_hash(self) -> None:
+        panel = self.board()["panels"][0]
+        (self.root / "task_ids.json").write_text(
+            json.dumps(
+                {
+                    "tasks": [
+                        {
+                            "references": [
+                                {"path": "./" + panel["file"], "sha256": "b" * 64}
+                            ]
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        self.assertIn("board.bound_to_request", self.finding_ids())
+
+    def test_malformed_task_registry_does_not_crash_check(self) -> None:
+        for content in (
+            '{"tasks": null}',
+            '{"tasks": {"a": 1}}',
+            '{"tasks": ["x"]}',
+            '{"tasks": [{"references": 5}]}',
+            "not json",
+        ):
+            (self.root / "task_ids.json").write_text(content, encoding="utf-8")
+            self.assertEqual(self.finding_ids(), [], content)
+
+    def test_board_for_another_scene_and_foreign_shot_ids_are_reported(self) -> None:
+        board = self.board()
+        board["scene"] = "scene-03"
+        self.rewrite(board)
+        self.assertIn("board.scene", self.finding_ids())
+        text = (self.root / "scenes/scene-02/scene.md").read_text(encoding="utf-8")
+        (self.root / "scenes/scene-02/scene.md").write_text(
+            text.replace("s02_sh030_a", "s03_sh030_a"), encoding="utf-8"
+        )
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.load_scene_source(self.root, "scene-02")
+
+    def test_duplicate_shot_ids_in_the_plan_are_rejected(self) -> None:
+        text = (self.root / "scenes/scene-02/scene.md").read_text(encoding="utf-8")
+        (self.root / "scenes/scene-02/scene.md").write_text(
+            text.replace("s02_sh030_a", "s02_sh020_a"), encoding="utf-8"
+        )
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.load_scene_source(self.root, "scene-02")
+
+    def test_a_missing_plan_field_on_a_panel_is_a_warning(self) -> None:
+        board = self.board()
+        del board["panels"][0]["lens_intent"]
+        self.rewrite(board)
+        findings = [
+            f
+            for f in MODULE.check_board(self.root, "scene-02")
+            if f.rule_id == "board.field_missing"
+        ]
+        self.assertEqual([f.severity for f in findings], ["warning"])
+
+    def test_invalid_sub_beat_names_and_duplicate_overrides_are_rejected(self) -> None:
+        text = (self.root / "scenes/scene-02/scene.md").read_text(encoding="utf-8")
+        (self.root / "scenes/scene-02/scene.md").write_text(
+            text.replace(
+                "      job: establish\n",
+                "      job: establish\n      sub_beats: [Draw Fast, 'a/b']\n",
+            ),
+            encoding="utf-8",
+        )
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.derive_panels(
+                MODULE.load_scene_source(self.root, "scene-02"), "L3", {}
+            )
+        with self.assertRaises(MODULE.BoardError):
+            MODULE.parse_overrides(["s02_sh010_a=L3=a", "s02_sh010_a=L1=b"])
+
+    def test_board_status_follows_the_plan_status(self) -> None:
+        self.assertEqual(self.board()["status"], "draft")
+        self.change_plan("status: draft", "status: ready")
+        MODULE.rebase_plan(self.root, "scene-02")
+        self.assertEqual(self.board()["status"], "ready")
+
+    def test_board_record_states_it_is_not_a_seedance_input(self) -> None:
+        self.assertIs(self.board()["bind_to_seedance"], False)
+        board = self.board()
+        board["bind_to_seedance"] = True
+        self.rewrite(board)
+        self.assertEqual(self.finding_ids(), ["board.schema"])
+
+    def test_animatic_size_follows_the_board_aspect_ratio(self) -> None:
+        self.assertEqual(MODULE.default_animatic_size("16:9"), "1920x1080")
+        self.assertEqual(MODULE.default_animatic_size("9:16"), "1080x1920")
+        self.assertEqual(MODULE.default_animatic_size("21:9"), "1920x822")
+
+
+class MalformedRecordTests(BoardTestCase):
+    def run_cli(self, *arguments: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            [sys.executable, str(SCRIPT), *arguments],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+    def test_a_broken_sidecar_exits_two_instead_of_crashing(self) -> None:
+        self.init("L2")
+        self.register_all()
+        MODULE.build_sheet(self.root, "scene-02", None)
+        sidecar = next((self.root / "scenes/scene-02/board/sheet").glob("*.sheet.json"))
+        sidecar.write_text("{not json", encoding="utf-8")
+        result = self.run_cli("status", str(self.root), "02")
+        self.assertEqual(result.returncode, 2)
+        self.assertTrue(result.stderr.strip())
+
+    def test_a_sidecar_missing_a_key_exits_two(self) -> None:
+        self.init("L2")
+        self.register_all()
+        MODULE.build_sheet(self.root, "scene-02", None)
+        sidecar = next((self.root / "scenes/scene-02/board/sheet").glob("*.sheet.json"))
+        sidecar.write_text('{"version": 1}', encoding="utf-8")
+        self.assertEqual(self.run_cli("status", str(self.root), "02").returncode, 2)
+
+    def test_a_malformed_board_file_exits_two(self) -> None:
+        self.init("L2")
+        (self.root / "scenes/scene-02/board.md").write_text(
+            "no front matter", encoding="utf-8"
+        )
+        self.assertEqual(self.run_cli("check", str(self.root), "02").returncode, 2)
+
+    def test_every_command_runs_from_the_command_line(self) -> None:
+        self.assertEqual(self.run_cli("init", str(self.root), "02").returncode, 0)
+        board = self.board()
+        panel = board["panels"][0]
+        path = self.panel_path(panel["id"])
+        write_png(path, 80)
+        relative = path.relative_to(self.root).as_posix()
+        self.assertEqual(
+            self.run_cli(
+                "register-panel", str(self.root), "02", panel["id"], "--file", relative
+            ).returncode,
+            0,
+        )
+        self.assertEqual(
+            self.run_cli(
+                "mark", str(self.root), "02", panel["id"], "--status", "needs_edit"
+            ).returncode,
+            0,
+        )
+        repair = self.run_cli(
+            "repair-plan",
+            str(self.root),
+            "02",
+            "--panels",
+            panel["id"],
+            "--dimension",
+            "prop count",
+            "--delta",
+            "remove the jar",
+            "--accept",
+            "one jar",
+        )
+        self.assertEqual(repair.returncode, 0, repair.stderr)
+        self.assertEqual(json.loads(repair.stdout)["actions"][0]["action"], "edit")
+        self.assertEqual(
+            self.run_cli("sheet", str(self.root), "02", "--pages", "1").returncode, 0
+        )
+        self.assertEqual(
+            self.run_cli("review-page", str(self.root), "02").returncode, 0
+        )
+        self.assertEqual(self.run_cli("overview", str(self.root), "02").returncode, 0)
+        self.assertEqual(
+            self.run_cli("rebase-plan", str(self.root), "02").returncode, 0
+        )
+
+
+@unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg is required")
+class AnimaticAudioTests(BoardTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.init("L1")
+        self.register_all()
+
+    def write_wav(self, name: str, seconds_long: float) -> str:
+        import wave
+
+        path = self.root / name
+        with wave.open(str(path), "wb") as handle:
+            handle.setnchannels(1)
+            handle.setsampwidth(2)
+            handle.setframerate(8000)
+            handle.writeframes(b"\x00\x00" * int(8000 * seconds_long))
+        return name
+
+    def test_short_audio_is_padded_so_the_video_keeps_its_full_length(self) -> None:
+        audio = self.write_wav("scratch.wav", 3)
+        result = MODULE.build_animatic(self.root, "scene-02", "640x360", audio)
+        self.assertAlmostEqual(result["duration_s"], 12.5)
+        probe = subprocess.run(
+            [
+                "ffmpeg",
+                "-hide_banner",
+                "-i",
+                str(self.root / result["file"]),
+                "-f",
+                "null",
+                "-",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        clock = (
+            [line for line in probe.stderr.splitlines() if "time=" in line][-1]
+            .split("time=")[1]
+            .split()[0]
+        )
+        hours, minutes, secs = clock.split(":")
+        self.assertAlmostEqual(
+            int(hours) * 3600 + int(minutes) * 60 + float(secs), 12.5, delta=0.3
+        )
+
+    def test_changing_the_audio_marks_the_animatic_stale(self) -> None:
+        audio = self.write_wav("scratch.wav", 3)
+        MODULE.build_animatic(self.root, "scene-02", "640x360", audio)
+        self.assertEqual(
+            MODULE.status_report(self.root, "scene-02")["animatic"]["state"], "current"
+        )
+        self.write_wav("scratch.wav", 4)
+        report = MODULE.status_report(self.root, "scene-02")["animatic"]
+        self.assertEqual(report["state"], "stale")
+        self.assertEqual(report["audio"], "changed")
+
+    def test_rejected_panels_still_count_toward_the_animatic_length(self) -> None:
+        MODULE.mark_panel(
+            self.root, "scene-02", self.board()["panels"][0]["id"], "rejected", None
+        )
+        self.assertAlmostEqual(
+            MODULE.build_animatic(self.root, "scene-02", "640x360", None)["duration_s"],
+            12.5,
+        )
 
 
 if __name__ == "__main__":

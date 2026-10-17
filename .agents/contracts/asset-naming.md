@@ -99,6 +99,8 @@ the mapping in `elements/INDEX.md`.
 | Storyboard panel prompt | `prompt_<scene>_sh<NNN>_p<NNN>_t<NN>_v<NN>.md` | `prompt_s01_sh010_p020_t01_v01.md` |
 | Storyboard grid prompt | `prompt_<scene>_sh<NNN>_board_t<NN>_v<NN>.md` | `prompt_s01_sh010_board_t01_v01.md` |
 | Storyboard panel edit prompt | `prompt_<scene>_sh<NNN>_p<NNN>_t<NN>_v<NN>.md`, with the version of the edited panel | `prompt_s01_sh010_p020_t01_v02.md` |
+| Scene board render plan (derived) | `<scene>_sheet_pg<NN>_v<NN>.sheet.json`, `<scene>_overview_v<NN>.overview.json`, `<scene>_animatic_v<NN>.animatic.json`, `<scene>_sheet_pg<NN>_v<NN>.render.json` | `s01_sheet_pg01_v01.sheet.json` |
+| Panel edit revision contract | `board/repair/<scene>_sh<NNN>_p<NNN>_edit_v<NN>.md` | `board/repair/s01_sh010_p020_edit_v01.md` |
 | Screen ref prompt | `prompt_screen_<descriptor>_v<NN>.md` | `prompt_screen_speedtest_v01.md` |
 | Card prompt | `prompt_card_<descriptor>_v<NN>.md` | `prompt_card_end-logo_v01.md` |
 | Character sheet prompt | `prompt_char_<character-id>_<sheet-type>_v<NN>.md` | `prompt_char_gloria_turnaround_v01.md` |

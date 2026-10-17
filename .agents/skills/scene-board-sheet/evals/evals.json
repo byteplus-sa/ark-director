@@ -5,7 +5,9 @@
       "id": 1,
       "prompt": "Set up the storyboard for scene-03, a standard dialogue-and-reveal scene with one turn shot and two shots that use camera moves. No level has been chosen.",
       "expected_output": "A board record at L2 with a recorded reason, start/peak/end panels on the turn shot and the moving shots, one panel on the other shots, and a passing check.",
-      "files": [],
+      "files": [
+        "evals/files/scene-03-with-shot-plan.md"
+      ],
       "assertions": [
         "The level is L2 and the board records a reason for it.",
         "The turn shot and each shot with a camera move get start, peak and end panels, and the remaining shots get one panel.",
@@ -28,13 +30,13 @@
     },
     {
       "id": 3,
-      "prompt": "A quiet two-person dialogue scene with six shots, all held, and a small budget. Which level and how many panels?",
-      "expected_output": "L1 with one panel per shot, a reason tied to the quiet dialogue and budget, and no extra panels.",
+      "prompt": "A quiet two-person dialogue scene with six held shots and a small budget. Plan its storyboard.",
+      "expected_output": "A board with a recorded level and reason that suits a quiet, held, budget-limited scene, and no more panels than that level needs.",
       "files": [],
       "assertions": [
-        "The level is L1 with a recorded reason.",
+        "The level is L1 with a recorded reason that cites the quiet held shots or the budget.",
         "The board has one panel per shot, six in total.",
-        "The answer notes the level can be raised later for a single shot with a recorded override."
+        "The answer notes a single shot can later be raised with a recorded override."
       ]
     },
     {
@@ -76,11 +78,25 @@
       "id": 7,
       "prompt": "I changed the shot plan for scene-02 after the sheet and animatic were built. What do I need to redo, and can I feed the animatic to Seedance as a reference?",
       "expected_output": "Check reports the board stale against the plan; status lists affected pages and segments; the animatic and sheet are never Seedance references.",
-      "files": [],
+      "files": [
+        "evals/files/scene-03-with-shot-plan.md"
+      ],
       "assertions": [
         "The agent runs check and reports that the shot plan changed and the board is stale.",
         "Only the sheet pages, overview and animatic segments that status lists are rebuilt.",
         "The agent refuses to bind the animatic or any board file as a Seedance reference and says staging goes into the shot prompt text with element references only."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "I edited the shot plan of scene-02 after three panels were generated and registered. Update the board.",
+      "expected_output": "rebase-plan carries the registered panels over by id, marks panels whose plan facts changed as needs_edit, lists orphaned files, and does not use init --overwrite.",
+      "files": [],
+      "assertions": [
+        "The agent uses rebase-plan and explains that init --overwrite is refused once panels are registered.",
+        "Registered files, versions and hashes survive the rebase for panels whose shot and state are unchanged.",
+        "A panel whose size, angle, framing or move changed in the plan is marked needs_edit and loses its approval.",
+        "Orphaned panel files are listed and left on disk rather than deleted."
       ]
     }
   ]
