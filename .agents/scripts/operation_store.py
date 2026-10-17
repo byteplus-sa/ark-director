@@ -242,7 +242,8 @@ def adopt_submitted_operation(
         raise ValueError(
             f"{operation_id} is registered but adoption stopped part-way ({error}); "
             "inspect task_ids.json and finish the transitions for the known "
-            f"provider task {provider_task_id}, never resubmit"
+            f"provider task {provider_task_id}, never resubmit; a request that "
+            "references a storyboard file needs allow_board_references=True"
         ) from error
 
 

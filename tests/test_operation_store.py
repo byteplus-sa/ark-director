@@ -122,6 +122,8 @@ class OperationStoreTests(unittest.TestCase):
             operation_store.transition_operation(
                 self.root, self.request["operation_id"], "prepared", "submitting"
             )
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["submission_status"], "prepared")
 
     def test_invalid_preflight_never_creates_registry(self):
         self.request["references"][0]["sha256"] = "0" * 64

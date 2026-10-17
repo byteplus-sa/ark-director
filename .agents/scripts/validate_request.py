@@ -25,7 +25,7 @@ BOARD_FILE = re.compile(
     r")$",
     re.IGNORECASE,
 )
-BOARD_EXEMPT_MODELS = ("seedream",)
+BOARD_EXEMPT_MODEL = re.compile(r"(?:^|-)seedream(?:-|$)")
 
 
 def is_board_artifact(path: str) -> bool:
@@ -37,9 +37,9 @@ def is_board_artifact(path: str) -> bool:
 
 
 def board_guard_applies(model: str, allow_board_references: bool) -> bool:
-    return not allow_board_references and not any(
-        name in model.lower() for name in BOARD_EXEMPT_MODELS
-    )
+    name = model.lower()
+    exempt = bool(BOARD_EXEMPT_MODEL.search(name)) and "seedance" not in name
+    return not allow_board_references and not exempt
 
 
 @dataclass(frozen=True)

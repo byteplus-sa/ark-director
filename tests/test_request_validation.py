@@ -422,11 +422,26 @@ class RequestValidationTests(unittest.TestCase):
         self.use_reference_at(relative)
         references = self.request["references"]
         prompt = (self.root / "prompt.md").read_text()
-        self.assertTrue(
-            validation.reference_findings(
-                self.root, references, prompt, model="dreamina-seedance-2-5"
-            )
+        self.assertIn(
+            "board.animatic_review_only",
+            {
+                f.rule_id
+                for f in validation.reference_findings(
+                    self.root, references, prompt, model="dreamina-seedance-2-5"
+                )
+            },
         )
+        for tricky in ("seedance-2-5-via-seedream", "ep-20260910224412-hcwv7", ""):
+            self.assertIn(
+                "board.animatic_review_only",
+                {
+                    f.rule_id
+                    for f in validation.reference_findings(
+                        self.root, references, prompt, model=tricky
+                    )
+                },
+                tricky,
+            )
         self.assertNotIn(
             "board.animatic_review_only",
             {

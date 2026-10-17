@@ -65,6 +65,7 @@ PANEL_FILE = re.compile(r"^(s\d{2}_sh\d{3}_p\d{3})_t(\d{2})_v(\d{2})\.png$")
 SHOT_ID = re.compile(r"^(s\d{2}_sh\d{3})(?:_[a-z]+)?$")
 BBOX_PATTERN = re.compile(r"^\d{1,3}(,\d{1,3}){3}$")
 BEAT_NAME = re.compile(r"^[a-z][a-z0-9-]*$")
+EXEMPT_MODEL = re.compile(r"(?:^|-)seedream(?:-|$)")
 
 
 class BoardError(Exception):
@@ -615,6 +616,11 @@ def schema_findings(board: dict[str, Any]) -> list[Finding]:
     ]
 
 
+def is_exempt_model(model: Any) -> bool:
+    name = str(model or "").lower()
+    return bool(EXEMPT_MODEL.search(name)) and "seedance" not in name
+
+
 def request_references(root: Path) -> list[dict[str, Any]]:
     registry = root / "task_ids.json"
     if not registry.is_file():
@@ -626,6 +632,8 @@ def request_references(root: Path) -> list[dict[str, Any]]:
     tasks = data.get("tasks") if isinstance(data, dict) else None
     references: list[dict[str, Any]] = []
     for task in tasks if isinstance(tasks, list) else []:
+        if isinstance(task, dict) and is_exempt_model(task.get("model")):
+            continue
         listed = task.get("references") if isinstance(task, dict) else None
         for reference in listed if isinstance(listed, list) else []:
             if isinstance(reference, dict):
