@@ -421,9 +421,10 @@
         "preflight"
       ],
       "owner_path": ".agents/skills/scene-board-sheet/SKILL.md",
-      "summary": "A scene board sheet, overview, animatic or edited panel is a planning artifact and never a Seedance reference; its record states bind_to_seedance false.",
+      "summary": "A scene board sheet, overview, animatic, storyboard panel or board image is a planning artifact and never a generation reference. The request validator rejects such references by path for every model except Seedream (whose edit operation takes the panel as the image to edit), and scene_board.py check also matches them by hash.",
       "exceptions": [
-        "Blocking maps and other control diagrams follow references.control_only instead."
+        "Blocking maps and other control diagrams follow references.control_only instead.",
+        "Adopting an already submitted job is allowed, because the job exists and cannot be withdrawn."
       ]
     }
   ]

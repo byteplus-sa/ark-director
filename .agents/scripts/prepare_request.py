@@ -306,15 +306,16 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
     if not root.is_dir():
         raise ValueError("Project directory does not exist")
     request = build_request(root, args)
+    adopting = bool(args.adopt_provider_task_id)
     findings = schema_findings(request, "generation-request.schema.json")
     if not findings:
-        findings = prepared_evidence_findings(root, request)
+        findings = prepared_evidence_findings(root, request, adopting)
     result: dict[str, Any] = {"request_sha256": request["request_sha256"]}
     review = capabilities = None
     if args.register and not findings:
         review = load_json(root, args.review)
         capabilities = load_json(root, args.capabilities)
-        findings = validate_request(root, request, capabilities)
+        findings = validate_request(root, request, capabilities, adopting)
         findings.extend(
             validate_review(review, request["request_sha256"], args.required_rule)
         )

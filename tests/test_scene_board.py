@@ -389,7 +389,7 @@ class CheckTests(BoardTestCase):
             ),
             encoding="utf-8",
         )
-        self.assertIn("board.bound_to_request", self.finding_ids())
+        self.assertIn("board.animatic_review_only", self.finding_ids())
 
     def test_unrelated_request_reference_is_not_reported(self) -> None:
         self.register_all()
@@ -1241,7 +1241,39 @@ class ReviewFixTests(BoardTestCase):
             ),
             encoding="utf-8",
         )
-        self.assertIn("board.bound_to_request", self.finding_ids())
+        self.assertIn("board.animatic_review_only", self.finding_ids())
+
+    def test_a_registered_seedream_edit_of_a_panel_is_not_reported(self) -> None:
+        panel = self.board()["panels"][0]
+        reference = {"path": panel["file"], "sha256": panel["sha256"]}
+        (self.root / "task_ids.json").write_text(
+            json.dumps(
+                {
+                    "tasks": [
+                        {
+                            "model": "dola-seedream-5-0-pro-260628",
+                            "references": [reference],
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        self.assertEqual(self.finding_ids(), [])
+        (self.root / "task_ids.json").write_text(
+            json.dumps(
+                {
+                    "tasks": [
+                        {
+                            "model": "dreamina-seedance-2-5-260628",
+                            "references": [reference],
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        self.assertIn("board.animatic_review_only", self.finding_ids())
 
     def test_malformed_task_registry_does_not_crash_check(self) -> None:
         for content in (
