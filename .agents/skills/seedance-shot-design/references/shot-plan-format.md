@@ -51,7 +51,7 @@ shot_plan:
       duration_s: 3.0
       job: establish
       size: wide
-      framing: group
+      framing: three-shot
       featured: [mother, aunt, boy]
       angle: high
       angle_reason: show the whole room and where each person will stand
@@ -116,7 +116,7 @@ shot_plan:
 | `framing` | Single, dirty single, two-shot, three-shot, group, over-the-shoulder, over-the-hip, point of view or insert, per [framing](framing.md). Required in a scene with two or more characters |
 | `featured` | The subjects the shot is about, with screen sides when it matters; empty for an insert or an unpeopled point of view |
 | `composition` | Optional. Balanced or deliberately unbalanced (isolation, tension), with the reason when unbalanced |
-| `angle` | Eye level, over-the-shoulder, low, high, overhead or first-person |
+| `angle` | Eye level, over-the-shoulder, low, high, overhead or first-person. A dirty single, over-the-shoulder or over-the-hip framing records over-the-shoulder, and a point-of-view framing records first-person |
 | `angle_reason` | Required for any angle other than eye level |
 | `move` | The primary move with subject, start and end, or `static hold` |
 | `move_reason` | What the move reveals or emphasizes |

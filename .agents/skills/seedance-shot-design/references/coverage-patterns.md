@@ -175,7 +175,7 @@ Use when the viewer must share a character's discovery.
 - Shots: a single or dirty single of the character looking, a point-of-view shot
   of what they see (an insert or a reveal), then a single of their reaction.
   The point of view can belong to an object, such as a thrown item.
-- What changes: viewpoint and size across the sandwich; the reaction is usually
+- What changes: viewpoint and size across the sequence; the reaction is usually
   the closer or longer shot.
 - Watch for: a point-of-view shot with no looker beside it; the viewer cannot
   tell whose view it is.
@@ -198,11 +198,12 @@ Use when two characters stand at different heights (standing and seated,
 kneeling, a child and an adult) and the height gap is the story.
 
 - Shots: an over-the-hip shot over the standing character onto the lower one,
-  then a single on the lower one from a low or level angle at the turn.
+  then a single on the lower one from a low or eye-level angle at the turn.
 - What changes: the foreground mass leaves the frame at the turn. The power
   shift pattern covers the push-in and the angle swap.
 - Watch for: an over-the-hip shot between characters at the same height; use an
-  over-the-shoulder instead.
+  over-the-shoulder instead. The power shift pattern covers a confrontation
+  between characters at any height.
 
 ## Failure shapes to avoid
 

@@ -9,9 +9,10 @@ description: >-
   (restrained, standard, kinetic). Use for narrative, ad, micro-drama,
   music-video and showcase clips when camera and light are not already locked,
   when a scene reads flat or static, or when the user asks for a shot list,
-  coverage, shot framing, or more dynamic camera work and lighting. Returns a shot plan record and the
-  per-shot facts a Seedance 2.5 prompt carries. Not for static assets,
-  source-preserving edits (object swap, restyle, recast), or task submission.
+  coverage, shot framing, or more dynamic camera work and lighting. Returns a
+  shot plan record and the per-shot facts a Seedance 2.5 prompt carries. Not
+  for static assets, source-preserving edits (object swap, restyle, recast), or
+  task submission.
 ---
 
 # Seedance Shot Design
@@ -135,7 +136,7 @@ and the per-shot facts the Seedance 2.5 prompt carries.
 | V7 Readable performance | A move never stands in for a cue that cannot be read at that size; match shot size to the cues the beat needs. |
 | V8 Screen direction | Travel and confrontation state the axis and restate it after each cut; a deliberate axis crossing is named. |
 | V9 Uneven timing | Shot lengths are not all within 20% of each other. Cut times fixed by a song map, a pacing axis or a lock are recorded as given: V9 is waived and the turn is marked by contrast instead. |
-| V10 Framing intent | In a scene with two or more characters every shot names its framing and featured subjects, and the framing fits the beat: a scene of three or more shots that cover a conversation does not run on clean singles alone, a trio is not covered by three singles when one three-shot serves, a point-of-view shot sits next to its looker or records why it stands alone, and an over-the-hip shot is used only when the characters are at different heights. Scenes with one character are exempt. |
+| V10 Framing intent | In a scene with two or more characters every shot names its framing and featured subjects, and the framing fits the beat: a scene of three or more shots that cover a conversation does not run on clean singles alone, a trio is not covered by three singles when one three-shot serves, a point-of-view shot sits next to its looker and its reaction shot or records why it stands alone, and an over-the-hip shot is used when the characters are at different heights (over-the-shoulder otherwise) or records why. Framing sets the `angle` class (see the plan format), so it counts once under V1 and V2. Scenes with one character are exempt. |
 
 ## Inputs and limits
 
@@ -153,7 +154,10 @@ A recorded plan (or exemption) is a workspace requirement under the
 thresholds are craft heuristics and optional artistic technique, drawn from the
 failure shape of earlier workspace prompts: equal-length wide, medium,
 two-shot, wide ladders with no move and no light change, and project axes that
-never reached the shot lines. They are not measured video-quality gains.
+never reached the shot lines. V10 and the framing vocabulary follow a
+StudioBinder framing article, with the group shot and the over-the-hip height
+condition as workspace heuristics. None of them is a measured video-quality
+gain.
 Timestamps are a time budget, not frame-accurate cut points, and the model may
 merge or reorder cuts. Judge the take by watching it. A 480p Draft
 (`draft=true`) is the cheap way to check shot structure and motion before a

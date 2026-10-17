@@ -45,6 +45,10 @@ sources accessed 2026-08-13:
 preset bank and Camera-block composition rules; it does not restate or replace
 the six-part formula, reference-role syntax, or audio syntax from that skill.
 
+The framing templates are the exception to the official-vocabulary basis: they
+use common film language, are marked as heuristics where they appear, and are
+not verified model controls.
+
 ## Preset bank
 
 ### Basic moves
@@ -129,7 +133,7 @@ additions — safe to use, but not in the official vocabulary list.
 | Shot size | extreme wide shot, wide shot, medium shot, close-up, extreme close-up |
 | Angle | low angle (official), high angle, overhead view (official), eye level |
 | Viewpoint | first-person view (official), third-person observer |
-| Framing | single, dirty single, two-shot, three-shot, group shot, over-the-shoulder, over-the-hip, point of view, insert (common film language, not official) |
+| Framing | single, dirty single / over-the-shoulder, two-shot, three-shot, group shot, over-the-shoulder, over-the-hip, point of view, insert (common film language, not official) |
 
 ### Framing templates
 
@@ -143,14 +147,28 @@ before relying on one.
 
 | Framing | Template |
 |---|---|
-| Single | `Single shot of <subject>, <shot size>, <angle>; only <subject> is in frame.` |
+| Single | `Single shot of <subject>, <shot size>, <angle>, with <subject> alone in the frame.` |
 | Dirty single / over-the-shoulder | `Over-the-shoulder shot from behind <foreground character>: their shoulder and the back of their head sit soft and dark at the <left/right> of the frame, while <subject> is sharp and facing the camera, <shot size>.` |
 | Over-the-hip | `Over-the-hip shot: the hip and hand of <standing character> sit soft in the <left/right> foreground, while <lower character> is sharp in the middle distance, <shot size>, <angle>.` Use only when the two characters are at different heights. |
 | Two-shot | `Two-shot: <A> on the left and <B> on the right, both fully in frame and in focus, <shot size>, <angle>.` |
 | Three-shot | `Three-shot: <A> on the left, <B> in the center and <C> on the right, all in focus, <shot size>.` |
 | Group shot | `Group shot of <group> arranged <layout>, with <front subject> nearest the camera, <shot size>.` |
-| Point of view | `Point-of-view shot from <character>'s eyes: we see <what they see>, <shot size>; none of <character> is visible except <hands or limbs they would see>.` For an object, `Point-of-view shot from <object> as it <moves>`. Cover it with a shot of the looker before it and the reaction after it. |
-| Insert | `Insert shot: <detail> fills the frame, <shot size>, <held or one named move>; no face is in the frame.` |
+| Point of view | `Point-of-view shot, first-person view from <character>'s eyes: the frame shows <what they see> and <the hands or limbs they would see>, <shot size>.` For an object, `Point-of-view shot from <object> as it <moves>`. Cover it with a shot of the looker before it and the reaction after it. |
+| Insert | `Insert shot: <detail> fills the frame, <shot size>, <held or one named move>.` Add a face only when the beat needs it. |
+
+### Composing framing with a move
+
+A framing template supplies the featured subjects, their screen sides, the
+shot size and the angle. When a move is also wanted, write the move first and
+the framing clause after it, and state shot size and angle once:
+`Use <move>, <framing clause without its own size and angle>, <angle>, <speed>.`
+A framing-only block is allowed when the shot is held: end it with an explicit
+static hold (`held static`) so the missing move is a recorded choice.
+
+Example: `Use a slow push-in, over-the-shoulder shot from behind Ben: his
+shoulder and the back of his head sit soft and dark at the left of the frame
+while Marta is sharp and facing the camera, medium close-up, eye level, ending
+on a static lock.`
 
 ## Parameter schema
 
