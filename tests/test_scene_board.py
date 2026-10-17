@@ -1499,5 +1499,202 @@ class AnimaticAudioTests(BoardTestCase):
         )
 
 
+class EditSourceTests(BoardTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.init("L2")
+        self.register_all()
+        self.panel = self.board()["panels"][0]
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: approve_for_me\n---\n\n# Project\n", encoding="utf-8"
+        )
+
+    def write_review(self, **changes: object) -> str:
+        record = {
+            "schema_version": 1,
+            "artifact_path": self.panel["file"],
+            "artifact_sha256": self.panel["sha256"],
+            "status": "pass",
+            "inspection_method": "direct visual inspection of the full-resolution image",
+            "coverage": "the whole panel image",
+            "checks": [
+                {
+                    "criterion": "usable as the edit source",
+                    "status": "pass",
+                    "evidence": "fine",
+                }
+            ],
+            "observations": ["Known defect to repair: an extra jar"],
+            "limitations": ["Approved only as the input of one repair edit"],
+            "recommendation": "Use as the edit source",
+        }
+        record.update(changes)
+        path = self.root / "review_edit_source.json"
+        path.write_text(json.dumps(record), encoding="utf-8")
+        return "review_edit_source.json"
+
+    def run_source(
+        self, review: str | None = None, user_words: str | None = None
+    ) -> dict:
+        return MODULE.edit_source(
+            self.root,
+            "scene-02",
+            self.panel["id"],
+            review or self.write_review(),
+            "approved only as the repair edit source",
+            user_words,
+        )
+
+    def test_agent_decision_and_manifest_are_written_for_approve_for_me(self) -> None:
+        result = self.run_source()
+        decision = json.loads(
+            (self.root / result["decision"]).read_text(encoding="utf-8")
+        )
+        self.assertEqual(decision["actor"], "agent")
+        self.assertEqual(decision["selected_sha256"], self.panel["sha256"])
+        self.assertNotIn("authorization", decision)
+        manifest = (self.root / result["manifest"]).read_text(encoding="utf-8")
+        self.assertIn("status: approved", manifest)
+        self.assertEqual(result["panel_status"], "review")
+        self.assertTrue(
+            result["ref"].endswith(f":reference_image:{result['manifest']}")
+        )
+
+    def test_written_evidence_satisfies_the_request_validator(self) -> None:
+        spec = importlib.util.spec_from_file_location(
+            "request_validation_for_edit_source",
+            ROOT / ".agents/scripts/validate_request.py",
+        )
+        assert spec is not None and spec.loader is not None
+        validator = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = validator
+        spec.loader.exec_module(validator)
+        result = self.run_source()
+        manifest = MODULE.split_front_matter(
+            (self.root / result["manifest"]).read_text(encoding="utf-8")
+        )[0]
+        evidence = manifest["selection_evidence"]
+        reference = {
+            "path": self.panel["file"],
+            "sha256": self.panel["sha256"],
+            "role": "reference_image",
+            "binding": "@Image 1",
+            "approval_evidence": {
+                "manifest": result["manifest"],
+                "field": "selected_variant",
+                **{
+                    key: evidence[key]
+                    for key in (
+                        "decision_id",
+                        "decision_path",
+                        "decision_sha256",
+                        "review_path",
+                        "review_sha256",
+                        "selected_sha256",
+                    )
+                },
+            },
+        }
+        findings = validator.approval_decision_findings(
+            self.root, reference, self.root / self.panel["file"]
+        )
+        self.assertEqual(findings, [])
+
+    def test_ask_for_approval_needs_the_users_words(self) -> None:
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: ask_for_approval\n---\n", encoding="utf-8"
+        )
+        with self.assertRaises(MODULE.BoardError):
+            self.run_source()
+        result = self.run_source(user_words="Yes, use that one for the fix")
+        decision = json.loads(
+            (self.root / result["decision"]).read_text(encoding="utf-8")
+        )
+        self.assertEqual(decision["actor"], "user")
+        self.assertEqual(decision["authorization"]["source"], "chat")
+
+    def test_stale_failing_or_mismatched_reviews_are_refused(self) -> None:
+        for changes in (
+            {"artifact_sha256": "0" * 64},
+            {"status": "fail"},
+            {"artifact_path": "scenes/scene-02/other.png"},
+            {"checks": [{"criterion": "x", "status": "incomplete", "evidence": "x"}]},
+        ):
+            with self.subTest(changes=changes), self.assertRaises(MODULE.BoardError):
+                self.run_source(self.write_review(**changes))
+
+    def test_review_that_breaks_the_schema_is_refused(self) -> None:
+        path = self.root / "bad_review.json"
+        path.write_text('{"schema_version": 1}', encoding="utf-8")
+        with self.assertRaises(MODULE.BoardError):
+            self.run_source("bad_review.json")
+
+    def test_changed_panel_missing_project_and_missing_review_are_refused(self) -> None:
+        review = self.write_review()
+        write_png(self.root / self.panel["file"], 250)
+        with self.assertRaises(MODULE.BoardError):
+            self.run_source(review)
+        write_png(self.root / self.panel["file"], 40)
+        (self.root / "project.md").unlink()
+        with self.assertRaises(MODULE.BoardError):
+            self.run_source(review)
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: approve_for_me\n---\n"
+        )
+        with self.assertRaises(MODULE.BoardError):
+            self.run_source("missing_review.json")
+
+    def test_repair_plan_defaults_to_a_full_frame_bounding_box(self) -> None:
+        result = MODULE.plan_repair(
+            self.root,
+            "scene-02",
+            [self.panel["id"]],
+            "local",
+            "prop count",
+            "remove it",
+            ["gone"],
+            None,
+        )
+        action = result["actions"][0]
+        self.assertEqual(action["bbox"], "0,0,999,999")
+        contract = (self.root / action["contract"]).read_text(encoding="utf-8")
+        self.assertIn("full-frame bounding box 0,0,999,999", contract)
+
+    def test_repair_plan_keeps_an_explicit_bounding_box(self) -> None:
+        result = MODULE.plan_repair(
+            self.root,
+            "scene-02",
+            [self.panel["id"]],
+            "local",
+            "prop count",
+            "remove it",
+            ["gone"],
+            "10,20,300,400",
+        )
+        self.assertEqual(result["actions"][0]["bbox"], "10,20,300,400")
+
+    def test_command_line_runs_edit_source(self) -> None:
+        review = self.write_review()
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "edit-source",
+                str(self.root),
+                "02",
+                self.panel["id"],
+                "--review",
+                review,
+                "--reason",
+                "edit source",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("ref", json.loads(completed.stdout))
+
+
 if __name__ == "__main__":
     unittest.main()

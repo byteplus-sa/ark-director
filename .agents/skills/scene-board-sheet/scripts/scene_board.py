@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -65,6 +66,8 @@ PANEL_FILE = re.compile(r"^(s\d{2}_sh\d{3}_p\d{3})_t(\d{2})_v(\d{2})\.png$")
 SHOT_ID = re.compile(r"^(s\d{2}_sh\d{3})(?:_[a-z]+)?$")
 BBOX_PATTERN = re.compile(r"^\d{1,3}(,\d{1,3}){3}$")
 BEAT_NAME = re.compile(r"^[a-z][a-z0-9-]*$")
+FULL_FRAME_BBOX = "0,0,999,999"
+SCHEMA_DIRECTORY = SCHEMA_PATH.parent
 EXEMPT_MODEL = re.compile(r"(?:^|-)seedream(?:-|$)")
 
 
@@ -1771,7 +1774,12 @@ def revision_contract(
         "",
         f"Failed dimension: {dimension}",
         f"Requested delta: {delta}",
-        f"Region: {'bounding box ' + bbox if bbox else 'whole image'}",
+        "Region: "
+        + (
+            "full-frame bounding box 0,0,999,999 (the edit tool needs a point or a bounding box)"
+            if bbox == FULL_FRAME_BBOX
+            else f"bounding box {bbox}"
+        ),
         "",
         "## Locked decisions",
         "",
@@ -1817,6 +1825,136 @@ def next_panel_version(panel: dict[str, Any]) -> str:
     if not match:
         return ""
     return f"{match.group(1)}_t{match.group(2)}_v{int(match.group(3)) + 1:02d}.png"
+
+
+def read_project_mode(root: Path) -> tuple[str, str]:
+    path = contained(root, "project.md")
+    if not path.is_file():
+        raise BoardError("project.md is needed to record an approval decision")
+    content = path.read_bytes()
+    text = content.decode("utf-8")
+    metadata = split_front_matter(text)[0] if text.startswith("---") else {}
+    mode = metadata.get("approval_mode", "approve_for_me")
+    if mode not in {"approve_for_me", "ask_for_approval"}:
+        raise BoardError("project.md has an invalid approval_mode")
+    return mode, sha256_bytes(content)
+
+
+def schema_errors(schema_name: str, value: Any) -> list[str]:
+    schema = json.loads((SCHEMA_DIRECTORY / schema_name).read_text(encoding="utf-8"))
+    validator = Draft202012Validator(schema, format_checker=FormatChecker())
+    return [error.message for error in validator.iter_errors(value)]
+
+
+def edit_source(
+    root: Path,
+    scene: str,
+    panel_id: str,
+    review: str,
+    reason: str,
+    user_words: str | None,
+) -> dict[str, Any]:
+    board, _ = read_board(root, scene)
+    panel = find_panel(board, panel_id)
+    if not panel.get("file"):
+        raise BoardError(f"{panel_id} has no registered file")
+    if check_panel_file(root, panel):
+        raise BoardError(f"{panel_id} changed since it was registered")
+    if not reason.strip():
+        raise BoardError("A reason is required")
+    review_path = contained(root, review)
+    if not review_path.is_file():
+        raise BoardError(f"Review not found: {review}")
+    record = read_json(review_path)
+    problems = schema_errors("candidate-review.schema.json", record)
+    if problems:
+        raise BoardError(
+            "Review does not match the candidate review schema: " + "; ".join(problems)
+        )
+    checks = record["checks"]
+    if (
+        record["artifact_path"] != panel["file"]
+        or record["artifact_sha256"] != panel["sha256"]
+        or record["status"] != "pass"
+        or not any(check["status"] == "pass" for check in checks)
+        or any(check["status"] in {"fail", "incomplete"} for check in checks)
+    ):
+        raise BoardError(
+            "The review is stale, failing or incomplete for the panel file as registered"
+        )
+    mode, project_sha = read_project_mode(root)
+    if mode == "ask_for_approval" and not (user_words or "").strip():
+        raise BoardError(
+            "The project is in ask_for_approval mode: pass --user-words with the "
+            "user's own words from chat as the authorization"
+        )
+    stem = Path(panel["file"]).stem
+    decision_id = f"edit_source_{stem}"
+    upstream: dict[str, str] = {}
+    versions = panel.get("versions") or []
+    prompt_file = versions[-1].get("prompt_file") if versions else None
+    for relative in (prompt_file, f"requests/request_{stem}.json"):
+        if relative and contained(root, relative).is_file():
+            upstream[relative] = sha256_file(contained(root, relative))
+    decision: dict[str, Any] = {
+        "schema_version": 1,
+        "decision_id": decision_id,
+        "decision_type": "variant_selection",
+        "asset_id": f"{panel_id}_edit_source",
+        "subject_path": panel["file"],
+        "selected_variant": Path(panel["file"]).name,
+        "selected_sha256": panel["sha256"],
+        "actor": "user" if mode == "ask_for_approval" else "agent",
+        "approval_mode": mode,
+        "project_sha256": project_sha,
+        "result": "approved",
+        "review_path": relative_to(root, review_path),
+        "review_sha256": sha256_file(review_path),
+        "upstream_sha256": upstream,
+        "reason": reason.strip(),
+        "decided_at": datetime.now(UTC).isoformat(),
+    }
+    if mode == "ask_for_approval":
+        decision["authorization"] = {"source": "chat", "evidence": user_words.strip()}  # type: ignore[union-attr]
+    problems = schema_errors("production-decision.schema.json", decision)
+    if problems:
+        raise BoardError("Decision does not match the schema: " + "; ".join(problems))
+    decisions = safe_directory(root, "decisions")
+    decision_path = decisions / f"{decision_id}.json"
+    write_json(root, decision_path, decision)
+    manifest_path = scene_dir(root, scene) / panel["clip"] / f"panel_{panel_id}.md"
+    evidence = {
+        "decision_id": decision_id,
+        "decision_path": relative_to(root, decision_path),
+        "decision_sha256": sha256_file(decision_path),
+        "review_path": decision["review_path"],
+        "review_sha256": decision["review_sha256"],
+        "actor": decision["actor"],
+        "approval_mode": mode,
+        "result": "approved",
+        "reason": decision["reason"],
+        "selected_sha256": panel["sha256"],
+    }
+    front = {
+        "status": "approved",
+        "selected_variant": decision["selected_variant"],
+        "selection_evidence": evidence,
+    }
+    write_text_atomic(
+        root,
+        manifest_path,
+        "---\n"
+        + dump_yaml(front)
+        + "---\n\nApproved only as the source image of a repair edit, not as the final panel.\n",
+    )
+    manifest = relative_to(root, manifest_path)
+    return {
+        "decision": relative_to(root, decision_path),
+        "manifest": manifest,
+        "ref": f"{panel['file']}:reference_image:{manifest}",
+        "actor": decision["actor"],
+        "panel_status": panel["status"],
+    }
 
 
 def plan_repair(
@@ -1901,6 +2039,7 @@ def plan_repair(
             if version.get("rejected")
         ]
         edits.append((panel, rejected))
+    edit_bbox = bbox or FULL_FRAME_BBOX
     if edits:
         directory = derived_directory(root, scene, "repair")
         for panel, rejected in edits:
@@ -1910,7 +2049,7 @@ def plan_repair(
                 root,
                 contract_path,
                 revision_contract(
-                    panel, dimension, delta.strip(), accept, bbox, rejected
+                    panel, dimension, delta.strip(), accept, edit_bbox, rejected
                 ),
             )
             actions.append(
@@ -1920,6 +2059,7 @@ def plan_repair(
                     "file": panel["file"],
                     "contract": relative_to(root, contract_path),
                     "tool": "seedream_edit_image",
+                    "bbox": edit_bbox,
                     "needs_https_url": True,
                     "next_version": next_panel_version(panel),
                 }
@@ -2067,6 +2207,17 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["review", "needs_edit", "rejected", "approved"],
     )
     mark.add_argument("--decision")
+    source = common(
+        "edit-source", "Record the approval a repair edit needs for its source panel"
+    )
+    source.add_argument("panel")
+    source.add_argument(
+        "--review", required=True, help="Candidate review JSON of the panel"
+    )
+    source.add_argument("--reason", required=True)
+    source.add_argument(
+        "--user-words", help="The user's own words, in ask_for_approval projects"
+    )
     repair = common(
         "repair-plan", "Choose the repair scope and write revision contracts"
     )
@@ -2149,6 +2300,18 @@ def execute(arguments: argparse.Namespace) -> tuple[dict[str, Any], int]:
         return mark_panel(
             root, scene, arguments.panel, arguments.status, arguments.decision
         ), 0
+    if command == "edit-source":
+        return (
+            edit_source(
+                root,
+                scene,
+                arguments.panel,
+                arguments.review,
+                arguments.reason,
+                arguments.user_words,
+            ),
+            0,
+        )
     if command == "repair-plan":
         ids = [item.strip() for item in arguments.panels.split(",") if item.strip()]
         return (

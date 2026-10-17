@@ -107,7 +107,8 @@ uv run python .agents/skills/scene-board-sheet/scripts/scene_board.py <command> 
 | `status` | `plan_stale`, panel lifecycle, and which sheet pages (including pages not yet rendered), overview and animatic segments are stale |
 | `register-panel <panel>` | Record a generated or edited panel file. `--file`, `--edit-of` (the previous file), `--dimension`, `--bbox`, `--prompt-file`, `--task-id` |
 | `mark <panel> --status` | Set `review`, `needs_edit`, `rejected`, or `approved`. Approval needs a panel in `review`, an unchanged file, and `--decision` pointing at the recorded decision file; the decision is bound to the panel's hash |
-| `repair-plan` | Choose the repair scope and write revision contracts. `--panels`, `--cause local\|beat\|shared`, `--dimension` (required for an edit), `--delta`, `--accept`, `--bbox` |
+| `edit-source <panel>` | Record the approval a repair edit needs for its source panel: a hash-bound decision and a manifest built from a candidate review of the panel (`--review`, `--reason`, and `--user-words` in an `ask_for_approval` project). Prints the `--ref` argument for the request. The panel itself stays in review |
+| `repair-plan` | Choose the repair scope and write revision contracts. `--panels`, `--cause local\|beat\|shared`, `--dimension` (required for an edit), `--delta`, `--accept`, `--bbox` (defaults to the full frame, because the edit tool needs a point or a bounding box) |
 | `sheet` | Write sheet page sources and render plans. `--pages 1,3` writes only those pages; `--font` names a local font family to require |
 | `render-sheet` | Render the pages with the renderer script you name: `--renderer <path to html-graphic-render's render_html.py>`, optional `--pages` |
 | `overview` | Write the floor plan sources when `board.md` has a `layout` block |
@@ -163,14 +164,26 @@ Fix failed panels, not the board.
    **regenerate the shot's panels** for a shared cause (`--cause shared`) or when
    most panels of a shot of three or more failed. It writes a revision contract per
    edit and lists the untouched panels and the stale artifacts.
-3. **Edit** with `seedream_edit_image`: the failed panel as `@Image 1`, the approved
+3. **Approve the edit source.** The request registry requires approval evidence for
+   every reference, including the panel passed as `@Image 1`. Inspect the panel at
+   full resolution, write a candidate review (status `pass`, the defect under
+   `observations`, and a limitation saying it is approved only as the edit source),
+   then run **`edit-source`**. Use its `ref` output as the request reference.
+4. **Edit** with `seedream_edit_image`: the failed panel as `@Image 1`, the approved
    element sheet as `@Image 2` when identity or a prop changes, HTTPS URLs from
    `media_upload` or `media_presign` immediately before the call, and a bounding box
-   for a local defect. One failed dimension per edit. An edit is a paid call: state
-   the count and cost first and register the operation before submitting.
-4. **`register-panel --edit-of <previous file>`** with the new version. The original
+   (the tool rejects an edit with no point or bounding box; use the full frame for a
+   global change). One failed dimension per edit. An edit is a paid call: state the
+   count and cost first and register the operation before submitting. If the tool
+   rejects the request before it is queued, no provider task exists: move the
+   registered operation to `terminal` with a provider status naming the rejection,
+   then register the corrected request under a new asset id; never reuse the old one.
+5. **Review the edit against its acceptance criteria and the rest of the image.**
+   Edits can change things outside the box, so compare the whole panel with its
+   parent, not only the target region.
+6. **`register-panel --edit-of <previous file>`** with the new version. The original
    is kept and marked rejected; the new record keeps the parent hash.
-5. **`status`**, then rebuild only the listed sheet pages, overview and animatic.
+7. **`status`**, then rebuild only the listed sheet pages, overview and animatic.
 
 Sibling panels keep their files, hashes and approvals.
 

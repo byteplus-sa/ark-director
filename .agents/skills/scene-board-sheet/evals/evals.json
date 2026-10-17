@@ -98,6 +98,29 @@
         "A panel whose size, angle, framing or move changed in the plan is marked needs_edit and loses its approval.",
         "Orphaned panel files are listed and left on disk rather than deleted."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Panel s02_sh010_p030 shows three jars instead of four. Prepare the edit request so it can be registered and submitted with Seedream image editing.",
+      "expected_output": "An approved edit source (candidate review plus edit-source decision and manifest), a bounding box, a frozen edit prompt, and a registered request, with the cost stated before submission.",
+      "files": [],
+      "assertions": [
+        "The agent inspects the panel and writes a candidate review whose limitation says it is approved only as the edit source, then runs edit-source and uses its ref output.",
+        "The request carries a bounding box (a local one, or the full frame for a global change), because the edit tool needs a point or a bounding box.",
+        "The edit prompt names one failed dimension and acceptance criteria and is frozen and registered before submission.",
+        "The agent states the image count and cost before submitting and does not mark the original panel approved."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "The image editing tool returned a validation error for the edit request we had already registered and moved to submitting. What do we do?",
+      "expected_output": "No provider task exists, so the operation is closed as terminal with a rejection status and a corrected request is registered under a new asset id; the same operation is never resubmitted.",
+      "files": [],
+      "assertions": [
+        "The agent recognises the request was rejected before it was queued and that no provider task was created.",
+        "The agent moves the registered operation to terminal with a provider status naming the rejection instead of resubmitting it.",
+        "The agent registers the corrected request under a new asset id and a new prompt snapshot, and does not edit the frozen one."
+      ]
     }
   ]
 }
