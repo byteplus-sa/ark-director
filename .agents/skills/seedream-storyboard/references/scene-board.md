@@ -106,9 +106,9 @@ are one sample per case, not a measured success rate.
 
 | Edit | Defect | Result |
 | --- | --- | --- |
-| Bounding box, remove an extra jar | A fifth jar at the end of the bench | Clean: the jar was gone and the rest of the panel matched the source |
+| Bounding box, remove an extra jar | A fifth jar at the left end of the bench, beside the broom | Clean: the jar was gone and the rest of the panel matched the source |
 | Bounding box at the frame edge, add a fourth jar | Three jars instead of four | Missed the acceptance criterion, and the neighbouring jars were redrawn larger outside the box |
-| Full-frame box, move the jars onto the bench and drop a second bench | Wrong geometry | Met both criteria, but the boy's pose and position also changed, so the panel no longer matched its beat |
+| Full-frame box, move the jars onto the bench and drop a second bench | Wrong geometry | Met both criteria, but the boy's pose also changed (from pushing a bench to crouching with empty hands), so the panel no longer matched its beat |
 
 Take-aways: edits suit a local removal; additions at the frame edge and global
 geometry changes drift outside the target, so review the whole panel and prefer

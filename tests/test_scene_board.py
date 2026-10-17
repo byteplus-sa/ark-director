@@ -159,6 +159,37 @@ class BoardTestCase(unittest.TestCase):
                 None,
             )
 
+    def write_decision(
+        self,
+        panel_id: str | None = None,
+        name: str = "decision.json",
+        **changes: object,
+    ) -> str:
+        panel = next(
+            p for p in self.board()["panels"] if panel_id is None or p["id"] == panel_id
+        )
+        record = {
+            "schema_version": 1,
+            "decision_id": "select_panel",
+            "decision_type": "variant_selection",
+            "asset_id": panel["id"],
+            "subject_path": panel["file"],
+            "selected_variant": Path(panel["file"]).name,
+            "selected_sha256": panel["sha256"],
+            "actor": "agent",
+            "approval_mode": "approve_for_me",
+            "project_sha256": "a" * 64,
+            "result": "approved",
+            "review_path": "review.json",
+            "review_sha256": "b" * 64,
+            "upstream_sha256": {},
+            "reason": "selected after inspection",
+            "decided_at": "2026-10-17T00:00:00+00:00",
+        }
+        record.update(changes)
+        (self.root / name).write_text(json.dumps(record), encoding="utf-8")
+        return name
+
     def finding_ids(self) -> list[str]:
         return [
             finding.rule_id for finding in MODULE.check_board(self.root, "scene-02")
@@ -364,9 +395,8 @@ class CheckTests(BoardTestCase):
 
     def test_changed_decision_file_is_reported(self) -> None:
         self.register_all()
-        decision = self.root / "decision.json"
-        decision.write_text("{}", encoding="utf-8")
         panel_id = self.board()["panels"][0]["id"]
+        decision = self.root / self.write_decision(panel_id)
         MODULE.mark_panel(self.root, "scene-02", panel_id, "approved", "decision.json")
         self.assertEqual(self.finding_ids(), [])
         decision.write_text('{"changed": true}', encoding="utf-8")
@@ -463,7 +493,7 @@ class RegisterTests(BoardTestCase):
         first = self.panel_path(self.panel_id)
         write_png(first, 90)
         self.register(first)
-        (self.root / "decision.json").write_text("{}", encoding="utf-8")
+        self.write_decision(self.panel_id)
         MODULE.mark_panel(
             self.root, "scene-02", self.panel_id, "approved", "decision.json"
         )
@@ -1196,7 +1226,7 @@ class ReviewFixTests(BoardTestCase):
 
     def test_approval_is_bound_to_the_panel_file_and_needs_review_state(self) -> None:
         panel_id = self.board()["panels"][0]["id"]
-        (self.root / "decision.json").write_text("{}", encoding="utf-8")
+        self.write_decision(panel_id)
         MODULE.mark_panel(self.root, "scene-02", panel_id, "needs_edit", None)
         with self.assertRaises(MODULE.BoardError):
             MODULE.mark_panel(
@@ -1211,7 +1241,7 @@ class ReviewFixTests(BoardTestCase):
 
     def test_a_panel_that_changes_after_approval_is_reported(self) -> None:
         panel_id = self.board()["panels"][0]["id"]
-        (self.root / "decision.json").write_text("{}", encoding="utf-8")
+        self.write_decision(panel_id)
         MODULE.mark_panel(self.root, "scene-02", panel_id, "approved", "decision.json")
         board = self.board()
         board["panels"][0]["sha256"] = "f" * 64
@@ -1604,7 +1634,8 @@ class EditSourceTests(BoardTestCase):
         (self.root / "project.md").write_text(
             "---\napproval_mode: ask_for_approval\n---\n", encoding="utf-8"
         )
-        with self.assertRaises(MODULE.BoardError):
+        (self.root / "studio").mkdir()
+        with self.assertRaisesRegex(MODULE.BoardError, "user-words"):
             self.run_source()
         result = self.run_source(user_words="Yes, use that one for the fix")
         decision = json.loads(
@@ -1672,6 +1703,133 @@ class EditSourceTests(BoardTestCase):
             "10,20,300,400",
         )
         self.assertEqual(result["actions"][0]["bbox"], "10,20,300,400")
+
+    def test_a_user_decision_from_chat_needs_a_studio_project_and_real_words(
+        self,
+    ) -> None:
+        with self.assertRaisesRegex(MODULE.BoardError, "Studio"):
+            self.run_source(user_words="Yes, use that one for the fix")
+        (self.root / "studio").mkdir()
+        with self.assertRaisesRegex(MODULE.BoardError, "own words"):
+            self.run_source(user_words="ok")
+
+    def test_user_words_make_a_user_decision_even_under_approve_for_me(self) -> None:
+        (self.root / "studio").mkdir()
+        result = self.run_source(user_words="Use this one for the fix")
+        decision = json.loads(
+            (self.root / result["decision"]).read_text(encoding="utf-8")
+        )
+        self.assertEqual(decision["actor"], "user")
+        self.assertEqual(decision["approval_mode"], "approve_for_me")
+        self.assertEqual(
+            decision["authorization"],
+            {"source": "chat", "evidence": "Use this one for the fix"},
+        )
+
+    def test_rerunning_with_the_same_inputs_keeps_the_decision_hash(self) -> None:
+        first = self.run_source()
+        before = (self.root / first["decision"]).read_bytes()
+        second = self.run_source()
+        self.assertEqual(before, (self.root / second["decision"]).read_bytes())
+
+    def test_a_different_decision_for_the_same_panel_file_cannot_replace_it(
+        self,
+    ) -> None:
+        first = self.run_source()
+        before = (self.root / first["decision"]).read_bytes()
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: approve_for_me\n---\n\nchanged\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(MODULE.BoardError, "cannot be replaced"):
+            self.run_source()
+        self.assertEqual(before, (self.root / first["decision"]).read_bytes())
+
+    def test_an_existing_manifest_keeps_its_other_front_matter_and_body(self) -> None:
+        clip = self.panel["clip"]
+        manifest = self.root / f"scenes/scene-02/{clip}/panel_{self.panel['id']}.md"
+        manifest.write_text(
+            "---\nowner: keep me\n---\n\nUser notes stay.\n", encoding="utf-8"
+        )
+        self.run_source()
+        text = manifest.read_text(encoding="utf-8")
+        self.assertIn("owner: keep me", text)
+        self.assertIn("User notes stay.", text)
+        self.assertIn("status: approved", text)
+
+    def test_an_edit_source_decision_cannot_approve_the_final_panel(self) -> None:
+        result = self.run_source()
+        with self.assertRaisesRegex(MODULE.BoardError, "edit-source"):
+            MODULE.mark_panel(
+                self.root, "scene-02", self.panel["id"], "approved", result["decision"]
+            )
+        self.assertEqual(self.board()["panels"][0]["status"], "review")
+
+    def test_a_final_approval_must_be_an_approved_selection_of_this_panel(self) -> None:
+        panel_id = self.panel["id"]
+        for changes in (
+            {"result": "rejected"},
+            {"selected_sha256": "c" * 64},
+            {"subject_path": "scenes/scene-02/other.png"},
+            {"decision_type": "stage_lock"},
+        ):
+            with self.subTest(changes=changes), self.assertRaises(MODULE.BoardError):
+                MODULE.mark_panel(
+                    self.root,
+                    "scene-02",
+                    panel_id,
+                    "approved",
+                    self.write_decision(panel_id, **changes),
+                )
+
+    def test_a_malformed_project_file_is_a_board_error(self) -> None:
+        (self.root / "project.md").write_bytes(b"---\n\xff\xfe\n---\n")
+        with self.assertRaises(MODULE.BoardError):
+            self.run_source()
+        (self.root / "project.md").write_text(
+            "---\napproval_mode: [a]\n---\n", encoding="utf-8"
+        )
+        with self.assertRaises(MODULE.BoardError):
+            self.run_source()
+
+    def test_a_symlinked_manifest_is_refused_before_anything_is_written(self) -> None:
+        outside = Path(tempfile.mkdtemp(prefix="scene-board-outside-"))
+        self.addCleanup(shutil.rmtree, outside)
+        clip = self.panel["clip"]
+        manifest = self.root / f"scenes/scene-02/{clip}/panel_{self.panel['id']}.md"
+        manifest.symlink_to(outside / "target.md")
+        with self.assertRaisesRegex(MODULE.BoardError, "symlink"):
+            self.run_source()
+        self.assertEqual(list((self.root / "decisions").glob("*.json")), [])
+
+    def test_the_full_frame_default_warns_and_an_explicit_box_does_not(self) -> None:
+        default = MODULE.plan_repair(
+            self.root,
+            "scene-02",
+            [self.panel["id"]],
+            "local",
+            "prop count",
+            "remove it",
+            ["gone"],
+            None,
+        )["actions"][0]
+        self.assertIn("full-frame", default["warning"])
+        self.assertEqual(
+            default["bbox_request_format"], {"x1": 0, "y1": 0, "x2": 999, "y2": 999}
+        )
+        explicit = MODULE.plan_repair(
+            self.root,
+            "scene-02",
+            [self.panel["id"]],
+            "local",
+            "prop count",
+            "remove it",
+            ["gone"],
+            "010,20,300,400",
+        )["actions"][0]
+        self.assertIsNone(explicit["warning"])
+        self.assertEqual(explicit["bbox"], "10,20,300,400")
+        contract = (self.root / explicit["contract"]).read_text(encoding="utf-8")
+        self.assertIn("bounding box 10,20,300,400", contract)
 
     def test_command_line_runs_edit_source(self) -> None:
         review = self.write_review()

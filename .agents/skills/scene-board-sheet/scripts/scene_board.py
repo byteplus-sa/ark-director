@@ -1026,6 +1026,29 @@ def register_panel(
     }
 
 
+def check_final_decision(
+    root: Path, panel: dict[str, Any], decision_path: Path
+) -> None:
+    decision = read_json(decision_path)
+    problems = schema_errors("production-decision.schema.json", decision)
+    if problems:
+        raise BoardError("Decision does not match the schema: " + "; ".join(problems))
+    if (
+        decision["decision_type"] != "variant_selection"
+        or decision["result"] != "approved"
+        or decision["subject_path"] != panel["file"]
+        or decision["selected_sha256"] != panel["sha256"]
+    ):
+        raise BoardError(
+            "The decision is not an approved selection of this panel file as registered"
+        )
+    if str(decision.get("asset_id", "")).endswith("_edit_source"):
+        raise BoardError(
+            "An edit-source decision approves the panel only as the input of a repair "
+            "edit; it cannot approve the final panel"
+        )
+
+
 def mark_panel(
     root: Path, scene: str, panel_id: str, status: str, decision: str | None
 ) -> dict[str, Any]:
@@ -1047,6 +1070,7 @@ def mark_panel(
         decision_path = contained(root, decision)
         if not decision_path.is_file():
             raise BoardError(f"Decision file not found: {decision}")
+        check_final_decision(root, panel, decision_path)
         panel["decision"] = {
             "path": relative_to(root, decision_path),
             "sha256": sha256_file(decision_path),
@@ -1832,10 +1856,13 @@ def read_project_mode(root: Path) -> tuple[str, str]:
     if not path.is_file():
         raise BoardError("project.md is needed to record an approval decision")
     content = path.read_bytes()
-    text = content.decode("utf-8")
+    try:
+        text = content.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise BoardError("project.md is not valid UTF-8") from error
     metadata = split_front_matter(text)[0] if text.startswith("---") else {}
     mode = metadata.get("approval_mode", "approve_for_me")
-    if mode not in {"approve_for_me", "ask_for_approval"}:
+    if mode not in ("approve_for_me", "ask_for_approval"):
         raise BoardError("project.md has an invalid approval_mode")
     return mode, sha256_bytes(content)
 
@@ -1844,6 +1871,22 @@ def schema_errors(schema_name: str, value: Any) -> list[str]:
     schema = json.loads((SCHEMA_DIRECTORY / schema_name).read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
     return [error.message for error in validator.iter_errors(value)]
+
+
+def is_studio_project(root: Path) -> bool:
+    studio = root / "studio"
+    canvas = root / "showcase.json"
+    return (
+        studio.is_dir()
+        and not studio.is_symlink()
+        and not canvas.exists()
+        and not canvas.is_symlink()
+    )
+
+
+def refuse_symlink(path: Path) -> None:
+    if path.is_symlink():
+        raise BoardError(f"Refusing to write through a symlink: {path.name}")
 
 
 def edit_source(
@@ -1883,11 +1926,20 @@ def edit_source(
             "The review is stale, failing or incomplete for the panel file as registered"
         )
     mode, project_sha = read_project_mode(root)
-    if mode == "ask_for_approval" and not (user_words or "").strip():
+    words = (user_words or "").strip()
+    if mode == "ask_for_approval" and not words:
         raise BoardError(
             "The project is in ask_for_approval mode: pass --user-words with the "
             "user's own words from chat as the authorization"
         )
+    if words:
+        if len(words) < 3:
+            raise BoardError("--user-words must quote the user's own words")
+        if not is_studio_project(root):
+            raise BoardError(
+                "A user decision recorded from chat needs a Studio project (a real "
+                "studio/ directory and no showcase.json)"
+            )
     stem = Path(panel["file"]).stem
     decision_id = f"edit_source_{stem}"
     upstream: dict[str, str] = {}
@@ -1904,7 +1956,7 @@ def edit_source(
         "subject_path": panel["file"],
         "selected_variant": Path(panel["file"]).name,
         "selected_sha256": panel["sha256"],
-        "actor": "user" if mode == "ask_for_approval" else "agent",
+        "actor": "user" if words else "agent",
         "approval_mode": mode,
         "project_sha256": project_sha,
         "result": "approved",
@@ -1914,15 +1966,29 @@ def edit_source(
         "reason": reason.strip(),
         "decided_at": datetime.now(UTC).isoformat(),
     }
-    if mode == "ask_for_approval":
-        decision["authorization"] = {"source": "chat", "evidence": user_words.strip()}  # type: ignore[union-attr]
+    if words:
+        decision["authorization"] = {"source": "chat", "evidence": words}
     problems = schema_errors("production-decision.schema.json", decision)
     if problems:
         raise BoardError("Decision does not match the schema: " + "; ".join(problems))
     decisions = safe_directory(root, "decisions")
     decision_path = decisions / f"{decision_id}.json"
-    write_json(root, decision_path, decision)
     manifest_path = scene_dir(root, scene) / panel["clip"] / f"panel_{panel_id}.md"
+    refuse_symlink(decision_path)
+    refuse_symlink(manifest_path)
+    if decision_path.exists():
+        existing = read_json(decision_path)
+        unchanged = {k: v for k, v in existing.items() if k != "decided_at"} == {
+            k: v for k, v in decision.items() if k != "decided_at"
+        }
+        if not unchanged:
+            raise BoardError(
+                f"{relative_to(root, decision_path)} already exists with different "
+                "content and cannot be replaced; a new panel version gets its own decision"
+            )
+        decision = existing
+    else:
+        write_json(root, decision_path, decision)
     evidence = {
         "decision_id": decision_id,
         "decision_path": relative_to(root, decision_path),
@@ -1935,17 +2001,21 @@ def edit_source(
         "reason": decision["reason"],
         "selected_sha256": panel["sha256"],
     }
-    front = {
-        "status": "approved",
-        "selected_variant": decision["selected_variant"],
-        "selection_evidence": evidence,
-    }
+    front: dict[str, Any] = {}
+    manifest_body = "\nApproved only as the source image of a repair edit, not as the final panel.\n"
+    if manifest_path.exists():
+        front, manifest_body = split_front_matter(
+            manifest_path.read_text(encoding="utf-8")
+        )
+    front.update(
+        {
+            "status": "approved",
+            "selected_variant": decision["selected_variant"],
+            "selection_evidence": evidence,
+        }
+    )
     write_text_atomic(
-        root,
-        manifest_path,
-        "---\n"
-        + dump_yaml(front)
-        + "---\n\nApproved only as the source image of a repair edit, not as the final panel.\n",
+        root, manifest_path, "---\n" + dump_yaml(front) + "---\n" + manifest_body
     )
     manifest = relative_to(root, manifest_path)
     return {
@@ -2039,7 +2109,7 @@ def plan_repair(
             if version.get("rejected")
         ]
         edits.append((panel, rejected))
-    edit_bbox = bbox or FULL_FRAME_BBOX
+    edit_bbox = ",".join(str(v) for v in parse_bbox(bbox)) if bbox else FULL_FRAME_BBOX
     if edits:
         directory = derived_directory(root, scene, "repair")
         for panel, rejected in edits:
@@ -2060,6 +2130,18 @@ def plan_repair(
                     "contract": relative_to(root, contract_path),
                     "tool": "seedream_edit_image",
                     "bbox": edit_bbox,
+                    "bbox_request_format": {
+                        key: int(value)
+                        for key, value in zip(
+                            ("x1", "y1", "x2", "y2"), edit_bbox.split(","), strict=True
+                        )
+                    },
+                    "warning": (
+                        "full-frame edit: the tool may redraw things outside the "
+                        "target; prefer a bounding box for a local defect"
+                        if edit_bbox == FULL_FRAME_BBOX
+                        else None
+                    ),
                     "needs_https_url": True,
                     "next_version": next_panel_version(panel),
                 }
