@@ -80,6 +80,7 @@ between modalities.
 | Exact static typography, poster, title/end card, UI, product grid, price/CTA treatment, or transparent overlay | `html-graphic-render` |
 | General image generation or edit | `seedream-prompt` or `seedream-edit` |
 | Storyboard for planning and review | `seedream-storyboard` |
+| Scene board record, annotated sheet, animatic and panel repair planning | `scene-board-sheet` |
 | Scene geography and crowd blocking | `tig-blocking-map` |
 | Score, ambience, SFX or dialogue audio | `seed-audio-prompt` |
 | Narrative audio commercial | `seed-audio-commercial` |

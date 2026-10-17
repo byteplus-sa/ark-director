@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "434cc49951165433bd94a871307960671571819dae79abb3d13ce13eda830dcc"
+      "computedHash": "fe301b750d1cc0904e7136e05a96d27674ff531d0bf8be6a0330c6e2d2c7fcaf"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -131,7 +131,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "295c22317c740be1147ba0bc91cbefbde5771cfea16f9967bf6812635c7a403d"
+      "computedHash": "e1b1af7ee2a1902d3fbb2db1546ae36b457ce7d90f499142b1937636c1cf8a67"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -221,7 +221,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25/SKILL.md",
-      "computedHash": "8b1828e185b57b58d40c4f7edcfa3c220c4a959407c145209afd4d9b1f748cb3"
+      "computedHash": "cb07f19cabf3026f06d03c703594ac0b0fe067de27f0c102b04d6ca5fcbb1c41"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",
@@ -293,7 +293,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-storyboard/SKILL.md",
-      "computedHash": "1e4e32502f748528e8c7d169e49199688c86eb2e9d02debd7d580cce7958c703"
+      "computedHash": "09a7503581e390fa36f3ded4e6061b8a0048cb55de86d9d3b9d0e1f3a98944b7"
+    },
+    "scene-board-sheet": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/scene-board-sheet/SKILL.md",
+      "computedHash": "4377fcd2a09ccb5d328e6412dad0b666d4dd313d9802ebd69c72181a618a8e96"
     },
     "showcase-html": {
       "source": "./local",
@@ -457,11 +463,29 @@
       "skillPath": ".agents/skills/seedance-virtual-portrait/SKILL.md",
       "computedHash": "2a265a654a696bc544d788519fba9921faae507fd03949dd8ba0644c90533feb"
     },
+    "seedream-woodblock-poster": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedream-woodblock-poster/SKILL.md",
+      "computedHash": "28f2c93d3549cc0e5fab399b6cb39df2072324746bb45c16c5757018889816a2"
+    },
     "omnihuman-prompt-20": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/omnihuman-prompt-20/SKILL.md",
       "computedHash": "fe7d559ea925d2cf0ae82aaa174ffda1fdc1d9fd7afca58ef1eb1c83d27ec83d"
+    },
+    "update": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/update/SKILL.md",
+      "computedHash": "6bcc711ea41161b2d096448091014c5a040c8816bd238b8be2a43e2f6051f2ea"
+    },
+    "byteplus-katana": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/byteplus-katana/SKILL.md",
+      "computedHash": "acb21e10b11207aa0b12dd70db07ce780bd61af800861a8db7e7ba87e2d373ac"
     }
   }
 }

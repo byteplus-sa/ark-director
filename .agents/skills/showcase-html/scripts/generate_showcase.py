@@ -66,6 +66,7 @@ from selection_service import (
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, "..", "template.html")
+REVIEW_PAGE_CSS = Path(HERE).parent / "assets" / "review-page.css"
 RENDERER = os.path.join(HERE, "..", "renderer.js")
 CANVAS_TEMPLATE = os.path.join(HERE, "..", "assets", "production-canvas.json")
 
@@ -1110,26 +1111,6 @@ def _detect_media_type(path):
     return None
 
 
-PLAIN_PAGE_CSS = """* { box-sizing: border-box; }
-body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #faf8f5; color: #1d1b19; }
-main { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
-h1 { margin: 0 0 4px; }
-.lede, .meta, figcaption { color: #6b645c; font-size: 0.9rem; }
-section { background: #fff; border: 1px solid #e4ded5; border-radius: 12px; padding: 16px; margin: 0 0 20px; }
-h2, h3 { margin: 0 0 4px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 12px; }
-figure { margin: 0; }
-img, video { display: block; width: 100%; height: auto; border-radius: 8px; background: #eee; }
-audio { width: 100%; }
-figcaption { margin-top: 6px; overflow-wrap: anywhere; }
-@media (prefers-color-scheme: dark) {
-  body { background: #151311; color: #ece7df; }
-  section { background: #1f1c19; border-color: #34302b; }
-  .lede, .meta, figcaption { color: #b3aba0; }
-}
-"""
-
-
 def _relative_url(source, page_dir):
     relative = os.path.relpath(source, page_dir)
     return urllib.parse.quote(Path(relative).as_posix())
@@ -1338,7 +1319,7 @@ def quick_review(paths, out_path=None, do_contact_sheets=False, open_browser=Fal
     out.parent.mkdir(parents=True, exist_ok=True)
     stylesheet = out.with_suffix(".css")
     page = render_plain_page(data, out.parent.resolve(), stylesheet.name)
-    stylesheet.write_text(PLAIN_PAGE_CSS, encoding="utf-8")
+    stylesheet.write_text(REVIEW_PAGE_CSS.read_text(encoding="utf-8"), encoding="utf-8")
     out.write_text(page, encoding="utf-8")
     print(f"wrote {out} ({out.stat().st_size} bytes) and {stylesheet.name}")
     if open_browser:

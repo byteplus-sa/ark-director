@@ -398,7 +398,7 @@ Video prompt-craft rules carry their own IDs so a failure is recorded, not just
 mentioned: `prompt.positive_direction`, `prompt.parameters_in_request`,
 `prompt.exact_counts`, `prompt.hand_frame_side`, `video.text_free`,
 `dialogue.speech_budget`, `audio.native_route`, `seedance.draft_promotion`,
-`references.no_board_binding` and, for Filipino lines,
+`board.animatic_review_only` and, for Filipino lines,
 `dialogue.filipino_register`. Add a check for each one that applies, even when
 the caller did not list it as required. Record `fail` for a CRITICAL or MAJOR
 finding, which blocks the request; a MINOR finding records `pass` with the

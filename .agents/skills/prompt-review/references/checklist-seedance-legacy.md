@@ -42,7 +42,7 @@ Source skill: `seedance-prompt-20`
    outputs, preset digital characters, or authorized `asset://` portrait
    assets (CRITICAL when a raw real-person photo is bound).
 
-9a. **No storyboard binding (`references.no_board_binding`).** Board panels and
+9a. **No storyboard binding (`board.animatic_review_only`).** Board panels and
    grids are never bound; their staging is written in the shot lines (CRITICAL
    when bound).
 

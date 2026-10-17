@@ -77,7 +77,7 @@ states CRITICAL or MINOR when it differs.
     Intentional conditioning needs a mode-authorized selection, current hashes,
     supported tool/mode inputs and leakage QA; labels alone grant nothing.
 
-13. **No storyboard or board binding (`references.no_board_binding`).** A
+13. **No storyboard or board binding (`board.animatic_review_only`).** A
     storyboard grid, board or board panel is never bound to a Seedance request:
     its panel numbers and sketch or watercolour medium leak into the video and
     output-copyright rejections rise. Its staging goes into the prompt text and

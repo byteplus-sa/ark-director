@@ -258,7 +258,7 @@ checks, so the reasons live here and the checks live there.
   [Choosing the audio route](references/audio-performance-camera.md#choosing-the-audio-route).
 - **Budget speech** (`dialogue.speech_budget`); see
   [Dialogue inside shots](references/shot-staging.md#dialogue-inside-shots).
-- **Never bind a board** (`references.no_board_binding`); see
+- **Never bind a board** (`board.animatic_review_only`); see
   [Keyframes Storyboards Blockouts](references/keyframes-storyboards-blockouts.md).
 
 ## Preflight review

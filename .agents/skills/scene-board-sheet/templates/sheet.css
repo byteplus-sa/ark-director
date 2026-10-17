@@ -1,0 +1,17 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 3840px; height: 2160px; background: #f4f1ea; color: #1c1c1c; font-family: "Helvetica Neue", Arial, sans-serif; }
+body { display: flex; flex-direction: column; padding: 40px 64px; gap: 20px; overflow: hidden; }
+header { display: flex; align-items: baseline; gap: 48px; }
+.title { font-size: 64px; font-weight: 700; }
+.meta { font-size: 34px; color: #555; }
+.grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.cell { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; background: #fff; border: 2px solid #1c1c1c; padding: 14px; }
+.frame { flex: 1 1 0; min-height: 0; width: 100%; background: #e8e4da; border: 2px solid #1c1c1c; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.panel-image { width: 100%; height: 100%; object-fit: contain; display: block; }
+.strip { flex: 0 0 auto; }
+.panel-empty { font-size: 40px; color: #777; }
+.strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 24px; font-size: 26px; line-height: 1.25; }
+.row { display: flex; gap: 10px; min-width: 0; }
+dt { flex: 0 0 auto; font-weight: 700; min-width: 74px; }
+dd { min-width: 0; overflow-wrap: anywhere; }
+footer { font-size: 30px; }

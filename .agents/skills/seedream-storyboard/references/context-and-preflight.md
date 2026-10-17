@@ -92,6 +92,10 @@ analysis, not a hard-coded number. If the analysis names 8 shots, the board has
 when the user explicitly sets a smaller budget (then keep the most
 story-critical shots and record the omitted ones as motion notes).
 
+For a scene board the panel count and states follow the scene's level (L1, L2 or
+L3, with L2 as the default) and the key-shot rules in
+[Scene Board](scene-board.md), not one panel per shot.
+
 When the user specifies a panel count, treat it as a creative constraint.
 Otherwise, if no upstream analysis exists, panel count follows information and
 state changes, not duration alone.

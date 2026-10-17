@@ -105,7 +105,7 @@ Fall back to `seedance-prompt-20` and the 2.0 model (`dreamina-seedance-2-0-2601
 ### Storyboards are not video inputs
 
 A storyboard grid, board or panel is never bound to a Seedance request
-(`references.no_board_binding`): panel numbers and the sketch or watercolour
+(`board.animatic_review_only`): panel numbers and the sketch or watercolour
 medium leak into the video, and output-copyright rejections rise. Translate
 the approved board into shot lines and bind the canonical character, location
 and prop references instead.

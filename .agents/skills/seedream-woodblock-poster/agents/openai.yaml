@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedream Woodblock Poster"
+  short_description: "Engraved illustrated posters and cohesive art series"
+  default_prompt: "Use $seedream-woodblock-poster to write Seedream prompts for original woodblock-style posters using supplied subjects and visual references."

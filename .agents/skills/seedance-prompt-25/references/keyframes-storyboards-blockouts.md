@@ -73,7 +73,7 @@ and axis of action> throughout.
 
 A storyboard grid, board, contact sheet or single board panel is a planning
 and review artifact. Never bind it to a Seedance request
-(`references.no_board_binding`), even with "do not copy the panel numbers"
+(`board.animatic_review_only`), even with "do not copy the panel numbers"
 wording:
 
 - Panel numbers, badges and corner labels were baked into the top-left corner

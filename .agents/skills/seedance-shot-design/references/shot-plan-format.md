@@ -129,6 +129,8 @@ shot_plan:
 | `wow` | `true` on one shot per clip: the image the clip is remembered for. It may be the turn |
 | `light` | A declared `source`, the `key_side` relative to the lens, and the quality and contrast |
 | `contrast_with_previous` | Which of size family, angle class, move and key side change; `n/a` for the first shot |
+| `blocking_change`, `axis_crossed`, `state_change`, `sub_beats` | Optional. Facts the scene board reads to mark a shot key and to pick its panel states: `blocking_change: true` when positions change inside the shot, `axis_crossed: true` when the 180 degree axis is crossed or restated, `state_change` as a list of prop, wardrobe or location changes, and `sub_beats` as the named beats an L3 board draws |
+| `transition_in`, `dialogue`, `sound_cue`, `screen_direction`, `continuity_carry`, `elements` | Optional. Copied onto the scene board's annotation strip and panel prompts; leave them out when the shot has nothing to say |
 
 A cue that lands inside a shot is written once on the source and named on the
 shot's `light` line:

@@ -1,0 +1,4 @@
+interface:
+  display_name: "BytePlus Katana"
+  short_description: "Plan a reference edit rebuilt with your own characters, products or clothing, shot by shot"
+  default_prompt: "Use $byteplus-katana to plan a rebuild of this reference edit with my product photos, keeping its shot order, cut timing and music beats."

@@ -45,6 +45,12 @@ Reject or repair:
 - in grid mode: panels out of reading order, illegible panel content, missing or
   misaligned dividers, panel numbers bleeding into image content.
 
+Send each failed panel to the edit-first repair path in
+[Editing Failed Panels](editing-failed-panels.md). A failed panel never sends the
+whole board back to generation. For a scene board, also review the scene as a
+sequence (eyelines, screen direction, light and prop continuity, rhythm) after the
+panels pass.
+
 ### 13. Present variants and capture selection
 
 Present candidates in panel order with filename or artifact ID, material

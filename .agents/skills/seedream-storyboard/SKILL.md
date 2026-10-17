@@ -27,6 +27,7 @@ mentioned in prose are relative to this skill directory unless a link says other
 - [Panel And Grid Prompts](references/panel-and-grid-prompts.md) — 8. Write the exact prompt for each panel; 9. Write the multi-panel prompt; 9c. Prompt length budget; 9d. Prompt-review gate.
 - [Generation And Persistence](references/generation-and-persistence.md) — 10. Generate variants when requested or authorized; 11. Persist every generated result locally; Downloading artifacts; Manifest and metadata.
 - [Review And Selection](references/review-and-selection.md) — 12. Review the board; 13. Present variants and capture selection.
+- [Scene Board](references/scene-board.md) — scene-level boards: the L1, L2 and L3 levels (L2 by default), key-shot rules, panel authoring from the board record, and edit-first repair.
 - [Editing Failed Panels](references/editing-failed-panels.md) — Edit pattern for a failed panel; HTTPS URL requirement for edits; Grid-to-bbox coordinate mapping; Revision contract.
 
 ## Submission boundary and failure behavior

@@ -99,7 +99,7 @@ Source skill: `seedream-storyboard`
    not a fixed budget. A user-specified smaller count is honored only when
    explicit, with omitted shots recorded as motion notes.
 
-3. **Boards stay planning artifacts (`references.no_board_binding`).** A board
+3. **Boards stay planning artifacts (`board.animatic_review_only`).** A board
    or panel is for planning and review only and is never bound to a Seedance
    request: panel numbers and the board's medium leak into video. The prompt
    does not promise a video handoff; staging moves into the Seedance prompt
