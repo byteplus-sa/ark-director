@@ -21,6 +21,7 @@ parseable by tools.
 | Shot take | `<scene>_sh<NNN>_t<NN>_v<NN>.<ext>` | `s01_sh010_t01_v01.mp4` |
 | Shot final | `<scene>_sh<NNN>_final_v<NN>.<ext>` | `s01_sh010_final_v01.mp4` |
 | Scene render | `<scene>_render_v<NN>.<ext>` | `s01_render_v01.mp4` |
+| Scene board animatic (review only) | `<scene>_animatic_v<NN>.mp4` | `s01_animatic_v01.mp4` |
 
 ## Image
 
@@ -29,6 +30,8 @@ parseable by tools.
 | Storyboard keyframe | `<scene>_kf<NN>_v<NN>.png` | `s01_kf01_v01.png` |
 | Storyboard panel | `<scene>_sh<NNN>_p<NNN>_t<NN>_v<NN>.png` | `s01_sh010_p020_t01_v01.png` |
 | Storyboard grid board | `<scene>_sh<NNN>_board_t<NN>_v<NN>.png` | `s01_sh010_board_t01_v01.png` |
+| Scene board sheet page (derived) | `<scene>_sheet_pg<NN>_v<NN>.png` | `s01_sheet_pg01_v01.png` |
+| Scene board overview (derived) | `<scene>_overview_v<NN>.png` | `s01_overview_v01.png` |
 | Screen / UI ref | `screen_<descriptor>_v<NN>.png` | `screen_speedtest_v01.png` |
 | Brand / title card | `card_<descriptor>_v<NN>.png` | `card_end-logo_v01.png` |
 | Concept art | `concept_<descriptor>_v<NN>.png` | `concept_mood-board_v01.png` |
@@ -95,6 +98,9 @@ the mapping in `elements/INDEX.md`.
 | Image keyframe prompt | `prompt_<scene>_kf<NN>_v<NN>.md` | `prompt_s01_kf01_v01.md` |
 | Storyboard panel prompt | `prompt_<scene>_sh<NNN>_p<NNN>_t<NN>_v<NN>.md` | `prompt_s01_sh010_p020_t01_v01.md` |
 | Storyboard grid prompt | `prompt_<scene>_sh<NNN>_board_t<NN>_v<NN>.md` | `prompt_s01_sh010_board_t01_v01.md` |
+| Storyboard panel edit prompt | `prompt_<scene>_sh<NNN>_p<NNN>_t<NN>_v<NN>.md`, with the version of the edited panel | `prompt_s01_sh010_p020_t01_v02.md` |
+| Scene board render plan (derived) | `<scene>_sheet_pg<NN>_v<NN>.sheet.json`, `<scene>_overview_v<NN>.overview.json`, `<scene>_animatic_v<NN>.animatic.json`, `<scene>_sheet_pg<NN>_v<NN>.render.json` | `s01_sheet_pg01_v01.sheet.json` |
+| Panel edit revision contract | `board/repair/<scene>_sh<NNN>_p<NNN>_edit_v<NN>.md` | `board/repair/s01_sh010_p020_edit_v01.md` |
 | Screen ref prompt | `prompt_screen_<descriptor>_v<NN>.md` | `prompt_screen_speedtest_v01.md` |
 | Card prompt | `prompt_card_<descriptor>_v<NN>.md` | `prompt_card_end-logo_v01.md` |
 | Character sheet prompt | `prompt_char_<character-id>_<sheet-type>_v<NN>.md` | `prompt_char_gloria_turnaround_v01.md` |

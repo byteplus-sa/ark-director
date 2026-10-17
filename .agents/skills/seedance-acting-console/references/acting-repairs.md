@@ -54,3 +54,38 @@ hand stays on the barrier, then releases it as his stance opens a narrow path.â€
 
 **Tradeoff:** The audience reads permission through action rather than knowing
 his precise feeling. Preserve that ambiguity if it serves the brief.
+
+## Eyes behind a veil
+
+**Brief:** A veiled elder tests a young man; only her eyes show through a fine
+mesh veil.
+
+**Initial prompt:** "Her face shows contempt; her lips curl and her nostrils
+flare."
+
+**Hypothetical failure:** The mesh hides the mouth and nose, and the model may
+lift the veil to show the requested expression.
+
+**Smallest change:** Keep the veil: "Her eyes stay visible through the fine
+mesh. She watches his hand, not his face; her gaze does not move when he
+speaks, then narrows once when his fingers stop trembling."
+
+**Tradeoff:** The menace depends on stillness and one change of gaze. Accept
+less facial detail in exchange for mystery.
+
+## Strike that jitters
+
+**Brief:** The elder lunges to hold a needle at his neck, fast like a snake.
+
+**Initial prompt:** "She moves quickly and aggressively toward him, grabbing
+and threatening."
+
+**Hypothetical failure:** Several fast verbs produce a smeared, jittery move
+with no clear end position.
+
+**Smallest change:** One burst with holds: "She sits coiled and still. Then she
+lunges forward in one fast movement and stops dead with the needle a finger's
+width from his neck. She holds there, motionless."
+
+**Tradeoff:** One movement instead of a struggle. If the burst still smears,
+keep the end position and cut to it in the edit.

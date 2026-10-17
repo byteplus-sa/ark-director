@@ -19,7 +19,10 @@ they are prompt-composition only and never call the API themselves.
 | Animation medium & handcrafted style | `seedance-animation-styles` | Material-first Seedance prompts for clay, felt, wood puppets, toys, vintage cel, painterly 2D, crafted 3D, silicone, crayon, and custom media |
 | Music video | `seedance-music-video` | Song-first Seedance prompts: format (performance/narrative/conceptual/lyric/visualizer/hybrid), song-section map, beat/cut-density contract, audio-first lip-sync, and a per-genre style lock |
 | Original music / vocal master, audio-first track | `seed-audio-prompt`, `seed-audio-commercial` | Seed Audio prompt structure (T2A/TA2A) and commercial full-soundscape composition for an original music or vocal master |
-| Storyboard, full multi-scene production | `seedream-storyboard`, `film-production` | Storyboard continuity boards and end-to-end production orchestration across scenes |
+| Production design: sets, props and locations with an emotional function | `seedream-location-asset`, `seedream-prop-asset` | The element manifest's optional `emotional_function` (see element identification) turns a feeling into visible design: fit, scale, height, pattern, age; a counterpoint location states a world rule |
+| Editorial structure: intercut, ellipsis, inserts | `seedance-pacing-presets`, `seedance-shot-design` | Blink cuts, intercuts and vision flashes are assembly-only cuts: each side is generated at a natural length and cut in post; the scene's shot plan records them |
+| Sonic motif and voice treatment | `seed-audio-prompt` | A recurring sound for a power or ordeal (layered voice, abrasive drone, solo vocal) with one curve keyed to the scene's beats |
+| Storyboard, full multi-scene production | `seedream-storyboard`, `scene-board-sheet`, `film-production` | Boards are planning and review artifacts, never Seedance references: their staging goes into prompt text. Scene boards run at L1, L2 (default) or L3 per scene, repair failed panels by editing, and assemble into a sheet and animatic; `film-production` orchestrates across scenes |
 
 ## Composition rules
 
@@ -36,6 +39,13 @@ reason (`static_reason`); the allowed values and the exempt formats are in
 energy axis, recorded in `directorial_axes` or the `locked` block, must appear in
 the shot prompts, or the scene records an override with its reason. A
 `proposed`, `defaulted` or `agent_confirmed` choice is not a user lock.
+
+The production design, editorial and sonic motif axes do not live in the shot
+line alone. Production design reaches the element sheets and the prompt's scene
+description, editorial structure reaches the shot plan's assembly cuts and the
+Studio edit, and a sonic motif reaches the Audio block or the separate Seed
+Audio prompt. When one of them is confirmed, the scene records where it is
+carried.
 
 Do not let two skills fight: exactly one grade per clip, one dominant lighting
 direction per shot with the same physical light source across the cuts of a

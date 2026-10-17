@@ -1,0 +1,103 @@
+{
+  "skill_name": "scene-board-sheet",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up the storyboard for scene-03, a standard dialogue-and-reveal scene with one turn shot and two shots that use camera moves. No level has been chosen.",
+      "expected_output": "A board record at L2 with a recorded reason, start/peak/end panels on the turn shot and the moving shots, one panel on the other shots, and a passing check.",
+      "files": [
+        "evals/files/scene-03-with-shot-plan.md"
+      ],
+      "assertions": [
+        "The level is L2 and the board records a reason for it.",
+        "The turn shot and each shot with a camera move get start, peak and end panels, and the remaining shots get one panel.",
+        "The panels copy size, angle, framing, move and light from the shot plan rather than inventing them.",
+        "The panel durations of each shot sum to the shot's duration in the plan.",
+        "The agent runs check and reports it passing before anything is generated."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Scene-05 is a rooftop fight: three physical exchanges, a fall, and a reveal that depends on a prop breaking. Plan the storyboard level and panels.",
+      "expected_output": "A board at L3 with a recorded reason, sub-beat panels on the key shots, state changes carried in the plan, and a cost statement before generation.",
+      "files": [],
+      "assertions": [
+        "The scene is set to L3 and the reason names the action, the fall or the prop change.",
+        "Key shots use sub-beats (anticipation, contact, consequence, reaction or the shot's own named beats) and non-key shots get one panel.",
+        "The prop break is carried as a state change so the board marks that shot key.",
+        "The agent states the panel count and the cost before any generation and does not generate yet."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A quiet two-person dialogue scene with six held shots and a small budget. Plan its storyboard.",
+      "expected_output": "A board with a recorded level and reason that suits a quiet, held, budget-limited scene, and no more panels than that level needs.",
+      "files": [],
+      "assertions": [
+        "The level is L1 with a recorded reason that cites the quiet held shots or the budget.",
+        "The board has one panel per shot, six in total.",
+        "The answer notes a single shot can later be raised with a recorded override."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Review of scene-02's board found one panel (s02_sh010_p020) with a duplicated jar on the bench; the other eleven panels are approved. Fix it.",
+      "expected_output": "A repair plan that edits only that panel with seedream_edit_image under a one-dimension revision contract, keeps the other panels untouched, and lists only the affected sheet page and animatic segment as stale.",
+      "files": [],
+      "assertions": [
+        "The panel is marked needs_edit and repaired by an image edit, not by regenerating the board or the shot.",
+        "The revision contract names one failed dimension, the requested change, acceptance criteria, and the locked decisions.",
+        "The edit uses HTTPS URLs from media_upload or media_presign and a bounding box for the local defect.",
+        "The result is registered as a new version of the same panel with the original kept as rejected.",
+        "The other eleven panels keep their files, hashes and approvals, and only the affected sheet page and animatic segment are rebuilt."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "The same panel failed again after two edits on the same dimension, and a second panel in another shot shows the wrong axis direction. What now?",
+      "expected_output": "Escalation: regenerate the first panel from a corrected prompt, regenerate the wrong-axis panel from a corrected prompt, and keep every other panel.",
+      "files": [],
+      "assertions": [
+        "The twice-failed panel is regenerated from a corrected prompt instead of being edited a third time.",
+        "The wrong-axis panel is regenerated as a structural error rather than edited.",
+        "Neither repair regenerates the whole scene or the sibling panels, and the other panels stay untouched."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Most panels of s04_sh020 (four panels, three failed) show the wrong boy because the element sheet bound to them was the old one. Repair the board.",
+      "expected_output": "Fix the element binding, then regenerate that shot's panels only, leaving other shots untouched.",
+      "files": [],
+      "assertions": [
+        "The cause is treated as shared and the element binding is corrected first.",
+        "The shot's four panels are regenerated and the panels of other shots are not.",
+        "The new panels are registered as new takes or versions and the old files are kept as rejected."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I changed the shot plan for scene-02 after the sheet and animatic were built. What do I need to redo, and can I feed the animatic to Seedance as a reference?",
+      "expected_output": "Check reports the board stale against the plan; status lists affected pages and segments; the animatic and sheet are never Seedance references.",
+      "files": [
+        "evals/files/scene-03-with-shot-plan.md"
+      ],
+      "assertions": [
+        "The agent runs check and reports that the shot plan changed and the board is stale.",
+        "Only the sheet pages, overview and animatic segments that status lists are rebuilt.",
+        "The agent refuses to bind the animatic or any board file as a Seedance reference and says staging goes into the shot prompt text with element references only."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "I edited the shot plan of scene-02 after three panels were generated and registered. Update the board.",
+      "expected_output": "rebase-plan carries the registered panels over by id, marks panels whose plan facts changed as needs_edit, lists orphaned files, and does not use init --overwrite.",
+      "files": [],
+      "assertions": [
+        "The agent uses rebase-plan and explains that init --overwrite is refused once panels are registered.",
+        "Registered files, versions and hashes survive the rebase for panels whose shot and state are unchanged.",
+        "A panel whose size, angle, framing or move changed in the plan is marked needs_edit and loses its approval.",
+        "Orphaned panel files are listed and left on disk rather than deleted."
+      ]
+    }
+  ]
+}

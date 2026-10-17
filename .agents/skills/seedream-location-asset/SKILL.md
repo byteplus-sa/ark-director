@@ -103,6 +103,17 @@ Include:
 - scale and spatial mood
 - core architectural identity
 
+When the location has an emotional function (the space must feel like a
+trap, a sanctuary, a stage), state it as visible design: scale, ceiling
+height, where the floor pattern pulls the eye, how far the exits sit from the
+centre. "A vast, near-dark library hall whose high shelves fall away into
+black, with one circular carpet pattern at the centre like a ring" is usable;
+"an oppressive room" is not.
+
+A counterpoint location that plays against the genre can state the world's
+rules without dialogue. Record that rule under era and world rules so the set
+dressing keeps it (a library with no screens or devices anywhere).
+
 Examples:
 - "A cramped below-deck captain's cabin on an old wooden sailing ship."
 - "A narrow neon-lit alley behind a 24-hour noodle bar."

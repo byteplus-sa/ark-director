@@ -36,6 +36,8 @@ CHECK_TIMEOUT_S = 900
 RENDER_TIMEOUT_S = 7200
 PROBE_TIMEOUT_S = 120
 MEDIA_SUFFIXES = {".mp4", ".mov", ".webm", ".m4v"}
+SHOWCASE_SKILL = Path(__file__).resolve().parents[1] / "skills/showcase-html"
+REVIEW_PAGE_CSS = SHOWCASE_SKILL / "assets/review-page.css"
 SHOT_ID_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*$")
 RESERVED_SHOT_IDS = {"main", "root"}
 NAME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
@@ -1584,7 +1586,7 @@ def complete_stage(
 
 
 def selection_service() -> Any:
-    scripts = Path(__file__).resolve().parents[1] / "skills/showcase-html/scripts"
+    scripts = SHOWCASE_SKILL / "scripts"
     if str(scripts) not in sys.path:
         sys.path.insert(0, str(scripts))
     return importlib.import_module("selection_service")
@@ -1777,28 +1779,6 @@ ELEMENT_ID_PATTERN = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 ELEMENT_VERSION_PATTERN = re.compile(r"_(v\d{2,})$")
 ELEMENT_IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp"}
 LOCKED_PREFIX = "LOCKED_"
-ELEMENTS_PAGE_CSS = """* { box-sizing: border-box; }
-body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #faf8f5; color: #1d1b19; }
-main { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
-h1 { margin: 0 0 4px; }
-.lede, .sub, figcaption { color: #6b645c; font-size: 0.9rem; }
-section { background: #fff; border: 1px solid #e4ded5; border-radius: 12px; padding: 16px; margin: 0 0 20px; }
-h2 { margin: 0 0 4px; font-size: 1.1rem; }
-.badge { display: inline-block; font: 700 0.75rem/1 system-ui; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; margin-right: 8px; }
-.locked { background: #1f7a4d; color: #fff; }
-.other { background: #e7e1d8; color: #4a443d; }
-figure { margin: 0; }
-img { display: block; width: auto; max-width: 100%; max-height: 640px; margin: 0 auto; border-radius: 8px; }
-.row { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 12px; }
-.row img { width: 100%; max-height: none; }
-figcaption { margin-top: 6px; }
-@media (prefers-color-scheme: dark) {
-  body { background: #151311; color: #ece7df; }
-  section { background: #1f1c19; border-color: #34302b; }
-  .lede, .sub, figcaption { color: #b3aba0; }
-  .other { background: #34302b; color: #d6cec3; }
-}
-"""
 
 
 def element_document(path: Path) -> dict[str, Any]:
@@ -1929,7 +1909,7 @@ def write_elements_page(
         + "\n".join(body)
         + "</main></body></html>\n"
     )
-    atomic_write(review / "elements.css", ELEMENTS_PAGE_CSS)
+    atomic_write(review / "elements.css", REVIEW_PAGE_CSS.read_text(encoding="utf-8"))
     atomic_write(review / "elements.html", page)
 
 

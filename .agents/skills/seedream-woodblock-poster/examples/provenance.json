@@ -1,0 +1,85 @@
+{
+  "generated_date": "2026-10-10",
+  "reference_role": "One supplied style-only image; not redistributed.",
+  "evidence_type": "Observed image outputs, not a controlled prompt comparison.",
+  "records": [
+    {
+      "subject": "kapre",
+      "model": "dola-seedream-5-0-pro-260628",
+      "source_dimensions": [
+        1440,
+        2560
+      ],
+      "source_sha256": "c9f8012bdd563c83e5d62f721ee61215c5bafd98bfbee0f615a7f8bad5fdc2f6",
+      "prompt_file": "prompt_concept_kapre_v01.md",
+      "prompt_sha256": "4b146beacae12b15af1b1758259b775975aedd12e8e256f2a9068803fe5ceadd",
+      "preview_file": "kapre-v01.png",
+      "preview_sha256": "48cfdfe6f52bcd8bf41c64213dd4cf87413042478afe76b910f201ac9cd7702e"
+    },
+    {
+      "subject": "aswang",
+      "model": "dola-seedream-5-0-pro-260628",
+      "source_dimensions": [
+        1440,
+        2560
+      ],
+      "source_sha256": "a0d7f43989ce84f5df07d0d18651369f9bdff09ed7079ea404d8586a20a05e80",
+      "prompt_file": "prompt_concept_aswang_v01.md",
+      "prompt_sha256": "591594473bfd79012b17d0ba220cd7bfbd06c4cf41a3c4ccdf6801d508c5121b",
+      "preview_file": "aswang-v01.png",
+      "preview_sha256": "b41d7170647b0d67c2264f974d122136d856ce93297f1f9b711729088c5e16ed"
+    },
+    {
+      "subject": "manananggal",
+      "model": "dola-seedream-5-0-pro-260628",
+      "source_dimensions": [
+        1440,
+        2560
+      ],
+      "source_sha256": "2f1ac2acf357d441bdf9080d1f832197c6c8ca0162958ac7ab76675d87adc769",
+      "prompt_file": "prompt_concept_manananggal_v01.md",
+      "prompt_sha256": "016a8d4f39d55917ac0b9854bc66be1dbded42c2a67b4968d48b45a9843df169",
+      "preview_file": "manananggal-v01.png",
+      "preview_sha256": "0a0e2f13a905fa4dad5502bdad462a16bd71229019da289a40dc0546567fe916"
+    },
+    {
+      "subject": "dwende",
+      "model": "dola-seedream-5-0-pro-260628",
+      "source_dimensions": [
+        1440,
+        2560
+      ],
+      "source_sha256": "d5f6ec0fdd9a7aab84d0de8cab750462bfc71158132451f9baef01f89a189d0a",
+      "prompt_file": "prompt_concept_dwende_v01.md",
+      "prompt_sha256": "8d661b6f8d5cad8d0797f1dcd7b2a380550f1aae72d16ee49f415ba9f7a4d2d9",
+      "preview_file": "dwende-v01.png",
+      "preview_sha256": "5c102fc2d0da8ced08e0479ca779ec3d203e659b111136399b8581e7540062de"
+    },
+    {
+      "subject": "tikbalang",
+      "model": "dola-seedream-5-0-pro-260628",
+      "source_dimensions": [
+        1440,
+        2560
+      ],
+      "source_sha256": "0b8ee5780597dc5e5ee3eeb4c86e033d54ebdd843cfcacee5d80d633d9050662",
+      "prompt_file": "prompt_concept_tikbalang_v01.md",
+      "prompt_sha256": "45cc1604ccb4faa84b16a7c75417aba2d08cc0f394e9f1808a77453a7c867dda",
+      "preview_file": "tikbalang-v01.png",
+      "preview_sha256": "86f3ee767e06fa29a7c816e4a623fc317f8e82c88c42dbc8a36ca6fecca53b61"
+    },
+    {
+      "subject": "bakunawa",
+      "model": "dola-seedream-5-0-pro-260628",
+      "source_dimensions": [
+        1440,
+        2560
+      ],
+      "source_sha256": "0fb2857898b61cc8b141abf32bf6d97441d9ee5b862bf2f219c4c83f032df738",
+      "prompt_file": "prompt_concept_bakunawa_v01.md",
+      "prompt_sha256": "41b29dea00bdc0fb3d853b8e72892340eb112375a69bbf380e16b3895d35c812",
+      "preview_file": "bakunawa-v01.png",
+      "preview_sha256": "6770ea1e0067954d76151fde79f286f5f19d1f6f92ad6e945848327e86975b4b"
+    }
+  ]
+}

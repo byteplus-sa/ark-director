@@ -1,0 +1,11 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; background: #f4f1ea; color: #1c1c1c; font-family: "Helvetica Neue", Arial, sans-serif; }
+body { padding: 40px 56px; display: flex; flex-direction: column; gap: 20px; }
+h1 { font-size: 40px; }
+svg { flex: 0 0 auto; border: 2px solid #1c1c1c; background: #fff; max-height: 700px; }
+.room { fill: #fbf9f3; stroke: #1c1c1c; stroke-width: 3; }
+.axis { stroke: #b3261e; stroke-width: 3; stroke-dasharray: 10 6; }
+.light { fill: #f0b400; stroke: #1c1c1c; stroke-width: 2; }
+.figure { fill: #3b6ea5; stroke: #1c1c1c; stroke-width: 2; }
+.legend { list-style: none; font-size: 26px; line-height: 1.4; }
+.kind { font-weight: 700; margin-right: 12px; }

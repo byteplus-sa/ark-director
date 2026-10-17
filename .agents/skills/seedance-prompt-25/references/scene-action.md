@@ -112,7 +112,9 @@ front foot, and scans the room left to right" is testable.
   rate; those come from the shot plan.
 - **Avoid high-burst, large-dynamic actions** — sprinting, big jumps, violent
   rolls — unless the shot explicitly requires them. A kinetic brief, a chase or a
-  music-video beat requires them; state them with grounded physics.
+  music-video beat requires them; state them with grounded physics. A single
+  sudden strike in an otherwise still performance (an ambush, a lunge) also
+  qualifies: write one burst with a still hold before and after it.
 - **Describe transitions between actions** for continuity: "use the inertia of
   turning around to naturally raise a hand."
 - **Externalize emotions as physical detail**, never bare emotion labels. Use

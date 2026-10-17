@@ -237,8 +237,8 @@
     },
     "seedance-camera-presets": {
       "kind": "leaf",
-      "description": "Turn a named camera move or preset \u2014 dolly, pan, tilt, orbit, crane, jib, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, or static \u2014 into a canonical, drop-in Camera block for the Seedance 2.5 six-part prompt formula. Use when the user asks for a camera preset, camera movement style, or a shot's camera treatment, and when a shot plan names a move to word. Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp and slow-mo timing belong to seedance-pacing-presets. One-take here is the pass-through camera path; single-shot no-cuts pacing belongs to seedance-pacing-presets. Lens and focal-length optics belong to seedance-lens-presets.",
-      "readme_summary": "Turns a named camera move (dolly, pan, tilt, orbit, crane, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, static) into a canonical, drop-in Camera block for the six-part prompt formula.",
+      "description": "Turn a named camera move or preset \u2014 dolly, pan, tilt, orbit, crane, jib, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, or static \u2014 or a shot framing (single, two-shot, over-the-shoulder, over-the-hip, point of view, insert) \u2014 into a canonical, drop-in Camera block for the Seedance 2.5 six-part prompt formula. Use when the user asks for a camera preset, camera movement style, shot framing, or a shot's camera treatment, and when a shot plan names a move or framing to word. Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp and slow-mo timing belong to seedance-pacing-presets. One-take here is the pass-through camera path; single-shot no-cuts pacing belongs to seedance-pacing-presets. Lens and focal-length optics belong to seedance-lens-presets.",
+      "readme_summary": "Turns a named camera move (dolly, pan, tilt, orbit, crane, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, static) or shot framing (single, two-shot, over-the-shoulder, over-the-hip, point of view, insert) into a canonical, drop-in Camera block for the six-part prompt formula.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -246,8 +246,8 @@
     },
     "seedance-shot-design": {
       "kind": "leaf",
-      "description": "Design the shot plan for a Seedance scene before any prompt is written: shot count and duration, the job of each shot, size, angle, camera move, lens intent, named light sources and key side, the contrast between neighboring shots, and a variety check (V1-V9) at a chosen energy level (restrained, standard, kinetic). Use for narrative, ad, micro-drama, music-video and showcase clips when camera and light are not already locked, when a scene reads flat or static, or when the user asks for a shot list, coverage, or more dynamic camera work and lighting. Returns a shot plan record and the per-shot facts a Seedance 2.5 prompt carries. Not for static assets, source-preserving edits (object swap, restyle, recast), or task submission.",
-      "readme_summary": "Plan per-shot coverage for Seedance scenes: shot count and jobs, size, angle, camera move, lens intent and light per shot, with variety rules and an energy level.",
+      "description": "Design the shot plan for a Seedance scene before any prompt is written: shot count and duration, the job of each shot, size, framing (single, two-shot, group, over-the-shoulder, over-the-hip, point of view, insert), angle, camera move, lens intent, named light sources and key side, the contrast between neighboring shots, and a variety check (V1-V10) at a chosen energy level (restrained, standard, kinetic). Use for narrative, ad, micro-drama, music-video and showcase clips when camera and light are not already locked, when a scene reads flat or static, or when the user asks for a shot list, coverage, shot framing, or more dynamic camera work and lighting. Returns a shot plan record and the per-shot facts a Seedance 2.5 prompt carries. Not for static assets, source-preserving edits (object swap, restyle, recast), or task submission.",
+      "readme_summary": "Plan per-shot coverage for Seedance scenes: shot count and jobs, size, framing, angle, camera move, lens intent and light per shot, with variety rules and an energy level.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -437,6 +437,15 @@
       "kind": "leaf",
       "description": "Create, revise, and optionally generate production-ready cinematic storyboards\u2014from one hero panel with alternatives to a multi-panel continuity sequence\u2014with BytePlus Seedream. Supports two delivery modes \u2014 single-image grid (one image containing all panels, default) and separate images (one image per panel). Use whenever the user asks for storyboards, shot boards, continuity boards, storyboard frames, visual sequences, previsualization, scene panels, or image planning for film, advertising, animation, games, or AI video.",
       "readme_summary": "Create, revise, and optionally generate production-ready cinematic storyboards\u2014from one hero panel with alternatives to a multi-panel continuity sequence\u2014with BytePlus Seedream.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "scene-board-sheet": {
+      "kind": "leaf",
+      "description": "Assemble and time a scene's storyboard from existing sketch panels. Derives the scene board record from the shot plan at a per-scene level (L1, L2 or L3, L2 by default), validates it, registers generated and edited panel files with lineage, plans panel-only repairs so only failed panels are edited, and builds annotated sheet pages, a floor-plan overview, a timed animatic and a static review page. Use for scene-based storyboards that must be granular and detailed, scene board review sheets, animatics, stale-board checks after a shot plan or panel change, and repair planning for failed panels. Planning and assembly only: it never generates images, approves a panel, or produces a Seedance reference.",
+      "readme_summary": "Derive a scene's storyboard record from its shot plan at L1, L2 (default) or L3, register generated and edited panels, plan panel-only repairs, and build annotated sheets, an animatic and a static review page.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -694,10 +703,28 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "seedream-woodblock-poster": {
+      "kind": "leaf",
+      "description": "Write Seedream prompts for vivid engraved woodblock-style illustrated posters and cohesive image series from a supplied visual reference or a text concept. Use for folklore, mythology, creatures, or other subjects rendered with flat ink shapes, fine contour hatching, aged paper, dramatic silhouettes, and miniature landscapes. Not for animation, collage assembly, photorealism, character turnarounds, or exact typography and graphic layouts.",
+      "readme_summary": "Writes engraved woodblock-style poster and art-series prompts with reference roles, distinct subjects, shared print treatment, and visual QA.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
     "omnihuman-prompt-20": {
       "kind": "leaf",
       "description": "Write and refine the optional text prompt for OmniHuman 2.0 (BytePlus Vision AI), the lip-sync digital-human video model driven by one image plus one audio track. Use when a character in a photo or illustration must talk, sing or react to supplied audio and the prompt should direct camera moves, emotion arcs, ordered gestures and actions, which person speaks in a group shot, focus pulls, background events, environment interaction, or added props and effects; also for animals, mascots and stylized or pixel characters. Covers input checks (image limits, 4-300 s audio, supported prompt languages), the camera + emotion + speaking state + actions + background template, splitting long audio into stable segments, and symptom-based fixes such as a mouth that does not move, identity drift or an ignored camera move. Prompt and input preparation only; it does not sign or submit API requests. Not for Seedance video prompts, voice or music generation, or lip-syncing existing footage.",
       "readme_summary": "Writes OmniHuman 2.0 lip-sync prompts from one image and one audio track: camera, emotion, speaking state, ordered actions, speaker choice in group shots, added effects, segmenting long audio, input checks and symptom-based fixes.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "update": {
+      "kind": "leaf",
+      "description": "Bring this repository up to date with its remote: fetch, integrate the upstream branch (default main), resolve merge conflicts file by file while preserving local work, then re-run workspace validation and refresh the skill catalog when skills changed. Use when asked to update the repo, pull latest changes, sync with origin, or resolve conflicts after pulling. Pushes only when the user asks. Not for committing task work or rewriting history.",
+      "readme_summary": "Updates the repository from its remote, resolves merge conflicts while preserving local work, and re-runs validation and catalog refresh.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

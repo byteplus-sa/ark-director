@@ -164,10 +164,16 @@ earlier and stays draft until its input requirements are satisfied.
 Required output: beat/panel plan that follows the scene's shot plan, bound
 references, prompts, generated panels or prompt package, continuity review,
 provenance, and video-handoff eligibility.
+A scene board adds `scenes/scene-NN/board.md` (the level, L1, L2 or L3 with L2 as
+the default, and its reason; one record per panel), the annotated sheet pages, an
+optional overview and animatic, and a scene decision. Failed panels are repaired by
+Seedream image editing on those panels only, never by regenerating the whole board.
 Record these together in the `storyboard-visual-plan` manifests; Studio shows shot takes only.
 
 Exit: required panels have a mode-authorized approval and all source element
-hashes remain current, or the scene has a mode-authorized direct-to-video path.
+hashes remain current, or the scene has a mode-authorized direct-to-video path. A
+scene board also needs `scene_board.py check` to pass and no stale sheet page or
+animatic segment.
 
 ## 5. Audio preparation (optional — when user requests lip-synced dialogue)
 

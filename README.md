@@ -156,6 +156,7 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
+| **update** | Updates the repository from its remote, resolves merge conflicts while preserving local work, and re-runs validation and catalog refresh. |
 | **blender-to-seedance** | End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. |
 | **seedance-ai-avatar** | Authorized real-presenter AI avatar: consent gate, Seedream character sheet, isolated voice clip, sheet-only lip-synced Seedance talking-head takes and QA. |
 | **seedance-avatar-news** | Creator-style news shorts hosted by an AI avatar: sourced script, official B-roll with provenance, and a deterministic split/full/card caption edit. |
@@ -173,8 +174,8 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 | **seedance-prompt-25** | Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, storyboard grids,. |
 | **seedance-prompt-20** | Legacy Seedance 2.0 prompt skill. Use when you need 4K output (unsupported by 2.5), Fast/Mini speed variants, or lower cost per generation. Provides reference-role classification, subject definitions, spatial continuity, shot sequencing, and native audio direction. |
 | **seedance-prompt-25-filipino** | Write Filipino and Taglish dialogue direction while preserving exact words and register; use evidence-based pronunciation hypotheses and opt-in separate lip-sync audio. |
-| **seedance-shot-design** | Plan per-shot coverage for Seedance scenes: shot count and jobs, size, angle, camera move, lens intent and light per shot, with variety rules and an energy level. |
-| **seedance-camera-presets** | Turns a named camera move (dolly, pan, tilt, orbit, crane, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, static) into a canonical, drop-in Camera block for the six-part prompt formula. |
+| **seedance-shot-design** | Plan per-shot coverage for Seedance scenes: shot count and jobs, size, framing, angle, camera move, lens intent and light per shot, with variety rules and an energy level. |
+| **seedance-camera-presets** | Turns a named camera move (dolly, pan, tilt, orbit, crane, tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip pan, one-take, static) or shot framing (single, two-shot, over-the-shoulder, over-the-hip, point of view, insert) into a canonical, drop-in Camera block for the six-part prompt formula. |
 | **seedance-frame-break** | Write and QA Seedance 2.5 frame-break pop-out prompts where the subject is drawn over two fixed black bars, with a locked camera, staged break-outs, a product-hero variant, failure repairs and an all-frames pixel check of bar motion and overlap. |
 | **seedance-lens-presets** | Translates a lens, focal length, aperture, or sensor request into a canonical visible-result phrase for Seedance prompts or Seedream style. Covers 35mm, 50mm, 85mm, wide angle, telephoto, anamorphic, fisheye, macro, f-stop, depth of field, bokeh. |
 | **seedance-lighting-presets** | Translates a named lighting setup (rim light, backlight, golden hour, soft/hard light, three-point, Rembrandt, practical lights, silhouette, contre-jour) into a canonical Seedream `Lighting:` recipe and a matching Seedance visual-style lighting phrase. Ensures the same lighting intent works for both images and video. |
@@ -211,12 +212,14 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 |---|---|
 | **seedream-prompt** | Write Seedream prompts for synthesized or edited imagery while routing exact typography, pricing, CTA, product grids, logos, and pixel layouts to deterministic graphics. |
 | **seedream-handcrafted-3d** | Writes handcrafted stylized 3D character and material-study prompts with painterly surfaces, tactile fabrics, reference roles, and visual QA. |
+| **seedream-woodblock-poster** | Writes engraved woodblock-style poster and art-series prompts with reference roles, distinct subjects, shared print treatment, and visual QA. |
 | **seedream-character-sheet** | Writes structured Seedream prompts for three-panel character sheets and identity references. Produces the canonical character turnarounds that Seedance uses as face anchors. |
 | **seedream-character-sheet-cleanup** | Cleans Seedream character sheets by removing the head from the full-body panels so only the close-up panel keeps a readable face. |
 | **seedream-character-outfit** | Writes Seedream image-to-image prompts that change the outfit on an approved character sheet, with always-worn accessories, a change contract, and identity-drift QA. |
 | **seedream-location-asset** | Writes structured Seedream prompts for cinematic location assets and reusable environment sheets. Use for creating locations, interiors, exteriors, set references, or establishing stills. |
 | **seedream-prop-asset** | Writes structured Seedream prompts for prop and product identity sheets after the prop threshold and acquisition-first check. Shows front and back views by default, adding a side view when the user asks or the object needs it. Use for held, recurring, story-critical, or scene-variant objects that Seedance must reproduce. |
 | **seedream-storyboard** | Create, revise, and optionally generate production-ready cinematic storyboards—from one hero panel with alternatives to a multi-panel continuity sequence—with BytePlus Seedream. |
+| **scene-board-sheet** | Derive a scene's storyboard record from its shot plan at L1, L2 (default) or L3, register generated and edited panels, plan panel-only repairs, and build annotated sheets, an animatic and a static review page. |
 | **seedream-edit** | Guide for using the `seedream_edit_image` MCP tool for interactive image editing with Seedream 5.0 Pro. Use for point-based and bounding-box precision editing — replace objects, change regions, add elements at specific positions. |
 
 ### Color & Look
