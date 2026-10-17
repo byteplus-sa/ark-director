@@ -391,6 +391,40 @@
       "owner_path": ".agents/skills/seedance-restyle/SKILL.md",
       "summary": "A restyle style reference supplies only medium, palette, line, texture and light quality, never subjects or layout.",
       "exceptions": []
+    },
+    {
+      "id": "board.panel_plan_bound",
+      "severity": "error",
+      "applies_to": [
+        "stage_exit"
+      ],
+      "owner_path": ".agents/skills/scene-board-sheet/SKILL.md",
+      "summary": "Every scene board panel agrees with its shot plan row (size, angle, framing, move, lens intent, light), the panels of a shot sum to its duration, and a changed shot plan marks the board stale.",
+      "exceptions": [
+        "A per-shot level override records its reason and may add panels beyond what the scene level derives."
+      ]
+    },
+    {
+      "id": "board.no_text_in_panels",
+      "severity": "error",
+      "applies_to": [
+        "static_image"
+      ],
+      "owner_path": ".agents/skills/seedream-storyboard/references/scene-board.md",
+      "summary": "Scene board panel prompts and images carry no text, labels, numbers or borders; annotation is drawn only in the derived sheet.",
+      "exceptions": []
+    },
+    {
+      "id": "board.animatic_review_only",
+      "severity": "error",
+      "applies_to": [
+        "preflight"
+      ],
+      "owner_path": ".agents/skills/scene-board-sheet/SKILL.md",
+      "summary": "A scene board sheet, overview, animatic or edited panel is a planning artifact and never a Seedance reference; its record states bind_to_seedance false.",
+      "exceptions": [
+        "Blocking maps and other control diagrams follow references.control_only instead."
+      ]
     }
   ]
 }

@@ -10,10 +10,18 @@ mode selection and caller responsibilities.
 
 ## Edit pattern for a failed panel
 
-For a failed panel in separate-images mode, use a narrow revision contract on
-that panel's image. For a failed panel in single-image grid mode, either
-re-generate the whole grid with an adjusted prompt, or use `seedream_edit_image`
-with a bounding box targeting just the failed panel's cell.
+Edit first. When some panels of a board fail, repair those panels and leave the
+others alone; do not regenerate the whole board. For a failed panel in
+separate-images mode, use a narrow revision contract on that panel's image. For a
+failed panel in single-image grid mode, use `seedream_edit_image` with a bounding
+box targeting just the failed panel's cell, and re-generate the grid only when most
+cells fail or the cause is shared.
+
+The scope ladder is panel, then shot, then scene. Escalate from an edit to
+regenerating the panel after two failed edits on the same dimension or when the
+defect is structural (a wrong beat, a reversed axis, wrong geography). An edit saves
+a new version of the same panel, keeps the original as rejected, and leaves every
+other panel's file, hash and approval unchanged. See [Scene Board](scene-board.md).
 
 ### HTTPS URL requirement for edits
 

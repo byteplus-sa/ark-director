@@ -91,6 +91,7 @@ between modalities.
 | Exact static typography, poster, title/end card, UI, product grid, price/CTA treatment, or transparent overlay | `html-graphic-render` |
 | General image generation or edit | `seedream-prompt` or `seedream-edit` |
 | Storyboard and visual continuity | `seedream-storyboard` |
+| Scene board record, annotated sheet, animatic and panel repair planning | `scene-board-sheet` |
 | Seed Audio prompt | `seed-audio-prompt` |
 | Narrative audio commercial | `seed-audio-commercial` |
 | Per-shot coverage, camera, lens intent and light for a scene | `seedance-shot-design` |

@@ -442,6 +442,15 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "scene-board-sheet": {
+      "kind": "leaf",
+      "description": "Assemble and time a scene's storyboard from existing sketch panels. Derives the scene board record from the shot plan at a per-scene level (L1, L2 or L3, L2 by default), validates it, registers generated and edited panel files with lineage, plans panel-only repairs so only failed panels are edited, and builds annotated sheet pages, a floor-plan overview, a timed animatic and a static review page. Use for scene-based storyboards that must be granular and detailed, scene board review sheets, animatics, stale-board checks after a shot plan or panel change, and repair planning for failed panels. Planning and assembly only: it never generates images, approves a panel, or produces a Seedance reference.",
+      "readme_summary": "Derive a scene's storyboard record from its shot plan at L1, L2 (default) or L3, register generated and edited panels, plan panel-only repairs, and build annotated sheets, an animatic and a static review page.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
     "showcase-html": {
       "kind": "tooling",
       "description": "Build and maintain a self-contained HTML canvas for generated-media projects created before HyperFrames Studio (projects with a showcase.json), and ad-hoc comparison pages (optional for Studio projects). For a pre-Studio canvas project, keep briefs, stage status, elements, prompts, references, images, audio, video takes, selections, review evidence, assemblies, and deliverables synchronized in one data-driven page throughout every production stage, and lock variants back into manifests. New production projects use a HyperFrames Studio project through studio_project.py instead. Use for pre-Studio canvas project review or lifecycle checkpoints, and whenever the user asks for an HTML gallery, before/after comparison, combined view, or local interface for comparing assets and choosing variants.",

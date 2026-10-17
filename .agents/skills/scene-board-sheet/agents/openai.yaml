@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scene Board Sheet"
+  short_description: "Granular scene storyboards at L1-L3 with sheets, animatic and panel-only repair"
+  default_prompt: "Use $scene-board-sheet to derive, check and assemble this scene's storyboard from its shot plan."
