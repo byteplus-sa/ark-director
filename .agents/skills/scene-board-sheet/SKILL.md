@@ -39,9 +39,9 @@ Never bind any of them to a Seedance request, in any mode or role
 (`board.animatic_review_only`). `board.md` and every derived record state
 `bind_to_seedance: false`. `check` fails when a request in `task_ids.json`
 references a board file by hash, by a registered panel path, or by a path under
-`scenes/scene-NN/board/`. That check lives in this skill; the shared request
-validator does not know about boards, so run `check` before submitting a scene's
-shots.
+`scenes/scene-NN/board/`. The shared request validator rejects the same files by
+path (`board.animatic_review_only`), so a prepared request cannot carry them; run
+`check` as well, because it also catches a board file bound under a different name.
 
 ## Levels
 

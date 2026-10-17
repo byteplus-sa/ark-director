@@ -362,6 +362,56 @@ class RequestValidationTests(unittest.TestCase):
             "references.ordered_bindings", {f.rule_id for f in self.findings()}
         )
 
+    def use_reference_at(self, relative: str) -> None:
+        path = self.root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"board fixture")
+        self.request["references"][0]["path"] = relative
+        self.request["references"][0]["sha256"] = self.hash(relative)
+
+    def test_storyboard_artifacts_are_rejected_as_references(self):
+        for relative in [
+            "scenes/scene-02/s02_sh010/s02_sh010_p010_t01_v01.png",
+            "scenes/scene-02/s02_sh010/s02_sh010_board_t01_v01.png",
+            "scenes/scene-02/board/sheet/anything.png",
+            "scenes/scene-02/board/animatic/s02_animatic_v01.mp4",
+            "elsewhere/s02_sheet_pg01_v01.png",
+            "elsewhere/s02_overview_v02.png",
+        ]:
+            with self.subTest(relative=relative):
+                self.use_reference_at(relative)
+                self.assertIn(
+                    "board.animatic_review_only",
+                    {f.rule_id for f in self.findings()},
+                )
+
+    def test_element_sheets_and_keyframes_are_not_taken_for_boards(self):
+        for relative in [
+            "elements/gloria/char_gloria_turnaround_v01.png",
+            "scenes/scene-02/s02_kf01_v01.png",
+            "scenes/scene-02/s02_sh010/s02_sh010_t01_v01.mp4",
+            "projects/board/photo.png",
+            "my_scenes/scene-02/board.png",
+        ]:
+            with self.subTest(relative=relative):
+                self.use_reference_at(relative)
+                self.assertNotIn(
+                    "board.animatic_review_only",
+                    {f.rule_id for f in self.findings()},
+                )
+
+    def test_board_path_detection_handles_separators_and_nesting(self):
+        self.assertTrue(
+            validation.is_board_artifact("a\\scenes\\scene-01\\board\\x.png")
+        )
+        self.assertTrue(
+            validation.is_board_artifact("p/scenes/scene-01/board/overview/x.png")
+        )
+        self.assertFalse(
+            validation.is_board_artifact("scenes/scene-01/s01_sh010/x.mp4")
+        )
+        self.assertFalse(validation.is_board_artifact(""))
+
     def test_known_task_is_not_eligible_for_new_submission(self):
         self.request["submission_status"] = "acknowledged"
         self.request["provider_task_id"] = "existing"

@@ -14,6 +14,24 @@ from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
 
 SCHEMA_ROOT = Path(__file__).resolve().parents[1] / "contracts/schemas"
+BOARD_DIRECTORY = re.compile(r"(?:^|/)scenes/scene-\d{2}/board/")
+BOARD_FILE = re.compile(
+    r"^s\d{2}_(?:"
+    r"sh\d{3}_p\d{3}_t\d{2}_v\d{2}\.png"
+    r"|sh\d{3}_board_t\d{2}_v\d{2}\.png"
+    r"|sheet_pg\d{2}_v\d{2}\.[a-z0-9]+"
+    r"|overview_v\d{2}\.[a-z0-9]+"
+    r"|animatic_v\d{2}\.[a-z0-9]+"
+    r")$"
+)
+
+
+def is_board_artifact(path: str) -> bool:
+    normalized = path.replace("\\", "/")
+    return bool(
+        BOARD_DIRECTORY.search(normalized)
+        or BOARD_FILE.match(normalized.rsplit("/", 1)[-1])
+    )
 
 
 @dataclass(frozen=True)
@@ -513,6 +531,14 @@ def reference_findings(
     expected_bindings: list[str] = []
     for ref in references:
         path = ref["path"]
+        if is_board_artifact(path):
+            findings.append(
+                Finding(
+                    "board.animatic_review_only",
+                    "Storyboard panels, boards, sheets, overviews and animatics are planning artifacts, never generation inputs",
+                    path,
+                )
+            )
         if ref.get("control_only"):
             findings.append(
                 Finding(

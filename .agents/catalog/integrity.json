@@ -413,7 +413,7 @@
     ".agents/skills/prompt-review/references/review-checklists.md": "01e26bc1711a5013b0db8cbc9f994a9d9fd682bbe05f6e1dad1dae853aeb77a9",
     ".agents/skills/prompt-review/references/rule-provenance.json": "339c18194ddda3efaee08a11f56ed8cd06e5fc53d953bda97a460a820aa0da55",
     ".agents/skills/prompt-review/scripts/record_review.py": "deeee84faee7e1f8197e45dbe531c646e80be0a1e3b5760c38eae01dc914cf89",
-    ".agents/skills/scene-board-sheet/SKILL.md": "98ea880382d388ccfe3a69b1fdce2d097e7fdd3d60674179c5fa8390485de328",
+    ".agents/skills/scene-board-sheet/SKILL.md": "b2f7bf29ea823befeac8c58a8b4a5daa155898124da5438515da79c2d88a2e43",
     ".agents/skills/scene-board-sheet/agents/openai.yaml": "90bd554cd3d1cee37c1c0ec8a36fc7a9b84572556939f3e46aeb4432a354ac32",
     ".agents/skills/scene-board-sheet/evals/evals.json": "2c088cff143505f508999b8416d2b9750834bc1c9cb7cb79577bf9a9ba1a7277",
     ".agents/skills/scene-board-sheet/evals/files/scene-03-with-shot-plan.md": "1437c2e2faca9e00bf59a52301339e5fca709fc65fd6e8e7aca10e33dae05c0e",
