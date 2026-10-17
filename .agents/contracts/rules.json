@@ -442,6 +442,16 @@
       ]
     },
     {
+      "id": "seedance.draft_promotion_source",
+      "severity": "error",
+      "applies_to": [
+        "preflight"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "A request carrying draft_task_id names a registered 480p Seedance 2.5 draft of the same model and prompt, approved in the registry or by a passing variant-selection decision for its expected output.",
+      "exceptions": []
+    },
+    {
       "id": "audio.native_route",
       "severity": "error",
       "applies_to": [

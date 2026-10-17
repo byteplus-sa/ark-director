@@ -253,12 +253,15 @@ suitable supported resolution; do not switch models solely to force a draft.
 
 Inspect draft playback and audio, motion, continuity and the shot plan. Record a
 passing, hash-bound draft selection under the project's approval mode before
-final-resolution generation. For multi-shot projects, review the draft assembly
-and record the picture/audio decisions before generating final takes. Preserve
-all draft files, prompt snapshots, references, task IDs and decisions. Generate
-final takes only within the authorized scope and budget at the recorded delivery
-target; do not assume 1080p is always required. A requested 480p delivery can use
-reviewed 480p takes after delivery QA.
+final-resolution generation. A promotion by `draft_task_id` must name a
+registered 480p Seedance 2.5 draft of the same model and prompt whose registry
+review is `approved` or whose expected output has a passing variant-selection
+decision (`seedance.draft_promotion_source`). For multi-shot projects, review
+the draft assembly and record the picture/audio decisions before generating
+final takes. Preserve all draft files, prompt snapshots, references, task IDs
+and decisions. Generate final takes only within the authorized scope and budget
+at the recorded delivery target; do not assume 1080p is always required. A
+requested 480p delivery can use reviewed 480p takes after delivery QA.
 
 A 480p output is not automatically a provider-native Draft task. Use native
 Draft/promotion only after verifying the current tool/model/operation supports
