@@ -7,7 +7,6 @@
   --border-strong: #404040;
   --text: #ededed;
   --muted: #a1a1a1;
-  --faint: #707070;
   --accent-2: #52a8ff;
   --accent-3: #62c073;
   --accent-3-soft: rgba(98, 192, 115, 0.12);
@@ -26,12 +25,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 ::selection { background: #fff; color: #000; }
-a { color: inherit; }
-a:focus-visible, video:focus-visible, audio:focus-visible {
-  outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 4px;
+video:focus-visible, audio:focus-visible {
+  outline: 2px solid var(--accent-2); outline-offset: -2px; border-radius: 4px;
 }
 main { max-width: 1200px; margin: 0 auto; padding: 64px 32px 96px; }
-h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
+h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; overflow-wrap: anywhere; }
 h1 { font-size: clamp(32px, 5vw, 48px); letter-spacing: -0.035em; line-height: 1.1; }
 h2 {
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
@@ -53,6 +51,7 @@ section {
   letter-spacing: 0.05em; text-transform: uppercase; vertical-align: middle;
   border: 1px solid var(--border); border-radius: 4px;
 }
+h2 > * { min-width: 0; }
 h2 .badge { margin-right: 0; }
 .locked { background: var(--accent-3-soft); border-color: rgba(98, 192, 115, 0.4); color: var(--accent-3); }
 .other { background: var(--panel-2); color: var(--muted); }

@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -2159,18 +2160,74 @@ class StudioElementLockTests(unittest.TestCase):
         self.assertIn("LOCKED_mira_v03.png", index)
         self.assertNotIn("v01.png", index)
 
-    def test_elements_page_uses_the_shared_vercel_review_sheet(self):
+    def test_elements_page_uses_the_shared_review_sheet(self):
         names = self.add_element()
         studio.record_element_lock(
             self.project, "mira", self.decision("mira", names[2])
         )
         sheet = (self.project / "review/elements.css").read_text()
-        shared = (
-            Path(__file__).resolve().parents[1]
-            / ".agents/skills/showcase-html/assets/review-page.css"
-        ).read_text()
-        self.assertEqual(sheet, shared)
-        self.assertNotIn("#faf8f5", sheet)
+        self.assertEqual(sheet, studio.REVIEW_PAGE_CSS.read_text())
+
+    def test_every_class_on_the_elements_page_has_a_selector_in_the_sheet(self):
+        names = self.add_element()
+        studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[2])
+        )
+        page = (self.project / "review/elements.html").read_text()
+        selectors = set(
+            re.findall(r"\.([A-Za-z][\w-]*)", studio.REVIEW_PAGE_CSS.read_text())
+        )
+        classes = {
+            name
+            for value in re.findall(r'class="([^"]+)"', page)
+            for name in value.split()
+        }
+        self.assertTrue(classes)
+        self.assertEqual(classes - selectors, set())
+
+    def test_resyncing_elements_leaves_the_review_page_unchanged(self):
+        names = self.add_element()
+        studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[2])
+        )
+        review = self.project / "review"
+        before = {path.name: path.read_bytes() for path in review.iterdir()}
+        report = studio.sync_elements(self.project)
+        after = {path.name: path.read_bytes() for path in review.iterdir()}
+        self.assertEqual(report["copied"], [])
+        self.assertEqual(before, after)
+
+    def test_missing_review_sheet_stops_a_lock_before_anything_changes(self):
+        names = self.add_element()
+        missing = Path(self.temp.name) / "missing.css"
+        with (
+            mock.patch.object(studio, "REVIEW_PAGE_CSS", missing),
+            self.assertRaises(studio.StudioError),
+        ):
+            studio.record_element_lock(
+                self.project, "mira", self.decision("mira", names[2])
+            )
+        manifest = (self.project / "elements/mira/element.md").read_text()
+        self.assertIn("status: review", manifest)
+        self.assertNotIn("selected_variant", manifest)
+        self.assertEqual(self.locked_files(), [])
+        self.assertFalse((self.project / "decisions").exists())
+        self.assertFalse((self.project / "review/elements.html").exists())
+
+    def test_missing_review_sheet_stops_sync_before_studio_assets_change(self):
+        names = self.add_element()
+        studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[2])
+        )
+        stale = self.assets / "LOCKED_ghost_v01.png"
+        stale.write_bytes(b"ghost")
+        missing = Path(self.temp.name) / "missing.css"
+        with (
+            mock.patch.object(studio, "REVIEW_PAGE_CSS", missing),
+            self.assertRaises(studio.StudioError),
+        ):
+            studio.sync_elements(self.project)
+        self.assertTrue(stale.is_file())
 
     def test_a_variant_outside_the_manifest_is_refused(self):
         names = self.add_element()

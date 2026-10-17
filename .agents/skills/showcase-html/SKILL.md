@@ -282,6 +282,11 @@ script, and media links are relative to the page, so keep the page and the media
 on the same disk and open the HTML file directly (`file://`). Put it under
 `projects/<project>/review/` for a project.
 
+The CSS is a copy of `assets/review-page.css`, the shared dark theme for static
+review pages. `studio_project.py sync-elements` copies the same file to
+`review/elements.css`, so a change to it restyles both pages; keep its tokens in
+step with `template.html`.
+
 Use `--quick` for ad-hoc files, or optionally for a Studio project's elements,
 audio and candidate takes (write it under `projects/<project>/review/`, never at
 the project root). A pre-Studio canvas project's review uses its persistent
