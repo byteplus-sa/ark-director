@@ -539,6 +539,11 @@ def board_finding(path: str) -> Finding:
     )
 
 
+def is_draft_promotion(params: Any) -> bool:
+    task_id = params.get("draft_task_id") if isinstance(params, dict) else None
+    return isinstance(task_id, str) and bool(task_id.strip())
+
+
 def reference_findings(
     root: Path,
     references: list[dict[str, Any]],
@@ -547,6 +552,7 @@ def reference_findings(
     *,
     model: str = "",
     allow_board_references: bool = False,
+    inherits_inputs: bool = False,
 ) -> list[Finding]:
     findings: list[Finding] = []
     guard_boards = board_guard_applies(model, allow_board_references)
@@ -609,6 +615,8 @@ def reference_findings(
                 )
             )
     actual = set(re.findall(r"@(?:Image|Video|Audio) \d+\b", prompt))
+    if inherits_inputs and not references:
+        return findings
     if actual != set(expected_bindings):
         findings.append(
             Finding(
@@ -749,6 +757,7 @@ def prepared_evidence_findings(
             request["schema_version"],
             model=request["model"],
             allow_board_references=allow_board_references,
+            inherits_inputs=is_draft_promotion(request["params"]),
         )
     )
     findings.extend(project_mode_findings(root, request))

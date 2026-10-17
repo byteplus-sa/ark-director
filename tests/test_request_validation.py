@@ -498,6 +498,56 @@ class RequestValidationTests(unittest.TestCase):
         )
         self.assertFalse(validation.is_board_artifact(""))
 
+    def promote(self, task_id="cgt-draft-1"):
+        self.request["references"] = []
+        self.request["params"] = {"draft_task_id": task_id, "resolution": "1080p"}
+        self.caps["parameters"] = {
+            "draft_task_id": {"type": "string"},
+            "resolution": {"enum": ["1080p"]},
+        }
+        self.rehash()
+
+    def ordered_binding_findings(self):
+        return [
+            finding
+            for finding in self.findings()
+            if finding.rule_id == "references.ordered_bindings"
+        ]
+
+    def test_draft_promotion_without_references_accepts_inherited_bindings(self):
+        self.promote()
+        self.assertEqual(self.findings(), [])
+
+    def test_request_without_references_still_fails_prompt_bindings(self):
+        self.request["references"] = []
+        self.rehash()
+        self.assertTrue(self.ordered_binding_findings())
+
+    def test_blank_draft_task_id_is_not_a_promotion(self):
+        self.promote(task_id="  ")
+        self.assertTrue(self.ordered_binding_findings())
+
+    def test_promotion_with_partial_references_still_fails_bindings(self):
+        reference = copy.deepcopy(self.request["references"][0])
+        (self.root / "prompt.md").write_text("Walks past @Image 1 and @Image 2.\n")
+        self.request["prompt_sha256"] = self.hash("prompt.md")
+        self.promote()
+        self.request["references"] = [reference]
+        self.caps["parameters"]["draft_task_id"] = {"type": "string"}
+        self.rehash()
+        self.assertTrue(self.ordered_binding_findings())
+
+    def test_promotion_with_recorded_references_still_checks_their_hashes(self):
+        reference = copy.deepcopy(self.request["references"][0])
+        self.promote()
+        self.request["references"] = [reference]
+        self.rehash()
+        self.assertEqual(self.findings(), [])
+        (self.root / "image.png").write_bytes(b"changed image")
+        self.assertIn(
+            "references.current_hashes", {f.rule_id for f in self.findings()}
+        )
+
     def test_known_task_is_not_eligible_for_new_submission(self):
         self.request["submission_status"] = "acknowledged"
         self.request["provider_task_id"] = "existing"
