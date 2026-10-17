@@ -463,11 +463,23 @@
       "skillPath": ".agents/skills/seedance-virtual-portrait/SKILL.md",
       "computedHash": "2a265a654a696bc544d788519fba9921faae507fd03949dd8ba0644c90533feb"
     },
+    "seedream-woodblock-poster": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedream-woodblock-poster/SKILL.md",
+      "computedHash": "28f2c93d3549cc0e5fab399b6cb39df2072324746bb45c16c5757018889816a2"
+    },
     "omnihuman-prompt-20": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/omnihuman-prompt-20/SKILL.md",
       "computedHash": "703838a056fde165e4d98bc228cc54d18b468de682e83dc88af16dcdc96f51d1"
+    },
+    "update": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/update/SKILL.md",
+      "computedHash": "6bcc711ea41161b2d096448091014c5a040c8816bd238b8be2a43e2f6051f2ea"
     }
   }
 }

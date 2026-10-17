@@ -694,10 +694,28 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "seedream-woodblock-poster": {
+      "kind": "leaf",
+      "description": "Write Seedream prompts for vivid engraved woodblock-style illustrated posters and cohesive image series from a supplied visual reference or a text concept. Use for folklore, mythology, creatures, or other subjects rendered with flat ink shapes, fine contour hatching, aged paper, dramatic silhouettes, and miniature landscapes. Not for animation, collage assembly, photorealism, character turnarounds, or exact typography and graphic layouts.",
+      "readme_summary": "Writes engraved woodblock-style poster and art-series prompts with reference roles, distinct subjects, shared print treatment, and visual QA.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
     "omnihuman-prompt-20": {
       "kind": "leaf",
       "description": "Write and refine the optional text prompt for OmniHuman 2.0 (BytePlus Vision AI), the lip-sync digital-human video model driven by one image plus one audio track. Use when a character in a photo or illustration must talk, sing or react to supplied audio and the prompt should direct camera moves, emotion arcs, ordered gestures and actions, which person speaks in a group shot, focus pulls, background events, environment interaction, or added props and effects; also for animals, mascots and stylized or pixel characters. Covers input checks (image limits, 4-300 s audio, supported prompt languages), the camera + emotion + speaking state + actions + background template, splitting long audio into stable segments, and symptom-based fixes such as a mouth that does not move, identity drift or an ignored camera move. Prompt and input preparation only; it does not sign or submit API requests. Not for Seedance video prompts, voice or music generation, or lip-syncing existing footage.",
       "readme_summary": "Writes OmniHuman 2.0 lip-sync prompts from one image and one audio track: camera, emotion, speaking state, ordered actions, speaker choice in group shots, added effects, segmenting long audio, input checks and symptom-based fixes.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": null
+    },
+    "update": {
+      "kind": "leaf",
+      "description": "Bring this repository up to date with its remote: fetch, integrate the upstream branch (default main), resolve merge conflicts file by file while preserving local work, then re-run workspace validation and refresh the skill catalog when skills changed. Use when asked to update the repo, pull latest changes, sync with origin, or resolve conflicts after pulling. Pushes only when the user asks. Not for committing task work or rewriting history.",
+      "readme_summary": "Updates the repository from its remote, resolves merge conflicts while preserving local work, and re-runs validation and catalog refresh.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

@@ -156,6 +156,7 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
+| **update** | Updates the repository from its remote, resolves merge conflicts while preserving local work, and re-runs validation and catalog refresh. |
 | **blender-to-seedance** | End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. |
 | **seedance-ai-avatar** | Authorized real-presenter AI avatar: consent gate, Seedream character sheet, isolated voice clip, sheet-only lip-synced Seedance talking-head takes and QA. |
 | **seedance-avatar-news** | Creator-style news shorts hosted by an AI avatar: sourced script, official B-roll with provenance, and a deterministic split/full/card caption edit. |
@@ -210,6 +211,7 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 |---|---|
 | **seedream-prompt** | Write Seedream prompts for synthesized or edited imagery while routing exact typography, pricing, CTA, product grids, logos, and pixel layouts to deterministic graphics. |
 | **seedream-handcrafted-3d** | Writes handcrafted stylized 3D character and material-study prompts with painterly surfaces, tactile fabrics, reference roles, and visual QA. |
+| **seedream-woodblock-poster** | Writes engraved woodblock-style poster and art-series prompts with reference roles, distinct subjects, shared print treatment, and visual QA. |
 | **seedream-character-sheet** | Writes structured Seedream prompts for three-panel character sheets and identity references. Produces the canonical character turnarounds that Seedance uses as face anchors. |
 | **seedream-character-sheet-cleanup** | Cleans Seedream character sheets by removing the head from the full-body panels so only the close-up panel keeps a readable face. |
 | **seedream-character-outfit** | Writes Seedream image-to-image prompts that change the outfit on an approved character sheet, with always-worn accessories, a change contract, and identity-drift QA. |

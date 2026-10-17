@@ -2159,6 +2159,19 @@ class StudioElementLockTests(unittest.TestCase):
         self.assertIn("LOCKED_mira_v03.png", index)
         self.assertNotIn("v01.png", index)
 
+    def test_elements_page_uses_the_shared_vercel_review_sheet(self):
+        names = self.add_element()
+        studio.record_element_lock(
+            self.project, "mira", self.decision("mira", names[2])
+        )
+        sheet = (self.project / "review/elements.css").read_text()
+        shared = (
+            Path(__file__).resolve().parents[1]
+            / ".agents/skills/showcase-html/assets/review-page.css"
+        ).read_text()
+        self.assertEqual(sheet, shared)
+        self.assertNotIn("#faf8f5", sheet)
+
     def test_a_variant_outside_the_manifest_is_refused(self):
         names = self.add_element()
         rogue = self.project / "elements/mira/char_mira_turnaround_v09.png"
