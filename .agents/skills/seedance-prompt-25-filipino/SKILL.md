@@ -2,8 +2,11 @@
 name: seedance-prompt-25-filipino
 description: >-
   Write or revise Filipino, Tagalog, and Taglish dialogue direction for Seedance.
-  Preserve approved exact words, speaker identity, meaning, and register. Use
-  native audio by default; separate Seed Audio lip-sync is opt-in. Diagnose a
+  Preserve approved exact words, speaker identity, meaning, and register; draft
+  new lines as English-dominant Taglish with simple Tagalog unless the brief
+  sets another register, and treat "English with a Filipino accent" as an
+  accent note rather than code-switching. Use native audio by default;
+  separate Seed Audio lip-sync is opt-in. Diagnose a
   specific pronunciation or delivery issue before proposing targeted annotation
   or an agreed vocabulary change. Treat pronunciation directions as hypotheses
   requiring listening review. Use for Filipino video prompts, natural dialogue,
@@ -46,12 +49,23 @@ words and completing the unaffected direction.
    simpler wording only when rewriting is in scope, and preserve meaning,
    relationship, period, regional voice, and register. Do not replace literary
    language merely because it is literary.
-5. **Keep spoken words separate from guidance.** Copy the selected dialogue
+5. **Draft new lines English-dominant by default; keep accent separate from
+   language.** When the brief sets no register, new dialogue is English-dominant
+   Taglish with simple, common Tagalog (po, opo, sige, tara, ingat, salamat):
+   dense Tagalog raises the native-audio mispronunciation risk. A request for
+   "English with a Filipino accent" is different: every spoken word stays
+   English inside the braces and the accent goes in a delivery note outside
+   them. It is not a reason to add Tagalog words, and only a listener can
+   confirm it. Approved lines keep their own register either way
+   (`dialogue.filipino_register`).
+6. **Keep spoken words separate from guidance.** Copy the selected dialogue
    inside `{curly braces}`. Put pronunciation and acting notes outside braces
    unless the user explicitly asks to change the spoken text.
-6. **Review what was produced.** Model directions are requests, not guarantees.
-   Listen against exact words and the approved speaker/register reference.
-   Unavailable listening or linguistic evidence remains unresolved.
+7. **Review what was produced.** Model directions are requests, not guarantees.
+   Use `speech_to_text` on the take for the words, and a listener (ideally a
+   native speaker) for pronunciation, accent and register; an audio
+   understanding model's verdict is not evidence for those. Unavailable
+   listening or linguistic evidence remains unresolved.
 
 ## Procedure and reference loading
 
@@ -69,7 +83,7 @@ Read only the references needed for the current issue:
 | Actual heard failures from past takes, as listening priorities | [Observed failures](references/observed-failures.md) |
 | Compact preflight | [Quick reference](references/quick-reference.md) |
 
-## Minimal native-audio form
+## Minimal native-audio forms
 
 ```text
 Dialogue language: <approved variety and register>.
@@ -77,6 +91,15 @@ Dialogue language: <approved variety and register>.
 <Speaker> says: {<exact approved dialogue>}
 Pronunciation note, only if needed: <specific evidence-backed target or clearly
 identified hypothesis; this note is not spoken dialogue>.
+```
+
+English with a Filipino accent, no code-switching:
+
+```text
+Dialogue language: English, spoken with a natural Filipino accent.
+<Speaker> says warmly to <addressee>: {<exact English line>}
+Delivery note (not spoken): <one accent or rhythm cue, e.g. relaxed, syllable-
+timed rhythm>; every spoken word stays English.
 ```
 
 Use enough delivery direction to make the line playable. Do not pad every line

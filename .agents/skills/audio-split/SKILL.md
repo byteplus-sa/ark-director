@@ -23,7 +23,7 @@ The max-duration, count, and explicit-cut strategies are mutually exclusive. Dur
 
 ## Limits and encoded media
 
-The existing Seed Audio reference workflow uses **at most 30 seconds and 10,000,000 bytes per encoded clip**, with up to three reference clips per request. Confirm the current provider/tool requirements before uploading.
+The existing Seed Audio reference workflow uses **at most 30 seconds and 10,000,000 bytes per encoded clip**, with up to three reference clips per request. Some Seed Audio versions also enforce a **minimum of about 2 seconds** per reference clip and allow more clips; this helper does not check the minimum, so inspect the manifest durations of short final segments before uploading. Confirm the current provider/tool requirements before uploading.
 
 `--reference` enforces those per-clip limits in every strategy. A maximum of 30 seconds or less also enables reference-size checks, matching the established `-m 30` upload-preparation workflow. A generic explicit/count split may create longer clips; it reports reference-limit warnings without changing the requested cut.
 

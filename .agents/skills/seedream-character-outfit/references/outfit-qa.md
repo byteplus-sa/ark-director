@@ -28,6 +28,8 @@ Inspect every sample next to the parent sheet. A tool answer from
 | Old garment still visible | Residual-original guard too weak | Name each old item under REMOVE and in the prompt; describe the new item's exact area |
 | Back panel differs from front | Layers or sleeves not stated | State layers and sleeve lengths for both |
 | Glasses reflect or hide the eyes | No clear-lens phrase | Add the clear non-reflective lens wording |
+| Hair shorter or hidden under a shawl or scarf | Wrap covers the shoulders | State the hair length and that it falls over the wrap in both body panels |
+| Invented label, logo or lettering on a garment | Garment not described as plain | Add "plain fabric, no visible label or print" for that garment |
 | Extra readable face in a body panel | Parent behavior or new pose | Use `seedream-character-sheet-cleanup` on the new version |
 | Panels merged or reordered | Layout description too brief | Copy the parent Composition text verbatim |
 | Skin tone shifted | Clothing color cast | Restate the skin tone from the descriptor; keep neutral white balance |

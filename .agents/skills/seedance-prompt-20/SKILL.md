@@ -1,31 +1,51 @@
 ---
 name: seedance-prompt-20
-description: Write and revise production-grade Seedance 2.0 video prompts with reference-role classification, subject definitions, spatial continuity, shot sequencing, camera direction, native audio, and constraints. Use this skill for Seedance 2.0 prompts, shot lists, chase or action blocking, scene geography, reference-driven video, and corrections to generated motion or continuity. For Seedance 2.5 prompts, compose with seedance-prompt-25 instead.
+description: >-
+  Write and revise Seedance 2.0 video prompts, the legacy model used for 4K
+  output and the Fast/Mini speed variants: asset preparation within the 2.0
+  reference limits, Define subject definitions, task-type declaration,
+  shot-by-shot sequencing with inline reference binding, spatial continuity for
+  chase or action blocking, native audio, and inline constraints. Use for
+  Seedance 2.0 prompts, shot lists, 4K or Fast/Mini requests, and corrections
+  to 2.0 generations. For Seedance 2.5 prompts, use seedance-prompt-25 instead.
 ---
 
 # Seedance 2.0 Prompt
 
-> **For Seedance 2.5 prompts, the `seedance-prompt-25` skill covers those.** This skill
-> is for the legacy Seedance 2.0 model. The 2.5 model has a different prompt anatomy
-> (flexible formula, 50 references, variable-duration scene staging, structured editing
-> templates) that is not covered here.
-
-Write production-grade prompts for the BytePlus Seedance 2.0 series video generation model. Every prompt follows a strict engineering structure: reference inventory, subject definitions, shot-by-shot timeline, and constraints. The model is a multimodal AI director that reads text, images, video, and audio simultaneously and decomposes them into a spatial layer (what is in the frame) and a temporal layer (how things change over time).
+This skill covers only what differs on the legacy Seedance 2.0 series. New
+work defaults to Seedance 2.5 (`seedance-prompt-25`); use 2.0 when the request
+needs 4K output through 2.0, the Fast or Mini variants, or a revision of an
+existing 2.0 take. The 2.0 action, emotion and revision rules are below; broader
+directing craft (shot plans, counts, frame-side hands, text-free frames, the
+speech budget) matches `seedance-prompt-25`, which can be composed for depth.
 
 ## Source authority
 
-The prompt structure and rules in this skill are sourced from the official BytePlus Seedance 2.0 prompt guide:
+The prompt structure and rules here follow the official BytePlus Seedance 2.0
+prompt guide:
 - [Seedance 2.0 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/2222480)
 - [Seedance 2.0 Series Tutorial](https://docs.byteplus.com/en/docs/ModelArk/2291680)
 - [Lens Language Reference](https://docs.byteplus.com/en/docs/ModelArk/1631633#a395fd3b)
 
-When the official guide is updated, prefer the live page over this skill where they conflict.
+When the official guide is updated, prefer the live page where they conflict.
+
+## What differs from 2.5
+
+| Topic | Seedance 2.0 | Seedance 2.5 |
+|---|---|---|
+| Duration | 4-15 s | 4-30 s |
+| References | 9 images, 3 videos, 3 audio; audio never alone; combined video ≤ 15 s, combined audio ≤ 15 s | 30 images, 10 videos, 10 audio (50 total) |
+| Resolution | Standard 480p-4K; Fast and Mini 480p/720p | 480p-1080p (4K only on whitelisted 2.5 Premium) |
+| Draft mode | None in the MCP tool: a 480p request is an ordinary paid run | `draft: true`, then promote by `draft_task_id` |
+| Prompt anatomy | Fixed section order with `Define` labels and a task-type line | Flexible six-part formula |
+| MCP tool | `seedance_create_task` | `seedance_2_5_create_task` |
 
 ## Recommended prompt structure
 
-Assemble Seedance 2.0 prompts in this order. Use short, natural-language headings rather than decorative delimiters. Omit a section only when it does not apply to the user's task.
+Assemble a Seedance 2.0 prompt in this order. Use short natural-language
+headings; omit a section only when it does not apply.
 
-```
+```text
 Asset preparation:
 Subject definitions:
 Prompt:
@@ -36,341 +56,253 @@ Quality and constraints:
 
 ### 1. Asset preparation (always first)
 
-List every reference asset the user provides. Label them with `@Image 1`, `@Video 1`, `@Audio 1` using sequential numbering starting from 1 for each type (space separator, no underscore). Include a short role or description for each reference so the model and the human reader know what each asset is for.
+Label every reference `@Image 1`, `@Video 1`, `@Audio 1`, numbered from 1 per
+type with a space separator, and give each a short role.
 
-```
+```text
 Asset preparation:
-@Image 1: [role, e.g. "subject portrait / character reference"]
-@Image 2: [role, e.g. "scene / environment reference"]
-@Image 3: [role, e.g. "style / lighting reference"]
-@Video 1: [role, e.g. "camera movement reference"]
-@Video 2: [role, e.g. "motion style reference"]
-@Audio 1: [role, e.g. "voice timbre reference"]
-@Audio 2: [role, e.g. "ambience / SFX reference"]
+@Image 1: female lead character sheet
+@Image 2: dormitory room location sheet
+@Video 1: medium-shot dolly camera movement reference
+@Audio 1: indoor ambience
 ```
 
-Rules for references:
-- Up to 9 images, 3 videos, 3 audio per request (15 total).
-- Audio cannot be sent alone; at least one image or video is required.
-- Reference images: .jpeg/.png/.webp/.bmp/.tiff/.gif (+ .heic/.heif for Seedance 2.0). Aspect ratio 0.4–2.5. Dimensions 300–6000px. Max 30 MB per image; 64 MB total request body.
-- Video clips: 2-15s each, MP4/MOV (H.264/H.265 video; AAC/MP3 audio), 24-60 FPS, 200 MB max. **Total combined duration of all reference videos must not exceed 15s.**
-- Audio clips: 2-15s each, WAV/MP3, 15 MB max. **Total combined duration of all reference audio must not exceed 15s.**
-- Reference images provide identity, style, and scene lock. Reference videos transfer camera language and motion (not pixel transfer). Reference audio provides voice timbre, SFX, and ambience.
+Input limits for 2.0:
 
-Classify each reference by how it may influence visible output:
+- Images: .jpeg/.png/.webp/.bmp/.tiff/.gif (+ .heic/.heif), aspect ratio
+  0.4-2.5, 300-6000 px, ≤ 30 MB each, ≤ 64 MB request body.
+- Videos: 2-15 s each, MP4/MOV (H.264/H.265; AAC/MP3 audio), 24-60 fps,
+  ≤ 200 MB; combined ≤ 15 s.
+- Audio: 2-15 s each, WAV/MP3, ≤ 15 MB; combined ≤ 15 s.
 
-- **Visible identity** — character, creature, costume, prop, or vehicle that should appear.
-- **Visible environment** — location, lighting, weather, or production design that should appear.
-- **Motion or camera reference** — movement language to transfer without copying pixels.
-- **Control-only reference** — route map, blocking diagram, timing chart, or other planning material that must not appear.
+Classify each reference as visible identity, visible environment, motion or
+camera reference, or control-only. Translate a control-only image (route map,
+blocking diagram) into text and omit it. If the user insists the image stays in
+the bundle, label it control-only, state exactly what to extract, forbid visual
+reproduction, and say leakage is still possible. Storyboard boards and panels are never
+bound: their numbers and sketch medium leak into the video. If a reference
+shows something that must not appear (an aura, a logo, an extra face), clean or
+replace the reference rather than relying on "no aura".
 
-Every supplied image can leak visible pixels, colors, lines, labels, or composition into the result. For a control-only image, prefer translating its information into concise textual choreography and omitting the image from the request. If the user explicitly requires the image to remain in the bundle, label it as control-only, state exactly what information to extract, prohibit visual reproduction, and disclose that leakage remains possible.
-
-Reference content can overpower negative wording. If a character sheet contains an aura, weapon, logo, extra face, or visual effect that must not appear, clean or replace the reference instead of relying only on "no aura" or similar constraints.
-
-**Portrait / face restriction**: Seedance 2.0 does not accept direct uploads of reference images or videos containing real human faces. Use one of: (a) outputs previously generated by a Seedance/Seedream model (trusted face-containing outputs within 30 days), (b) preset digital characters from the Elements & Digital Characters library, or (c) authorized real-person assets verified via ByteDance liveness. See the [Seedance 2.0 series tutorial](https://docs.byteplus.com/en/docs/ModelArk/2291680) for details.
+**People.** Seedance 2.0 rejects direct uploads of real human faces. Use recent
+Seedance/Seedream outputs, preset digital characters, or authorized `asset://`
+portrait assets; compose with `seedance-virtual-portrait` for that route.
 
 ### 2. Subject definitions
 
-Define every distinct subject that appears in the references using the `Define` keyword. Use 2-3 clear, stable static features (clothing, hairstyle, appearance, category) to uniquely identify each subject. Labels must be unique and stable across the entire prompt.
+Define every distinct subject with the `Define` keyword and 2-3 stable static
+features (clothing, hairstyle, build, category). Labels are unique and reused in
+every shot.
 
-```
+```text
 Subject definitions:
-Define the [2-3 core static features] in @Image 1 as [Subject_Label]
-Define the [2-3 core static features] in @Image 2 as [Subject_Label]
+Define the young woman with long dark hair and a white blouse in @Image 1 as Girl
+Define the [features] in @Image 1 and [features] in @Image 2 as [Label]
+Define the [features of A] in @Video 1 as [Label_A], and the [features of B] in @Video 1 as [Label_B]
 ```
 
-For single subjects across multiple references:
-```
-Define the [features] in @Image 1 and [features] in @Image 2 as [Subject_Label]
-```
-
-Multi-subject in one asset:
-```
-Define the [features of subject A] in @Video 1 as [Label_A], and define the [features of subject B] in @Video 1 as [Label_B]
-```
-
-Rules:
-- Static features only: clothing, hairstyle, build, species. Do not use mutable attributes like expression or pose.
-- Reuse the same label in every shot that features that character.
-- Each time a subject is mentioned in the shots section, use the defined label consistently.
-- For simple scenarios without definitions, use `<Subject>@Image 1` inline to bind subject to asset (e.g. `Zhang San@Image 1`).
-- Do not use Asset IDs directly; always use `@Image 1` / `@Video 1` (the model cannot associate Asset IDs with reference content).
+- Static features only; no expression or pose.
+- For simple scenes, bind inline instead: `Girl @Image 1`.
+- Never use Asset IDs; the model cannot associate them with reference content.
 
 ### 3. Prompt and task type
 
-Start the main prompt by declaring which generation mode applies. Pick exactly one primary type (or a combination if the task genuinely spans both).
+Declare one primary task type (or a genuine combination):
 
-```
+```text
 Prompt:
 Task type: Multimodal Reference | Video Editing | Video Extension | Combined Tasks
 ```
 
-**Multimodal Reference**: Extract elements from assets (subject, style, scene, sound) to generate a brand-new video. Use patterns like:
-- `Reference <Subject_N> in @Image 1 to generate...`
-- `Reference the <camera movement / style / sound effect> in @Video 1 to generate...`
-- `Reference the timbre in @Audio 1 to generate...`
+- **Multimodal Reference:** `Reference <Subject> in @Image 1 to generate...`,
+  `Reference the camera movement in @Video 1...`, `Reference the timbre in @Audio 1...`.
+- **Video Editing:** unmentioned parts stay unchanged. Add: `<Element_Features>
+  + <Timing> + <Location>`; modify: `Strictly edit @Video 1, and modify
+  <Original> in it to <New>`; for a removal, say what stays.
+- **Video Extension:** `Extend @Video 1 forward/backward to generate...`, or
+  `@Video 1 + <transition> + followed by @Video 2`.
+- **Combined Tasks:** `Reference [dimension] of @Image 1, strictly edit @Video 1, [edits]`.
 
-**Video Editing**: Make partial or global modifications to an existing video. Unmentioned parts stay unchanged. Use patterns like:
-- Add: `Clearly describe <Element_Features> + <Timing> + <Location>`
-- Modify: `Strictly edit @Video 1, and modify <Original> in it to <New>`
-- Delete: Specify elements to remove; emphasize what should stay unchanged.
-
-**Video Extension**: Continue a video along the time dimension. Use patterns like:
-- `Extend @Video 1 forward/backward to generate...`
-- `@Video 1 + <Transition_Description> + followed by @Video 2 + <Transition_Description> + followed by @Video 3`
-
-**Combined Tasks**: Reference one asset while editing another. Pattern:
-- `Reference [Reference_Dimension] of @Image 1, strictly edit @Video 1, [Specific_Edits]`
-
-**Important**: For edit and extend tasks, use `@Video 1` directly (e.g., "Strictly edit @Video 1..."). Do not write "Reference @Video 1" for these modes, or the model will treat it as a multimodal reference task.
+For edit and extend tasks write `@Video 1` directly. "Reference @Video 1"
+switches the model to multimodal reference mode.
 
 ### 4. Shots
 
-Write a timeline-based storyboard using `Shot 1 / Shot 2 / Shot 3` in event order. Each shot covers one coherent unit of action. For narrative, ad, micro-drama, music-video and showcase shots, plan each shot's size, angle, move and light source with `seedance-shot-design` first and carry those facts into the shot lines. The official Seedance 2.0 guide recommends shot sequencing, but it does not require second-level timecodes or a declared duration for every shot.
+Write `Shot 1 / Shot 2 / Shot 3` in event order, one coherent unit of action
+per shot. For narrative, ad, micro-drama, music-video and showcase shots, carry
+each shot's size, angle, move and light source from the scene's shot plan
+(`seedance-shot-design`). For movement-heavy scenes, state start positions,
+travel axis, subject order, boundary behavior, end state and forbidden
+transitions first, using physical locations ("forest interior → inland tree
+line → white sand"), and repeat the invariants that matter in every shot.
 
-Before writing shots for movement-heavy scenes, define a spatial continuity contract:
+Per shot, in this order:
 
-```text
-Spatial continuity:
-Start: [subject positions and orientation]
-Travel axis: [origin → boundary or waypoint → destination]
-Subject order: [who leads, follows, blocks, or remains stationary]
-Boundary behavior: [who crosses, stops, lands, exits, or disappears]
-End: [final subject positions and travel direction]
-Forbidden transitions: [reversal, position swap, offshore approach, pursuer crossing ahead, etc.]
-```
+1. Camera movement or transition (one primary move), with any `@Video N`.
+2. Subject action at body-part level, with the subject's `@Image N`.
+3. Position or spatial change, with the environment's `@Image N`.
+4. Light: the plan's source and key side ("warm dusk window light from
+   frame-left").
+5. Audio, with any `@Audio N`.
 
-Use physical locations and ordered states rather than relative verbs alone. "Enter the beach" can be ambiguous; "forest interior → inland tree line → white sand → along the shoreline" defines a testable trajectory. When screen direction matters, state it explicitly and keep it consistent across cuts.
+Repeat every applicable `@Image N`, `@Video N` and `@Audio N` inline in each
+shot; the asset list does not replace shot-level binding. Never leave a bare
+`@<Asset>` placeholder.
 
-```
-Shot 1: [first action beat]
-Shot 2: [second action beat]
-Shot 3: [third action beat]
-```
+**Timing.** Set length with the API `duration` (the REST API also documents
+`frames`; the MCP tool exposes only `duration`). Let the model pace ordinary
+multi-shot clips; add second-level ranges such as `Shot 1 (0-4s):` only when
+requested, contiguous and consistent with the duration.
 
-Timing rules:
-- Set the total generated-video length with the API's `duration` parameter (or `frames` for fractional-second control), not by requiring timecodes in the text prompt.
-- Let the model pace ordinary multi-shot generation naturally.
-- Add explicit second-level timing only when the user explicitly requests it.
-- When explicit timing is used, prefer concise ranges such as `Shot 1 (0-4s):` and make the ranges contiguous, non-overlapping, and consistent with the API duration.
-- If the requested actions or dialogue cannot fit the available duration, simplify the beats or increase the API duration within the model's supported range.
+**Complexity budget.** A 15 s generation holds at most about 3 major action
+beats or 4 tightly related shots when continuity must be exact. A scene with
+several cuts, close encounters, a location change and a precise end pose is
+split into generated shots chained from an approved last frame. Camera variety
+never reverses the travel direction.
 
-Every shot must also repeat the applicable `@Image N`, `@Video N`, and `@Audio N` references inline. The input inventory explains each asset's role, but it does not replace shot-level binding.
+**Dialogue.** Put spoken lines in `{curly braces}` (or quotes) when
+`generate_audio` is true, with speaker labels for several speakers:
+`{Speaker A, urgent}: Did you hear that? {Speaker B, calm}: Stay behind me.`
 
-Every cut can reset relationships. Repeat critical invariants—lead/pursuer order, travel direction, boundary state, and absences—in every shot where they matter. Describe the positive physical state first, then add the most important exclusion.
+**Action.** Describe actions at body-part level (hands, legs, head, shoulders)
+with range, speed and force, and link them ("using the turn's momentum, she
+raises a hand"). The official 2.0 guide prefers slow, continuous motion
+("slowly raises a hand", "gently lowers her head") over high-burst actions such
+as sprints, big jumps or violent rolls.
 
-Asset-binding rules:
-- Bind a referenced character or object where it appears: `Girl @Image 1`, `red motorcycle @Image 3`.
-- Bind a referenced environment where it is used: `dormitory entrance from @Image 2`.
-- Name a motion or camera reference in every shot that uses it: `Match the medium-shot dolly movement from @Video 1`.
-- Name an audio reference in every shot that uses it: `Blend the indoor ambience from @Audio 1`.
-- Do not use a bare `@<Asset>` placeholder in the final prompt. Replace it with the exact indexed token accepted by the model, such as `@Image 1`, `@Video 1`, or `@Audio 1`.
+**Emotion.** Externalize feelings as visible physical detail, never "very sad":
 
-For each shot, describe in this order:
-1. Camera movement or shot transition (one per shot only)
-2. Subject actions and expressions (body-part level detail)
-3. Position or spatial changes
-4. Lighting & color tone (recommended per shot: carry the plan's source and key side, e.g. "warm dusk light from camera-left", "cool blue key light")
-5. Audio information (dialogue, SFX, ambience)
-
-```
-Shot 1: [Camera movement and applicable @Video N]. [Subject @Image N] [action with body-part detail]. [Spatial context @Image N]. [Lighting & tone]. [Audio @Audio N].
-Shot 2: [Camera movement and applicable @Video N]. [Subject @Image N] [action with body-part detail]. [Spatial context @Image N]. [Lighting & tone]. [Audio @Audio N].
-Shot 3: [Camera movement and applicable @Video N]. [Subject @Image N] [action with body-part detail]. [Spatial context @Image N]. [Lighting & tone]. [Audio @Audio N].
-```
-
-**Camera movement rules**:
-- Use one or two clear requested camera movements per shot; define their order
-  and endpoints instead of combining competing push, pull, pan, and tilt directions.
-- Use standard terminology: medium shot, close-up, wide shot, slow push-in, smooth lateral tracking, fixed shot, handheld, dolly, crane, low angle, high angle, POV, over-the-shoulder.
-- See the [lens language reference](https://docs.byteplus.com/en/docs/ModelArk/1631633#a395fd3b) for the full taxonomy.
-
-**Complexity rules**:
-- A 15-second generation has limited action capacity. Prefer at most 3 major action beats or 4 tightly related shots when continuity must be exact.
-- If the scene needs several camera cuts, multiple close encounters, a location transition, and a precise end state, split it into separate generated shots and chain continuity with an approved last frame.
-- Preserve one stable travel axis through action coverage. Camera variety should not reverse the characters' physical direction.
-
-**Action description rules**:
-- Describe actions at the body-part level (hands, legs, head, shoulders, back) with range, speed, and force.
-- Prefer slow, gentle, continuous motion: "slowly raise a hand," "gently lower the head," "naturally sit down."
-- Avoid high-burst, large-dynamic actions: sprinting, big jumps, violent rolls.
-- Describe transitions between actions for continuity: "use the inertia of turning around to naturally raise a hand."
-- Externalize emotions as physical details. Never write "very sad" or "extremely angry." Use the table below:
-
-| Abstract emotion | Externalize as |
+| Emotion | Externalize as |
 |---|---|
-| Sadness | lowering the head, shoulders trembling slightly, eyes reddening, fingers unconsciously clutching clothing, tears welling but not falling |
-| Joy | corners of the mouth rising uncontrollably, brows relaxing, steps becoming light, unconsciously humming, spinning in place |
-| Nervousness / anxiety | frequently checking watch, fingers tapping tabletop, rapid breathing, eyes darting, unconsciously biting fingernails |
-| Anger | both fists clenched, jawline tense, chest heaving, eyes sharp, squeezing words through gritted teeth |
-| Relief | long exhale, tense shoulders relaxing completely, a faint smile appearing, looking up toward the distance |
+| Sadness | head lowering, shoulders trembling slightly, eyes reddening, fingers clutching clothing |
+| Joy | mouth corners rising, brows relaxing, light quick steps |
+| Nervousness | checking a watch, fingers tapping the table, eyes darting |
+| Anger | fists clenched, jaw tight, chest heaving, words squeezed through teeth |
+| Relief | a long exhale, shoulders dropping, a faint smile, gaze lifting |
 
-**Dialogue rules**:
-- Put spoken dialogue inside `{curly braces}` or quotes for lip-sync when `generate_audio=true`.
-- Multi-speaker: `{Speaker A, urgent}: Did you hear that? {Speaker B, calm}: Stay behind me.`
+**Revisions.** Before rewriting a take, record `Locked decisions`, `Requested
+delta` (the one behavior that changes), `Acceptance criteria` and `Known
+rejections`; carry the locks into the new prompt and change only one of prompt
+wording, reference bundle or motion design per retry when practical.
+Budget about 2.2 words per second after a late start of up to 1.5 s, and end
+the last line at least 0.4 s before the clip end.
 
 ### 5. Quality and constraints
 
-Close with image quality, style, and negative constraints. This section tightens the generation boundaries.
-
-```
-Quality and constraints:
-Quality: [HD, rich details, cinematic texture, natural colors, soft lighting]
-Style: [cyberpunk cool blue-purple tone, retro film, fresh Japanese style, etc.]
-Constraints: [keep it subtitle-free, do not generate a logo, do not generate a watermark, no text overlays]
-```
-
-All constraints go inline in the text prompt; the Seedance 2.0 API expresses negative constraints as inline constraint words rather than a separate field (see prompt guide §5).
-
-Prioritize constraints instead of accumulating a long blacklist. State the required physical behavior positively, repeat only the few exclusions that prevent expensive failure, and remove redundant wording. A contradiction between the brief, references, shots, and constraints is more damaging than a missing adjective.
-
-### Revision contract
-
-When revising an existing take, record the creative delta before rewriting:
+Close with a short quality, style and constraint paragraph. Seedance 2.0 has no
+separate negative-prompt field, so constraints go inline. Describe the wanted
+result positively and keep only the few exclusions that prevent expensive
+failures.
 
 ```text
-Locked decisions:
-- [approved identity, action, camera, environment, audio, and boundary behavior]
-
-Requested delta:
-- [the one behavior that must change]
-
-Acceptance criteria:
-- [observable conditions that make the next take pass]
-
-Known rejections:
-- [behaviors from earlier takes that must not return]
+Quality and constraints:
+Quality: sharp detail, natural skin texture, soft window light, natural colour.
+Style: <one concrete look, e.g. cool blue-purple night tones>.
+Constraints: clean frames edge to edge with no subtitles, logos, watermark or
+on-screen text; stable faces and clothing.
 ```
 
-Carry locked decisions into the revised prompt. Change one of prompt wording, reference bundle, or motion design at a time when practical so the cause of improvement or regression remains identifiable.
+Captions, titles and end cards are added in post. A contradiction between the
+brief, references, shots and constraints does more damage than a missing
+adjective.
 
-### Preflight review
+## Preflight review
 
-Before generation:
-
-1. Confirm the prompt and API resolution, duration, ratio, and audio setting agree.
-2. Confirm every reference is indexed, classified, and bound only where intended.
-3. Check that start, travel axis, subject order, boundary behavior, and end state are explicit.
-4. Remove contradictions such as "single continuous shot" plus several cuts, or "no powers" plus an emitting aura reference.
-5. Keep the prompt focused; compress repetition before removing critical spatial state.
-6. Verify the requested beats fit the duration or split the scene.
+1. Prompt and request agree on resolution, duration, ratio, model variant and
+   audio; Fast and Mini stay at 480p/720p.
+2. Every reference is indexed, classified, within the 2.0 limits and bound only
+   where intended; no storyboard is bound.
+3. Start, travel axis, subject order, boundary behavior and end state are
+   explicit for movement-heavy scenes.
+4. Each shot carries its planned camera and light facts, or a recorded static
+   reason.
+5. No contradictions ("single continuous shot" plus cuts; "no powers" plus an
+   aura in a reference).
+6. The beats and dialogue fit the duration, or the scene is split.
 
 ## Full example
 
-```
+```text
 Asset preparation:
-@Image 1: female lead character portrait
-@Image 2: dormitory room scene reference
-@Video 1: indoor dialogue camera movement reference (medium shot dolly)
-@Audio 1: indoor ambient sound
+@Image 1: female lead character sheet
+@Image 2: dormitory room location sheet
+@Video 1: indoor medium-shot dolly camera movement reference
+@Audio 1: indoor ambience
 
 Subject definitions:
 Define the young woman with long dark hair and a white blouse in @Image 1 as Girl
 
 Prompt:
 Task type: Multimodal Reference
-Use Girl @Image 1 as the main character, use the dormitory in @Image 2 as the scene reference, and use @Video 1 as the indoor camera-language reference.
+Use Girl @Image 1 as the main character, the dormitory in @Image 2 as the scene,
+and @Video 1 as the indoor camera-language reference.
 
-Shot 1: Match the steady medium-shot follow movement from @Video 1. Girl @Image 1 walks briskly toward the dormitory entrance from @Image 2 at dusk. Warm yellow sunlight spills through the hallway window. She pauses at the doorway, takes one deep breath, and her fingers tighten briefly around her bag strap. Blend the indoor ambience from @Audio 1 beneath her footsteps.
+Shot 1: Match the steady medium-shot follow movement from @Video 1. Girl @Image 1
+walks toward the dormitory entrance from @Image 2, pauses at the doorway, takes
+one deep breath, and her right hand, frame-left, tightens on her bag strap.
+Light: warm dusk sun through the hallway window from frame-left. Blend the
+indoor ambience from @Audio 1 beneath her footsteps.
 
-Shot 2: Use the restrained indoor medium-shot dolly movement from @Video 1. Girl @Image 1 pushes open the door and enters the dormitory from @Image 2. Her roommates look up from the books they are organizing. One roommate smiles and asks {How did the exam go? Did you pass?}. Keep the indoor ambience from @Audio 1 underneath the dialogue.
+Shot 2: Use the restrained medium-shot dolly movement from @Video 1. Girl
+@Image 1 pushes the door open and enters the dormitory from @Image 2. Two
+roommates look up from the books on the desk, and one asks:
+{How did the exam go?} Light: warm desk lamp at frame-right, dusk window
+behind. Keep the ambience from @Audio 1 under the line.
 
-Shot 3: Begin on a close-up, then perform one slow pull-back modeled on @Video 1. Girl @Image 1 lowers her head and lets her shoulders drop; after one beat, she raises her head, the corners of her mouth lift, and she laughs while saying {I was kidding}. Her roommates chase her playfully as the frame widens to reveal the dormitory from @Image 2 filled with laughter. Blend their voices naturally with the ambience from @Audio 1.
+Shot 3: Begin on a close-up, then one slow pull-back modeled on @Video 1. Girl
+@Image 1 lowers her head; after one beat she looks up, the corners of her mouth
+lift, and she says: {I passed.} Both roommates laugh as the frame widens to the
+whole dormitory from @Image 2. Light: desk lamp at frame-right as the key.
+Blend their laughter with the ambience from @Audio 1.
 
 Quality and constraints:
-Quality: high-definition cinematic documentary style, rich textures, warm tones, soft lighting, natural colors
-Constraints: keep Girl @Image 1's face and clothing stable without deformation; keep motion natural and smooth with no stutter or flicker; keep it subtitle-free; do not generate a logo, watermark, or text overlay
+Quality: natural skin texture, warm dusk tones, soft practical light.
+Constraints: clean frames with no subtitles, logos, watermark or on-screen text;
+stable faces and clothing.
 ```
 
 ## Quick reference card
 
-### Three mutually exclusive image modes (API level)
-- **First-frame (I2V)**: single image as `role=first_frame`; model animates from it.
-- **First + last frame (FLF2V)**: two images lock start and end visual state.
-- **Multimodal reference-to-video (R2V)**: 0-9 images + 0-3 videos + 0-3 audio as references.
+### Image modes (mutually exclusive)
 
-### Storyboard-to-video handoff
+- **First frame (I2V):** one clean keyframe as `first_frame`.
+- **First + last frame (FLF2V):** two clean keyframes that share a ratio.
+- **Reference-to-video (R2V):** 0-9 images + 0-3 videos + 0-3 audio as references.
 
-Storyboards are optional. Use a storyboard panel as a derivative composition
-and continuity anchor when composition must be reviewed before motion;
-otherwise generate video directly from canonical Element references (R2V) or
-text-to-video. Character, location, and prop sheets remain the source of
-truth. Require explicit approval before using a panel as a video input, and
-verify that its recorded source-asset variants and hashes still match the
-current approved assets.
-
-Choose the mode from the production need:
-
-| Need | Mode | Reference rule |
-|---|---|---|
-| Reproduce the exact approved opening frame | I2V | Submit only the promoted panel as `first_frame` |
-| Lock approved start and end states | FLF2V | Submit only the two promoted panels as `first_frame` and `last_frame` |
-| Preserve explicit character, location, and prop references while following storyboard composition | R2V | Submit the approved panel and the smallest sufficient canonical asset set as `reference_image` inputs |
-| Generate video without a storyboard | R2V or T2V | Submit canonical Element references only (R2V) or text-only prompt (T2V) |
-
-These modes are mutually exclusive. Do not combine I2V or FLF2V frame roles
-with an R2V bundle unless the live model and tool explicitly confirm that
-combination.
-
-For R2V, index the panel and canonical assets separately:
-
-```text
-Asset preparation:
-@Image 1: approved storyboard panel — composition, blocking, lighting, and visible state
-@Image 2: approved character sheet — identity and wardrobe only
-@Image 3: approved location sheet — geometry and production design only
-@Image 4: approved prop sheet — shape, materials, and markings only
-```
-
-Bind the panel where composition matters and each canonical asset where its
-identity must persist. If an asset changed after the panel was generated,
-return the panel to review instead of silently combining stale composition with
-new identity. Omit rough boards, contact sheets, and control diagrams from the
-request; translate their useful choreography to text.
-
-Record the chosen mode, ordered reference roles, paths, hashes, selected
-variants, and approval states in the shot manifest before submission.
+Do not combine frame roles with an R2V bundle unless the live tool confirms it.
+Record the mode, ordered roles, paths, hashes, selected variants and approval
+states in the shot manifest.
 
 ### Model IDs
+
 | Variant | Model ID |
 |---|---|
 | Seedance 2.0 Standard | `dreamina-seedance-2-0-260128` |
 | Seedance 2.0 Fast | `dreamina-seedance-2-0-fast-260128` |
 | Seedance 2.0 Mini | `dreamina-seedance-2-0-mini-260615` |
 
-Model IDs are version-dated and change on release. Always copy the live ID from the [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) (Video generation section) or the console model-activation page before making API calls.
+IDs are version-dated; copy the live ID from the
+[Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) before calling.
+In the MCP tool, Standard is the default and the Fast/Mini IDs depend on the
+server's model bindings.
 
-### Reproducibility
-- `seed`: documented for the 2.0 REST API; the MCP `seedance_create_task` tool exposes no seed field, so reproduce a look by reusing the approved prompt and references.
-- `camera_fixed`: default `false`; set to `true` to lock camera position (documented for the 2.0 REST API; the MCP tools expose no such field as of 2026-10-06, so also state the lock in the prompt).
-- `return_last_frame`: set to `true` to chain multi-shot continuity.
+### Tool parameters
 
-### Prompt limits
-- BytePlus recommends keeping prompts under 1,000 words so information stays focused. This is a quality recommendation, not a hard API rejection threshold; exceed it when necessary for coherent direction, then edit for focus.
-- The current local ModelArk MCP tool accepts up to 32,000 characters. Treat that as the hard client-side ceiling unless the live API or tool validator changes.
-- Languages: English, Chinese, Japanese, Indonesian, Spanish, Portuguese (Seedance 2.0).
+- `seed`: documented for the REST API; the MCP tool has no seed field, so reuse
+  the approved prompt and references.
+- `camera_fixed`: REST-only; the MCP tool has no such field (checked
+  2026-10-06), so state a locked camera in the prompt with its reason.
+- `return_last_frame: true` chains multi-shot continuity.
+- `watermark: false` unless the user asks for the AIGC watermark.
 
-### Output resolutions and duration
-- Standard: 480P / 720P / 1080P / 4K.
-- Fast & Mini: 480P / 720P only.
-- Output duration: 4–15s per generation.
-- Set the intended output length with the API's `duration` parameter. Use prompt-level shot time ranges only when the user explicitly requests second-level timing.
+### Prompt limits and languages
+
+- BytePlus recommends under 1,000 words for focus; the MCP tool accepts up to
+  32,000 characters.
+- Languages: English, Chinese, Japanese, Indonesian, Spanish, Portuguese.
 
 ### Cost ladder
-- Prototype on Mini 480p → confirm on Fast 720p → finalize on Standard at target resolution.
-- Video generation is typically billed on successful task completion; confirm current billing rules on the [Pricing page](https://docs.byteplus.com/en/docs/ModelArk/1544106).
 
-### Consistency rules
-- Lock character sheets, prop sheets, and scene sheets with Seedream before spending video credits.
-- Storyboarding is optional. Generate storyboard panels from those approved assets when composition,
-  blocking, or shot-to-shot continuity must be reviewed before motion; otherwise generate video
-  directly from canonical Element references (R2V) or text-to-video.
-- Promote only approved panels to video keyframes; a panel still in `review` is
-  not a production video input.
-- Reuse the same reference bundle across every shot in a scene (seed guidance above).
-- Preserve a written locked-decisions and requested-delta record for every retry.
-- Change only one of {prompt wording, reference bundle, motion design} per retry when practical.
-
-### Conventions
-- Prefer the official guide's natural prompt style: `Asset preparation:`, `Prompt:`, `Shot 1 / Shot 2 / Shot 3`, followed by a concise quality-and-constraints paragraph.
+Prototype on Mini 480p, confirm on Fast 720p, finalize on Standard at the
+target resolution. Billing is per successful task; confirm on the
+[Pricing page](https://docs.byteplus.com/en/docs/ModelArk/1544106).

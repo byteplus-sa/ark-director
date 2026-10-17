@@ -18,7 +18,7 @@ characters, props, sets, environmental effects, and transformations.
 - **Compatible tones:** Reflective drama, magical realism, theatrical performance, literary fantasy.
 - **Prompt opening:** `Hand-painted ink animation with restrained cubist geometry, elongated illustrated forms, visible brush drag, muted layered washes, textured paper grain, and fluid theatrical motion.`
 - **Style seal:** `Hand-painted ink animation with subtle cubist perspective shifts, visible brushwork and paper texture, fluid theatrical motion, and controlled painterly redraw.`
-- **Relevant exclusions:** Clean vector surfaces, glossy photorealism, hard 3D geometry, logos unless requested.
+- **Relevant exclusions:** Clean vector surfaces, glossy photorealism, hard 3D geometry; any requested logo is added in post.
 - **Common failure modes:** Generic watercolor; faces changing during perspective shifts; abstract transformation overpowering the story.
 
 ## Wood puppet stop motion
@@ -103,7 +103,7 @@ characters, props, sets, environmental effects, and transformations.
 - **Compatible tones:** Whimsical unease, musical comedy, surreal scale, industrial fable.
 - **Prompt opening:** `Authentic period rubber-hose cel animation with monochrome ink contours, hand-painted backgrounds, elastic character design, rhythmic movement, subtle exposure flicker, dust, and aged film texture.`
 - **Style seal:** `Vintage rubber-hose animation with elastic inked motion, hand-painted cels, rhythmic squash-and-stretch, multiplane staging, and restrained film wear.`
-- **Relevant exclusions:** Modern glossy 3D, contemporary vector cleanliness, color unless requested, modern typography or logos.
+- **Relevant exclusions:** Modern glossy 3D, contemporary vector cleanliness, color unless requested; typography and logos are added in post.
 - **Common failure modes:** Generic modern cartoon; excessive damage obscuring action; inconsistent period design; rigid limbs.
 
 ## Stylized handcrafted 3D

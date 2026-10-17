@@ -122,14 +122,49 @@ CTA, mode, and other shots unless an actual dependency is identified.
 Bind supplied reference images explicitly to product identity, packaging, garment,
 or layout as appropriate. Keep the relevant shape, color, material, and printed
 content consistent during handling. Directions alone do not guarantee fidelity;
-exact captions, typography, CTA cards, and labels may need deterministic finishing.
+inspect the product's own printed label in the take.
 
-Specify exact copy as a separate finishing layer or approved text reference.
-Do not assume the platform automatically captions the delivered video. Retain
-safe visual space according to the actual placement, rather than prescribing
-universal pixel sizes or margins. Do not invent a brand name for a missing field.
+Keep the generated clip text-free. Captions, prices, CTA cards, graphic logos,
+end cards and lower-thirds are a finishing layer (FFmpeg or HyperFrames), never
+prompted into the video. Do not add "AI-generated" or "fictional" labels to the
+video by default; a platform's AI-content disclosure setting is a publishing
+decision. Do not assume the platform captions the delivered video. Retain safe
+visual space for the actual placement rather than universal pixel margins. Do not
+invent a brand name for a missing field.
 
-## 5. Direct audio and CTA
+## 5. Generation-safe staging
+
+Ad formats hit the same few Seedance failure modes; apply these to every mode
+(the generic rules live with the Seedance prompt grammar):
+
+- **Speech budget and tail.** Budget about 2.2 spoken words per second. Native
+  lines land 0.5–1.5 s late (later after a long pre-line action) and speech
+  runs to the clip end, so a 15 s clip carries roughly 25–30 words. End the CTA
+  line at least 0.4 s before the clip end, keep the last 3 s to one or two state
+  changes, and choose hook words speech recognition hears cleanly. Trimming the
+  head later does not lengthen the tail; shorten editable copy instead.
+- **Counted items.** When the demo counts items (three pods, two lids), name
+  each by size and position, keep every counted item in open view from the first
+  frame, restate count and positions at every beat, and say where every other
+  item sits. Never mention spare copies lying around.
+- **Props without a reference grow text.** Generic tubes, jars, jugs, cups,
+  hard-shell cases and garment neck labels invent lettering. Describe each
+  recurring non-product prop positively ("plain white ceramic jug, smooth solid
+  surface, nothing printed"), keep labels turned away, or leave the prop out; a
+  story-critical prop gets its own reference sheet.
+- **Hands by anatomy and frame side.** The model reads left/right as the
+  presenter's own side. Write "her right hand, frame-left" on every handling
+  beat, including selfie and mirror framing.
+- **Shot plans for polished modes.** In `product-showcase`, `tv-spot`,
+  `wild-card` and `virtual-try-on`, give each shot one action with its intent,
+  a size, lens intent, camera move and a named light source. Shots shorter than
+  about 0.8 s merge; build a 30 s spot from about six 5 s generations of two or
+  three shots each rather than one nine-beat pass.
+
+Read [worked repairs](references/worked-repairs.md) for a phone-shot demo that
+breaks each of these and its repaired prompt.
+
+## 6. Direct audio and CTA
 
 Honor silence, native dialogue, voiceover, or supplied music. Speech needs room
 in the mix; a quiet bed is optional, not universally prohibited. Requested music
@@ -142,13 +177,14 @@ across audio/video prompt drafts and bind supplied audio references. Actual audi
 timing must be inspected before the calling production workflow submits video.
 Shorten only editable copy; flag duration conflicts when dialogue is locked.
 This leaf writes prompts and does not invoke siblings or submit generation tools.
-Without a separate-audio request, describe native audio or silence directly.
+Without a separate-audio request, describe native audio directly; for a silent
+or ambience-only result set `generate_audio: false` and add the bed in post,
+because native audio can leak music or speech despite an "ambience only" line.
 
 Close with the user's one intended action and actual destination. Tone can be
 soft for discovery or direct for a supported offer, but the requested CTA wins
 over mode conventions. No invented discounts, social proof, stock pressure, or
-free-shipping code. Visual CTA copy belongs to the finishing layer when exactness
-matters.
+free-shipping code. Visual CTA copy always belongs to the finishing layer.
 
 ## Output and composition
 
@@ -174,5 +210,7 @@ hypothetical editorial diagnoses, not observed campaign or generated-media resul
 - Alternatives differ in persuasion mechanism rather than wording alone.
 - Product references and accepted copy remain faithful; generated imagery is not proof.
 - Beat count, dialogue, framing, and audio fit the actual request and runtime.
-- CTA action and destination are accurate; exact text has a viable finishing plan.
+- CTA action and destination are accurate; all on-screen text is in finishing.
+- Spoken words fit about 2.2 words/s with a 0.4 s tail; counts, unreferenced
+  props and hands follow section 5.
 - A scoped revision preserves unrelated decisions; no recommendation becomes approval.

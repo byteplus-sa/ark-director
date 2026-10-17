@@ -75,6 +75,11 @@ product identity sheets used as Seedance or storyboard references, prefer
 `seedream-prop-asset`. This skill keeps product imagery that is not an identity
 reference, such as a commercial scene or a clean isolated packshot.
 
+Storyboards belong to `seedream-storyboard`; a board is planning material and
+never a Seedance reference. An image-to-image edit re-composes the frame, so an
+edited still is not a substitute for a change the video should show happening;
+`seedream-edit` covers coordinate edits and that boundary.
+
 ## Deterministic graphic boundary
 
 Use Seedream for synthesized photographic, illustrative, material, texture, or

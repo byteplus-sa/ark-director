@@ -18,11 +18,14 @@ tokens. If an element is not approved, keep the dependent board in `draft` or
 
 ## Storyboard to video
 
-Treat elements as identity sources and storyboard panels as derivative
-composition anchors. Require a mode-authorized panel selection backed by a
-passing review and current source hashes, and choose exactly one supported
-image mode: I2V, FLF2V, R2V, or T2V. Never
-promote a multi-panel contact sheet as a clean video keyframe.
+Pass the board's staging as text, never as an image. Elements are the identity
+sources and the only images bound for identity; a storyboard grid, contact
+sheet or board panel is never a Seedance reference, because panel numbers,
+labels and the sketch look leak into the video. Translate each panel's
+framing, blocking and end state into the shot prompt, bind the approved element
+references, and choose one supported mode: R2V or T2V by default, I2V or FLF2V
+only with a clean first (and last) frame rendered in the delivery look and
+explicitly selected for that role.
 
 ## Static graphics to motion or video
 
@@ -43,19 +46,30 @@ handoff when the user has not requested lip-synced audio.
 ## Shot to assembly
 
 Accept only mode-authorized approved takes. Pass local paths, hashes, actual
-duration, resolution, frame rate, audio properties, intended order, transition
-notes, and known defects. Do not treat `succeeded` as creative approval.
+video-stream duration, resolution, frame rate, colour range and transfer,
+audio properties and route (native, or picture only awaiting a post bed),
+intended order, trim points, transition notes, and known defects. Do not treat
+`succeeded` as creative approval. Assembly keeps the takes' original colours
+unless the brief records a look.
 
 ## Draft to final generation
 
-Pass the selected 480p draft paths and hashes, passing review and selection
-records, exact prompt snapshot, ordered approved reference hashes, requested
-audio behavior and delivery resolution. For multi-shot work, include the
-reviewed draft assembly and picture/audio decisions. Record any user override
-or verified operation constraint. Register and review the final request as a
-new operation, then inspect and select its output before updating placed takes.
-Native Draft/promotion requires current capability evidence; a fresh generation
-may change picture, timing and audio even with the same prompt and references.
+Pass the selected 480p draft paths and hashes, its provider task ID, passing
+review and selection records, exact prompt snapshot, ordered approved reference
+hashes, requested audio behavior and delivery resolution. For multi-shot work,
+include the reviewed draft assembly and picture/audio decisions. Record any
+user override or verified operation constraint.
+
+- A native Draft (`draft: true`) is promoted by its `draft_task_id` with only
+  the output settings (`resolution`, `watermark`, optional chaining fields);
+  the provider reuses its prompt, references, seed, duration and audio. Any
+  input change means a new Draft, not a promotion.
+- A plain 480p request is not promotable; its final is a fresh generation that
+  may change picture, timing and audio.
+
+Either way, register and review the final request as a new operation, then
+inspect its output again (playback, speech-to-text, listening) and select it
+before updating placed takes.
 
 ## Dependency invalidation
 

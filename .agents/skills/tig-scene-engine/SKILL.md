@@ -237,10 +237,29 @@ Short notice is the only kind you give.
 
 ---
 
+## From scene to video (composition hints)
+
+When an approved scene goes to Seedance, the engine maps onto shots; these are
+prose hints for the calling workflow, not steps this skill runs:
+
+- **One engine beat, one shot.** Each tactic, its returned information, the
+  reversal and the reaction that carries the value shift becomes a visible
+  action with its intent. Two or three shots per ~5 s generation, each with its
+  own size, lens intent, camera move and named light source; the reaction that
+  lands the value shift gets a close shot held at least ~1 s, since shots under
+  ~0.8 s merge.
+- **Dialogue budget.** About 2.2 spoken words per second; lines land 0.5–1.5 s
+  late, so end the last line at least 0.4 s before the clip ends.
+- **No extension with people.** Seedance rejects extending or editing a clip
+  that shows a realistic person unless each person is an `asset://` asset. A
+  scene longer than one clip continues as new generations: stage each from the
+  previous clip's last frame with `tig-blocking-map` text geometry and the same
+  element references, cutting on an engine beat so the seam is a deliberate cut.
+
 ## Reminders
 
 - The five definitions above are the user's, not the textbook's. Re-read before judging.
 - Genre default: psychological drama / thriller. Confirm theme/idea with the user when writing.
 - Audit is in-chat prose; rewrites within it are in FD format.
 - The single most common real failure to hunt for: **a reversal that turns the plot but does not move the audience's verdict — it is inert.** Surface it first.
-- When an audited scene becomes a storyboard or video, compose with `tig-blocking-map` for staging and `seedance-prompt-25` for the video prompt.
+- When an audited scene becomes a storyboard or video, compose with `tig-blocking-map` for staging and `seedance-prompt-25` for the video prompt (see From scene to video).

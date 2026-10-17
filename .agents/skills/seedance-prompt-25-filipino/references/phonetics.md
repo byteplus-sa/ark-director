@@ -25,6 +25,8 @@ For each disputed word, record:
 | Acceptance check | What to listen for and which words must remain unchanged |
 
 Do not invent stress, vowel substitutions, glottal stops, IPA, or meaning pairs.
+A respelling is itself a hypothesis: it has made the model add syllables, so
+listen for a longer word as well as the targeted sound.
 When uncertain, preserve ordinary spelling and request a short spoken example
 or qualified review. A transcript can check words but does not establish stress
 or vowel quality; listening is required for those judgments.

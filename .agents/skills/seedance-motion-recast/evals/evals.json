@@ -52,6 +52,18 @@
         "The agent proposes a split into shots or a reduction to background extras, and never merges several characters into one collage image.",
         "The Guards block states the exact featured-people count per cut."
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "We own this 10-second cafe clip of our presenter talking over light background music. Recast her as our approved character Lia, and fix the one product name she mispronounces at about 0:06. Keep the music and the room sound.",
+      "expected_output": "A recast package with the muted master and generate_audio false, plus a Re-voiced post-audio plan that measures the saved source audio first (loudness, transcript with word times, non-voice sounds), patches only the mispronounced word window, keeps the music and room tone from the source, normalizes to the source loudness and muxes over the untouched picture with the video stream copied.",
+      "files": [],
+      "assertions": [
+        "@Video 1 is the muted master with generate_audio false; Lia is bound as a Virtual Portrait asset:// reference.",
+        "The audio plan patches only the wrong word's window and does not re-dub the whole line or track.",
+        "The source music and room sound are kept rather than replaced by a dialogue-only track.",
+        "Words are checked with a speech_to_text transcript, and the final mux copies the video stream unchanged."
+      ]
     }
   ]
 }

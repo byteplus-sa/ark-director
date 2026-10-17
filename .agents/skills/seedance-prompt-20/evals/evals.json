@@ -49,15 +49,27 @@
     },
     {
       "id": 5,
-      "prompt": "Prepare a Seedance video request from an approved storyboard panel plus approved character, kitchen-location, and branded-jar sheets. Identity must remain explicit, but the opening frame does not need pixel-perfect locking. The storyboard manifest records an older rejected jar variant. Decide the image mode and perform the handoff preflight.",
-      "expected_output": "A blocked R2V handoff that treats the storyboard as a composition anchor, keeps canonical assets separate, and returns the stale panel to review until it is regenerated or corrected against the approved jar.",
+      "prompt": "Prepare a Seedance 2.0 video request from an approved storyboard panel plus approved character, kitchen-location, and branded-jar sheets. Identity must remain explicit, but the opening frame does not need pixel-perfect locking. The storyboard manifest records an older rejected jar variant. Decide the image mode and perform the handoff preflight.",
+      "expected_output": "An R2V request that binds only the canonical character, location and current jar sheets, writes the panel's composition into the shot lines, and does not bind the storyboard panel.",
       "files": [],
       "expectations": [
-        "The output selects R2V rather than mixing first_frame with reference_image roles.",
-        "The output assigns separate indexed roles to the panel, character, location, and prop assets.",
-        "The output identifies the rejected jar variant as stale provenance.",
-        "The output returns the dependent panel to review and does not submit video generation.",
+        "The output selects R2V with canonical element references and does not bind the storyboard panel as an image input.",
+        "The panel's composition and blocking are translated into shot-line text with camera and light facts.",
+        "The output binds the current approved jar sheet and flags the panel's rejected jar variant as stale so the composition text is not copied from it blindly.",
+        "The output does not mix first_frame with reference_image roles.",
         "The output requires paths, hashes, selected variants, roles, and approval states in the shot manifest."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "The client needs a 4K 10-second product turntable of a ceramic water jug on Seedance 2.0. Draft it cheaply first, and make sure no lettering appears on the jug.",
+      "expected_output": "A 2.0 request plan that drafts on a cheaper variant or lower resolution as an ordinary paid run, finalizes on Standard at 4K, keeps the duration in the request, and describes the jug as a plain surface.",
+      "files": [],
+      "expectations": [
+        "The output notes that 2.0 has no native draft promotion, so the draft is a separate paid request and the 4K final is a new reviewed request.",
+        "The final uses the Standard variant at 4K; Fast or Mini are kept to 480p or 720p.",
+        "The jug is described positively as plain and unprinted (for example smooth glazed surface with nothing printed) rather than only with 'no text'.",
+        "Duration, resolution and ratio are request parameters, not sentences in the prompt."
       ]
     }
   ]

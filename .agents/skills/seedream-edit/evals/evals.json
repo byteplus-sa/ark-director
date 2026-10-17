@@ -1,0 +1,29 @@
+{
+  "skill_name": "seedream-edit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Here is the first frame of my runway shot. Edit it so the model's dress is already half red and half blue, then I will use it as the Seedance first frame so the dress changes colour as she walks past the pole.",
+      "expected_output": "A response that declines the I2I first-frame shortcut, explains that a full-frame edit re-composes the scene, and routes the progressive change to a pure reference-to-video prompt.",
+      "files": [],
+      "expectations": [
+        "The output explains that a full-frame image-to-image edit re-composes the scene and can move the figure, pose, or background.",
+        "The output recommends directing the colour change in the video prompt with timestamped stages and element references instead of an edited first frame.",
+        "The output does not submit or claim an edit or a video generation."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "On this approved prop sheet the plain ceramic jug grew a fake brand label. The jug occupies pixels 400-900 horizontally and 300-1100 vertically on a 1600x1600 image. Prepare the edit.",
+      "expected_output": "A bounded edit request with normalized coordinates that restores a plain surface and versions the sheet.",
+      "files": [],
+      "expectations": [
+        "The output converts the pixel box to normalized 0-999 coordinates (about x1 250, y1 188, x2 562, y2 688) and keeps x1 <= x2 and y1 <= y2.",
+        "The edit prompt describes the jug positively as a smooth solid surface with nothing printed.",
+        "The output saves the result as a new version with its own hash and marks reviews that cited the old hash as stale.",
+        "The output compares the unmarked area against the source before accepting the edit.",
+        "The output uses an HTTPS or asset:// image input rather than a local file path."
+      ]
+    }
+  ]
+}

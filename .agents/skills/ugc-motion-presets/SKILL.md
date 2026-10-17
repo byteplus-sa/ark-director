@@ -29,18 +29,19 @@ outperforms another by any measured claim in this bundle.
 ## Preset index
 
 Resolve the user's request to one preset, then read **only its category
-section** in [motion-presets.md](references/motion-presets.md):
+section** in the recipe file listed for it. The shared recipe rules sit at the
+top of [motion-presets.md](references/motion-presets.md).
 
-| Category | Presets |
-|---|---|
-| Emotion / reaction | Angry Mode, Crying, Happy, Happy Mode, Shocked, Saint Glow, Sunglasses |
-| Selfie / posing | Selfie, Selfie Outfit, Selfie Posing, Static Posing, Fix and pose, Group Photo |
-| Outfit / fashion | Outfit Check, Outfit Switch, Clothes Rain, Hair Style, Sand Cut |
-| Eating / product | Eating, Eating Zoom, Plate Check |
-| VFX spectacle | Atomic, Explosion, Firework, Northern Lights, Aquarium, Color Rain, Money Rain, Pizza Fall, Cotton Cloud, Gas Transformation, Beast Appearance, Giant Grab |
-| Action / movement | Handheld Run, Pool Jump, Ballet, Motor Ride, Beach Ride, Train Rush, Peak Moment |
-| Lifestyle / timelapse | Morning routine, Timelapse Glam, Timelapse Human |
-| Multi-shot story | Yacht, BTS |
+| Category | Presets | Recipe file |
+|---|---|---|
+| Emotion / reaction | Angry Mode, Crying, Happy, Happy Mode, Shocked, Saint Glow, Sunglasses | [motion-presets.md](references/motion-presets.md) |
+| Selfie / posing | Selfie, Selfie Outfit, Selfie Posing, Static Posing, Fix and pose, Group Photo | [motion-presets.md](references/motion-presets.md) |
+| Outfit / fashion | Outfit Check, Outfit Switch, Clothes Rain, Hair Style, Sand Cut | [motion-presets.md](references/motion-presets.md) |
+| Eating / product | Eating, Eating Zoom, Plate Check | [motion-presets.md](references/motion-presets.md) |
+| VFX spectacle | Atomic, Explosion, Firework, Northern Lights, Aquarium, Color Rain, Money Rain, Pizza Fall, Cotton Cloud, Gas Transformation, Beast Appearance, Giant Grab | [motion-presets-spectacle.md](references/motion-presets-spectacle.md) |
+| Action / movement | Handheld Run, Pool Jump, Ballet, Motor Ride, Beach Ride, Train Rush, Peak Moment | [motion-presets-action-story.md](references/motion-presets-action-story.md) |
+| Lifestyle / timelapse | Morning routine, Timelapse Glam, Timelapse Human | [motion-presets-action-story.md](references/motion-presets-action-story.md) |
+| Multi-shot story | Yacht, BTS | [motion-presets-action-story.md](references/motion-presets-action-story.md) |
 
 ## Resolve the preset
 
@@ -56,12 +57,12 @@ section** in [motion-presets.md](references/motion-presets.md):
 
 ## Recipe schema
 
-Every recipe in [motion-presets.md](references/motion-presets.md) provides:
+Every recipe in the three recipe files provides:
 
 | Field | Use |
 |---|---|
 | `id` | Lowercase kebab-case preset ID |
-| Category | One of the eight index categories |
+| Category | The section heading the recipe sits under (one of the eight index categories) |
 | Grammar | single-pass R2V, structured edit, chained, or one-click |
 | References | Role bindings and counts for the user's media |
 | Ratio | Default 9:16 unless the request says otherwise |
@@ -74,6 +75,9 @@ Every recipe in [motion-presets.md](references/motion-presets.md) provides:
 
 ## Composition rules
 
+- Recipe audio is native ambience. For an ambience-only or music-free result,
+  set `generate_audio: false` and add a Seed Audio bed in post (not
+  frame-synced); native audio can leak music or speech despite the line.
 - Recipes fill the six-part formula slots; the caller assembles the full
   prompt per `seedance-prompt-25` and owns `prompt-review`, submission, and
   showcase sync.
@@ -88,8 +92,15 @@ Every recipe in [motion-presets.md](references/motion-presets.md) provides:
 - Acting intensity is expressed through observable physical cues, never degree
   adjectives; compose with `seedance-acting-console` when the emotion needs
   deeper cue work.
-- Deeper execution constraints — parameter map, task-type enum, and the four
-  flagged presets — live in
+- Every composed prompt carries the generation-safe flags: exact counts and
+  positions at every timestamp, hands named by anatomy plus frame side,
+  unreferenced props described plain with nothing printed, and native audio
+  checked for leaked music or speech.
+- Structured edits and `extend` of footage that shows a person need that
+  person as an `asset://` asset and a muted source; otherwise use the recipe's
+  fresh-generation variant.
+- Deeper execution constraints — parameter map, task-type enum, cross-cutting
+  QA and the four flagged presets — live in
   [execution-constraints.md](references/execution-constraints.md).
 
 ## Delivery guardrails
@@ -97,11 +108,13 @@ Every recipe in [motion-presets.md](references/motion-presets.md) provides:
 Defaults for UGC placement, stated as defaults rather than rules:
 
 - **9:16 vertical** unless the request specifies another ratio.
-- **Design for sound-off legibility.** Captions and on-screen text are a
-  finishing layer (FFmpeg or HyperFrames) — never baked into generated video.
+- **Design for sound-off legibility.** Captions, CTAs, logos as graphics and
+  end cards are a finishing layer (FFmpeg or HyperFrames) — never baked into
+  generated video.
 - **Brand or product visible early** in the first seconds of the cut.
-- **AIGC disclosure** applies when delivering AI-generated content as ads
-  (TikTok manual tag; Meta auto-labeling). Remind the caller at delivery.
+- **Platform AIGC disclosure** (an upload-time tag or the platform's own
+  labeling) is a delivery reminder for the caller. Do not burn "AI-generated"
+  or "fictional" labels into the video by default.
 - **A synthetic presenter is never framed as a real customer.** Generated
   imagery illustrates a concept; it is not testimony. Generated talking heads
   do not claim personal purchase or use histories.
@@ -123,3 +136,5 @@ Defaults for UGC placement, stated as defaults rather than rules:
    answered here.
 8. Duration, resolution, ratio, and watermark appear only as generation
    parameters, never in prompt text.
+9. Counts, hand sides and plain-prop wording are explicit; footage edits with
+   people name their `asset://` binding or fall back to fresh generation.

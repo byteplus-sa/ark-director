@@ -21,7 +21,7 @@ Setting:
 A dramatic coastal cliff at golden hour. The ocean stretches endlessly below, waves crashing against rocks. Distant seabirds circle. A lighthouse is visible on a far promontory.
 
 Style:
-Cinematic, photorealistic, widescreen anamorphic look. Kodak Portra 400 film stock aesthetic.
+Cinematic, photorealistic, widescreen anamorphic look (set a 16:9 or wider `size`). Kodak Portra 400 film stock aesthetic.
 
 Lighting:
 Golden hour backlight, warm amber and rose tones, soft rim light on the subject's hair and dress, gentle fill from the ocean reflection. God rays breaking through scattered clouds.
@@ -30,7 +30,7 @@ Composition:
 Wide shot, eye level, rule of thirds — subject positioned on the left third line, horizon on the lower third, negative space to the right filled by the ocean and sky.
 
 Constraints:
-Quality: 4K, rich textures, cinematic depth of field
+Quality: rich textures, cinematic depth of field
 Negative: no watermarks, no text overlays, no distorted anatomy, natural skin texture
 ```
 
@@ -60,7 +60,7 @@ Composition:
 Central anchor with a radial visual flow. Reserve a clean horizontal band along the top, three empty rectangular panels on the left, one tall empty panel on the right, and a modular photo strip along the bottom. Keep the reserved panels uncluttered for deterministic charts and copy.
 
 Constraints:
-Quality: 2K, detailed documentary imagery, clean panel boundaries
+Quality: detailed documentary imagery, clean panel boundaries
 Negative: no words, letters, numbers, charts, labels, logos, watermarks, or signatures
 ```
 
@@ -86,7 +86,7 @@ Edit instructions:
 Using the velvet material from @Image 1 and the teal color from @Image 2, modify the sofa in @Image 3. Replace the brown leather with teal velvet. Keep the wood frame, surrounding decor, and room lighting unchanged. The new material should catch light naturally with the same highlights and shadows as the original.
 
 Constraints:
-Quality: 2K, photorealistic material rendering
+Quality: photorealistic material rendering
 Negative: do not change the room background, do not alter the sofa's shape or proportions
 ```
 
@@ -112,6 +112,6 @@ Edit instructions:
 Precisely cut out the objects from @Image 1 through @Image 5 and compose them according to the layout in @Image 6 into a real still-life photograph on the desk. Use the window lighting from @Image 7 as the scene lighting reference. Ensure correct perspective, light-and-shadow, and spatial relationships. Faithfully reproduce material details — wood grain, leather texture, polished brass, glazed ceramic.
 
 Constraints:
-Quality: 2K, photorealistic, natural shadow casting
+Quality: photorealistic, natural shadow casting
 Negative: no floating objects, no mismatched lighting directions
 ```

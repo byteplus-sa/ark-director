@@ -10,18 +10,17 @@ This keeps the mapping reproducible and prevents slot drift.
 | Subject | `elements[]` descriptors, bound to `@Image N` | Copy descriptors word for word; never summarize |
 | Action | `shots[].action` + `shots[].motion.directing_prompt_text` | Per-beat stages with end states; motion direction comes from the combined breakdown |
 | Scene | `elements[]` location descriptors | `@Image` binding |
-| Visual style | `visual_style.grade` + `lighting_direction` + `lens` + `film_look` | Order: lighting → lens → grade → film |
+| Visual style | `visual_style.grade` + `lighting_direction` + `lens` + `film_look` | Order: lighting → lens → palette. Capture-format and texture looks in `film_look` (camcorder, grain, scanlines, halation) go to the post recipe, not the prompt |
 | Camera | `camera` + per-shot `shots[].camera` + `shots[].motion.camera_motion` (the pin's per-shot camera and light serve as the shot plan; `skill_owned_camera`) | ≤2 moves per shot |
-| Audio | `audio-analysis.json` soundscape, verified events and sync rules; `audio` fallback for older runs | `( )` music, `< >` SFX, `{ }` dialogue when authorized; describe replacement audio rather than copying source words or recordings; `No audio at all` when the run is silent |
+| Audio | `audio-analysis.json` soundscape, verified events and sync rules; `audio` fallback for older runs | Native only for on-camera dialogue: `( )` music, `< >` SFX, `{ }` dialogue when authorized; describe replacement audio rather than copying source words or recordings. Score-led or ambient pins generate picture with `generate_audio: false` and map the sound grammar to a Seed Audio post bed |
 
 ## Reference binding order (Seedance)
 
-1. Build the eligible input set: current approved Element references and any
-   explicitly selected production panel. Omit analysis sketches by default;
+1. Build the eligible input set from current approved Element references only.
+   Storyboard boards, grids, panels and analysis sketches are never bound;
    translate their choreography into text.
 2. Assign `@Image N` in the exact submitted order, with one role per input.
-   Intentional control-image conditioning requires explicit selection, live
-   model/mode support, and output QA; disabling review never grants eligibility.
+   Disabling review never grants eligibility.
 
 The ordered `images[]` array must match `shot.md` `references:` exactly.
 
@@ -46,9 +45,10 @@ snapshot or provider task.
 - Panel count defaults to `shots.length`; an explicit user budget wins and must
   retain a documented mapping from every source shot to a panel or combined beat.
 - Render defaults to monochrome sketch. Honor an explicit limited-palette,
-  full-color, or standalone-production-panel request.
+  full-color, or standalone-production-panel request; every board stays a
+  planning and review artifact, never a video input.
 - Delivery defaults to the smallest readable single-image grid. Paginate large
-  boards or use separate panels when downstream promotion needs individual images.
+  boards or use separate panels when review needs individual images.
 - Variant count defaults to 3. Honor an explicit requested count and vary only a
   supported seed for sampling variants. Human selection remains required even
   when `storyboard.review` hides the review UI.

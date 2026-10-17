@@ -39,6 +39,18 @@
         "The output checks face size or framing as a cause of the still mouth.",
         "The output suggests also running a no-prompt baseline take."
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Two hosts sit side by side in this image; the audio is the woman on the left speaking for 10 seconds. Have her hold up a can of our energy drink with the brand name on it and show the caption 'NEW FLAVOR' at the end.",
+      "expected_output": "A prompt card that assigns the speaking state by frame side and attribute, names the hand by anatomy and frame side, describes the can plainly, and moves the brand text and caption to the image or post.",
+      "files": [],
+      "expectations": [
+        "The speaker is identified by frame side plus a visible attribute and only she has the speaking state; the other host gets a listening action.",
+        "The hand holding the can is named by anatomy and frame side.",
+        "The prompt does not ask the model to render the brand name or the caption; exact branding comes from a real product image or post, and the caption is added in post.",
+        "The 10 s audio is reported as within limits and no segmentation is forced."
+      ]
     }
   ]
 }

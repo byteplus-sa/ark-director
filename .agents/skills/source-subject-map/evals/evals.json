@@ -24,7 +24,8 @@
         "A contact_windows entry links the presenter's subject ID to the phone's object ID, and the phone's ID appears in that subject's contacts.",
         "The presenter's speaks field contains at least one time window.",
         "Text visible on the phone screen is recorded under text_logos rather than in a descriptor.",
-        "The agent does not write an object-swap prompt or add dispositions to the map."
+        "The agent does not write an object-swap prompt or add dispositions to the map.",
+        "The handoff tells the consumer that a realistic person is visible (so a video input needs the asset:// video route) and that the source has audio."
       ]
     },
     {
@@ -38,6 +39,18 @@
         "The ambiguities list contains an entry naming the two yellow-shirt subject IDs with resolution null.",
         "The map status is blocked.",
         "The agent does not write the recast prompt and instead asks the user which yellow-shirt subject is meant."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Map this 6-second clip of a woman reading a short product line to camera. Later we will fix one word she says wrong, so I need exact timings for what she says.",
+      "expected_output": "A map with one subject and its speech window refined from speech_to_text word timings saved as subject_map_words.json, any model-versus-transcript disagreement over half a second recorded as an ambiguity, and no audio generation or fix attempted.",
+      "files": [],
+      "assertions": [
+        "The agent runs speech_to_text on the local file and saves the word timings beside the map.",
+        "The subject's speaks window comes from the transcript times, not only from seed_understand.",
+        "A disagreement larger than half a second between the model and the transcript is recorded as an ambiguity.",
+        "No audio generation, word patch or prompt is produced."
       ]
     }
   ]

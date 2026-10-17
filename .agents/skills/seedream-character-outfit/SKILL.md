@@ -97,6 +97,12 @@ Lighting, Composition, Constraints.
   anywhere on the sheet. Image models carry the source clothing over unless told
   otherwise.
 - State layered garments with sleeves so back and front agree.
+- When a shawl, scarf, blanket or high collar covers the shoulders, state where
+  the hair falls over it, for example "the same shoulder-length black hair
+  falling over the shawl"; hair length drifts under shoulder wraps otherwise.
+- Describe every garment without canonical graphics as plain fabric with no
+  visible label or print. Neck labels, cuffs and chest areas otherwise grow
+  invented lettering that the video then animates.
 - Keep the canonical neutral-expression phrase, the matte-skin and anti-AI-look
   wording, and the empty-hands constraint from `seedream-character-sheet`.
 - Match the parent's panel layout, size and background. Read the size from the

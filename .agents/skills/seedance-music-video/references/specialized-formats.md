@@ -17,12 +17,11 @@ mode selection and caller responsibilities.
   (literal, amplified, or disjunct).
 - **Conceptual**: choose one governing visual rule that encodes the track, then
   execute it with mechanical rigor; do not add a plot unless the rule needs it.
-- **Lyric**: keep imagery simple and legible; the type is the star. Use `【 】`
-  for provisional captions and set exact lyrics in post. Direct word-level
-  pops on the beat (`【word】` on each accent), hold every word long enough to
-  read, keep to one or two fonts, and dim the background so the text stays
-  readable — kinetic type is faster and tighter in the chorus, looser in the
-  verses.
+- **Lyric**: the type is the star, but it is added in post. The prompt asks
+  for simple, text-free imagery with a stated calm zone and a background dim
+  enough for type. In the edit, pop each word on its accent from ASR word
+  times, hold every word long enough to read, keep to one or two fonts, and
+  make kinetic type faster and tighter in the chorus, looser in the verses.
 - **Visualizer**: no performer, no story, no lyrics; audio-reactive shapes,
   waveforms, particles, or geometry that shift with the sections.
 - **Hybrid**: state which sections carry performance and which carry the
@@ -32,8 +31,9 @@ mode selection and caller responsibilities.
 
 - **9:16 (vertical)** is the discovery default for TikTok / Reels / Shorts:
   center the subject, prefer close and medium shots, plan fast cuts (roughly
-  1–3s), open with the hook, and use vertical motion (reveals, tilts, drops)
-  over horizontal pans. Native 9:16 composition beats cropping 16:9.
+  1–3s, faster ones made in the edit), open with the hook, and use vertical
+  motion (reveals, tilts, drops) over horizontal pans. Native 9:16 composition
+  beats cropping 16:9.
 - **16:9 (landscape)** is the YouTube master: allow richer backgrounds,
   multi-subject staging, and continuity. Render one purpose-built 9:16 cut
   rather than stretching a 16:9 master.

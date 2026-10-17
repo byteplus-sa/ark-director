@@ -92,7 +92,9 @@ build, and outfit.
   later block and cut.
 - Each image states which view it is and which attributes it defines.
 - Products and props belong to a named character when they are held:
-  `The phone in Mara's right hand becomes the Lumen X phone from @Image 5.`
+  `The phone in Mara's right hand, frame-left, becomes the Lumen X phone from
+  @Image 5.` The model reads left and right as the character's own side, so
+  name the hand by anatomy and add the frame side.
 - For a subject map, append the ID in review metadata rather than in the prompt
   (`subj-01 -> Mara`), so the prompt stays readable.
 
@@ -198,8 +200,7 @@ signs show abstract shapes and color only.
 
 [Style]
 The visuals feature warm practical light from the string lights with cool
-blue fill from the sky, reflections on the wet paving, a gentle teal-and-amber
-grade, and fine digital grain.
+blue fill from the sky, and reflections on the wet paving.
 
 [Audio]
 Silent output. Sound is added in post.

@@ -49,3 +49,23 @@ judgments, not observed generated-media results.
   visible mechanism.
 - **Acceptance:** The proposal names a camera stance, a light source and an energy
   level, each tied to the intended reaction, and any static choice states why.
+
+## An ad brief that leaves sound and structure to the edit
+
+- **Brief:** A 30-second wordless spot for a rain jacket. Viewers should feel
+  the jacket turns a storm into play.
+- **Initial proposal:** One 30 s pass following a cyclist through the city in
+  the rain, native audio with "no music, rain only", warm teal grade.
+- **Simulated failure:** One pass carries nine beats at one framing, so it
+  reads as stock footage; native audio is likely to add a score or voices the
+  edit cannot remove; the grade was never requested.
+- **Smallest repair:** Six 5 s sequences of 2–3 shots, one action per shot
+  (the hood snaps up, a puddle jump in low-angle slow motion, a grin under a
+  streetlamp), each with a camera move, a named light and one wow image.
+  Audio route `picture_only`: generate silent picture and build rain, footsteps
+  and score in post. Keep original colours; list the logo end card as a post
+  overlay.
+- **Tradeoff:** More shots to plan and assemble, and a post sound pass; in
+  return each sequence has a visible idea and the sound is controlled.
+- **Acceptance:** The proposal names the sequence structure, the audio route
+  with its reason, the look default, and the on-screen copy as post overlays.

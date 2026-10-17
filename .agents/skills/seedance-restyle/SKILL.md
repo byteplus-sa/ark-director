@@ -71,19 +71,21 @@ post-audio route, and the test-ladder rung.
 5. **Identity anchors are Virtual Portraits** designed in the target medium.
    Liveness verification is not used. A photoreal sheet under a drawn style
    leaks photoreal skin.
-6. **Submit the muted master** with `generate_audio: false` and no `@Audio`
-   binding; sound returns in post.
+6. **Submit the muted master** with `generate_audio: false`, per the
+   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md#muted-source-master);
+   sound returns in post.
 7. **No baked text.** Source signage becomes abstract shapes in the style;
    captions and copy are added in post.
 8. **Test ladder**: a 480p probe of the hardest beat (fast motion, a face close-up
-   or a cut), then the full clip at 480p, then the final resolution.
+   or a cut), then the full clip at 480p as a native Draft (`draft: true`), then
+   promote the selected draft by `draft_task_id` when the live schema confirms
+   Draft for edit tasks (otherwise a new reviewed request at the final
+   resolution).
 9. **Keep the same place.** A restyle changes how the background looks, never
    where the scene is: a city street stays a city street, with the same kind of
    buildings, furniture and plants. Never name a different location unless the
    user asks for one. Build an environment image of the same place and bind it
    (see Environment image).
-10. **Frame count.** Edit routes take an 8n+1 frame input (for example 121 at
-    24 fps) and return the same count.
 
 ## Routes
 
@@ -122,13 +124,22 @@ scene stays in the same place.
    ignore (extra chairs, objects, people).
 
 The background's geometry follows the image, so the image is also where
-the street layout is chosen. When the request allows no image input from the
-user, generate this image from text yourself; when no image may be bound at all,
-offer a subject-only restyle, or a different place described in words if the
-user wants one.
+the street layout is chosen. When the user supplies no image, generate this one
+from text yourself; it needs no user input.
 
-Start a new case (another style, camera move, people count or resolution) with a
-480p test of the hardest beat.
+**Be honest about words-only requests.** A same-place background restyle
+from prompt words alone is not reliable: in observed takes, every words-only
+wording that kept the place (restyle wording, layout-keeping words, a
+background-only edit, a two-pass edit) left the background photographic, and a
+words-only location change rebuilt the frame but moved the scene somewhere else.
+When no image may be bound at all, say so before writing the prompt and offer a
+subject-only restyle, or a different place described in words if the user wants
+one.
+
+Evidence: the environment-image recipe was observed on a claymation restyle at
+480p. Other media (2D drawn styles, pixel art) and higher resolutions are
+untested; treat them as hypotheses. Start a new case (another style, camera
+move, people count or resolution) with a 480p test of the hardest beat.
 
 ## Procedure
 

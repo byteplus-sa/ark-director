@@ -17,7 +17,7 @@ video-to-video editing, combine this skill's VFX discipline with the
 |---|---|---|---|
 | Full-duration edit (match source length) | Seedance 2.5 (`dreamina-seedance-2-5-260628`) | `edit` | Preferred. Duration auto-locks to ~source length (up to 30s). |
 | 4K output / Fast / Mini | Seedance 2.0 (`dreamina-seedance-2-0-260128`); for 4K also see whitelist-only 2.5 Premium in the routing contract | `edit_video` | 2.0 edit **caps output at ~5s** in practice regardless of source length — do not use for edits longer than ~5s. |
-| Video extension | 2.5 | `extend` | Native forward/backward extension. |
+| Video extension | 2.5 | `extend` | Native forward/backward extension. Rejected for clips showing realistic people unless they are `asset://` assets; otherwise continue with a new generation from element references and text staging. |
 
 > 2.5 accepts `auto | reference | edit | extend`. It **rejects `edit_video`**
 > (that value is 2.0-only) with `InvalidParameter`. 2.0 uses `edit_video`.
@@ -80,7 +80,10 @@ visible state change is the acceptance test for the edit.
 ### Language swap / audio edit (re-lip-sync)
 
 Change only the spoken language and the lip movement, keeping the character,
-environment, framing, lighting, and timing identical. Field-tested template:
+environment, framing, lighting, and timing identical. The presenter in the
+source must be bound as an `asset://` Virtual Portrait or authorized asset, or
+the edit is rejected as a privacy input; this is the one edit that keeps native
+audio on, because the new speech is the change. Field-tested template:
 
 ```text
 [Edit Goal]
@@ -150,13 +153,16 @@ visible:
 | Re-voice + **re-render lips** | `seedance-vfx-prompt` (2.5 audio edit, this section) | Video re-rendered; mouth re-animated to the new language. Use when the mouth is visible and lip-sync matters. |
 | Voice-clone + **overlay audio** | `audio-dubbing` (Seed Audio 1.0 TA2A) | Video frames untouched; cloned audio laid on top. Use when lips are off-screen or not the focus. |
 
-### Content-safety note (copyright false positives on output)
+### Content-safety note (output copyright rejections)
 
-Seedance can reject an otherwise-innocuous edit with
+Seedance can reject an edit with
 `OutputVideoSensitiveContentDetected.PolicyViolation` ("copyright restrictions")
-when the *generated output* resembles a film/photo cliché — interrogation rooms,
-a figure arguing in the rain, well-known movie setups. This is an output-level
-false positive, not a prompt error. Mitigate by softening the trope wording
-(e.g. `arguing` → `talking into his phone`; `bare-bulb interrogation` → a neutral
-desk scene), resubmitting once, and recording the failed task. Never retry the
-identical prompt unchanged.
+when the *generated output* resembles a well-known film or photo setup —
+interrogation rooms, a figure arguing in the rain, famous movie compositions —
+or when a bound storyboard or sketch board pushes the look toward a source
+image. Treat the rejection as evidence to diagnose, not proof of a false
+positive. A legitimate revision moves the content away from the recognisable
+setup (for example `arguing` → `talking into his phone`; a bare-bulb
+interrogation → a neutral desk scene) and removes any board reference; record
+the failed task and the change. Never retry the identical prompt unchanged, and
+never word a prompt to slip past the filter.

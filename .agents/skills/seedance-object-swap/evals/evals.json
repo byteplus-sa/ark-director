@@ -7,11 +7,12 @@
       "expected_output": "A product swap package: the muted master as @Video 1 with the source audio saved for an original-audio post route, the packshot as @Image 1 with background and lighting excluded, the five-part swap contract with per-cut count, contact windows for grip, drink and set-down, generate_audio false, edit task type, and a 480p contact-window probe as the first rung.",
       "files": [],
       "assertions": [
-        "The original can is identified by observable descriptors (colour, which hand, first appearance), never as 'the product'.",
+        "The original can is identified by observable descriptors (colour, which hand named by anatomy plus frame side, first appearance), never as 'the product'.",
         "The prompt states that the entire video contains exactly one target can and includes a Timeline Inheritance clause.",
         "@Video 1 is the muted master, generate_audio is false, no @Audio binding is used, and the original-audio post route is recorded for his voice.",
         "Grip, mouth contact and set-down windows are listed with approximate times.",
-        "The first proposed request is a 480p probe, and the package is returned to the caller rather than submitted."
+        "The first proposed request is a 480p probe, and the package is returned to the caller rather than submitted.",
+        "Because the source shows a person, @Video 1 is bound as an asset:// video per the video-to-video inputs contract rather than a presigned URL."
       ]
     },
     {
@@ -35,6 +36,17 @@
       "assertions": [
         "The skill does not write one swap prompt that changes product, location and every outfit at once.",
         "It proposes either sequential single-class swaps with inspection between them or a Motion Transfer recast, and explains the difference.",
+        "No task is submitted."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "In this new street shot I want her summer outfit to turn into a winter coat only on the part of her body that has walked past the lamp post, like those transition reels. Can you swap it?",
+      "expected_output": "A routing response: a progressive, partial outfit change inside one new shot is not an Object Swap of kept footage; it is a pure reference-to-video generation with timestamped body-part stages, so the request is pointed to the progressive-change pacing pattern instead of an edit package.",
+      "files": [],
+      "assertions": [
+        "The skill does not write an edit-route swap package for the progressive change.",
+        "It explains that the change is written as a reference-to-video shot with stages by timestamp and body part.",
         "No task is submitted."
       ]
     }

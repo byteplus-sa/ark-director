@@ -1,0 +1,38 @@
+{
+  "skill_name": "blender-to-seedance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The car-chase previz is validated. Submit it to Seedance 2.5 to dress it as a rainy night city, with engine roar and a score.",
+      "expected_output": "A video-lock request using the 2.5 edit task type, picture-only generation, and the sound built in post.",
+      "files": [],
+      "expectations": [
+        "Uses omni_reference_task_type edit for Seedance 2.5, not the 2.0 value edit_video, after rechecking the live accepted values.",
+        "Generates picture with generate_audio false and plans the engine roar, timed accents and score in post at the manifest frames.",
+        "Submits a 480p draft first and promotes only after temporal review against the previz."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The dialogue blockout has four seated characters. Bind their character sheets and the storyboard grid with the previz.",
+      "expected_output": "Binds identity references only, prefers asset:// Virtual Portraits for the people, and keeps the storyboard out of the request.",
+      "files": [],
+      "expectations": [
+        "Does not bind the storyboard grid as a reference.",
+        "Prefers approved asset:// Virtual Portrait identities for the four characters and notes the privacy-rejection risk of raw face sheets beside a video input.",
+        "Keeps native audio for the lip-synced dialogue and states that dialogue never creates shots."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The 15 s take is approved. Use Seedance extension to continue it for another 10 s.",
+      "expected_output": "Chains into a new previz segment instead of extending a generated clip with people.",
+      "files": [],
+      "expectations": [
+        "Explains that extension of a generated clip that shows people is rejected unless they are asset:// Virtual Portrait assets.",
+        "Proposes a new previz segment rendered, validated and submitted as its own video-lock request, joined at a cut.",
+        "Uses return_last_frame to match the next segment's opening."
+      ]
+    }
+  ]
+}

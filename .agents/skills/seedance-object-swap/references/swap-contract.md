@@ -15,8 +15,9 @@ cause of a failed swap.
 
 1. **Identification.** Name the original by observable descriptors: screen
    position, colour, material, what holds or wears it, and when it first
-   appears. "The red aluminium can in the woman's right hand" — never "the
-   product".
+   appears. "The red aluminium can in the woman's right hand, frame-left" —
+   never "the product". The model reads left and right as the character's own
+   side, so name a hand or limb by anatomy and add the frame side.
 2. **Object count.** State how many target objects the entire video contains,
    and per cut when the count changes: `The entire video contains exactly one
    <target>.`
@@ -46,6 +47,9 @@ Target reference rules:
   it, or the model rescales the hand instead.
 - Do not ask the model to render overlay copy, taglines or end cards. A label
   printed on the product is part of the product; captions go in post.
+- A generic target with no printed design (a jug, tube, case or plain prop)
+  tends to grow invented lettering. Describe its surface positively: "plain
+  white ceramic jug, smooth solid surface, nothing printed".
 
 Keep lighting on the target physical: the same key direction, colour
 temperature and reflections as the original's surroundings.

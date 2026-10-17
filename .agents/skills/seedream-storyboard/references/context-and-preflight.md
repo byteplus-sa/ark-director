@@ -28,7 +28,8 @@ If a project has relevant Element sheets, a generated panel must bind them by
 role in both the submitted request and its metadata. If an Element has no
 selected sheet, use the best available approved reference; otherwise record the
 asset as `unresolved` and keep the output as an unlocked draft, ineligible for
-video handoff. Do not quietly use a storyboard output as the canonical source.
+video handoff. Do not quietly use a storyboard output as the canonical source,
+and never as a Seedance reference.
 
 If the request is not tied to a local project, keep the output in chat unless
 the user asks for files.
@@ -38,8 +39,8 @@ the user asks for files.
 Extract or infer:
 
 - project and scene;
-- storyboard purpose: editorial board, continuity board, pitch board, or video
-  keyframe planning;
+- storyboard purpose: editorial board, continuity board, pitch board, or
+  staging plan for video prompts;
 - target medium and aspect ratio;
 - cast, locations, props, wardrobe, and visible state;
 - the selected character, location, and prop sheet for every visible Element;
@@ -119,9 +120,11 @@ For a one-panel board:
 - select one hero beat and one frozen composition;
 - favor the image that best sells the scene's central story, emotion, or product;
 - record important omitted transitions as motion notes rather than extra panels;
-- recommend I2V or R2V for video handoff; request a second approved panel only
-  if exact start-and-end locking through FLF2V becomes necessary. R2V bundle
-  sizing is version-dependent: Seedance 2.0 allows ≤9 images; 2.5 allows ≤30.
+- recommend reference-to-video with the element sheets the panel used, and
+  carry the panel's staging into prompt text. If a shot needs an exact first or
+  last frame, plan a separate full-colour keyframe generated from the element
+  references, never the panel itself. Check the live tool's reference budget
+  rather than a remembered limit.
 
 After the panel count is settled, record the **panel delivery mode**
 (single-image grid or separate images) in the panel plan. Default to
@@ -161,8 +164,10 @@ sentence.
 
 Control-only floor plans and sketches guide authoring. Translate their geometry
 into text and omit them from generation inputs by default. An intentional
-conditioning exception needs explicit selection, live tool compatibility, and
-output QA for style, labels, colors, and geometry leakage.
+Seedream conditioning exception needs explicit selection, live tool
+compatibility, and output QA for style, labels, colors, and geometry leakage.
+That exception covers Seedream panel generation only; it never extends to a
+Seedance request.
 
 Apply the workspace prop threshold consistently: branded, recurring, or
 story-critical objects and scene-variant wearables need their own approved

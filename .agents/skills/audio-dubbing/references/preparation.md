@@ -18,8 +18,9 @@ Gather and verify all inputs before generating anything.
 - [ ] Source audio is ≤ 30s (single reference clip) or needs reference segmentation
 - [ ] Target script has the same number of lines as the original has spoken segments
 - [ ] Target script is in the correct language (verify by reading it)
-- [ ] Target language is supported by Seed Audio cross-lingual synthesis (see supported languages above)
+- [ ] Target language is supported by Seed Audio cross-lingual synthesis (check the current API reference; see [language reference](language-reference.md) for pronunciation)
 - [ ] If source is video, extract audio track first
+- [ ] Whole original soundtrack measured: RMS profile, ASR of its own audio, non-voice sound list, integrated loudness
 
 **Common preflight issues and fixes:**
 
@@ -35,14 +36,7 @@ Gather and verify all inputs before generating anything.
 
 ## Character identification
 
-Before writing the prompt, identify every speaker and assign them to dialogue lines. This is critical — getting a speaker wrong creates a jarring dub.
-
-**How to identify speakers:**
-1. Read the target script and note who is being addressed, who is referenced, who uses first-person pronouns
-2. Look for proper noun references (names, titles, "your client," "my grandson")
-3. Map each line to a speaker
-4. Verify the count matches the audible number of distinct voices in the source
-5. If uncertain, inspect the audible source and use a supported multimodal understanding tool to corroborate speaker turns. Script relationships alone do not establish who spoke a line
+Before writing the prompt, identify every speaker and assign them to dialogue lines; follow [character identification](character-identification.md) for clues and the validation checklist. Verify the count against the audible number of distinct voices in the source; script relationships alone do not establish who spoke a line.
 
 **Character mapping template:**
 ```
@@ -90,12 +84,7 @@ Ending: Clean ending matching @Audio1 exactly, same tail silence and room tone.
 - Pronunciation guide: ~300–500 chars
 - Ending + other: ~100 chars
 
-**If the prompt is too long:**
-1. Cut pronunciation guide to only the most critical words (10–15 key terms)
-2. Remove redundant unlocked descriptions; preserve approved voice descriptors verbatim
-3. Reduce stage directions to a single word per line ("calmly," "firmly")
-4. Remove any redundant phrases
-5. If still too long, split into segments (see "Long-form dubbing" below)
+**If the prompt is too long:** follow the prompt-too-long order in [extended dubbing](extended-dubbing.md#prompt-too-long-strategies); split into segments per [long-form dubbing](extended-dubbing.md#long-form-dubbing-120s) when locked text still does not fit.
 
 **Timestamp conventions:**
 - Use the original SRT/VTT timestamps directly if available

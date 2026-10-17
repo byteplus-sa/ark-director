@@ -1,0 +1,31 @@
+{
+  "skill_name": "seedream-character-sheet",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write character-sheet prompts for a family of four for a drama series: the grandmother in her seventies, the mother, the teenage son and the youngest daughter. The grandmother always wears a woven shawl over her shoulders and has long grey hair to her waist. The son wears sunglasses only in the beach episode. Prompts only.",
+      "expected_output": "Four three-panel sheet prompts that read as one appealing cast with a spread of complexions, the shawl kept in the grandmother's outfit with her hair stated as falling over it, and the sunglasses routed to a prop sheet.",
+      "files": [],
+      "expectations": [
+        "Each prompt uses the back full-body, front full-body, face close-up layout with plain gray background, neutral even light, and the canonical neutral-expression phrase.",
+        "Each character has observable appeal traits, and the grandmother is warm and soft-featured rather than haggard.",
+        "The cast shows a natural range of complexions named in plain words instead of one shared tone, and the four differ in at least three of hair, garment silhouette, dominant color, complexion, and age cues.",
+        "The grandmother's prompt states her waist-length grey hair falling over the shawl in the back and front panels.",
+        "The son's sunglasses are excluded from his sheet and routed to a separate prop sheet as a scene-variant wearable.",
+        "Garments without canonical graphics are described as plain fabric with no visible label or print.",
+        "The prompts set ratio and resolution through the size parameter rather than prompt words."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Make a character sheet of the detective holding her badge and her phone, lit with the blue neon of the alley where she works.",
+      "expected_output": "A sheet prompt with empty hands and neutral studio light, with the badge and phone routed to prop handling and the neon kept for shot prompts.",
+      "files": [],
+      "expectations": [
+        "The output keeps the badge and phone out of the sheet and points to prop references or shot-prompt descriptions.",
+        "The output keeps neutral, even studio lighting and explains that each shot prompt owns its own motivated light.",
+        "The output does not generate an image or claim one exists."
+      ]
+    }
+  ]
+}

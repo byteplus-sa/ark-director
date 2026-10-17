@@ -7,6 +7,8 @@ Read [the entrypoint](../SKILL.md) for authority and source limits.
 | Need | Default action |
 | --- | --- |
 | Filipino or Taglish line | Preserve approved words and use native audio |
+| New line, no register in the brief | Draft English-dominant Taglish with simple, common Tagalog |
+| "English with a Filipino accent" | Keep the words English; put the accent in a note outside the braces |
 | Pronunciation concern without a recording | Identify a hypothesis; do not claim observed failure |
 | Specific heard error | Verify the target reading and add one external cue |
 | Locked line with a shouted or whispered critical Tagalog word | Flag it as a listening priority; check it word by word with a transcript |

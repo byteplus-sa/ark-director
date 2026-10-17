@@ -14,8 +14,14 @@
     "revision.declared_delta", "review.complete_evidence",
     "swap.residual_original", "swap.timeline_inheritance",
     "recast.motion_authority", "recast.subject_disposition",
-    "recast.mapping_unambiguous", "recast.guards", "recast.audio_route",
-    "v2v.muted_source", "v2v.virtual_portrait_identity",
-    "restyle.content_preserved", "restyle.style_reference_only"
+    "recast.mapping_unambiguous", "recast.guards",
+    "recast.audio_route", "v2v.muted_source",
+    "v2v.virtual_portrait_identity", "restyle.content_preserved",
+    "restyle.style_reference_only", "board.animatic_review_only",
+    "seedance.draft_promotion", "audio.native_route",
+    "prompt.positive_direction", "prompt.parameters_in_request",
+    "prompt.exact_counts", "prompt.hand_frame_side",
+    "video.text_free", "dialogue.speech_budget",
+    "dialogue.filipino_register"
   ]
 }

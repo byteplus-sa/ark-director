@@ -24,7 +24,8 @@ Final Section (<verified time range or event cue>): <closing assignment and fina
 <Which audio events the cuts and camera land on; cut density per section.>
 
 [Audio Treatment]
-<Native audio brackets, or the @Audio N timing-authority binding for audio-first.>
+<Native audio brackets, the @Audio N timing-authority binding for audio-first,
+or generate_audio false with the master or a Seed Audio bed added in post.>
 
 [Genre Lock]
 <Palette, lighting, camera grammar, motion cadence, and tone.>
@@ -57,9 +58,9 @@ Audio: <@Audio N timing binding, or native brackets>. For rap or fast vocals,
        "no line skipped" mandate (see section 3b).
 
 [Shot Plan] or [Stage Plan]
-Shot 1 (<time range>): <size>, <angle>; <camera move>. <one event and visible end state>. Light: <source, key side>.
-Shot 2 (<time range>): <size>, <angle>; <camera move>. <one event and visible end state>. Light: <source, key side>.
-Final Shot (<time range>): <size>, <angle>; <camera move>. <closing event and final visible state>. Light: <source, key side>.
+Shot 1 (<time range, at least ~1 s>): <size>, <angle>, <lens intent>; <camera move>. <one action, its intent, and the visible end state>. Light: <named source, key side>.
+Shot 2 (<time range>): <size>, <angle>, <lens intent>; <camera move>. <one action, its intent, and the visible end state>. Light: <named source, key side>.
+Final Shot (<time range>): <size>, <angle>, <lens intent>; <camera move>. <closing action and final visible state>. Light: <named source, key side>.
 
 [Maintain Consistency]
 Keep <performer identity, wardrobe, venue, camera grammar, and audio>

@@ -1,0 +1,66 @@
+{
+  "skill_name": "ark-mcp",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Submit this approved 10 s Seedance 2.5 shot through ark-mcp as a draft, then promote the selected draft to 1080p with watermark off.",
+      "expected_output": "Two background submissions through ark_job_submit with the target's arguments nested under arguments.input: a draft request with draft true and an explicit resolution 480p, then a promotion request that carries only draft_task_id, resolution 1080p and watermark false. Both IDs are recorded and the final audio is re-checked.",
+      "files": [],
+      "assertions": [
+        "The submission shape is {input: {tool_name, arguments: {input: {...}}}}.",
+        "The draft request sets draft true and does not set a resolution other than 480p.",
+        "The promotion request contains draft_task_id, resolution and watermark and no prompt, images, videos, audios, duration, ratio, generate_audio or omni_reference_task_type.",
+        "watermark false is sent again on the promotion because omitted settings use model defaults.",
+        "The agent says the final render's audio must be checked again because it is not identical to the draft's."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The ark-mcp server restarted while three Seedance jobs were running and ark_job_get now says the job IDs are unknown. Should I resubmit them?",
+      "expected_output": "No resubmission. Poll the recorded provider task IDs directly with seedance_get_task or seedance_get_tasks; if a provider ID was never recorded, reconcile with seedance_list_tasks before any new paid submission. Recommends recording Ark job and provider task IDs in one write in future.",
+      "files": [],
+      "assertions": [
+        "The agent does not resubmit any of the three generations.",
+        "The agent polls provider task IDs with seedance_get_task or seedance_get_tasks.",
+        "The agent explains that Ark job IDs are process-local while provider task IDs survive the restart.",
+        "Missing provider IDs are reconciled with seedance_list_tasks before any resubmission."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Extend this 2.5 clip of two generated characters walking by 5 seconds. Use omni_reference_task_type extend_video and keep ratio 9:16.",
+      "expected_output": "Corrects the task type to extend for Seedance 2.5 and omits ratio. Warns that a video input containing generated people is rejected with PrivacyInformation unless those people are bound as asset:// Virtual Portrait assets, and routes the identities through the asset library before submission.",
+      "files": [],
+      "assertions": [
+        "The request uses omni_reference_task_type extend, not extend_video.",
+        "The request omits ratio for the extension.",
+        "The agent flags the PrivacyInformation rejection risk for video inputs with people.",
+        "The agent proposes binding the characters as asset:// Virtual Portrait assets rather than altering the input video."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Transcribe the dialogue in this downloaded take. I already uploaded the audio to S3, here is the presigned URL.",
+      "expected_output": "Runs speech_to_text through ark_job_submit with audio_file_path pointing at a local extracted audio file and the correct audio_format, explaining that presigned object-storage URLs were rejected as an untrusted host. Uses the transcript as the authority for words.",
+      "files": [],
+      "assertions": [
+        "The speech_to_text request uses audio_file_path with an absolute local path.",
+        "The agent explains why the presigned URL is not used.",
+        "audio_format matches the file, with 16 kHz 16-bit mono PCM for wav.",
+        "The call is submitted as a background job, not a foreground tool call."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Generate three Seedream variations through ark_job_submit and write them straight into elements/hero/ with output_dir.",
+      "expected_output": "Submits seedream_generate_image_variations through ark_job_submit without output_dir, keeps persist true, reads the artifacts from ark_job_get.result.structured_content, then copies each with seed_media_export_artifact and verifies SHA-256.",
+      "files": [],
+      "assertions": [
+        "output_dir and output_path are omitted from the background submission.",
+        "The agent explains the session-not-available failure for local writes inside ark_job_submit.",
+        "persist stays true and files are copied afterwards with seed_media_export_artifact.",
+        "Each copied file's SHA-256 is compared with the artifact sha256."
+      ]
+    }
+  ]
+}

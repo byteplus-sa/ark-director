@@ -43,13 +43,13 @@
     {
       "id": 4,
       "prompt": "Write a 15-second Seedance lyric-video prompt for an upbeat pop song. The lyrics should pop word by word on the beat, and the exact final text will be set in post-production. Keep the imagery simple and legible behind the type.",
-      "expected_output": "A lyric-video prompt whose type treatment is provisional in-model, with simple legible imagery and a clear post-production handoff for exact text.",
+      "expected_output": "A lyric-video prompt whose generated imagery is text-free with a reserved calm zone for type, and whose words and beat pops are built in post from ASR word times.",
       "files": [],
       "expectations": [
-        "The prompt treats the lyrics as the primary visual and uses the 【 】 subtitle syntax for provisional captions.",
-        "The imagery is kept simple and legible so the text stays readable.",
-        "The prompt states that exact final lyric text is set in post-production, not guaranteed by the model.",
-        "Word-level pops are directed on the beat."
+        "The prompt keeps the generated footage text-free and does not ask the model to render lyrics, captions or 【】 subtitles.",
+        "The imagery is kept simple and legible with a stated calm zone where the type will sit.",
+        "The response assigns exact lyric text, fonts and word-level pops on the beat to post (HyperFrames or FFmpeg) timed from ASR word times.",
+        "Word-level pops are directed on the beat in the edit plan, not inside the generation."
       ]
     },
     {
@@ -180,6 +180,19 @@
         "Labels track-specific structure and energy as provisional.",
         "Offers a coherent audience effect and visual rule without invented BPM, measured timings or lyrics.",
         "Does not block an untimed treatment on audio upload; exact sync remains unresolved."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Write the Seedance plan for a 30-second trap chorus: hard cuts on every kick and snare at 140 BPM, a quiet ambient intro with only rain and no music, and the final cut must sit under my own master.",
+      "expected_output": "A plan that splits the chorus into several generations with shots of at least about 1 s, assigns sub-0.8 s beat cuts to the edit, keeps generated audio off for the ambient intro and the master, and gives a lossless exact-length assembly recipe.",
+      "files": [],
+      "expectations": [
+        "States that shots shorter than about 0.8 s merge inside one generation, so kick/snare cuts at 140 BPM are built in assembly from separately generated clips.",
+        "Builds the 30 s section from roughly six 5 s generations of two or three shots, each with lens intent, camera move and a named light source.",
+        "Sets generate_audio false for the rain intro and for clips under the supplied master, adding rain from Seed Audio in post and noting the bed is not frame-synced, instead of relying on a 'no music' line.",
+        "Describes exact whole-frame lossless intermediates, audio padded or trimmed to picture, the concat demuxer, setsar=1 for the concat filter, video-stream durations and one final encode with the master muxed over the cut.",
+        "Does not bind a storyboard grid as a Seedance reference."
       ]
     }
   ]

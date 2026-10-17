@@ -40,6 +40,9 @@ Read the supplied brief and existing confirmed decisions first. Extract:
 | Where the feeling lives | Which channel carries the inner state (performance, sound, light, framing, edit) rather than literal effects? |
 | Source bible | Is there a source text, script, brand book or prior canon whose lines and details must survive every stage? |
 | Quality bar | Whose reaction is the bar: a named person, the user's own taste, or a past version of the user? |
+| Sound plan | Does anyone speak on camera, or is the sound ambience, score or silence? |
+| Look | Should the footage keep the model's original colours, or is a grade or capture-format look requested? |
+| On-screen copy | Which titles, captions, CTA, logo or end card does the piece carry, and is any label required? |
 
 When a tone or genre reference is a **concrete brand video ad or other footage**
 (URL, campaign name, or user-supplied file) meant for visual or motion
@@ -78,12 +81,43 @@ State the creative spine in one sentence: **For [audience/context], show
 not mandatory output syntax. A static asset can use a visual contrast rather
 than a narrative event; a sound-only brief can use a sonic idea.
 
-## 2. Choose the appropriate depth
+## 2. Settle the production-critical defaults early
+
+Three choices change how footage is generated, so record them in the first
+proposal for any moving-image brief instead of discovering them at assembly.
+Each is a proposal with a reason until confirmed. When the brief already
+settles one (a "silent" spot is `silent`), record it in one line without a
+question; static images and sound-only briefs skip the ones that do not apply.
+
+- **Audio route.** `native` when characters speak on camera and lip sync
+  matters; `picture_only` when the sound is ambience, score or a wordless arc,
+  so the video is generated silent and the bed is built in post; `lipsync_audio`
+  only when the user asks for a separate dialogue track; `silent` for a silent
+  deliverable. Prefer `picture_only` for ambience-only and score-driven pieces:
+  a "no music, no speech" line on native audio often does not hold, and speech
+  or score leaks in. Say that a post bed is laid to the cut rather than
+  frame-synced to action.
+- **Look.** Default to the model's original colours with no grade, grain,
+  halation or vignette. Record a grade or a capture-format look (camcorder,
+  film stock) only when the brief asks for one, and treat it as a post
+  treatment rather than a prompt word.
+- **Cinematic bar for ads and TVCs.** Unless the format is static by design
+  (selfie UGC, talking head), propose a sequence structure: about six 5 s
+  sequences of 2–3 shots for a 30 s spot, one action per shot, each shot with a
+  camera move, a motivated light and depth, and one standout "wow" image per
+  sequence. A single pass carrying many beats reads as stock footage.
+
+Also list the on-screen copy as post overlays: generated footage stays
+text-free, and no "AI-generated" or "fictional" label is added unless the user,
+platform or brief requires it.
+
+## 3. Choose the appropriate depth
 
 - **Fast proposal (default):** give one compact treatment tied to the creative
   spine and the axes needed to execute it. For a moving-image brief the
-  treatment always includes a camera and light stance and an energy level
-  (restrained, standard or kinetic), because those carry the reaction. Do not
+  treatment always includes a camera and light stance, an energy level
+  (restrained, standard or kinetic), the audio route and the look, because
+  those carry the reaction and decide how footage is generated. Do not
   produce alternatives or a questionnaire merely because a project is new.
 - **Exploration:** when the user asks for directions, alternatives, or help
   choosing a concept, offer two materially different treatments. Distinguish
@@ -99,7 +133,7 @@ with people making room, or a still overhead table accumulating personal objects
 The alternatives change the storytelling mechanism; warmer versus cooler grading
 of the same shot does not constitute two treatments.
 
-## 3. Derive applicable axes from the idea
+## 4. Derive applicable axes from the idea
 
 Every recommended choice needs a concrete visible or audible purpose and a
 tradeoff where it affects feasibility. Choose coherent instructions over an
@@ -115,11 +149,11 @@ a format that is static by design), not a neutral default.
 | Camera | Choose viewpoint, framing, and the movement that reveals the central idea; vary size and angle across a scene | `seedance-shot-design`, then `seedance-camera-presets` |
 | Lens | Describe perspective, separation, and context; add optical terms only when useful | `seedance-lens-presets` |
 | Lighting | Motivate a source and its direction, and let it change meaning across the scene | `seedance-shot-design`, then `seedance-lighting-presets` |
-| Grade | Support tone and reference fidelity; retain accepted palette | `color-grade-palettes` |
+| Grade | Default ungraded original colours; propose a grade or look only when requested or when reference fidelity needs it, as a post treatment | `color-grade-palettes` |
 | Pacing | Give the action enough time; stillness, repetition, contrast, and escalation are choices | `seedance-pacing-presets` |
 | Staging | Define geography only when action or relationships depend on it | `tig-blocking-map` |
 | Medium | Preserve requested medium; propose only when the idea benefits from that choice | `seedance-animation-styles` |
-| Audio | Honor silent/native/soundtrack requests; separate lip-sync audio remains opt-in | `seed-audio-prompt` / `seed-audio-commercial` |
+| Audio | Record the audio route (native, picture only, lip-sync audio, silent); separate lip-sync audio remains opt-in | `seed-audio-prompt` / `seed-audio-commercial` |
 
 These hints do not require loading sibling skills. Never require acting for a
 product-only still, a camera move for an audio brief, or a speed ramp because a
@@ -133,7 +167,7 @@ For hybrid briefs, combine compatible intent, not the first matching genre row.
 When signals truly conflict, preserve explicit choices and identify the smallest
 remaining decision. Explain what each interpretation would make the viewer feel.
 
-## 4. Confirm and persist the right scope
+## 5. Confirm and persist the right scope
 
 Present the proposed direction with reasons, then identify decisions actually
 requiring acceptance: a new concept, a changed lock, or an impactful assumption.
@@ -155,6 +189,7 @@ creative_intent:
   central_idea: a crowded table makes room for one more place setting
   feeling_lives_in: the space the family makes, not anyone's words
   quality_bar: the user's memory of their grandmother's table
+  on_screen_copy: end card with the dinner date, added in post
   source: user_confirmed
 directorial_axes:
   energy:
@@ -169,12 +204,17 @@ directorial_axes:
     value: warm overhead lamp as the one source; the extra place catches the light last
     rationale: the light moves attention to the new place
     source: proposed
+  grade:
+    value: ungraded, original model colours
+    rationale: the warm lamp already carries the tone; no post look requested
+    source: defaulted
   audio_mode:
-    value: native
+    value: picture_only
+    rationale: an ambience-and-score piece; native audio tends to add speech or music, so the bed is built in post
     source: user_confirmed
-    approval_evidence: "User requested native table ambience."
+    approval_evidence: "User accepted silent picture with a post ambience bed."
 locked:
-  audio_mode: native
+  audio_mode: picture_only
 ```
 
 `proposed` means recommendation; `defaulted` means a disclosed working assumption;
@@ -189,12 +229,14 @@ chat-only work, return the proposal without creating project files.
 ## Worked repairs and checks
 
 Read [worked repairs](references/worked-repairs.md) when a proposal feels generic,
-a hybrid brief produces competing defaults, or alternatives differ only in style.
+a hybrid brief produces competing defaults, alternatives differ only in style,
+or an ad brief leaves its sound and shot structure to the edit.
 These are hypothetical teaching cases, not measured generation outcomes.
 
 Before returning, check that the proposal serves the stated reaction, names a
 specific idea, says where the feeling lives, respects constraints, accepted
-choices and any source bible, and omits irrelevant axes. Two treatments appear only when exploration is wanted, and differ in
+choices and any source bible, records the audio route and look for moving
+images, and omits irrelevant axes. Two treatments appear only when exploration is wanted, and differ in
 mechanism. Unknowns remain labeled; recommendations remain unapproved until a
 mode-authorized decision is recorded. Evaluate the reasoning and usefulness,
 not exact headings.

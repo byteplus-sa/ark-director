@@ -36,7 +36,8 @@
         "The output describes the multiplication as a staged generation transition with timestamps, not as an edit task.",
         "The output explains that duplicates are forbidden in edit tasks, so this preset is generation-only.",
         "The output requires identity-drift QA across all four figures against the identity reference.",
-        "The output offers a real-group alternative using distinct references."
+        "The output offers a real-group alternative using distinct references.",
+        "The prompt restates the exact figure count and each figure's frame-side position at every timestamp and asks for a count on a full-size frame, because clone counts overshoot."
       ]
     },
     {
@@ -61,7 +62,8 @@
         "The output sets the generation parameter omni_reference_task_type to edit and never uses edit_video.",
         "The output notes duration locks to the ~12s source (within ~0.3s) and the ratio derives from the source video.",
         "The red jacket is bound to the supplied reference image for identity.",
-        "The source is within the recommended edit-task limits (under 20s)."
+        "The source is within the recommended edit-task limits (under 20s).",
+        "The output states that a source clip showing a person is rejected for edit unless she is bound as an asset:// Virtual Portrait or authorized asset, submits the source muted with audio in post, and offers the fresh-generation variant when no asset exists."
       ]
     },
     {
@@ -74,7 +76,8 @@
         "The output states captions or on-screen text belong to a finishing layer and are never baked into the generated video.",
         "The output includes an AIGC-disclosure reminder for ad delivery (TikTok manual tag).",
         "The shock reaction is cue-level (widened eyes, hands to mouth) without degree adjectives.",
-        "No claims about the skincare product appear; persuasion content is routed to ugc-ad-modes."
+        "No claims about the skincare product appear; persuasion content is routed to ugc-ad-modes.",
+        "The output does not burn an 'AI-generated' label into the video; disclosure stays a platform delivery setting."
       ]
     },
     {
@@ -100,6 +103,18 @@
         "The output does not fabricate a preset name or recipe.",
         "The output offers a nearest alternative such as a custom two-subject composition through seedance-prompt-25 grammar.",
         "The output stays prompt-composition-only and does not claim the request was fulfilled with a preset."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Fix and pose preset with my character holding a coffee cup in her left hand. No brand on the cup.",
+      "expected_output": "A Fix and pose prompt block whose cup is described plain with nothing printed and whose hand is named by anatomy and frame side.",
+      "files": [],
+      "expectations": [
+        "The cup is described positively as a plain cup with a smooth surface and nothing printed, not as 'no logo'.",
+        "The hand is written as her left hand plus its frame side (frame-right in a front-facing shot).",
+        "The locked camera is stated in the prompt and recorded as format_static_by_design.",
+        "No on-screen text, caption or label is placed in the prompt."
       ]
     }
   ]

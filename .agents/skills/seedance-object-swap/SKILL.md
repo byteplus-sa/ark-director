@@ -34,6 +34,12 @@ Swap one element class per request. Two unrelated changes run as two sequential
 swaps with inspection between them. When most of the frame changes, the job is
 a Motion Transfer.
 
+A progressive or partial change inside one new shot (an outfit that changes
+only on the part of the body that has crossed a line) is not an edit of kept
+footage. It is a pure reference-to-video generation with the stages written by
+timestamp and body part; compose with `seedance-pacing-presets`, which words
+that pattern.
+
 ## Swap classes
 
 | Class | Target reference | Typical scope |
@@ -73,16 +79,18 @@ parameters, the post-audio route, and the test-ladder rung.
    as `asset://` Virtual Portrait assets registered from approved invented
    designs. A real, identifiable person as
    the target is out of scope; offer a Virtual Portrait character.
-3. **Submit the muted master.** `@Video 1` is the muted master;
-   `generate_audio` is `false`; there are no `@Audio` bindings. Sound returns in
-   post through the recorded route.
+3. **Submit the muted master** with `generate_audio: false`, per the
+   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md#muted-source-master);
+   sound returns in post through the recorded route.
 4. **Reference budget**: 1–5 target images, one view per image, no collage.
    Several views of one target state that the output contains only one.
 5. **No baked text.** A label printed on a product is part of the product;
    captions, taglines, CTAs and end cards are added in post.
 6. **Test ladder**: a 480p probe of the hardest contact window, then the full
-   clip at 480p, then the final resolution. Each rung is a separate reviewed
-   request.
+   clip at 480p as a native Draft (`draft: true`), then promote the selected
+   draft with only `draft_task_id`, `resolution` and `watermark` when the live
+   schema confirms Draft for edit tasks (otherwise a new reviewed request). Re-check
+   the final's audio and picture.
 
 ## Route and parameters
 
@@ -140,7 +148,8 @@ retry.
 - [ ] One element class changes; recast and restyle requests routed elsewhere
 - [ ] Source inspected and hashed; rights decision recorded
 - [ ] Muted master bound as `@Video 1`; source audio saved; `generate_audio: false`
-- [ ] Original identified by observable descriptors and first appearance
+- [ ] Original identified by observable descriptors and first appearance;
+      hands named by anatomy and frame side ("her right hand, frame-left")
 - [ ] Object count stated for the whole video and per cut when it changes
 - [ ] Timeline Inheritance clause present
 - [ ] Residual-original guard phrased positively

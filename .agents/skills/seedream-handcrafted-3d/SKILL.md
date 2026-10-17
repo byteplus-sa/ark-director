@@ -96,8 +96,14 @@ policy is a separate caller decision and does not apply to ordinary turnarounds.
 Check the requested views, complete head-to-foot framing where applicable,
 consistent face/hair/outfit, readable material scale, and coherent lighting.
 Check hands, footwear, costume closures, accessories, and left/right placement.
-For a collection, compare facial structure, hair, silhouette, and palette so the
-characters have distinct identities rather than only recolored clothing.
+For a collection, compare facial structure, hair, silhouette, complexion, and
+palette so the characters have distinct identities rather than only recolored
+clothing, and so the cast shows a natural range of skin tones.
+
+A sheet that will condition video also needs what the video must keep: garments
+without canonical graphics described as plain with nothing printed, and hair
+length stated relative to any shawl, scarf, or high collar that covers the
+shoulders, since hair drifts under shoulder wraps.
 
 Inspect material studies for face fragments and invented costume changes.
 Character sheets govern exact costume geometry; macros support texture and

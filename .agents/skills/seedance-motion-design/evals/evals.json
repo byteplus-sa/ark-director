@@ -1,0 +1,55 @@
+{
+  "skill_name": "seedance-motion-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a Seedance 2.5 motion-design prompt for a 10-second SaaS launch video: the headline 'Ship in half the time', a dashboard chart that climbs 48%, and the logo with a 'Start free' CTA at the end.",
+      "expected_output": "A prompt that routes the headline, chart, percentage, logo and CTA to deterministic HTML-entrypoint graphics composited in post, keeps generated footage text-free, and states the attention hierarchy and camera.",
+      "files": [],
+      "expectations": [
+        "The headline, the 48% figure, the chart, the logo and the CTA are routed to deterministic graphics added in post, not rendered by Seedance.",
+        "The generated footage is described as text-free, with exact text named as a post layer rather than excluded by naming garbled text.",
+        "The hero claim moves first and the CTA lands last.",
+        "The camera is stated explicitly: locked-off with its reason, or a named move with direction, speed, start and end.",
+        "Duration and aspect ratio are not written as prompt sentences."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a 12-second hypermotion product ad prompt for a perfume bottle: macro orbit, glints on the glass, a splash of liquid, then the bottle lands on a plinth. Make it feel premium and cinematic.",
+      "expected_output": "A footage-led prompt with per-shot size, angle, camera move with start and end, lens intent and a named light source with key side, shots of at least about 0.8 s, and no default grade.",
+      "files": [],
+      "expectations": [
+        "Each generated shot states a shot size or angle, a camera move with a start and an end, a lens intent as a visible result, and a named light source with its key side.",
+        "The bottle's shape is described positively by its visible form rather than by excluding unwanted shapes.",
+        "No shot inside the clip is shorter than about 0.8 s.",
+        "No grade, grain or film look is added unless requested, and any label or logo on the bottle is reserved for an approved asset or post.",
+        "The prompt names the moment the message lands and the final resting state on the plinth."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write a product-lineup motion prompt: five identical cans of a soda slide into a row on a counter, then the middle one rises. Seedance keeps giving me four or six cans.",
+      "expected_output": "A prompt that names each of the five cans by position, keeps all five in open view from the first frame, restates the count at each stage, and describes the cans as plain surfaces with the label art added in post or from an approved asset.",
+      "files": [],
+      "expectations": [
+        "The five cans are each named by position and are all in open view from the first frame.",
+        "The count of five is restated at each stage, including after the middle can rises.",
+        "The prompt never mentions spare or extra cans lying around.",
+        "The can surfaces are described positively as plain, or the label comes from an approved asset or post, rather than asking Seedance to render label text."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write a 30-second motion-on-footage explainer for a fintech app as one single Seedance prompt with eleven beats.",
+      "expected_output": "A response that splits the piece into several short clips cut together in assembly instead of one 30-second pass with eleven beats, with graphics timed to speech as post layers.",
+      "files": [],
+      "expectations": [
+        "The output explains that one pass with many beats reads as stock footage and proposes several short clips of a few shots each, cut in assembly.",
+        "Lower-thirds, stat cards and callouts are deterministic post layers timed to the speech beats.",
+        "Each generated clip states its camera and a named light source.",
+        "The response returns prompts rather than an unrelated production workflow."
+      ]
+    }
+  ]
+}
