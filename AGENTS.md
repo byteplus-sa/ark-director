@@ -367,7 +367,7 @@ uv run python .agents/scripts/validate_workspace.py --offline
 uv run python -m unittest discover -s tests -v
 uv run ruff check .agents/scripts .agents/skills/scene-board-sheet tests
 uv run mypy .agents/scripts .agents/skills/scene-board-sheet/scripts
-PYTHONPYCACHEPREFIX=/tmp/ai-director-pycache uv run python -m compileall -q .agents/scripts
+PYTHONPYCACHEPREFIX=/tmp/ai-director-pycache uv run python -m compileall -q .agents/scripts .agents/skills/scene-board-sheet/scripts
 uv run pip-audit
 git diff --check
 ```

@@ -752,7 +752,7 @@ def check_board(root: Path, scene: str) -> list[Finding]:
         if digest in hashes or path in version_paths or path.startswith(prefix):
             findings.append(
                 Finding(
-                    "board.bound_to_request",
+                    "board.animatic_review_only",
                     "error",
                     f"{hashes.get(digest, path)} is bound as a request reference; boards are never Seedance inputs",
                     path,

@@ -165,8 +165,9 @@ def prepare_operation(
     capabilities: dict[str, Any],
     review: dict[str, Any],
     required_rule_ids: list[str],
+    allow_board_references: bool = False,
 ) -> None:
-    findings = validate_request(root, request, capabilities)
+    findings = validate_request(root, request, capabilities, allow_board_references)
     findings.extend(
         validate_review(review, request.get("request_sha256", ""), required_rule_ids)
     )
@@ -204,10 +205,23 @@ def adopt_submitted_operation(
         raise ValueError(
             "Adopting a submitted job needs its provider task ID and status"
         )
-    prepare_operation(root, request, capabilities, review, required_rule_ids)
+    prepare_operation(
+        root,
+        request,
+        capabilities,
+        review,
+        required_rule_ids,
+        allow_board_references=True,
+    )
     operation_id = request["operation_id"]
     try:
-        transition_operation(root, operation_id, "prepared", "submitting")
+        transition_operation(
+            root,
+            operation_id,
+            "prepared",
+            "submitting",
+            allow_board_references=True,
+        )
         transition_operation(
             root,
             operation_id,
@@ -239,6 +253,7 @@ def transition_operation(
     new_status: str,
     provider_task_id: str | None = None,
     provider_status: str | None = None,
+    allow_board_references: bool = False,
 ) -> None:
     if new_status not in TRANSITIONS.get(expected_status, set()):
         raise ValueError(
@@ -257,7 +272,9 @@ def transition_operation(
         if record is None or record["submission_status"] != expected_status:
             raise ValueError("Operation missing or stale expected state")
         if new_status == "submitting":
-            evidence_findings = prepared_evidence_findings(root, record)
+            evidence_findings = prepared_evidence_findings(
+                root, record, allow_board_references
+            )
             if evidence_findings:
                 raise ValueError(
                     "; ".join(finding.message for finding in evidence_findings)

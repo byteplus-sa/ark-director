@@ -389,7 +389,7 @@ class CheckTests(BoardTestCase):
             ),
             encoding="utf-8",
         )
-        self.assertIn("board.bound_to_request", self.finding_ids())
+        self.assertIn("board.animatic_review_only", self.finding_ids())
 
     def test_unrelated_request_reference_is_not_reported(self) -> None:
         self.register_all()
@@ -1241,7 +1241,7 @@ class ReviewFixTests(BoardTestCase):
             ),
             encoding="utf-8",
         )
-        self.assertIn("board.bound_to_request", self.finding_ids())
+        self.assertIn("board.animatic_review_only", self.finding_ids())
 
     def test_malformed_task_registry_does_not_crash_check(self) -> None:
         for content in (

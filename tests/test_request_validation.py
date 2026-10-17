@@ -385,6 +385,77 @@ class RequestValidationTests(unittest.TestCase):
                     {f.rule_id for f in self.findings()},
                 )
 
+    def test_board_guard_catches_path_spellings_that_resolve_to_a_board(self):
+        for relative in [
+            "scenes/scene-02//board/sheet/x.png",
+            "scenes/scene-02/./board/sheet/x.png",
+            "Scenes/Scene-02/Board/sheet/x.png",
+            "scenes/scene-02/s02_sh010/s02_sh010_p010_t01_v01.JPG",
+            "scenes/scene-02/s02_sh010/s02_sh010_board_t01_v01.webp",
+        ]:
+            with self.subTest(relative=relative):
+                path = self.root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"board fixture")
+                self.request["references"][0]["path"] = relative
+                self.request["references"][0]["sha256"] = self.hash(
+                    relative.replace("//", "/").replace("/./", "/")
+                )
+                self.assertIn(
+                    "board.animatic_review_only",
+                    {f.rule_id for f in self.findings()},
+                )
+
+    def test_board_guard_follows_a_symlink_to_a_board_file(self):
+        target = self.root / "scenes/scene-02/board/sheet/x.png"
+        target.parent.mkdir(parents=True)
+        target.write_bytes(b"board fixture")
+        (self.root / "innocent.png").symlink_to(target)
+        self.request["references"][0]["path"] = "innocent.png"
+        self.request["references"][0]["sha256"] = self.hash("innocent.png")
+        self.assertIn(
+            "board.animatic_review_only", {f.rule_id for f in self.findings()}
+        )
+
+    def test_board_guard_skips_seedream_edits_and_adoption(self):
+        relative = "scenes/scene-02/s02_sh010/s02_sh010_p010_t01_v01.png"
+        self.use_reference_at(relative)
+        references = self.request["references"]
+        prompt = (self.root / "prompt.md").read_text()
+        self.assertTrue(
+            validation.reference_findings(
+                self.root, references, prompt, model="dreamina-seedance-2-5"
+            )
+        )
+        self.assertNotIn(
+            "board.animatic_review_only",
+            {
+                f.rule_id
+                for f in validation.reference_findings(
+                    self.root, references, prompt, model="dola-seedream-5-0-pro"
+                )
+            },
+        )
+        self.assertNotIn(
+            "board.animatic_review_only",
+            {
+                f.rule_id
+                for f in validation.reference_findings(
+                    self.root,
+                    references,
+                    prompt,
+                    model="dreamina-seedance-2-5",
+                    allow_board_references=True,
+                )
+            },
+        )
+
+    def test_board_guard_reports_even_when_containment_fails(self):
+        self.request["references"][0]["path"] = "../scenes/scene-02/board/x.png"
+        rules = {f.rule_id for f in self.findings()}
+        self.assertIn("board.animatic_review_only", rules)
+        self.assertIn("path.containment", rules)
+
     def test_element_sheets_and_keyframes_are_not_taken_for_boards(self):
         for relative in [
             "elements/gloria/char_gloria_turnaround_v01.png",

@@ -18,6 +18,7 @@ class OperationStoreTests(unittest.TestCase):
         fixture.setUp()
         self.addCleanup(fixture.doCleanups)
         self.root, self.request, self.caps = fixture.root, fixture.request, fixture.caps
+        self.fixture = fixture
         self.review = {
             "schema_version": 1,
             "request_sha256": self.request["request_sha256"],
@@ -71,6 +72,56 @@ class OperationStoreTests(unittest.TestCase):
         self.assertEqual(
             len(json.loads((self.root / "task_ids.json").read_text())["tasks"]), 1
         )
+
+    def use_board_reference(self):
+        relative = "scenes/scene-02/s02_sh010/s02_sh010_p010_t01_v01.png"
+        path = self.root / relative
+        path.parent.mkdir(parents=True)
+        path.write_bytes(b"board fixture")
+        (self.root / "character.md").write_text(
+            f"---\nselected_variant: {relative}\n---\n"
+        )
+        self.request["references"][0]["path"] = relative
+        self.request["references"][0]["sha256"] = self.fixture.hash(relative)
+        self.fixture.rehash()
+        self.review["request_sha256"] = self.request["request_sha256"]
+
+    def test_storyboard_reference_blocks_preparation(self):
+        self.use_board_reference()
+        with self.assertRaisesRegex(ValueError, "planning artifacts"):
+            self.prepare()
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_a_job_already_submitted_with_a_board_reference_can_still_be_adopted(self):
+        self.use_board_reference()
+        operation_store.adopt_submitted_operation(
+            self.root,
+            self.request,
+            self.caps,
+            self.review,
+            ["asset.visible_consistency"],
+            "job-123",
+            "running",
+            False,
+        )
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["submission_status"], "acknowledged")
+        self.assertEqual(record["provider_task_id"], "job-123")
+
+    def test_a_record_prepared_before_the_guard_cannot_move_to_submitting(self):
+        self.use_board_reference()
+        operation_store.prepare_operation(
+            self.root,
+            self.request,
+            self.caps,
+            self.review,
+            ["asset.visible_consistency"],
+            allow_board_references=True,
+        )
+        with self.assertRaisesRegex(ValueError, "planning artifacts"):
+            operation_store.transition_operation(
+                self.root, self.request["operation_id"], "prepared", "submitting"
+            )
 
     def test_invalid_preflight_never_creates_registry(self):
         self.request["references"][0]["sha256"] = "0" * 64
