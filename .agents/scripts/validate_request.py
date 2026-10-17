@@ -26,6 +26,7 @@ BOARD_FILE = re.compile(
     re.IGNORECASE,
 )
 BOARD_EXEMPT_MODEL = re.compile(r"(?:^|-)seedream(?:-|$)")
+SEEDANCE_25_MODEL = re.compile(r"(?:^|-)seedance-2-5(?:-|$)")
 
 
 def is_board_artifact(path: str) -> bool:
@@ -544,6 +545,54 @@ def is_draft_promotion(params: Any) -> bool:
     return isinstance(task_id, str) and bool(task_id.strip())
 
 
+def draft_selected(root: Path, draft: dict[str, Any]) -> bool:
+    if draft["review_status"] == "approved":
+        return True
+    output = draft.get("extensions", {}).get("expected_output")
+    for path in sorted((root / "decisions").glob("*.json")):
+        decision = json.loads(
+            contained_path(root, f"decisions/{path.name}").read_text()
+        )
+        if (
+            isinstance(decision, dict)
+            and decision.get("decision_type") == "variant_selection"
+            and decision.get("subject_path") == output
+            and not decision_findings(root, decision)
+        ):
+            return True
+    return False
+
+
+def draft_promotion_findings(root: Path, request: dict[str, Any]) -> list[Finding]:
+    task_id = request["params"]["draft_task_id"]
+    try:
+        registry = json.loads(contained_path(root, "task_ids.json").read_text())
+        if schema_findings(registry, "task-registry.schema.json"):
+            raise ValueError("Task registry is invalid")
+        draft = next(
+            (task for task in registry["tasks"] if task["provider_task_id"] == task_id),
+            None,
+        )
+        if draft is None:
+            message = f"draft_task_id {task_id} names no registered operation"
+        elif not (
+            SEEDANCE_25_MODEL.search(draft["model"].lower())
+            and draft["model"] == request["model"]
+            and draft["params"].get("draft") is True
+            and draft["params"].get("resolution") == "480p"
+        ):
+            message = f"{draft['operation_id']} is not a 480p draft of this model"
+        elif not draft_selected(root, draft):
+            message = f"{draft['operation_id']} has no approved review or selection"
+        elif draft["prompt_sha256"] != request["prompt_sha256"]:
+            message = f"Prompt differs from the prompt of {draft['operation_id']}"
+        else:
+            return []
+    except (ValueError, OSError, UnicodeError, json.JSONDecodeError) as error:
+        message = f"Cannot verify the draft: {error}"
+    return [Finding("seedance.draft_promotion_source", message, "task_ids.json")]
+
+
 def reference_findings(
     root: Path,
     references: list[dict[str, Any]],
@@ -749,6 +798,8 @@ def prepared_evidence_findings(
             )
     except (ValueError, TypeError) as error:
         findings.append(Finding("request.current_hash", str(error)))
+    promotion = is_draft_promotion(request["params"])
+    promotion_findings = draft_promotion_findings(root, request) if promotion else []
     findings.extend(
         reference_findings(
             root,
@@ -757,9 +808,10 @@ def prepared_evidence_findings(
             request["schema_version"],
             model=request["model"],
             allow_board_references=allow_board_references,
-            inherits_inputs=is_draft_promotion(request["params"]),
+            inherits_inputs=promotion and not promotion_findings,
         )
     )
+    findings.extend(promotion_findings)
     findings.extend(project_mode_findings(root, request))
     if (
         request["submission_status"] != "prepared"

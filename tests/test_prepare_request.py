@@ -155,8 +155,23 @@ class PrepareRequestTests(unittest.TestCase):
         self.assertFalse((self.root / "requests").exists())
         self.assertFalse((self.root / "task_ids.json").exists())
 
-    def test_draft_promotion_without_references_is_a_valid_request(self) -> None:
-        argv = [
+    def register_draft(self, **changes: Any) -> None:
+        _, result = self.run_cli(self.argv())
+        draft = result["request"]
+        draft.update(
+            params={"draft": True, "resolution": "480p", "duration": 8},
+            submission_status="terminal",
+            provider_task_id="cgt-draft-1",
+            provider_status="succeeded",
+            review_status="approved",
+        )
+        draft.update(changes)
+        (self.root / "task_ids.json").write_text(
+            json.dumps({"schema_version": 1, "tasks": [draft]})
+        )
+
+    def promotion_argv(self, task_id: str = "cgt-draft-1") -> list[str]:
+        return [
             "--project",
             str(self.root),
             "--asset",
@@ -168,17 +183,36 @@ class PrepareRequestTests(unittest.TestCase):
             "--operation",
             "generate",
             "--param",
-            "draft_task_id=cgt-draft-1",
+            f"draft_task_id={task_id}",
             "--param",
             "resolution=1080p",
             "--expected-output",
             "scenes/scene-01/s01_sh010/s01_sh010_final_v01.mp4",
         ]
-        code, result = self.run_cli(argv)
+
+    def promotion_rules(self, result: dict[str, Any]) -> set[str]:
+        return {finding["rule_id"] for finding in result["findings"]}
+
+    def test_draft_promotion_without_references_is_a_valid_request(self) -> None:
+        self.register_draft()
+        code, result = self.run_cli(self.promotion_argv())
         self.assertEqual(code, 0, result)
         self.assertEqual(result["findings"], [])
         self.assertEqual(result["request"]["references"], [])
         self.assertEqual(result["request"]["params"]["draft_task_id"], "cgt-draft-1")
+
+    def test_draft_promotion_of_unregistered_id_is_refused(self) -> None:
+        self.register_draft()
+        code, result = self.run_cli(self.promotion_argv("cgt-draft-typo"))
+        self.assertEqual(code, 1, result)
+        self.assertIn("seedance.draft_promotion_source", self.promotion_rules(result))
+        self.assertIn("references.ordered_bindings", self.promotion_rules(result))
+
+    def test_draft_promotion_of_unreviewed_draft_is_refused(self) -> None:
+        self.register_draft(review_status="review")
+        code, result = self.run_cli(self.promotion_argv())
+        self.assertEqual(code, 1, result)
+        self.assertIn("seedance.draft_promotion_source", self.promotion_rules(result))
 
     def test_explicit_curl_transport_is_recorded_in_request(self) -> None:
         code, result = self.run_cli(self.argv("--transport", "curl"))

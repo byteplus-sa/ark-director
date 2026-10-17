@@ -15,6 +15,8 @@ validation = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = validation
 SPEC.loader.exec_module(validation)
 
+DRAFT_MODEL = "dreamina-seedance-2-5-260628"
+
 
 class RequestValidationTests(unittest.TestCase):
     def setUp(self):
@@ -498,7 +500,28 @@ class RequestValidationTests(unittest.TestCase):
         )
         self.assertFalse(validation.is_board_artifact(""))
 
-    def promote(self, task_id="cgt-draft-1"):
+    def register_draft(self, **changes):
+        draft = copy.deepcopy(self.request)
+        draft.update(
+            operation_id="fixture-draft",
+            asset_id="fixture_draft",
+            model=DRAFT_MODEL,
+            params={"draft": True, "resolution": "480p", "duration": 5},
+            submission_status="terminal",
+            provider_task_id="cgt-draft-1",
+            provider_status="succeeded",
+            review_status="approved",
+            extensions={"expected_output": "draft.mp4"},
+        )
+        draft.update(changes)
+        (self.root / "task_ids.json").write_text(
+            json.dumps({"schema_version": 1, "tasks": [draft]})
+        )
+        return draft
+
+    def promote(self, task_id="cgt-draft-1", **draft_changes):
+        self.register_draft(**draft_changes)
+        self.request["model"] = self.caps["model"] = DRAFT_MODEL
         self.request["references"] = []
         self.request["params"] = {"draft_task_id": task_id, "resolution": "1080p"}
         self.caps["parameters"] = {
@@ -506,6 +529,55 @@ class RequestValidationTests(unittest.TestCase):
             "resolution": {"enum": ["1080p"]},
         }
         self.rehash()
+
+    def promotion_findings(self):
+        return [
+            finding
+            for finding in self.findings()
+            if finding.rule_id == "seedance.draft_promotion_source"
+        ]
+
+    def select_draft_take(self):
+        (self.root / "draft.mp4").write_bytes(b"fixture draft video")
+        review = {
+            "schema_version": 1,
+            "artifact_path": "draft.mp4",
+            "artifact_sha256": self.hash("draft.mp4"),
+            "status": "pass",
+            "inspection_method": "full playback with sound",
+            "coverage": "every frame of the draft",
+            "checks": [
+                {
+                    "criterion": "motion and speech timing",
+                    "status": "pass",
+                    "evidence": "Walk and line land on their beats",
+                }
+            ],
+            "observations": ["Draft is complete"],
+            "limitations": [],
+            "recommendation": "Promote this draft",
+        }
+        (self.root / "draft_review.json").write_text(json.dumps(review))
+        decision = {
+            "schema_version": 1,
+            "decision_id": "draft-choice",
+            "decision_type": "variant_selection",
+            "asset_id": "fixture_draft",
+            "subject_path": "draft.mp4",
+            "selected_variant": "draft.mp4",
+            "selected_sha256": self.hash("draft.mp4"),
+            "actor": "agent",
+            "approval_mode": "approve_for_me",
+            "project_sha256": "0" * 64,
+            "result": "approved",
+            "review_path": "draft_review.json",
+            "review_sha256": self.hash("draft_review.json"),
+            "upstream_sha256": {},
+            "reason": "Best passing draft",
+            "decided_at": "2026-10-17T00:00:00Z",
+        }
+        (self.root / "decisions").mkdir(exist_ok=True)
+        (self.root / "decisions/draft-choice.json").write_text(json.dumps(decision))
 
     def ordered_binding_findings(self):
         return [
@@ -547,6 +619,70 @@ class RequestValidationTests(unittest.TestCase):
         self.assertIn(
             "references.current_hashes", {f.rule_id for f in self.findings()}
         )
+
+    def test_promotion_of_draft_selected_by_decision_passes(self):
+        self.promote(review_status="review")
+        self.select_draft_take()
+        self.assertEqual(self.findings(), [])
+
+    def test_promotion_of_unknown_draft_id_is_refused(self):
+        self.promote(task_id="cgt-draft-typo")
+        self.assertTrue(self.promotion_findings())
+        self.assertTrue(self.ordered_binding_findings())
+
+    def test_promotion_without_task_registry_is_refused(self):
+        self.promote()
+        (self.root / "task_ids.json").unlink()
+        self.assertTrue(self.promotion_findings())
+
+    def test_promotion_with_invalid_registry_reports_a_finding(self):
+        self.promote()
+        for content in ["not json", "[]", '{"schema_version": 1, "tasks": [{}]}']:
+            with self.subTest(content=content):
+                (self.root / "task_ids.json").write_text(content)
+                self.assertTrue(self.promotion_findings())
+
+    def test_promotion_of_non_draft_task_is_refused(self):
+        cases = {
+            "final render": {"params": {"resolution": "1080p", "duration": 5}},
+            "720p draft": {"params": {"draft": True, "resolution": "720p"}},
+            "draft flag as text": {"params": {"draft": "true", "resolution": "480p"}},
+            "other model": {"model": "dreamina-seedance-2-0-260128"},
+            "other 2.5 variant": {"model": "dreamina-seedance-2-5-premium-260915"},
+        }
+        for name, changes in cases.items():
+            with self.subTest(name):
+                self.promote(**changes)
+                self.assertTrue(self.promotion_findings())
+                self.assertTrue(self.ordered_binding_findings())
+
+    def test_promotion_of_unreviewed_draft_is_refused(self):
+        for status in ["not_started", "review", "rejected"]:
+            with self.subTest(status=status):
+                self.promote(review_status=status)
+                self.assertTrue(self.promotion_findings())
+
+    def test_promotion_of_draft_with_stale_selection_is_refused(self):
+        self.promote(review_status="review")
+        self.select_draft_take()
+        (self.root / "draft.mp4").write_bytes(b"replaced draft video")
+        self.assertTrue(self.promotion_findings())
+
+    def test_selection_of_another_take_does_not_approve_the_draft(self):
+        self.promote(
+            review_status="review", extensions={"expected_output": "other.mp4"}
+        )
+        self.select_draft_take()
+        self.assertTrue(self.promotion_findings())
+
+    def test_promotion_prompt_must_match_the_draft_prompt(self):
+        self.promote()
+        (self.root / "prompt.md").write_text("A performer runs beside @Image 1.\n")
+        self.request["prompt_sha256"] = self.hash("prompt.md")
+        self.rehash()
+        rules = {finding.rule_id for finding in self.findings()}
+        self.assertIn("seedance.draft_promotion_source", rules)
+        self.assertNotIn("prompt.current_hash", rules)
 
     def test_known_task_is_not_eligible_for_new_submission(self):
         self.request["submission_status"] = "acknowledged"
