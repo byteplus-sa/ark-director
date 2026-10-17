@@ -457,6 +457,12 @@
       "skillPath": ".agents/skills/seedance-virtual-portrait/SKILL.md",
       "computedHash": "2a265a654a696bc544d788519fba9921faae507fd03949dd8ba0644c90533feb"
     },
+    "update": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/update/SKILL.md",
+      "computedHash": "6bcc711ea41161b2d096448091014c5a040c8816bd238b8be2a43e2f6051f2ea"
+    },
     "omnihuman-prompt-20": {
       "source": "./local",
       "sourceType": "local",

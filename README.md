@@ -142,7 +142,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **77 skills** across 15 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **78 skills** across 15 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -156,6 +156,7 @@ The workspace ships with **77 skills** across 15 categories. Independent skills 
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
+| **update** | Updates the repository from its remote, resolves merge conflicts while preserving local work, and re-runs validation and catalog refresh. |
 | **blender-to-seedance** | End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. |
 | **seedance-ai-avatar** | Authorized real-presenter AI avatar: consent gate, Seedream character sheet, isolated voice clip, sheet-only lip-synced Seedance talking-head takes and QA. |
 | **seedance-avatar-news** | Creator-style news shorts hosted by an AI avatar: sourced script, official B-roll with provenance, and a deterministic split/full/card caption edit. |
