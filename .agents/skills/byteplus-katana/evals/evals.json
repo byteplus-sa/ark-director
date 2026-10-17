@@ -1,0 +1,162 @@
+{
+  "skill_name": "byteplus-katana",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Here is our own 12-second 9:16 product-launch motion-design edit with a beat-driven soundtrack we licensed. Rebuild it for our new sneaker (3 product photos) and our mascot Kiko, keeping the cuts on the beat.",
+      "expected_output": "A Rebuild Plan with a measured EDL including a per-segment motion inventory and cut driver, a beat grid with per-cut millisecond offsets, a slot map, a route table that sends the reference's posed, cutout and graphic segments to motion_layout in HyperFrames, prepared cutout layers, a kept-or-replaced audio route citing the licence, and the assembly check; generation only for segments whose measured footage needs it.",
+      "files": [],
+      "assertions": [
+        "Cut times and the beat grid come from measurement (scene detection and audio analysis), not from description alone.",
+        "Each segment lists its animated layers with property, timing and easing as a motion inventory.",
+        "Each segment's route follows what the reference segment shows, with the deciding signals recorded; posed, cutout and graphic segments are motion_layout, and any fresh_generation segment names the footage it replaces.",
+        "Product and mascot photos are placed as unaltered pixels with inspected cutouts, and on-screen copy is deterministic and exact.",
+        "The plan is returned to the caller, the HyperFrames source ships beside the render, and nothing is submitted."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Make this viral aura-farming TikTok with my character. Link: https://www.tiktok.com/@somecreator",
+      "expected_output": "A request for the media file itself because a profile link is not a reference, plus a rights question; with unknown rights the plan falls back to grammar-only extraction and hands off to template-factory.",
+      "files": [],
+      "assertions": [
+        "The profile URL is rejected as a reference and the user is asked for the video file or a direct media link.",
+        "Rights for the footage, music and any people in it are requested; with unknown rights the plan does not rebuild the reference itself.",
+        "Grammar-only mode de-identifies the source and drops its taglines, typography and trade dress.",
+        "No generation is planned before the reference file and rights decision exist."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The rebuild is done but the client says shot 4 shows the wrong colorway and the title in shot 7 has a typo. Fix only those.",
+      "expected_output": "A refinement plan that invalidates only the segments touched, re-renders the title graphic deterministically, regenerates shot 4 with the corrected asset, leaves other takes untouched, and re-runs the assembly check.",
+      "files": [],
+      "assertions": [
+        "The correction is restated as locked decisions, requested delta, acceptance criteria, known rejections and invalidation scope.",
+        "The title fix is a deterministic re-render with no paid generation, and shot 4 is the only regenerated take unless the asset change touches other segments that bind it.",
+        "Unchanged takes keep their hashes and status and are not resubmitted.",
+        "An estimated cost is shown for the wave and the user's credit cap is respected.",
+        "The full-edit assembly check is re-run after the new takes land."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Rebuild my own 13-second 9:16 aura-farming edit (I shot and own it, phonk beat I own) with my invented character Mimi (two approved photos). Almost every beat is a different cinematic shot of the hero: low-angle walk, overhead, night close-up.",
+      "expected_output": "A Rebuild Plan whose routing reads each segment as moving footage, clusters the shots into the setups the reference actually shows, generates one take per setup from Seedream first frames at 9:16 and Seedance image-to-video drafts, cuts each into its beat-anchored appearances, adds a deterministic type layer copied from the reference's type system, and budgets 480p drafts with promotion under the project approval mode.",
+      "files": [],
+      "assertions": [
+        "Footage segments get generated shots of Mimi, not one static cutout repeated across beats, and the route reason cites what the reference segments show rather than the genre.",
+        "The number of setups comes from clustering the reference's distinct shots, and each take's duration is its longest continuous use within the live range.",
+        "Mimi binds as a Virtual Portrait asset:// reference in generated segments; first frames match the reference aspect ratio and parameters such as ratio are resolved from the live capability.",
+        "Type follows the reference's own type system, one word or phrase per beat, landing on the cut frame.",
+        "Drafts are 480p with an estimate, promotion follows the project approval mode and the credit cap, and generation-bound prompts are handed off for prompt-review and registration rather than submitted.",
+        "The generated shots under the phonk bed are planned with generate_audio false, and no grade, grain or vignette is added unless the reference shows it."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Rebuild our owned 12-second 9:16 fashion lookbook edit with our 8 new outfits (8 flat-lay photos and one approved model). The reference is mostly sticker-outlined cutouts and LOOK 01/08 counters, with two short walking shots.",
+      "expected_output": "A plan that records an explicit user decision for 9 assets over the five-asset default, plans derived_still try-on stills of the model wearing each flat-lay outfit for the worn-cutout segments, routes cutout and counter segments to motion_layout and deterministic_graphic, and generates only the two walking-shot setups.",
+      "files": [],
+      "assertions": [
+        "The 9-asset request (8 outfits plus the model) is recorded as a user decision against the five-asset default rather than silently accepted or truncated.",
+        "Worn-cutout segments use derived_still try-on stills built from the flat-lays and the approved model, each with its own review and selection set, then placed as layers; the flat-lays are not claimed as worn pixels.",
+        "Card and counter segments are motion_layout and deterministic graphics; the LOOK counters are exact text.",
+        "Only the walking segments are footage routes, as two setups, each with its route reason; no genre label decides a route."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Rebuild our owned 45-second 16:9 talking-head explainer with B-roll cutaways. Keep the structure, but our presenter Dana (she consented, signed release on file) says the new script I'm attaching.",
+      "expected_output": "A speech-led plan: transcript with word timings from the reference, presenter segments on dialogue_sync reusing Dana's existing authorized real-person asset (or, without one, her owned footage, layers or an invented presenter), the run windowed at speech boundaries or routed to OmniHuman, a voice route with voice consent, a re-time pass from the new voice track, deterministic captions, and a dialogue check in assembly.",
+      "files": [],
+      "assertions": [
+        "The EDL records cut_driver speech, with speech_events from speech_to_text and cuts attached to word or phrase boundaries, never mid-word.",
+        "Presenter segments reuse an existing valid authorized real-person asset for Dana per seedance-virtual-portrait; a signed release alone is not treated as an asset, and without one the plan offers owned footage, layers or an invented presenter, never a Virtual Portrait group.",
+        "The 45-second presenter run is windowed at speech boundaries within the live duration range or routed to OmniHuman, and generated audio is not switched off for the speaking segments.",
+        "After the new voice track exists the speech segments are re-timed from its word timings, the re-time is recorded as a user change, and the assembly check compares against the re-timed EDL.",
+        "Cutaways follow the new speech timeline, and the assembly check verifies words by transcript and mouth sync."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Make a 30-second 16:9 travel montage like this owned reference using my 20 holiday photos. The reference is mostly a photo slideshow with slow pans and zooms, plus two short drone shots. No people, ambient music with no clear beat.",
+      "expected_output": "A mostly layered rebuild: photo moves, parallax and masks in motion_layout following the measured motion inventory, cut_driver none with measured durations as the timing authority, the 20-photo request recorded against the five-asset default, and the two drone segments flagged as footage with the user choosing photo moves or generation at a stated cost.",
+      "files": [],
+      "assertions": [
+        "The EDL records cut_driver none (or action where a measured peak exists) and keeps measured segment durations instead of inventing a beat grid.",
+        "Slideshow segments are photo layers with the reference's camera-like moves and cost no credits.",
+        "The two drone segments are flagged as live-action footage, and the plan asks whether to approximate them with photo moves or generate them, showing the estimated cost.",
+        "The asset count over five is recorded as a user decision."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Rebuild my own 75-second 9:16 hero edit (about 120 cuts, music I own) with my invented character Rex.",
+      "expected_output": "A windowed EDL analysis with setups clustered across the merged edit, scaled to the shots the reference shows, a credit estimate per wave, merged setups when the cap is exceeded, and reuse of each take across its many appearances.",
+      "files": [],
+      "assertions": [
+        "Analysis is windowed on hard cuts with a state ledger, and setups are clustered across the merged EDL rather than per window.",
+        "The setup count follows the reference's distinct shots, not a fixed 5-8, and recurring shots share one take.",
+        "When the estimate exceeds the cap, the closest setups are merged and the plan records which reference shots now share a take.",
+        "Cut times stay in the assembly; no prompt claims to hit 120 cuts."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Rebuild our owned 15-second recipe edit for our branded chili jar: top-down inserts, a pour shot and a final packshot with the label.",
+      "expected_output": "A plan that keeps the label real: the pour is label_composite with the label turned away or on a plain stand-in, the readable label appears as a layered packshot or composited real label, top-down inserts are routed by what they show, and no generated label text.",
+      "files": [],
+      "assertions": [
+        "The pour segment is label_composite, not plain fresh_generation, and generated footage never reproduces the label or its text.",
+        "The final packshot uses the authorized product photo as unaltered pixels.",
+        "The plan records tracked label replacement on moving footage as a risk rather than a promise.",
+        "Sync sound for the pour is an explicit native-or-post choice."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Put me in this aura edit. I'm the person in these three selfies, and this is my own reference video.",
+      "expected_output": "A consent-aware plan: the user's own photos go straight into layered segments, generated footage segments need an authorized real-person asset (reuse an existing valid one), and without one the user chooses layers only or an invented character, with no disguised inputs.",
+      "files": [],
+      "assertions": [
+        "The user is accepted as a target with a recorded consent basis rather than refused as a real person.",
+        "Layered segments place the user's own photos; generated segments bind an authorized real-person asset, never a Virtual Portrait group.",
+        "Without an authorized asset the plan offers layers only or an invented character, and never alters photos to pass a privacy check."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Rebuild this owned 56-second cinematic edit: two long takes of about 8 seconds and one unbroken 40-second walk, slow dolly moves, with my invented character Ana.",
+      "expected_output": "A plan with three setups: the 8 s takes generated at their own length, the 40 s walk split at a hidden boundary or chained because it exceeds the live maximum, no chopping into short shots, and cut times held in the assembly.",
+      "files": [],
+      "assertions": [
+        "Each 8-second take is one setup generated at its continuous length, not split into short shots.",
+        "The 40-second take, longer than the live maximum, is split at a hidden boundary (an occlusion or whip) or chained, with the reason and seam check recorded.",
+        "The camera move and timing come from the measured motion inventory."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Rebuild this edit: I own the footage, but I don't know where the music came from.",
+      "expected_output": "A partial-rights plan: the picture is rebuilt from the owned footage, and the track is replaced with a brief conformed to the measured cut driver; the unknown music is never kept.",
+      "files": [],
+      "assertions": [
+        "Rights are recorded per part: footage owned, music unknown.",
+        "The picture rebuild proceeds; the audio route replaces the music with a brief conformed to the beat or measured cut times.",
+        "The plan does not drop to grammar-only for the whole edit, and does not keep the unknown track."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Rebuild my owned 10-second edit; the reference has burned-in captions on every shot.",
+      "expected_output": "A plan that marks the burned-in captions in the EDL, keeps generated and recast footage text-free, and renders the captions (new copy) as deterministic layers at the EDL times.",
+      "files": [],
+      "assertions": [
+        "Burned-in captions are recorded as text events with burned_in true.",
+        "Generated prompts keep footage text-free and do not ask the model to reproduce captions.",
+        "Captions are a deterministic HyperFrames or HTML layer, checked for exact copy and thumbnail legibility."
+      ]
+    }
+  ]
+}

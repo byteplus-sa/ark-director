@@ -457,6 +457,12 @@
       "skillPath": ".agents/skills/seedance-virtual-portrait/SKILL.md",
       "computedHash": "2a265a654a696bc544d788519fba9921faae507fd03949dd8ba0644c90533feb"
     },
+    "byteplus-katana": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/byteplus-katana/SKILL.md",
+      "computedHash": "acb21e10b11207aa0b12dd70db07ce780bd61af800861a8db7e7ba87e2d373ac"
+    },
     "omnihuman-prompt-20": {
       "source": "./local",
       "sourceType": "local",
