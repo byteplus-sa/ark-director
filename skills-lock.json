@@ -161,13 +161,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
-      "computedHash": "86019b232a5c48547ea59fd79bc031a21032edf3a811849a42ae9ea5d6783961"
+      "computedHash": "f1ed9a92fcaafe02ab7779596ba7c3ac82abd36ffb15b0ce7f7cfc6347a4eeb2"
     },
     "seedance-shot-design": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-shot-design/SKILL.md",
-      "computedHash": "76666cbc08a817eea5e959eb80160afd2779b8c7a14e96b45675ede4a189497b"
+      "computedHash": "5aadd337d0d1b57463183bfecc7bd41282b73e4ec1283d8843a3f5d606c0ee5a"
     },
     "seedance-frame-break": {
       "source": "./local",
