@@ -248,6 +248,15 @@ reads. Levels 1/2/3 differ on the same emotion through three graduated levers:
 Never write "very happy" or "extremely terrified" — replace the adjective with
 more cues and more amplitude.
 
+### Restraint and shape patterns
+
+Load [restraint and shape patterns](references/restraint-and-shape.md) when a
+tactic needs a precise shape: a **first sign** (one small cue as the earliest
+consequence), a **suppression arc** (a visible feeling brought under control),
+an **animal image** translated into body cues with at most one burst action
+per shot, or **eyes through concealment** (a veil or mask that leaves only the
+eyes to carry the tactic).
+
 ---
 
 ## Output grammar
@@ -436,6 +445,13 @@ Before finalizing an acting block or plan, verify:
       movement degree, vocal delivery), with zero degree adjectives.
 - [ ] A single emotional transition uses 2-4 cues max; more beats use the
       multi-stage template.
+- [ ] A suppression arc moves toward control and ends on one residual cue
+      the framing can show.
+- [ ] An animal image is translated into observable cues, and a burst action
+      appears at most once per shot with a timed still hold before it, a still
+      hold after it, and the wardrobe restated after it.
+- [ ] A veil or mask that leaves the eyes visible keeps the covering and gives
+      the eyes the tactic.
 - [ ] Every arc beat has a trigger and readable consequence; timestamps appear
       only when requested or needed for verified audio alignment.
 - [ ] When dialogue is set, the line appears verbatim inside `{}` with a delivery

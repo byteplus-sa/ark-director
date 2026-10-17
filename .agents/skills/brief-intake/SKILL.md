@@ -37,6 +37,9 @@ Read the supplied brief and existing confirmed decisions first. Extract:
 | Constraints | Runtime, format, available references, budget posture, delivery needs, forbidden changes |
 | Tone/genre references | What useful quality is being borrowed, and which convention should be avoided? |
 | Confirmed decisions | Which axes and identities are already accepted? |
+| Where the feeling lives | Which channel carries the inner state (performance, sound, light, framing, edit) rather than literal effects? |
+| Source bible | Is there a source text, script, brand book or prior canon whose lines and details must survive every stage? |
+| Quality bar | Whose reaction is the bar: a named person, the user's own taste, or a past version of the user? |
 
 When a tone or genre reference is a **concrete brand video ad or other footage**
 (URL, campaign name, or user-supplied file) meant for visual or motion
@@ -53,6 +56,22 @@ Ask a focused question only when missing information materially changes the
 result. With no usable brief, ask what is being made, for whom, and the intended
 reaction; develop reversible suggestions while runtime or format is pending.
 Label assumptions instead of inventing audience research or product facts.
+
+Three questions sharpen a dramatic brief without adding a questionnaire.
+Answer them from the brief when you can and ask only when the answer changes
+the result:
+
+- **Where does the feeling live?** Prefer suggestion over spectacle. Pain,
+  power or fear carried by the performance, a sound and the light usually
+  lands harder than a literal effect; keep one brief stylized image when the
+  idea needs a picture (a burned-texture hand instead of fire).
+- **Is there a counterpoint?** A location, prop or sound that plays against
+  the genre can state the world's rules without dialogue (a science-fiction
+  test held in a library says this world has no computers). Propose one only
+  when it serves the reaction.
+- **What is the bible?** When a source exists, list the lines, images and
+  details that must survive, and recheck them at script, generation, edit and
+  music. Fidelity to the source is a confirmed decision, not a style.
 
 State the creative spine in one sentence: **For [audience/context], show
 [specific idea] so the viewer [intended reaction].** This is an aid to reasoning,
@@ -134,6 +153,8 @@ creative_intent:
   audience: first-time visitors
   reaction: feel welcome
   central_idea: a crowded table makes room for one more place setting
+  feeling_lives_in: the space the family makes, not anyone's words
+  quality_bar: the user's memory of their grandmother's table
   source: user_confirmed
 directorial_axes:
   energy:
@@ -172,8 +193,8 @@ a hybrid brief produces competing defaults, or alternatives differ only in style
 These are hypothetical teaching cases, not measured generation outcomes.
 
 Before returning, check that the proposal serves the stated reaction, names a
-specific idea, respects constraints and accepted choices, and omits irrelevant
-axes. Two treatments appear only when exploration is wanted, and differ in
+specific idea, says where the feeling lives, respects constraints, accepted
+choices and any source bible, and omits irrelevant axes. Two treatments appear only when exploration is wanted, and differ in
 mechanism. Unknowns remain labeled; recommendations remain unapproved until a
 mode-authorized decision is recorded. Evaluate the reasoning and usefulness,
 not exact headings.

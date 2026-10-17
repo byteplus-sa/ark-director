@@ -100,6 +100,7 @@ shot_plan:
 | `energy` | restrained, standard or kinetic |
 | `axis_carry` | Where each confirmed project axis appears (camera, lens, lighting, pacing, energy), or the scene override and its reason |
 | `sources` | Every light source the scene uses, with a fixed world position and the event that switches it on |
+| `cues` | Optional, per source. Each cue has `at_s` (scene time), `change` (`on`, `off`, `dim` or `flicker`), `trigger` (the visible or story event) and, when it lands inside a shot, that shot's `id`. A shot's `light` describes the state at its start and names any cue inside it |
 | `duration_s` | Shot length in seconds; lengths are uneven and the turn differs from its neighbors |
 | `turn` | `true` on exactly one shot |
 | `job` | One of establish, reveal, emphasize, connect, escalate, hold, release |
@@ -112,6 +113,27 @@ shot_plan:
 | `lens_intent` | A visible result (sharp plane, soft background, compression), never a number alone |
 | `light` | A declared `source`, the `key_side` relative to the lens, and the quality and contrast |
 | `contrast_with_previous` | Which of size family, angle class, move and key side change; `n/a` for the first shot |
+
+A cue that lands inside a shot is written once on the source and named on the
+shot's `light` line:
+
+```yaml
+sources:
+  - id: hall-sconces
+    position: wall sconces along both sides of the library, behind the subject
+    switched_on_by: always on
+    cues:
+      - {at_s: 6.5, change: off, trigger: the Voice takes hold, shot: s01_sh030}
+shots:
+  - id: s01_sh030
+    light: {source: hall-sconces, key_side: behind the subject, quality: dim rim
+      that goes out at about 2 s into the shot, leaving his face just above black}
+```
+
+In Seedance 2.5 drafts a stated cue time is honoured closely (2 s asked, 2 s
+delivered) and an `off` cue switches the source instantly. When a fade is
+wanted, write it into the light line ("fades out over about one second"). An
+untimed "partway through" switch lands at an unplanned moment.
 
 A plan with `energy`, `sources`, a `turn`, uneven `duration_s` values and a
 `contrast_with_previous` for every shot after the first is complete enough for

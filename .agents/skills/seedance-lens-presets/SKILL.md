@@ -105,6 +105,17 @@ State what should be sharp and what should be soft. Describe bokeh shape only
 when it is requested or visually relevant; aperture alone does not guarantee
 an exact shape or near-to-far focus outcome.
 
+### Focus loss during a move (post only)
+
+A face that drifts out of focus while the camera keeps moving can show a
+character losing their grip, but it is **not a prompt preset**. In 480p
+Seedance 2.5 text-to-video drafts the face stayed sharp in all six takes
+across three wordings; the model softened the background instead. Generate the
+shot with ordinary focus and add a defocus ramp in post (FFmpeg or
+HyperFrames), or carry the loss of control with light and the edit. A
+deliberate focus change between two named planes is a rack focus and belongs
+to the camera preset skill.
+
 ### Lens character
 
 | Lens | Canonical visible-result phrase |

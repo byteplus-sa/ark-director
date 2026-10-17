@@ -78,6 +78,30 @@
         "The output gives each ramp an end state.",
         "The output stays within the 10-second budget and does not promise frame-accurate timing."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "I want a 0.3-second blink in the middle of my Seedance clip: he is standing, then suddenly he is already on his knees, and the audience never sees him walk. Write it into one prompt.",
+      "expected_output": "An explanation that a cut this short is an assembly-only blink cut, with two separate clip prompts and an assembly plan.",
+      "files": [],
+      "expectations": [
+        "It explains that the cut is too short for one clip and plans it as an assembly blink cut.",
+        "It gives two separate clip prompts, one before and one at the end state, each at a natural length.",
+        "Neither prompt shows or asks the model to skip the walk.",
+        "The assembly plan names the gap length in frames and what fills it."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Cut back and forth between a mother praying outside a door and her son in pain inside, with one continuous litany heard across every cut.",
+      "expected_output": "An intercut planned as assembly-only: one clip per place with distinct palettes and a continuous sound line laid across the cuts in post.",
+      "files": [],
+      "expectations": [
+        "Each place is generated as its own clip rather than one prompt alternating locations.",
+        "The two places are given distinct palettes or light so each cut orients at once.",
+        "The litany is a single continuous sound line laid across the cuts as a J-cut or L-cut in post.",
+        "It does not promise frame-accurate cuts inside one generation."
+      ]
     }
   ]
 }

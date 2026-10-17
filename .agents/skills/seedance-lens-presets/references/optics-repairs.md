@@ -41,3 +41,15 @@ Keep those locks. Describe the requested framing and restrained lens character
 without adding a sun, headlight, flare, or blurred background. Whether an output
 reads as the intended lens style is judged visually, not by compulsory inclusion
 of every preset cue.
+
+## Prompted focus loss that stays sharp
+
+Brief: a push-in on a character falling under a compelling voice, with the face
+drifting out of focus. The draft keeps the face sharp all the way in.
+
+Do not spend more tries on the wording. In 480p Seedance 2.5 drafts three
+wordings (focus fixed on the starting spot, focus locked on a sharp object
+behind the face, and the subject leaning through a fixed plane) kept the face
+sharp in all six takes. Keep the sharp take and add a defocus ramp in post, or
+carry the loss of control with light and the edit. Do not stack extra blur or a
+second move in the prompt.
