@@ -1862,8 +1862,16 @@ def write_elements_index(
     atomic_write(project / "elements" / "INDEX.md", "\n".join(lines) + "\n")
 
 
+def review_page_css() -> str:
+    if not REVIEW_PAGE_CSS.is_file():
+        raise StudioError(f"Missing shared review stylesheet {REVIEW_PAGE_CSS}")
+    return REVIEW_PAGE_CSS.read_text(encoding="utf-8")
+
+
 def write_elements_page(
-    project: Path, approved: list[tuple[str, dict[str, Any], Path]]
+    project: Path,
+    approved: list[tuple[str, dict[str, Any], Path]],
+    stylesheet: str,
 ) -> None:
     review = project / "review"
     if review.is_symlink():
@@ -1909,7 +1917,7 @@ def write_elements_page(
         + "\n".join(body)
         + "</main></body></html>\n"
     )
-    atomic_write(review / "elements.css", REVIEW_PAGE_CSS.read_text(encoding="utf-8"))
+    atomic_write(review / "elements.css", stylesheet)
     atomic_write(review / "elements.html", page)
 
 
@@ -1917,6 +1925,7 @@ def sync_elements(project: Path) -> dict[str, Any]:
     project = project.resolve()
     if not studio_root(project).is_dir():
         raise StudioError("This project has no Studio project yet; run init first")
+    stylesheet = review_page_css()
     assets = studio_path(project, "assets")
     if assets.is_symlink():
         raise StudioError("assets must be a real directory")
@@ -1941,7 +1950,7 @@ def sync_elements(project: Path) -> dict[str, Any]:
             shutil.copy2(source, target)
             copied.append(name)
     write_elements_index(project, approved)
-    write_elements_page(project, approved)
+    write_elements_page(project, approved, stylesheet)
     return {"copied": copied, "removed": removed, "locked": sorted(wanted)}
 
 
@@ -1981,6 +1990,7 @@ def record_element_lock(
     studio_root(project)
     mode, _ = project_mode_snapshot(project)
     require_authorized(decision, mode)
+    review_page_css()
     registry = element_registry(project, element_id, document)
     selected = decision.get("selected_variant")
     if selected not in registry[element_id]["variants"]:

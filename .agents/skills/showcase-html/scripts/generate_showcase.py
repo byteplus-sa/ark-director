@@ -36,6 +36,7 @@ import json
 import os
 import re
 import secrets
+import shutil
 import subprocess
 import sys
 import threading
@@ -1319,7 +1320,7 @@ def quick_review(paths, out_path=None, do_contact_sheets=False, open_browser=Fal
     out.parent.mkdir(parents=True, exist_ok=True)
     stylesheet = out.with_suffix(".css")
     page = render_plain_page(data, out.parent.resolve(), stylesheet.name)
-    stylesheet.write_text(REVIEW_PAGE_CSS.read_text(encoding="utf-8"), encoding="utf-8")
+    shutil.copyfile(REVIEW_PAGE_CSS, stylesheet)
     out.write_text(page, encoding="utf-8")
     print(f"wrote {out} ({out.stat().st_size} bytes) and {stylesheet.name}")
     if open_browser:
