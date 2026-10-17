@@ -49,7 +49,7 @@ per-option work here.
 projects/<slug>/
   studio/                     HyperFrames Studio project (pre-Studio canvas: showcase.json, index.html canvas)
   task_ids.json               project task registry (main agent only)
-  references/                 ref_01_<source>.mp4, frames/contact.jpg, ref_03_voice-isolated.wav
+  references/                 ref_01_<source>.mp4, frames/contact.jpg, ref_voice-isolated.wav
   elements/<id>/              avatar assets from seedance-ai-avatar
   options/BRIEF.md            format spec + locked asset URLs (read-only for option agents)
   options/<a|b|…>/            topic.md, script.md, prompt_s01_sh010_t01_vNN.md, request_*, review_*,

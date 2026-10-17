@@ -84,8 +84,8 @@ frame, set them near-equal in stature and state it plainly.
 
 - Use absolute, repeated descriptors: `adult-height`, `near-equal in stature`.
 - Never separate figures with relative size words such as "smaller", "larger",
-  or "petite" — the model reads them literally, and a "slightly smaller" figure
-  can render child-sized.
+  or "petite" — the model reads them literally, and a figure described as
+  "slightly smaller" can render child-sized.
 - Distinguish figures by role and position, not by size: `the pursuing
   mannequin`, `the second mannequin`.
 - Repeat the scale descriptor in the Subject, the Look block, each relevant
@@ -99,8 +99,8 @@ Reactions read as whole-body movement, never a head-only turn.
   and shoulders rotating together as one rigid unit`.
 - If a head motion is needed, bind it: `tilts its whole head on the neck joint
   by a fixed angle, body otherwise locked`.
-- The model defaults to head-only reactions on mannequin figures; the
-  whole-body pivot must be stated explicitly, never implied.
+- Mannequin figures tend to react with the head only; state the whole-body
+  pivot explicitly, never imply it.
 
 ## Look block
 
@@ -157,10 +157,10 @@ cut instead of leaving it implicit — a single tracking shot reads flat.
   to stage boundaries: `Shot 1 (0-8s): fast low-angle tracking tight on the
   pumping legs and torso, the walls streaking past. At 8s, cut to ...`
 - Make each camera beat resolve on a state that exists at that timestamp. A move
-  aimed at a future beat (a crash zoom on a near-touch that happens 7s later)
-  makes the model jump the timeline.
+  aimed at a future beat (a push-in on an event that happens 7s later) can make
+  the model jump the timeline.
 - End the sequence with a terminal hold so the final frames are directed, not
-  implied: `the crash zoom holds tight on the hand gap for the remaining five
+  implied: `the push-in holds tight on the face-off for the remaining five
   seconds while both figures stay still`.
 - Keep each cut to one primary move; more than two simultaneous moves per shot
   becomes unstable.
@@ -184,8 +184,8 @@ the Scene, then repeat the invariant in every stage and the Gray Seal.
   (`hall → colonnade → corner → corridor → open area`).
 - Prefer same-plane obstacles (columns, barriers, doorways) over vertical
   traversal for the middle beats of an action scene. Vertical elements such as
-  staircases are a model weakness — if one is required, assert its direction in
-  every shot and be ready to replace it if the first take flips it.
+  staircases are a drift risk — if one is required, assert its direction in
+  every shot and be ready to replace it if a take flips it.
 
 ## Prompting workflow
 

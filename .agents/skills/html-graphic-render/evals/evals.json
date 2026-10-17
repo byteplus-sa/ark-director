@@ -3,19 +3,19 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Create a 1080x1920 Century Tuna poster using seven approved local product PNGs. Each flavor must appear exactly once. Use the exact headline 'PICK YOUR POWER', the exact CTA 'FIND YOUR FAVORITE', and the official logo. Keep the products below the model so they do not block her face. Save an editable source and a PNG.",
-      "expected_output": "A deterministic HTML/CSS poster source, exact-size PNG, and render record using the seven approved product assets without a generative image request.",
+      "prompt": "Create a 1080x1350 Acme Sparkling Water poster using six approved local bottle PNGs. Each flavor must appear exactly once. Use the exact headline 'PICK YOUR POWER', the exact CTA 'FIND YOUR FAVORITE', and the official logo. Keep the bottles below the model so they do not block her face. Save an editable source and a PNG.",
+      "expected_output": "A deterministic HTML/CSS poster source, exact-size PNG, and render record using the six approved product assets without a generative image request.",
       "files": [],
       "expectations": [
         "Routes exact copy, logo, product order, and poster geometry to deterministic HTML/CSS rather than Seedream.",
-        "Creates one fixed 1080x1920 composition with each of the seven declared products exactly once and below the model.",
+        "Creates one fixed 1080x1350 composition with each of the six declared products exactly once and below the model.",
         "Keeps the headline and CTA as exact DOM or SVG text with data-copy-key identifiers.",
         "Produces a PNG and hash-bound render record while leaving status at review."
       ]
     },
     {
       "id": 2,
-      "prompt": "Make a text-free illustrated underwater world in which a heroic tuna swims through glowing coral. I want painterly brushwork, novel lighting, and three visual alternatives.",
+      "prompt": "Make a text-free illustrated underwater world in which a heroic seahorse swims through glowing coral. I want painterly brushwork, novel lighting, and three visual alternatives.",
       "expected_output": "A routing decision that sends the invented painterly scene to a generative image workflow rather than forcing it into deterministic HTML graphics.",
       "files": [],
       "expectations": [
@@ -26,7 +26,7 @@
     },
     {
       "id": 3,
-      "prompt": "Use my selected text-free Seedream athlete image as the background, then add the official Century Tuna logo, seven approved can PNGs, the price 'PHP 89', and the exact CTA 'SHOP THE RANGE'. Deliver both a clean 9:16 poster and a transparent CTA overlay for video.",
+      "prompt": "Use my selected text-free Seedream athlete image as the background, then add the official Acme Fitness logo, three approved product PNGs, the price '$24.99', and the exact CTA 'SHOP THE RANGE'. Deliver both a clean 16:9 banner and a transparent CTA overlay for video.",
       "expected_output": "A hybrid route that treats the selected image as a hashed input and deterministically renders the exact branded poster and a separate transparent overlay.",
       "files": [],
       "expectations": [

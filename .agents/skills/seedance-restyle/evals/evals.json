@@ -30,7 +30,7 @@
     },
     {
       "id": 3,
-      "prompt": "Make this street interview look like a Pixar movie and swap the interviewer for our mascot.",
+      "prompt": "Make this street interview look like an Acme Animation Studios feature film and swap the interviewer for our mascot.",
       "expected_output": "The request is split: the style uses the stylized-handcrafted-3d fragment without naming the studio, and replacing the interviewer is either a separate Object Swap with the mascot's Virtual Portrait or, if the cast changes, a Motion Transfer.",
       "files": [],
       "assertions": [

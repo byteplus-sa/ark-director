@@ -126,7 +126,7 @@ Style:
 
 **Art style and medium**: photorealistic, cinematic, oil painting, watercolor, 3D render, anime, illustration, flat design, pencil sketch, charcoal, vector art, pixel art.
 
-**Aesthetic keywords** (from the Seedream 5.0 Pro manual):
+**Aesthetic keywords** (from the Seedream 5.0 Pro documentation):
 
 | Category | Keywords |
 |---|---|

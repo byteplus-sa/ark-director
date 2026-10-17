@@ -51,9 +51,9 @@ Preferred, when local writes work on the current transport: run
 `output_dir`). The last frame is written beside the video with a
 `-last-frame` suffix.
 
-**Observed in this workspace:** `seedance_get_task` can fail to write local
-files when no output roots are configured, and a background job can fail with
-"session is not available". The reliable route is:
+`seedance_get_task` can fail to write local files when no output roots are
+configured, and a background job can fail with "session is not available".
+The reliable route is:
 
 1. Poll in the foreground with `persist_output: false`.
 2. Read `settings.video_url` (valid about 24 h) from the result.

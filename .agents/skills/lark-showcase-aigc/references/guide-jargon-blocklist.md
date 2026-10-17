@@ -27,10 +27,10 @@ prompt code blocks.
 
 | Forbidden pattern | Use instead |
 |---|---|
-| `dlg_s01_kiko_t01.wav` | Scene 1 — audio track |
+| `dlg_s01_hero_t01.wav` | Scene 1 — audio track |
 | `s01_sh010_t01_v01.mp4` | Scene 1 — video clip |
-| `char_bianca_sheet_v03.png` | Bianca |
-| `loc_filipino-home-kitchen_wide_v03.png` | Filipino Home Kitchen |
+| `char_maya_sheet_v03.png` | Maya |
+| `loc_home-kitchen_wide_v03.png` | Home Kitchen |
 | `.wav`, `.mp4`, `.png` (in visible labels) | (omit extension) |
 | `_t01`, `_v01`, `_v02`, `_v03` version suffixes | (omit) |
 | `s01_sh010`, `s01_sh020`, etc. | Scene 1, Scene 2, etc. |
@@ -87,7 +87,7 @@ Outside code blocks, translate all of these into plain English.
 
 | Forbidden in reader text | Use instead |
 |---|---|
-| "for ARC approval", "proposed copy", "to be confirmed", "pending sign-off" | (omit; raise in chat) |
+| "for client approval", "proposed copy", "to be confirmed", "pending sign-off" | (omit; raise in chat) |
 | "official product image from <site>", "export design", "upscaled", "used exactly as supplied", "not an AI image" | `Product snapshot of <Product>.` |
 | "designed end card set in exact type on a transparent layer", "No prompt" | `End card: “<line>”` |
 | "trimmed for pacing", "retimed", "loudness-normalised" | (omit) |

@@ -58,11 +58,10 @@ execution; submit it through `ark_job_submit` as described in `SKILL.md`.
 The 2.0 tool has the same fields except Draft mode, with 2.0 limits (9/3/3
 references, 15 s, `4k` allowed) and audio that cannot be the sole media input.
 
-**Observed in this workspace:** neither the live 2.5 nor the live 2.0 create
-tool exposes `camera_fixed` or `seed`. State a locked camera in the prompt and
-record the reason; do not send those fields, and do not expect seed-identical
-Seedance retakes. Re-check the live schema (`ark_job_capabilities`) before
-relying on this.
+The 2.5 and 2.0 create tools may not expose `camera_fixed` or `seed`. State a
+locked camera in the prompt and record the reason; do not send those fields,
+and do not expect seed-identical Seedance retakes. Re-check the live schema
+(`ark_job_capabilities`) before relying on this.
 
 Returns `task_id`, `status="queued"`, and `recommended_poll_after_ms` inside the
 background result. Record the provider `task_id` immediately.
@@ -70,11 +69,11 @@ background result. Record the provider `task_id` immediately.
 ## Draft mode (2.5 and Premium)
 
 Draft mode is a provider-native two-step flow. Verify the fields in the live
-schema before use; the tool descriptions in this workspace list them.
+schema before use; the tool descriptions list them.
 
 1. **Draft:** submit the full request with `draft: true` and an explicit
-   `resolution: "480p"` (the provider also accepts it omitted; the workspace
-   records it explicitly). It is billed as a normal 480p video.
+   `resolution: "480p"` (the provider also accepts it omitted; record it
+   explicitly). It is billed as a normal 480p video.
 2. **Review** the draft (playback, motion, continuity, audio) and record a
    selection before promoting.
 3. **Promote:** submit a new request with `draft_task_id` set to the succeeded
@@ -92,8 +91,8 @@ Rules for the promotion call:
   `omni_reference_task_type` is invalid. **Edit inputs only before the draft.**
 - Omitted output settings use model defaults, not the Draft's values, so
   re-send `watermark: false` and `return_last_frame` if you need them.
-- The final is billed independently at the final resolution (observed at about
-  5x the draft's tokens for 1080p).
+- The final is billed independently at the final resolution, which costs
+  substantially more than the draft; estimate it from the pricing page.
 - **Re-check audio on the final render.** The final soundtrack is not
   byte-identical to the draft's; speech timing and words can differ.
 - A plain `resolution: "480p"` request without `draft: true` is not a Draft
@@ -108,8 +107,8 @@ Rules for the promotion call:
 
 ## Task types (`omni_reference_task_type`)
 
-The server passes the value through unvalidated. Values accepted by Seedance
-2.5 in this workspace: `auto`, `reference`, `edit`, `extend`.
+The server passes the value through unvalidated. Values accepted by Seedance 2.5:
+`auto`, `reference`, `edit`, `extend`.
 
 | Value | Use | Locks |
 |---|---|---|
@@ -126,7 +125,7 @@ The server passes the value through unvalidated. Values accepted by Seedance
   `extend`; omit `ratio` yourself.
 - First/last-frame generation locks ratio to the first image.
 
-## Input rejections observed in this workspace
+## Input rejections
 
 These are provider input checks, distinct from output moderation (an accepted
 task whose clip is blocked). Diagnose before resubmitting; never blur, crop,
@@ -141,8 +140,7 @@ re-encode, or restyle an input to slip past a check.
   [Assets and rights](assets-and-rights.md).
 - **Real-person reference photos** are rejected as raw image inputs; use the
   person's authorized `asset://` reference or an invented Virtual Portrait.
-- **`reference_image` crops** of a face or body can be rejected; a fallback
-  that worked was to pass the same image as `first_frame`.
+- **`reference_image` crops** of a face or body can be rejected.
 - **A `last_frame` without a `first_frame`** is rejected. Supply both, or use
   `reference_image`.
 - Output audits (`decision_in_reject_list`, code `55001310`) are terminal

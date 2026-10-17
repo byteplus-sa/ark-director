@@ -86,7 +86,7 @@ between modalities.
 | Narrative audio commercial | `seed-audio-commercial` |
 | Per-shot coverage, camera, lens intent and light for a scene | `seedance-shot-design` |
 | Seedance 2.5 video prompt | `seedance-prompt-25` |
-| Filipino or Taglish video dialogue | `seedance-prompt-25-filipino` with `seedance-prompt-25` |
+| Market-specific video dialogue (for example Filipino or Taglish) | The market's dialogue skill, such as `seedance-prompt-25-filipino`, with `seedance-prompt-25` |
 | Seedance 2.0 video prompt | `seedance-prompt-20` |
 | Footage-driven VFX prompt | `seedance-vfx-prompt` |
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
@@ -122,7 +122,7 @@ paid video submission and again at assembly. In short:
    Virtual Portrait identities; otherwise use short single passes and a
    blocking map.
 6. **Text-free footage.** Overlays, end cards and any required labels are added
-   in post; no AI or fictional labels by default.
+   in post; add a disclosure label only when the user, platform or brief requires one.
 7. **Ungraded assembly** in original colours, exact-length intermediates, one
    final encode.
 8. **Narrow fixes.** Word-scoped audio patches, re-voicing that keeps the

@@ -9,7 +9,7 @@ mode selection and caller responsibilities.
 
 The methodology above (sections 1–11) targets Seedance 2.0. For **Seedance 2.5**
 video-to-video editing, combine this skill's VFX discipline with the
-`seedance-prompt-25` structured-editing pattern. Field-tested notes:
+`seedance-prompt-25` structured-editing pattern. Notes:
 
 ### Model matrix
 
@@ -49,7 +49,7 @@ Carry the VFX discipline over: name the change with a timestamp when localized,
 embed lighting in the new world, keep audio diegetic, add face protection, and
 ground the preserved subject (no cut-out edge, no halo).
 
-### Standard edit guardrails (field-tested)
+### Standard edit guardrails
 
 Include these lines in every 2.5 edit that preserves a subject:
 
@@ -83,7 +83,7 @@ Change only the spoken language and the lip movement, keeping the character,
 environment, framing, lighting, and timing identical. The presenter in the
 source must be bound as an `asset://` Virtual Portrait or authorized asset, or
 the edit is rejected as a privacy input; this is the one edit that keeps native
-audio on, because the new speech is the change. Field-tested template:
+audio on, because the new speech is the change. Template:
 
 ```text
 [Edit Goal]

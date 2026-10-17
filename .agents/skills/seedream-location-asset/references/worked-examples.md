@@ -6,7 +6,7 @@ location prompt from scratch. Set the aspect ratio and resolution with the
 
 ## Canonical interior lock: maritime captain's cabin
 
-The user-provided sample image `examples/pirate-location.png` was generated
+The bundled sample image `examples/pirate-location.png` was generated
 from an earlier version of this prompt. That version named a 2.39:1 ratio, a
 push-in, "4K", and baked lens effects (flare, halation, vignetting) in the
 text; the version below removes them so the plate stays a clean reference and

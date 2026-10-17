@@ -1,7 +1,7 @@
 ---
 name: tig-blocking-map
 description: >-
-  Tigran's project-agnostic method for giving Seedance character DISPOSITION via a
+  Project-agnostic method for giving Seedance character DISPOSITION via a
   color-coded outline schematic — a "staging reference" (blocking map). Use
   WHENEVER a user attaches a frame/still and asks for a blocking map / staging
   reference, whenever a video prompt needs precise multi-character staging (who is

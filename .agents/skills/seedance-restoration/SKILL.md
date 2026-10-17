@@ -71,8 +71,8 @@ instead. Footage without people binds normally.
    rolling wave/ripple, a geometric warp, a luminance band), its direction of
    travel, its timing window, and whether it displaces the image or only changes
    brightness. Misnaming the defect is the single biggest cause of under-fixes —
-   a "vertical wave" that is actually a horizontal scan-line tear + luminance
-   band will not respond to a wave-removal prompt. Use the diagnosis to drive the
+   a wave-removal prompt will not fix what is actually a horizontal scan-line
+   tear + luminance band. Use the diagnosis to drive the
    prompt's vocabulary word-for-word.
 2. **Inspect the source.** Probe duration, fps, resolution, and aspect. Read the
    defect mix from the footage and the diagnosis.
@@ -105,7 +105,7 @@ instead. Footage without people binds normally.
 
 ## Escalation ladder
 
-Field-tested levels, least → most aggressive. Escalate one step when the
+Levels, least → most aggressive. Escalate one step when the
 previous take leaves residual damage; change only the wording and defect
 emphasis, keep the preserve-locks stable.
 

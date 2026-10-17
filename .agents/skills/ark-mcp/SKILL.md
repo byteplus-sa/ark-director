@@ -36,8 +36,8 @@ server exposes.
 
 This skill covers the tool surface, not prompt writing. Compose with the
 prompt skills for the model in question (for example Seedance, Seedream, or
-Seed Audio prompt skills) and with the workspace review and registry contracts
-for submission gates.
+Seed Audio prompt skills) and with any review and task-registry process your
+project uses for submission gates.
 
 ## Load the right reference
 
@@ -259,8 +259,8 @@ actual properties. Media QA steps live in
 
 1. **Check registration first.** Verify the product is configured and the
    live schema carries the fields you plan to send. Do not send fields the
-   live tool lacks; for example, the Seedance create tools in this workspace
-   expose no `camera_fixed` or `seed`.
+   live tool lacks; for example, the Seedance create tools may expose no
+   `camera_fixed` or `seed`.
 2. **Draft Seedance 2.5 first.** Submit `draft: true` (480p), review, then
    promote with `draft_task_id` only. Details and constraints in
    [Seedance creation](references/seedance.md).

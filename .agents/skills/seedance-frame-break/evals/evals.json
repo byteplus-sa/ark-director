@@ -37,11 +37,11 @@
     },
     {
       "id": 3,
-      "prompt": "My shoe-ad take has the shoe behind the black bars the whole time: zero overlap in every frame I scanned. Just re-roll the same prompt a few times.",
+      "prompt": "My bottle-ad take has the bottle behind the black bars the whole time: zero overlap in every frame I scanned. Just re-roll the same prompt a few times.",
       "expected_output": "A repair plan: re-rolling the same wording is not recommended; the bars are re-described as flat 2D graphics under a subject drawn complete on top, with numeric overlap anchors and edge-by-edge crossing directions.",
       "files": [],
       "assertions": [
-        "The response diagnoses the bars being treated as camera letterbox rather than suggesting an identical re-roll, and notes that re-rolling the same wording did not help.",
+        "The response diagnoses the bars being treated as camera letterbox rather than suggesting an identical re-roll, and notes that re-rolling the same wording does not help.",
         "The repair describes the bars as flat 2D graphics laid over the picture and the subject as drawn complete on top of the black.",
         "The repair adds numeric overlap anchors such as covering about a third of the bar's width and crossing directions per stage.",
         "The upper bar gets its own stage with an explicit End state, and only one thing (wording, reference or stage design) changes per retry.",
@@ -61,19 +61,19 @@
     },
     {
       "id": 5,
-      "prompt": "Frame-break prompt for a photoreal boxer in a boxing ring. Put the ring ropes right where the top and bottom bars are so it looks authentic.",
-      "expected_output": "A response that keeps bar-like objects out of the bar zone, because ropes at the bar position were drawn as the bars with the subject behind them, and offers a ring-free or far-back alternative.",
+      "prompt": "Frame-break prompt for a photoreal skateboarder in a skatepark. Put the metal handrails right where the top and bottom bars are so it looks authentic.",
+      "expected_output": "A response that keeps bar-like objects out of the bar zone, because rails at the bar position are drawn as the bars with the subject behind them, and offers a rail-free or far-back alternative.",
       "files": [],
       "assertions": [
-        "The response declines to place ropes or rails at the bar position and explains that bar-like objects were drawn as the bars with the subject behind them (observed result).",
-        "The response offers a backdrop without bar-like objects near the top and bottom, or keeps ropes far back in the middle distance.",
-        "Background bags and equipment are required to be free of lettering and logos, and the footage is kept text-free.",
-        "The boxer is full-body and completely inside the window at the start and at every stage boundary, about two thirds of the window height, with brief single-limb or hem break-outs and no walking or leaning toward the lens so that legs, shorts or robe sit over a bar; no extending limb or head fills a third of the frame; the response notes that photoreal subjects cross the bars less often than drawn ones and gives the upper bar its own stage."
+        "The response declines to place rails at the bar position and explains that bar-like objects can be drawn as the bars with the subject behind them (observed result).",
+        "The response offers a backdrop without bar-like objects near the top and bottom, or keeps rails far back in the middle distance.",
+        "Background signage and equipment are required to be free of lettering and logos, and the footage is kept text-free.",
+        "The skateboarder is full-body and completely inside the window at the start and at every stage boundary, about two thirds of the window height, with brief single-limb or hem break-outs and no walking or leaning toward the lens so that legs, shorts or jacket sit over a bar; no extending limb or head fills a third of the frame; the response notes that photoreal subjects cross the bars less often than drawn ones and gives the upper bar its own stage."
       ]
     },
     {
       "id": 6,
-      "prompt": "Review this draft frame-break prompt before it goes to the caller. Stage 2: '3-6 seconds: The fox reaches his paw toward the lens, then kicks his foot up so the sole crosses the lower bar and the paw crosses the upper bar.' Layer block: 'Black bars at top and bottom of the frame.' No other mention of the bars.",
+      "prompt": "Review this draft frame-break prompt before it goes to the caller. Stage 2: '3-6 seconds: The robot reaches its arm toward the lens, then kicks its foot up so the boot crosses the lower bar and the hand crosses the upper bar.' Layer block: 'Black bars at top and bottom of the frame.' No other mention of the bars.",
       "expected_output": "A review that flags the stage with two unconnected limb actions and two limbs crossing in one beat as a hard-gate risk, and flags that the bars may move because they are not fixed with straight, constant-height edges.",
       "files": [],
       "assertions": [
@@ -86,7 +86,7 @@
     },
     {
       "id": 7,
-      "prompt": "Here is a 12-second take of a photoreal boxer. Check it: I sampled one frame every 0.5 s and the bars looked fine. How should QA go?",
+      "prompt": "Here is a 12-second take of a photoreal dancer. Check it: I sampled one frame every 0.5 s and the bars looked fine. How should QA go?",
       "expected_output": "A QA plan that scans every frame at the native frame rate, reports the static-bar gate by direction with offending timestamps, runs the break-out gate for start overlap and duty, reads a 12 fps window contact sheet per stage, separates hard and soft gates, and treats a video-understanding model as secondary.",
       "files": [],
       "assertions": [
@@ -111,7 +111,7 @@
     },
     {
       "id": 9,
-      "prompt": "Review this draft frame-break prompt. Stage 1 (0-3 seconds): 'The boxer, big and close to the lens, fills the frame, her legs, shorts and robe already over the lower bar.' Stage 2: 'She walks closer, her torso leaning over the lower bar.' Stage 3: 'Her fist crosses the upper bar.' Stage 4: 'She stays close to the lens.' The bars are 'thick black bars, about 20 percent each'.",
+      "prompt": "Review this draft frame-break prompt. Stage 1 (0-3 seconds): 'The runner, big and close to the lens, fills the frame, her legs, shorts and jacket already over the lower bar.' Stage 2: 'She walks closer, her torso leaning over the lower bar.' Stage 3: 'Her fist crosses the upper bar.' Stage 4: 'She stays close to the lens.' The bars are 'thick black bars, about 20 percent each'.",
       "expected_output": "A review that flags a subject that is large and close from the first beat with torso and legs over a bar, walking and leaning toward the lens, thick bars that shrink the window, and break-outs written as a state rather than as events, with a repair that opens full-body inside the window and makes each break-out a brief limb or hem extension with a return.",
       "files": [],
       "assertions": [
@@ -119,20 +119,20 @@
         "The review flags the walking and leaning closer in stage 2 and the 'stays close to the lens' end of stage 4 as break-outs written as a state.",
         "The review flags 20 percent bars as shrinking the window and asks for about 12 percent bars with the central window stated once as the large majority of the frame height.",
         "The repair opens with the subject full-body and completely inside the window at about two thirds of the window height, with both bars fully visible and clear of her, feet planted.",
-        "The repair makes each break-out a brief, specific limb or hem extension inside one stage (for example a fist and forearm over the upper bar, a robe hem over the lower bar) with a peak and a return inside, so every stage boundary is inside the window and nothing overlaps a bar between break-outs.",
+        "The repair makes each break-out a brief, specific limb or hem extension inside one stage (for example a fist and forearm over the upper bar, a jacket hem over the lower bar) with a peak and a return inside, so every stage boundary is inside the window and nothing overlaps a bar between break-outs.",
         "The review does not tell the author to make the subject big, and notes that limb-scale advice is only about keeping a near-lens limb from distorting the bars.",
         "The review mentions the break-out gate that the take would fail (starts overlapping, overlap too continuous) and does not claim the repaired prompt is proven to work."
       ]
     },
     {
       "id": 10,
-      "prompt": "The pixel script flagged the lower bar on my accepted boxer take with 'bow' of 120 to 160 px whenever her robe flares and her boots swing over the bar. Does that mean the bars are moving?",
+      "prompt": "The pixel script flagged the lower bar on my accepted dancer take with 'bow' of 120 to 160 px whenever her skirt flares and her boots swing over the bar. Does that mean the bars are moving?",
       "expected_output": "An explanation that a subject covering a bar is overlap, not bar motion: the gate separates the two by direction and shape, so a retreat of the visible edge is never a violation, and only black encroaching into the window, far columns shifting together or a smooth bar-shaped bow fail, with ambiguous windows reported as inspect.",
       "files": [],
       "assertions": [
         "The response says a subject covering the bar moves the visible edge row toward the frame edge and counts as overlap, not as bar deformation.",
         "The response says only black encroaching into the window (a thicker bar), both far columns shifting together or a smooth bar-shaped bow growing into the window counts as bar motion.",
-        "The response says ambiguous cases, such as a single far column covered by the subject or a dark robe or shorts merging with the bar, are reported as inspect with timestamps to check on a 12 fps window sheet, not as fail, and that inspect means needs_review with passed false, so an automated caller must not treat it as a pass.",
+        "The response says ambiguous cases, such as a single far column covered by the subject or a dark skirt or shorts merging with the bar, are reported as inspect with timestamps to check on a 12 fps window sheet, not as fail, and that inspect means needs_review with passed false, so an automated caller must not treat it as a pass.",
         "The response mentions that --black-level must sit below dark picture content so dark scenery is not read as bar.",
         "The response does not suggest accepting a take whose script status is fail without checking the listed timestamps by eye.",
         "The response says a bar that opens (both far columns retreating together) is reported as bar_opening under inspect and its exposed picture is not counted as a subject break-out."

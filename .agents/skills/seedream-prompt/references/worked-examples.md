@@ -21,7 +21,7 @@ Setting:
 A dramatic coastal cliff at golden hour. The ocean stretches endlessly below, waves crashing against rocks. Distant seabirds circle. A lighthouse is visible on a far promontory.
 
 Style:
-Cinematic, photorealistic, widescreen anamorphic look (set a 16:9 or wider `size`). Kodak Portra 400 film stock aesthetic.
+Cinematic, photorealistic, widescreen anamorphic look (set a 16:9 or wider `size`). fine-grain color-negative film aesthetic.
 
 Lighting:
 Golden hour backlight, warm amber and rose tones, soft rim light on the subject's hair and dress, gentle fill from the ocean reflection. God rays breaking through scattered clouds.

@@ -2,8 +2,7 @@
 
 Read [the entrypoint](../SKILL.md). Load this reference when planning a project's
 stage flow, before the first paid video submission, at assembly, and whenever a
-take needs a fix. These defaults come from observed production runs; they are
-not provider guarantees. An explicit user instruction overrides any of them.
+take needs a fix. These defaults are working practice, not provider guarantees. An explicit user instruction overrides any of them.
 Exact tool parameters live in the `ark-mcp` Seedance reference; this file says
 when to use them.
 
@@ -19,8 +18,8 @@ Plan every new Seedance 2.5 shot as a 480p Draft followed by a promotion.
    multi-shot work, review the draft assembly too.
 3. Promote with `draft_task_id`. The promotion reuses prompt, references,
    seed, duration and audio settings, and carries only `draft_task_id`,
-   `resolution` and `watermark` (plus optional chaining fields). It costs about
-   five times the Draft at 1080p, so promote only selected drafts.
+   `resolution` and `watermark` (plus optional chaining fields). It costs
+   substantially more than the Draft at 1080p, so promote only selected drafts.
 4. Re-inspect the final, including a fresh speech-to-text pass: the final
    soundtrack is not byte-identical to the Draft's, and words or timing can
    move.
@@ -41,9 +40,8 @@ Record one audio route in the brief and carry it into every shot request:
 | Separate lip-sync audio | Only when the user asks for it | Audio reference bound per the alignment contract | Before the shot |
 | Silent | The deliverable is silent | `generate_audio: false` | None |
 
-With native audio on, a "no music, no spoken words" line often does not hold:
-in observed ambient-only runs, speech, chants or score leaked into about two
-thirds of clips. Do not rely on a negative audio line for a piece whose sound
+With native audio on, a "no music, no spoken words" line does not reliably
+hold: speech, chants or score can leak into clips. Do not rely on a negative audio line for a piece whose sound
 must stay ambient or score-led; generate the picture silent and build the bed
 in post. Say in the brief that post beds are laid to the cut and are not
 frame-synced to on-screen action unless SFX are placed by timestamp.
@@ -71,9 +69,8 @@ cinematic spot:
 ## 4. Storyboards are planning and review only
 
 Never bind a storyboard grid, contact sheet or board panel as a Seedance
-reference. Observed: panel numbers, corner labels and the sketch or watercolour
-look leaked into the video, and output-copyright rejections rose; takes came out
-clean once the board was removed. Translate the board's staging into prompt
+reference: panel numbers, corner labels and the sketch or watercolour look can
+leak into the video. Translate the board's staging into prompt
 text and bind only element references (characters, locations, props, locked
 screens). Audit every take with frame samples plus top-left corner crops before
 selection.
@@ -95,18 +92,19 @@ the identities are registered `asset://` Virtual Portrait assets. Plan for it:
 ## 6. Text, overlays and labels
 
 Generated footage stays text-free. Titles, captions, CTAs, logos, packshot copy
-and end cards are deterministic overlays added in post. Do not add
-"AI-generated", "fictional" or similar labels to reels or clips by default; add
-one only when the user, platform or brief requires it.
+and end cards are deterministic overlays added in post. Add an
+"AI-generated", "fictional" or similar label only when the user, platform or
+brief requires it.
 
 ## 7. Assembly defaults
 
 Default assembly does **conform, trim, crop, overlays, end card and mix only**.
 
-- **No grade.** Keep the original Seedance colours that matched the approved
-  drafts. Add a grade, grain, halation, vignette or a capture-format look only
-  when the brief records one. A look such as camcorder or MiniDV is a post
-  treatment; the prompt word alone produced clean cinema.
+- **No grade unless the brief records a look.** Keep the original model colours
+  that matched the approved drafts. Add a grade, grain, halation, vignette or a
+  capture-format look only when the brief records one. A capture-format look
+  (for example camcorder) is a post treatment; a prompt word alone does not
+  reliably produce it.
 - Decode 10-bit HEVC finals as limited-range BT.709, tag outputs BT.709 and
   dither to 8-bit. Avoid FFmpeg `vignette` inside a high-bit-depth chain; it
   drops to 8-bit YUV and shifts hues.
@@ -134,9 +132,9 @@ Run these checks before a take passes, and use the narrowest fix.
 - **Word-scoped audio fixes:** patch only the wrong word windows; never re-dub a
   whole track. Transcribe with word times, splice pitch- and loudness-matched
   replacements with short fades, and prove that samples outside each window are
-  identical. A replacement whose pitch differs from the speaker by more than
-  about 10% is heard as a voice change; leaving a mild mispronunciation can be
-  the better choice.
+  identical. Measure the speaker's pitch first: a replacement whose pitch
+  differs noticeably from the speaker is heard as a voice change, and leaving a
+  mild mispronunciation can be the better choice.
 - **Re-voicing keeps the source soundtrack:** when a model re-voices a clip,
   send the original video with its audio, name the words to fix, take the full
   audio back, normalize to the original loudness and mux it over the untouched

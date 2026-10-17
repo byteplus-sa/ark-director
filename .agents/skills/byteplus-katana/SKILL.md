@@ -129,8 +129,8 @@ A **Rebuild Plan** returned to the caller:
    as animatable properties: position, scale, rotation, opacity, mask reveals,
    easing, parallax, type animation, shape and gradient behavior, camera-like
    moves and transitions, with timings. This is the template the layers
-   inherit. Use the [observed Katana patterns](references/observed-patterns.md)
-   as vocabulary for common treatments and their HyperFrames equivalents.
+   inherit. Use the [treatment vocabulary](references/treatment-vocabulary.md)
+   for common treatments and their HyperFrames equivalents.
 6. **Route each segment** from what it shows
    ([segment routing](references/segment-routing.md)). Then cluster the
    footage segments into **setups**: one setup per distinct subject, location,
@@ -229,9 +229,17 @@ Before delivery, compare the assembled edit with the EDL:
 | Layer fidelity | Supplied photos and labels are unaltered pixels, cut cleanly, no halos or stretched edges |
 | Duration, ratio, fps | Match the reference unless the user changed them or a recorded re-time did |
 
-## Evidence status
+## Design basis
 
-This skill reverse-engineers a published product pattern. Facts, unknowns and
-dates are in [evidence](references/evidence.md); the underlying models and
-internal pipeline of that product are undisclosed, so every mapping here is a
-design choice for this workspace, not a claimed copy of its internals.
+Every mapping here is a design choice, not a claim about how any product
+works internally:
+
+1. Structure comes from a measured edit decision list, not from a model's
+   description of the reference.
+2. Each segment is routed by what it shows: layered motion design for posed
+   cutouts, cards and graphics; footage for subjects moving through space; type
+   and effects always code-built.
+3. A refinement ledger keyed by segment and dependency lets a correction redo
+   only the affected shots.
+4. The cut grid is enforced in assembly, because generated timelines drift.
+5. The five-asset default is a plan limit, not a model limit.

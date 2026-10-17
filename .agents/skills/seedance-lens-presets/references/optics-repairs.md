@@ -47,9 +47,9 @@ of every preset cue.
 Brief: a push-in on a character falling under a compelling voice, with the face
 drifting out of focus. The draft keeps the face sharp all the way in.
 
-Do not spend more tries on the wording. In 480p Seedance 2.5 drafts three
-wordings (focus fixed on the starting spot, focus locked on a sharp object
-behind the face, and the subject leaning through a fixed plane) kept the face
-sharp in all six takes. Keep the sharp take and add a defocus ramp in post, or
+Do not spend more tries on the wording: the model tends to keep the face sharp
+whatever the focus wording (focus fixed on the starting spot, focus locked on a
+sharp object behind the face, or the subject leaning through a fixed plane).
+Keep the sharp take and add a defocus ramp in post, or
 carry the loss of control with light and the edit. Do not stack extra blur or a
 second move in the prompt.

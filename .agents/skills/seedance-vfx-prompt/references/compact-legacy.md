@@ -13,7 +13,7 @@ The heading-based structure above is the primary format. For simpler edits or
 when the user wants plain-text output, use this compact format instead.
 
 **Output rules:** Plain text — no bold, no headers, no bullets inside the
-prompt, no code blocks. A short label above each prompt (e.g. `Hook_2 · Variant
+prompt, no code blocks. A short label above each prompt (e.g. `Shot_2 · Variant
 1 — Through the clouds`) is fine; the prompt body stays plain text.
 
 **Compact declarations:**

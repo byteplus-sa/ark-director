@@ -21,16 +21,16 @@ whether the repetition feels intentional and supports the quieter phrase.
 
 ## Irregular phrase and false precision
 
-**Brief:** The supplied vocal enters at 17.170s and finishes at 19.730s over rubato
+**Brief:** The supplied vocal enters at 12.340s and finishes at 14.910s over rubato
 piano; the measured onset is not a downbeat.
 
-**Initial prompt:** “Snap the entry to beat one at 18s; cut two frames early.”
+**Initial prompt:** “Snap the entry to beat one at 13s; cut two frames early.”
 
 **Hypothetical failure:** Lip motion and the editorial accent precede the wrong
 phrase, despite a superficially tidy beat grid.
 
-**Smallest change:** Preserve the raw 17.170–19.730s evidence. If useful, label
-17–20s as a simplified prompt window separately. Set final sync to the audible
+**Smallest change:** Preserve the raw 12.340–14.910s evidence. If useful, label
+12–15s as a simplified prompt window separately. Set final sync to the audible
 phrase and verify against the master; do not prescribe an early offset.
 
 **Tradeoff:** Less convenient grid editing; more faithful phrasing. A broad model

@@ -31,13 +31,13 @@
     },
     {
       "id": 3,
-      "prompt": "The confirmed project.md camera axis says 'low camera, gentle dolly and crane moves, one tracking move in the escape'. The seven shot prompts (promise, awakening, escape, journey, rain, arrival, letter) only list 'overhead close-up', 'medium shot' and 'medium close-up' with no moves. Reconcile them.",
+      "prompt": "The confirmed project.md camera axis says 'low camera, gentle dolly and crane moves, one tracking move in the chase'. The seven shot prompts (opening, discovery, chase, hideout, storm, reunion, farewell) only list 'overhead close-up', 'medium shot' and 'medium close-up' with no moves. Reconcile them.",
       "expected_output": "A plan that adds an axis_carry record and assigns the dolly, crane and tracking moves to named shots, or records a scene override with a reason for each shot that cannot carry the axis.",
       "files": [],
       "assertions": [
         "The output identifies that the confirmed axis never reached the shot lines.",
         "Each move named in the axis (dolly, crane, tracking) is assigned to a specific named shot, or a scene override with a reason is recorded.",
-        "The tracking move is assigned to the escape shot only.",
+        "The tracking move is assigned to the chase shot only.",
         "The overhead views that contradict the low-camera axis are either replaced by low angles or recorded as scene overrides with a reason.",
         "The output does not rewrite the project axis itself; it carries or overrides it per scene."
       ]
@@ -103,37 +103,37 @@
     },
     {
       "id": 9,
-      "prompt": "My plan lights shot 1 from the kitchen window at screen-left, shot 2 the same, and shot 3 as a contre-jour halo 'from a big window behind the boy'. The scene only has the one window and a front door. Fix the light.",
-      "expected_output": "A repaired plan that notices shot 3 invents a source, and either declares the front door as a source switched on when it opens or relights the shot from the declared window.",
+      "prompt": "My plan lights shot 1 from the shop window at screen-left, shot 2 the same, and shot 3 as a contre-jour halo 'from a big window behind the baker'. The scene only has the one window and a back door. Fix the light.",
+      "expected_output": "A repaired plan that notices shot 3 invents a source, and either declares the back door as a source switched on when it opens or relights the shot from the declared window.",
       "files": [],
       "assertions": [
-        "The output identifies that 'a big window behind the boy' is a source the scene never declared.",
-        "The repair either declares the front door as a source with the event that switches it on, or relights shot 3 from the declared window with a stated key side.",
+        "The output identifies that 'a big window behind the baker' is a source the scene never declared.",
+        "The repair either declares the back door as a source with the event that switches it on, or relights shot 3 from the declared window with a stated key side.",
         "The repaired shots still name a declared source and a key side relative to the lens."
       ]
     },
     {
       "id": 10,
-      "prompt": "Plan a 10-second Seedance 2.5 sequence: in a dark stone library, a veiled elder commands a young man to cross the room and kneel. A literal walk would look like a zombie, so the audience should feel they lost the moment with him. The hall has wall sconces behind him and a cold window high on the left.",
-      "expected_output": "A plan with a push-in clip on his face, a declared light cue that switches the sconces off inside that shot, and a second clip that opens with him already kneeling, joined by a blink cut made in assembly. No clip shows the walk, and any defocus is left to post.",
+      "prompt": "Plan a 10-second Seedance 2.5 sequence: in a dim night-train carriage, a stranger's whispered command makes a commuter put down her bag and sit. A literal walk would look robotic, so the audience should feel they lost the moment with her. The carriage has overhead strip lights behind her and a cold window on the left.",
+      "expected_output": "A plan with a push-in clip on her face, a declared light cue that switches the strip lights off inside that shot, and a second clip that opens with her already seated, joined by a blink cut made in assembly. No clip shows the walk, and any defocus is left to post.",
       "files": [],
       "assertions": [
-        "The sconces are declared with a position, and a cue on that source records a time, the change (off or dim), a trigger and the shot it lands in.",
-        "The push-in and the kneeling end state are separate clips generated at natural lengths, joined by an assembly blink cut rather than a cut requested inside one prompt.",
-        "No clip shows or prompts the walk across the room, and no prompt asks the model to skip it.",
+        "The strip lights are declared with a position, and a cue on that source records a time, the change (off or dim), a trigger and the shot it lands in.",
+        "The push-in and the seated end state are separate clips generated at natural lengths, joined by an assembly blink cut rather than a cut requested inside one prompt.",
+        "No clip shows or prompts the walk to the seat, and no prompt asks the model to skip it.",
         "The plan does not prompt the face to drift out of focus; any defocus is assigned to post.",
         "Every shot still names a declared source and a key side, and no shot invents a source that was not declared."
       ]
     },
     {
       "id": 11,
-      "prompt": "A two-character interrogation: a seated elder dominates a kneeling young man for the first half, then he starts resisting and takes control. Plan the coverage so the power shift reads without dialogue explaining it.",
-      "expected_output": "A Power-shift plan: dirty over-the-shoulder shots with the elder as a dark foreground mass while she dominates, a high angle on him before the turn, and a push-in held back until he takes control.",
+      "prompt": "A two-character audience scene: a seated queen dominates a kneeling envoy for the first half, then he starts resisting and takes control. Plan the coverage so the power shift reads without dialogue explaining it.",
+      "expected_output": "A Power-shift plan: dirty over-the-shoulder shots with the queen as a dark foreground mass while she dominates, a high angle on him before the turn, and a push-in held back until he takes control.",
       "files": [],
       "assertions": [
-        "While the elder dominates, his coverage keeps her in the foreground as a soft dark mass (a dirty over-the-shoulder).",
+        "While the queen dominates, the envoy's coverage keeps her in the foreground as a soft dark mass (a dirty over-the-shoulder).",
         "The angle changes at the turn, high on him before and low or level after, and only once rather than every shot.",
-        "A push-in is given only to the young man as he takes control, and not to both characters.",
+        "A push-in is given only to the envoy as he takes control, and not to both characters.",
         "Exactly one shot is flagged as the turn, and it falls where he starts resisting."
       ]
     },

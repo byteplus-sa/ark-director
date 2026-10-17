@@ -73,6 +73,6 @@ or treat them as durable identifiers.
 
 - Image and audio references are limited to 10 MiB each; video references to
   200 MiB. Base64 inputs are validated before submission.
-- `speech_to_text` rejected presigned object-storage URLs as an untrusted host
-  in this workspace; pass a local file path instead.
+- `speech_to_text` rejects presigned object-storage URLs as an untrusted host;
+  pass a local file path instead.
 - VOD tools fetch sources asynchronously; use a long `expires_in_seconds`.

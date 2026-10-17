@@ -68,8 +68,8 @@ before relying on it.
 ## Choosing the audio route
 
 With `generate_audio: true` the model voices whatever the scene implies. In
-reviewed ambient-only clips, a line such as "no music, no spoken words" did not
-hold in about two thirds of takes: speech, chants and score leaked in.
+ambient-only clips, a line such as "no music, no spoken words" often does not
+hold: speech, chants and score leak in.
 (`audio.native_route`)
 
 | Piece | Route |
@@ -216,8 +216,7 @@ at 480p (focus wording is owned by `seedance-lens-presets`). "Focus left
 behind" (subject sharp, then focus moves to the background) mostly fails
 because the model keeps the face sharp; add that defocus in post.
 
-A timed light change on a declared source is honoured to about a tenth of a
-second: "at 3.2 s the overhead lamp clicks off and the room drops to the blue
+A timed light change on a declared source tends to be honoured closely: "at 3.2 s the overhead lamp clicks off and the room drops to the blue
 window light". Plain wording already produces a light going off or a lunge;
 presets add timing and holds, not the effect.
 

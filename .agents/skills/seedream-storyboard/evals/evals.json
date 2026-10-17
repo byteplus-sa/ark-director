@@ -28,7 +28,7 @@
     },
     {
       "id": 3,
-      "prompt": "Use my three-panel character sheet, church reference, and hand-drawn blocking sketch to write the prompt for a close confrontation. The sketch is layout-only and its colored boxes, arrows, and labels must not appear. The character sheet includes three visible copies of the same person.",
+      "prompt": "Use my three-panel character sheet, lighthouse-interior reference, and hand-drawn blocking sketch to write the prompt for a close confrontation. The sketch is layout-only and its colored boxes, arrows, and labels must not appear. The character sheet includes three visible copies of the same person.",
       "expected_output": "A reference preflight and exact prompt that identifies leakage risks, assigns each reference a single role, and prevents sketch or character-sheet artifacts from appearing in the frame.",
       "files": [],
       "expectations": [
@@ -67,7 +67,7 @@
     },
     {
       "id": 6,
-      "prompt": "Create the storyboard for my 30-second ube halaya commercial. I only want one panel for the scene, but give me three visual options to choose from before we use it for Seedance.",
+      "prompt": "Create the storyboard for my 30-second strawberry jam commercial. I only want one panel for the scene, but give me three visual options to choose from before we use it for Seedance.",
       "expected_output": "A one-panel storyboard centered on one hero beat, with three alternatives of the same p010 panel and a selection gate before video handoff.",
       "files": [],
       "expectations": [

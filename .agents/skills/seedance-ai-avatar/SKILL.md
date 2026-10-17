@@ -83,7 +83,7 @@ the presenter out of split-screen frames for a clean wardrobe and setting ref.
 ### 2. Character sheet
 Write the prompt with `seedream-character-sheet` (I2I): headshot for face,
 reference crop for wardrobe, mid shot for build. Put the on-camera outfit on
-the sheet, for example a knit crew-neck, chain and watch. Keep scene-only props
+the sheet, for example a sweater and a watch. Keep scene-only props
 such as a lav mic off it. Generate 3 seeds, show them next to the real
 headshot, and let the user pick. Record `selected_variant` in `character.md`.
 

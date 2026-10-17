@@ -59,8 +59,8 @@ Card fields:
 | `prompt` | string | Prompt text, rendered in a `<pre>`. |
 | `promptFile` | string | Preferred for generated assets. Project-relative immutable prompt snapshot; the generator embeds its exact contents into `prompt` and rejects a differing inline value. |
 | `reviewPath` | string | Project-relative candidate review JSON. Required for a new production canvas selection and included in the HTML freshness snapshot. |
-| `id` | string | **Selection key** — the asset's stable id (e.g. `lucky-lion`, or `lockup` for a multi-asset brand kit). Present only on selectable cards. Multiple variant cards may share one `id`. |
-| `manifest` | string | Relative path to the element manifest this asset writes its selection back to (e.g. `elements/lucky-lion/character.md`). |
+| `id` | string | **Selection key** — the asset's stable id (e.g. `example-hero`, or `lockup` for a multi-asset brand kit). Present only on selectable cards. Multiple variant cards may share one `id`. |
+| `manifest` | string | Relative path to the element manifest this asset writes its selection back to (e.g. `elements/example-hero/character.md`). |
 | `field` | string | Which frontmatter field the selection writes: `selected_variant` (default) or `selected_variants` (map). |
 | `key` | string | Required when `field: "selected_variants"` — the map key to write (e.g. `lockup`). |
 
@@ -154,8 +154,8 @@ when a reference pin exists, put pin + generated take(s) in the same
   "kind": "takes",
   "groups": [
     {
-      "title": "Scene 01 — Slot Game Opening",
-      "uc": "UC-01 · Lucky Lion",
+      "title": "Scene 01 — Opening",
+      "uc": "UC-01 · Example Subject",
       "meta": ["720p", "16:9", "8s"],
       "promptFile": "scenes/scene-01/s01_sh010/prompt_s01_sh010_t01_v01.md",
       "takes": [
@@ -187,8 +187,8 @@ when a reference pin exists, put pin + generated take(s) in the same
 
 | Field | Type | Notes |
 |---|---|---|
-| `title` | string | Scene title (e.g. "Scene 01 — Slot Game Opening"). |
-| `uc` | string | Use-case label (e.g. "UC-01 · Lucky Lion"). |
+| `title` | string | Scene title (e.g. "Scene 01 — Opening"). |
+| `uc` | string | Use-case label (e.g. "UC-01 · Example Subject"). |
 | `meta` | string[] | Chips shown in the group header (resolution, ratio, duration). |
 | `promptFile` | string | Relative path to the prompt snapshot. Rendered in a collapsible `<pre>`. |
 | `takes` | array | List of take objects (see below). |

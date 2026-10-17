@@ -98,20 +98,11 @@ Rules:
   first edit of a repair pass and respect the run budget. Use the lowest supported
   resolution for sketch drafts.
 
-## Pilot evidence
+## What to expect from edits
 
-A pilot on a throwaway two-shot scene (four Seedream 5.0 Pro pencil sketch panels at
-2048x1152, one sample each, then three bounded edits) gave these first results. They
-are one sample per case, not a measured success rate.
-
-| Edit | Defect | Result |
-| --- | --- | --- |
-| Bounding box, remove an extra jar | A fifth jar at the left end of the bench, beside the broom | Clean: the jar was gone and the rest of the panel matched the source |
-| Bounding box at the frame edge, add a fourth jar | Three jars instead of four | Missed the acceptance criterion, and the neighbouring jars were redrawn larger outside the box |
-| Full-frame box, move the jars onto the bench and drop a second bench | Wrong geometry | Met both criteria, but the boy's pose also changed (from pushing a bench to crouching with empty hands), so the panel no longer matched its beat |
-
-Take-aways: edits suit a local removal; additions at the frame edge and global
-geometry changes drift outside the target, so review the whole panel and prefer
+Treat these as hypotheses to verify on each edit, not measured rates. Edits suit a
+local removal. Additions at the frame edge and global geometry changes can drift
+outside the target, so review the whole panel, not only the box, and prefer
 regeneration for a geometry error. The edit tool needs a point or a bounding box, and
 the registry needs approval evidence for the panel used as the edit source.
 

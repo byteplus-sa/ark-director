@@ -17,8 +17,7 @@ Keep Aswang's whole body connected in this collection and Manananggal's upper
 and lower halves distinct. Render the separation as stylized ink shapes when
 the brief calls for non-graphic folklore artwork. Keep Tikbalang's human chest
 and arms explicit; a generic dragon or horse description loses its identity.
-Do not reuse Godzilla-like dorsal plates or a Japanese city merely because
-they appear in a style reference.
+Do not reuse a style reference's own monster or city.
 
 In the observed collection, miniature bahay na bato houses, capiz windows,
 nipa roofs, coconut palms, bamboo, rice fields, coastal boats, and river curves

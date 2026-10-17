@@ -100,15 +100,15 @@ closest to a landscape ratio:
 and 3×3 are native 16:9 and fill a monitor with no letterbox.
 
 **Recipe (3×2 grid, 6 clips, labeled):** scale every input to the same size,
-overlay a label, then two `hstack` rows joined by `vstack`. This FFmpeg build's
+overlay a label, then two `hstack` rows joined by `vstack`. Your FFmpeg build's
 `drawtext` may be absent, so generate label PNGs with PIL and `overlay` them
 (see [Adding labels](#adding-labels-before--after)).
 
 ```bash
-# label PNGs (PIL): /tmp/label_0.png .. label_5.png
+# label PNGs (PIL): label_0.png .. label_5.png
 python3 - <<'EOF'
 from PIL import Image, ImageDraw, ImageFont
-font = ImageFont.truetype('/System/Library/Fonts/Supplemental/Arial.ttf', 30)
+font = ImageFont.truetype('/path/to/font.ttf', 30)
 labels = ['50mm - base','24mm - wide','135mm - telephoto','fisheye','anamorphic','8mm - ultrawide']
 for i, text in enumerate(labels):
     d = ImageDraw.Draw(Image.new('RGBA',(10,10)))
@@ -118,13 +118,13 @@ for i, text in enumerate(labels):
     dr = ImageDraw.Draw(im)
     dr.rounded_rectangle([0,0,im.width-1,im.height-1], radius=8, fill=(0,0,0,150))
     dr.text((pad,pad), text, font=font, fill=(255,255,255,255))
-    im.save(f'/tmp/label_{i}.png')
+    im.save(f'label_{i}.png')
 EOF
 
 ffmpeg -y -v error \
   -i a.mp4 -i b.mp4 -i c.mp4 -i d.mp4 -i e.mp4 -i f.mp4 \
-  -i /tmp/label_0.png -i /tmp/label_1.png -i /tmp/label_2.png \
-  -i /tmp/label_3.png -i /tmp/label_4.png -i /tmp/label_5.png \
+  -i label_0.png -i label_1.png -i label_2.png \
+  -i label_3.png -i label_4.png -i label_5.png \
   -filter_complex "\
 [0:v]scale=960:540,setsar=1[v0];\
 [1:v]scale=960:540,setsar=1[v1];\
@@ -181,7 +181,7 @@ libfreetype and many builds omit it.
 
 **`drawtext` variant (requires libfreetype):** this follows documented filter
 syntax; on builds without libfreetype it will not run, so the PIL `overlay`
-variant below is the machine-validated path.
+variant below is the always-available path.
 
 ```bash
 ffmpeg -y \
@@ -196,8 +196,7 @@ ffmpeg -y \
 ```
 
 - If `drawtext` cannot find a font, pass one explicitly:
-  `drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:...` (path varies by
-  platform). A colon inside the label text must be escaped as `\:`.
+  `drawtext=fontfile=/path/to/font.ttf:...` (path varies by platform). A colon inside the label text must be escaped as `\:`.
 
 **Overlay variant (no libfreetype needed, always available):** generate label
 PNGs with Python PIL (requires `pip install pillow` if not present), then
@@ -324,24 +323,24 @@ drifts.
 - Match the deliverable: review proxy → `640:360` / `720p`; presentation →
   scale to `960:540` or `1280:720` halves and `-crf 18`.
 
-## Worked example (from the graybox→cinematic project)
+## Worked example
 
 ```bash
-# BEFORE — graybox blockout; AFTER — cinematic R2V render (audio retained)
+# BEFORE — original render; AFTER — edited render (audio retained)
 ffmpeg -y \
-  -i s01_sh010_t04_v01.mp4 \
-  -i s01_sh010_t10_v01.mp4 \
+  -i before.mp4 \
+  -i after.mp4 \
   -filter_complex \
     "[0:v]scale=640:360,setsar=1[a]; \
      [1:v]scale=640:360,setsar=1[b]; \
      [a][b]hstack[v]; \
      [1:a]anull[aud]" \
   -map "[v]" -map "[aud]" -c:v libx264 -crf 23 -preset fast -t 30 \
-  s01_compare_before_after_v01.mp4
+  compare_before_after.mp4
 ```
 
 Both sources were already 1280x720 / 30s, so `-t 30` just caps the length; the
-output is 1280x360 with the AFTER clip's audio, ~2.8 MB.
+output is 1280x360 with the AFTER clip's audio.
 
 ## Self-check
 

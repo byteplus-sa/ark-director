@@ -156,10 +156,9 @@ uploads. Resolve the flag through the asset route; never disguise the input.
    prompts, logs or shared documents.
 5. Treat a consent that is limited (validity period, purpose) as limited.
    Record the limit and stop using the asset when it lapses.
-6. Do not claim a capability the tools have not shown. The `Private virtual
-   portrait library` documentation page was not machine-readable when this
-   skill was written; AIGC-group behavior comes from the `ark-mcp` contract
-   and the public digital character library, and is marked as such in
+6. Do not claim a capability the tools have not shown. AIGC-group behavior
+   comes from the `ark-mcp` contract and the public digital character
+   library, and is marked as such in
    [registration and ledger](references/registration-and-ledger.md).
 
 ## Output

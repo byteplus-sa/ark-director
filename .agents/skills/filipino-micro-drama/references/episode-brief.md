@@ -35,12 +35,11 @@ carries roughly 20–25 words).
 
 ## Worked example
 
-This brief was produced into a finished 51 s episode in September 2026, then
-revised to the current dialogue default: plot words in English, simple Tagalog
-for status and warmth.
+A filled brief in the current dialogue default: plot words in English, simple
+Tagalog for status and warmth.
 
 ```text
-## know-your-place — "Know Your Place" (hidden heiress vs. kontrabida)
+## hidden-heiress — "Know Your Place" (hidden heiress vs. kontrabida)
 
 Formula: mistreated helper secretly heir + kontrabida matriarch + sampal.
 Logline: A young helper accused of theft by the lady of the house learns,
@@ -79,7 +78,6 @@ Subtitles: "po" = polite marker (no direct translation); "iha" = "dear
 (condescending)".
 ```
 
-Lesson from production: in the first version the shouted opening word
-"Magnanakaw!" was garbled, so the hook landed without its key word. The
-revision opens on plain English words at normal volume and keeps Tagalog to
-honorifics.
+The hook opens on plain English words at normal volume and keeps Tagalog to
+honorifics, because a shouted Tagalog opening word is the likeliest to be
+garbled.

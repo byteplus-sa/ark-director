@@ -279,6 +279,11 @@ Use the lowest suitable cost/resolution within the requested behavior. For **See
 
 Record estimated cost separately from confirmed billing and provider usage. Do not infer billed cost or creative correctness from successful task status. Verify decode, actual streams/duration, opening/transitions/ending, and audible sound arc. Contact sheets support but do not replace playback and listening. Preserve high-quality masters and separately named review proxies.
 
+### Delivery look defaults
+
+- Assemble in the model's original colours with no grade, grain, halation or vignette unless the brief records a look; a recorded look is applied as a post treatment to the untouched master.
+- Add no "AI-generated" or "fictional" labels to deliverables unless the user, the destination platform or the brief requires one.
+
 ## Selection state
 
 The manifest is authoritative; selection.json is derived and selection.log is an audit. HTTP and CLI selections use one validated writer with variant membership, project containment, expected revision, writer lock and recoverable batch changes. A validation error cannot modify state. A partially committed batch must recover or report its exact state, not claim success.

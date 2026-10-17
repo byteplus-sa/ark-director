@@ -32,10 +32,10 @@ projects/<project>/scenes/scene-NN/sNN_shNNN/sNN_shNNN_t01_v01_lastframe.png
 ```
 
 > **Delivery transcode (HEVC → H.264).** Seedance 2.5 edit outputs are usually
-> HEVC (`video_codec: hevc`). Lark/doc previews and many players need H.264. Keep
+> HEVC (`video_codec: hevc`). Document and web previews and many players need H.264. Keep
 > the HEVC master as the archival take and produce a browser-safe derivative:
 >
-> `ffmpeg -i <take>.mp4 -c:v libx264 -pix_fmt yuv420p -profile:v high -crf 20 -c:a aac -b:a 128k -movflags +faststart <take>_lark_h264.mp4`
+> `ffmpeg -i <take>.mp4 -c:v libx264 -pix_fmt yuv420p -profile:v high -crf 20 -c:a aac -b:a 128k -movflags +faststart <take>_h264.mp4`
 
 ## Step 6 — Write the shot.md manifest
 

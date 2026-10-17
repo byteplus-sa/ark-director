@@ -1,9 +1,7 @@
 # Production Recipe
 
 Read [the entrypoint](../SKILL.md). Use this reference from canon through
-delivery. It records what worked and what failed across several episode runs
-(September–October 2026); treat the failure notes as observed evidence, not
-guarantees.
+delivery. These are working practices, not provider guarantees.
 
 ## Canon
 
@@ -26,11 +24,10 @@ guarantees.
 ## Storyboards
 
 Optional, 4–6 panels per scene, for planning and review only. **Never bind a
-storyboard grid or panel as a Seedance reference.** Observed: boards with
-corner numerals leaked white digits into the top-left of shots in two of four
-episodes even with a "do not copy panel numbers" clause, sketch and watercolour
-looks bled into the footage, and output-copyright rejections rose; takes came
-out clean once the board was removed. Translate each panel's framing, blocking
+storyboard grid or panel as a Seedance reference.** Boards with corner
+numerals can leak digits into the top-left of shots even with a "do not copy
+panel numbers" clause, and sketch or watercolour looks can bleed into the
+footage. Translate each panel's framing, blocking
 and end state into the clip prompt text instead. Skip the stage when the shot
 plan already carries the staging.
 
@@ -111,8 +108,8 @@ another shot) are recorded, not retaken.
 - **Dialogue fixes are word-scoped.** Patch only the wrong word windows; never
   re-dub a whole clip. Transcribe with word times, splice pitch- and
   loudness-matched replacements with short fades, and prove that samples
-  outside each window are unchanged. A replacement whose pitch differs from
-  the speaker by more than about 10% sounds like another voice; a mild
+  outside each window are unchanged. Measure the speaker's pitch first: a replacement whose
+  pitch differs noticeably sounds like another voice, and a mild
   mispronunciation can be the better choice.
 - When a model re-voices words, send the original clip with its audio, name
   the words to fix, take the full audio back, match the original loudness and
@@ -123,9 +120,8 @@ another shot) are recorded, not retaken.
 ## Budget
 
 Seedance cost scales with generated seconds and resolution. Check live pricing
-before committing. In September 2026, 1080p 9:16 cost about US$0.51 per
-generated second, so a 50 s episode was about US$26 before retakes; a 480p
-Draft costs about a fifth of its 1080p promotion. Declare a per-episode cap in
+before committing; a 480p Draft costs a fraction of its 1080p promotion.
+Declare a per-episode cap in
 generated seconds (for example 90 s at final resolution plus the drafts) and
 stop and report before exceeding it. Seedream stills are minor by comparison.
 
@@ -134,13 +130,12 @@ stop and report before exceeding it. Seedream stills are minor by comparison.
 - Order: cold open (the first line of scene 1), title card, the rest of the
   scenes with 6-frame dissolves, a 12-frame dissolve into the to-be-continued
   card.
-- No grade: keep the original Seedance colours. Decode HEVC finals as
+- No grade unless the brief records a look: keep the original Seedance colours. Decode HEVC finals as
   limited-range BT.709 and tag the output BT.709.
 - Render each clip to an exact-length lossless intermediate in whole frames
   with its audio padded or trimmed to match, join, and encode once.
 - Normalize every delivered episode to one loudness target (for example
-  -16 LUFS integrated, -1.5 dBFS peak). Episodes in one run ranged from -15 to
-  -20 LUFS before normalization.
+  -16 LUFS integrated, -1.5 dBFS peak); measure each episode's loudness first.
 - Some FFmpeg builds lack `drawtext`. Render cards as deterministic PNGs and
   subtitles as a sidecar. Add no AI or fictional label unless required.
 - Studio projects record shot-take selections with

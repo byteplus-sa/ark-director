@@ -27,7 +27,7 @@
     },
     {
       "id": 3,
-      "prompt": "The ad features the client's real canned tuna on the table in every shot. Write the Seedream prop sheet prompt for the can.",
+      "prompt": "The ad features a real, brand-authorized canned tuna on the table in every shot. Write the Seedream prop sheet prompt for the can.",
       "expected_output": "A reuse-or-acquire handoff with no Seedream prompt, because an authorized real labeled product should be acquired rather than generated.",
       "files": [],
       "expectations": [

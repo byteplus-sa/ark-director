@@ -33,8 +33,8 @@ prove how a generation model will respond.
 English-dominant Taglish with simple, high-frequency Tagalog: po, opo, sige,
 tara, ingat, salamat, and short tags such as "diba" or "na". Deep or dense
 Tagalog lines are reserved for characters and briefs that call for them;
-in reviewed takes, long Tagalog words in shouted or whispered positions were
-garbled most often.
+long Tagalog words in shouted or whispered positions are the likeliest to be
+garbled.
 
 **Accent is not code-switching.** "English with a Filipino accent" keeps the
 spoken text English and puts the accent in a delivery note outside the braces.

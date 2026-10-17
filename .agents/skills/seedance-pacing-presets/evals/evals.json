@@ -93,27 +93,27 @@
     },
     {
       "id": 8,
-      "prompt": "Cut back and forth between a mother praying outside a door and her son in pain inside, with one continuous litany heard across every cut.",
+      "prompt": "Cut back and forth between a sailor adrift in a dinghy at sea and his wife waiting by a lit kitchen window ashore, with one continuous radio voice heard across every cut.",
       "expected_output": "An intercut planned as assembly-only: one clip per place with distinct palettes and a continuous sound line laid across the cuts in post.",
       "files": [],
       "expectations": [
         "Each place is generated as its own clip rather than one prompt alternating locations.",
         "The two places are given distinct palettes or light so each cut orients at once.",
-        "The litany is a single continuous sound line laid across the cuts as a J-cut or L-cut in post.",
+        "The radio voice is a single continuous sound line laid across the cuts as a J-cut or L-cut in post.",
         "It does not promise frame-accurate cuts inside one generation."
       ]
     },
     {
       "id": 9,
-      "prompt": "A model walks past a lamp post on a city street in one locked-off Seedance 2.5 shot. Her summer dress should turn into a winter coat, but only on the parts of her body that have passed the post, so the change sweeps across her as she walks. Write the timing.",
+      "prompt": "A knight walks through a stone archway in one locked-off Seedance 2.5 shot. His dusty travel cloak should turn into polished ceremonial armour, but only on the parts of his body that have passed the arch, so the change sweeps across him as he walks. Write the timing.",
       "expected_output": "A progressive-change block with a slowed crossing of about 1.5 s, timed stages by body part, an exclusion of glow and flash effects, and unbroken walking motion, generated as reference-to-video.",
       "files": [],
       "expectations": [
-        "The walk past the post is slowed so the crossing lasts about 1.5 s.",
+        "The walk through the arch is slowed so the crossing lasts about 1.5 s.",
         "The change is written as timed stages by body part, starting with the leading hand and foot and ending fully changed, each stage with its own timestamp.",
-        "The block states the change appears only on parts past the post and rules out glow, flash, sparkle, dissolve or particle effects.",
-        "The block states that her position, stride and direction continue unbroken.",
-        "It does not use 'swap at the pole', an instant in-place change, or a boundary or wipe wording alone, and it does not plan an image-edited first frame."
+        "The block states the change appears only on parts past the arch and rules out glow, flash, sparkle, dissolve or particle effects.",
+        "The block states that his position, stride and direction continue unbroken.",
+        "It does not use 'swap at the arch', an instant in-place change, or a boundary or wipe wording alone, and it does not plan an image-edited first frame."
       ]
     },
     {

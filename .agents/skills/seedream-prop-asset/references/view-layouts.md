@@ -6,14 +6,14 @@ The two-view default and single views are in `SKILL.md`.
 
 ## Single row or stacked
 
-In the car samples a single row gave the most even scale (height spread 3.3%
-against 6.6-8.3% stacked) and slightly better margins (4.1% against 3.5%), but
-drew each view at roughly 0.4-0.6 of the stacked views' pixel area, dropped one
-of the two doors per flank, and left a gray gradient with a shadow band across
-the sheet. The stacked layout kept both doors and a flat background. Use stacked
-for vehicles and other long objects where per-view detail matters; use the single
-row for compact objects whose views read at a third of the sheet width. Whichever
-you pick, swap "object" for its noun in the blocks below.
+A single row keeps scale most even across views, but each view is drawn
+smaller, so repeated features on a long object (two doors per flank) can drop
+out and a gradient or shadow band can run across the sheet. A stacked layout
+gives each view more pixels and tends to keep a flat background. Use stacked for
+vehicles and other long objects where per-view detail matters; use the single
+row for compact objects whose views read at a third of the sheet width. Check
+the result for the trade-off either way. Whichever you pick, swap "object" for
+its noun in the blocks below.
 
 ## Flanks
 
@@ -61,13 +61,10 @@ is a request, and the model can still render both three-quarter views from the
 same corner.
 
 Measure scale as height including roof furniture such as a lamp box (a strict
-colour mask dropped the pale lamp and understated heights by up to 18% in a
-sample), cross-checked by the wheel-face major axis. Allow a few percent for the
-near wheel's perspective in three-quarter views.
+colour mask can drop a pale feature and understate the height), cross-checked
+by the wheel-face major axis. Allow a few percent for the near wheel's
+perspective in three-quarter views.
 
-Sample evidence, one car, three runs: the turntable wording put the rear
-three-quarter on the opposite flank in both later runs (the earlier "opposite
-side" wording did not), and one continuous background removed the faint
-rectangles of the earlier panel wording. Margins landed at 55-80% of the 6%
-request. Width targets were not needed: scale was already within 8.3% without
-them.
+The turntable wording and one continuous background are the intended fixes for
+mixed-up flanks and faint rectangles behind views; confirm both in the actual
+image rather than assuming the wording worked.

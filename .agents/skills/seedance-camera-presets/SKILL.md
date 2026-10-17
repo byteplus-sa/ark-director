@@ -39,7 +39,7 @@ a Seedance 2.5 prompt.
 The preset bank is built from the official Seedance 2.5 camera vocabulary. All
 sources accessed 2026-08-13:
 
-- [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh) — official camera vocabulary, timestamp rules, technique contracts
+- Official Seedance 2.5 prompt guide — camera vocabulary, timestamp rules, technique contracts
 - [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — official prompt guidance
 - [Seedance 2.5 launch blog](https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5) — official announcement
 

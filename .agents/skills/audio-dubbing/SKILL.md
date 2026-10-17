@@ -159,7 +159,7 @@ Record the exact prompt snapshot/hash, ordered source/reference paths/hashes, so
 
 ## Sources
 
-The [Seed Audio API reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01), [internal prompting guide](https://bytedance.larkoffice.com/wiki/WgU4wFVQ8iZgvjkHHdbcDmhCnug), and [pricing page](https://docs.byteplus.com/en/docs/byteplusvoice/audiopricing) are verification starting points, not evidence of a live check in this skill.
+The [Seed Audio API reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01) and [pricing page](https://docs.byteplus.com/en/docs/byteplusvoice/audiopricing) are verification starting points, not evidence of a live check in this skill.
 
 ## Caller composition hints
 

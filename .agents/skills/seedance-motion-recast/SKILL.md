@@ -103,8 +103,9 @@ cases at 480p first and record each result in the project.
   Bind targets as `reference_image`. Set `omni_reference_task_type` to `auto`,
   `ratio` to the source ratio, `duration` to the whole-second source length
   (4–30 s; trim the source to whole seconds first) and `generate_audio` to
-  `false`. A 5 s request returned 121 frames at 24 fps (5.04 s); trim or pad to
-  the picture when muxing.
+  `false`. The returned clip can run a few frames longer than requested
+  (for example 121 frames at 24 fps for 5 s); trim or pad to the picture when
+  muxing.
 - **Fallback plan B: full-frame edit.** If the output keeps the source's
   people, clothing or location, switch to the edit task type the live tool
   accepts for Seedance 2.5 and write the edit variant in

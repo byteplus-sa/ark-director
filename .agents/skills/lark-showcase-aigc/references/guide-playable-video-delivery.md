@@ -31,7 +31,7 @@ file. A showreel from `scripts/assemble_showreel.py` is already web-ready.
 
 Run from a directory that contains the files and use **relative** paths.
 Copy each file to a **reader-friendly name** first (for example
-`Juno frame-break video.mp4`), because the file name becomes the visible name.
+`Example product video.mp4`), because the file name becomes the visible name.
 
 1. Build the document with a text placeholder or a throw-away figure where each
    video belongs, in chunks (create the skeleton, then `append` section by
@@ -40,7 +40,7 @@ Copy each file to a **reader-friendly name** first (for example
 
    ```bash
    lark-cli docs +media-insert --as user --doc "$DOC" \
-     --file "./Juno frame-break video.mp4" --type file --file-view preview
+     --file "./Example product video.mp4" --type file --file-view preview
    ```
 
    It appends at the end of the document and returns `block_id` and
@@ -48,7 +48,7 @@ Copy each file to a **reader-friendly name** first (for example
 3. `block_replace` the placeholder figure with the uploaded token:
 
    ```xml
-   <figure view-type="Preview"><source token="FILE_TOKEN" name="Juno frame-break video.mp4" mime="video/mp4"/></figure>
+   <figure view-type="Preview"><source token="FILE_TOKEN" name="Example product video.mp4" mime="video/mp4"/></figure>
    ```
 
 4. Re-fetch with `--detail with-ids` (replacement re-mints block IDs), find the

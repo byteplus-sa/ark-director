@@ -24,12 +24,12 @@ navigation aid.
 
 Columns (in order):
 
-| # | Showcase Title | Game Style & Genre (or use case) | Format | Primary Technical Demonstration |
+| # | Showcase Title | Style & Genre (or use case) | Format | Primary Technical Demonstration |
 |---|---|---|---|---|
 
 - Keep every row's **Primary Technical Demonstration** short and concrete — it
-  states what capability the production proves (e.g. "first-person parry
-  combat", "multi-character dialogue and micro-expressions", "360-degree
+  states what capability the production proves (e.g. "tracking shot through a
+  crowd", "multi-character dialogue and micro-expressions", "360-degree
   turntable orbit").
 - The matrix row **order must match the order of the use-case sections** that
   follow. If a scene section contains multiple productions (e.g. Scene 1 has
@@ -62,14 +62,13 @@ explicitly names a highlight/compilation.
 3. Run the `ffmpeg-scene-transitions` skill to crossfade the clips into one
    film with locked A/V sync. Its template handles the audio-shorter-than-video
    `apad` case and the mixed-duration cumulative-offset math; when a clip's
-   audio is *longer* than its video (Seedance clips can come back ~30-40 ms
+   audio is *longer* than its video (Seedance clips can come back slightly
    longer), trim each audio track to its exact video duration first (see the
    skill's troubleshooting table).
 4. Verify the assembled film: ffprobe total duration, video/audio stream
    durations within ~10 ms of each other, and a full decode with no errors.
    Optionally produce a boundary contact sheet at each crossfade midpoint.
-5. Name the master `gaming_showcase_compilation_v01.mp4` (or
-   `<project>_compilation_vNN.mp4`) in the project root.
+5. Name the master `<project>_compilation_vNN.mp4` in the project root.
 
 **Lark delivery (playable inline, at the top of the document):**
 

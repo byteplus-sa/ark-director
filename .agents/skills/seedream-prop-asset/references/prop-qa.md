@@ -15,8 +15,9 @@ Inspect every candidate before selection and return defects to the caller:
   feature sits on), never by assuming the prompt was obeyed
 - one scale: object height, roof lamp included, and wheel diameter are within
   about 15% across views; never compare widths
-- margin: 3% of the sheet or more to every canvas edge and the next view (models
-  typically deliver 55-80% of the requested 6%); nothing touches or is cropped
+- margin: 3% of the sheet or more to every canvas edge and the next view (the
+  delivered margin usually falls short of the requested 6%); nothing touches or
+  is cropped
 - one continuous background: no boxes, frames, borders, divider lines,
   off-white rectangles, labels, captions, floor line, or shadow band joining the
   views; the declared color, uniform within about 3 levels (white at or above

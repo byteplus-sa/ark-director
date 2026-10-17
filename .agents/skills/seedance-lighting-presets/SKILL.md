@@ -30,7 +30,7 @@ The lighting vocabulary and structure in this skill are sourced from:
 
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186) — canonical `Lighting:` section grammar (direction, quality, color temperature, key-to-fill ratio) and lighting-style keywords (Soft Light, Hard Light, Backlit, Dappled Light, Golden Hour, Night Neon, Low Key, Overexposed).
 - [Seedream 5.0 Pro official blog](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro) — cinematic realism and accurate lighting as a core capability.
-- [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh) and [ModelArk Seedance 2.5 guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — the six-part formula and where lighting lives in the Visual Style slot.
+- [ModelArk Seedance 2.5 guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — the six-part formula and where lighting lives in the Visual Style slot.
 
 All sources accessed 2026-08-13. When the official guides are updated, prefer
 the live pages over this skill where they conflict.
@@ -102,10 +102,10 @@ take, and reach the look through the prompt rather than a post grade.
 
 | Intended feeling | Start from | Make it specific with |
 |---|---|---|
-| Dread, nightmare, no escape | Low-key | Faces just above black, large areas lost to shadow, one muted color accent (a violet floor, a cold rim); no fill that reveals the room's exits |
-| Interrogation, ordeal | Overhead Fall or a hard side key | Eyes in shadow for the one in power; the tested character lit harder than anyone else |
-| Sacred, ritual | Practicals | Few small sources, deep falloff, light that seems to come from the objects of the ritual |
-| Safety, warmth, the other side of a door | Practicals or Window | Warm amber source against dark wood or stone; contrast it with the cold scene it cuts against |
+| Dread, nightmare, no escape | Low-key | Faces just above black, large areas lost to shadow, one muted color accent (a tinted surface, a cold rim); no fill that reveals the room's exits |
+| Interrogation, ordeal | Overhead Fall or a hard side key | Eyes in shadow for the one in power; the questioned character lit harder than anyone else |
+| Sacred, ritual | Practicals | Few small sources, deep falloff, light that seems to come from the objects in the scene |
+| Safety, warmth, the other side of a door | Practicals or Window | Warm amber source against dark surroundings; contrast it with the cold scene it cuts against |
 | Vision, revelation | High-key | Bright, warm, overexposed field that breaks the scene's darkness for a moment |
 | Relief, release | The scene's earlier key | A motivated source returns, or a door opens and adds light; the shadows soften |
 
@@ -114,8 +114,8 @@ off, dim or flicker) planned in the shot plan, not a new invented source.
 
 ### Night needs stating
 
-A bare "night" or "moonlight" was not enough to make workspace Seedance drafts
-read as night. State what the viewer sees: a black sky, low
+A bare "night" or "moonlight" often does not make Seedance footage read as
+night. State what the viewer sees: a black sky, low
 exposure, the one source that lights the subject (a small pale moon, a
 streetlamp, a lit window) and what falls to black. Describe the moon or lamp
 by its visible shape and size ("a small, round, pale moon") rather than
@@ -133,9 +133,9 @@ records its time, change and trigger.
 | Dim | `From <N>s to <M>s, <declared source> fades down to <visible result>.` |
 | Flicker | `At <N>s, <declared source> flickers <twice / rapidly for about one second>, then <holds steady / goes out>.` |
 
-In workspace 480p Seedance 2.5 drafts a stated cue time was honoured to about
-0.1 s, and an `off` cue switched the source instantly; write a fade as a time
-range. Plain wording ("the lamp goes out") already produces the change; the
+A stated cue time tends to be honoured closely, and an `off` cue switches the
+source instantly, so write a fade as a time range and check the timing in a
+draft. Plain wording ("the lamp goes out") already produces the change; the
 timestamp adds control of when it lands and of the hold after it. An untimed
 "partway through" lands at an unplanned moment. Name the source the scene
 already declared, and say what the frame looks like after the change.

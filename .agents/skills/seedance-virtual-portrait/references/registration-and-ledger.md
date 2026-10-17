@@ -7,8 +7,8 @@
 | Three official face-input solutions: trusted outputs, preset digital characters, authorized real-person assets | BytePlus docs, *Create portrait videos with Dreamina Seedance models* | Read 2026-10-11 |
 | Real-person flow, formats, consistency check, accept to Active | BytePlus docs, *Add real-human assets to asset library* | Read 2026-10-11 |
 | Authorization reuse and authorized image/video/audio asset references | [Real-human assets](https://docs.byteplus.com/en/docs/modelark/upload-real-person-portrait-assets), [Portrait video guide](https://docs.byteplus.com/en/docs/modelark/seedance-portrait-asset-guide) | Official search-index body checked 2026-10-11; direct reads returned shells |
-| AIGC groups for invented characters, `ark_asset_*` tool names, subject per group, `asset://` use, Seedream and Seed Audio rejection, same `project_name` | `ark-mcp` skill, Private Asset Library Workflow | Local contract; the tools were not loaded in the authoring session |
-| Console Virtual Portrait library page | BytePlus docs, *Private virtual portrait library* | Page body not machine-readable when written; re-read before relying on details |
+| AIGC groups for invented characters, `ark_asset_*` tool names, subject per group, `asset://` use, Seedream and Seed Audio rejection, same `project_name` | `ark-mcp` skill, Private Asset Library Workflow | Local contract; confirm against the loaded tools |
+| Console Virtual Portrait library page | BytePlus docs, *Private virtual portrait library* | Page body may not be machine-readable; re-read before relying on details |
 
 ## Trusted model outputs (no registration)
 
@@ -26,8 +26,8 @@ account, an edited copy, a compressed or forwarded copy, or past 30 days. Save
 the original straight to TOS. Trust covers the input check only; the new
 output can still be moderated. Without a face in the input, no trust is needed.
 
-Observed: a muted 480p Seedance draft from the same account, downloaded and
-re-uploaded through `media_upload` for extension, was rejected with
+A muted 480p Seedance draft from the same account, downloaded and re-uploaded
+through `media_upload` for extension, is rejected with
 `InputVideoSensitiveContentDetected.PrivacyInformation`. Plan any video input
 that shows a person as an `asset://` video unless the unedited original is
 passed straight from the provider and accepted on a probe.

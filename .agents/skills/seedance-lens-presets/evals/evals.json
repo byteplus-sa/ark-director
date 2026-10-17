@@ -68,7 +68,7 @@
     {
       "id": 6,
       "prompt": "Write a Seedance 2.5 prompt for a handheld found-footage clip of a diner at night, shot on a VHS sensor — scanlines, color bleed, soft low-fi look.",
-      "expected_output": "A Seedance prompt that stages handheld found-footage behaviour in the diner and keeps the VHS tape markers (scanlines, color bleed, soft low-fi image) as a post treatment, explaining that a tape or camcorder word in a Seedance prompt returned clean footage.",
+      "expected_output": "A Seedance prompt that stages handheld found-footage behaviour in the diner and keeps the VHS tape markers (scanlines, color bleed, soft low-fi image) as a post treatment, explaining that a tape or camcorder word in a Seedance prompt tends to return clean footage.",
       "files": [],
       "expectations": [
         "The output does not rely on a VHS or camcorder word in the Seedance prompt to produce the tape look.",
@@ -105,7 +105,7 @@
     {
       "id": 9,
       "prompt": "Write the lens line for a push-in where her face drifts out of focus while the camera keeps moving, to show she is losing control.",
-      "expected_output": "An explanation that prompted focus loss did not hold in testing, with a lens line using ordinary focus and the defocus moved to post.",
+      "expected_output": "An explanation that prompted focus loss tends not to hold, with a lens line using ordinary focus and the defocus moved to post.",
       "files": [],
       "expectations": [
         "It does not present the drifting focus as a reliable prompt preset.",

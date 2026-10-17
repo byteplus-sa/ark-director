@@ -46,8 +46,8 @@ once up front, then every example repeats a fixed, scannable structure.
 - Do not describe partial successes as perfect, and do not list weak moments
   just to reach a count. Two honest rows beat four padded ones.
 - Put limitations that help the reader into `Good to know` in plain language
-  (bars are approximate, one edge is easier than the other, photoreal is
-  harder, scene colours can drift). Keep QA mechanics out: no measurement
+  (timing is approximate, one setup is easier than another, colours can
+  drift). Keep QA mechanics out: no measurement
   tables, tool verdicts, hashes, attempt counts, retouch notes, or rejected
   takes.
 - A result edited after generation (for example a logo removed in post) is
@@ -66,7 +66,7 @@ product photos in a `Description` column (not under an `Image prompt` header)
 with the text `Supplied product photo of <Product> (view).`, so a reader does
 not mistake them for generated images, keep generated
 footage text-free, and add any end card in post (see the product-hero notes in
-the frame-break skill and the html-graphic-render skill). Rights clearance for
+the seedance-frame-break skill and the html-graphic-render skill). Rights clearance for
 external publication stays with the user; keep the document private until the
 user decides. Say so in chat, not in the document.
 

@@ -13,7 +13,7 @@ a single generation pass — no separate mixing, scoring, or Foley required.
 **Pairs with `seed-audio-prompt`** for Seed Audio prompt structure, voice
 profile formatting, timestamp control, API limits, and pricing. This skill
 specializes the commercial workflow: story arc design, commercial-specific SFX
-and music patterns, multilingual safety filter guidance, cost management, and
+and music patterns, multilingual guidance, cost management, and
 the production lifecycle.
 
 
@@ -31,7 +31,7 @@ Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
 
 - [Commercial Sound Patterns](references/commercial-sound-patterns.md) — Commercial music direction patterns; SFX patterns for food commercials; Ambience transition patterns; Story arc template (5 acts).
-- [Worked Examples](references/worked-examples.md) — Full example: Fried-chicken homesick spot (Taglish); Full example: Lola Maria's Ube Halaya (English-dominant Taglish, 30s spot).
+- [Worked Examples](references/worked-examples.md) — Full example: homesick fried-chicken spot (long dramatic arc); Full example: grandmother's jam spot (30s, concise).
 
 ## Submission boundary and failure behavior
 
@@ -63,7 +63,7 @@ the finished audio asset from it.
 - "Create an audio commercial for [brand/product]"
 - "Make a dramatic radio spot for [product]"
 - "Generate a story-based audio ad with dialogue and music"
-- "Produce a Filipino/Taglish commercial using Seed Audio"
+- "Produce a commercial in a specific language or accent using Seed Audio"
 - "Write and generate a multi-character narrative audio spot"
 - "Make a brand commercial with emotional arc and tagline"
 
@@ -109,13 +109,13 @@ Collect or propose:
 | Brand | a fried-chicken chain | Yes |
 | Product | its signature crispy fried chicken | Yes |
 | Tone | dramatic, emotional, nostalgic | Yes |
-| Language | English, Taglish, Spanish, etc. | Yes |
+| Language | English, Spanish, Hindi, etc. | Yes |
 | Target duration | ~60–120s (max 120s per call) | Yes |
 | Cast | 2–4 characters with voice profiles | Yes |
 | Story hook | homesick worker, family reunion, etc. | Yes |
 | Tagline / CTA | "Home is just one bite away" | Yes |
 | Cultural context | overseas worker far from family, etc. | If relevant |
-| Accent and language mix | "English, light Filipino accent" or "English-dominant Taglish" | If relevant |
+| Accent and language mix | "English, light regional accent" or "English-dominant with a few Spanish words" | If relevant |
 
 ### Step 2 — Design the story arc
 
@@ -193,7 +193,7 @@ Check these constraints before handing the prompt to the generation stage:
 | `text_prompt` length | 3,000 characters | Trim redundant descriptions, shorten stage directions |
 | Target duration | 120 seconds max per call | Split into multiple calls and chain via TA2A |
 | Output format | MP3 at 24000 Hz recommended | WAV at 44100 Hz can exceed the 10 MB artifact limit |
-| Non-English dialogue | Content safety filter may reject | See [Multilingual and Taglish guidance](SKILL.md#multilingual-and-taglish-guidance) |
+| Non-English dialogue | Content safety filter may reject | See [Multilingual guidance](SKILL.md#multilingual-guidance) |
 | Reference audio | Not needed for T2A | Omit `audio_references` and all `<<TGT_SPKN>>` tags |
 
 **Format recommendation**: Always use `mp3` at `24000` Hz for commercials. A
@@ -241,7 +241,7 @@ generated output. If a chunk is rejected (`decision_in_reject_list`), the
 entire generation fails with `code=55001310`. Music-heavy spots are rejected
 more often than speech-only ones, so plan spare samples (for example three
 variations for one needed take) and record every rejection code. See
-[Multilingual and Taglish guidance](SKILL.md#multilingual-and-taglish-guidance) for
+[Multilingual guidance](SKILL.md#multilingual-guidance) for
 mitigation strategies.
 
 ### Step 6 — Download and verify (generation stage)
@@ -297,18 +297,21 @@ Selection follows the project's `approval_mode` per the
 [Production policy](../../contracts/production-policy.md), and only a passing
 result may be selected. Picture/audio lock and final master acceptance use separate stage decisions.
 
-## Multilingual and Taglish guidance
+## Multilingual guidance
 
 Seed Audio supports multilingual synthesis.
 
-**Accent is not language.** "English with a Filipino accent" is a voice
+**Accent is not language.** "English with a light regional accent" is a voice
 attribute: put it in the voice profile and keep every quoted line in English.
-Code-switch only when the brief asks for it. For Filipino-market spots that ask
-for Taglish, default to English-dominant lines with simple, widely understood
-Tagalog words (po, opo, sige, tara, ingat, salamat) rather than long Tagalog
-sentences. Accent and pronunciation are judged by a native listener; a
-transcript or a listening model cannot confirm them. Pronunciation notes and
-respellings are hypotheses, and a respelling can add a syllable.
+Code-switch only when the brief asks for it, and then keep the mix the brief
+describes, for example English sentences with a few simple, widely understood
+words from the second language rather than long passages in it. Accent and
+pronunciation are judged by a native listener; a transcript or a listening model
+cannot confirm them. Pronunciation notes and respellings are hypotheses, and a
+respelling can add a syllable.
+
+Optional: for Filipino or Taglish spots, `seedance-prompt-25-filipino` and
+`filipino-micro-drama` hold the market's register and dialogue conventions.
 
 A moderation error is a provider
 rejection, not proof that a language, phrase, or cultural term is unsafe or that

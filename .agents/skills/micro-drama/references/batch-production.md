@@ -16,7 +16,7 @@ episodes or dramas at once.
 ## Resilience
 
 - Keep tool calls short. Poll background jobs in separate calls instead of
-  waiting inside one long call. Long silent waits have tripped a 10-minute
+  waiting inside one long call, because long silent waits can trip a
   no-progress watchdog.
 - After each stage exit, the agent updates a short `handoff.md` in its project:
   current stage, selected variants, operations in flight, and the next action.

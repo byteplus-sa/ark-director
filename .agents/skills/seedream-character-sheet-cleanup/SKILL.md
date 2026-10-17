@@ -230,9 +230,9 @@ Recommended sequence:
 7. Select the new version under the project's approval mode before canonical
    use, and record its hash.
 
-## Example From The User
+## Example Pair
 
-The user provided a before-and-after pirate character-sheet example. Its
+A before-and-after pirate character-sheet example is bundled. Its
 layout predates the current default order: front full body on the left, back
 full body in the center, close-up on the right.
 - Before: the left full-body panel still shows a readable front face, while the
@@ -253,7 +253,7 @@ filenames:
 - `examples/before_duplicate-face.png`
 - `examples/after_single-face.png`
 
-Treat that pair as illustrative before-and-after evidence, not user approval
+Treat that pair as illustrative before-and-after evidence, not approval
 of a new output or a substitute for the requested visible descriptors.
 
 ### Before

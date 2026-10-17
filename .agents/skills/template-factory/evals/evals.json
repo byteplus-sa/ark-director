@@ -99,7 +99,7 @@
       "files": [],
       "assertions": [
         "Does not bind the board, grid or any panel as a Seedance reference.",
-        "Explains that panel numbers, labels and the board look leak into video and raise output-copyright rejections.",
+        "Explains that panel numbers, labels and the board look can leak into video.",
         "Translates each panel's framing, blocking and end state into prompt text and binds only approved element references.",
         "Plans take QA with frame samples and corner crops for leaked text."
       ]

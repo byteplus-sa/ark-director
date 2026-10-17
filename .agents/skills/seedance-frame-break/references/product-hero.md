@@ -23,7 +23,7 @@ in [the entrypoint](../SKILL.md); this file replaces the character parts.
 - The camera is locked off; the product moves between the far distance and
   close to the lens inside the same three layers (scene, bars, subject on top).
 - A photoreal product crosses the bars less often than a drawn subject (observed
-  result: 1 to 3 overlap moments), so plan one deliberate crossing per bar.
+  result: fewer overlap moments), so plan one deliberate crossing per bar.
 
 ## References
 
@@ -60,7 +60,7 @@ Name the part that crosses in each stage (toe, heel, rim, cap, handle) and
 keep that part the actor through the stage. Break-outs are events: the product
 sits fully inside the window at the start and at every stage boundary, and only
 the named part extends over a bar briefly and returns. No part should fill a
-third of the frame, because a subject very close to the lens distorted the bar
+third of the frame, because a subject very close to the lens can distort the bar
 edge (observed result). One coherent motion per stage also keeps a second part
 from popping in at a different scale.
 
@@ -85,8 +85,8 @@ Audio: only <effects such as <a soft whoosh> and <a light tap>>. (For a music-fr
 No people or hands; no on-screen text, captions, logos added to the scene or watermarks; the bars stay plain black and unmarked.
 ```
 
-The backdrop colours must differ from the product's. A teal sole on a teal
-backdrop was unreadable (observed result), so pick a calm, darker scene in a
+The backdrop colours must differ from the product's. A part that
+shares a hue with the backdrop is unreadable (observed result), so pick a calm, darker scene in a
 different hue. Read [scenes and subjects](scenes-and-subjects.md).
 
 ## Text and end card in post

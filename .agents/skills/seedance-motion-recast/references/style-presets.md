@@ -89,8 +89,8 @@ texture, slight chroma bleed and warm auto-white-balance shifts.
 - **Keeps:** every staged element and the camera path; handheld shake stays as
   the source moved, no extra shake.
 - **Note:** no date stamp or on-screen display; add one in post if wanted.
-- **Observed:** camcorder or MiniDV wording in a generation prompt has
-  produced clean cinematic footage instead of the look. If a 480p probe also
+- **Note:** camcorder or MiniDV wording in a generation prompt tends to
+  produce clean cinematic footage instead of the look. If a 480p probe also
   stays clean, render the scene cleanly and add the camcorder texture in post.
 
 ## film-noir

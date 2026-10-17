@@ -100,7 +100,7 @@ dressing keeps it (a library with no screens or devices anywhere).
 
 Anchor the image in its historical, cultural, or fictional logic: period,
 geography and climate, technology level, realism rules. For example "Late-1990s
-Manila urban realism, analog signage, no smartphones" or "Near-future Asian
+mid-size port-city urban realism, analog signage, no smartphones" or "Near-future Asian
 megacity, grounded cyberpunk, practical infrastructure, not fantasy magic."
 
 ### 5. Set dressing and objects
