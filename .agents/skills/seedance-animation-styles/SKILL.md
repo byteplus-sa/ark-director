@@ -137,9 +137,17 @@ Useful cues include:
 ### 6. Structure the sequence
 
 Use numbered shots for an edited sequence and stages for one continuous action.
-Give every shot or stage one primary event and a visible end state.
+Give every shot or stage one primary event and a visible end state, and a
+camera line and a light line of its own: shot size, angle, one camera move with
+a start and an end (or a held frame with its reason), and the named source that
+lights it, built in the medium (a paper-cut sun, a felt lantern, a painted
+window). A narrative or ad animation takes its shot plan from the shot-design
+skill when one exists; this skill words each shot in the medium. A sequence
+with no camera statement and one global light line tends to read flat.
 
-Treat time ranges as a readable pacing plan:
+Treat time ranges as a readable pacing plan. Keep every shot inside one clip
+at about 0.8 s or longer; the model merges shorter shots, so a faster cut is
+made in assembly.
 
 - reaction or detail: roughly 2–3 seconds;
 - simple action: roughly 3–5 seconds;
@@ -209,9 +217,9 @@ the six-part formula (see `seedance-prompt-25` for the grammar); the
 <Subject, primary event, environment, and observable tone.>
 
 [Shot Plan] or [Stage Plan]
-Shot 1 (<time range>): <one event and visible end state>.
-Shot 2 (<time range>): <one event and visible end state>.
-Final Shot (<time range>): <closing event and final visible state>.
+Shot 1 (<time range>): <shot size, angle>, <camera move with start and end>; <named source in the medium> lights <subject> from <side>. <One event and visible end state>.
+Shot 2 (<time range>): <shot size, angle>, <camera move with start and end>; <light>. <One event and visible end state>.
+Final Shot (<time range>): <shot size, angle>, <camera move or held frame>; <light>. <Closing event and final visible state>.
 
 [Material Continuity]
 Keep <characters, props, environment, and effects> visibly made from <medium>.
@@ -242,11 +250,26 @@ For an unlisted style:
 
 - Do not append `no CGI` globally. It suits practical-material looks but
   contradicts `stylized-handcrafted-3d`.
-- Do not use exclusions as a substitute for positive material direction.
+- Do not use exclusions as a substitute for positive material direction. A
+  negated shape does not remove a strong visual prior; describe the shape that
+  is wanted ("a round, squat felt cottage with a flat thatched roof").
 - Exclude only likely contradictions: human skin on toys, glossy plastic on
   felt, photoreal water in crayon, clean vector lines in hand-drawn ink.
 - Avoid direct imitation of living artists. Describe observable craft traits.
-- Preserve requested text or logos instead of automatically excluding them.
+- Keep generated footage free of titles, captions, logos and readable signs;
+  requested text and logos are added in post. Describe recurring jars, boxes,
+  labels and signs as plain surfaces in the medium ("a plain clay jar, smooth
+  and unpainted"), because generic containers and labels grow invented lettering.
+
+## Medium versus post look
+
+The animation medium is a construction the prompt describes. A finishing look
+laid over the footage (a VHS or camcorder look, a film-stock grain, halation, a
+vignette, a color grade) is a post treatment: a camcorder word in a Seedance
+prompt returned clean footage in workspace drafts; the color-grade skill owns
+post looks. Add no grade or film texture by default. Period film wear that
+belongs to the medium itself, such as the exposure flicker and dust of vintage
+rubber-hose cels, stays in the recipe.
 
 ## Self-check
 
@@ -257,9 +280,13 @@ Before returning the prompt, verify:
 3. The construction and surface details are visible and specific.
 4. Motion cadence and deformation match the material.
 5. Two to four deliberate imperfections make the craft legible.
-6. Each shot or stage has one primary event and a visible end state.
+6. Each shot or stage has one primary event, a visible end state, a camera
+   move with a start and an end (or a held frame with its reason) and a named
+   light source.
 7. The sequence fits its time budget or has been split.
 8. Tone is expressed through observable timing and behavior.
 9. The style seal is compact and does not contradict the medium.
-10. The response contains the prompt, not an unrelated production workflow.
+10. Generated footage carries no text or logos, and no post look is asked of
+    the prompt.
+11. The response contains the prompt, not an unrelated production workflow.
 

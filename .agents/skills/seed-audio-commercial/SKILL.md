@@ -31,7 +31,7 @@ Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
 
 - [Commercial Sound Patterns](references/commercial-sound-patterns.md) — Commercial music direction patterns; SFX patterns for food commercials; Ambience transition patterns; Story arc template (5 acts).
-- [Worked Examples](references/worked-examples.md) — Full example: Jollibee Chickenjoy (Taglish); Full example: Lola Maria's Ube Halaya (Taglish, 30s spot).
+- [Worked Examples](references/worked-examples.md) — Full example: Fried-chicken homesick spot (Taglish); Full example: Lola Maria's Ube Halaya (English-dominant Taglish, 30s spot).
 
 ## Submission boundary and failure behavior
 
@@ -106,15 +106,16 @@ Collect or propose:
 
 | Field | Example | Required |
 |---|---|---|
-| Brand | Jollibee | Yes |
-| Product | Chickenjoy (crispy fried chicken) | Yes |
+| Brand | a fried-chicken chain | Yes |
+| Product | its signature crispy fried chicken | Yes |
 | Tone | dramatic, emotional, nostalgic | Yes |
 | Language | English, Taglish, Spanish, etc. | Yes |
 | Target duration | ~60–120s (max 120s per call) | Yes |
 | Cast | 2–4 characters with voice profiles | Yes |
 | Story hook | homesick worker, family reunion, etc. | Yes |
 | Tagline / CTA | "Home is just one bite away" | Yes |
-| Cultural context | Filipino OFW experience, etc. | If relevant |
+| Cultural context | overseas worker far from family, etc. | If relevant |
+| Accent and language mix | "English, light Filipino accent" or "English-dominant Taglish" | If relevant |
 
 ### Step 2 — Design the story arc
 
@@ -229,19 +230,17 @@ For multiple takes, use `seed_audio_generate_variations` with
 `variation_prompts` (up to 5 parallel variations). Each variation is an
 independent generation — partial failures are captured per variation.
 
-**Timeouts**: A local timeout is unavailable completion evidence. Preserve the
-prepared request and set `submission_status: submission_unknown` when acceptance
-cannot be established. Record any provider task/request ID immediately. Reconcile
-through provider status, artifact lookup, or support using the operation and
-request evidence. With a known task ID, resume polling that task. Without an ID,
-keep the operation unresolved; elapsed time does not establish non-acceptance.
-Do not resubmit automatically or switch transport to repeat the request. A new
-operation requires terminal/non-acceptance evidence or explicit user authorization
-that acknowledges the unresolved prior request and duplicate-cost risk.
+**Timeouts**: a local timeout is not completion evidence. Record any provider
+ID at once, set `submission_status: submission_unknown` when acceptance is
+unclear, and reconcile under the workspace registry rules: with a known ID,
+resume polling; without one, hold the operation unresolved. Never resubmit
+automatically or through a second transport.
 
 **Content safety rejections**: The provider runs an audio risk audit on the
 generated output. If a chunk is rejected (`decision_in_reject_list`), the
-entire generation fails with `code=55001310`. See
+entire generation fails with `code=55001310`. Music-heavy spots are rejected
+more often than speech-only ones, so plan spare samples (for example three
+variations for one needed take) and record every rejection code. See
 [Multilingual and Taglish guidance](SKILL.md#multilingual-and-taglish-guidance) for
 mitigation strategies.
 
@@ -300,7 +299,18 @@ result may be selected. Picture/audio lock and final master acceptance use separ
 
 ## Multilingual and Taglish guidance
 
-Seed Audio supports multilingual synthesis. A moderation error is a provider
+Seed Audio supports multilingual synthesis.
+
+**Accent is not language.** "English with a Filipino accent" is a voice
+attribute: put it in the voice profile and keep every quoted line in English.
+Code-switch only when the brief asks for it. For Filipino-market spots that ask
+for Taglish, default to English-dominant lines with simple, widely understood
+Tagalog words (po, opo, sige, tara, ingat, salamat) rather than long Tagalog
+sentences. Accent and pronunciation are judged by a native listener; a
+transcript or a listening model cannot confirm them. Pronunciation notes and
+respellings are hypotheses, and a respelling can add a syllable.
+
+A moderation error is a provider
 rejection, not proof that a language, phrase, or cultural term is unsafe or that
 the classifier made a false positive. Save the provider code, request/task ID,
 reported reason, and available evidence without inventing a cause.
@@ -334,3 +344,8 @@ promises a guaranteed pass.
   audio is generated before the audit rejects it). Validate multilingual
   prompts carefully before submitting.
 - Set `DAILY_BUDGET_USD` on the MCP server to enforce a hard daily limit.
+
+Verification of words, accent and timing follows the verification section of
+`seed-audio-prompt` when that skill is available: an ASR transcript is the
+authority for words, a native listener for accent, and arc timing is measured
+and fixed in assembly.

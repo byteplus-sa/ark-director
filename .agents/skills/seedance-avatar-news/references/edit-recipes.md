@@ -59,8 +59,8 @@ to the EDL folder when `clips_dir` is omitted.
   "end": 27.0,
   "take_focus_y": 0.3,
   "take_split_focus_y": 0.05,
-  "sources_label": "Snap",
-  "channel_label": "THE MANAV PODCAST",
+  "sources_label": "<Brand>",
+  "channel_label": "<CHANNEL NAME>",
   "out": "s01_render_v01.mp4",
   "segments": [
     {"start": 0.0, "end": 3.9, "layout": "full_m"},
@@ -71,7 +71,7 @@ to the EDL folder when `clips_dir` is omitted.
     {"start": 12.7, "end": 25.4, "layout": "split", "clip": "src_event.mp4", "offset": 114.3, "focus_x": 0.7},
     {"start": 25.4, "end": 27.0, "layout": "full_mz"}
   ],
-  "chunks": [[0, 2, "Snap just put"], [3, 4, "an entire"]]
+  "chunks": [[0, 2, "A STARTUP JUST"], [3, 4, "BUILT A"]]
 }
 ```
 
@@ -129,7 +129,5 @@ The project's required review surface is its HyperFrames Studio project,
 synced after each take and render (see the
 [production policy](../../../contracts/production-policy.md)); pre-Studio canvas projects
 with `showcase.json` keep the `showcase-html` canvas. A quick side-by-side
-`viewer.html` is optional. Serve any such page over http
-(`python3 -m http.server <port> --directory projects/<slug>`), because a
-`file://` page in the browser pane is a static snapshot and cannot load
-relative media.
+`viewer.html` is an optional plain static page with a `.css` beside it, opened
+from disk; it is a visual aid, not a gate, and needs no server.

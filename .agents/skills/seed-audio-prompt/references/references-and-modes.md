@@ -12,9 +12,9 @@ The API contract is the request's `references[]` array. For each supplied audio 
 
 ```text
 Input references
-@Audio1: Female protagonist voice timbre — Lux
-@Audio2: Male antagonist voice timbre — Sylas
-@Audio3: Male heroic voice timbre — Garen
+@Audio1: Female protagonist voice timbre — Lira
+@Audio2: Male antagonist voice timbre — Voss
+@Audio3: Male heroic voice timbre — Brann
 ```
 
 Rules for references:

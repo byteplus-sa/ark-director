@@ -90,9 +90,12 @@ Input:
   not in prompt text. The ratio is 16:9.
 
 Output: a prompt package with ordered `@Image N` bindings and roles, the seven
-prompt blocks below, suggested parameters (`16:9`, the lowest suitable
-resolution, `generate_audio` per the audio intent, `watermark: false` where
-supported), the preflight result, open items, and a QA plan. The caller owns
+prompt blocks below, suggested parameters (`16:9`, a 480p draft before the
+delivery resolution, `generate_audio` per the audio intent, `watermark: false`
+where supported), a one-row shot plan (duration, full-body wide size, angle,
+locked-off camera with its recorded reason that the bars need a fixed frame,
+wide-angle lens intent, and the named key light of the backdrop), the
+preflight result, open items, and a QA plan. The caller owns
 prompt review, the request hash and submission. Plan a small set of takes so
 the cleanest can be chosen.
 
@@ -110,7 +113,9 @@ example.
    with perfectly straight horizontal inner edges at the same height in every
    frame.
 3. **Four timed stages.** Each stage has one coherent action by one named
-   limb (use screen-left and screen-right), the bar it crosses with a numeric
+   limb (named by anatomy plus screen side, such as "her left leg,
+   screen-right", because the model reads left and right as the character's
+   own side), the bar it crosses with a numeric
    anchor such as covering about a third of the bar's width, the crossing
    direction, the moment it peaks, and an observable `End state:` with the
    subject back fully inside the window and nothing over a bar. The limb that
@@ -126,7 +131,9 @@ example.
    except during the named break-outs.
 5. **Camera.** Locked off, no movement, zoom or cuts; only the subject moves.
 6. **Audio.** Requested sound arc in the `seedance-prompt-25` bracket syntax.
-   When no music is wanted, say so.
+   A "no music" line under native audio often does not hold; when music or
+   speech must be absent, suggest `generate_audio: false` and build the sound
+   in post.
 7. **Closing exclusions.** Short: no text, captions, logos or watermarks, no
    held props, bars unmarked. Keep necessary exclusions to one or two lines.
 
@@ -191,7 +198,9 @@ duration in prompt text.
 - [ ] The upper bar has its own stage, a limb that can reach it, an explicit peak
       and an End state back inside.
 - [ ] Every crossing has a numeric anchor, a crossing direction and a return.
-- [ ] Left and right are given as screen-left and screen-right.
+- [ ] Each limb is named by anatomy plus screen side, and the two agree for the
+      subject's facing.
+- [ ] The backdrop names its key light (source and side).
 - [ ] Gaze, spin and sweep directions do not contradict each other.
 - [ ] The camera is locked off with no zoom or cuts.
 - [ ] No held props unless the subject is the product.
@@ -199,7 +208,8 @@ duration in prompt text.
       no lettering.
 - [ ] The clip duration is absent from the prompt text.
 - [ ] No on-screen text or logo is requested; any text is planned for post.
-- [ ] The audio request states whether music is wanted.
+- [ ] The audio request states whether music is wanted; a music-free piece
+      suggests `generate_audio: false` with sound built in post.
 
 ## Usage limitations
 
@@ -261,6 +271,9 @@ package; the text route is post-production.
 The script's `summary.verdict` has `status` (`pass`, `inspect`, `fail`), `passed`
 (true only for `pass`) and `needs_review` (true for `inspect`). An automated caller
 must not treat `inspect` as a pass: it means a person checks the listed windows.
+The pixel tolerances were calibrated on 1080p takes; on a 480p draft the same
+pixel tolerances are relatively looser, so treat a draft pass as provisional and
+re-run the scan on the final render.
 
 ```bash
 uv run python .agents/skills/seedance-frame-break/scripts/measure_frame_break.py take.mp4 --summary-only --output take_measure.json

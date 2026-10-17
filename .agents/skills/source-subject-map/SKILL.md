@@ -37,7 +37,8 @@ prompts or generates media.
    each one before the map leaves `draft`. Model output alone never confirms a
    descriptor.
 4. **Analysis only.** No Seedance, Seedream, or audio generation. The only
-   provider calls are `media_upload` (when needed) and `seed_understand`.
+   provider calls are `media_upload` (when needed), `seed_understand`, and
+   `speech_to_text` when word timings are needed (step 2).
 5. **Hash-bound.** The map records the source SHA-256. A changed source file
    invalidates the map; rebuild it rather than editing IDs by hand.
 
@@ -55,6 +56,7 @@ Output, written beside the source clip (typically the shot folder
 | `subject_map.md` | Tables of cuts, subjects, objects, text/logos and ambiguities |
 | `subject_map_frames/cut-NN.png` | One spot-check keyframe per cut |
 | `subject_map_understand.md` | Exact `seed_understand` prompt sent and the raw answer |
+| `subject_map_words.json` | Optional `speech_to_text` word timings for kept, patched or re-voiced dialogue |
 
 Status values: `draft` (model answer parsed, frames not yet checked),
 `blocked` (spot-check done, unresolved ambiguities), `ready` (spot-check done,
@@ -94,6 +96,13 @@ and a low `temperature`. Poll `ark_job_get` no faster than `poll_after_ms`.
 Save the exact prompt and raw answer to `subject_map_understand.md`. Long
 clips and uncertain timestamps follow the reference.
 
+When a consumer will keep, patch or re-voice dialogue, also run
+`speech_to_text` on the local file and save the word timings to
+`subject_map_words.json`. The transcript is the authority for words and their
+times; refine each `speaks` window from it and record a disagreement larger
+than half a second with `resolution: "transcript times used"`. Block only when
+the speaker itself is unclear.
+
 ### 3. Assign IDs
 
 Parse the answer into cuts `cut-01..`, subjects `subj-01..`, and objects
@@ -116,8 +125,8 @@ Extract one keyframe from the middle of each cut:
 ffmpeg -v error -ss <mid_s> -i <source> -frames:v 1 subject_map_frames/cut-01.png
 ```
 
-Open and view every frame. Do not burn labels into frames: this workspace's
-ffmpeg may lack the `drawtext` filter. Label in the `subject_map.md` table
+Open and view every frame. Do not burn labels into frames: some ffmpeg builds
+lack the `drawtext` filter. Label in the `subject_map.md` table
 instead, one row per subject per cut with its frame file. Confirm each
 descriptor, object count, and visible text against the frame. Correct errors,
 and add an ambiguity whenever two subjects or objects share a descriptor.
@@ -125,7 +134,10 @@ and add an ambiguity whenever two subjects or objects share a descriptor.
 ### 6. Write and hand off
 
 Write `subject_map.json` and `subject_map.md`, set `status`, and report the
-open ambiguities to the user as questions. Resolutions come from the user or
+open ambiguities to the user as questions. Also tell the consumer whether any
+realistic person is visible and whether the source has audio: a video input that
+shows a person needs the `asset://` video route of the video-to-video inputs
+contract, and saved audio decides the post-audio route. Resolutions come from the user or
 from further frame inspection, never from guessing; record each in its
 `resolution` field and re-derive `status`.
 

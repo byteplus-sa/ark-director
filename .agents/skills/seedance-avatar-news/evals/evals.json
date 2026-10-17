@@ -4,14 +4,16 @@
     {
       "id": 1,
       "prompt": "Using the approved avatar, recreate this creator's split-screen news short on a new robotics story from this month.",
-      "expected_output": "A BRIEF.md from the reference format, a sourced topic and 60-72 word script, a 1:1 talking-head take, official B-roll with provenance and usage basis, and a split-screen render with STT-timed captions and badges, reflected in the Studio project (pre-Studio canvas: the production canvas).",
+      "expected_output": "A BRIEF.md from the reference format, a sourced topic and 50-60 word script fitted to about 2.2 words per second, a 1:1 talking-head take, official B-roll with provenance and usage basis, and a split-screen render with STT-timed captions and badges, reflected in the Studio project (pre-Studio canvas: the production canvas).",
       "files": [],
       "assertions": [
         "Every number in the script appears in topic.md with at least two sources.",
         "B-roll of the real product is acquired from official sources with URL, time range, SHA-256 and usage basis, and is never generated.",
         "Captions are timed from speech_to_text words of the generated take via stt_words.py.",
         "The edit is built from a contiguous edl.json with render_short.py, placed in Studio as a clip, and the short is produced with studio_project.py render.",
-        "The Studio project (pre-Studio canvas: the showcase-html canvas) is updated with the take and the render."
+        "The Studio project (pre-Studio canvas: the showcase-html canvas) is updated with the take and the render.",
+        "The script fits about 2.2 words per second with an onset allowance and at least 0.4 s of tail; the take duration is derived from that budget.",
+        "The generated take contains no captions or badges; they are added by render_short.py in the edit."
       ]
     },
     {
@@ -23,7 +25,7 @@
         "Each option agent writes only inside its own options/<x>/ folder.",
         "Each take is submitted once, and the main agent records its job and task IDs in the project task_ids.json.",
         "The remix option uses a 9:16 camera-beat take; the split-screen option may use 1:1.",
-        "Both renders appear in the Studio project (pre-Studio canvas: the showcase-html canvas), which is served locally and not published."
+        "Both renders appear in the Studio project (pre-Studio canvas: the showcase-html canvas), which is opened locally and not published."
       ]
     }
   ]

@@ -1,8 +1,8 @@
 # Visual Signifiers
 
 Read [the entrypoint](../SKILL.md). Use this reference to dress settings,
-props and wardrobe so an episode reads as Filipino without any legible
-signage or real brand.
+props and wardrobe so an episode reads as Filipino without signage or a real
+brand.
 
 ## Settings
 
@@ -11,7 +11,7 @@ signage or real brand.
 | Hacienda / old-money mansion foyer | Kontrabida, inheritance | Curved narra staircase, capiz windows, chandelier, double doors |
 | Makati / BGC glass condo or café terrace | Kabit, CEO, kilig | City towers at blue hour, string lights, marble tables |
 | Small concrete subdivision house | OFW, family betrayal | Green metal gate, bougainvillea, front door on the street |
-| International airport arrivals curb | OFW homecoming | Glass doors, trolleys, humid night, no readable signs |
+| International airport arrivals curb | OFW homecoming | Glass doors, trolleys, humid night, plain blank sign panels |
 | Private hospital corridor | Switched at birth, illness | Pale green walls, steel or monobloc chairs, Santo Niño shelf |
 | Carinderia / sari-sari store | Class contrast | Covered food trays, sachet strips, a plastic stool |
 | Provincial wood-and-capiz house | Folk horror, family | Kulambo (mosquito net), altar with candles, garlic at the window |
@@ -20,10 +20,15 @@ signage or real brand.
 
 ## Props with story weight
 
-Balikbayan box (brown cardboard, plastic strap rope, marker scribbles with no
-legible words), land title or will (official seal, no legible text), DNA or
-lab-result envelope, velvet jewelry box, remittance slip, rosary, garlic
-string, kerosene lantern, cash envelope, graduation photo wall.
+Balikbayan box (plain brown cardboard, plastic strap rope, a few loose marker
+strokes), land title or will (embossed seal on smooth cream paper), plain
+sealed lab-result envelope, velvet jewelry box, folded remittance slip, rosary,
+garlic string, kerosene lantern, plain cash envelope, graduation photo wall.
+
+Generic boxes, envelopes, folders, jars and labels tend to grow invented
+lettering in generated video. Describe them by plain colour and smooth
+unmarked surface, and give a proof object that carries the reveal its own
+reference sheet.
 
 ## Wardrobe codes
 
@@ -49,3 +54,5 @@ wrist or neck throughout.
   whip to the reaction, a held final close-up.
 - Keep all generated footage free of on-screen text; titles and the
   "ABANGAN..." card are added in post.
+- Colour stays as generated; a grade or retro look is a post choice made only
+  on request.

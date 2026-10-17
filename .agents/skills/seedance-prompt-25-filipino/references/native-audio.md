@@ -24,9 +24,10 @@ separate Seed Audio is used only when explicitly requested.
 
 ## Verifying the words
 
-Check every generated line with a speech-to-text transcript compared word by
-word against the approved text, and with a listening pass for the speaker and
-register. A video model's summary of what was said is not enough: in a past
+Check every generated line with a `speech_to_text` transcript of the take's own
+audio (the authority for words), compared word by word against the approved
+text, and with a listening pass for the speaker, accent and register.
+An audio-understanding model cannot judge accent and can mislabel speech. A video model's summary of what was said is not enough: in a past
 review it reported the dialogue as unintelligible while the transcript matched
 the approved lines. Record the heard wording, not only a
 pass or fail.

@@ -124,6 +124,19 @@
         "The veil is kept and the eyes stay readable through it; no lip or nostril expression is required.",
         "Wardrobe or identity is restated after the burst so it does not drift."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Write the acting block for a 5-second medium shot: a nurse facing the camera hides a syringe behind her back with her left hand while she tells the patient {Nothing to worry about, it is just a quick check.}",
+      "expected_output": "An acting block whose hand cue names anatomy and frame side, whose tactic is directed at the patient, and whose line is checked against the shot length with room for the late start of speech.",
+      "files": [],
+      "expectations": [
+        "The hiding hand is named by anatomy and frame side together, such as 'her left hand, frame-right'.",
+        "The tactic is a verb directed at the patient, not an emotion adjective.",
+        "The output checks that the ten-word line needs about words / 2.2 + 1 s and flags that 5 s leaves little room, proposing a longer shot or a shorter line.",
+        "The line ends at least 0.4 s before the clip ends in the proposed timing.",
+        "The cues are readable in a medium shot."
+      ]
     }
   ]
 }

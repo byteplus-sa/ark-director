@@ -24,8 +24,11 @@ orchestrator can consume it.
 ## Inputs and outputs
 
 Input: the number of episodes or concepts, an optional formula, audience
-(mass, youth, OFW families), the Taglish balance (English-dominant by default),
-and any locked names, lines or limits.
+(mass, youth, OFW families), the dialogue mode, and any locked names, lines or
+limits. The default dialogue mode is English-dominant Taglish with simple
+Tagalog (honorifics and a few common words); "English with a Filipino accent"
+is an English-only mode with an accent note; heavier Taglish is written only on
+request.
 
 Output per episode: the brief fields below, with dialogue in `{braces}` and a
 subtitle translation for every Tagalog word or phrase. For batches, choose a
@@ -40,24 +43,30 @@ different formula for each episode unless the user asks otherwise.
    characters and one or two locations.
 3. **Build the beats.** Hook in the first 3 s, then the setup, the sampal or
    reveal with physical proof, and a cliffhanger held on a close-up. Keep each
-   scene to 3–5 short lines.
+   scene to 3–5 short lines within about 2.2 words per second of the time the
+   lines can occupy.
 4. **Write the dialogue.** Follow [Taglish dialogue](references/taglish-dialogue.md):
-   English carries content, Tagalog carries feeling, and honorifics mark
-   status. Keep every story-critical line short and speakable. Avoid
-   whispering or shouting the one Tagalog word the plot depends on; put it in a
-   clear, mid-sentence position.
-5. **Dress the world.** Use [visual signifiers](references/visual-signifiers.md)
+   English carries content and the plot-critical words, simple Tagalog carries
+   warmth, and honorifics mark status. Keep every story-critical line short and
+   speakable, open the hook on plain words that transcribe cleanly, and never
+   whisper or shout a plot-critical word.
+5. **Cast the characters.** Make every character appealing on a phone screen:
+   bright eyes and soft, readable faces, elders warm and endearing rather than
+   haggard, villains marked by wardrobe and manner. Spread a natural range of
+   complexions and hair silhouettes across the cast so each reads distinctly.
+6. **Dress the world.** Use [visual signifiers](references/visual-signifiers.md)
    for settings, props, wardrobe and look. Everything is fictional: no real
-   brands, no legible signage, no celebrity likeness.
-6. **Lock the brief.** Use [the episode brief template](references/episode-brief.md)
+   brands, plain unlettered surfaces instead of signage, no celebrity likeness.
+7. **Lock the brief.** Use [the episode brief template](references/episode-brief.md)
    and state the formula, the logline and the cliffhanger question in one line
    each.
 
 ## Boundaries
 
-- Story and dialogue only. Delivery, pronunciation direction and prompt
-  syntax for Seedance belong to `seedance-prompt-25-filipino` and
-  `seedance-prompt-25`. Production belongs to an orchestrator such as
+- Story and dialogue only. Delivery, accent and pronunciation direction and
+  prompt syntax for Seedance belong to `seedance-prompt-25-filipino` and
+  `seedance-prompt-25`; pronunciation respellings are their hypotheses, never
+  part of the locked wording. Production belongs to an orchestrator such as
   `micro-drama`.
 - Conflict stays non-injurious: a slap is a sharp contact or a cut on contact,
   never blood or injury detail. No minors in peril, no sexual content.

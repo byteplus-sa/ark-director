@@ -29,7 +29,18 @@ prove how a generation model will respond.
 
 ## Taglish code-switching
 
-Keep the user's approved mix of languages. Code-switching varies with speaker,
+**Default for new drafts.** When the brief sets no register, draft
+English-dominant Taglish with simple, high-frequency Tagalog: po, opo, sige,
+tara, ingat, salamat, and short tags such as "diba" or "na". Deep or dense
+Tagalog lines are reserved for characters and briefs that call for them;
+in reviewed takes, long Tagalog words in shouted or whispered positions were
+garbled most often.
+
+**Accent is not code-switching.** "English with a Filipino accent" keeps the
+spoken text English and puts the accent in a delivery note outside the braces.
+Do not convert it into Taglish, and verify the accent by listening.
+
+**Approved mixes stay as written.** Keep the user's approved mix of languages. Code-switching varies with speaker,
 setting, relationship, and intended effect. Do not apply blanket vowel, stress,
 consonant-substitution, or accent rules to every English word. Do not introduce
 extra English words, contractions, or discourse particles solely because the

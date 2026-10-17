@@ -72,6 +72,29 @@
         "Proposes at most one targeted external cue for a retake, leaving the spoken text unchanged.",
         "Does not claim the cue guarantees the fix; requires listening after the retake."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Write three short lines for a friendly sari-sari store owner greeting a regular customer in a Seedance ad. The brief gives no language register.",
+      "expected_output": "English-dominant Taglish lines with simple, common Tagalog, a playable intent and a delivery cue, presented as drafts for approval.",
+      "files": [],
+      "expectations": [
+        "The lines are mostly English with simple, common Tagalog words or particles (for example po, sige, salamat).",
+        "No line relies on long or uncommon Tagalog words in a shouted or whispered position.",
+        "Spoken words sit inside braces and delivery notes sit outside them.",
+        "The lines are marked as drafts awaiting the user's approval."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The airline wants its flight attendant to speak English with a Filipino accent: \"Welcome aboard, we're glad you're flying with us.\" Write the Seedance dialogue layer.",
+      "expected_output": "An English-only line inside braces with the accent stated as a delivery note outside them, and listening named as the verification.",
+      "files": [],
+      "expectations": [
+        "The spoken line stays exactly in English with no Tagalog words added.",
+        "The Filipino accent is a delivery note outside the dialogue braces.",
+        "Verification of the accent is assigned to a listener, not to an ASR transcript or an audio-understanding model."
+      ]
     }
   ]
 }

@@ -10,31 +10,27 @@ the project's `project.md` and existing manifests first, inspect the existing
 project before creating anything, and advance only as far as the available
 evidence and mode-authorized decisions permit.
 
+The workspace `AGENTS.md` and the
+[production policy](../../contracts/production-policy.md) own approval modes,
+Studio commands, stage gates, prompt review, registration and submission
+recovery. This skill owns the sequencing: which stage comes next, which
+specialist runs it, and which production defaults make the result better.
+
 ## Core operating model
 
 - Act as the single manager communicating with the user.
 - Treat project files and manifests as production memory; do not rely on chat
   history alone.
-- Treat the project's HyperFrames Studio project (`projects/<project>/studio/`,
-  kept in step with the manifests by `studio_project.py`) as the cumulative
-  production workspace used for every stage review and handoff. A project that
-  has a `showcase.json` is a pre-Studio canvas project: it keeps its canvas,
-  never gets a `studio/` directory or `stages.json`, and `studio_project.py`
-  refuses to run in it.
-- Delegate modality work by invoking the narrowest applicable project skill.
-- Run generation-bound prompt review inline by default. Use a prompt-review
-  sub-agent only when the user explicitly requests it for the project or
-  specific generation; autonomous approval and parallel production do not
-  authorize that delegation.
+- Keep the project's HyperFrames Studio project (`projects/<project>/studio/`)
+  in step with the manifests through `studio_project.py` for every stage
+  review and handoff. A project with a `showcase.json` is a pre-Studio canvas
+  project and keeps its canvas checkpoint instead.
+- Delegate modality work to the narrowest applicable specialist skill. Run
+  prompt review inline unless the user explicitly asks for a sub-agent review.
 - Prefer a deterministic workflow when the next action is known. Use agentic
   judgment for creative choices, contradiction resolution, and review.
-- Default Seedance 2.5 video drafts to explicit 480p; record the delivery target
-  separately and follow the stage/handoff contracts for draft selection and
-  final-generation review. Honor user overrides and verified operation constraints.
-- Never infer approval from provider success. Technical success places an
-  output in `review`; a passing review and recorded decision may approve it.
-- Never submit a replacement generation because local polling timed out. Resume
-  the provider task recorded in `task_ids.json`.
+- Provider success is `review`, never approval. A poll timeout resumes the
+  recorded task; it never triggers a second submission.
 - Never silently replace user writing, approved canon, selected variants, or
   unrelated project state.
 
@@ -43,37 +39,27 @@ evidence and mode-authorized decisions permit.
 1. Resolve the project directory. Search before creating a project, scene,
    element, shot, or same-purpose artifact.
 2. Read `project.md`, `handoff.md` when present, `task_ids.json`,
-   `studio/stages.json` (`showcase.json` for a pre-Studio canvas project), relevant element
-   manifests, scene and shot manifests, prompt snapshots, and the latest review
-   decisions. `handoff.md` is a resume hint; manifests and the registry are
-   authoritative on conflict. If a production project has no `showcase.json` and
-   no stage ledger, run `studio_project.py init <project>` and then
-   `studio_project.py stage <project> start brief-development`. New projects set
-   `approval_mode: approve_for_me` in `project.md` frontmatter before the first
-   stage.
-   The alternative is `ask_for_approval`. A missing field in a pre-Studio canvas project
-   means `approve_for_me` for new decisions only; historical selections stay as
-   recorded. Reject an invalid or unreadable mode.
-   - **Never hand-write Studio state.** `studio/stages.json`, `provenance.json`,
-     the storyboard frames, the compositions and the render records are created
-     by `studio_project.py` (`init`, `sync`, `stage`, `render`); Studio edits write
-     the timeline and composition source. A completed stage must carry its
-     evidence, so a hand-edited ledger is rejected. For a
-     pre-Studio canvas project, never hand-write `showcase.json`: create it only with
-     `generate_showcase.py <project> --init`. Delegating scaffolding to a
-     sub-agent does not exempt this: the scaffold prompt must name the exact
-     command and prohibit hand-authoring.
-3. Determine the current stage from recorded artifacts and lifecycle states.
-   Do not infer completion from filenames alone.
-4. Identify contradictions, missing inputs, stale dependencies, pending provider
-   tasks, and decision gates. Recheck the effective mode before each decision;
-   a stale mode read cannot authorize a selection or lock.
-5. State the current stage, the next safe objective, required specialist skills,
-   and any user decision needed before spending credits.
+   `studio/stages.json` (`showcase.json` for a pre-Studio canvas project),
+   relevant element, scene and shot manifests, prompt snapshots, and the latest
+   review decisions. Manifests and the registry win over `handoff.md`. A new
+   Studio project starts with `approval_mode: approve_for_me` in `project.md`,
+   `studio_project.py init <project>`, then
+   `studio_project.py stage <project> start brief-development`.
+3. **Never hand-write Studio state** (`stages.json`, `provenance.json`,
+   storyboard frames, compositions, render records) or a `showcase.json`. A
+   scaffold delegated to a sub-agent names the exact command and prohibits
+   hand-authoring.
+4. Determine the current stage from recorded artifacts and lifecycle states,
+   not from filenames.
+5. Identify contradictions, missing inputs, stale dependencies, pending provider
+   tasks, and decision gates. Recheck the effective approval mode before each
+   decision.
+6. State the current stage, the next safe objective, required specialist
+   skills, and any user decision needed before spending credits.
 
-Read [stage-contracts.md](references/stage-contracts.md) for entry evidence,
-required outputs, and exit conditions. Read
-[handoff-contracts.md](references/handoff-contracts.md) before moving an artifact
+Read [stage contracts](references/stage-contracts.md) for entry evidence,
+required outputs and exit conditions, and
+[handoff contracts](references/handoff-contracts.md) before moving an artifact
 between modalities.
 
 ## Route specialist work
@@ -82,16 +68,20 @@ between modalities.
 
 | Production need | Primary skill |
 | --- | --- |
-| Brief intake and directorial defaults | `brief-intake` |
-| Brand-ad / reference-video inspiration | `template-factory` for reverse-engineering; `ark-mcp` (`seed_understand`) for lighter analysis — prefer a usable public HTTPS URL; download and upload only when needed |
+| Brief intake, directorial defaults, audio route, look intent | `brief-intake` |
+| Brand-ad / reference-video inspiration | `template-factory` for reverse-engineering; `ark-mcp` (`seed_understand`) for lighter analysis |
+| Vertical episodic micro-drama | `micro-drama` (with a market writer such as `filipino-micro-drama`) |
+| Camera, cuts and timing locked from a 3D blockout | `blender-to-seedance` |
 | Character identity asset | `seedream-character-sheet` |
 | Character sheet cleanup | `seedream-character-sheet-cleanup` |
+| Authorized face or voice asset (`asset://` Virtual Portrait) | `seedance-virtual-portrait` |
 | Location identity asset | `seedream-location-asset` |
 | Prop or product identity asset (acquire an authorized real brand or product first) | `seedream-prop-asset` |
 | Exact static typography, poster, title/end card, UI, product grid, price/CTA treatment, or transparent overlay | `html-graphic-render` |
 | General image generation or edit | `seedream-prompt` or `seedream-edit` |
-| Storyboard and visual continuity | `seedream-storyboard` |
-| Seed Audio prompt | `seed-audio-prompt` |
+| Storyboard for planning and review | `seedream-storyboard` |
+| Scene geography and crowd blocking | `tig-blocking-map` |
+| Score, ambience, SFX or dialogue audio | `seed-audio-prompt` |
 | Narrative audio commercial | `seed-audio-commercial` |
 | Per-shot coverage, camera, lens intent and light for a scene | `seedance-shot-design` |
 | Seedance 2.5 video prompt | `seedance-prompt-25` |
@@ -99,18 +89,43 @@ between modalities.
 | Seedance 2.0 video prompt | `seedance-prompt-20` |
 | Footage-driven VFX prompt | `seedance-vfx-prompt` |
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
-| Model submission, polling, or artifact access | `ark-mcp` |
+| Model submission, polling, artifact access, speech-to-text | `ark-mcp` |
 | Animated exact graphics or timed overlays | appropriate HyperFrames skill |
-| Assembly, media transforms, captions, or final video composition | appropriate HyperFrames or FFmpeg skill; the result is placed in Studio and rendered with `studio_project.py render` |
+| Assembly, media transforms, captions, word-scoped audio patches | appropriate HyperFrames or FFmpeg skill; the result is placed in Studio and rendered with `studio_project.py render` |
 | Studio project, stage gates, review and selection | `studio_project.py` with the `hyperframes-studio` conventions; pre-Studio canvas projects use `showcase-html` |
 
 <!-- markdownlint-enable MD013 -->
 
 If the needed lifecycle role does not exist, keep the work at its current stage
 and record the gap. Do not disguise a generic prompt as a completed production
-department workflow. The local-only `specs/SPEC_FILMMAKING_LIFECYCLE_SKILLS.md`
-is optional future-planning context, not a required runtime dependency. It records planned
-coverage.
+department workflow.
+
+## Production defaults
+
+Read [production defaults](references/production-defaults.md) before the first
+paid video submission and again at assembly. In short:
+
+1. **Draft first.** Every new Seedance 2.5 shot is a 480p Draft, reviewed and
+   selected, then promoted to the delivery target. Edit inputs only before the
+   Draft; re-check audio on the final.
+2. **Audio route from the brief.** Native dialogue keeps native audio.
+   Ambience-only, score-driven and wordless pieces generate picture with
+   `generate_audio: false` and build the bed in post, because a "no music" line
+   does not reliably hold.
+3. **Cinematic sequences for ads and TVCs.** About six 5 s sequences of 2–3
+   shots for a 30 s spot, one action per shot, each shot with lens, camera move,
+   motivated light and depth, and one wow image per sequence.
+4. **Storyboards plan; they are never bound** as Seedance references. Bind
+   element references and write staging in the prompt.
+5. **People in video inputs** (extension, video-to-video) need `asset://`
+   Virtual Portrait identities; otherwise use short single passes and a
+   blocking map.
+6. **Text-free footage.** Overlays, end cards and any required labels are added
+   in post; no AI or fictional labels by default.
+7. **Ungraded assembly** in original colours, exact-length intermediates, one
+   final encode.
+8. **Narrow fixes.** Word-scoped audio patches, re-voicing that keeps the
+   source soundtrack, and speech-to-text as the word authority.
 
 ## Run one stage at a time
 
@@ -120,82 +135,55 @@ For the active stage:
 2. Confirm every input path, selected variant, lifecycle state, and SHA-256.
 3. Invoke only the specialists needed for that stage.
 4. Persist exact prompts beside generated media and update the owning manifest.
-   For deterministic static graphics, persist the editable HTML entrypoint,
-   local CSS/SVG dependencies, input/font hashes, render record, and PNG instead
-   of a model prompt or provider task.
-5. Persist and inspect every actual output, not only provider response metadata.
-   Set generated outputs to `review`. Images need visible inspection, video
-   needs temporal inspection, and audio needs listening evidence in addition to
-   technical checks. Reject hard-gate failures and rank passing candidates
-   against the brief's recorded criteria; no passing candidate blocks selection.
-6. In `approve_for_me`, record a hash-bound review and agent decision, then use
-   the validated writer to select the best passing candidate. In
-   `ask_for_approval`, record a recommendation and wait for the user's decision;
-   a recommendation does not set `selected_variant` or `approved`. Preserve
-   explicit user locks in either mode.
-7. Run `studio_project.py sync` after every material change, including
-   autonomous decisions, and keep the manifests current with every input, exact
-   prompt, element binding, output, QA result and decision. Open the project in
-   Studio for visual review of shot takes; elements, posters and audio are
-   reviewed from their manifests and files, optionally on a throwaway
-   `showcase-html --quick` page (never a gate; under `approve_for_me` the agent
-   normally chooses without it). To choose between takes run
-   `studio_project.py candidates <shot>`, swap the chosen take in with Studio's
-   Assets panel (or `place <shot> <file>`), then `record-selection`.
-8. Run `studio_project.py stage <project> complete <stage-id>`. It enforces,
-   per stage, a clean `status`, a placed take for every shot with a passing
-   pinned `check` (`shot-generation`, `assembly-review`, `delivery`), no pending
-   selection and the stage locks (`assembly-review`, `delivery`; recorded with
-   `record-lock`) and, for `delivery`, a `render` record that matches the placed
-   takes, and it records the evidence; a failure
-   keeps the stage open in either mode. Out-of-scope `storyboard-visual-plan`
-   and `audio-preparation` use `stage <project> skip <stage-id> --reason TEXT`.
-   Under `ask_for_approval` ask the user in chat and record their answer with
-   `record-selection`, quoting their words as the authorization. See the
-   [production policy](../../contracts/production-policy.md). A pre-Studio canvas project runs
-   `generate_showcase.py <project> --check --stage <stage-id>` instead. Send a
-   completed stage back to review with `stage <project> reopen <stage-id>` when
-   an upstream input changes.
+   Deterministic static graphics persist their editable HTML entrypoint, local
+   dependencies, input/font hashes, render record and PNG instead.
+5. Inspect every actual output: images visibly, video temporally, audio by
+   listening plus speech-to-text where words matter. Reject hard-gate failures
+   and rank passing candidates against the brief's recorded criteria.
+6. Record the decision under the project's approval mode: an agent decision in
+   `approve_for_me`, or a recommendation and the user's chat answer in
+   `ask_for_approval`. Choose takes with `studio_project.py candidates`, a swap
+   in Studio (or `place`), then `record-selection`.
+7. Run `studio_project.py sync` after every material change and open the
+   project in Studio for visual review of shot takes.
+8. Exit with `studio_project.py stage <project> complete <stage-id>`; skip
+   out-of-scope `storyboard-visual-plan` or `audio-preparation` with
+   `stage <project> skip <stage-id> --reason TEXT`; reopen a completed stage
+   when an upstream input changes. Update `handoff.md` at every exit.
 9. Advance only when the stage exit contract is satisfied.
 
 At the brief/development stage, run `brief-intake` before writing the brief's
-required output: it proposes directing defaults derived from the idea (structure,
-camera and light stance, energy level, lens, grade, pacing, acting, staging,
-medium, audio) in fast mode by default, or full Q&A when the user opts in, and
-persists the mode-authorized confirmed set as a `locked` block in `project.md`.
+required output. It proposes directing defaults derived from the idea, and the
+brief must also record the audio route, the look intent (ungraded original
+colours unless a look is requested), the on-screen copy that will be added in
+post, and, for ads and TVCs, the cinematic sequence bar. Persist the
+mode-authorized confirmed set as a `locked` block in `project.md`.
 
 At the scene breakdown stage, run `seedance-shot-design` for every narrative,
 ad, micro-drama, music-video or showcase scene before any shot prompt is
-written, and store the shot plan in the scene file's `## Shot plan` section. The
-plan stays `draft` until the scene's locations are approved, then is revalidated
-before shot generation. A scene that is exempt (user lock, static-by-design
-format, an explicit per-shot camera plan from another skill, plate for cutdown,
-source-preserving edit, extension continuation, or no video shot) records its
-`static_reason` instead. The plan carries the
-project's confirmed camera, lens, lighting, pacing and energy axes into the shot
-lines or records a scene override. At shot generation, inspect each take against
-its plan: a missing planned cut, move or light change is a soft defect to record,
-and a missing move or light on the turn shot is a hard-gate failure.
+written, and store the plan in the scene file's `## Shot plan` section. The
+plan stays `draft` until the scene's locations are approved, then is
+revalidated before shot generation. An exempt scene records its
+`static_reason`. The plan carries the project's confirmed camera, lens,
+lighting, pacing and energy axes into the shot lines or records a scene
+override. At shot generation, inspect each take against its plan: a missing
+planned cut, move or light change is a soft defect to record, and a missing
+move or light on the turn shot is a hard-gate failure.
 
 ## Approval and spending gates
 
-`approve_for_me` is the default for local production decisions. It authorizes
-the agent to confirm directorial defaults and select passing canon, storyboard
-panels, video takes, and picture/audio/final local master locks within the
-brief's stated scope and run budget. Each decision needs current input/output
-hashes, passing modality-specific QA, a recorded reason and actor, and a
-validated write. A tie uses stable operation ID and variation-index order.
-Unavailable inspection, a hard-gate failure, stale evidence, or no passing
-candidate blocks approval. Do not promote the least-bad output merely to
-advance.
+Approval modes, decision evidence and lock rules are defined once in the
+production policy. The orchestration-specific rules are:
 
-In `ask_for_approval`, present candidates, material differences, review
-evidence, and a recommendation; wait for the user's selection or lock before
-advancing. Neither mode may silently replace an explicit user selection or
-lock. Rights, real-person likeness/voice consent, new spending beyond the
-declared run budget, external delivery, and publishing need their own scope or
-authorization. An approval to generate never approves its result. Record
-estimated and confirmed cost separately and reconcile ambiguous submissions.
+- Declare a run budget (generated seconds or currency) before the first paid
+  submission, and stop and report before exceeding it. Promote only selected
+  drafts.
+- A tie between passing candidates uses stable operation ID and
+  variation-index order. Do not promote the least-bad output merely to advance.
+- Rights, real-person likeness or voice consent, new spending beyond the
+  declared budget, external delivery and publishing need their own scope in
+  either mode. An approval to generate never approves its result.
+- Record estimated and confirmed cost separately.
 
 ## Handle revisions
 
@@ -209,23 +197,18 @@ Write every revision as:
   change.
 
 Prefer a bounded edit over full regeneration after composition or performance is
-approved. Preserve rejected history and never overwrite source media.
+approved: a post repair, a word-scoped audio patch, or one corrected shot.
+Preserve rejected history and never overwrite source media.
 
 ## Finish the run
 
 Report the stage reached, artifacts created or changed, Studio project path and
-stage-exit evidence, review status, provider tasks still running, costs when known, unresolved
-risks, and the next production decision. A production run is complete only when
-its active stage exit contract is satisfied; the local film is complete only
-after its inspected master has a mode-authorized final lock. External delivery
-or publishing remains a separate action.
+stage-exit evidence, review status, provider tasks still running, costs when
+known, unresolved risks, and the next production decision. A production run is
+complete only when its active stage exit contract is satisfied; the local film
+is complete only after its inspected master has a mode-authorized final lock.
+External delivery or publishing remains a separate action.
 
-## Submission recovery
-
-Persist each exact prompt snapshot and reviewed prepared request in the project
-registry before submitting. Record the provider task ID as soon as available.
-Studio projects register the same way and need no canvas; only a pre-Studio
-canvas project requires its current `showcase.json` and `index.html`.
-An ambiguous timeout leaves `submission_unknown`: reconcile that operation or
-resume its known task; never repeat submission automatically or switch transport
-to submit a duplicate. Any new authorized take gets a new operation record.
+Submission recovery (register before submitting, record the task ID at once,
+reconcile `submission_unknown`, never resubmit through a second transport)
+follows `AGENTS.md` and the production policy.

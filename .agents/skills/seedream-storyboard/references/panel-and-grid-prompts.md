@@ -38,7 +38,8 @@ location reference inline.]
 Staging and continuity:
 [Screen-left/right positions, foreground/midground/background, eyelines,
 distances, overlaps, travel direction, entrances/exits, and what must match the
-previous panel.]
+previous panel. Name a held or gesturing hand by anatomy and frame side, for
+example "her right hand, frame-left", so the same wording carries into video.]
 
 Style:
 [Render style: default to "rough pencil sketch, monochrome graphite, no color"
@@ -135,9 +136,10 @@ prop state unless a numbered panel explicitly changes them.
 
 Use `max_images: 1` (or omit it). Use a large enough output size to keep each
 panel legible — for a 3×3 grid prefer `2048x2048` or wider. Each panel is
-lower-resolution than a dedicated single-panel generation; if a panel needs to
-become a video keyframe, re-generate it as a standalone image using the same
-canon and its recorded prompt section.
+lower-resolution than a dedicated single-panel generation; if a panel needs
+more detail for review, re-generate it as a standalone panel using the same
+canon and its recorded prompt section. Neither the grid nor a standalone panel
+is a video input.
 
 #### 9b. Separate images (one image per panel)
 

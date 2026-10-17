@@ -21,6 +21,8 @@ work follows `project.md` approval mode for the creative script decision.
 
 This workflow copies video frames. It does not re-render mouth movement or guarantee lip synchronization. Transcription-only work, generic TTS, soundscape composition, and visual editing belong to their respective capabilities.
 
+A take with a few mispronounced or wrong words is a **word-scoped fix**, not a dub: patch only those word windows and keep every other sample of the original. Never re-dub a whole track to fix a few words. Recipe: transcribe the original with word timings (`speech_to_text`), generate the corrected words in the same voice, splice only the wrong-word windows with short fades, match loudness, keep a replacement only when its pitch stays within about 10 percent of the speaker's (otherwise it is heard as a voice change, so prefer leaving a mild mispronunciation), and prove every sample outside the windows is unchanged.
+
 ## Load only the needed reference
 
 | Task mode | Bundled guidance |
@@ -36,7 +38,7 @@ Do not load every reference for a simple mix or mux request.
 
 ## Procedure and gates
 
-1. Probe source streams/durations and verify the target script. Preserve
+1. Probe source streams/durations, measure the whole original soundtrack (see [Keep the source soundtrack](#keep-the-source-soundtrack)), and verify the target script. Preserve
    user-locked dialogue and speaker information. In project work,
    the script choice is confirmed after semantic review under the project's
    `approval_mode` ([Production policy](../../contracts/production-policy.md)). A missing script
@@ -88,6 +90,49 @@ The muxer targets the **source video stream's duration**, pads/trims generated a
 
 Trimming/padding is appropriate only after confirming all intended dialogue fits. Technical duration agreement cannot establish correct words, voice identity, seam quality, or lip movement.
 
+## Keep the source soundtrack
+
+The dub prompts ask for dialogue with the source room tone, so the generated
+segments carry no music or effects. Muxing them alone replaces the whole
+soundtrack, and a dialogue-only replacement of a video with music or effects is
+a rejected result.
+
+1. Before generating, measure the **whole** original, not its opening seconds:
+   per-0.5 s RMS of the full track, an ASR transcript with word times of the
+   video's own audio, a list of non-voice sounds (music, effects, room tone),
+   and its integrated loudness.
+
+   ```bash
+   ffmpeg -v error -i source_video.mp4 -map 0:a:0 \
+     -af "asetnsamples=n=22050,astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level:file=rms.txt" \
+     -f null -
+   ffmpeg -nostats -i source_video.mp4 -map 0:a:0 -af ebur128=framelog=quiet -f null - 2>&1 | grep -E '^ +I:'
+   ```
+
+   Set `n` to half the source sample rate for 0.5 s windows.
+
+2. When the list contains music or effects, separate the source into a voice
+   stem and a background stem with an available separation tool, then add the
+   background stem to the offset mix as one more input at offset 0
+   (`'background.wav:0'`). Separation quality varies by source; listen to the
+   background stem for voice residue before using it. This route is a
+   recommendation, not yet verified in this bundle. With a background stem,
+   ask the dub prompts for dry dialogue; prompts that request source room tone
+   would double it.
+3. Gain the final mix to the original's integrated loudness before muxing:
+   measure the mix with `ebur128`, then apply `volume=<target - measured>dB`
+   (or a two-pass `loudnorm`).
+4. After muxing, assert the picture is untouched: the video stream MD5 of the
+   output equals the source's.
+
+   ```bash
+   ffmpeg -v error -i source_video.mp4 -map 0:v:0 -c copy -f md5 -
+   ffmpeg -v error -i video_dubbed.mp4 -map 0:v:0 -c copy -f md5 -
+   ```
+
+5. Compare the result with step 1: every listed non-voice sound is still
+   present and the RMS profile between lines matches the original's level.
+
 ## Output contract
 
 Use existing project scene/shot organization; do not invent a new `original/` production tree:
@@ -106,7 +151,8 @@ Record the exact prompt snapshot/hash, ordered source/reference paths/hashes, so
 ## Delivery checks
 
 - Probe and decode every delivered audio/video file.
-- Verify all approved dialogue, speaker assignments, pronunciation, and pacing against source/script.
+- Verify all approved dialogue, speaker assignments, pronunciation, and pacing against source/script. An ASR transcript with word times of the local file is the authority for words; accent and pronunciation need a native listener, because a listening model cannot judge accent.
+- Confirm the source's music, effects and room tone survive in the delivered mix and the video stream MD5 is unchanged.
 - Listen to overlap seams for duplicated speech, clipping, phase changes, and abrupt room-tone transitions.
 - For muxed output, check start, middle, end, and scene transitions. Describe it as a dubbed audio overlay when original lip movement remains.
 - Deliver local files with reproducibility metadata and record unresolved creative checks explicitly.

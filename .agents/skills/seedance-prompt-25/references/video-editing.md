@@ -12,6 +12,13 @@ specify edit target, scope, target material, and content to preserve. The output
 preserves the input's aspect ratio and approximately preserves duration (±0.3s
 from transition-frame handling).
 
+A source clip that shows people is accepted only when those people are
+`asset://` Virtual Portrait assets. Outside an explicit audio edit, submit a
+muted source (`generate_audio: false`) and add original or new sound in post,
+per the workspace video-to-video contract. Narrower edit families have their own
+skills: compose with `seedance-object-swap`, `seedance-motion-recast` or
+`seedance-restyle` when the request is one of those.
+
 ### General editing pattern
 
 ```

@@ -208,7 +208,7 @@ Hypothetical example; no result evidence is attached.
 
 Source: `@Video 1`, the 6 s, 16:9 muted master of a static medium shot at a
 café terrace. A woman in a denim jacket and gold hoop earrings lifts a red
-aluminium soda can from the table at about 0:01, drinks at 0:02–0:04 while her
+aluminium soda can from the table with her right hand (frame-left) at about 0:01, drinks at 0:02–0:04 while her
 fingers wrap the can's front, and sets it down at about 0:05. One can is
 visible throughout; no cuts. Target: `@Image 1`, the approved packshot of
 `@slim-can-black`, a matte-black slim 330 ml can with a copper ring-pull and a
@@ -216,8 +216,8 @@ vertical copper wordmark. Post-audio route: original.
 
 ```text
 [Edit Goal]
-Edit @Video 1. Change only the red aluminium soda can in the woman's right hand
-to the @slim-can-black can from @Image 1.
+Edit @Video 1. Change only the red aluminium soda can in the woman's right hand,
+frame-left, to the @slim-can-black can from @Image 1.
 
 [Source Video Role]
 @Video 1 is the sole editing master. It defines the woman, her denim jacket and

@@ -14,7 +14,7 @@ never appear in prompt text.
 | `resolution` | `480p`, `720p`, `1080p`. Default to explicit 480p for generation drafts; after passing review and selection, use the recorded UGC delivery target for finals. Honor explicit user overrides and verified operation constraints. For a 4K request follow the 4K routing in [routing.md](../../../contracts/routing.md). |
 | `ratio` | `9:16` default for UGC unless the request says otherwise. Locked to the first image on first/last-frame tasks and auto-derived from the source on edit tasks — never set it there. |
 | Locked camera | Locked-off selfie/posing and spectacle demos state the lock in the prompt and record `format_static_by_design`; the Seedance 2.5 tool exposes no `camera_fixed` field. |
-| `generate_audio` | Enables the native audio track the recipes describe. |
+| `generate_audio` | Enables the native audio track the recipes describe. It can leak music, chants or stray speech despite an "ambience only" line; check the track, and for an ambience-only result set `false` and add a Seed Audio bed in post (not frame-synced). |
 | `watermark` | `false` by default (the tool supports the parameter). |
 | `return_last_frame` | `true` chains a scene into the next one's `first_frame` — used by multi-shot and long lifestyle recipes. |
 | `priority` | 0–9; leave unset unless the caller specifies. |
@@ -32,6 +32,12 @@ on 2.5.
   and is rejected by 2.5 with `InvalidParameter.TaskTypeConstraint`.
 - **Continuation uses `extend`** (beta; ratio is locked to the source and
   stripped client-side).
+- **Footage with people.** `edit` and `extend` reject a source video that shows
+  a realistic person, generated or real, with `PrivacyInformation` before any
+  cost, unless each person is bound as an `asset://` Virtual Portrait or
+  authorized asset. Submit that source muted (`generate_audio: false`) and add
+  sound in post. Without assets, use the fresh-generation variant of the
+  recipe; continue a long arc with new single-pass clips, not `extend`.
 
 ## Reference and duration caps
 
@@ -84,9 +90,19 @@ Two supported paths:
 - **Phone screens (selfie presets).** Avoid the picture-in-picture prior:
   describe the screen or mirror image positively, or attach a deterministic
   mockup as `@Image N`; never expect a rendered UI.
-- **Labels and packaging (eating/product).** Exact text on plates, packaging,
-  and cups is a finishing layer (FFmpeg or HyperFrames), never baked into
-  generation.
+- **Labels and packaging (eating/product).** A branded item takes its prop
+  reference and its label is inspected in the take. Unreferenced cups, jars,
+  tubes, cases, slates and neck labels invent lettering: describe them plain
+  ("smooth surface, nothing printed") or leave them out. Overlay text (prices,
+  captions, CTA) is a finishing layer (FFmpeg or HyperFrames).
+- **Counts (group, rain, clones).** Counts drop or overshoot. State the exact
+  number and each position at every timestamp, keep counted items in open view
+  from the first frame, never mention spares, and count on a full-size frame.
+- **Hands.** The model reads left/right as the subject's own side; name each
+  hand by anatomy plus frame side ("his right hand, frame-left").
+- **Spoken lines.** Presets are mostly non-verbal; when a line is added, budget
+  about 2.2 words per second, expect it 0.5–1.5 s late, and end it at least
+  0.4 s before the clip end.
 - **Spatial continuity (action).** Name the start point, travel axis,
   boundary, and end state; never demand impossible movement frequencies.
 - **Keyframe chains (multi-shot).** First and last images must share an aspect

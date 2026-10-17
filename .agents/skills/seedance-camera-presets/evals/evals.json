@@ -125,6 +125,31 @@
         "Each block states an explicit static hold rather than leaving the move out.",
         "The output says the point-of-view shot should sit beside a shot of Ana looking and a reaction shot, or records why it stands alone."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "My Seedance 2.5 draft of a chef plating a dish came back as a flat, static medium shot. The prompt said: 'A chef gently plates a dish in a calm kitchen, subtle and elegant.' Rewrite the Camera block so it reads cinematic.",
+      "expected_output": "A Camera block with a stated move, an active verb, a speed, a start and an end on a named subject, a shot size and angle, and a note that the missing camera statement and hedged wording caused the flat take.",
+      "files": [],
+      "expectations": [
+        "The Camera block states one primary move with an active verb and a speed, such as a fast push-in or a low sweep, not 'gentle' or 'subtle' camera wording.",
+        "The move names the chef or the dish and states where it starts and where it ends.",
+        "The block gives a shot size and an angle.",
+        "The output explains that a clip without a camera statement tends to return a neutral held frame.",
+        "The block has no more than two simultaneous moves."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Write the Camera block for a rack focus: start sharp on the detective's face, then pull focus to the gun on the table behind her so her face goes soft.",
+      "expected_output": "A camera move worded without a prompted focus pull away from the face, with the defocus moved to post and the rack focus wording left to the lens preset skill.",
+      "files": [],
+      "expectations": [
+        "The output does not present a focus pull away from the face as a reliable prompt control and says drafts keep the face sharp.",
+        "It recommends generating with ordinary focus and adding the defocus in post, or staging the attention shift with a move or a cut to an insert of the gun.",
+        "It names the lens preset skill as the owner of rack focus wording rather than writing a rack focus template here.",
+        "Any Camera block it gives names the subject, a start and an end."
+      ]
     }
   ]
 }

@@ -102,6 +102,31 @@
         "The litany is a single continuous sound line laid across the cuts as a J-cut or L-cut in post.",
         "It does not promise frame-accurate cuts inside one generation."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "A model walks past a lamp post on a city street in one locked-off Seedance 2.5 shot. Her summer dress should turn into a winter coat, but only on the parts of her body that have passed the post, so the change sweeps across her as she walks. Write the timing.",
+      "expected_output": "A progressive-change block with a slowed crossing of about 1.5 s, timed stages by body part, an exclusion of glow and flash effects, and unbroken walking motion, generated as reference-to-video.",
+      "files": [],
+      "expectations": [
+        "The walk past the post is slowed so the crossing lasts about 1.5 s.",
+        "The change is written as timed stages by body part, starting with the leading hand and foot and ending fully changed, each stage with its own timestamp.",
+        "The block states the change appears only on parts past the post and rules out glow, flash, sparkle, dissolve or particle effects.",
+        "The block states that her position, stride and direction continue unbroken.",
+        "It does not use 'swap at the pole', an instant in-place change, or a boundary or wipe wording alone, and it does not plan an image-edited first frame."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Write a Chaotic montage pacing block for an 8-second energy-drink clip: twelve shots of skaters, sparks, a crowd and a can, each about half a second, all in one Seedance prompt.",
+      "expected_output": "A Chaotic block that keeps each in-clip shot at about a second or more, explains that shots under about 0.8 s merge, and moves the faster strobe into an assembly cut from separately generated clips.",
+      "files": [],
+      "expectations": [
+        "The output explains that shots shorter than about 0.8 s are merged or dropped inside one clip.",
+        "The in-prompt cut list has fewer shots, each about one second or longer, with consecutive, non-overlapping ranges.",
+        "The half-second strobe is planned as an assembly cut from separately generated clips.",
+        "No shot puts readable text or the can's label art into generated video as an exact graphic."
+      ]
     }
   ]
 }

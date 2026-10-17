@@ -1,6 +1,6 @@
 ---
 name: seedream-storyboard
-description: Create, revise, and optionally generate production-ready cinematic storyboards—from one hero panel with alternatives to a multi-panel continuity sequence—with BytePlus Seedream. Supports two delivery modes — single-image grid (one image containing all panels, default) and separate images (one image per panel). Use whenever the user asks for storyboards, shot boards, continuity boards, storyboard frames, visual sequences, previsualization, scene panels, or image planning for film, advertising, animation, games, or AI video.
+description: Create, revise, and optionally generate production-ready cinematic storyboards—from one hero panel with alternatives to a multi-panel continuity sequence—with BytePlus Seedream. Supports two delivery modes — single-image grid (one image containing all panels, default) and separate images (one image per panel). Boards are planning and review artifacts, never Seedance references. Use whenever the user asks for storyboards, shot boards, continuity boards, storyboard frames, visual sequences, previsualization, scene panels, or image planning for film, advertising, animation, games, or AI video.
 ---
 
 # Seedream Storyboard
@@ -18,7 +18,7 @@ Output: panel/grid prompts, provenance, candidate outputs when authorized, and u
 
 ## Procedure and reference loading
 
-Read context-and-preflight, then panel-and-grid-prompts for authoring. Read generation-and-persistence only when generation is authorized; review-and-selection for promotion, and editing-failed-panels only for a requested revision.
+Read context-and-preflight, then panel-and-grid-prompts for authoring. Read generation-and-persistence only when generation is authorized; review-and-selection for selection, and editing-failed-panels only for a requested revision.
 
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
@@ -59,10 +59,24 @@ Keep these artifacts distinct:
 
 - **Storyboard panel:** communicates a decisive story and staging state.
 - **Look frame:** locks style, palette, lighting, and materials.
-- **Video keyframe:** a polished image promoted as a generation anchor.
+- **Video keyframe:** a separate full-colour, text-free frame authored from the
+  element references and an approved panel's staging text, with its own prompt,
+  review, and file. It is never the board file or a crop of it.
 
-A storyboard panel may later become a keyframe, but only after it passes both
-storyboard and visual-anchor review.
+## Video boundary
+
+A storyboard is planning and review material only. **Never bind a storyboard
+grid, panel, crop, or comparison sheet as a Seedance reference**, in any
+mode or role. Panel numbers, dividers, and the sketch or watercolour look leak
+into the video, and output-copyright rejections rise when board images are
+bound. For video handoff:
+
+- translate each approved panel's staging, blocking, eyelines, screen direction,
+  and camera intent into the shot prompt text;
+- bind only the element references the panel used (character, location, prop
+  sheets), by their current hashes;
+- when a take is audited, sample frames and crop the top-left corner of each
+  sample to catch leaked panel numbers or sketch texture.
 
 ## Core rules
 
@@ -91,7 +105,8 @@ storyboard and visual-anchor review.
 - Put arrows, labels, dialogue, timing, and production notes outside the
   generated image unless visible story-world text is required. Exception: in
   single-image grid mode, thin dividers and panel numbers are part of the
-  layout, not annotations — they belong inside the image.
+  layout, not annotations — they belong inside the image. This is safe only
+  because a board never reaches a video request.
 - A technically successful generation enters `review`. Selection and
   approval follow the project's `approval_mode` per the
   [Production policy](../../contracts/production-policy.md), and may set
@@ -106,26 +121,20 @@ are reviewed and promoted.
 | Mode | Output | Default? | Best for |
 |---|---|---|---|
 | **Single-image grid** | One image containing all panels arranged in a grid | Yes | Quick overview, pitch boards, editorial review, sharing a whole scene at a glance |
-| **Separate images** | One image per panel (N files) | No | High-resolution per-panel detail, individual editing, video keyframe promotion, continuity-critical sequences |
+| **Separate images** | One image per panel (N files) | No | High-resolution per-panel detail, individual editing, continuity-critical sequences |
 
 ### When to use each
 
 - **Default to single-image grid** for multi-panel boards unless the user asks
   for separate images or the downstream workflow requires individual panels.
 - **Switch to separate images** when: the user requests per-panel editing,
-  panels need to be promoted individually to video keyframes, the panel count is
+  panels need individual review, the panel count is
   small and each panel needs high-fidelity detail, or the user explicitly says
   "one image per panel" or "separate panels."
-- **A single-image grid cannot be directly promoted to a video keyframe.** To
-  promote a panel from a grid, crop it or re-generate that panel as a
-  standalone image using the same canon and the panel's recorded prompt.
-- **Keep a sketch grid control-only by default.** Translate its composition,
-  shot order, and blocking into prompt text. Bind the whole grid to Seedance
-  only after a mode-authorized conditioning selection, its current hash
-  and manifest selection are recorded, the live mode supports its
-  `reference_image` role, and artifact-specific QA is planned. Promotion makes
-  it an intentional conditioning input; disabling review or changing
-  `control_only` alone does not make it eligible.
+- **Neither mode produces a video input.** Separate images make per-panel
+  editing and review easier; they do not make a panel bindable. A shot that
+  needs a first-frame keyframe gets a new full-colour keyframe prompt built
+  from the element references and the panel's staging text.
 - **A one-panel board is always a single image** regardless of mode — the mode
   distinction applies only when the board has two or more narrative panels.
 
@@ -208,13 +217,12 @@ For rough Pro panels, prefer the smallest valid size that preserves the target
 ratio, such as `1280x720` for 16:9. Increase resolution only after composition
 and continuity are accepted.
 
-## Workflow
-
 ## Default response structure
 
 For a one-panel request, return a compact hero-beat decision, one `p010` panel
 plan, reference inventory, exact prompt, three variant records, video-handoff
-recommendation, review checklist, and selection needed. For a multi-panel plan
+notes (staging text plus the element references to bind), review checklist,
+and selection needed. For a multi-panel plan
 or prompt package, return the panel delivery mode (single-image grid or
 separate images), render style (sketch default or full color), assumptions and
 locks, reference inventory, beat and panel plan, spatial and continuity

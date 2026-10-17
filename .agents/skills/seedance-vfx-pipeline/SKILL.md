@@ -60,16 +60,13 @@ mentioned in prose are relative to this skill directory unless a link says other
 - [Shot Chaining](references/shot-chaining.md) — Shot chaining workflow.
 - [Recast And Variants](references/recast-and-variants.md) — route selection (VFX edit, Object Swap, Motion Transfer, Restyle), muted submission, shared subject map, batch variant rows, parallel execution, cost preview, real-person gates, and recast QA. Read before prompt writing for any swap, recast, or multi-variant request.
 
-## Submission boundary and failure behavior
+## Orchestration boundary
 
-The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
-uses a sub-agent only when the user explicitly requests sub-agent prompt review
-for the project or specific generation. A leaf returns its prompt package without
-loading sibling skills. An explicitly declared orchestrator may coordinate the
-review and submission stages. Missing required inputs remain unresolved; a draft
-or technical success does not establish user approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+As the declared orchestrator, this skill sequences prompt writing, review,
+registration, submission, persistence and QA under the workspace production
+policy, and needs generation authorization for every paid step. The prompt
+skills it calls stay independent leaves. Missing inputs stop the run; a
+technical success sets `review`, never approval.
 
 ## Prerequisites
 
@@ -115,7 +112,12 @@ sequencing; see [Recast And Variants](references/recast-and-variants.md).
 The workspace's recurring pattern for a text-only before/after VFX demo:
 
 1. BEFORE — Seedance 2.5 T2V draft, `480p`, `16:9`, natural duration (4–30s), no
-   references. Save + manifest.
+   references (or only the person's Virtual Portrait asset references when a
+   person appears), written with a shot plan (one action and its intent per shot, a
+   lens intent, a stated camera move and a named light source). Save + manifest.
+   If the AFTER edit will keep a person, the BEFORE's people must be bound as
+   `asset://` assets or the edit in step 3 is rejected as a privacy input; a
+   person-free BEFORE (a place, a product, a vehicle) avoids that.
 2. `media_upload` the BEFORE clip; record its `object_key` in the project
    `ref_cache.json` with content SHA-256 and storage scope. Re-presign unchanged
    objects on demand; re-upload only for changed content or a missing object.
@@ -197,31 +199,37 @@ Before submitting, verify:
    bandwidth; the MCP server handles encoding).
 2. **Element references exist** — for each path in `element_refs`, confirm the
    file exists under `projects/<project>/elements/`. Each reference should be
-   a character sheet, location sheet, or prop sheet image.
-3. **Prompt is complete** — use the selected model/operation checklist.
+   a character sheet, location sheet, or prop sheet image. Never bind a
+   storyboard, board panel or sketch grid: its panel numbers and drawn look
+   leak into the video and output-copyright rejections rise.
+3. **People in the source** — sample the source frames and list every visible
+   person. Edit and extend reject a source showing a realistic person,
+   generated or real, with `PrivacyInformation` before any cost unless each
+   person is bound as an `asset://` Virtual Portrait or authorized asset. With
+   no assets, stop and offer asset registration, a person-free source, or a new
+   generation staged from element references instead of an edit.
+4. **Prompt is complete** — use the selected model/operation checklist.
    Apply 2.5 edit-goal grammar to 2.5 edits and legacy heading rules only to
    the legacy path. Include observable face-fidelity criteria when relevant.
-4. **Model and operation** — resolve the model, transport tool, edit operation,
+5. **Model and operation** — resolve the model, transport tool, edit operation,
    and reference mode before choosing a checklist. Default 2.5 edit uses
    `seedance_2_5_create_task` with `omni_reference_task_type: edit`; 4K follows the
    4K routing in `.agents/contracts/routing.md` and needs live tool evidence for
    the chosen path. Faces
    require fidelity QA, not a model switch.
-5. **Duration and mode compatibility** — for 2.5 edit, validate source length
+6. **Duration and mode compatibility** — for 2.5 edit, validate source length
    against live edit limits and omit auto-locked `duration` and `ratio` fields.
    On a 2.0 path, validate its operation-specific limits. A generation maximum
    is not evidence of edit support. Mixed first/last-frame and reference bundles
    require explicit capability evidence even when chaining is requested.
-
-
-
-6. **Project/scene/shot directory exists** — create it if missing:
+7. **Project/scene/shot directory exists** — create it if missing:
    - `projects/<project>/scenes/scene-NN/sNN_shNNN/`
 
 ## Error handling
 
 | Error | Cause | Action |
 |---|---|---|
+| `InputVideoSensitiveContentDetected.PrivacyInformation` | The source video shows a realistic person not bound as an `asset://` asset | Keep the error as evidence; bind the people as Virtual Portrait or authorized assets, or switch to a person-free source or a new generation; never crop, blur or disguise the people |
 | Content safety rejection | Provider rejected the request or output | Preserve code/reason and request/task evidence; review actual content and rights, then make a legitimate reviewed revision or seek provider support |
 | `OutputVideoSensitiveContentDetected.PolicyViolation` | Provider-reported policy rejection; cause may be unknown | Record the exact evidence without presuming a false positive; use support/appeal or a legitimate content correction, not wording intended to evade the filter |
 | `resource download failed` (`InvalidParameter` on the video reference) | Presigned reference URL expired or a transient fetch failure | Call `media_presign` with the recorded `object_key` for a fresh URL and resubmit |
@@ -263,6 +271,10 @@ Before declaring a VFX shot complete, verify:
       legacy natural-language headings/checklist only for the supported 2.0 branch.
       The complete review is bound to the exact prepared request hash.
 - [ ] **Supported model/mode/resolution** — face/detail fidelity included in QA
+- [ ] **People bound** — every person in the source is an `asset://` binding, or
+      the shot used a person-free source
+- [ ] **Final audio re-checked** — a promoted final's audio is not byte-identical
+      to the draft's
 - [ ] **Chaining inputs** — requested last-frame output and the next shot
       reference roles are supported by the selected model/operation.
 - [ ] **Audio mode** — matches the request and uses only supported parameters.

@@ -11,18 +11,20 @@
         "Assigns one production agent per episode with exclusive project ownership and a shared playbook.",
         "Declares a per-episode generated-seconds budget before any paid submission.",
         "Keeps generated footage text-free and adds cards and subtitles in post.",
-        "Does not invent a market writer skill; drafts the brief fields itself when none exists."
+        "Does not invent a market writer skill; drafts the brief fields itself when none exists.",
+        "Plans each clip as a 480p Draft that is reviewed before promotion to 1080p, and counts drafts in the budget."
       ]
     },
     {
       "id": 2,
-      "prompt": "Write the Seedance prompt for scene 2; the storyboard grid has panel numbers in each corner.",
-      "expected_output": "A storyboard-conditioned clip prompt that suppresses board annotations aggressively.",
+      "prompt": "Write the Seedance prompt for scene 2. Attach the scene's storyboard grid as @Image 1 so the model follows the panels.",
+      "expected_output": "A clip prompt that keeps the storyboard out of the reference set, translates the panels' staging into shot text, and binds only element references.",
       "files": [],
       "expectations": [
-        "Calls the grid a planning sheet and names numbers, badges and dividers as annotations that must not appear.",
-        "Refers to shots by reading position rather than printed numbers.",
-        "Repeats the ban per shot and in a closing whole-frame constraint that names all four corners.",
+        "Does not bind the storyboard grid or any panel as a Seedance reference, and briefly says why (panel numbers and the sketch look leak into the video).",
+        "Writes each panel's framing, blocking and end state as shot lines in the prompt.",
+        "Binds only the selected character, location and prop elements, with exact head counts.",
+        "Plans frame samples with top-left corner crops in take QA.",
         "Routes the prompt through prompt-review before submission."
       ]
     },
@@ -46,6 +48,29 @@
         "Reads each project's handoff file and task registry before acting.",
         "Reconciles in-flight operations instead of resubmitting.",
         "Uses short polling calls rather than long blocking waits."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Scene 1's 1080p final has one wrong word in the second line; everything else is approved. Fix it.",
+      "expected_output": "A word-scoped audio repair that leaves the approved picture and the rest of the soundtrack untouched.",
+      "files": [],
+      "expectations": [
+        "Transcribes the take with word times and patches only the wrong word window instead of re-dubbing the clip or regenerating video.",
+        "Matches pitch and loudness with short fades and proves samples outside the window are unchanged.",
+        "If a model re-voices the words, sends the original clip with its audio and keeps the score, room tone and effects.",
+        "Re-runs the speech-to-text diff and keeps the take in review until the dialogue gate passes."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "The episode's 15 s hook scene has six lines totalling 48 words, and the last line ends at 14.8 s. Write the clip prompt.",
+      "expected_output": "Flags the dialogue as over budget and proposes a trimmed set before writing the prompt.",
+      "files": [],
+      "expectations": [
+        "Applies a budget of about 2.2 spoken words per second and the 0.5-1.5 s late speech start.",
+        "Ends the last line at least 0.4 s before the clip end and avoids three state changes in the last 3 s.",
+        "Keeps the trimmed wording as a draft for the writer or user to accept rather than silently changing locked lines."
       ]
     }
   ]

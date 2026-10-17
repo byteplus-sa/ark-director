@@ -19,16 +19,20 @@ Before the first Seedance request that carries the character sheet, ask:
 
 > The character sheet is a photoreal likeness of <Name>. Is generating real-person video sanctioned for this account — via the provider's authorized-likeness route or a policy owner's approval? Who approved it?
 
-Record the answer (approver, date, scope) in `PROVENANCE.md`. If it is not
-sanctioned, stop after the sheet and offer: the provider's authorized-likeness
-route, an original invented host, or filming the presenter.
+Record the answer (approver, date, scope) in `PROVENANCE.md`. The
+authorized-likeness route is an Advanced Creation Rights real-person
+`asset://` asset; reuse an existing `Active` asset and its completed onboarding
+instead of repeating it. If it is not sanctioned, stop after the sheet and
+offer: that asset route, an original invented host registered as a Virtual
+Portrait, or filming the presenter.
 
 ## Where references may go
 
 | Asset | Seedream (character sheet) | Seedance (video) |
 |---|---|---|
 | Real photos / reference frames of the person | Yes, as I2I identity/wardrobe refs | Never |
-| Generated character sheet | — | Only after gates 1 and 2 are recorded |
+| Generated character sheet | — | Only after gates 1 and 2 are recorded; often rejected as a real-person input, so prefer the `asset://` binding |
+| Authorized real-person `asset://` asset | — | Yes, after gates 1 and 2 |
 | Isolated voice clip from their own video | — | Yes, as @Audio 1 (timbre only), under the same gates |
 | Setting, lighting, mic, backdrop | Text | Text |
 

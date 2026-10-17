@@ -4,15 +4,16 @@
     {
       "id": 1,
       "prompt": "Reverse-engineer pins/01.mp4 into a three-panel monochrome storyboard and a silent Seedance video. Use exactly three panels even if the analysis finds more shots.",
-      "expected_output": "A validated VideoBreakdown v1.1 with per-beat motion from the initial visual analysis call, an explicit three-panel coverage plan, three storyboard candidates by default, and a reviewed video request that translates control-board composition into text without attaching the sketch by default.",
+      "expected_output": "A validated VideoBreakdown v1.1 with per-beat motion from the initial visual analysis call, an explicit three-panel coverage plan, three storyboard candidates by default, and a reviewed video request that translates the board's composition into text and never attaches the sketch.",
       "files": [],
       "assertions": [
         "The full breakdown passes structural and semantic validation before downstream generation.",
         "The initial breakdown call returns motion details for every beat without a separate source-motion call.",
         "The explicit three-panel budget is honored and every source shot maps to a panel or documented combined beat.",
-        "The monochrome sketch remains control_only and is omitted from video inputs unless the user explicitly promotes it.",
+        "The monochrome sketch is never bound as a video input; its staging is translated into prompt text.",
         "The storyboard and Seedance prompts pass prompt-review before submission.",
-        "The audio-preparation stage is explicitly skipped with the user's no-audio decision."
+        "The audio-preparation stage is explicitly skipped with the user's no-audio decision.",
+        "The silent run sets generate_audio false and submits a 480p native Draft before any promotion."
       ]
     },
     {
@@ -77,6 +78,30 @@
         "Measurements alone do not identify music, speech, instruments, or effects.",
         "The audio analysis validates against the current pin and frozen breakdown hashes.",
         "The reusable recipe contains general sound grammar and replacement slots without source recording, lyric, or tagline content."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "This pin is a wordless perfume ad carried by an orchestral score and room ambience. Rebuild it for our fragrance with matching sound.",
+      "expected_output": "A picture-only generation plan with the score and ambience rebuilt in post from the verified audio grammar.",
+      "files": [],
+      "assertions": [
+        "Generates picture with generate_audio false instead of relying on a negative 'no speech' line in native audio.",
+        "Maps the verified sound grammar (arc, accents, silences) to a Seed Audio post bed, without copying the source recording or melody.",
+        "Budgets spare music samples and measures the bed's timing, padding or splicing it to the cut in assembly.",
+        "Assembles in the takes' original colours from exact-length intermediates."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The selected full-colour storyboard looks perfect. Attach the board as @Image 1 so Seedance copies its framing exactly.",
+      "expected_output": "Declines to bind the board, explains the leak risk briefly, and writes the framing into the prompt with element references bound.",
+      "files": [],
+      "assertions": [
+        "Does not bind the board, grid or any panel as a Seedance reference.",
+        "Explains that panel numbers, labels and the board look leak into video and raise output-copyright rejections.",
+        "Translates each panel's framing, blocking and end state into prompt text and binds only approved element references.",
+        "Plans take QA with frame samples and corner crops for leaked text."
       ]
     }
   ]

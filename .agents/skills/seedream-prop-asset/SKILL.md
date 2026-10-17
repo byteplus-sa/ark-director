@@ -92,6 +92,16 @@ When the gate says text-only, return a short object descriptor for the scene
 prompt instead of a sheet prompt. When in doubt about an unbranded object,
 describe it in the video prompt and skip the Element.
 
+**Generic props that invent text.** Some unbranded objects grow lettering in
+video whenever they are only named: tubes, jars, jugs, bottles, boxes,
+hard-shell cases, garment neck labels, tickets, receipts, and generated screens.
+For these, the text-only descriptor states the plain surface positively, for
+example "a plain white ceramic jug, smooth solid glaze, nothing printed", and
+the caller repeats it word for word in every shot that shows the object. When
+such an object recurs across shots and the plain wording still drifts, or the
+story needs it, give it a sheet (it already passes the recurrence row). If the
+object adds nothing to the shot, leave it out.
+
 **Views and acquisition.** Gather the real front and back, plus the side when the
 view plan below calls for it. When the source lacks a planned view, report the
 gap to the caller. An unbranded object's missing view may be generated I2I from
@@ -267,11 +277,13 @@ controls visible.
 **Wearables** appear unworn — no person, head, mannequin, or body part — in the
 configuration seen on camera: glasses with temples open, a jacket laid flat.
 
-**Surface print.** Unless exact text is required, prefer a blank surface or an
-angle that hides the printed area, with soft focus on a deliberately hidden
-face. Fine texture standing in for print tends to render as pseudo-letters, so
-state "no readable text, letters, or numbers" and check the candidate for marks
-that read as writing.
+**Surface print.** Unless exact text is required, describe every surface that
+could carry print as plain: "smooth solid surface, nothing printed" on each
+face, or an angle that hides the printed area. Fine texture standing in for
+print tends to render as pseudo-letters. Add "no readable text, letters, or
+numbers" after the positive wording and check the candidate for marks that
+read as writing. A sheet with invented lettering teaches the video to animate
+it.
 
 ## 4. Setting
 
@@ -280,10 +292,8 @@ Setting:
 Isolated on a pure white seamless background that runs continuously across the whole sheet as a flat even field with no floor line, with a faint contact shadow directly beneath each object that does not join the next. No other objects.
 ```
 
-Gray variant: "Neutral light-gray seamless studio background running continuously
-across the whole sheet as a flat even field with no floor line, with a faint
-contact shadow directly beneath each object that does not join the next. No
-other objects."
+Gray variant: replace "pure white" with "neutral light-gray seamless studio";
+keep the rest of the line.
 
 ## 5. Style
 
@@ -312,12 +322,8 @@ canonical one.
 
 ## 7. Composition
 
-Two views (default):
-
-```text
-Composition:
-Two views side by side in one horizontal row on one continuous background, separated by empty space only: left, the whole object in a [front three-quarter / straight-on front] view; right, the same object turned half a revolution on a turntable, in a [rear three-quarter / straight-on back] view. Both views drawn at the same scale, the object the same height in each view, each centered with a clear margin of at least 6% of the sheet on every side; same framing and lighting, deep focus across the object.
-```
+Two views (default): use the Composition block in the standard prompt
+template below.
 
 Single view, only when one angle is requested:
 
@@ -361,23 +367,10 @@ imagery to `seedream-prompt`.
 
 ## 9. Constraints
 
-```text
-Constraints:
-Quality: sharp material detail, consistent design across all views
-Negative: no hands, no people, no other objects, no readable text, no logos, no colored or gradient background, no boxes, frames, borders, or divider lines, no off-white rectangles behind the views, no cropped edges, no extra views, no labels or captions, no watermarks
-```
-
-Choose the negatives that apply:
-- no hands, people, mannequins, or body parts
-- no second object or duplicate
-- no colored backdrop, gradient, scene, or floor texture
-- no reflections of other objects
-- no readable text, letters, numbers, logos, or brand marks
-- no cropped object edges
-- no boxes, frames, borders, divider lines, or off-white rectangles behind a view
-- no extra views, labels, or captions
-- no glow, beam, or effect unless canonical
-- no watermark
+Use the Negative line of the standard prompt template and add only what the
+object needs: no mannequins or body parts for wearables, no reflections of
+other objects for chrome or glass, no glow, beam, or effect unless canonical.
+Set resolution with `size`, not a quality word.
 
 ## Standard prompt template
 
@@ -389,7 +382,7 @@ Task:
 Text-to-Image (T2I)
 
 Subject:
-Prop reference of one [object]: [silhouette and proportions], about [real-world size], [materials and finish], [colors], [2-4 identity-critical details], [canonical state]. One [object] only, the same object in both views, identical design. Front: [front-face details]. Back: [back-face details].
+Prop reference of one [object]: [silhouette and proportions], about [real-world size], [materials and finish], [colors], [2-4 identity-critical details], [canonical state]. One [object] only, the same object in both views, identical design. Front: [front-face details; "smooth solid surface, nothing printed" where unprinted]. Back: [back-face details].
 
 Setting:
 Isolated on a pure white seamless background that runs continuously across the whole sheet as a flat even field with no floor line, with a faint contact shadow directly beneath each object that does not join the next. No other objects.
@@ -423,37 +416,10 @@ close-up reference, not a prop sheet. Load
 
 ## QA after generation
 
-Inspect every candidate before selection and return defects to the caller:
-
-- the sheet shows the planned views, no more and no fewer, and each view shows
-  the face it should: the back is the opposite face, not a repeat of the front,
-  and a planned side is a true profile
-- flank coverage: when front and back are three-quarter views, they show
-  opposite flanks and the side profile matches the front view's flank. Confirm
-  each flank by a landmark (door handles, sidecar, hood vent, which side a
-  feature sits on), never by assuming the prompt was obeyed
-- one scale: object height, roof lamp included, and wheel diameter are within
-  about 15% across views; never compare widths
-- margin: 3% of the sheet or more to every canvas edge and the next view (models
-  typically deliver 55-80% of the requested 6%); nothing touches or is cropped
-- one continuous background: no boxes, frames, borders, divider lines,
-  off-white rectangles, labels, captions, floor line, or shadow band joining the
-  views; the declared color, uniform within about 3 levels (white at or above
-  245) and identical in every view
-- exactly the requested count; no duplicates, hands, people, or stray objects;
-  repeated features (doors, handles, wheels, lamps) match the Subject per face
-- the silhouette separates cleanly from a uniform background
-- identity-critical details read at thumbnail size
-- no invented text, logos, or brand marks; marks that read as letters or
-  numerals count as invented text
-- scale and proportions are plausible for the stated size
-- the state matches the request
-- views share one design, scale, and lighting
-- the back face carries the details the Subject named for it
-- distinguishing marks read as the intended pattern, not damage; a face described
-  as unblemished has no dark spot
-- a fictional marking such as a plate or roof number reads identically on every
-  view that shows it
+Inspect every candidate before selection and return defects to the caller.
+Load [prop QA](references/prop-qa.md) for the checklist: planned views and
+flanks, one scale, margins, one continuous background, count, invented text,
+state, and fictional markings.
 
 ## Downstream binding
 

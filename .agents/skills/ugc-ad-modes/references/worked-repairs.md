@@ -48,3 +48,42 @@ observed generated-media behavior or measured advertising results.
   development can proceed without inventing a user's experience.
 - **Acceptance:** No unsupported efficacy, history, or con appears in dialogue;
   the missing evidence is precisely identified rather than buried in a placeholder.
+
+## Phone-shot demo that breaks the generation rules
+
+- **Brief:** Fifteen-second `ugc-how-to` for a refill bottle with three
+  stackable flavour pods. Supplied fact: pods click into the lid. CTA: "Find
+  your flavour." Product reference sheet supplied for the bottle only.
+- **Initial prompt:** "She picks up the bottle with her left hand, drops three
+  pods in (more pods in the drawer), sips from her logo mug and says {45 words}.
+  Caption 'SHOP NOW' at the end."
+- **Simulated failure:** 45 words cannot fit 15 s at about 2.2 words/s, so the
+  CTA is cut off; "left hand" can mirror; the drawer invites a fourth pod; the
+  mug grows invented lettering; the caption is rendered as garbled text.
+- **Smallest repair:**
+
+  ```text
+  @Image 1 defines only the refill bottle: shape, colour, material and its
+  printed label. Casual phone-shot in a bright kitchen, eye-level medium shot,
+  the phone held steady on a fixed framing. Soft daylight from a window
+  frame-left keys her face and the bottle.
+  At 0-4 s she holds the bottle up in her right hand, frame-left, toward the
+  lens so the viewer sees the empty lid: "Three pods, one bottle."
+  At 4-10 s three pods sit in a row on the counter in open view from the first
+  frame — small red, medium yellow, large green; her left hand, frame-right,
+  presses each into the lid in that order with an audible click; after each
+  click two pods remain, then one, then none on the counter.
+  At 10-13.5 s she turns the bottle so all three stacked pods face the lens:
+  "Click, click, click. Find your flavour."
+  Hold the bottle in frame, still, to 15 s. A plain white ceramic mug with a
+  smooth, solid surface and nothing printed stands behind the bottle.
+  Audio: room tone, three plastic clicks, her conversational voice.
+  ```
+
+  The CTA ends near 13.5 s, leaving a held tail; the caption moves to
+  finishing; the static camera is recorded as `format_static_by_design`.
+- **Tradeoff:** Fewer spoken benefits; every remaining word is audible and the
+  count stays checkable.
+- **Acceptance:** Exactly three pods at every beat; hands match their named
+  frame side; the mug and counter carry no lettering; the transcript ends before
+  the clip does; no text is rendered in the clip.

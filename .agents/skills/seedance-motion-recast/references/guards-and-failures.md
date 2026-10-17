@@ -200,3 +200,9 @@ and the moderation rule in the
 disguise or swap inputs to pass the check. An invented character bound as a raw
 image moves to its Virtual Portrait asset; real people or source footage stop
 the work until the user decides.
+
+Observed: a source clip of generated people, uploaded by presigned URL, was
+rejected with `InputVideoSensitiveContentDetected.PrivacyInformation` before a
+task was created; the same applies to extending such a clip. The contract's
+`asset://` video route is the fix. A real person's reference photo in the
+target set is rejected and out of scope.

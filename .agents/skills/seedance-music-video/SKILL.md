@@ -35,16 +35,11 @@ mentioned in prose are relative to this skill directory unless a link says other
 - [Specialized Formats](references/specialized-formats.md) — Format-specific rules; Custom-format procedure.
 - [Hypothetical repairs](references/music-repairs.md) — Read when pacing, lyric timing or a revision fails the intended musical relationship.
 
-## Submission boundary and failure behavior
+## Submission boundary
 
-The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
-uses a sub-agent only when the user explicitly requests sub-agent prompt review
-for the project or specific generation. A leaf returns its prompt package without
-loading sibling skills. An explicitly declared orchestrator may coordinate the
-review and submission stages. Missing required inputs remain unresolved; a draft
-or technical success does not establish user approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+This leaf returns a prompt package. The caller owns authorization, prompt
+review, submission and approval under the workspace production policy; missing
+inputs stay unresolved rather than invented.
 
 ## Source basis
 
@@ -54,11 +49,11 @@ the three-image sampling default where applicable, and the requested delta.
 - Music-video craft and beat-sync practice — format taxonomy, song-section
   energy mapping, and section-relative cut density (sources below).
 - Genre conventions — per-genre visual recipes, vertical-vs-landscape norms.
-- **Field-tested learnings from `mv-bryce-vine` (2026-08-20):** the timestamped
-  lyric timeline technique (section 3b), native audio re-performance behavior
-  (section 3a), hybrid audio mode (section 3), and ASR-based lyric
-  verification (section 3c) were derived from three generation takes where
-  large `{...}` blocks caused lyric dropouts.
+- **Field-tested learnings from local productions (2026-08 to 2026-10):** the
+  timestamped lyric timeline (section 3b), native audio re-performance (3a),
+  hybrid audio mode (3) and ASR lyric verification (3c) came from takes where
+  large `{...}` blocks dropped lyrics; the native-audio leak, shot-merge and
+  assembly rules came from later ambient and multi-shot runs.
 
 Key third-party sources (accessed 2026-08-20):
 [AI music-video production workflows](https://www.creativeainews.com/articles/how-to-make-ai-music-video-2026/),
@@ -92,7 +87,7 @@ format                 which video type this is (and its direct/indirect address
 song map               each section → visual assignment, energy, and end state
 performance ratio      how much screen time is performer vs atmosphere per section
 beat contract          which audio events the cuts and camera land on
-audio treatment        native audio, or audio-first master used as timing authority
+audio treatment        picture-only (default), native audio, or audio-first master as timing authority
 genre lock             one recipe controlling palette, lighting, camera, and rhythm
 exclusions             only contradictions that would break the format or genre
 ```
@@ -112,8 +107,9 @@ which shots matter, and where the performer sits in the frame:
   (disjuncture).
 - **Conceptual** — no plot; one governing visual rule, image, or metaphor that
   encodes the track, executed with mechanical rigor.
-- **Lyric** — the lyrics are the primary visual; word-level sync to the vocal.
-  The model renders provisional captions; exact text is set in post.
+- **Lyric** — the lyrics are the primary visual, but the generated footage
+  stays text-free: the clip supplies clean imagery with reserved negative space,
+  and the words are set in post (HyperFrames or FFmpeg) on ASR word times.
 - **Visualizer** — abstract, audio-reactive imagery with no performer and no
   lyrics; the visuals "image the sound" (waveforms, particles, geometry).
 - **Hybrid** — combines performance with narrative or concept. One possible
@@ -154,12 +150,20 @@ API rules or requirements for every song. Preserve a requested continuous take.
 
 ### 3. Set the audio contract
 
-Choose one of three audio modes; state it explicitly.
+Choose one of the audio modes below; state it explicitly.
 
-**Native audio (default).** Seedance co-generates audio and video in one pass.
-Use the bracket syntax in the Audio slot and inside `{...}` for sung or spoken
-lines. Choose exactly one of these patterns — they are mutually exclusive, do
-not combine them:
+**Picture-only (default).** A music video is score-driven: the song is a
+supplied master or a Seed Audio track muxed in assembly. Set
+`generate_audio: false` and keep sung lines out of `{...}` unless lip-sync is
+requested. Native audio has added score, chants and stray speech to most
+ambient-only clips even with a "no music" line, so it is not a safe base under
+a song. Say in the package that a post bed is not frame-synced.
+
+**Native audio (only when the clip's own sound is the deliverable).** Seedance
+co-generates audio and video in one pass, for example a live-room performance
+with no master. Use the bracket syntax in the Audio slot and inside `{...}` for
+sung or spoken lines. Choose exactly one of these patterns — they are mutually
+exclusive, do not combine them:
 
 ```
 (Soft, rhythmic piano music plays in the background)
@@ -168,16 +172,11 @@ not combine them:
 ```
 
 ```
-No background music. Keep only the singer's voice and the room ambience.
+Keep only the singer's voice and the room ambience.
 ```
 
-```
-No audio at all.
-```
-
-When the clip must sit under an existing master in post, add a direct control
-line so the model does not invent music (the generated file may carry no usable
-track — re-mux the master in assembly).
+On a draft that is promoted to a final, re-check the final's audio; it is not
+byte-identical to the draft's.
 
 **Audio-first (only when the user requests lip-synced vocals).** Generate the
 original music and vocal track with Seed Audio first, verify
@@ -313,6 +312,16 @@ The beat grid gives the timing; emotion and story decide what lands on it.
 Timestamps are a **time budget, not frame-accurate** — direct the beats in the
 prompt, then snap the final cut to the audio master in post.
 
+**Cut density has a floor inside one generation.** Seedance merges shots
+shorter than about 0.8 s, so a kick-and-snare staccato, blink cuts, intercuts
+and vision flashes are built in the edit from separately generated clips, not
+requested inside one prompt. Inside a generation keep each shot at least about
+1 s with one action. A flat clip usually has one setup and no stated camera
+move; the cinematic bar is a 30 s section built from about six 5 s generations
+of two or three shots each, every shot with a lens intent, a camera move, a
+motivated named light source, depth layers and one striking image. A single
+30 s pass with nine or more beats reads as stock footage.
+
 In-prompt, name each audio event, the visual event it triggers, and their
 relationship (simultaneous, leads, or trails):
 
@@ -336,14 +345,24 @@ remain valid. Re-check mouth timing for any lip-synced performance.
 Generate per section at its natural duration (4–30s), not per 30-second block.
 One song section, one primary event, one visible end state per generation.
 Chain approved sections via `return_last_frame` / `first_frame` with a shared
-reference bundle and assemble in post. Reserve a 30s single-pass or native
-extension for a genuine continuous take (one unbroken performance) where
-seamless motion across section boundaries matters more than per-scene iteration.
+reference bundle and assemble in post. Reserve a 30s single-pass for a genuine
+continuous take (one unbroken performance) where seamless motion across section
+boundaries matters more than per-scene iteration. Native extension rejects a
+source clip that shows a realistic performer unless that performer is an
+`asset://` Virtual Portrait or authorized asset; otherwise continue with a new
+generation from the same element references.
 
-When the user asks for a lyric video, keep the imagery simple and legible so
-the text stays readable; direct word-level pops on the beat via `【word】`, and
-keep the type treatment provisional — the exact lyrics and kinetic timing are
-set in post.
+When the user asks for a lyric video, keep the imagery simple, text-free and
+legible, with a stated calm zone (for example the lower third or a dim sky)
+where type will sit. The words, their pops on the beat and the kinetic timing
+are built in post from ASR word times; nothing is lettered by the model.
+
+**Assembly handoff.** Cut the section clips to exact whole-frame lengths at the
+delivery frame rate as lossless intermediates, pad or trim each clip's audio to
+its picture, join with the concat demuxer, and encode once at the end with the
+master muxed over the full cut. The concat filter needs `setsar=1` on every
+input. Measure durations from the video stream, not the container. Keep the
+original Seedance colours unless a grade is requested.
 
 ### 6. Direct the performer
 
@@ -380,10 +399,13 @@ from drifting across the section chain and during later shots.
 
 This skill owns the music-video layer: format, song map, beat contract, audio
 contract, and genre lock. Other axes belong to their owning preset skills — see
-the canonical axis→skill table in `.agents/contracts/seedance-reference.md` (including
+the workspace's canonical axis→skill table (including
 `seed-audio-prompt` / `seed-audio-commercial` for an original music or vocal
 master, and `seedream-storyboard` / `film-production` for storyboard and
-multi-scene production). Never let two skills fight:
+multi-scene production). A storyboard is a planning and review artifact only:
+never bind a board or grid as a Seedance reference, because panel numbers and
+its sketch look leak into the video. Bind performer, location and prop element
+references and write the staging in the prompt. Never let two skills fight:
 
 **Guardrail:** the genre lock supplies the default palette, lighting and camera
 vocabulary, and this skill owns when cuts land on the song. Plan what each shot
@@ -406,8 +428,8 @@ Do not stack a second grade or camera treatment on top of a genre recipe.
 
 ## Exclusion rules
 
-- Do not use a blanket "no music" — it contradicts the point of a music video;
-  use it only inside a specific ambient scene that must stay silent.
+- Do not use a "no music" line at all: for an ambient scene that must stay
+  free of music, set `generate_audio: false` and add the bed in post.
 - Do not use exclusions as a substitute for positive audio and beat direction.
 - Exclude only likely contradictions: a real artist's face or voice, readable
   logos, an unwanted second vocal, or a second genre's palette leaking in.
@@ -426,15 +448,19 @@ Before returning the prompt, verify:
 3. The beat contract names the audio events and their visual relationship.
 4. Restraint, repetition, counterpoint or escalation is justified by the supplied
    track/brief; no chorus, bridge or energy change is invented.
-5. The audio treatment is explicit: native brackets, `@Audio N` timing authority,
-   or hybrid — never ambiguous.
+5. The audio treatment is explicit: picture-only, native brackets, `@Audio N`
+   timing authority, or hybrid — never ambiguous.
 6. Lip-sync lines appear verbatim in `{...}` and match the audio-first master.
 7. Dense vocal coverage uses per-line cues; required timing is verified from audio
    or explicitly unresolved. Raw evidence and simplified prompt windows stay separate.
 8. **If `generate_audio` is true:** the prompt accounts for re-performance risk
    (section 3a) and the timestamped timeline is used when coverage is critical.
+   Ambient-only or score-under-master sections use `generate_audio: false`
+   with a post bed instead of a "no music" line.
 9. Each proposed generation uses a live-supported natural duration, or is an
    explicit continuous one-take.
 10. The genre lock is a single recipe, not a mixture.
 11. The style seal is compact and does not contradict the format or genre.
-12. The response contains the prompt, not an unrelated production workflow.
+12. No shot inside one generation is shorter than about 0.8 s; faster cuts,
+    lyrics and any on-screen text are assigned to the edit.
+13. The response contains the prompt, not an unrelated production workflow.

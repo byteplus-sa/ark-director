@@ -160,6 +160,31 @@
         "Every shot names a framing and featured subjects, and at least one shot features the boy alone.",
         "The foreground mass or the angle changes once at the turn rather than on every shot."
       ]
+    },
+    {
+      "id": 14,
+      "prompt": "Plan a 30-second cinematic TV spot for a sports drink: a sprinter trains alone in an empty stadium at dawn and breaks her own record. I want it to feel like a film, not stock footage.",
+      "expected_output": "A plan of about six sequences of about 5 s, each its own clip of 2-3 shots, with one action, lens intent, camera move, named light source and depth layers per shot, and one wow shot per sequence; packs and copy left to post.",
+      "files": [],
+      "assertions": [
+        "The spot is split into sequences of roughly 5 s, each generated as its own clip of 2-3 shots, rather than one 30-second prompt.",
+        "Every shot has one action, a lens intent, a camera move with a start and an end, a named light source with a key side, and a named foreground and background.",
+        "Each sequence flags exactly one wow shot.",
+        "Sequence lengths are uneven and no shot is shorter than about 0.8 s.",
+        "Product packs, logos and copy are left to post rather than planned into a generated shot."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "In my 6-second shot plan the camera pushes in on a woman's face, the focus slides off her face onto the wall behind her as she loses her grip, and at 4 s a half-second flash of her childhood bedroom cuts in. Plan it.",
+      "expected_output": "A plan that keeps the push-in with ordinary focus, marks the defocus away from the face as a post treatment, and makes the half-second flash an assembly cut generated as its own clip.",
+      "files": [],
+      "assertions": [
+        "The focus pull away from the face is not planned as prompt wording; it is marked for post, and the push-in keeps ordinary focus.",
+        "The half-second flash is planned as an assembly cut whose image is generated as its own clip at a natural length.",
+        "The plan names a light source and key side for the push-in and states its start and end.",
+        "The plan does not promise frame-accurate timing for the cut."
+      ]
     }
   ]
 }

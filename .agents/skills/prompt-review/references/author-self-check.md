@@ -16,7 +16,10 @@ checklist review.
 | 7 | **Transitions and fades land before the trim point.** When the edit trims a clip, any whip or fade that must survive peaks before the trim. Final fades to black are done in post. | Fade at 11.6–12 s, trim at 11.3 s → hold to the end and fade in FFmpeg. |
 | 8 | **Audio uses bracket syntax end to end.** Music descriptions sit inside `( … )` including arrangement cues. Discrete effects use `< … >`. Words the model must not voice are excluded explicitly. | Drop-outs and the dead stop written outside the brackets → move the whole arrangement inside `( … )`. |
 | 9 | **The timeline covers the full requested duration.** The last stage ends at the `duration` parameter, not before it. | Stages end at 16.8 s for a 17 s request → extend the last stage to 17 s. |
-| 10 | **Nothing in the frame needs exact text.** No on-screen copy, logos, or captions. Overlay copy is composited later, and the prompt keeps clean space where overlays will sit. | — |
+| 10 | **Nothing in the frame needs exact text.** No on-screen copy, logos, or captions. Overlay copy is composited later, and the prompt keeps clean space where overlays will sit. Generic props and generated screens are described as plain. | "a tube of cream on the shelf" grows invented lettering → "a plain white tube, smooth surface, nothing printed". |
+| 11 | **Counts and hands are pinned.** Counted items have an exact number restated at every stage; every hand or side cue names anatomy and frame side. | "she lifts two of the cups with her left hand" → "she lifts the small and medium cups, the large cup stays at frame-right; her left hand, frame-right". |
+| 12 | **Speech fits its window.** About 2.2 words per second after a 0.5–1.5 s late start; the last line ends 0.4 s before the clip end. | A 14-word line in a 6 s shot → split the line across two shots or lengthen the shot to 8 s. |
+| 13 | **Ambient-only means no native audio.** Ambience-only or score-driven clips set `generate_audio: false` and get a Seed Audio bed in post. | "No music, no voices" with `generate_audio: true` → picture only, bed in post. |
 
 After the review returns, record it with
 `.agents/skills/prompt-review/scripts/record_review.py`. The script extracts the

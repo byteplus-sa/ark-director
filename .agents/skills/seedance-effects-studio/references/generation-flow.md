@@ -50,11 +50,14 @@ recheck the tool schema before relying on them.
   appeared in 7 of 45 drafts (`moonwalk`, `lacewalker`, `superstar`, `cutout`,
   `cyclope`, `agamemnon`, `fairytale-castle`) and stray human sounds in three more
   (`bullet-time`, `act-natural`, `fallen-angel`); one restyle take was rejected for
-  its output audio (`OutputAudioSensitiveContentDetected.PolicyViolation`). The
-  sentence stays in every template, but the review must analyse the track, and a
-  clean track needs `generate_audio: false` plus a Seed Audio bed in post.
-- **Video-to-video.** Restyle inputs cannot contain a realistic person; the run
-  used a person-free source clip. Edit-route draft mode is unproven, so those
+  its output audio (`OutputAudioSensitiveContentDetected.PolicyViolation`). Templates
+  therefore end with a positive list ("with only these effects and ambience"),
+  the review must analyse the track, and a clean track needs
+  `generate_audio: false` plus a Seed Audio bed in post.
+- **Video-to-video.** Restyle, edit and extend inputs that show a realistic
+  person, generated or real, are rejected with `PrivacyInformation` unless each
+  person is bound as an `asset://` Virtual Portrait or authorized asset; the run
+  used a person-free source clip, and the asset path is untested here. Edit-route draft mode is unproven, so those
   requests used `resolution: 480p` without `draft`. Of the four restyle effects
   only `comic` produced a usable take.
 - **Invented lettering.** Generated ticket, UI, screen and panel surfaces invent
@@ -67,6 +70,9 @@ recheck the tool schema before relying on them.
   and 7), clones (7 to 8 for 7; 20 to 25 for 20) came out approximate. Request
   counts at every timestamp, then count on a full-size frame and report the
   number found.
+- **Fast cuts merge.** Cuts under about 0.8 s apart merge, and prompted cut times
+  drifted (`tracking` cut at about 1.4 s and 2.7 s; `comic` changed about every
+  second, not every 0.3 s). Finish rapid cuts and stepped cadence in post.
 
 ## Hash, review, register
 
@@ -200,7 +206,9 @@ forbade them.
   request hash, parameters, references and current capability evidence need a
   fresh request review; inspect and select the final output again. This path is not yet exercised
   in the probe project, so check the registry accepts the shape on first use.
-  Check the draft's audio track first: the promotion reuses it.
+  Check the draft's audio track first (the promotion reuses its audio setting),
+  then check the final's track again: final audio is not byte-identical to the
+  draft's.
 - Apply the recipe's **Post** steps to the accepted master; keep the provider
   master untouched.
 

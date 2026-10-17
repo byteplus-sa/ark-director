@@ -59,6 +59,9 @@ the framing type.
 
 Notes on the types:
 
+- Name screen positions as frame-left and frame-right. The model reads "her
+  left" as the character's own side, so a hand or a shoulder is named by both
+  anatomy and frame side ("her right hand, frame-left").
 - A single can be framed at any size. Only the count of featured subjects makes
   it a single.
 - A dirty single technically has two people in the frame. It remains a single

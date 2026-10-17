@@ -3,18 +3,25 @@
 Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
-- [Keyframes, storyboards, and blockouts](#keyframes-storyboards-and-blockouts)
+- [Keyframes](#keyframes)
+- [Storyboards are never bound](#storyboards-are-never-bound)
+- [Blockout references](#blockout-references)
 
-## Keyframes, storyboards, and blockouts
+## Keyframes
 
 These are specialized prompt grammars, not automatic input eligibility. Translate
-control-only drawings to text and omit them by default. An intentional storyboard,
-sketch, or blockout conditioning path requires explicit user-selected inputs,
-current canonical hashes, a compatible live tool mode, and artifact-specific QA.
+control-only drawings to text and omit them. Storyboards and boards are never
+bound (see below). An intentional keyframe or blockout conditioning path
+requires explicit user-selected inputs, current canonical hashes, a compatible
+live tool mode, and artifact-specific QA.
 A declared motion-master reference remains a selected conditioning input, not a
 shortcut around review. Image text cannot itself enable an unsupported API role.
 
 ### First and last frames in R2V mode
+
+A first or last frame is a clean, full-frame keyframe in the final medium: no
+panel number, caption, border or sketch line. A last frame alone is rejected;
+pair it with a first frame.
 
 State `@Image 1 is the first frame` and `@Image 2 is the last frame` directly in
 multimodal reference mode only when current tool evidence supports this grammar
@@ -59,52 +66,35 @@ Maintain continuity in <subject identity, prop structure and ownership, scene la
 and axis of action> throughout.
 ```
 
-> Independent keyframe images are easier to align than grids. They control stage
+> Independent keyframe images are easier to align than a sequence crammed into one image. They control stage
 > order and key states; they do **not** reproduce every frame exactly.
 
-### Storyboard grids
+## Storyboards are never bound
 
-- Communicate overall story, shot order, and approximate compositions — **not strict reproduction**.
-- **Prefer ≤ 15 panels.** Use clean line art or simple diagrams; minimize text labels.
-- State the reading order, then describe each panel.
-- **Treat every board mark as a leak risk.** Panel numbers, badges, dividers,
-  arrows, and captions are annotations on the planning sheet, not objects in
-  the scene. A single "do not copy panel numbers" clause is not enough: boards
-  with corner numerals have produced takes with the same white digits baked into
-  the top-left corner of every shot. Say it three times — at the binding, in
-  the per-shot frame description, and in the closing constraint — and name the
-  corners explicitly.
-- Refer to shots by reading position ("the first panel", "the top-right
-  panel"), not by the numerals printed on the board.
+A storyboard grid, board, contact sheet or single board panel is a planning
+and review artifact. Never bind it to a Seedance request
+(`references.no_board_binding`), even with "do not copy the panel numbers"
+wording:
 
-```
-@Image 1 is a planning sheet only: an <N-panel storyboard grid> that gives shot order and
-approximate composition. Read it <left to right, top to bottom>; the first panel is Shot 1.
-Everything drawn on the sheet that is not part of the scene — panel numbers, digits, letters,
-badges, corner labels, arrows, captions, divider lines, borders, paper, and the <line-art or
-sketch style> — is an annotation for the director and must never appear in the video.
-@Image 2 defines <Subject A>'s <appearance and clothing>.
+- Panel numbers, badges and corner labels were baked into the top-left corner
+  of every shot in takes that bound a numbered board.
+- The board's medium (line art, watercolour wash, paper texture, monochrome
+  shading) carried into the footage even with a positive style override.
+- Output-copyright rejections rose when boards were bound.
 
-Shot 1: <shot size, subject action, and scene state>, one clean full-frame image.
-Shot 2: <shot size, subject action, camera movement, or transition>, one clean full-frame image.
-...
-Shot N: <closing action and final visible state>, one clean full-frame image.
+Carry the board into the prompt as text instead:
 
-The final video uses <visual style>. Audio includes <dialogue, ambience, action sound effects, or music>.
-Every frame is clean photographed scene content from edge to edge: no numbers, digits, letters,
-badges, labels, captions, subtitles, or on-screen text anywhere, including all four corners,
-and no grid, split screen, or panel borders.
-```
+1. Read the board in order and write one shot line per panel: size, angle, move,
+   subject action, end state and light (see [Shot Staging](shot-staging.md)).
+2. Bind the canonical character, location and prop references the board was
+   drawn from. They own identity; the text owns composition and staging.
+3. When an exact opening composition matters, generate a clean keyframe in the
+   final medium and use it as a first frame instead of the panel.
 
-> **Optional monochrome conditioning.** A sketch remains control-only unless
-> the user explicitly selects it for a supported conditioning mode. Omit it by
-> default and express scene order, positions, and motion in text. If deliberately
-> attached, bind its index, reading order, and limited composition role; state
-> the desired final style positively and inspect the output for lines, labels,
-> colors, or paper texture leaking into the video. A style override reduces
-> ambiguity but does not guarantee that the board's appearance is suppressed.
+Audit every take conditioned near a board: sample frames across the clip and
+crop the top-left corner of each sample to catch baked digits or labels early.
 
-### Blockout references
+## Blockout references
 
 Two categories — first determine whether the blockout is a **motion skeleton**
 (coarse) or a **complete model** (fine):

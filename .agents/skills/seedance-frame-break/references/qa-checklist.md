@@ -44,7 +44,7 @@ camera).
 | Gate | Evidence |
 | --- | --- |
 | Bars do not move. Black must not encroach into the window at any column, both far columns must not jump together, and no smooth bar-shaped bow may grow into the window; a subject covering a bar is never a violation, and a bar that opens (both far columns retreat together) is never counted as a subject | Script `summary.static_bar_gate.status` is `pass`, or `inspect` (needs review: `passed` false, `needs_review` true) with every listed window checked by eye; `fail` rejects the take. Run on every frame |
-| Bars are present, solid black, flat and unmarked at the top and bottom throughout | Script `bars_detected` true; frames |
+| Bars are present, solid black, flat and unmarked at the top and bottom throughout, and no extra black bars appear at the left or right edges | Script `bars_detected` true; frames, including both side edges, which the script does not measure |
 | The subject starts completely inside the window and break-outs are intermittent events, not a state | Script `summary.break_out_gate`: start overlap near zero and overlap duty under the limit |
 | The subject is drawn on top, never clipped or hidden behind a bar at a break-out | Frames at overlap intervals and at each peak |
 | Every break-out the brief requires occurs; by default at least one on each bar. A clip with no overlap at all is the effect-absent case | Script `break_out_gate.status` is not `absent`; `frames_with_overlap`, `overlap_intervals`; frames |

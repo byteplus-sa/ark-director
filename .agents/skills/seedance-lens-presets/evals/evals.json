@@ -68,14 +68,14 @@
     {
       "id": 6,
       "prompt": "Write a Seedance 2.5 prompt for a handheld found-footage clip of a diner at night, shot on a VHS sensor — scanlines, color bleed, soft low-fi look.",
-      "expected_output": "A Seedance prompt whose visual-style line renders the VHS sensor character as visible markers: low resolution feel, scanlines, color bleed, soft dated look.",
+      "expected_output": "A Seedance prompt that stages handheld found-footage behaviour in the diner and keeps the VHS tape markers (scanlines, color bleed, soft low-fi image) as a post treatment, explaining that a tape or camcorder word in a Seedance prompt returned clean footage.",
       "files": [],
       "expectations": [
-        "The output names the VHS sensor or tape character in the visual-style line.",
-        "The output includes visible VHS markers such as scanlines, color bleed, or soft blur.",
-        "The output pairs the sensor character with the subject and scene, not isolated as a file-format claim.",
-        "The output does not combine the VHS look with a second competing sensor or lens character.",
-        "The output keeps the optics phrase in the visual-style or camera line."
+        "The output does not rely on a VHS or camcorder word in the Seedance prompt to produce the tape look.",
+        "It assigns the scanlines, color bleed and soft low-fi image to post and says so.",
+        "The prompt still stages the found-footage camera behaviour, such as handheld framing, with the diner subject and scene.",
+        "It does not combine the tape look with a second competing sensor or lens character.",
+        "It adds no grain, halation or vignette beyond the requested look."
       ]
     },
     {
@@ -112,6 +112,19 @@
         "It recommends generating with ordinary focus and adding a defocus ramp in post, or using light and the edit instead.",
         "It does not stack extra blur or a second move in the prompt.",
         "It keeps the push-in as the camera move."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Write the lens line for a shot where a bloodied knife sits sharp in the foreground of a kitchen and focus then pulls onto the face of the woman standing behind it.",
+      "expected_output": "A rack focus line that names both planes as visible results, timed, with the pull onto the face marked as an unverified heuristic to check in a 480p draft.",
+      "files": [],
+      "expectations": [
+        "The line names the knife as the starting sharp plane and the woman's face as the ending sharp plane, each as a visible result.",
+        "The focus change has a time or a clear start and end.",
+        "The output marks a pull onto a face as unverified and suggests checking it in a 480p draft.",
+        "It contrasts this with a pull away from a face, which belongs in post.",
+        "No numeric aperture or focal length appears without a visible result."
       ]
     }
   ]

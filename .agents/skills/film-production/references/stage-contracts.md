@@ -18,35 +18,20 @@ generation prompts stay in their immutable snapshot files, referenced from the
 manifests.
 
 Read `approval_mode` from `project.md` at start/resume and before each stage
-decision. New projects write `approval_mode: approve_for_me` before the first
-stage; `ask_for_approval` requires user choices. A legacy project without the
-field uses the default for new decisions only. Both modes keep all eight stages
-and the same checkpoint. Record the effective mode, decision actor, reason,
-review outcome, current selection or stage lock, and unresolved gaps in the
-relevant manifest. `status` detects only the codes listed in the production
-policy (missing, modified or unmanaged assets, a changed take, a placed take that
-differs from the selection, a frame and its timeline host disagreeing, a pending selection); it
-checks takes and Studio assets and does not read review, decision or scene
-files. Re-run prompt-review or reopen the stage when those files change. The
-storyboard `approval:` line is refreshed from the manifest by `sync`.
+decision; the production policy defines both modes. Record the effective mode,
+decision actor, reason, review outcome, current selection or stage lock, and
+unresolved gaps in the relevant manifest. `status` checks takes and Studio
+assets only; it does not read review, decision or scene files, so re-run
+prompt-review or reopen the stage when those files change.
 
 Every stage exit additionally requires:
 
-1. `studio_project.py stage <project> complete <stage-id>` passes. It requires
-   a `project.md` with a valid `approval_mode` for `brief-development`; for `scene-breakdown` through
-   `audio-preparation` a Studio project with no blocking `status` issue; for
-   `shot-generation`, `assembly-review` and `delivery` also a placed take for
-   every shot and a passing pinned `check`; for `assembly-review` and `delivery`
-   also no pending selection and the stage locks (a `picture` lock, plus an
-   `audio` lock unless audio-preparation was skipped, at `assembly-review`; a
-   `final_master` lock on the delivery render at `delivery`, each recorded with
-   `record-lock`); and for `delivery` the newest `render` record at a
-   delivery-level quality (`standard`, `delivery` or `high`; drafts and manual
-   records are ignored) still matches its file, was rendered from the Studio tree
-   as it is now (`index.html`, `hyperframes.json`, `compositions/`, `assets/`),
-   and its frames equal the placed takes. `storyboard-visual-plan` and
-   `audio-preparation` may instead be `skip`ped with `--reason`; a skipped stage
-   counts as done for later stages;
+1. `studio_project.py stage <project> complete <stage-id>` passes. Its
+   per-stage requirements (valid `project.md`, clean `status`, placed takes and
+   a passing `check`, no pending selection, `picture`/`audio`/`final_master`
+   locks, a current delivery-level `render`) are the stage-exit table in the
+   production policy. Only `storyboard-visual-plan` and `audio-preparation` may
+   be skipped with `--reason`;
 2. the stage's inputs, outputs, prompts, bindings, review evidence and
    mode-authorized decisions or pending recommendations are in the manifests;
 3. the project has been opened in Studio for visual review after the latest
@@ -68,12 +53,24 @@ not replace this checkpoint.
 Entry: user intent or an existing `project.md`.
 
 Required output: `approval_mode`, audience, format, runtime, aspect ratio,
-story objective, tone, creative constraints, known rights constraints, budget
-posture, and unresolved questions recorded in `project.md`. Confirmed
-directorial defaults (structure, energy level, camera and light stance, lens,
-grade, pacing, acting, staging, medium, audio) from
-`brief-intake` persisted as a `locked` block in `project.md` frontmatter.
-The brief is the `brief-development` stage source; `stage complete` checks that `project.md` is a valid record.
+delivery resolution, story objective, tone, creative constraints, known rights
+constraints, run budget, and unresolved questions recorded in `project.md`.
+Confirmed directorial defaults (structure, energy level, camera and light
+stance, lens, grade, pacing, acting, staging, medium, audio) from
+`brief-intake` persisted as a `locked` block in `project.md` frontmatter. The
+brief also records:
+
+- the **audio route**: native dialogue, picture only with score, ambience and
+  SFX built in post, opt-in separate lip-sync audio, or silent;
+- the **look intent**: ungraded original model colours unless a grade or a
+  capture-format look is requested, in which case it is a post treatment;
+- the **on-screen copy** (titles, captions, CTA, end card) that post will add,
+  and any label the user or platform requires;
+- for ads and TVCs, the **cinematic bar**: sequence count and length, one action
+  per shot, and the wow image each sequence must deliver.
+
+The brief is the `brief-development` stage source; `stage complete` checks that
+`project.md` is a valid record.
 
 Exit: the production objective, constraints, and directorial defaults are clear
 enough to break down. When the brief cites brand ads or other footage for
@@ -97,7 +94,11 @@ For every narrative, ad, micro-drama, music-video or showcase scene it also
 requires a shot plan from `seedance-shot-design` in the scene file's
 `## Shot plan` section: per shot, duration, size, angle, camera move, lens
 intent and a named light source with key side, the energy level, and where each
-confirmed project axis appears. The plan is `draft` until the scene's locations
+confirmed project axis appears. Ads and TVCs group shots into sequences of
+about 5 s with 2–3 shots each; no planned shot is shorter than about 0.8 s, and
+faster cuts, flashes or intercuts are marked as edit work. A long action with
+people that would need extension is planned as short single passes held by a
+blocking map unless `asset://` Virtual Portrait identities are available. The plan is `draft` until the scene's locations
 are approved in Stage 3 and is revalidated before Stage 6. A scene that is exempt
 (user lock, static-by-design format, an explicit per-shot camera plan from another skill, plate
 for cutdown, source-preserving edit, extension continuation, or no video shot)
@@ -120,11 +121,10 @@ provenance and `generation: none`; deterministic screens/cards/posters carry an
 editable HTML entrypoint with local CSS/SVG dependencies, a render record, and
 `generation: deterministic_html`
 instead of a model prompt or provider task. **Before locking
-the element list**, walk every beat of every scene/shot against the Element
-identification checklist in AGENTS.md — verify that visible characters, settings,
+the element list**, walk every beat of every scene/shot against the tracked
+element-identification contract — verify that visible characters, settings,
 props, screen/UI surfaces, brand/title cards, and recurring audio have been
-identified and assigned the appropriate treatment under the tracked
-element-identification contract. Recurring/identity-critical on-camera characters
+identified and assigned the appropriate treatment. Recurring/identity-critical on-camera characters
 and recurring/geography-critical spaces need canonical references; incidental
 people/settings may use descriptors or scene direction. Screen-only callers use
 a locked UI with text-directed movement/dialogue, not character sheets as static
@@ -137,6 +137,10 @@ typography, screen/UI, product lineup, price/CTA, and poster geometry. Use
 Seedream for synthesized image content; a
 hybrid binds the selected image as a hashed input and finishes exact copy/layout
 deterministically.
+Generic containers, jars, cases, labels and generated screens tend to grow
+invented lettering: give a story prop a reference sheet, and describe recurring
+non-sheet props positively as plain ("plain white ceramic jug, smooth solid
+surface") or leave them out.
 Record missing required references before dependent tasks are submitted.
 The `canon-elements` manifests record every variant (acquired, generated, or
 deterministically rendered), its prompt or provenance/render record,
@@ -162,17 +166,21 @@ exist before dependent panel generation. A text-only visual plan may be drafted
 earlier and stays draft until its input requirements are satisfied.
 
 Required output: beat/panel plan that follows the scene's shot plan, bound
-references, prompts, generated panels or prompt package, continuity review,
-provenance, and video-handoff eligibility.
-Record these together in the `storyboard-visual-plan` manifests; Studio shows shot takes only.
+element references, prompts, generated panels or prompt package, continuity
+review, and provenance. Boards are planning and review artifacts: their staging
+is translated into shot prompt text and they are never bound as Seedance
+references. Record these together in the `storyboard-visual-plan` manifests;
+Studio shows shot takes only.
 
 Exit: required panels have a mode-authorized approval and all source element
-hashes remain current, or the scene has a mode-authorized direct-to-video path.
+hashes remain current, or the stage is skipped because the shot plan already
+carries the staging.
 
-## 5. Audio preparation (optional — when user requests lip-synced dialogue)
+## 5. Audio preparation (optional — requested lip-sync audio or beat-led music)
 
-Entry: exact dialogue and planned scene duration exist, and the user has
-explicitly requested lip-synced dialogue audio.
+Entry: exact dialogue and planned scene duration exist and the user has
+explicitly requested lip-synced dialogue audio, or a music track exists that the
+cut must follow.
 
 Required output: exact audio prompt, local audio file, duration, transcript or
 dialogue timing, media inspection, SHA-256, and manifest linkage.
@@ -182,7 +190,10 @@ Exit: audio duration fits the planned video and dialogue mappings are verified.
 
 When the user has not requested lip-synced audio, skip this stage and proceed
 directly to shot generation. Seedance's native audio handles dialogue by
-default.
+default. A music track that the cut must follow (music video, beat-led spot)
+may be prepared here so shot durations can be planned to it. Score and ambience
+for a picture-only project are otherwise built after picture lock, at
+assembly, to the cut's measured length.
 
 ## 6. Shot generation
 
@@ -193,19 +204,25 @@ every prompt being submitted. Review inline by default; use a sub-agent only
 when the user explicitly requests sub-agent prompt review for the project or
 specific generation. The ordered `references:` array is verified 1:1
 against `shot.md` (same files, same order, same `@Image N` / `@Video N` /
-`@Audio N` bindings); and the Seedance 2.5 draft pass explicitly uses `resolution: "480p"`.
-Record the separate delivery target and any explicit user override or verified
-operation constraint under the production policy.
+`@Audio N` bindings); the request's `generate_audio` matches the brief's audio
+route; no storyboard image is bound; and the Seedance 2.5 draft pass uses
+`resolution: "480p"` as a native Draft when the live schema supports it.
+Initialize Studio at the delivery target, not the draft resolution. Record any
+explicit user override or verified operation constraint under the production
+policy.
 
 Required output: task registry entry, local media, exact prompt snapshot,
 provider metadata, actual media properties, cost fields, SHA-256, semantic QA
-including a comparison of the take against its shot plan, and `review` status. Resolution is raised only after the current pass is
-approved (final-candidate gate). For multi-shot productions, review the draft
+including a comparison of the take against its shot plan, frame samples with
+top-left corner crops for leaked text, a speech-to-text diff for every locked
+line, and `review` status. Resolution is raised only after the current pass is
+approved (final-candidate gate); a native Draft is promoted by its
+`draft_task_id` without changing its inputs. For multi-shot productions, review the draft
 assembly and record picture/audio decisions before generating final takes.
 Each final request is separately registered and reviewed against its complete
 request hash; each final output needs fresh playback, audio and creative QA and
-a mode-authorized selection before it replaces the draft in Studio. A 480p
-output alone does not establish native Draft/promotion support.
+a mode-authorized selection before it replaces the draft in Studio. A plain
+480p output requested without `draft: true` cannot be promoted.
 The `shot-generation` stage records every take, exact prompt, ordered element
 bindings, metadata, inspection result and selection state. When a style/grammar
 reference pin (or other watchable reference video) exists, that pin and each
@@ -225,9 +242,13 @@ shot blocked.
 Entry: approved takes and any requested audio assets exist.
 
 Required output: ordered edit, review render, transition and continuity review,
-audio presence check, technical decode QA, and outstanding notes.
-The `assembly-review` stage keeps its approved inputs and comparison renders on
-the same page.
+audio presence check, technical decode QA, and outstanding notes. Assembly
+defaults to conform, trim, crop, overlays, end card and mix with no grade, from
+exact-length intermediates encoded once; post beds for picture-only projects
+are built here to the measured cut. Audio defects are fixed word by word, and
+re-voicing keeps the source soundtrack (see
+[production defaults](production-defaults.md)). The `assembly-review` stage
+keeps its approved inputs and comparison renders together.
 
 Exit: picture and audio have separate mode-authorized locks bound to the exact
 artifact and passing review hashes. Audio lock is required when audio is in
@@ -240,7 +261,9 @@ lifecycle specification.
 Entry: approved picture and audio plus a known delivery target.
 
 Required output: inspected master, review proxy if needed, caption or localization
-status, delivery metadata, hashes, and archive pointers.
+status, delivery metadata, hashes, and archive pointers. On-screen text comes
+only from post overlays; add no AI or fictional label unless the user, platform
+or brief requires one.
 The `delivery` stage exposes those files and final approval evidence.
 
 Exit: inspect the actual local master, then record a mode-authorized final

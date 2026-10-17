@@ -51,85 +51,93 @@ three entries whose start input matches what they have. The recipe file holds th
 look, route, parameters, start-photo contract, beats, prompt template, slots,
 post steps, QA and risks for each id.
 
+**Evidence** is the outcome of one 480p draft on one invented adult subject in
+the 2026-10-08 full run: `clean` (signature look landed, minor deviations),
+`defects` (look landed with a recorded defect), `not achieved` (no take passed;
+the recipe is an unverified hypothesis), and `(first-frame fallback)` when the
+listed reference route was rejected and the fallback produced the take. Quote
+the evidence when offering an entry; nothing here is verified on a user's photo,
+a real person or a final resolution.
+
 ### Camera and motion
 
 Recipes: [effects-camera-and-motion.md](references/effects-camera-and-motion.md)
 
-| id | Label | Route | Duration | Start input |
-| --- | --- | --- | --- | --- |
-| `wild-ride` | Wild ride | `i2v-first-frame` | 10 s | Car with a person leaning out, open space |
-| `incline` | Incline | `i2v-first-frame` | 7 s | Calm person, visible floor, some clutter |
-| `street-colossus` | Street colossus | `i2v-first-frame` | 10 s | Full-body standing person, outfit clearly visible |
-| `tracking` | Tracking | `composite` | 5 s | Performer in motion, hands and face clear |
-| `bullet-time` | Bullet time | `i2v-first-frame` | 15 s | Seated person holding a drink, medium shot |
-| `high-flip` | High flip | `i2v-first-and-last` | 9 s | Person in a distinctive place, headroom above |
-| `floating-fall` | Floating fall | `i2v-first-frame` | 12 s | Person holding 2-4 clear items outdoors |
-| `moonwalk` | Moonwalk | `i2v-first-and-last` | 15 s | Full-body person, clean side-on stance |
-| `studio-slide` | Studio slide | `i2v-first-frame` | 8 s | Full-body fashion photo, plain solid backdrop |
+| id | Label | Route | Duration | Start input | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `wild-ride` | Wild ride | `i2v-first-frame` | 10 s | Car with a person leaning out, open space | defects |
+| `incline` | Incline | `i2v-first-frame` | 7 s | Calm person, visible floor, some clutter | clean |
+| `street-colossus` | Street colossus | `i2v-first-frame` | 10 s | Full-body standing person, outfit clearly visible | clean |
+| `tracking` | Tracking | `composite` | 5 s | Performer in motion, hands and face clear | defects |
+| `bullet-time` | Bullet time | `i2v-first-frame` | 15 s | Seated person holding a drink, medium shot | defects |
+| `high-flip` | High flip | `i2v-first-and-last` | 9 s | Person in a distinctive place, headroom above | defects |
+| `floating-fall` | Floating fall | `i2v-first-frame` | 12 s | Person holding 2-4 clear items outdoors | clean |
+| `moonwalk` | Moonwalk | `i2v-first-and-last` | 15 s | Full-body person, clean side-on stance | defects |
+| `studio-slide` | Studio slide | `i2v-first-frame` | 8 s | Full-body fashion photo, plain solid backdrop | clean |
 
 ### Clones and identity
 
 Recipes: [effects-clones-and-identity.md](references/effects-clones-and-identity.md)
 
-| id | Label | Route | Duration | Start input |
-| --- | --- | --- | --- | --- |
-| `clones` | Clones | `i2v-first-frame` | 7 s | Full-body, standing, wide open location |
-| `infinite-clones` | Infinite clones | `reference-images` | 7 s | Full-body, distinctive outfit and headwear |
-| `selfception` | Selfception | `i2v-first-frame` | 5 s | Standing, open palm holding a tiny copy |
-| `act-natural` | Act natural | `i2v-first-frame` | 6 s | Person caught mid-action, busy location |
-| `stop-world` | Stop world | `i2v-first-frame` | 8 s | Standing figure inside a crowded space |
-| `eyes-in` | Eyes in | `i2v-first-frame` (+ optional second clip) | 7 s | Portrait, open eye toward camera, well lit |
-| `lacewalker` | Lacewalker | `reference-images` | 8 s | Full-body outfit, readable face with glasses or hat |
-| `superstar` | Superstar | `reference-images` | 15 s | Clear face, distinctive outfit, waist-up |
-| `vanish` | Vanish | `i2v-first-frame` | 5 s | Loose shape-holding clothes, kneeling or leaning |
+| id | Label | Route | Duration | Start input | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `clones` | Clones | `i2v-first-frame` | 7 s | Full-body, standing, wide open location | defects |
+| `infinite-clones` | Infinite clones | `reference-images` | 7 s | Full-body, distinctive outfit and headwear | defects (first-frame fallback) |
+| `selfception` | Selfception | `i2v-first-frame` | 5 s | Standing, open palm holding a tiny copy | defects |
+| `act-natural` | Act natural | `i2v-first-frame` | 6 s | Person caught mid-action, busy location | defects |
+| `stop-world` | Stop world | `i2v-first-frame` | 8 s | Standing figure inside a crowded space | defects |
+| `eyes-in` | Eyes in | `i2v-first-frame` (+ optional second clip) | 7 s | Portrait, open eye toward camera, well lit | defects |
+| `lacewalker` | Lacewalker | `reference-images` | 8 s | Full-body outfit, readable face with glasses or hat | defects (first-frame fallback) |
+| `superstar` | Superstar | `reference-images` | 15 s | Clear face, distinctive outfit, waist-up | defects (first-frame fallback) |
+| `vanish` | Vanish | `i2v-first-frame` | 5 s | Loose shape-holding clothes, kneeling or leaning | defects |
 
 ### World and transformation
 
 Recipes: [effects-world-and-transform.md](references/effects-world-and-transform.md)
 
-| id | Label | Route | Duration | Start input |
-| --- | --- | --- | --- | --- |
-| `world-morphing` | World morphing | `i2v-first-frame` | 8 s | Centered person, open street, tall surroundings |
-| `architecture-wave` | Architecture wave | `i2v-first-frame` | 7 s | Low-angle person, big rigid structure behind |
-| `melting` | Melting | `i2v-first-frame` | 7 s | Full-body standing person, flat clear ground |
-| `burning-man` | Burning man | `i2v-first-frame` | 7 s | Full-body person, empty space beside, dusk |
-| `particles` | Particles | `composite` | 5 s | Single subject, dark high-contrast scene |
-| `lidar` | Lidar transition | `i2v-first-and-last` | 7 s | Person outdoors, distinct posts and skyline |
-| `earth-zoom` | Earth zoom | `i2v-first-and-last` | 10 s | Eye-level person on a plausible city street |
-| `blue-depth` | Blue depth | `i2v-first-frame` | 8 s | Waist-up person in front of dark blue water |
-| `desktop-glitch` | Desktop glitch | `composite` | 5 s | Cool-toned action shot with negative space |
+| id | Label | Route | Duration | Start input | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `world-morphing` | World morphing | `i2v-first-frame` | 8 s | Centered person, open street, tall surroundings | defects |
+| `architecture-wave` | Architecture wave | `i2v-first-frame` | 7 s | Low-angle person, big rigid structure behind | clean |
+| `melting` | Melting | `i2v-first-frame` | 7 s | Full-body standing person, flat clear ground | defects |
+| `burning-man` | Burning man | `i2v-first-frame` | 7 s | Full-body person, empty space beside, dusk | clean |
+| `particles` | Particles | `composite` | 5 s | Single subject, dark high-contrast scene | defects |
+| `lidar` | Lidar transition | `i2v-first-and-last` | 7 s | Person outdoors, distinct posts and skyline | clean |
+| `earth-zoom` | Earth zoom | `i2v-first-and-last` | 10 s | Eye-level person on a plausible city street | clean |
+| `blue-depth` | Blue depth | `i2v-first-frame` | 8 s | Waist-up person in front of dark blue water | defects |
+| `desktop-glitch` | Desktop glitch | `composite` | 5 s | Cool-toned action shot with negative space | defects |
 
 ### Art and style
 
 Recipes: [effects-art-and-style.md](references/effects-art-and-style.md)
 
-| id | Label | Route | Duration | Start input |
-| --- | --- | --- | --- | --- |
-| `comic` | Comic | `v2v-restyle` | source length (typ. 5 s) | user's clip, one central subject |
-| `canvas` | Canvas | `v2v-restyle` | source length (typ. 5 s) | user's clip, one separable moving subject |
-| `palette` | Palette | `v2v-restyle` | source length (typ. 5 s) | any clip, wide-angle or fast motion |
-| `lsd` | LSD | `v2v-restyle` | source length (typ. 5 s) | clip, people close to camera |
-| `scrapbook-collage` | Scrapbook collage | `composite` | 6 s | full-body standing, plain background |
-| `cutout` | Cutout | `i2v-first-and-last` | 8 s | person small in structured environment |
-| `pearl-earring` | Pearl earring | `composite` | 7 s | head-and-shoulders face, plain background |
-| `cyclope` | Cyclope | `composite` | 7 s | one person, full body, outdoor |
-| `fallen-angel` | Fallen angel | `composite` | 7 s | clear upper-body portrait, one person |
+| id | Label | Route | Duration | Start input | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `comic` | Comic | `v2v-restyle` | source length (typ. 5 s) | user's clip, one central subject | defects |
+| `canvas` | Canvas | `v2v-restyle` | source length (typ. 5 s) | user's clip, one separable moving subject | not achieved |
+| `palette` | Palette | `v2v-restyle` | source length (typ. 5 s) | any clip, wide-angle or fast motion | not achieved |
+| `lsd` | LSD | `v2v-restyle` | source length (typ. 5 s) | clip, people close to camera | not achieved |
+| `scrapbook-collage` | Scrapbook collage | `composite` | 6 s | full-body standing, plain background | clean |
+| `cutout` | Cutout | `i2v-first-and-last` | 8 s | person small in structured environment | defects |
+| `pearl-earring` | Pearl earring | `composite` | 7 s | head-and-shoulders face, plain background | clean |
+| `cyclope` | Cyclope | `composite` | 7 s | one person, full body, outdoor | defects |
+| `fallen-angel` | Fallen angel | `composite` | 7 s | clear upper-body portrait, one person | clean |
 
 ### Product, creature and spectacle
 
 Recipes: [effects-product-and-spectacle.md](references/effects-product-and-spectacle.md)
 
-| id | Label | Route | Duration | Start input |
-| --- | --- | --- | --- | --- |
-| `smash-and-grab` | Smash and grab | `i2v-first-frame` | 10 s | Product alone on a car seat, shot through window |
-| `boarding-pass` | Boarding pass | `i2v-first-frame` | 9 s | Full-body person on plain white floor |
-| `monster-dab` | Monster dab | `i2v-first-frame` | 10 s | Person walking toward camera, open sky behind |
-| `pigeons` | Pigeons (animal ride) | `composite` | 8 s | Full-body person on a city pavement |
-| `skatedog` | Skatedog (animal ride) | `composite` | 8 s | Full-body person on smooth street or promenade |
-| `agamemnon` | Agamemnon | `i2v-first-frame` | 15 s | Selfie taken seated in a dark cinema |
-| `mighty-fighter` | Mighty fighter | `composite` | 11 s | Clear face-forward portrait, head and shoulders |
-| `fairytale-castle` | Fairytale castle | `i2v-first-frame` | 15 s | Person in profile in an empty dusk meadow |
-| `frozen-in-motion` | Frozen in motion | `i2v-first-frame` | 7 s | Full-body person mid-jump on a busy street |
+| id | Label | Route | Duration | Start input | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `smash-and-grab` | Smash and grab | `i2v-first-frame` | 10 s | Product alone on a car seat, shot through window | clean |
+| `boarding-pass` | Boarding pass | `i2v-first-frame` | 9 s | Full-body person on plain white floor | defects |
+| `monster-dab` | Monster dab | `i2v-first-frame` | 10 s | Person walking toward camera, open sky behind | defects |
+| `pigeons` | Pigeons (animal ride) | `composite` | 8 s | Full-body person on a city pavement | clean |
+| `skatedog` | Skatedog (animal ride) | `composite` | 8 s | Full-body person on smooth street or promenade | clean |
+| `agamemnon` | Agamemnon | `i2v-first-frame` | 15 s | Selfie taken seated in a dark cinema | defects |
+| `mighty-fighter` | Mighty fighter | `composite` | 11 s | Clear face-forward portrait, head and shoulders | defects (first-frame fallback) |
+| `fairytale-castle` | Fairytale castle | `i2v-first-frame` | 15 s | Person in profile in an empty dusk meadow | defects |
+| `frozen-in-motion` | Frozen in motion | `i2v-first-frame` | 7 s | Full-body person mid-jump on a busy street | defects |
 
 ## Procedure
 
@@ -205,7 +213,7 @@ package; no files, no submission.
 | `i2v-first-frame` | One image with role `first_frame` | The photo is the opening frame; ratio locks to it |
 | `i2v-first-and-last` | `first_frame` and `last_frame` images | Both ratios match; a `last_frame` alone is rejected, so build the missing first frame (`earth-zoom`, `lidar`) |
 | `reference-images` | Images with role `reference_image` | The clip does not open on the photo; state ratio; add identity-only wording; a face or body crop of a person can be rejected, so keep the first-frame fallback in the recipe ready |
-| `v2v-restyle` | Source clip, muted master | Delegate to `seedance-restyle`; its rules replace this table |
+| `v2v-restyle` | Source clip, muted master | Delegate to `seedance-restyle`; its rules replace this table. A clip showing a realistic person is rejected (`PrivacyInformation`) unless each person is an `asset://` asset |
 | `composite` | Generated clip plus a deterministic step | FFmpeg stack, HyperFrames overlay or `html-graphic-render` layout named in the recipe |
 
 A first-frame image cannot be combined with reference images. Parameters that the
@@ -221,10 +229,19 @@ in [evidence status](references/evidence-status.md)):
 - A `last_frame` without a `first_frame` is rejected.
 - Generated sound leaked music, singing or stray voices in 10 of 45 drafts despite
   the audio sentence; check the track, and use post audio for a clean master.
-- Video-to-video inputs cannot hold a realistic person; edit-route draft mode is
-  unproven.
+- Video inputs (edit, restyle, extend) are rejected when they show a realistic
+  person, generated or real, unless each person is bound as an `asset://`
+  Virtual Portrait or authorized asset; the run used a person-free source.
+  Edit-route draft mode is unproven.
 - Generated tickets, UI and panels invent lettering; describe plain surfaces and
-  add readable overlays in post. Counts drift, so verify them on a full-size frame.
+  add readable overlays in post.
+- Clone, runner and object counts overshoot (7 to 8 for 7; 20 to 25 for 20).
+  State the exact count at every timestamp, ask for one fewer when an upper
+  bound matters, and count on a full-size frame.
+- Cuts closer than about 0.8 s merge inside one generation, and prompted cut
+  times drift by up to about 1 s. Rapid glitch cuts, stepped cadence and
+  strobes (`desktop-glitch`, `particles`, `comic`, `tracking`) are finished in
+  post; treat their in-prompt cut times as approximate.
 
 ## Hard rules
 
@@ -232,22 +249,29 @@ in [evidence status](references/evidence-status.md)):
    beats to suit a taste; revise through the Decide stage.
 2. **No text inside generated video.** HUD, labels, captions, UI and city names
    are added in post with HyperFrames or `html-graphic-render`.
-3. **Native audio is off** unless the recipe justifies it. Every audio sentence in
-   a template is conditional on `generate_audio`: when it is on, list sound effects
-   only and end with "with ambience only, no music and no speech", then check the
-   draft's track before promoting (a promotion reuses the draft's audio). Native
-   audio has baked music and speech into other runs: a shouted voice in the
-   smash-and-grab probe, and music or singing in 7 of the 45 full-run drafts.
-4. **Counts are explicit** at every timestamp, and copies share one face and one
-   outfit.
+3. **Native audio is off** unless the user asks for it or the recipe needs
+   sync-critical foley. The negative audio sentence does not hold reliably:
+   music, singing or stray voices leaked into 10 of the 45 full-run drafts and a
+   shouted line into the smash-and-grab probe. When it is on, list sound effects
+   only, end with a positive line ("with only <the listed effects> and room
+   ambience"), check the
+   draft's track before promoting, and check the final's track again (the
+   promotion reuses the audio setting, but the final's audio is not
+   byte-identical). A clean ambience or SFX bed comes from Seed Audio in post and
+   is not frame-synced.
+4. **Counts are explicit** at every timestamp, copies share one face and one
+   outfit, and the reported count is the one found on a full-size frame.
 5. **Always a draft first.** 480p draft, inspect, then ask before the final.
    Never submit the same paid generation twice or through two transports; an
    ambiguous timeout is reconciled, not retried.
 6. **Identity references are labelled.** A reference image gets "use only for the
    person" wording with what to ignore (pose, background, light) when its scene
    could leak.
-7. **Status honesty.** Report a recipe as verified only if a probe draft showed
-   its signature look; otherwise it is an untested hypothesis. See
+7. **Status honesty.** Call a recipe verified only at the level its Evidence
+   column shows: `clean` or `defects` means one invented subject at 480p, never
+   a guarantee on the user's photo; `not achieved` means an unverified
+   hypothesis, said before any paid run, with an alternative offered. A
+   template amended after its run is a hypothesis until re-probed. See
    [evidence status](references/evidence-status.md).
 8. **Rights stay separate from creative approval.** A request to generate does
    not grant likeness, brand or music rights.

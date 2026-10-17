@@ -49,21 +49,6 @@ The 3,000 character limit is the most common constraint you'll hit. Try these fi
 
 ## Language-specific guidance
 
-For languages with special phonetic considerations, include targeted guidance:
-
-**Tagalog/Filipino:**
-- Penultimate stress default (note key words with non-default stress)
-- Flat intonation, not English-style rising-falling
-- Glottal stops are phonemic (mark with trailing apostrophe: `gala'`)
-- "Ng" at word start is a single velar nasal [ŋ]
-- Use the bundled [language reference](language-reference.md) for focused pronunciation guidance
-
-**Chinese:**
-- Tones are critical — mark tone numbers on key words (e.g., `ni3 hao3`)
-- Pinyin romanization in pronunciation guides
-
-**Japanese:**
-- Pitch accent patterns on key words
-- Long vowel markers (e.g., `obāsan` vs `obasan`)
+For languages with special phonetic considerations (Tagalog/Filipino, Spanish, Japanese, Mandarin), copy the compact pronunciation block from the [language reference](language-reference.md) and keep only the key words this script needs. Pronunciation notes are hypotheses to verify by listening, not guaranteed controls.
 
 **For unsupported languages:** Check the Seed Audio API reference for current supported languages. If the target language isn't supported, tell the user and suggest alternatives (e.g., English narration with the original voice, or a different service).

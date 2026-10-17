@@ -256,6 +256,10 @@ highlight bloom.
 ```
 
 - **Watch:** generated date stamps or on-screen display text; add those in post.
+- **Observed:** in generation prompts, camcorder or MiniDV wording has
+  produced clean cinematic footage instead of the look. Probe this fragment at
+  480p; when it stays clean, apply the camcorder texture as a post treatment on
+  the kept output instead.
 
 ### neon-synthwave
 

@@ -30,32 +30,35 @@ video.
    built from text only. See [likeness and inputs](references/likeness-and-inputs.md).
 2. **Real-likeness policy gate.** Consent from the presenter does not by itself
    authorize sending their likeness to Seedance. The generated character sheet
-   is still a photoreal depiction of a real person. Before any Seedance
-   request that carries it, the user must confirm that real-likeness
-   generation is sanctioned for their account or organization, for example
-   through a provider authorized-likeness route or a named policy owner's
+   is still a photoreal depiction of a real person, and Seedance commonly
+   rejects real-person reference images with `PrivacyInformation`. The
+   provider's authorized-likeness route is an Advanced Creation Rights asset:
+   the presenter's face (and voice, if used) registered as an authorized
+   real-person `asset://` asset, reused when one is already `Active` (compose
+   with `seedance-virtual-portrait`). Before any Seedance request that carries
+   the likeness, the user confirms that route or a named policy owner's
    approval. Record who approved it and when. Without that confirmation, stop
    after the character sheet and present the options in rule 3.
 3. **A privacy rejection is a stop, not an obstacle.** If Seedance returns
    `InputImageSensitiveContentDetected.PrivacyInformation`, stop and report the
    request ID and the flagged inputs. Never crop, blur, stylize, recompose, or
-   swap inputs to get a real likeness past the check. Offer: (a) the provider's
-   authorized-likeness route, (b) an original invented host, or (c) filming the
-   presenter. Resubmit only on the user's explicit decision, within the
-   recorded gate 2 approval, and log the decision in PROVENANCE.
+   swap inputs to get a real likeness past the check. Offer: (a) the authorized
+   real-person `asset://` route, (b) an original invented host registered as a
+   Virtual Portrait, or (c) filming the presenter. Resubmit only on the user's
+   explicit decision, within the recorded gate 2 approval, and log the decision
+   in PROVENANCE.
 4. **Real photos never go to Seedance.** They are Seedream identity references
    only.
 5. **Voice clip is timbre-only.** Bind it with: "@Audio 1 defines <Name>'s voice
    timbre, accent and pacing only; do not reuse any words from @Audio 1."
-6. **One paid submission per take.** Record job and provider task IDs in the
-   project `task_ids.json` before polling. A sub-agent reports them to the main
-   agent, which owns that file. Background job IDs are
-   process-local, so after an MCP restart poll the provider task ID with
-   `seedance_get_task` and check `.artifacts/` for persisted outputs before any
-   resubmit.
+6. **One paid submission per take**, registered and resumed under the
+   workspace production policy. A sub-agent reports job and provider task IDs
+   to the main agent, which owns `task_ids.json`; after an MCP restart resume
+   the provider task ID rather than resubmitting.
 7. Seedream and Seedance prompts pass `prompt-review` before submission.
 8. Outputs are an AI likeness of a real person. Keep them private unless the
-   presenter signs off, and label them as AI-generated when posted.
+   presenter signs off, and use the platform's AI-content disclosure when
+   posted. Captions and badges are added in the edit, never generated.
 
 ## Element layout
 
@@ -94,16 +97,25 @@ Confirm gate 2 is recorded. Write the prompt from
 - **1:1 locked** take when the presenter will sit in a split-screen or card.
 - **9:16 camera-beat** take when the edit goes full-screen on the presenter.
 
-Settings: `generate_audio: true`, 1080p, `watermark: false`, duration = script
-length rounded up with about 1s of slack (≤30). Run prompt-review, save the
-request JSON, submit once, and poll the provider task (about 5–6 min).
+Settings: `generate_audio: true`, `watermark: false`, `resolution: "480p"`
+draft first, then promote the selected draft by `draft_task_id` to the delivery
+resolution. Duration: script words ÷ 2.2, plus about 1 s for the late speech
+onset and at least 0.4 s of tail, rounded up (≤30). Lines land 0.5–1.5 s late
+and speech runs to the clip end, so a script that does not fit is shortened (if
+editable) or split into two takes. The caller owns prompt-review, saving the
+request JSON, a single submission and polling the provider task.
 
 ### 5. Take QA
 - Compare a contact sheet against the selected sheet: face, hairline,
   wardrobe, accessories, props.
 - Run `speech_to_text` on the take audio and diff it against the script. No
   words from the voice clip may appear. Keep the word timings for captions.
-- Check lip-sync on close frames and on plosives.
+  Repeat the transcript and lip-sync checks on the promoted final: its audio is
+  not byte-identical to the draft's.
+- Check lip-sync on close frames and on plosives, and that the last word ends
+  before the clip does.
+- Listen for music or a second voice: native audio can add them despite a
+  room-tone-only line.
 - Voice resemblance: do a rough pitch comparison and explicitly ask for a
   human listen.
 
@@ -118,4 +130,6 @@ At most one retake, and only for a clear defect. Tell the user why before retaki
 | Mic or accessory missing | Name it in both scene and subject text and QA it. It cannot come from the sheet. |
 | Words from the voice clip spoken | Strengthen the timbre-only binding and keep the clip ≤15s |
 | Voice resemblance weak | Retake with the 15s alternate clip |
+| Last words clipped or rushed | Script too long for the take: about 2.2 words/s plus onset and tail; shorten or split |
+| Gesture on the wrong hand | Name each hand by anatomy plus frame side ("his right hand, frame-left") |
 | Background job lost after MCP restart | Check `.artifacts/` for newer files, then poll the provider task ID |

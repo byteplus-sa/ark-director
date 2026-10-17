@@ -64,12 +64,13 @@
     {
       "id": 6,
       "prompt": "Write a Seedance 2.5 prompt for the teal-and-orange grade on a two-take scene, and emit the matching FFmpeg filter graph for cross-shot matching in the mix step.",
-      "expected_output": "A Seedance prompt with the teal-and-orange grade in the visual style slot plus a labeled FFmpeg filter graph for matching only, not a replacement for the prompt grade.",
+      "expected_output": "A Seedance prompt with the teal-and-orange grade in the visual style slot plus a light FFmpeg matching graph inside the limited-range BT.709 decode-and-dither wrapper, labelled matching-only.",
       "files": [],
       "expectations": [
         "The output includes the teal-and-orange grade sentence in the visual style slot.",
-        "The output emits an ffmpeg -i ... -vf ... command for the teal-and-orange palette.",
-        "The output labels the FFmpeg graph as matching-only in the mix step, not as a re-grade of the prompt.",
+        "The output emits an ffmpeg -i ... -vf ... command whose chain decodes limited-range BT.709, works at 10-bit or higher, and dithers to 8-bit only at the end.",
+        "The filter graph uses no vignette or eq filter.",
+        "The output labels the FFmpeg graph as matching-only for the takes, not as a second grade on top of the prompt grade.",
         "The output does not put FFmpeg commands inside the model prompt text."
       ]
     },
@@ -83,6 +84,42 @@
         "The output uses explicit black-and-white language: deep blacks, bright whites or silver mid-tones, not just 'black and white'.",
         "The output includes a grain or film-texture cue.",
         "The output keeps exactly one grade direction with no color words that contradict monochrome."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Assemble these three approved Seedance 2.5 1080p clips into one 30-second spot with an end card. No look was mentioned in the brief.",
+      "expected_output": "An ungraded conform: original Seedance colours, limited-range BT.709 decode and tagging, dither to 8-bit, no palette, grain, halation or vignette.",
+      "files": [],
+      "expectations": [
+        "The output applies no colour grade, palette, grain, halation or vignette.",
+        "The conform decodes the HEVC finals as limited-range BT.709 and tags the output BT.709.",
+        "Any 10-bit to 8-bit conversion is dithered once at the end of the chain.",
+        "The output does not add a grade sentence to any prompt."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "The client approved these Seedance clips but now wants a bleach-bypass look on the final cut. Give me the FFmpeg command.",
+      "expected_output": "A post-route bleach-bypass look applied to copies of the untouched masters inside the decode-and-dither wrapper, using curves and hue rather than eq or vignette, before overlays.",
+      "files": [],
+      "expectations": [
+        "The output chooses the post route and does not ask to regenerate the clips with a prompt grade.",
+        "The command decodes limited-range BT.709, keeps the look in a 10-bit or higher chain, and tags the output BT.709.",
+        "The filter graph contains no vignette or eq filter.",
+        "The look is applied before captions, end cards or other overlays, and the original masters are kept."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Write a Seedance 2.5 prompt for a family beach day that should look like 1990s MiniDV camcorder footage.",
+      "expected_output": "A clean Seedance prompt describing the scene, with the camcorder texture planned as a post treatment rather than MiniDV or camcorder words in the prompt.",
+      "files": [],
+      "expectations": [
+        "The Seedance prompt does not rely on 'MiniDV', 'camcorder' or tape-texture words to create the look.",
+        "The output plans the camcorder texture (downscale round trip, chroma smear, tape noise, optional recorder overlay) as a post treatment.",
+        "Any on-screen recorder graphics are planned as a separate overlay layer, not generated in the video.",
+        "The prompt still carries subject, action, camera and light direction."
       ]
     }
   ]

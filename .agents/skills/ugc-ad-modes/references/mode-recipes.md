@@ -67,7 +67,7 @@ count. Identity and product fidelity survive changes in presentation style.
 - **Story:** Hero → detail/action → closing product state. If the user requests
   1-2-1, use one establishing beat, two detail/action beats, one closing beat.
   Keep actions simple enough for the runtime; a single meaningful reveal can work.
-- **Audio:** Tactile sound or a restrained bed when requested; silence is valid.
+- **Audio:** Tactile sound or a restrained bed when requested; silence is valid (picture-only, `generate_audio: false`).
 - **CTA:** Honor a requested spoken CTA; otherwise a product closing view with
   separately planned text can serve a product-page or brand placement.
 - **Watch for:** Decorative motion obscuring the mechanism, text distortion,

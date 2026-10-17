@@ -4,6 +4,7 @@ Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) f
 mode selection and caller responsibilities.
 
 - [Quick reference card](#quick-reference-card)
+- [Draft mode](#draft-mode)
 - [Guide disclaimer](#guide-disclaimer)
 
 ## Quick reference card
@@ -37,7 +38,7 @@ mode selection and caller responsibilities.
 | Music | `()` |
 | Sound Effects | `<>` |
 | Dialogue | `{}` |
-| Subtitles | `【】` |
+| Subtitles | `【】` (provider syntax; workspace footage stays text-free, so subtitles are a post layer) |
 
 ### Parameter auto-lock summary
 
@@ -60,7 +61,7 @@ mode selection and caller responsibilities.
 | Bounce speed ramp | Acceleration/deceleration points; final state |
 
 ### Reproducibility
-- `seed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool; reproduce a look by reusing the approved prompt and references.
+- `seed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool; reproduce a look by reusing the approved prompt and references. Draft promotion reuses the draft's seed.
 - `camera_fixed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool (checked 2026-10-06; `seedance-prompt-20` documents it for the 2.0 REST API), so state a locked camera in the prompt and record its `static_reason`.
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 
@@ -70,15 +71,15 @@ mode selection and caller responsibilities.
 - Multi-round extensions up to 180s (beta).
 
 ### Cost ladder
-- Default to an explicit `resolution: "480p"` for drafts and revisions; after
-  passing review and mode-authorized selection, finalize at the recorded delivery
-  target. Explicit user instructions override the default; record verified
-  operation constraints when 480p is unsupported.
+- Draft first, then promote the selected draft (see [Draft mode](#draft-mode)).
+  Explicit user instructions override the default; record verified operation
+  constraints when a draft is unsupported.
 - Keep resolution in request parameters, separate from prompt text and Studio
-  canvas dimensions. A 480p request does not imply native Draft/promotion support;
-  verify that capability before using it. Final requests and outputs need fresh
-  request review and QA under the workspace production policy.
-- Video generation is billed per successful task completion.
+  canvas dimensions. Final requests and outputs need fresh request review and QA
+  under the workspace production policy.
+- Video generation is billed per successful task completion; a 1080p final costs
+  roughly five times the 480p draft in tokens (observed; confirm on the pricing
+  page).
 - Confirm current billing rules on the [Pricing page](https://docs.byteplus.com/en/docs/ModelArk/1544106).
 
 ### When to use Seedance 2.0 instead of 2.5
@@ -96,39 +97,53 @@ Fall back to `seedance-prompt-20` and the 2.0 model (`dreamina-seedance-2-0-2601
 
 ### Consistency rules
 - Lock character sheets, prop sheets, and scene sheets with Seedream before spending video credits.
-- Storyboarding is optional. Generate storyboard panels from approved assets when composition must be reviewed before motion; otherwise generate video directly from canonical Element references (R2V) or text-to-video.
+- Storyboards are optional planning and review artifacts. Generate video from canonical Element references (R2V) or text-to-video, with the board's staging written into the prompt.
 - Reuse the same reference bundle across every shot in a scene.
 - Preserve a written locked-decisions and requested-delta record for every retry.
 - Change only one of {prompt wording, reference bundle, motion design} per retry when practical.
 
-### Storyboard-to-video handoff
+### Storyboards are not video inputs
 
-Storyboards are optional. Use a storyboard panel as a derivative composition
-and continuity anchor when composition must be reviewed before motion;
-otherwise generate video directly from canonical Element references (R2V)
-or text-to-video. Character, location, and prop sheets remain the source of
-truth. Require explicit approval before using a panel as a video input.
+A storyboard grid, board or panel is never bound to a Seedance request
+(`references.no_board_binding`): panel numbers and the sketch or watercolour
+medium leak into the video, and output-copyright rejections rise. Translate
+the approved board into shot lines and bind the canonical character, location
+and prop references instead.
 
 | Need | Mode | Reference rule |
 |---|---|---|
-| Reproduce the exact approved opening frame | First-frame | Submit only the promoted panel |
-| Lock approved start and end states | First + last frame | Submit only the two promoted panels |
-| Preserve explicit references while following storyboard composition | R2V | Submit the approved panel and canonical asset set as separate indexed references |
-| Generate video without a storyboard | R2V or T2V | Submit canonical Element references only (R2V) or text-only prompt (T2V) |
-
-For R2V, index the panel and canonical assets separately:
-
-```text
-@Image 1: approved storyboard panel — composition, blocking, lighting, and visible state
-@Image 2: approved character sheet — identity and wardrobe only
-@Image 3: approved location sheet — geometry and production design only
-@Image 4: approved prop sheet — shape, materials, and markings only
-```
+| Reproduce an exact opening frame | First-frame | A clean full-frame keyframe in the final medium, with no marks |
+| Lock start and end states | First + last frame | Two clean keyframes that share one aspect ratio |
+| Keep identities while following a planned composition | R2V | Canonical Element references only; the composition is written as text |
+| No storyboard at all | R2V or T2V | Canonical Element references (R2V) or text only (T2V) |
 
 These modes are mutually exclusive. Do not combine first/last-frame roles with
 an R2V bundle unless the live model explicitly confirms that combination. Record
 the chosen mode, ordered reference roles, paths, hashes, selected variants, and
 approval states in the shot manifest before submission.
+
+## Draft mode
+
+The Seedance 2.5 tool documents a two-step draft (`draft`, `draft_task_id`;
+checked 2026-10-17). Confirm the current tool schema before relying on it.
+
+1. **Draft.** Submit the full request with `draft: true` and an explicit
+   `resolution: "480p"`. Prompt, references, duration, ratio, `generate_audio` and task type
+   are frozen here; make every change before this call.
+2. **Review and select** the draft under the project's approval mode: motion,
+   shot plan, continuity, speech timing and audio.
+3. **Final.** Call again with only `draft_task_id` plus output settings
+   (resolution `1080p`, or `4k` on 2.5 Premium, or omitted, `watermark`, `return_last_frame`, expiry,
+   priority). The provider reuses the draft's model, prompt, media, duration,
+   ratio, seed, audio setting and task type, so those fields must be omitted.
+   Omitted output settings take model defaults, not the draft's values, so set
+   `watermark: false` again. A draft can be promoted for about seven days.
+4. **Re-check the final.** Picture and soundtrack are not byte-identical to the
+   draft; inspect playback, dialogue words and audio again before placing it.
+
+Without native draft support (another model or operation), a 480p request is
+an ordinary paid generation, and the final is a new reviewed request that may
+change picture, timing or audio.
 
 ## Guide disclaimer
 

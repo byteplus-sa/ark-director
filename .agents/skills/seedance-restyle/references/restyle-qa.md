@@ -26,8 +26,12 @@ Record each item as pass, fail or not applicable.
   match the source. Stepped styles still hit beat poses.
 - **No lettering.** No generated text, logos or signage copy; source text
   surfaces show abstract shapes.
-- **Technical.** Clean decode, no audio stream, duration within about 0.3 s of
-  the source (Route A) or equal to the requested whole seconds (Route B).
+- **Same place.** The background reads as the source's own place in the new
+  medium; no different city, landscape or interior has been substituted.
+- **Technical.** Clean decode, no audio stream. Route A returns the source
+  frame count for an 8n+1 input (otherwise within about 0.3 s); Route B equals
+  the requested whole seconds. Check the frame edges for black side bars the
+  source did not have.
 
 ## Audio checks after mux
 

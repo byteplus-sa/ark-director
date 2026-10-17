@@ -35,3 +35,9 @@ Chaining procedure:
 
 This targets continuity across cuts; inspect both sides of each seam because
 input conditioning does not guarantee identical positions or appearance.
+
+A source clip that shows a realistic person, generated or real, is rejected for
+edit and extend unless each person is an `asset://` asset. Without assets,
+continue a multi-shot sequence with new generations: element references bound
+by role, and the staging of the previous last frame (positions, facing, paths)
+written as text geometry from a blocking map rather than attached as an image.

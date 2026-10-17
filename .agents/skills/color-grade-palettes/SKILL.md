@@ -1,29 +1,56 @@
 ---
 name: color-grade-palettes
-description: >
-  Map a named color grade palette or film look into a canonical grade sentence
-  for the Seedance 2.5 Visual Style slot or the Seedream Style: section, with
-  an optional matching FFmpeg filter graph for cross-shot matching. Use this
-  skill for color grading, palette selection, look and grade choices, teal and
-  orange, bleach bypass, film looks, LUT-style grades, and cinematic grades.
-  The prompt grade is the source of truth; FFmpeg is only for matching in the
-  mix step. Golden hour here means the warm grade palette; for golden-hour
-  physical lighting (sun position and light), use seedance-lighting-presets.
+description: >-
+  Default to no grade: keep original Seedance colours in assembly. When a
+  colour palette or film look is requested, map it to a canonical grade
+  sentence for the Seedance 2.5 Visual Style slot or the Seedream Style:
+  section, and/or a high-bit-depth-safe FFmpeg post look (limited-range BT.709
+  decode, dithered 8-bit output) applied to the untouched master. Use for
+  colour grading, palette selection, look and grade choices, teal and orange,
+  bleach bypass, film stocks, VHS or camcorder looks, LUT-style grades, and
+  cinematic grades. Golden hour here means the warm grade palette; for
+  golden-hour physical lighting (sun position and light), use
+  seedance-lighting-presets.
 ---
 
 # Color Grade Palettes
 
-This skill turns a named color grade palette or film look into a **canonical
-grade sentence** that drops into the **Seedance 2.5 Visual Style slot** of the
-six-part formula, or into the **Seedream `Style:` section**. It is
-**prompt-composition only** — it does not call any MCP or API tools, and it
-never runs a generation. When `post_grade` is requested it also emits a short
-**FFmpeg filter graph**, used for cross-shot matching in the mix step only.
+**Default: no grade.** Generated Seedance footage keeps its original colours.
+Assembly conforms, trims, crops, adds end cards and mixes; it adds no grade,
+grain, halation or vignette unless the user asks for a look. A palette is an
+**opt-in look**. This skill composes prompt text and FFmpeg filter graphs only;
+it does not call any MCP or API tool and never runs a generation.
 
-> **The prompt grade is the source of truth.** The grade is baked into the
-> prompt at generation time. An FFmpeg re-grade is never an alternative to the
-> prompt grade — it only matches or refines a baked-in grade so separate takes
-> of the same palette line up in the mix.
+When a look is requested, pick the route:
+
+| Route | When | Output |
+|---|---|---|
+| `none` (default) | No look requested | No grade sentence; ungraded assembly with the correct colour decode |
+| `post` (default for a requested video look) | Footage exists or will be approved first; texture/format looks; one look shared by many clips | FFmpeg post look applied to a copy of the untouched master |
+| `prompt` | The user wants the look rendered at generation time, or the target is a Seedream still | Grade sentence in the Seedance Visual Style slot or Seedream `Style:` section |
+| `both` | A prompt grade is requested and separate takes must be matched | Grade sentence plus a light FFmpeg matching graph |
+
+The post route is reversible and leaves the approved picture untouched; the
+prompt route bakes the look into the take, so a later "use the original
+colours" request needs a new generation.
+
+## Correct colour decode (every route)
+
+Seedance 2.5 finals are 10-bit HEVC. Decode them as ordinary **limited-range
+BT.709**; a full-range reading lifts blacks and no longer matches the
+approved drafts. Tag the output BT.709, keep any look inside a high-bit-depth
+chain, and dither once to 8-bit at the end. Apply this chain in the single
+final encode (or the Studio render input), not as a lossy per-clip pass; keep
+per-clip intermediates lossless. Ungraded conform for that final encode:
+
+```
+ffmpeg -i master.mp4 -vf "scale=in_range=limited:out_range=limited:in_color_matrix=bt709:out_color_matrix=bt709:sws_dither=ed,format=yuv420p,setparams=range=tv:color_primaries=bt709:color_trc=bt709:colorspace=bt709" -c:v libx264 -crf 16 -preset slow -c:a copy out.mp4
+```
+
+Do **not** use FFmpeg's `vignette` or `eq` filters in a high-bit-depth chain:
+both accept only 8-bit input, so FFmpeg silently drops the chain to 8-bit YUV
+and hues shift. Use `curves` for contrast, `hue=s=` or `vibrance` for
+saturation and `colorbalance` for tint; all three stay at 10-bit or above.
 
 ## Source authority
 
@@ -39,13 +66,24 @@ The grammar this skill composes into is defined by the canonical prompt skills
 When the official guides are updated, prefer the live pages over this skill
 where they conflict. The base prompt grammar lives in `seedance-prompt-25` and
 `seedream-prompt`; compose with the relevant one when composing a full prompt.
+The FFmpeg filter behaviour below was checked locally on 10-bit HEVC test
+media; the look values are starting points to judge by eye, not calibrated
+LUTs.
 
 ## Palette bank
 
 Each entry has a **canonical grade sentence** (drop-in, natural inside a
 prompt) and a one-line **tonal recipe** describing the intent. Use the sentence
 verbatim for reproducibility; adjust only the visible specifics (e.g. which
-highlights) when the scene requires it.
+highlights) when the scene requires it. The tonal recipe also guides the post
+look on the prompt-free route.
+
+**Texture and format looks are post treatments for video.** Grain, halation,
+scanlines, tape noise, camcorder or MiniDV texture and vignettes are built in
+the edit. Format words in a Seedance prompt tend to produce clean cinema
+footage instead (observed for "MiniDV"); the colour part of such a look may
+still go in the prompt when the prompt route is requested. Seedream stills may
+carry the full sentence.
 
 ### Core palettes (9)
 
@@ -79,18 +117,21 @@ highlights) when the scene requires it.
 | High-key soft | `high-key soft grade: bright even exposure, lifted shadows, minimal contrast, soft pastel palette, airy clean whites` | Bright, airy, low-contrast optimism |
 | Desaturated / muted | `desaturated muted grade: reduced saturation, softened tones, gentle contrast, understated earthy neutrality` | Subdued, restrained, toned-down realism |
 | Morandi | `Morandi palette: muted earthy tones, dusty sage and clay, soft grayed colors, low saturation, calm harmonious neutrals` | Soft muted earth-and-dust harmony |
-| VHS / retro | `VHS retro grade: soft blur, chromatic aberration, oversaturated low-fi colors, scanlines, slight flicker, dated tape look` | Degraded 80s videotape nostalgia |
+| VHS / retro | `VHS retro grade: soft blur, chromatic aberration, oversaturated low-fi colors, scanlines, slight flicker, dated tape look` | Degraded 80s videotape nostalgia; for video, a post treatment (see below) |
 
 ## Parameter schema
 
 | Parameter | Type | Meaning |
 |---|---|---|
-| `palette` | string (required) | A palette name from the bank, or a plain descriptive grade with no invented film name |
-| `target_model` | `seedance` \| `seedream` \| `both` | Where the grade sentence lands: Visual Style slot, `Style:` section, or both |
+| `palette` | optional string | A palette name from the bank, or a plain descriptive grade with no invented film name. Absent means no grade. |
+| `route` | `none` \| `post` \| `prompt` \| `both` | See the route table. Defaults to `none` without a palette, `post` for a requested video look, `prompt` for Seedream |
+| `target_model` | `seedance` \| `seedream` \| `both` | Where a prompt-route sentence lands: Visual Style slot, `Style:` section, or both |
 | `reference` | optional string | A style-reference image; the grade is expressed as `use the muted palette, soft grain, diffused highlights of @Image N` |
-| `post_grade` | optional bool | When true, also emit a matching FFmpeg filter graph for the mix step |
 
 ## Output grammar
+
+The Seedance, Seedream and style-reference sections apply on route `prompt` or
+`both`; the post look section applies on route `post` or `both`.
 
 ### Seedance — Visual Style slot
 
@@ -109,7 +150,8 @@ A detective parks his car beside a rain-soaked city street at night and walks to
 entrance of a noodle shop, coat collar up.
 The visuals feature teal-and-orange cinematic grade: deep teal shadows, rich orange highlights,
 warm skin glow, wet asphalt reflections.
-Use a medium tracking shot following him from the side, then push in as he reaches the door.
+Light comes from the shop's warm doorway glow ahead of him and cyan neon signs behind.
+Use a medium tracking shot on a 35mm lens following him from the side, then a slow push-in as he reaches the door.
 Audio includes rain pattering, distant traffic, and low jazz from inside the shop.
 ```
 
@@ -160,51 +202,67 @@ translate its look into prompt language:
 The grade words it contributes still live in the Visual Style slot (Seedance)
 or `Style:` section (Seedream).
 
-### Optional FFmpeg filter graph (post_grade)
+### Post look (route `post` or `both`)
 
-Emitted only when `post_grade` is true, and **only for cross-shot matching in
-the mix step — never re-grade against a baked-in prompt grade**. The prompt
-grade is canonical; these graphs nudge separately generated takes of the same
-palette to match each other. The FFmpeg filter graphs can be executed with the
-`ffmpeg` skill at the caller's discretion in the mix step.
+Apply the look to a copy of the untouched master, after conform and before
+captions, end cards or other overlays (overlay text stays ungraded). Apply the
+same graph to every clip that shares the palette. On route `both`, use a much
+lighter version of the graph only to match takes to each other, never to
+stack a second grade on a baked-in prompt grade.
+
+Wrap every `<LOOK>` in the decode and dither stages:
+
+```
+ffmpeg -i master.mp4 -vf "scale=in_range=limited:out_range=limited:in_color_matrix=bt709:out_color_matrix=bt709,format=yuv420p10le,<LOOK>,scale=in_color_matrix=bt709:out_color_matrix=bt709:out_range=limited:sws_dither=ed,format=yuv420p,setparams=range=tv:color_primaries=bt709:color_trc=bt709:colorspace=bt709" -c:v libx264 -crf 16 -preset slow -c:a copy out.mp4
+```
+
+For a 10-bit delivery, end the chain with `format=yuv420p10le` and a 10-bit
+encoder instead of the 8-bit dither stage.
 
 Teal & Orange Epic:
 
 ```
-ffmpeg -i in.mp4 -vf "colorbalance=rs=.05:bs=.06,eq=contrast=1.06:saturation=1.12,vignette=angle=PI/5" -c:a copy out.mp4
+colorbalance=rs=-0.06:gs=0.02:bs=0.06:rh=0.06:gh=0.01:bh=-0.05,curves=all='0/0 0.25/0.22 0.75/0.78 1/1',hue=s=1.1
 ```
 
-Bleach Bypass:
+Bleach Bypass (grain only because the look calls for it):
 
 ```
-ffmpeg -i in.mp4 -vf "curves=all='0/0 0.5/0.62 1/1',eq=saturation=0.55:contrast=1.15,noise=alls=8:allf=t" -c:a copy out.mp4
+curves=all='0/0 0.25/0.17 0.75/0.85 1/1',hue=s=0.55,format=yuv444p16le,noise=alls=8:allf=t
 ```
 
 Kodak Portra 400:
 
 ```
-ffmpeg -i in.mp4 -vf "eq=contrast=0.95:saturation=1.02,colorbalance=rs=.03:bm=-.03,noise=alls=5:allf=t" -c:a copy out.mp4
+curves=all='0/0.03 0.5/0.5 1/0.97',colorbalance=rs=0.03:bm=-0.03,hue=s=1.02,format=yuv444p16le,noise=alls=5:allf=t
 ```
+
+The explicit `format=yuv444p16le` before `noise` keeps it at 16-bit
+predictably instead of leaving the format to negotiation. Grain strength at 16-bit is a starting value; compare a frame
+against the ungraded master at 100 percent. A camcorder or VHS look (downscale
+round trip, chroma smear, tape noise, an overlay frame) is built the same way
+on the post route; render any on-screen recorder graphics as a separate
+overlay layer.
 
 ## Edge cases / guardrails
 
+- **No look was requested → no grade.** Do not add a palette, grain,
+  halation or vignette "to make it cinematic"; keep the original colours and
+  the correct limited-range BT.709 decode.
 - **Never stack two conflicting grades in one prompt.** One grade direction
   per prompt; a teal-and-orange sentence plus a warm-golden sentence fights the
   model and reads muddy.
-- **Enforce one project-wide palette.** The same palette is used in every scene
-  of a project for cross-shot consistency. Record it in `project.md` / `scene.md`
-  alongside the grade language so later scenes reuse the identical phrase.
+- **One palette per project unless the brief sets per-scene looks.** Record
+  the palette, route and exact sentence or graph in the project brief so later
+  scenes reuse them verbatim.
 - **B&W needs explicit language.** "Black and white" alone is not enough —
   use contrast, silver mid-tones, and grain phrasing (e.g. Classic B&W or
   Ilford HP5) so the result is not flat gray.
-- **Prompt grade is the source of truth.** An FFmpeg re-grade is only for
-  matching/refinement in the mix step, never a substitute for the prompt grade
-  and never applied against a differently graded take.
+- **Do not grade twice.** A take with a baked-in prompt grade gets at most a
+  light matching graph; a post look is applied to ungraded masters only.
 - **Film-stock words belong in `Style:` / visual style**, not in the subject
   line. Put the grade sentence in its slot and keep subject descriptions
   observational.
-- **Watermark false by default.** Set `watermark: false` on all image, video,
-  and audio generation unless the user explicitly requests the AIGC watermark.
 - **Chained scene sequences repeat the same grade phrase.** When scenes chain
   via `return_last_frame` / `first_frame`, repeat the exact same grade sentence
   in every scene so continuity holds across the chain.
@@ -214,11 +272,13 @@ ffmpeg -i in.mp4 -vf "eq=contrast=0.95:saturation=1.02,colorbalance=rs=.03:bm=-.
 
 ## Self-check checklist
 
-1. Palette is from the bank, or a plain descriptive grade with no invented film name.
-2. Exactly one grade direction is present; no second or conflicting palette words.
-3. The grade sentence is placed in the Visual Style slot (Seedance) or `Style:` section (Seedream), not in the subject or action line.
-4. No conflicting color words appear elsewhere in the prompt.
-5. B&W palettes include explicit contrast / silver / grain language, not just "black and white".
-6. Film-stock keywords appear only in `Style:` / visual style, never in the subject description.
-7. An FFmpeg filter graph appears only when `post_grade` is requested, and it is labeled as matching-only in the mix step.
-8. When grading across a chained scene sequence, the same grade phrase repeats verbatim in every scene.
+1. No look was requested → no grade sentence and no look graph; the conform uses the limited-range BT.709 decode.
+2. Palette is from the bank, or a plain descriptive grade with no invented film name.
+3. Exactly one grade direction is present; no second or conflicting palette words.
+4. On the prompt route, the grade sentence is placed in the Visual Style slot (Seedance) or `Style:` section (Seedream), not in the subject or action line.
+5. No conflicting color words appear elsewhere in the prompt.
+6. B&W palettes include explicit contrast / silver / grain language, not just "black and white".
+7. Film-stock keywords appear only in `Style:` / visual style, never in the subject description.
+8. Texture or format looks (grain, halation, VHS, camcorder) for video are on the post route, not prompt words.
+9. A post look appears only on route `post` or `both`, sits inside the decode-and-dither wrapper, uses no `vignette` or `eq`, and is applied before overlays; on `both` it is labelled matching-only.
+10. When grading across a chained scene sequence, the same grade phrase or graph repeats verbatim in every scene.

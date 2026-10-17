@@ -7,7 +7,9 @@ it does not establish the correct pronunciation.
 
 Evidence level: speech-to-text transcripts plus model-based listening
 (`seed_audio_understand`) on 1080p, 9:16, English-dominant Taglish takes,
-September 2026. No native-speaker confirmation.
+September 2026. No native-speaker confirmation. Transcripts are the evidence for
+the heard words; the model-based listening cannot judge accent or stress, so
+the "Correct" verdict below is provisional until a listener confirms it.
 
 | Locked text | Heard | Context | Directing note tried | Result |
 | --- | --- | --- | --- | --- |

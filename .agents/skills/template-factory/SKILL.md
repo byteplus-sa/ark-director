@@ -4,7 +4,7 @@ description: >-
   Reverse-engineer a reference video ("pin") into reproducible AIGC output.
   Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch;
   download and media_upload only when unusable), video and audio breakdown,
-  per-beat motion analysis, keyframes, dynamic sketch storyboard, optional
+  per-beat motion analysis, keyframes, a planning-only sketch storyboard, optional
   element sheets
   (Seedream for invented identity; web/user download-first for authorized real
   brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards,
@@ -29,27 +29,22 @@ manifested for later reproduction.
 
 This skill is an **explicitly-marked orchestrator** (precedent: `film-production`).
 It composes MCP tools + specialist skills; it never calls the Ark REST API
-directly.
-
-Follow the implementation structure in `plans/PLAN_TEMPLATE_FACTORY.md`, with
-the current workspace contracts taking precedence where the plan is stale.
+directly. Approval modes, Studio commands, stage gates, prompt review,
+registration and submission recovery follow `AGENTS.md` and the
+[production policy](../../contracts/production-policy.md); this skill adds the
+factory-specific steps.
 
 ## Core operating model
 
 - Act as the single manager communicating with the user.
 - Treat `project.md`, `task_ids.json`, `ref_cache.json`, shot manifests and the
-  Studio project (pre-Studio canvas projects: the `showcase.json`/`index.html` canvas) as
-  production memory; see the [production policy](../../contracts/production-policy.md).
-- Never infer approval from technical success. An output enters `review`, then
-  only a passing inspection and mode-authorized decision can set `approved`.
+  Studio project (pre-Studio canvas projects: the `showcase.json`/`index.html`
+  canvas) as production memory.
+- Provider success is `review`; only a passing inspection and mode-authorized
+  decision sets `approved`.
 - **Every generation-bound prompt this factory submits — Seedream storyboard,
-  Seedream element sheet, or Seedance video — must pass the `prompt-review`
-  gate first.** Review inline by default; use a sub-agent only when the user
-  explicitly requests sub-agent prompt review for the project or specific
-  generation. Acquired brand/product/logo assets (`generation: none`) skip
-  prompt-review. Deterministic static graphics (`generation:
-  deterministic_html`) also skip prompt-review and provider registration. Both
-  still need hashes, a manifest entry, visible QA, and explicit selection.
+  Seedream element sheet, or Seedance video — passes `prompt-review` first**
+  (see [Prompt review gates](#prompt-review-gates-generation-bound)).
 - Replicate style, composition, and grammar. Do not clone copyrighted footage.
   De-identify real people in analysis. For brands: de-identify when unknown or
   unauthorized; when the user authorizes a real brand, preserve that identity and
@@ -142,31 +137,45 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    production board via `seedream-storyboard`, one panel per beat unless the
    user sets a panel budget. Review the prompt and generate the requested count,
    or 3 variants by default, using distinct seeds only when supported. Paginate
-   large boards into readable grids while preserving one ordered panel plan. A
-   monochrome analysis sketch is control-only: translate its blocking into text
-   and omit it from video inputs by default. A production panel can be promoted
-   only after explicit selection, source-hash validation, and a supported image
-   mode.
+   large boards into readable grids while preserving one ordered panel plan.
+   The board is a planning and review artifact: translate its blocking into
+   prompt text and **never bind a board, grid or panel as a Seedance
+   reference**. Observed: panel numbers, corner labels and the sketch look
+   leaked into video, and output-copyright rejections rose.
 
 7. **Video** — use current capability evidence to choose one supported clip or
    multiple natural-duration shots plus assembly. Compose the Seedance 2.5
-   six-part prompt from breakdown + eligible board directions + per-beat motion
-   grammar + verified audio grammar and sync cues when audio is requested +
-   element sheets (via `seedance-prompt-25`), run `prompt-review`, persist the
-   prepared request, then submit via the supported durable transport. Prefer
-   `seedance_2_5_create_task`; use an equivalent Ark CLI route only before any
-   ambiguous submission and only when it satisfies the same contract. Persist
-   the task id, poll, download, and run technical and playback QA. Keep exact
-   brand copy, logos and captions out of the video prompt ("no on-screen text",
-   leave clean space) and composite them afterwards as deterministic
-   `html-graphic-render` overlays (ffmpeg `overlay` with a short alpha fade).
+   six-part prompt from breakdown + board staging written as text + per-beat
+   motion grammar + verified audio grammar and sync cues when audio is
+   requested + element sheets (via `seedance-prompt-25`), run `prompt-review`,
+   persist the prepared request, then submit via the supported durable
+   transport. Prefer `seedance_2_5_create_task`; use an equivalent Ark CLI route
+   only before any ambiguous submission and only when it satisfies the same
+   contract. Set the pin's ratio as a request parameter, never as a prompt
+   sentence. Submit each clip as a 480p native Draft (`draft: true`), review it,
+   then promote the selected Draft by `draft_task_id`; edit inputs only before
+   the Draft. Persist the task id, poll, download, and run technical and
+   playback QA, including frame samples with corner crops for leaked text. Keep
+   exact brand copy, logos and captions out of the video prompt (plain, clean
+   space) and composite them afterwards as deterministic `html-graphic-render`
+   overlays (ffmpeg `overlay` with a short alpha fade).
+   **Audio route:** when the pin's sound is score-led, ambient or a music bed,
+   generate picture with `generate_audio: false` and rebuild the sound grammar
+   with Seed Audio in post, because a "no speech" or "ambience only" line on
+   native audio often leaks speech or score. Keep native audio for on-camera
+   dialogue.
    Expect Seedance to stretch dense beat timelines by roughly 0.5–1.2 s; a
    stronger timing prompt rarely fixes it. When a take's beats land late, retime
    in the edit (trim a held tail, clone-pad the final hold, crossfade audio)
    rather than regenerating, and record the edit operations on the take.
-   Measure take loudness and normalise delivery masters (e.g. `loudnorm`
-   -16 LUFS / -1.5 dBTP) after mode-authorized take locks; place the result in
-   Studio and deliver it with `studio_project.py render`.
+   Capture-format and texture looks in the pin (camcorder, film grain,
+   scanlines, halation) are not reliably produced by prompt words; record them
+   as a post treatment in the recipe and apply them only when the run locks
+   them. Otherwise assemble in the takes' original colours with no grade,
+   from exact-length intermediates encoded once. Measure take loudness and
+   normalise delivery masters (e.g. `loudnorm` -16 LUFS / -1.5 dBTP) after
+   mode-authorized take locks; place the result in Studio and deliver it with
+   `studio_project.py render`.
    When the picture needs several clips, follow the shot budget, trim-point,
    state-ledger, and continuous-audio rules in
    [long pins and multi-clip takes](references/long-pins-and-multi-clip.md).
@@ -271,13 +280,12 @@ supported clip, split on shot boundaries, generate natural-duration clips, and
 assemble approved takes; do not compress the whole template into an unsupported
 duration.
 
-Seedance 2.5 template runs explicitly default to `resolution: "480p"` for
-video drafts and revisions. Treat the final delivery resolution as a separate
-project decision. Advance only after passing draft review and mode-authorized
-selection (including draft assembly review for multi-shot work). Honor explicit
-user overrides and record verified operation constraints. Every final request
-and output needs fresh review and QA; native Draft/promotion is conditional on
-current capability evidence.
+Seedance 2.5 template runs default to 480p native Drafts for video drafts and
+revisions, with the delivery resolution recorded as a separate project
+decision. Promote only after passing draft review and mode-authorized selection
+(including draft assembly review for multi-shot work), then re-inspect the
+final: its audio is not identical to the Draft's. Honor explicit user overrides
+and record verified operation constraints.
 
 ## Storyboard rules
 
@@ -290,10 +298,9 @@ current capability evidence.
 - **3 variants by default** — honor an explicit requested count. Keep prompt,
   references, model, and effective parameters identical across sampling variants;
   vary only a supported stochastic seed.
-- **Video eligibility** — production panels need mode-authorized selection and
-  current canonical source hashes. Control sketches are omitted by default;
-  an intentional conditioning exception requires explicit selection, supported
-  tool inputs, and artifact-specific QA. Bind only eligible inputs.
+- **Never a video input** — boards, grids, sketches and panels stay out of
+  every Seedance request; their staging becomes prompt text and identity comes
+  from element references.
 
 - **Paginated boards bind the same ordered reference set on every page** so
   `@Image N` numbering never shifts between pages; say which references a page
@@ -301,16 +308,14 @@ current capability evidence.
 
 ## Selection gate
 
-Storyboard variant selection follows `project.md` approval mode.
+Storyboard variant selection follows `project.md` approval mode. In
+`approve_for_me` the agent inspects and ranks the candidates, records a
+hash-bound decision and selects the passing one.
 `storyboard.review: false` disables the review UI only; it does not remove QA
-or the validated decision. In `approve_for_me`, inspect and rank candidates,
-record a passing hash-bound review and agent decision, then select. In
-`ask_for_approval`, store a suggestion under `recommended_variant`, keep
-`status: review`, and wait for the user's choice before video promotion.
-Neither a recommendation nor technical success alone writes `selected_variant`
-or `approved`. Run `studio_project.py sync` and the stage-exit checks after the
-decision in either mode (pre-Studio canvas projects: regenerate and inspect
-`index.html` and pass its stage freshness check).
+or the validated decision. In `ask_for_approval`, the strongest candidate is
+stored under `recommended_variant` with `status: review` until the user
+chooses. Run `studio_project.py sync` and the stage-exit checks after the
+decision in either mode.
 
 ## Prompt review gates (generation-bound)
 
@@ -322,11 +327,11 @@ Before any **generation** call, run `prompt-review`:
   `VideoBreakdown.shots[].motion.directing_prompt_text`
   (before `seedance_2_5_create_task`)
 
-CRITICAL/MAJOR findings must be fixed before submission. Skip this gate for
-acquired brand/product/logo assets and deterministic HTML-entrypoint renders that
-have no generation prompt. Deterministic renders still require source/output
-hashing, exact-copy, font, layout, dimension, alpha, thumbnail-legibility,
-provenance, and selection checks.
+Review inline by default. CRITICAL/MAJOR findings must be fixed before
+submission. Acquired brand/product/logo assets (`generation: none`) and
+deterministic HTML-entrypoint renders (`generation: deterministic_html`) skip
+this gate and provider registration, but still need hashes, a manifest entry,
+visible QA, and explicit selection.
 
 ## Reusable recipe contract
 
@@ -366,6 +371,7 @@ Skill (committed):
 │   ├── audio-analysis-schema.json
 │   ├── template-schema.json
 │   ├── slot-mapping.md
+│   ├── long-pins-and-multi-clip.md
 │   └── templates/
 │       ├── index.json
 │       └── <template-id>/template.md + template.json
@@ -388,21 +394,11 @@ projects/<project>/
 └── scenes/scene-01/...
 ```
 
-## Submission recovery
-
-Persist each exact prompt snapshot and reviewed prepared request in the project
-registry before submitting. Record the provider task ID as soon as available.
-Studio projects register the same way and need no canvas; only a pre-Studio
-canvas project requires its current `showcase.json` and `index.html`.
-An ambiguous timeout leaves `submission_unknown`: reconcile that operation or
-resume its known task; never repeat submission automatically or switch transport
-to submit a duplicate. Any new authorized take gets a new operation record.
-
 ## Intentional conditioning representation
 
-A sketch or blockout stays `control_only: true` while it is analysis-only. To
-use intentional conditioning, first obtain explicit selection of a derived
-composition or motion reference. Record its exact selected manifest, current
-SHA-256, `reference_image` or `reference_video` role, and `control_only: false`.
-Confirm live model/mode support. Flipping the flag alone never grants approval;
-the caller applies the [production policy](../../contracts/production-policy.md).
+Storyboards and analysis sketches are never conditioning inputs. Another
+derived control asset (for example a motion blockout) stays
+`control_only: true` until it is explicitly selected as a composition or motion
+reference; then record its manifest, current SHA-256, `reference_image` or
+`reference_video` role, and `control_only: false`, and confirm live mode
+support. Flipping the flag alone never grants approval.

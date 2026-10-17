@@ -11,6 +11,14 @@ Video extension creates content beyond the boundary of a source video.
 - **Forward extension**: extension's first frame continues from the source's last frame.
 - **Backward extension**: extension's last frame connects to the source's first frame.
 
+Request facts: ratio is locked to the source, so omit it; duration is settable.
+Set the extension task type explicitly when auto-detection could misread the
+request: Seedance 2.5 uses `omni_reference_task_type: extend` (`extend_video`
+is a 2.0 value and is rejected by 2.5). A source that shows generated
+or real people is rejected for privacy unless those people are `asset://`
+Virtual Portrait assets; without them, chain a new clip from an approved last
+frame or a blocking plan instead of extending.
+
 ### Forward extension
 
 ```

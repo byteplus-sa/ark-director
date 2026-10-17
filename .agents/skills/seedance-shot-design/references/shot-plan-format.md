@@ -6,6 +6,7 @@ for the procedure and the variety rules.
 - [Where the plan lives](#where-the-plan-lives)
 - [The plan record](#the-plan-record)
 - [Field rules](#field-rules)
+- [Sequences in a long spot](#sequences-in-a-long-spot)
 - [Carrying the plan into the prompt](#carrying-the-plan-into-the-prompt)
 
 ## Where the plan lives
@@ -70,6 +71,7 @@ shot_plan:
       move: slow push-in on the door handle, ending on her hand as the door opens
       move_reason: moves the viewer to the point of contact
       lens_intent: shallow depth of field; hand sharp, doorway soft
+      depth_layers: {foreground: the door's edge, subject: her hand on the handle, background: the hall beyond the doorway}
       light: {source: window, key_side: camera-left, quality: same sun, her face half in shade}
       contrast_with_previous: size family, angle class and move change; the light is unchanged on purpose
     - id: s02_sh010_c
@@ -84,6 +86,7 @@ shot_plan:
       move: static hold, no movement
       static_reason: contrast_hold
       lens_intent: the boy's face sharp against a soft doorway
+      wow: true
       light: {source: door, key_side: behind the subject, quality: contre-jour halo on his hair with the face kept readable by window fill}
       contrast_with_previous: size family, angle class, move and key side all change
     - id: s02_sh010_d
@@ -121,7 +124,9 @@ shot_plan:
 | `move` | The primary move with subject, start and end, or `static hold` |
 | `move_reason` | What the move reveals or emphasizes |
 | `static_reason` | Required with a static hold; a value from the entrypoint table |
-| `lens_intent` | A visible result (sharp plane, soft background, compression), never a number alone |
+| `lens_intent` | A visible result (sharp plane, soft background, compression), never a number alone. A focus pull away from a face is marked `post` rather than prompted |
+| `depth_layers` | Recommended at standard and kinetic energy. A named foreground, the subject and a named background, each a visible thing in the declared location |
+| `wow` | `true` on one shot per clip: the image the clip is remembered for. It may be the turn |
 | `light` | A declared `source`, the `key_side` relative to the lens, and the quality and contrast |
 | `contrast_with_previous` | Which of size family, angle class, move and key side change; `n/a` for the first shot |
 
@@ -141,14 +146,40 @@ shots:
       that goes out at about 2 s into the shot, leaving his face just above black}
 ```
 
-In Seedance 2.5 drafts a stated cue time is honoured closely (2 s asked, 2 s
-delivered) and an `off` cue switches the source instantly. When a fade is
-wanted, write it into the light line ("fades out over about one second"). An
-untimed "partway through" switch lands at an unplanned moment.
+The lighting preset skill words the cue for the prompt and records how closely
+Seedance 2.5 drafts honour a stated cue time. The plan's job is to give every
+cue a time, a change and a trigger; an untimed "partway through" switch lands
+at an unplanned moment.
 
 A plan with `energy`, `sources`, a `turn`, uneven `duration_s` values and a
 `contrast_with_previous` for every shot after the first is complete enough for
 review.
+
+## Sequences in a long spot
+
+A spot planned under the cinematic sequence bar records its sequences above the
+shots, and each sequence becomes one generated clip:
+
+```yaml
+sequences:
+  - id: seq-01
+    clip: s01_sh010
+    duration_s: 5.0
+    job: hook
+    shots: [s01_sh010_a, s01_sh010_b]
+    wow: s01_sh010_b
+  - id: seq-02
+    clip: s01_sh020
+    duration_s: 4.5
+    job: escalate
+    shots: [s01_sh020_a, s01_sh020_b, s01_sh020_c]
+    wow: s01_sh020_c
+```
+
+Each sequence has 2-3 shots, one action per shot and one `wow` shot. Lengths
+vary from sequence to sequence like shot lengths do. The joins between
+sequences are cuts made in assembly, so a sequence may end on a held frame that
+the edit trims.
 
 ## Carrying the plan into the prompt
 

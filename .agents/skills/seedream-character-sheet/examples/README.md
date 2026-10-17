@@ -19,6 +19,10 @@ following layout:
 - center panel: back full body
 - right panel: frontal close-up
 
+The current default order is back full body, front full body, then close-up;
+the sample predates it. Its prompt also names the ratio in text, which the
+current skill sets through the `size` parameter instead.
+
 ## Prompt used
 
 ```text

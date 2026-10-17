@@ -53,4 +53,10 @@ build/
 # Claude Code local-only state (symlinked skills stay tracked)
 .claude/settings.local.json
 
+# Early-access skills: local-only, never committed or catalogued
+.agents/skills/seed-audio-15-api/
+.agents/skills/seed-audio-prompt-15/
+.claude/skills/seed-audio-15-api
+.claude/skills/seed-audio-prompt-15
+
 .artifacts
