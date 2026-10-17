@@ -155,6 +155,31 @@ class PrepareRequestTests(unittest.TestCase):
         self.assertFalse((self.root / "requests").exists())
         self.assertFalse((self.root / "task_ids.json").exists())
 
+    def test_draft_promotion_without_references_is_a_valid_request(self) -> None:
+        argv = [
+            "--project",
+            str(self.root),
+            "--asset",
+            "s01_sh010_final_v01",
+            "--prompt",
+            self.prompt,
+            "--model",
+            "dreamina-seedance-2-5-260628",
+            "--operation",
+            "generate",
+            "--param",
+            "draft_task_id=cgt-draft-1",
+            "--param",
+            "resolution=1080p",
+            "--expected-output",
+            "scenes/scene-01/s01_sh010/s01_sh010_final_v01.mp4",
+        ]
+        code, result = self.run_cli(argv)
+        self.assertEqual(code, 0, result)
+        self.assertEqual(result["findings"], [])
+        self.assertEqual(result["request"]["references"], [])
+        self.assertEqual(result["request"]["params"]["draft_task_id"], "cgt-draft-1")
+
     def test_explicit_curl_transport_is_recorded_in_request(self) -> None:
         code, result = self.run_cli(self.argv("--transport", "curl"))
         self.assertEqual(code, 0, result)
