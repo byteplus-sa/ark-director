@@ -9,7 +9,7 @@
       "expectations": [
         "Uses five different formulas from the formula library.",
         "Keeps at most three recurring characters and one or two locations per episode.",
-        "Writes English-dominant Taglish with honorifics that match each relationship.",
+        "Writes English-dominant Taglish with simple Tagalog (honorifics and a few common words) and honorifics that match each relationship.",
         "Gives each concept a hook, a sampal or reveal with physical proof, and a cliffhanger.",
         "Provides a subtitle translation for every Tagalog phrase."
       ]
@@ -44,6 +44,28 @@
         "Avoids a whispered or shouted position for the critical word.",
         "Keeps the line short and speakable.",
         "Leaves pronunciation direction to seedance-prompt-25-filipino."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write the hook scene for an OFW homecoming episode. All dialogue should be English with a Filipino accent.",
+      "expected_output": "English-only locked lines with the accent recorded as a delivery note outside the dialogue braces.",
+      "files": [],
+      "expectations": [
+        "Keeps every line inside the braces in English and does not add Tagalog words to signal the accent.",
+        "Records the accent as a note for the dialogue partner skill, to be confirmed by a native listener.",
+        "Opens the hook on plain words at normal volume within the scene's word budget."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Cast a three-character kontrabida episode: the matriarch, the helper and the family lola.",
+      "expected_output": "An appealing, visually distinct cast with a natural spread of complexions.",
+      "files": [],
+      "expectations": [
+        "Gives every character an appealing design, with the lola warm and endearing rather than haggard and the villain marked by wardrobe and manner.",
+        "Spreads complexions and hair silhouettes across the cast instead of one shared tone.",
+        "Lists always-worn items per character and describes props as plain, unlettered surfaces."
       ]
     }
   ]

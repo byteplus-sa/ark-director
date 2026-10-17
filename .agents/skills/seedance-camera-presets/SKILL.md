@@ -3,11 +3,13 @@ name: seedance-camera-presets
 description: >
   Turn a named camera move or preset — dolly, pan, tilt, orbit, crane, jib,
   tracking, handheld, FPV, aerial, bullet time, dolly zoom, crash zoom, whip
-  pan, one-take, or static — or a shot framing (single, two-shot,
-  over-the-shoulder, over-the-hip, point of view, insert) — into a canonical,
-  drop-in Camera block for the Seedance 2.5 six-part prompt formula. Use when
-  the user asks for a camera preset, camera movement style, shot framing, or a
-  shot's camera treatment, and when a shot plan names a move or framing to word.
+  pan, optical zoom, Dutch angle, one-take, or static — or a shot framing
+  (single, two-shot, over-the-shoulder, over-the-hip, point of view, insert) —
+  into a canonical, drop-in Camera block for the Seedance 2.5 six-part prompt
+  formula.
+  Use when the user asks for a camera
+  preset, camera movement style, shot framing, or a shot's camera treatment,
+  and when a shot plan names a move or framing to word.
   Bullet time here is the camera-orbit technique (freeze + orbit); speed-ramp
   and slow-mo timing belong to seedance-pacing-presets. One-take here is the
   pass-through camera path; single-shot no-cuts pacing belongs to
@@ -67,6 +69,8 @@ the movement begins, and **where** it ends.
 | Tilt down | `Tilt down from <subject or high element> to <subject, floor, or ground>.` |
 | Dolly in | `Slow dolly in toward <subject>, stopping at <shot size>.` |
 | Dolly out | `Slow dolly out from <subject>, pulling back to <shot size>.` |
+| Optical zoom in | `Purely optical zoom in on <subject> from <starting shot size> to <ending shot size>; the camera stays in the same position on a locked-off tripod as the subject grows larger in frame.` |
+| Optical zoom out | `Purely optical zoom out from <subject> from <starting shot size> to <ending shot size>; the camera stays in the same position on a locked-off tripod as more of the scene enters the frame.` |
 | Dolly left / right | `Dolly laterally to the left/right, keeping <subject>'s <feature> framed.` |
 | Truck left / right | `Truck laterally to the left/right at the same speed as <subject>, keeping <subject> sharp while <background> streaks past.` |
 | Track / follow shot | `Tracking shot: move horizontally at the same speed as <subject>, keeping <subject> sharp while <background> forms motion blur.` |
@@ -94,7 +98,10 @@ table, then gives a canonical phrase template that satisfies it.
 | Bullet time | Camera orbit direction around the frozen subject | `Bullet time: the camera orbits <clockwise/counterclockwise> around <subject> while the action is frozen. Timing (freeze duration, end state) belongs to seedance-pacing-presets.` |
 | Handheld | Subject being followed; amount of shake | `Handheld camera following <subject>, with <slight/moderate/heavy> shake.` |
 | One-take | Subjects, spaces, and events the camera passes through in order | `One-take shot: the camera passes through <subject or space A> as <event A>, then <subject or space B> as <event B>, then <subject or space C> as <event C>, with no cuts.` |
-| Rack focus | Term + subject + visual change + foreground/background + direction | `Rack focus: shift focus smoothly from the <foreground element> to <background subject>. The <foreground> gradually blurs while <background subject> changes from soft to sharp.` |
+
+Rack focus is a focus change, not a camera move: the lens preset skill owns its
+wording and its evidence (drafts keep a face sharp, so a pull away from a face
+is added in post).
 
 For a technique not in the table, follow the uncommon-cinematography-terms
 recipe from `seedance-prompt-25`:
@@ -125,22 +132,31 @@ cuts still gets its own move, size and angle.
 
 Select from this vocabulary when filling the shot-size and angle knobs. Shot
 sizes and `low angle`, `overhead view`, and `first-person view` are official
-Seedance terms; `high angle` and `eye level` are common cinematography
+Seedance terms; `high angle`, `eye level`, and `Dutch angle` are common cinematography
 additions — safe to use, but not in the official vocabulary list.
 
 | Parameter | Options |
 |---|---|
 | Shot size | extreme wide shot, wide shot, medium shot, close-up, extreme close-up |
-| Angle | low angle (official), high angle, overhead view (official), eye level |
+| Angle | low angle (official), high angle, overhead view (official), eye level, Dutch angle / canted angle |
 | Viewpoint | first-person view (official), third-person observer |
 | Framing | single, dirty single / over-the-shoulder, two-shot, three-shot, group shot, over-the-shoulder, over-the-hip, point of view, insert (common film language, not official) |
+
+**Dutch angle template:** `Dutch angle on <subject>: hold the camera rolled
+<clockwise/counterclockwise> so the horizon stays visibly diagonal, framing
+<shot size>.` State a mild or pronounced cant when relevant. A held cant is an
+orientation, not a rolling camera move; describe a changing roll separately and
+count it toward the move limit. It may accompany one compatible move, such as
+a slow dolly in. These additions are prompt-authoring heuristics, not verified
+model controls or guarantees of simulated optics.
 
 ### Framing templates
 
 Framing places subjects in the frame and says how many are featured. Choosing
 the right framing for a beat belongs to the shot-design skill's framing
-reference; this section only words it. Name each subject and its screen side so
-the model has positions to place, and keep the foreground subject of an
+reference; this section only words it. Name each subject and its screen side
+as frame-left or frame-right so the model has positions to place (it reads
+"her left" as the character's own side), and keep the foreground subject of an
 over-the-shoulder or over-the-hip shot soft and unfeatured. These are
 prompt-authoring heuristics, not verified model controls: check a 480p draft
 before relying on one.
@@ -148,10 +164,10 @@ before relying on one.
 | Framing | Template |
 |---|---|
 | Single | `Single shot of <subject>, <shot size>, <angle>, with <subject> alone in the frame.` |
-| Dirty single / over-the-shoulder | `Over-the-shoulder shot from behind <foreground character>: their shoulder and the back of their head sit soft and dark at the <left/right> of the frame, while <subject> is sharp and facing the camera, <shot size>.` |
-| Over-the-hip | `Over-the-hip shot: the hip and hand of <standing character> sit soft in the <left/right> foreground, while <lower character> is sharp in the middle distance, <shot size>, <angle>.` Use only when the two characters are at different heights. |
-| Two-shot | `Two-shot: <A> on the left and <B> on the right, both fully in frame and in focus, <shot size>, <angle>.` |
-| Three-shot | `Three-shot: <A> on the left, <B> in the center and <C> on the right, all in focus, <shot size>.` |
+| Dirty single / over-the-shoulder | `Over-the-shoulder shot from behind <foreground character>: their shoulder and the back of their head sit soft and dark at frame-<left/right>, while <subject> is sharp and facing the camera, <shot size>.` |
+| Over-the-hip | `Over-the-hip shot: the hip and hand of <standing character> sit soft in the frame-<left/right> foreground, while <lower character> is sharp in the middle distance, <shot size>, <angle>.` Use only when the two characters are at different heights. |
+| Two-shot | `Two-shot: <A> frame-left and <B> frame-right, both fully in frame and in focus, <shot size>, <angle>.` |
+| Three-shot | `Three-shot: <A> frame-left, <B> in the center and <C> frame-right, all in focus, <shot size>.` |
 | Group shot | `Group shot of <group> arranged <layout>, with <front subject> nearest the camera, <shot size>.` |
 | Point of view | `Point-of-view shot, first-person view from <character>'s eyes: the frame shows <what they see> and <the hands or limbs they would see>, <shot size>.` For an object, `Point-of-view shot from <object> as it <moves>`. Cover it with a shot of the looker before it and the reaction after it. |
 | Insert | `Insert shot: <detail> fills the frame, <shot size>, <held or one named move>.` Add a face only when the beat needs it. |
@@ -210,14 +226,31 @@ Use [At <N>s, ] <move 1> [then <move 2>], <shot size>, <angle>, <speed> [; <time
 ```
 @Image 1 defines Gloria's appearance, hairstyle, and clothing. Do not use the background of the image.
 Gloria walks through the neon alley at night, rain-slick asphalt reflecting the signs overhead.
-The visuals feature a teal-and-orange cinematic grade with soft halation.
-Use a slow dolly in toward Gloria's face, medium close-up, low angle, ending on a static lock as she stops and turns toward the camera.
+The visuals feature a magenta neon sign frame-right as the key on Gloria's face, cold blue spill from the alley mouth behind her, and rain streaking through the light in the foreground.
+Use a slow dolly in toward Gloria's face, from a medium shot to a medium close-up, low angle, ending on a static lock as she stops and turns toward the camera.
 Audio includes rain pattering and a distant car engine.
 ```
 
 The `Use ...` sentence is the Camera block. It references the named subject,
-gives the shot size and angle, states one primary move that ends in a static
-lock, and matches the style of a full Seedance 2.5 prompt.
+gives the shot size and angle, states one primary move with its start and end,
+and matches the style of a full Seedance 2.5 prompt. The light is a named,
+motivated source rather than a grade; a grade, when one is wanted, belongs to
+the color-grade skill or to post.
+
+## Moves that read
+
+A clip with no camera statement tends to come back as a neutral, held frame,
+and hedged wording on every line reads as flat footage. Plain wording already
+produces a push-in or a fast move; the preset adds control: where the move
+starts and ends, its speed, its timing, and the hold after it.
+
+- State a move for every moving shot, with an active verb and a speed: the
+  camera drives in fast, sweeps left, rises over, snaps to, glides behind.
+  Reserve `gentle` and `subtle` for a shot whose stillness is the point.
+- Give a timed beat to the move only where it matters (`At 3s, crash-zoom in on
+  <subject>`); otherwise the start and end states carry it.
+- In a clip that cuts, each shot carries its own Camera block. The shot plan
+  (the shot-design skill) decides which shots move; this skill words them.
 
 ## Edge cases and guardrails
 
@@ -234,9 +267,8 @@ lock, and matches the style of a full Seedance 2.5 prompt.
   clip that cuts, write one Camera block per shot so each cut can carry its own
   move.
 - **A locked-off shot is a recorded choice.** State the static camera in the
-  Camera block and record its `static_reason` in the shot plan: a user lock, a
-  static-by-design format, a plate for later cutdown, a performance hold, or a
-  contrast hold after motion. The Seedance 2.5 MCP tool exposes no `camera_fixed`
+  Camera block and record its `static_reason` in the shot plan (the
+  shot-design skill owns the allowed values). The Seedance 2.5 MCP tool exposes no `camera_fixed`
   field (checked 2026-10-06; the legacy `seedance-prompt-20` skill documents it
   for the 2.0 REST API), so the prompt carries the lock. A hold lands best after
   motion.
@@ -248,8 +280,8 @@ lock, and matches the style of a full Seedance 2.5 prompt.
   preset apply to anything the reference does not cover. Repeating the motion
   can conflict with the reference itself.
 - **Generation parameters stay in the API.** Duration, resolution, aspect
-  ratio, and watermark never go in the prompt. Keep `watermark: false` by
-  default.
+  ratio, and watermark never go in the prompt, including a sentence such as
+  "composed for 2.39:1"; set the ratio as a parameter.
 - **Numeric optics are advisory.** Focal length, aperture, and shutter values
   may be included, but always pair them with the intended **visible result**
   (e.g. `shallow depth of field — background soft with compressed bokeh`), per
@@ -264,10 +296,12 @@ Before a Camera block is submitted as part of a Seedance 2.5 prompt, verify:
    uncommon terms.
 2. `stack` is 2 or fewer simultaneous moves per shot.
 3. The Camera block names the subject the camera follows whenever a subject
-   exists, and states where the move starts and ends.
+   exists, and states where the move starts and ends with an active verb and a
+   speed.
 4. No numeric aperture or focal value appears alone without a visible result.
-5. Shot size and angle come from the official vocabulary when specified.
-   A framing template names each featured subject and its screen side and
+5. Shot size and angle come from the listed vocabulary when specified; common
+   cinematography additions are not presented as official model controls.
+   A framing template names each featured subject and its frame side and
    keeps a foreground subject soft and unfeatured.
 6. Any timestamp uses `At Ns` syntax and is reserved for a critical beat or
    transition — not paced frame-by-frame.

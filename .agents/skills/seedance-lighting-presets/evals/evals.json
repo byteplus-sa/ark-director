@@ -78,6 +78,32 @@
         "The output names the quality (hard).",
         "The output composes a single coherent recipe with one dominant source."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "In a 10-second Seedance 2.5 shot, a boy reads under a desk lamp in his bedroom; when his father's footsteps reach the door the lamp goes out and only the hallway light under the door is left. Word the lighting.",
+      "expected_output": "A Visual Style phrase naming the desk lamp and the hallway light as declared sources, plus a timed off cue on the lamp with the visible result after it.",
+      "files": [],
+      "expectations": [
+        "The lamp change is written as a timed cue with a stated second, such as 'At 6s, the desk lamp clicks off'.",
+        "The cue names a source the scene already declared and does not invent a new one.",
+        "The output says what the frame looks like after the cue, such as the boy's face just above black with a thin line of hallway light under the door.",
+        "Any fade is written as a time range rather than an untimed 'partway through'.",
+        "Exactly one dominant lighting direction is named before the cue."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Write the Seedance lighting phrase for a lone shepherd on a hillside at night under the moon. The last draft looked like dusk.",
+      "expected_output": "A moonlit-night phrase that states a black sky, low exposure and one small pale moon as the only source, describing the moon positively.",
+      "files": [],
+      "expectations": [
+        "The phrase states a black sky and low exposure explicitly.",
+        "It names one small pale moon as the only light source and gives its position or the side it lights.",
+        "It describes the moon by its visible shape and size rather than excluding unwanted shapes.",
+        "It says what falls to near black.",
+        "It sits in the Visual Style slot using 'The visuals feature ... lighting' wording."
+      ]
     }
   ]
 }

@@ -79,6 +79,19 @@
         "The prompt includes two to four craft cues such as torn edges, scissor marks, paper fibers, visible layer shadows, tabs, or slight registration drift.",
         "The sequence fits within 12 seconds and ends with the fox curled beside the paper fireplace."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Write a 12-second plasticine claymation Seedance prompt for a bakery ad: a clay baker pulls a tray of buns from the oven, the shop sign reads 'Rosie's Buns', and it should look like old camcorder footage.",
+      "expected_output": "A claymation prompt with per-shot camera moves and named clay-built light sources, a plain unlettered sign in the generated footage with the shop name added in post, and the camcorder look assigned to post.",
+      "files": [],
+      "expectations": [
+        "Every shot states a shot size or angle, a camera move with a start and an end (or a held frame with a reason) and a named light source built in the medium, such as the clay oven's glow.",
+        "The generated footage carries no readable sign text; the shop name is reserved for a post layer and the sign is described as a plain surface.",
+        "The camcorder look is assigned to post rather than written as a prompt word, and no grade or grain is added by default.",
+        "The medium is named before the story action and two to four clay craft cues appear.",
+        "No shot inside the clip is shorter than about 0.8 s."
+      ]
     }
   ]
 }

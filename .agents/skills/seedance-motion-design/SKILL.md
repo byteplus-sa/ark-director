@@ -165,7 +165,16 @@ micro-interaction numbers (150–300ms is a UI duration, not a film beat):
 For every moving element, write the full motion grammar — motion type,
 direction, speed, amplitude, easing, loop period — not a bare verb (see
 `seedance-prompt-25`, "Motion grammar"). State camera motion explicitly,
-including when the camera is truly locked-off and only the plates move.
+including when the camera is truly locked-off and only the plates move. A
+generated shot with no camera statement tends to come back as a neutral held
+frame; give each moving shot an active verb, a speed, a start and an end.
+
+Footage-led modes (hypermotion product, flythrough, motion-on-footage B-roll)
+are ad shots: each generated shot carries a size, angle, camera move, lens
+intent and a named light source with its key side, from the shot-design
+skill's plan when one is recorded. Keep every shot inside one clip at about
+0.8 s or longer; faster cuts are made in assembly. A 30 s piece is several
+short clips cut together, not one pass with many beats.
 
 ### 6. Compress reality, don't fake it
 
@@ -253,8 +262,10 @@ hierarchy: the hero claim moves first, the CTA lands last.>
 viewer concludes.
 
 [Visual Style]
-<Lighting → lens → grade → sensor/film look, composed via `seedance-prompt-25`
-and axis presets. Include only when the user names a look.>
+<The named light source and its key side for each shot (a softbox overhead, a
+rim from behind the product, a window frame-left), then lens intent. Add a
+grade or a film look only when the user names one; a camcorder or film-texture
+look is a post treatment.>
 
 [Motion Language]
 Stagger <elements> in <editorial order>. Use <one easing family> for entrances,
@@ -264,7 +275,8 @@ composited in post. Preserve bound visual plates rigid, sharp, and undeformed
 through every move.
 
 [Camera]
-<Locked-off, or named camera move with direction and speed.>
+<Per shot: locked-off with its reason, or a named camera move with subject,
+direction, speed, start and end.>
 
 [Audio]
 <Voice, music, SFX approach. Dialogue in {curly braces} for lip-sync when
@@ -278,9 +290,9 @@ and exclusions.>
 For multi-beat reveals, use `seedance-prompt-25`'s `[Stage N]` grammar (one
 primary event + a clear end state per stage) rather than inventing a shot list.
 
-Right-size `duration` (4–30s) to the piece; set aspect ratio from the delivery
-format; `watermark: false` unless requested. Parameter defaults live in
-`seedance-prompt-25`'s quick reference.
+Right-size `duration` (4–30s) to the piece and set aspect ratio from the
+delivery format, as parameters rather than prompt sentences. Parameter defaults
+live in `seedance-prompt-25`'s quick reference.
 
 Return the prompt directly. Do not add production workflow, tool selection,
 asset management, approval gates, or generation instructions unless the user
@@ -301,11 +313,13 @@ This skill is prompt-only. It **never calls generation tools.** It composes:
   reproduce exact typography or layout that deterministic graphics own.
 - **`seed-audio-prompt`** — voice and music for the piece, or the audio-first
   pipeline when the user requests lip-synced dialogue.
+- **`seedance-shot-design`** — the per-shot plan (size, angle, move, lens
+  intent, light) for footage-led ad and showcase shots.
 - Axis presets (`seedance-camera-presets`, `seedance-lighting-presets`,
-  `seedance-pacing-presets`, `seedance-acting-console`) — only when the user
-  names a specific axis, or a recorded shot plan supplies one. Do not let two
-  skills fight: exactly one grade per clip, one dominant lighting direction per
-  shot, and 1–2 camera moves per shot.
+  `seedance-pacing-presets`, `seedance-acting-console`) — to word the axes the
+  shot plan assigns or the user names. Do not let two skills fight: exactly one
+  grade per clip, one dominant lighting direction per shot, and 1–2 camera
+  moves per shot.
 
 ## Reference discipline
 
@@ -356,6 +370,16 @@ For a motion-design request outside the worked examples:
 - Exclude only likely contradictions: camera shake in a boardroom explainer,
   idle decorative motion with no signal job, a second competing focal element
   during the headline reveal.
+- A negated shape does not remove a strong visual prior. Describe the wanted
+  form ("a squat, round glass bottle with a flat cap") rather than the unwanted
+  one.
+- Generic surfaces grow invented lettering: tubes, jars, jugs, hard-shell
+  cases, garment labels, screens and tickets. Describe a recurring non-hero
+  surface positively ("plain white ceramic jug, smooth solid surface, nothing
+  printed"), leave it out, or give a story prop its own reference.
+- Counted items drop or duplicate. Name each counted item by size and position,
+  keep all of them in open view from the first frame, restate the count at each
+  stage, and never mention spare copies lying around.
 
 ## Pre-submit checklist
 
@@ -374,16 +398,19 @@ Before returning the prompt (and before any generation task), verify:
 5. **Craft heuristics translated.** Stagger, non-linear easing (one curve
    family), and meaningful speed contrast are written for 4–30s, not copied
    from micro-UI durations.
-6. **Reality compressed, not faked.** The demo shows a plausible workflow;
+6. **Shots are directed.** Each generated shot states its camera move (or
+   locked-off reason) and a named light source; no in-clip shot is shorter
+   than about 0.8 s; no grade or post look is asked of the prompt.
+7. **Reality compressed, not faked.** The demo shows a plausible workflow;
    impossible fluidity is avoided.
-7. **Reference discipline.** `@Image N` indices are stable, roles are stated,
+8. **Reference discipline.** `@Image N` indices are stable, roles are stated,
    and the submitted array matches the bindings 1:1.
-8. **Composition respected.** The skill composes in prose with
+9. **Composition respected.** The skill composes in prose with
    `html-graphic-render`, `seedance-prompt-25`, `seedream-*`, and
    `seed-audio-prompt`; it does not call generation tools.
-9. **The design seal** is compact and does not contradict the treatment or the
+10. **The design seal** is compact and does not contradict the treatment or the
    text-lock discipline.
-10. **The response contains the prompt**, not an unrelated production workflow.
+11. **The response contains the prompt**, not an unrelated production workflow.
 
 The calling agent owns the `prompt-review` gate before submission —
 CRITICAL/MAJOR findings must be fixed before generation.

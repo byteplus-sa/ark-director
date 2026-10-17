@@ -1,0 +1,40 @@
+{
+  "skill_name": "seedream-prop-asset",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In my kitchen drama the mother pours water from an unbranded white ceramic jug in shots 2, 5 and 9. In the last test the jug grew a made-up brand name. Do I need a prop sheet, and what should the shot prompts say?",
+      "expected_output": "A gate decision that recognises the jug as recurring, gives a positive plain-surface descriptor to repeat word for word, and offers a front and back sheet because the jug recurs and text drifted.",
+      "files": [],
+      "expectations": [
+        "The output notes the jug recurs across three shots and so passes the recurrence row of the prop threshold.",
+        "The output gives a positive descriptor such as a plain white ceramic jug with a smooth solid glaze and nothing printed, to repeat word for word in every shot.",
+        "The output plans front and back views because the jug is rotationally even, with no side view by default.",
+        "Any sheet prompt describes every unprinted face positively as plain, with a short no-text exclusion after it.",
+        "The output does not generate an image or claim one exists."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Make a prop sheet for the coffee cup the barista holds for one second in shot 4. It is a plain paper cup.",
+      "expected_output": "A text-only descriptor because the cup is generic and brief, noting it is below the threshold, unless the user insists on a sheet.",
+      "files": [],
+      "expectations": [
+        "The output identifies the cup as generic, unbranded and briefly visible, below the prop threshold.",
+        "The output returns a text descriptor that states the plain surface positively, for example a plain white paper cup with nothing printed.",
+        "The output offers to write the sheet anyway if the user still wants one, and notes it is below the threshold."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The ad features the client's real canned tuna on the table in every shot. Write the Seedream prop sheet prompt for the can.",
+      "expected_output": "A reuse-or-acquire handoff with no Seedream prompt, because an authorized real labeled product should be acquired rather than generated.",
+      "files": [],
+      "expectations": [
+        "The output checks for an existing project asset first, then asks for or acquires the official or user-supplied packshot.",
+        "The output does not invent the brand's logo or label with Seedream.",
+        "The output records that an acquired asset uses generation none and skips prompt review."
+      ]
+    }
+  ]
+}

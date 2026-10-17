@@ -35,7 +35,7 @@ panel plan and continuity contract but may differ in composition within each
 cell, grid layout balance, or rendering.
 
 For a multi-panel separate-images board, generate three variants by default for
-keyframes and high-risk panels. For ordinary continuity panels, first generate
+hero and high-risk panels. For ordinary continuity panels, first generate
 one low-cost draft sequence; add alternatives only where composition or
 continuity is unresolved.
 
@@ -48,8 +48,8 @@ actual file under:
 projects/<project>/scenes/scene-NN/
 ```
 
-For individual panels (one-panel board, separate-images mode, or a panel
-promoted from a grid):
+For individual panels (one-panel board, separate-images mode, or a standalone
+panel regenerated from a grid):
 
 ```text
 <scene>_sh<NNN>_p<NNN>_t<NN>_v<NN>.<ext>
@@ -81,19 +81,21 @@ panel numbers.
 
 ### Downloading artifacts
 
-Set `output_path` on the generation call (an absolute file path, or a directory
-ending in `/`, inside an allowed output root) so the file is written locally and
-reported in the artifact's `local_path`. The durable artifact is always kept. If
-the call did not set it, copy the persisted artifact with
-`seed_media_export_artifact`, or pass `response_format: "url"` and download the
+The durable artifact is always kept. Through `ark_job_submit`, never pass
+`output_path` (the background job fails); copy the persisted artifact with
+`seed_media_export_artifact` after `ark_job_get` reports it. A direct call with
+MCP task augmentation may set `output_path` (an absolute path inside an allowed
+output root) instead. Alternatively, or pass `response_format: "url"` and download the
 presigned URL promptly. Do not hand-decode Base64 from tool output: large
 artifacts are truncated.
 
 ### Manifest and metadata
 
 The prompt snapshot must contain the exact submitted prompt and parameters, with
-its SHA-256 in the manifest. When an approved panel is explicitly promoted to a
-video keyframe, use the project keyframe naming convention separately:
+its SHA-256 in the manifest. A video keyframe is never this panel file or a crop
+of it. When a shot needs one, the caller authors a new full-colour, text-free
+keyframe prompt from the element references and the panel's staging text, and
+saves it under the project keyframe naming convention:
 
 ```text
 s01_kf01_v01.png
@@ -114,15 +116,17 @@ Record:
 - status;
 - `source_assets` with each path, role, selected variant, approval state, and
   SHA-256;
-- `video_handoff` with eligibility, promoted keyframe path, recommended image
-  mode, target Seedance version (2.5 or 2.0), reference budget, and any
-  invalidation reason.
+- `video_handoff` with eligibility, the staging text to carry into the shot
+  prompt, the element references to bind (paths and hashes from
+  `source_assets`), `bind_board: false`, and any invalidation reason.
 
 Set a newly generated output to `review`, not `approved`.
-Set `video_handoff.eligible: true` only after explicit panel approval and after
-verifying that all recorded source-asset variants and hashes still match. A
-changed character, location, or prop returns the dependent panel to `review`;
-do not silently carry a stale panel into motion generation.
+Set `video_handoff.eligible: true` only after a mode-authorized panel approval
+and after verifying that all recorded source-asset variants and hashes still
+match. Eligibility means the staging is approved for translation into prompt
+text; the board file itself is never a video input. A changed character,
+location, or prop returns the dependent panel to `review`; do not silently
+carry stale staging into motion generation.
 
 Use this minimum `source_assets` record for every visible canonical Element:
 

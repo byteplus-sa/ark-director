@@ -23,6 +23,29 @@ time, before the prompt is written. It is planning only: it never calls a tool,
 never generates media, and never replaces the grammar owned by the prompt
 skill.
 
+## Why clips read flat
+
+Workspace reviews of rejected drafts traced flat, stock-footage takes to four
+causes. The plan exists to remove each one.
+
+| Cause | What the plan does instead |
+| --- | --- |
+| One setup for the whole clip | Several shots, each with its own size, angle, move and key side (V1) |
+| No camera-move statement, so the model holds a neutral frame | Every shot states its move with a start and an end, or records a `static_reason` (V3, V6) |
+| Soft, hedged words ("gentle", "subtle", "slight") on every line | Active verbs with a speed: the camera drives in, sweeps, rises, snaps; the light rakes, cuts out, floods |
+| Camera, lens and light presets used only when the user names them | The plan assigns them by default at the chosen energy level; a user lock still wins |
+
+### Cinematic sequence bar
+
+For an ad, trailer or showcase spot of about 15 s or more, build the piece as
+sequences of about 5 s, each generated as its own clip of 2-3 shots, and cut
+them together in assembly. A 30 s spot is about six such sequences. Each shot
+carries one action, a lens intent, a camera move, a motivated light source and
+depth layers (a named foreground, the subject, a named background), and each
+sequence has one `wow` shot: the image the sequence is remembered for. A single
+30 s pass that carries nine or more beats read as stock footage in workspace
+reviews, so do not plan one unless the user asks for a single take.
+
 ## Boundary
 
 | Need | Where it lives |
@@ -101,22 +124,28 @@ and the per-shot facts the Seedance 2.5 prompt carries.
    neighbors. One shot across a long clip needs a recorded one-take or
    `static_reason`. A spoken line needs a shot at least words / 2.2 + 1 s long,
    because speech starts late (observed 0.5-1.5 s in this workspace's draft
-   runs).
+   runs). End the last line at least 0.4 s before the clip ends, and plan no
+   more than two visible state changes in the clip's last 3 s. For a spot of
+   about 15 s or more, apply the cinematic sequence bar above.
 5. **Declare the scene's light sources** with world positions, the event that
    switches each on, and any in-scene cue that switches it off, dims it or makes
    it flicker. Then give every shot a source, a key side relative to the
    lens, a quality and a contrast. Assign each shot a size, a framing (who is
    featured and how the subjects relate, per [framing](references/framing.md)),
-   an angle, a move with start and end, and a lens intent as a visible result.
-   Dialogue shots vary size, framing and angle; keep their moves quiet so speech
-   and lips stay readable.
+   an angle, a move with start and end, a lens intent as a visible result, and
+   at standard or kinetic energy its depth layers. Dialogue shots vary size,
+   framing and angle; keep their moves quiet so speech and lips stay readable.
+   Plan an attention shift inside one frame with staging or a move, not a
+   prompted rack focus: Seedance drafts keep a face sharp, so a focus pull away
+   from a face is added in post (see the lens preset skill).
 6. **Run the variety rules below** and revise until every shot passes or carries
    a recorded reason. Flag exactly one shot as the turn.
 7. **Tell one light story per scene.** The sources stay fixed in the room. A cut
    changes which side of a source the camera sees, or a motivated event adds or
    removes a source (a door opens, a lamp is switched on, the room lights go
    out). A light cue may land inside a shot, even during a move, when the plan
-   records its time and trigger. A shot never invents a source or a cue the
+   records its time and trigger; a timed cue is one of the most reliable
+   controls in Seedance 2.5 drafts. A shot never invents a source or a cue the
    scene did not declare. Silhouette is for shots without speech; contre-jour
    that keeps the face readable is allowed on spoken shots.
 8. **Write the plan** per [shot plan format](references/shot-plan-format.md).
@@ -140,8 +169,10 @@ and the per-shot facts the Seedance 2.5 prompt carries.
 
 ## Inputs and limits
 
-Storyboard grids and blockout images are planning aids and are not bound as
-references by default; the plan's facts live in the prompt text. A first-frame
+Storyboard grids and boards are planning and review aids and are never bound
+as Seedance references: panel numbers and the sketch look leak into the video.
+Blockout images are not bound by default. The plan's facts live in the prompt
+text, beside the bound character, location and prop references. A first-frame
 image fixes the opening size and angle of its shot, so V1 counts from the next
 shot. A single location plate may not show the planned reverse or contre-jour
 view: check that the plate supports each planned side, plan only supported
@@ -158,8 +189,9 @@ never reached the shot lines. V10 and the framing vocabulary follow a
 StudioBinder framing article, with the group shot and the over-the-hip height
 condition as workspace heuristics. None of them is a measured video-quality
 gain.
-Timestamps are a time budget, not frame-accurate cut points, and the model may
-merge or reorder cuts. Judge the take by watching it. A 480p Draft
+Cut timestamps are a time budget, not frame-accurate cut points, and the model
+may merge or reorder cuts; a timed light cue lands far closer to its stated
+time. Judge the take by watching it. A 480p Draft
 (`draft=true`) is the cheap way to check shot structure and motion before a
 final render.
 
@@ -179,7 +211,11 @@ Before returning a plan, confirm:
 6. A cut shorter than about 0.8 s (a blink cut, a vision flash, a fast
    intercut) is an assembly cut: the plan names the clips it is cut from, and
    each clip is generated at a natural length.
-7. The plan names where it is stored and which prompt carries it.
+7. A spot of about 15 s or more is planned as about 5 s sequences of 2-3
+   shots, each with one `wow` shot, unless the user asked for a single take.
+8. No shot relies on a prompted focus pull away from a face; that defocus is
+   planned for post.
+9. The plan names where it is stored and which prompt carries it.
 
 Worked cases are hypothetical teaching repairs in
 [worked repairs](references/worked-repairs.md).

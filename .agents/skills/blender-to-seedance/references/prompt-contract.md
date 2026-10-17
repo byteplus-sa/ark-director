@@ -60,10 +60,10 @@ ENDING LOCK
 The film ends on @Video 1's final frame. The last five seconds follow the source
 exactly.
 
-AUDIO
-[Sound design] <ambience bed>.
-[Timed accents] <one impact each at 12 / 13 / 14 / 16 / 20 / 26s>.
+AUDIO (only when native audio carries lip-synced dialogue)
 [Dialogue] <verbatim lines, with forbidden-phrase list where relevant>.
+[Sound design] <room tone under the dialogue>.
+[Timed accents] <one impact each at 12 / 13 / 14 / 16 / 20 / 26s>.
 
 HOLD FOR THE FULL TIMELINE
 @Video 1 camera path 1:1. <Countable rules repeated>. <Identity> constant.
@@ -90,8 +90,12 @@ HOLD FOR THE FULL TIMELINE
 - **DIALOGUE NEVER CREATES SHOTS** — critical for multi-character scenes; the
   model's reflex is to cut to the speaker.
 - **ENDING LOCK** — prevents the model inventing a new closing shot.
-- **AUDIO** — SFX only unless the user asked for music/dialogue; accents align
-  to the same timestamps as ACTION TIMING.
+- **AUDIO** — include this block only when the request keeps native audio
+  (`generate_audio: true`) for dialogue that must lip sync; then accents align
+  to the same timestamps as ACTION TIMING. For ambience, SFX or score, generate
+  picture only and drop the block: lay the bed in post and place each timed
+  accent at its manifest frame, because a "no music" line on native audio often
+  leaks speech or score.
 - **HOLD** — the compact seal that re-pins video lock, counts, identity, and
   world against late drift.
 

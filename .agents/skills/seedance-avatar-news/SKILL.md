@@ -3,7 +3,7 @@ name: seedance-avatar-news
 description: >-
   Produce a creator-style 9:16 tech/news explainer short hosted by an approved
   AI avatar: reference-format breakdown, sourced topic research, a hook-driven
-  20–30s script, a Seedance 2.5 talking-head take (built with
+  25–29 s script (about 50–60 words), a Seedance 2.5 talking-head take (built with
   seedance-ai-avatar), official B-roll acquisition with provenance and usage
   basis, and a deterministic edit built with scripts/render_short.py that is
   placed in Studio and rendered (split-screen, full-screen, framed-card layouts, STT-timed caption pills,
@@ -16,9 +16,9 @@ description: >-
 # Seedance Avatar News
 
 The "creator explains the latest tech news" short, hosted by an AI avatar.
-Proven on the @manavpod UBTech reference: B-roll on top, the presenter below,
-and word captions on the seam. Only the presenter is generated; product
-footage is real and official.
+The reference layout (observed in the source short): B-roll on top, the presenter below, and word captions on the
+seam. Only the presenter is generated; product footage is real and official,
+and every caption, badge and label is added in the edit, never generated.
 
 The avatar comes from **seedance-ai-avatar**: consent, the real-likeness
 policy gate, the character sheet, the voice clip, and the talking-head take
@@ -40,8 +40,8 @@ per-option work here.
    `task_ids.json` and the Studio project (pre-Studio canvas: the `showcase-html`
    canvas). Option agents report IDs and results back; they never write shared
    files.
-5. Keep renders private unless the presenter signs off. Label them as
-   AI-generated when posted.
+5. Keep renders private unless the presenter signs off, and use the
+   platform's AI-content disclosure when posted (a real person's likeness).
 
 ## Project layout
 
@@ -68,8 +68,9 @@ presigned URLs.
 
 ### 2. Topic and script (per option)
 Research a real story from the last ~4 weeks in the presenter's niche.
-Confirm every fact with at least two sources. Write 60–72 words (22–27s) using
-[the script formula](references/script-formula.md), including 1–3 word caption chunks.
+Confirm every fact with at least two sources. Write 50–60 words for a 25–29 s
+take using [the script formula](references/script-formula.md), including 1–3
+word caption chunks.
 
 ### 3. Talking-head take (per option)
 Follow seedance-ai-avatar stages 4–5. Use a 1:1 locked take for an all
@@ -96,7 +97,7 @@ script, task IDs, QA, defects).
 The main agent records each take and render in the manifests, runs
 `studio_project.py sync`, and opens the project in Studio; see the
 [production policy](../../contracts/production-policy.md). Pre-Studio canvas
-projects add them to the `showcase-html` canvas and serve it locally.
+projects add them to the `showcase-html` canvas and open it locally.
 
 ## Parallel options
 

@@ -191,8 +191,21 @@ Close with only the quality directives and negative constraints that materially 
 
 ```
 Constraints:
-Quality: [HD, 4K, 2K, rich details, cinematic texture]
-Negative: [no watermarks, no signatures, clean background, no text overlays, no distorted anatomy]
+Quality: [rich details, cinematic texture, consistent identity]
+Negative: [no watermarks, no signatures, no text overlays, no distorted anatomy]
 ```
 
 All constraints go inline in the text prompt. The Seedream API has no separate `negative_prompt` field.
+
+- With an explicit `WxH` `size`, resolution and aspect ratio come from the
+  parameter, and "4K" or "16:9" in the text does not change the output. A
+  `1K`/`2K` tier takes its shape from the prompt wording, so use explicit `WxH`
+  for sheets and plates whose ratio matters.
+- A negation does not remove a strong visual prior. Describe the wanted shape,
+  surface, or light positively first ("a soft round pool of lamplight", "a
+  plain white jug, smooth solid glaze, nothing printed"), then add a short
+  exclusion only when it protects something specific.
+- Generic surfaces (jars, boxes, labels, signs, screens, garment tags) tend to
+  grow pseudo-text. When no text is wanted, say the surface is plain with
+  nothing printed. Images that become video references carry that text into
+  every shot.

@@ -155,6 +155,31 @@ class PrepareRequestTests(unittest.TestCase):
         self.assertFalse((self.root / "requests").exists())
         self.assertFalse((self.root / "task_ids.json").exists())
 
+    def test_draft_promotion_without_references_is_a_valid_request(self) -> None:
+        argv = [
+            "--project",
+            str(self.root),
+            "--asset",
+            "s01_sh010_final_v01",
+            "--prompt",
+            self.prompt,
+            "--model",
+            "dreamina-seedance-2-5-260628",
+            "--operation",
+            "generate",
+            "--param",
+            "draft_task_id=cgt-draft-1",
+            "--param",
+            "resolution=1080p",
+            "--expected-output",
+            "scenes/scene-01/s01_sh010/s01_sh010_final_v01.mp4",
+        ]
+        code, result = self.run_cli(argv)
+        self.assertEqual(code, 0, result)
+        self.assertEqual(result["findings"], [])
+        self.assertEqual(result["request"]["references"], [])
+        self.assertEqual(result["request"]["params"]["draft_task_id"], "cgt-draft-1")
+
     def test_explicit_curl_transport_is_recorded_in_request(self) -> None:
         code, result = self.run_cli(self.argv("--transport", "curl"))
         self.assertEqual(code, 0, result)
@@ -354,6 +379,64 @@ class PrepareRequestTests(unittest.TestCase):
         self.assertEqual(record["submission_status"], "acknowledged")
         self.assertEqual(record["provider_task_id"], "job-123")
         self.assertEqual(record["provider_status"], "submitted")
+
+    def board_argv(self, *extra: str) -> list[str]:
+        board = "scenes/scene-01/s01_sh010/s01_sh010_p010_t01_v01.png"
+        (self.root / board).write_bytes(b"panel image")
+        (self.root / "elements/hero/prop.md").write_text(
+            f"---\nselected_variant: {board}\n---\n"
+        )
+        old = "elements/hero/prop_hero_v01.png:reference_image:elements/hero/prop.md:selected_variant"
+        return [
+            f"{board}:reference_image:elements/hero/prop.md:selected_variant"
+            if item == old
+            else item
+            for item in self.argv(*extra)
+        ]
+
+    def test_a_storyboard_panel_reference_blocks_a_new_registration(self) -> None:
+        code, result = self.run_cli(self.board_argv())
+        self.assertEqual(code, 1)
+        self.write_review(result["request_sha256"])
+        code, result = self.run_cli(
+            self.board_argv(
+                "--write",
+                "--register",
+                "--review",
+                "reviews/review_s01_sh010_t01_v01.json",
+                "--capabilities",
+                "capabilities/seedance-2-5.json",
+                "--required-rule",
+                "references.ordered_bindings",
+            )
+        )
+        self.assertEqual(code, 1)
+        self.assertIn("board.animatic_review_only", json.dumps(result))
+        self.assertFalse((self.root / "task_ids.json").exists())
+
+    def test_adopting_a_submitted_job_with_a_storyboard_reference_still_works(
+        self,
+    ) -> None:
+        _, dry = self.run_cli(self.board_argv())
+        self.write_review(dry["request_sha256"])
+        code, result = self.run_cli(
+            self.board_argv(
+                "--write",
+                "--register",
+                "--review",
+                "reviews/review_s01_sh010_t01_v01.json",
+                "--capabilities",
+                "capabilities/seedance-2-5.json",
+                "--required-rule",
+                "references.ordered_bindings",
+                "--adopt-provider-task-id",
+                "job-123",
+            )
+        )
+        self.assertEqual(code, 0, result)
+        record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
+        self.assertEqual(record["submission_status"], "acknowledged")
+        self.assertEqual(record["provider_task_id"], "job-123")
 
     def test_adopt_terminal_records_a_finished_job(self) -> None:
         _, dry = self.run_cli(self.argv())

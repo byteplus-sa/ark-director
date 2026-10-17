@@ -164,6 +164,11 @@ cut instead of leaving it implicit — a single tracking shot reads flat.
   seconds while both figures stay still`.
 - Keep each cut to one primary move; more than two simultaneous moves per shot
   becomes unstable.
+- Give every shot one action with its intent (`the pursuing mannequin lunges to
+  close the gap`), a lens intent (`wide 24mm-equivalent depth`, `long-lens
+  compression`) and the side of the single soft studio light (`key from
+  frame-left`). Shots shorter than about 0.8 s merge into their neighbour, so
+  keep each cut at least about 1 s and leave faster intercuts to the edit.
 
 ## Spatial and architectural lock
 
@@ -200,9 +205,8 @@ event.
 
 Apply the single gray material to every visible category:
 
-- characters and figures become gender-neutral articulated mannequin volumes —
-  jointed limbs and a featureless head, no skin, hair, facial features, or
-  gendered clothing; character reads through posture, gait, and motion only;
+- characters and figures become the gender-neutral articulated mannequins
+  defined above;
 - props, vehicles, and architecture become gray primitives and blocky masses;
 - ground, sky, and background are flat or gradient gray (plus grid if requested);
 - water, fire, smoke, dust, and debris become simple gray untextured volumes or
@@ -229,10 +233,9 @@ Choose only what makes the gray readable:
 
 ### 6. Structure the sequence
 
-Follow `seedance-prompt-25` stage structure. Give each stage one primary event
+Compose with the `seedance-prompt-25` stage structure. Give each stage one primary event
 and a visible end state. Right-size the duration (4–30s) to the action; do not
-pad to fill 30s. For revisions, follow the `seedance-prompt-25` revision
-contract (locked decisions / requested delta / acceptance criteria).
+pad to fill 30s. For revisions, use a revision contract (locked decisions / requested delta / acceptance criteria).
 
 ### 7. End with a gray seal
 
@@ -293,16 +296,58 @@ shaded only by ambient occlusion and one soft neutral studio light, set against
 <flat | gradient> gray viewport background <+ grid if requested>.
 
 [Camera]
-<Shot size and movement — turntable/orbit for display shots, or per-cut dynamic
-moves with timestamps for chase/action; one primary move per cut>.
+<Display shots: shot size, lens intent and the turntable/orbit move. Chase or
+story: one line per cut — Shot N (time range): size, angle, lens intent, one
+primary move, the action and its intent, the visible end state.>
+Light: the single soft neutral studio light, key from <frame side>.
 
 [Audio]
-Clean room tone, a soft UI-style whoosh, or subtle mechanical ticks — no scored film mix.
+Clean room tone, a soft UI-style whoosh, or subtle mechanical ticks.
 
 [Gray Seal]
 Keep every surface flat untextured mid-gray, depth from ambient occlusion and
 a soft neutral light, the neutral gray background, and rigid constant-speed
 motion throughout.
+```
+
+### Worked example (10 s chase, two cuts)
+
+```text
+[Subject and Action]
+Two adult-height, near-equal-in-stature gray mannequins race through a gray
+colonnade; the pursuing mannequin closes the gap on the second mannequin.
+
+[Stage Plan]
+Stage 1 (0-5s): the second mannequin sprints left-to-right past three columns;
+the pursuing mannequin follows two strides behind. End: both pass the third column.
+Stage 2 (5-10s): the second mannequin pivots on its planted feet and turns its
+whole body at the open area; the pursuing mannequin stops one stride away. End:
+both stand still, facing each other.
+
+[Scene]
+A straight colonnade of six gray columns opening onto a flat open area; travel
+stays left-to-right; both figures remain fully in frame at all times.
+
+[Graybox Look]
+An untextured gray graybox 3D world: every surface is flat neutral mid-gray,
+shaded only by ambient occlusion and one soft neutral studio light, set against
+a flat gray viewport background.
+
+[Camera]
+Shot 1 (0-5s): low-angle medium-wide, wide 24mm-equivalent depth; fast lateral
+tracking move left-to-right beside the runners, columns streaking past in the
+foreground; the pursuit reads as urgency.
+Shot 2 (5-10s): cut at 5s to an eye-level two-shot, long-lens compression;
+slow push-in that stops at 8s and holds to the end on the face-off.
+Light: the single soft neutral studio light, key from frame-left.
+
+[Audio]
+Clean room tone and soft rhythmic footfall ticks.
+
+[Gray Seal]
+Keep every surface flat untextured mid-gray, depth from ambient occlusion and
+a soft neutral light, the neutral gray background, and rigid constant-speed
+motion while figures and camera move; both mannequins stay adult-height and near-equal in stature.
 ```
 
 Return the prompt directly. Do not add production workflow, tool selection,
@@ -325,14 +370,14 @@ explicitly asks for them.
   graybox with a teal-orange grade, a lighting preset, or an animation-medium
   style — they fight the gray. Lighting here is always the single soft neutral
   studio light; do not stack a lighting preset on top of the gray.
-- **People are gender-neutral mannequins, not people.** When a human figure
-  appears, render it as a gender-neutral articulated mannequin — jointed limbs,
-  a featureless head, no skin, hair, facial features, or gendered clothing.
-  Convey character through posture, gait, and motion, never anatomy or costume.
-  Do not write photoreal facial detail or gendered body cues.
+- **People are mannequins, not people.** Apply the mannequin rule from "What
+  graybox means here"; never write photoreal facial detail or gendered body
+  cues.
 - **Audio stays neutral and minimal.** Native audio should read as clean room
-  tone, soft UI-style whooshes, or subtle mechanical ticks — not a scored film
-  mix — unless the user requests otherwise.
+  tone, soft UI-style whooshes, or subtle mechanical ticks unless the user
+  requests otherwise. Native audio can still add a score or voices; when a
+  strictly neutral bed matters, set `generate_audio: false` and add the bed in
+  post (it is not frame-synced).
 - **References are geometry-only.** If the user supplies reference images, bind
   them as structure and silhouette only — `use only the shape and proportions;
   do not use its color, texture, or materials` — or omit references and write

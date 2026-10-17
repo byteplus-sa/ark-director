@@ -33,7 +33,7 @@ each clip reliable:
 
 | Budget per clip | Guidance |
 | --- | --- |
-| Hard cuts | At most about 6–7 shots per clip, and no shot shorter than about 0.8 s. Denser grammar merges or drops cuts. |
+| Hard cuts | At most about 6–7 shots per clip, and no shot shorter than about 0.8 s. Denser grammar merges or drops cuts; build the pin's blink cuts, flashes and intercuts in the edit. |
 | Duration | Choose natural integer durations from the pin spans, rounded up, with at least 0.3 s of hold after the last action. |
 | Split points | Split only on measured hard cuts. Do not split inside a whip, match cut, or continuous camera move. |
 
@@ -47,6 +47,10 @@ Timing rules at clip boundaries:
   blur that resolves within about 0.3 s.
 - Put the final fade to black in post (FFmpeg), not in the prompt, so the trim
   cannot cut it.
+- Do not plan native extension to join clips that contain people: extension and
+  video inputs with generated or real people are rejected unless the
+  identities are `asset://` Virtual Portrait assets. Join independent clips at
+  hard cuts, matching first frames and a shared state ledger instead.
 
 Continuity across clips:
 
@@ -60,8 +64,10 @@ Continuity across clips:
 
 ## Continuous audio across clips
 
-Native audio generated per clip does not share tempo or key across seams. For
-a multi-clip spot, either:
+Native audio generated per clip does not share tempo or key across seams, and a
+"no music" or "ambience only" line often does not hold. For a multi-clip spot
+whose sound is score-led or ambient, generate picture with
+`generate_audio: false` and either:
 
 - generate one separate music bed after the picture is locked, or
 - build the bed from the clips' native audio. Measure each clip's tempo. Loop
@@ -71,7 +77,18 @@ a multi-clip spot, either:
 
 Long generated music beds are more exposed to provider output audits. If a bed
 is rejected, diagnose before revising and prefer the native-audio edit over
-repeated submissions.
+repeated submissions. Budget spare samples, and measure the delivered bed's
+tempo and section timing; pad or splice in assembly rather than trusting the
+prompt's timing.
+
+## Assembling the clips
+
+- Render each trimmed clip to an exact-length lossless intermediate in whole
+  frames, pad or trim its audio to the same length, join with the concat
+  demuxer, and encode once. The concat filter needs `setsar=1`.
+- Read video-stream durations, not container durations.
+- Keep the takes' original colours. Decode 10-bit HEVC finals as limited-range
+  BT.709 and tag the output BT.709; apply a look only when the recipe locks one.
 
 ## Multi-pin batches
 

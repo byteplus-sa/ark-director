@@ -45,10 +45,22 @@ general edit grammar and the full six-part formula, compose with
 
 ## Input and output contract
 
-Input: an inspected source clip, the requested cleanup targets, and the
-may-change / must-preserve contract.
+Input: a source clip prepared per the
+[video-to-video inputs contract](../../contracts/video-to-video-inputs.md)
+(rights decision, probe data, SHA-256, muted master and saved audio), the
+requested cleanup targets, and the may-change / must-preserve contract.
 
-Output: a Seedance 2.5 structured-edit prompt with the source bound as `@Video 1`.
+Output: a Seedance 2.5 structured-edit prompt with the muted master bound as
+`@Video 1`, the parameters, the ladder rung, and the post-audio step. The caller
+owns prompt review, the task registry and submission.
+
+**People in the footage.** Archival footage usually shows real people. The
+provider rejects a realistic person in a video input with `PrivacyInformation`;
+the only route is the contract's `asset://` video, registered under the
+depicted people's authorization. Without that authorization the generative
+route is closed: never crop, blur, stylize or re-encode the footage to pass the
+check, and offer the deterministic route (VOD enhancement or FFmpeg filters)
+instead. Footage without people binds normally.
 
 ## Procedure
 
@@ -64,26 +76,32 @@ Output: a Seedance 2.5 structured-edit prompt with the source bound as `@Video 1
    prompt's vocabulary word-for-word.
 2. **Inspect the source.** Probe duration, fps, resolution, and aspect. Read the
    defect mix from the footage and the diagnosis.
-3. **Trim to the 30s ceiling — and center the defect.** Seedance 2.5 caps edits
-   at 30s. If the source is longer, trim to ≤29s before upload; the edit
-   auto-locks duration to ~input (±0.3s). **For a localized defect, never leave
-   it at a clip boundary.** A defect sitting in the final second can be dropped
-   or altered by the duration drift (and re-introduced by any last-frame pad you
-   add to splice). Re-center the defect with ≥1s of clean margin on both sides.
+3. **Trim by the contract — and center the defect.** Edit sources run 4–30 s
+   and are most stable under 20 s; split longer reels into shots. Trim to an
+   8n+1 frame count (for example 121 frames at 24 fps) so the output keeps the
+   source frame count; other counts come back up to about 0.3 s short. **For a
+   localized defect, never leave it at a clip boundary.** A defect in the final
+   second can be dropped or altered, and re-introduced by any last-frame pad
+   added to splice. Re-center the defect with ≥1s of clean margin on both sides.
+   Derive the muted master and saved audio from the trimmed file.
 4. **Choose an escalation level** (below) based on how much cleanup is wanted and
    what the last take under-delivered on. For localized tears/bands/waves, use the
    dedicated framing in [Localized transient defects](#localized-transient-defects-scans-tears-bands-waves) rather than the grain ladder.
 5. **Write the prompt** using the canonical template. Make the dominant defect
    explicit and dominant; never bury it in a mixed list.
-6. **Run `prompt-review`** against the Seedance 2.5 edit checklist before
-   submission.
+6. **Package for review.** Return the prompt, parameters and ladder rung; the
+   caller runs prompt review against the Seedance 2.5 edit checklist before
+   submission. Rung 1 is a 480p probe of the defect window, which shows
+   whether lines, tears and bands leave and whether people and camera stay
+   intact. Grain and fine texture cannot be judged at 480p, so they are judged
+   on the final-resolution rung.
 7. **Verify the fix before splicing — do not trust the task.** Inspect
    the Seedance output the same way and check the same three things: the
    defect is gone, the people/scene/camera are intact, and no new artifacts were
    introduced. Only splice a verified-clean clip; a technical `succeeded` is not
    proof the tear/wave/grain actually left.
-8. **Re-mux original audio** afterward. Seedance regenerates native audio; for
-   "keep everything the same," mux the source audio back onto the restored video.
+8. **Mux the saved original audio** onto the silent restored video, per the
+   contract's post-audio section, and check two or three sync points.
 
 ## Escalation ladder
 
@@ -127,7 +145,8 @@ frame. They need different vocabulary and a different mental model:
 
 ### Template (scan-line tear / rolling band)
 
-Submit with `omni_reference_task_type="edit"`, `generate_audio: false`, `resolution` 1080p.
+Submit with `omni_reference_task_type="edit"`, `generate_audio: false`, and the
+`resolution` of the ladder rung (480p probe, then the delivery resolution).
 
 ```text
 [Edit Goal]
@@ -151,13 +170,18 @@ objects. Keep edges crisp — do not soften the image into a blurry or mushy
 picture. Do not modify any person's face, body, clothing, or gestures; do not
 modify the background objects, set, or props; do not modify the camera movement,
 framing, or cuts; do not modify the lighting direction, color grade, contrast, or
-exposure. Exactly one of each person remains in frame — never a second or
-duplicated copy.
+exposure. Exactly one of each person remains in frame, each in their filmed
+position.
+
+[Audio]
+Silent output. Sound is added in post.
 ```
 
 ## Canonical prompt template (Seedance 2.5 edit)
 
-Submit with `omni_reference_task_type="edit"`, `generate_audio: false`, `resolution` 1080p.
+Submit with `omni_reference_task_type="edit"`, `generate_audio: false`, and the
+`resolution` of the ladder rung (480p probe, then the delivery resolution).
+Both templates end with the silent `[Audio]` block.
 
 ```text
 [Edit Goal]
@@ -195,6 +219,9 @@ lighting direction, color, contrast, and exposure from @Video 1 unchanged. Faces
 stay real and natural — never waxy, plastic, or warped; faces stay naturally
 grounded in the scene with no cut-out edge, no halo; rim light matches the key
 direction.
+
+[Audio]
+Silent output. Sound is added in post.
 ```
 
 ## Guardrails
@@ -215,11 +242,11 @@ direction.
   copy"), grounding ("no cut-out edge, no halo; rim light matches the key
   direction"), and face protection ("never waxy, plastic, or warped") belong in
   every prompt that preserves people.
-- **Submission.** `omni_reference_task_type="edit"`, `resolution` 480p/720p/1080p
-  (standard 2.5 has no 4K), `generate_audio: false` (since the source audio is re-muxed
-  afterward — skip the re-mux if you instead keep native audio), `watermark: false`
-  only when the tool supports the parameter. Duration auto-locks to the input —
-  do not set it.
+- **Submission.** `omni_reference_task_type="edit"`, the muted master as
+  `@Video 1` (an `asset://` video when people are visible), `resolution` per
+  rung (480p probe first; standard 2.5 has no 4K), `generate_audio: false`,
+  `watermark: false` only when the tool supports the parameter. Duration and
+  ratio lock to the input — do not set them.
 - **Temporal denoising with a no-ghosting guard.** Always pair the temporal
   instruction with "without introducing motion blur, ghosting, or trailing."
 
@@ -239,8 +266,14 @@ direction.
 7. `[Content to Preserve]` locks identity, motion, timing, camera, and lighting.
 8. Grounding and face-protection locks are present when people are in frame.
 9. No `[Target Material Role]` section (single `@Video 1` source only).
-10. Source trimmed to ≤29s, and any localized defect is **centered** with ≥1s
-    clean margin on both sides — never at the clip boundary.
-11. The Seedance output was **verified by direct inspection** (defect gone,
+10. Source trimmed to 4–30 s (under 20 s preferred) at an 8n+1 frame count,
+    and any localized defect is **centered** with ≥1s clean margin on both
+    sides — never at the clip boundary.
+11. Rights recorded; the muted master is bound, as an `asset://` video when
+    people are visible; the prompt ends with the silent audio block.
+12. The first rung is a 480p probe of the defect window; grain is judged at
+    the final resolution.
+13. The Seedance output was **verified by direct inspection** (defect gone,
     content intact, no new artifacts) before splicing.
-12. Prompt-review gate passed before submission; original audio re-muxed after.
+14. The caller's prompt review passed before submission; the saved original
+    audio was muxed after.

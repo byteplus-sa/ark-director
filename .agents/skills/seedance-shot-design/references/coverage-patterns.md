@@ -15,7 +15,7 @@ wording for a named light setup belongs to the lighting preset skill.
 - [Scale contrast](#scale-contrast)
 - [Travel and chase](#travel-and-chase)
 - [Hold after motion](#hold-after-motion)
-- [Foreground reveal and rack focus](#foreground-reveal-and-rack-focus)
+- [Foreground reveal](#foreground-reveal)
 - [Transition shot between places](#transition-shot-between-places)
 - [Orbit on the payoff](#orbit-on-the-payoff)
 - [Light progression](#light-progression)
@@ -31,8 +31,8 @@ Use when the viewer must discover something in stages.
 
 - Shots: a wide that places the subject, a medium that isolates the action, a
   close-up or insert that shows the discovered detail.
-- What changes: size on every cut; add a push-in or a rack focus on the last
-  rung so the discovery has motion.
+- What changes: size on every cut; add a push-in on the last rung so the
+  discovery has motion.
 - Watch for: three equal-length shots with identical eye-level framing. Make the
   final rung the shortest or the most distinct.
 
@@ -116,15 +116,17 @@ Use when a moment must land.
 - Watch for: a hold with no preceding motion; it reads as inert rather than
   chosen.
 
-## Foreground reveal and rack focus
+## Foreground reveal
 
 Use when attention should shift inside one frame.
 
-- Shots: a foreground element sharp and the subject soft, then focus moves to
-  the subject while the foreground softens.
-- What changes: the sharp plane, named as a visible result.
-- Watch for: numeric aperture on its own. Pair it with what should be sharp and
-  what should soften.
+- Shots: a foreground element fills one side of the frame, then the camera
+  trucks or pushes past it, or the subject steps out from behind it, so the
+  subject takes over the frame.
+- What changes: what the frame is about, carried by the move or the staging.
+- Watch for: a prompted rack focus as the device. Seedance drafts keep a face
+  sharp, so a pull from the face to the background fails, and a pull onto a
+  face is unverified. Plan the shift as a move, or mark the focus pull `post`.
 
 ## Transition shot between places
 
@@ -217,4 +219,6 @@ kneeling, a child and an adult) and the height gap is the story.
 | A shot stacking more than two simultaneous moves | The camera preset guidance records instability risk | One primary move per shot and at most one secondary |
 | Equal shot lengths with the turn the same length as its neighbors | Nothing marks the turning point | Uneven durations; give the turn a length unlike its neighbors |
 | A move that decorates but has no story reason | Movement without meaning adds noise | State what the move reveals or emphasizes |
+| A 30 s spot written as one pass with nine or more beats | Read as stock footage in workspace reviews | Plan about 5 s sequences of 2-3 shots, each with one `wow` shot, per the cinematic sequence bar |
+| A focus pull away from a face asked of the prompt | Drafts keep the face sharp | Generate with ordinary focus and add the defocus in post |
 | A multi-character scene covered by clean singles only | The relationship between the characters never shares a frame | Add a dirty single, an over-the-shoulder or a two-shot, per the framing reference |

@@ -15,9 +15,10 @@ description: >-
 
 # Seedance VFX Prompt
 
-Write production-grade prompts for BytePlus Seedance 2.0 **video-to-video VFX
-editing**. This skill is for editing **existing footage** — not text-to-video
-generation. The source clip is the anchor; the prompt describes what to change.
+Write production-grade prompts for BytePlus Seedance **video-to-video VFX
+editing**, defaulting to the Seedance 2.5 structured edit-goal grammar. This
+skill is for editing **existing footage** — not text-to-video generation. The
+source clip is the anchor; the prompt describes what to change.
 
 Use this skill when the user wants to:
 - **replace a background or location** in an existing video clip
@@ -38,12 +39,12 @@ Do **not** use this skill for:
 - redrawing the whole clip in a new visual medium with the same content (use
   `seedance-restyle`)
 
-> **Version note**: This skill covers **both** Seedance generations. The core
-> methodology (sections 1–11) is written for Seedance 2.0. For Seedance 2.5
-> video-to-video editing — the preferred path for full-duration edits — see
-> [Seedance 2.5 editing](references/seedance-25-edit.md#seedance-25-editing) below; the `seedance-prompt-25`
-> skill remains the authority for 2.5 T2V/R2V and native extension. For 2.0
-> T2V/R2V prompts, use `seedance-prompt-20`.
+> **Version note**: Seedance 2.5 editing is the default; see
+> [Seedance 2.5 editing](references/seedance-25-edit.md#seedance-25-editing).
+> The legacy methodology (sections 1–11 in the references) targets Seedance 2.0
+> and applies only when that path is explicitly selected. `seedance-prompt-25`
+> remains the authority for 2.5 T2V/R2V and native extension; `seedance-prompt-20`
+> for 2.0 T2V/R2V.
 
 > **2.5 resolution guard**: Seedance 2.5 supports 480p/720p/1080p output. The
 > 4K face-protection methodology below is 2.0-only. For face-critical structured
@@ -77,16 +78,32 @@ mentioned in prose are relative to this skill directory unless a link says other
 - [Compact Legacy](references/compact-legacy.md) — Alternative: compact format; Structure patterns (quick reference); Seedance 2.0 input limits (reference).
 - [Seedance 25 Edit](references/seedance-25-edit.md) — Seedance 2.5 editing.
 
-## Submission boundary and failure behavior
+## Submission boundary
 
-The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
-uses a sub-agent only when the user explicitly requests sub-agent prompt review
-for the project or specific generation. A leaf returns its prompt package without
-loading sibling skills. An explicitly declared orchestrator may coordinate the
-review and submission stages. Missing required inputs remain unresolved; a draft
-or technical success does not establish user approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+This leaf returns a prompt package. The caller owns authorization, prompt
+review, submission and approval under the workspace production policy; missing
+inputs stay unresolved rather than invented.
+
+## Inputs the provider rejects or misreads
+
+Check these before writing, because no wording fixes them:
+
+- **People in the source clip.** Edit and extend reject a source video that
+  shows a realistic person, generated or real, with `PrivacyInformation`
+  before any cost, unless each person is bound as an `asset://` Virtual
+  Portrait or authorized asset. Name that binding in the package or stop and
+  say the clip needs assets (compose with `seedance-virtual-portrait`). For
+  swaps, restyles and recasts the source is also submitted muted, with audio
+  added in post.
+- **Storyboards and boards.** Never bind a storyboard grid, board panel or
+  sketch as `@Image N`: panel numbers and the sketch or watercolour look leak
+  into the video and output-copyright rejections rise. Boards plan the shot;
+  the staging goes into prompt text and only character, location, prop and
+  texture element references are bound.
+- **Negated shapes.** "Never a cone" does not remove a strong visual prior;
+  describe the wanted shape positively ("a hazy twin-humped cloud rising from
+  the saddle between the peaks"). A night world states its black sky, low
+  exposure and a small pale moon explicitly.
 
 ## Source authority
 
@@ -170,6 +187,14 @@ moves. Avoid generic adjectives — no "beautiful," "stunning," "amazing,"
 "cinematic" — use texture words instead. Don't inflate, don't soften, don't
 explain what things "represent."
 
+An edit inherits the source camera, so the camera discipline below applies to
+the parts a VFX prompt adds or regenerates: a new BEFORE plate, an inserted
+shot, a chained continuation or a re-staged retake. Give each such shot one
+action with its intent, a size, a lens intent, a stated camera move and a named,
+motivated light source; a single setup with no camera statement reads flat.
+Shots shorter than about 0.8 s merge inside one generation, so flash cuts and
+intercuts belong to the edit.
+
 ## VFX prompt checklist
 
 For a supported legacy 2.0 VFX prompt, verify the items below. For 2.5 editing,
@@ -205,7 +230,11 @@ do not impose legacy headings or 4K parameters on that branch.
 - [ ] **Supported resolution** — validated for the selected model and operation;
       faces require output QA rather than an automatic switch to 4K
 - [ ] **`@tag` references** — project elements referenced by tag and bound to
-      `@Image N`, not re-described
+      `@Image N`, not re-described; no storyboard or board image is bound
+- [ ] **People in the source** — each visible person is an `asset://` binding,
+      or the package stops before submission
+- [ ] **Positive shapes** — wanted shapes and night states described positively,
+      not by negation
 - [ ] **Creature realism demanded** — wildlife-doc realism, species behavior,
       scale explicit (if creature added)
 - [ ] **Texture `@Image N` reference** — second input added if CG still reads

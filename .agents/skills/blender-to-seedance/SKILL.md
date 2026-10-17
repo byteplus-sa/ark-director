@@ -42,7 +42,7 @@ flowchart LR
   B --> C[Validate manifest + render 24fps MPEG-4]
   C --> D[Temporal QA + prompt preflight]
   D --> E[media_upload previz, record object_key]
-  E --> F[seedance_2_5_create_task, edit_video]
+  E --> F[seedance_2_5_create_task, edit]
   F --> G[Poll, save, compare, review]
 ```
 
@@ -112,9 +112,20 @@ Before writing any prompt:
 3. Derive the **dummy map** and observable motion criteria from the validated
    manifest. Never make Seedance guess which proxy represents which subject.
 4. Enumerate the references (previz + element sheets) and confirm the ordered
-   array matches the `@Image N` / `@Video N` bindings 1:1.
-5. Confirm the measured previz duration equals the target edit duration.
-6. Run the source-previz checks in
+   array matches the `@Image N` / `@Video N` bindings 1:1. When the shot
+   dresses proxies as people, prefer approved `asset://` Virtual Portrait
+   identities per the
+   [video-to-video inputs](../../contracts/video-to-video-inputs.md) contract:
+   a raw face sheet beside a video input can be rejected with a privacy error.
+   Never bind a storyboard grid or panel; the previz and element sheets carry
+   everything the model needs.
+5. Choose the audio route. Keep native audio only for dialogue that must lip
+   sync inside the blocked takes. For ambience, SFX or score, generate picture
+   with `generate_audio: false` and lay the sound in post, placing each timed
+   accent at its manifest frame; a "no music" line on native audio often leaks
+   speech or score.
+6. Confirm the measured previz duration equals the target edit duration.
+7. Run the source-previz checks in
    [Temporal QA](references/temporal-qa.md). Keyframes and contact sheets are
    insufficient evidence for motion behavior.
 
@@ -131,16 +142,21 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
    `task_ids.json` before submission. `media_upload` the previz; record
    `object_key` in `projects/<project>/ref_cache.json`.
 2. `seedance_2_5_create_task` with:
-   - the edit-mode token documented by the live tool; the current ModelArk MCP
-     contract uses `omni_reference_task_type=edit_video`,
+   - the edit-mode value documented by the live tool: Seedance 2.5 accepts
+     `omni_reference_task_type=edit`; `edit_video` is a Seedance 2.0 value that
+     the 2.5 tool rejects. Recheck the accepted values before submission,
    - `@Video 1` = presigned previz URL,
-   - `resolution="480p"` for drafts and iterations; after passing draft
-     review and selection, use the recorded delivery target for finals. Honor
-     explicit user overrides and record verified operation constraints. Review
-     and register the final request separately, then inspect its output,
+   - `resolution="480p"` for drafts and iterations, as a native Draft
+     (`draft: true`) when the live edit operation supports it; after passing
+     draft review and selection, promote by `draft_task_id` (or, without Draft
+     support, submit a separately registered and reviewed final request) to the
+     recorded delivery target, then inspect the final again,
+   - `generate_audio` as chosen in preflight step 5,
    - verify previz duration against the live edit limit; omit auto-locked
      `duration` and `ratio` parameters,
-   - `return_last_frame=true` when chaining.
+   - `return_last_frame=true` when chaining. Chain into a new previz segment,
+     not native extension: extension of a generated clip that shows people is
+     rejected unless they are `asset://` Virtual Portrait assets.
 3. Record the task in `task_ids.json`, poll `seedance_get_task` until terminal.
    A local timeout without acceptance evidence enters `submission_unknown`;
    reconcile the existing operation and never automatically resubmit. Explicit
@@ -159,6 +175,10 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
 - Use a synchronized previz-vs-output side-by-side comparison to support camera,
   cut, blocking, and trajectory review. Record observed deviations; the
   comparison is evidence rather than proof of frame-exact correspondence.
+- Sample frames with top-left corner crops for leaked text or proxy colours,
+  and check frame edges for drawn black side bars.
+- Assemble in the generated take's original colours; a look is a post
+  treatment applied only when the brief records one.
 - Record the previz, output, exact prompt, element bindings, side-by-side
   comparison and QA results in the manifests, run `studio_project.py sync` and
   open the project in Studio; pass the stage-exit checks before completing the
@@ -184,7 +204,7 @@ dummy_map:
   red_box: hero
   colored_proxies: seat_identity
   checkerboard: to_replace
-omni_reference_task_type: edit_video
+omni_reference_task_type: edit
 references: 4
 ```
 
@@ -201,10 +221,10 @@ references: 4
 - **Placement-only references.** Character/location sheets define identity and
   materials only; proxies give position, scale, and motion only.
 - **Watermark false** by default. Right-size the duration; do not pad to 30s.
-- **Prompt-review gate.** Run the prompt-review gate (per the workspace AGENTS.md)
-  on the blockout prompt before submitting. Review inline by default; use a
-  sub-agent only when the user explicitly requests sub-agent prompt review for
-  the project or specific generation.
+- **Text-free output.** Titles, captions, logos and end cards are post
+  overlays, never prompt content.
+- **Prompt-review gate.** Run `prompt-review` on the blockout prompt before
+  submitting, per the workspace contracts.
 
 ## Self-check
 
@@ -228,9 +248,9 @@ references: 4
 
 ## Intentional conditioning representation
 
-A sketch or blockout stays `control_only: true` while it is analysis-only. To
-use intentional conditioning, first obtain explicit selection of a derived
-composition or motion reference. Record its exact selected manifest, current
-SHA-256, `reference_image` or `reference_video` role, and `control_only: false`.
-Confirm live model/mode support. Flipping the flag alone never grants approval;
-the caller applies the [production policy](../../contracts/production-policy.md).
+The previz stays `control_only: true` in its blockout manifest until it is
+explicitly selected as the motion reference. Then record the selected manifest,
+current SHA-256, `reference_video` role and `control_only: false`, and confirm
+live mode support (see [Blockout manifest](references/blockout-manifest.md)).
+Flipping the flag alone never grants approval; the caller applies the
+[production policy](../../contracts/production-policy.md).

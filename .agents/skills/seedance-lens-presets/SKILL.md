@@ -1,11 +1,12 @@
 ---
 name: seedance-lens-presets
 description: >
-  Turns a lens, focal length, aperture, or sensor request into a canonical
+  Turns a lens, focal length, aperture, focus or sensor request into a canonical
   visible-result phrase for Seedance 2.5 prompts or the Seedream style.
   Trigger words: lens, focal length, 35mm, 50mm, 85mm, wide angle, telephoto,
   anamorphic, fisheye, macro, aperture, f-stop, f/1.4, depth of field, bokeh,
-  shallow DOF, deep focus, or a lens intent from a shot plan. Keep optical look
+  shallow DOF, deep focus, rack focus, focus pull, or a lens intent from a shot
+  plan. Keep optical look
   separate from supported output
   parameters; preserve the selected model and send unresolved resolution needs
   to the caller rather than switching models automatically.
@@ -105,16 +106,22 @@ State what should be sharp and what should be soft. Describe bokeh shape only
 when it is requested or visually relevant; aperture alone does not guarantee
 an exact shape or near-to-far focus outcome.
 
-### Focus loss during a move (post only)
+### Focus changes: rack focus and focus loss
 
-A face that drifts out of focus while the camera keeps moving can show a
-character losing their grip, but it is **not a prompt preset**. In 480p
-Seedance 2.5 text-to-video drafts the face stayed sharp in all six takes
-across three wordings; the model softened the background instead. Generate the
-shot with ordinary focus and add a defocus ramp in post (FFmpeg or
-HyperFrames), or carry the loss of control with light and the edit. A
-deliberate focus change between two named planes is a rack focus and belongs
-to the camera preset skill.
+This skill owns focus-change wording. Seedance keeps a face sharp: in 480p
+Seedance 2.5 text-to-video drafts a face that was asked to drift out of focus
+stayed sharp in all six takes across three wordings, and the model softened the
+background instead.
+
+| Change | Status | What to write |
+|---|---|---|
+| Face sharp, then focus left behind on the background (rack away from a face, focus loss during a move) | **Post only** | Generate with ordinary focus on the face; add the defocus ramp in post (FFmpeg or HyperFrames), or carry the change with light, a move or a cut |
+| Foreground object sharp, then focus pulls onto a face behind it | Unverified hypothesis; check a 480p draft | `Rack focus: focus starts on <foreground object>, sharp, with <subject> soft behind it; at <N>s focus shifts smoothly to <subject>, the <foreground object> blurring as <subject>'s face turns sharp.` |
+| Between two objects with no face | Unverified hypothesis; check a 480p draft | The same template with both planes named as visible objects |
+
+Do not spend more tries on wording when a draft keeps the face sharp; the
+repair is in post. An attention shift inside one frame can also be staged: a
+move past a foreground element, or the subject stepping into the sharp plane.
 
 ### Lens character
 
@@ -136,12 +143,22 @@ have a flare. The label does not authorize inventing either feature.
 
 | Sensor | Canonical visible-result phrase |
 |---|---|
-| **VHS** | VHS camcorder look: low resolution, visible scanlines, colors bleeding into each other, soft analog noise. |
-| **Film** | Film stock look: visible grain, gentle halation around highlights, natural tonal range. |
+| **VHS** | VHS camcorder look: low resolution, visible scanlines, colors bleeding into each other, soft analog noise. Seedance video: a post treatment (see below). |
+| **Film** | Film stock look: visible grain, gentle halation around highlights, natural tonal range. Only when requested. |
 | **Digital Cinema** | Digital cinema look: clean, crisp image with high dynamic range and minimal noise or grain. |
 
 Sensor character is a texture and tone choice, not a resolution guarantee.
 Pair it with the actual output resolution set in the generation interface.
+
+**Tape and camcorder looks are post treatments for Seedance video.** A
+camcorder format word ("MiniDV") in a Seedance prompt returned clean cinema
+footage in workspace drafts. For a VHS, MiniDV or camcorder piece, prompt the
+camera behaviour the format implies (handheld at arm's length, an on-camera
+light; whether these cues read as tape is unverified) and apply the scanlines,
+color bleed, noise and frame size in post (the color-grade skill owns post
+looks). The sensor phrase may still serve a Seedream
+still, where it is an unverified heuristic. Add no grain, halation or vignette
+unless the user asks for the look.
 
 ## Authoring fields — not a provider payload
 
@@ -194,11 +211,14 @@ Audio includes <dialogue, ambience, sound effects, or music>.
 Full worked Seedance example:
 
 ```
-A film student examines an old camera in a dusty repair shop at golden hour,
-in a clean, high-dynamic-range digital cinema look. Use 85mm, f/1.4 — shallow
-depth of field, the student's eyes stay sharp while the shelf of lenses behind
-dissolves into compressed creamy bokeh. Audio includes the soft ticking of the
-wall clock and faint street ambience.
+A film student turns an old camera over in her hands in a dusty repair shop at
+golden hour. The visuals feature low amber sun through the shop window
+frame-left, raking across the counter and catching the dust, in a clean,
+high-dynamic-range digital cinema look. Use a slow push-in from a medium
+close-up to a close-up on her eyes, 85mm, f/1.4 — shallow depth of field, the
+student's eyes stay sharp while the shelf of lenses behind dissolves into
+compressed creamy bokeh. Audio includes the soft ticking of the wall clock and
+faint street ambience.
 ```
 
 ### Seedream placement
@@ -248,8 +268,7 @@ Composition:
 - **Focal length is not camera position or crop.** State the intended framing
   and depth relationship. A crop or focal-length word alone cannot establish
   that the generated shot preserves or changes perspective as requested.
-- **Caller-owned supported parameters.** Watermark defaults apply only where
-  the selected tool supports the field. This prompt-only skill sets no payload
+- **Caller-owned supported parameters.** This prompt-only skill sets no payload
   parameters and does not invoke generation or sibling skills.
 - **Record the resolved phrase.** When a generation is submitted, the exact
   prompt snapshot (including the optics line) is saved beside the asset as
@@ -276,6 +295,10 @@ Before delivering a prompt built with this skill, verify:
    aberration behavior.
 8. **Supported controls remain separate** — no authoring field is presented
    as a provider parameter without live evidence.
+9. **Focus changes are honest** — no prompted focus pull away from a face; that
+   defocus is a post step, and a pull onto a face is marked unverified.
+10. **Tape and camcorder looks stay in post** for Seedance video, and no grain,
+    halation or vignette is added unless requested.
 
 ## Guide disclaimer
 

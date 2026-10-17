@@ -4,6 +4,7 @@ Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) f
 mode selection and caller responsibilities.
 
 - [Reference materials](#reference-materials)
+- [Precedence and accepted inputs](#precedence-and-accepted-inputs)
 - [Multi-reference workflow (5 steps)](#multi-reference-workflow-5-steps)
 
 ## Reference materials
@@ -85,6 +86,22 @@ content can overpower negative wording — if a character sheet contains an aura
 weapon, logo, or extra face that must not appear, clean or replace the reference
 rather than relying on "no aura" constraints.
 
+## Precedence and accepted inputs
+
+- **A bound photo outranks text for details it shows.** Landing gear that is
+  down in the reference stays down whatever the prompt says. Align the text
+  with the reference, or replace the reference.
+- **People in video inputs.** Extension and video-to-video inputs that contain
+  generated or real people are rejected for privacy unless those people are
+  `asset://` Virtual Portrait assets. Real-person reference photos are rejected
+  without an authorized asset. Compose with `seedance-virtual-portrait` for the
+  asset route; never disguise an input to pass the check.
+- **Face and body crops** bound as `reference_image` may be rejected; bind the
+  full sheet, or use the image as a first frame. A last frame alone is
+  rejected; use first + last.
+- **Storyboards and boards are never inputs**; see
+  [Keyframes Storyboards Blockouts](keyframes-storyboards-blockouts.md#storyboards-are-never-bound).
+
 ## Multi-reference workflow (5 steps)
 
 When working with many references, the goal is **not** to put every reference
@@ -151,7 +168,7 @@ Scene 1 | Inspection in the Conservation Lab
 Use: <Conservator>, <Sample Case>, <Conservation Lab>, and the case-opening motion from @Video 1.
 Event: <Conservator> opens <Sample Case> at the workbench and inspects the sample inside.
 End state: <Conservator> remains on the inner side of the workbench. <Sample Case> stays beside the
-conservator's right hand, which is on the left side of the frame.
+conservator's right hand, frame-left.
 
 Scene 2 | Registration in the Gallery
 Use: <Registrar>, <Record Board>, and <Gallery>.

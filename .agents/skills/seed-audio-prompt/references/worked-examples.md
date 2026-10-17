@@ -44,9 +44,9 @@ Ending
 
 ```text
 Input references
-@Audio1: female protagonist voice timbre — Lux (clear, bright, crystalline)
-@Audio2: male antagonist voice timbre — Sylas (raspy, low, gravelly)
-@Audio3: male heroic voice timbre — Garen (deep, powerful, booming)
+@Audio1: female protagonist voice timbre — Lira (clear, bright, crystalline)
+@Audio2: male antagonist voice timbre — Voss (raspy, low, gravelly)
+@Audio3: male heroic voice timbre — Brann (deep, powerful, booming)
 
 Scene and atmosphere
 Low, somber strings and distant war drums underscore a ruined stone courtyard. Cold wind moans through broken arches. The music remains restrained beneath dialogue and swells only during attacks.
@@ -54,25 +54,25 @@ Low, somber strings and distant war drums underscore a ruined stone courtyard. C
 Characters and dialogue
 [Heavy iron chains scrape harshly across stone in the foreground, then shackles strike with a sharp, echoing "CLANG."]
 
-Sylas (raspy, low, gravelly male voice, rough and menacing, like sand grinding over rusted iron, voiced by <<TGT_SPK2>>) speaks in a cold, taunting tone: "Lux. Did your brother send you to finish the job?"
+Voss (raspy, low, gravelly male voice, rough and menacing, like sand grinding over rusted iron, voiced by <<TGT_SPK2>>) speaks in a cold, taunting tone: "Lira. Did your brother send you to finish the job?"
 
-Lux (clear, bright young female voice, resonant with a crystalline timbre, voiced by <<TGT_SPK1>>) says firmly yet pleadingly: "Sylas, it's not too late to stop."
+Lira (clear, bright young female voice, resonant with a crystalline timbre, voiced by <<TGT_SPK1>>) says firmly yet pleadingly: "Voss, it's not too late to stop."
 
 [A bright chime of gathering light energy rings like crystal near breaking. The strings rise as the energy builds.]
 
 [A beam fires with a sharp "shhhk!" and strikes the chains in a dazzling "CLANG!!", followed immediately by a thunderous "BOOM!" Debris scatters and the shockwave briefly overwhelms the music.]
 
-Garen (deep, powerful, booming male voice, heroic and resolute, voiced by <<TGT_SPK3>>) roars: "DEMACIA!!"
+Brann (deep, powerful, booming male voice, heroic and resolute, voiced by <<TGT_SPK3>>) roars: "FOR THE CROWN!!"
 
 [A massive spinning blade rushes forward with repeated "whoom, whoom, whoom" passes across the foreground.]
 
-Sylas (voiced by <<TGT_SPK2>>) snarls through gritted teeth: "Demacia's dog—"
+Voss (voiced by <<TGT_SPK2>>) snarls through gritted teeth: "The crown's dog—"
 
-Lux (voiced by <<TGT_SPK1>>) shouts urgently, throwing herself between them: "Stop! Both of you, STOP!"
+Lira (voiced by <<TGT_SPK1>>) shouts urgently, throwing herself between them: "Stop! Both of you, STOP!"
 
 [A golden shield blooms with a resonant, sustained "diiing—". All music and battle noise cut out, leaving only cold wind and three characters breathing heavily.]
 
-Lux (voiced by <<TGT_SPK1>>) speaks softly, almost carried off by the wind: "He's our brother… he once was."
+Lira (voiced by <<TGT_SPK1>>) speaks softly, almost carried off by the wind: "He's our brother… he once was."
 
 Ending
 [A sword slides into its sheath; loose chains settle against stone. A solitary clarinet enters over the wind and slowly fades into silence.]

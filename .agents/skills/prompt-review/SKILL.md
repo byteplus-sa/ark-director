@@ -26,7 +26,8 @@ authorized scope; do not extend it to unrelated projects or generations.
 ```
 Main agent writes/updates prompts
   → identify each prompt's type (Seedance 2.5, Seed Audio, Seedream, etc.)
-  → load the matching review checklist from references/review-checklists.md
+  → load the universal items from references/review-checklists.md and the
+    matching checklist file it indexes
   → review inline, or delegate only within an explicit user-requested scope
   → record structured findings (issues by severity with suggested fixes)
   → main agent applies fixes to the prompt files
@@ -77,26 +78,19 @@ under `may_change`; keep all `must_preserve` items unchanged.
 
 Use explicit input first; filenames below are fallback hints, not authority:
 
-| Prompt type | File prefix | Checklist source |
+| Prompt type | File prefix | Checklist file (`references/`) |
 |---|---|---|
-| Seedance 2.5 video | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-prompt-25` |
-| Seedance 2.0 video (4K/Fast/Mini) | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-prompt-20` |
-| Seedance 2.5 edit | explicit model + edit operation | Seedance 2.5 edit section |
-| Seedance 2.5 object swap | explicit model + edit operation replacing one element | Seedance 2.5 edit section (object swap items) + `seedance-object-swap` |
-| Seedance 2.5 recast (motion transfer) | explicit model + recast operation | Seedance 2.5 recast section + `seedance-motion-recast` |
-| Seedance 2.5 restyle | explicit model + restyle operation | Seedance 2.5 restyle section + `seedance-restyle` |
-| Seedance VFX (video-to-video edit, legacy path) | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-vfx-prompt` |
-| Seedance Filipino dialogue | `prompt_sNN_shNNN_tNN_vNN.md` | `seedance-prompt-25` + `seedance-prompt-25-filipino` |
-| Seed Audio (dialogue/music/SFX/ambience) | `prompt_dlg_*`, `prompt_mus_*`, `prompt_sfx_*`, `prompt_amb_*`, `prompt_mix_*` | `seed-audio-prompt` |
-| Seedream image generation | `prompt_concept_*`, `prompt_sNN_kf*` | `seedream-prompt` |
-| Seedream character sheet | `prompt_char_*` | `seedream-character-sheet` |
-| Seedream character outfit variant | `prompt_char_<character-id>-<outfit-id>_*` | `seedream-character-outfit` |
-| Seedream location asset | `prompt_loc_*` | `seedream-location-asset` |
-| Seedream prop asset | `prompt_prop_*` | `seedream-prop-asset` |
-| Seedream screen UI reference | `prompt_screen_*` | `seedream-prompt` (general image rules apply) |
-| Seedream brand/title card | `prompt_card_*` | `seedream-prompt` (general image rules apply) |
-| Seedream storyboard | `prompt_sNN_kf*` (multi-panel) | `seedream-storyboard` |
-| Seedance music video | `prompt_sNN_shNNN_tNN_vNN.md` (song-driven) | `seedance-music-video` |
+| Seedance 2.5 video | `prompt_sNN_shNNN_tNN_vNN.md` | `checklist-seedance-25.md` |
+| Seedance 2.0 video (4K/Fast/Mini) | `prompt_sNN_shNNN_tNN_vNN.md` | `checklist-seedance-legacy.md` |
+| Seedance 2.5 edit, object swap, recast or restyle | explicit model + operation | `checklist-seedance-edits.md` (plus the 2.5 reference items) |
+| Seedance VFX (video-to-video edit, legacy path) | `prompt_sNN_shNNN_tNN_vNN.md` | `checklist-seedance-legacy.md` |
+| Seedance Filipino dialogue | `prompt_sNN_shNNN_tNN_vNN.md` | `checklist-seedance-25.md` + `checklist-audio-dialogue.md` |
+| Seedance music video | `prompt_sNN_shNNN_tNN_vNN.md` (song-driven) | `checklist-seedance-25.md` + `checklist-music-ugc.md` |
+| Seed Audio (dialogue/music/SFX/ambience) | `prompt_dlg_*`, `prompt_mus_*`, `prompt_sfx_*`, `prompt_amb_*`, `prompt_mix_*` | `checklist-audio-dialogue.md` |
+| Seedream image, screen UI or brand/title card | `prompt_concept_*`, `prompt_screen_*`, `prompt_card_*` | `checklist-seedream.md` |
+| Seedream storyboard | `prompt_sNN_kf*` (multi-panel) | `checklist-seedream.md` |
+| Seedream character sheet or outfit variant, location, prop | `prompt_char_*`, `prompt_loc_*`, `prompt_prop_*` | `checklist-seedream-elements.md` |
+| UGC hooks and scripts | Stage 1 drafts | `checklist-music-ugc.md` |
 
 Deterministic HTML-entrypoint screens, cards, posters, product layouts, and
 overlays have no generation prompt and stay outside this table. Review only a
@@ -110,9 +104,9 @@ hashes. If the request was written but not registered, rewrite it with
 the new `request_sha256`; never reuse the old review. A review written after a
 submission must say so, and is used only to adopt that submitted job.
 
-The "Checklist source" column is a provenance label only — this skill never loads
-a sibling; the applicable checklist is always read from this skill's own bundled
-`references/review-checklists.md`.
+Each checklist names its source skill as a provenance label only — this skill
+never loads a sibling; checklists are always read from this skill's own
+`references/` folder.
 
 When a prompt could match multiple types (e.g., a Seedance 2.5 prompt with Filipino
 dialogue), stack the checklists — the reviewer checks all applicable sections.
@@ -137,17 +131,19 @@ as its immutable `prompt_*.md` snapshot so the calling orchestrator can referenc
 it from the shot manifest (`prompt_file`; pre-Studio canvas: `promptFile`).
 
 For Seedance prompts, the author first runs the
-[author self-check](references/author-self-check.md). It covers ten recurring
-findings, such as descriptor drift, raw/baked state, camera end times, shot
-density, trim points, and audio brackets, and usually saves a re-review round.
+[author self-check](references/author-self-check.md). It covers the most
+frequent findings, such as descriptor drift, raw/baked state, camera end times,
+shot density, invented prop text, counts, hands and speech timing, and usually
+saves a re-review round.
 
 ### Step 2 — Detect prompt type and load checklist
 
 For each prompt:
 1. Resolve its explicit model, operation, prompt type, and requested axes; use
    the table only for a warned draft fallback.
-2. Read the corresponding section from `references/review-checklists.md`.
-3. Also load the **universal directing principles** section (applies to all prompts).
+2. Read the matching checklist file listed in
+   [Review checklists](references/review-checklists.md).
+3. Also apply the universal items in that index (they apply to all prompts).
 
 ### Step 3 — Review inline or use explicitly requested delegation
 
@@ -157,8 +153,8 @@ review modes use the same inputs, checklists, findings format, and hash-bound
 review record. The reviewer uses:
 - The full text and explicit review input for each prompt being reviewed.
 - The request hash, change contract, reference evidence, and applicable rule IDs.
-- The applicable checklist section(s) from `references/review-checklists.md`.
-- The universal directing principles.
+- The applicable checklist file(s) and the universal items from
+  `references/review-checklists.md`.
 - Clear instructions on what to check and how to report.
 
 **Batching strategy for explicitly requested sub-agent review:**
@@ -222,11 +218,7 @@ project_axes: <confirmed camera, lens, lighting, pacing and energy axes with sou
 
 ## Review checklist
 
-<paste the applicable checklist section from references/review-checklists.md here>
-
-## Universal directing principles (apply to ALL prompts)
-
-<these are always included — see Universal Directing Principles section below>
+<paste the severity guide, the universal items and the applicable checklist file(s) here>
 
 ## Your task
 
@@ -279,13 +271,8 @@ OR
    - Evidence: <quote the relevant part of the prompt>
    - Suggested fix: <specific, actionable fix>
 
-### Severity definitions
-- CRITICAL: Will cause generation failure, safety rejection, identity drift,
-  or fundamentally broken output. Must fix before submission.
-- MAJOR: Will degrade output quality, cause inconsistency, or violate an
-  applicable directing rule. Must resolve before submission.
-- MINOR: Could improve quality or clarity but won't break the generation.
-  Fix if time allows.
+Severity follows the guide in the checklist index; an item that names its
+own severity overrides the MAJOR default.
 
 ## Rules
 - Check every item in the checklist. Do not skip items.
@@ -407,6 +394,16 @@ observable direction; concise technical exclusions and explicit preservation
 constraints are permitted. Supported parameters are checked against the selected
 tool/mode, and exact screen text remains an output-QA requirement.
 
+Video prompt-craft rules carry their own IDs so a failure is recorded, not just
+mentioned: `prompt.positive_direction`, `prompt.parameters_in_request`,
+`prompt.exact_counts`, `prompt.hand_frame_side`, `video.text_free`,
+`dialogue.speech_budget`, `audio.native_route`, `seedance.draft_promotion`,
+`board.animatic_review_only` and, for Filipino lines,
+`dialogue.filipino_register`. Add a check for each one that applies, even when
+the caller did not list it as required. Record `fail` for a CRITICAL or MAJOR
+finding, which blocks the request; a MINOR finding records `pass` with the
+note in its evidence and the human-readable details.
+
 ## Element completeness review
 
 In addition to checking prompt quality, the reviewer **must** review the
@@ -475,13 +472,11 @@ The reviewer reports element completeness findings in a separate section:
 - **MINOR:** An element could enhance the production but isn't strictly
   required (e.g. ambient SFX library for a quiet scene).
 
-## Reference file
+## Reference files
 
-The consolidated review checklists for all prompt types live in:
-`references/review-checklists.md`
-
-Load the relevant section(s) for inline or explicitly requested sub-agent review.
-The reference is organized by prompt type with a table of contents at the top for quick navigation.
+[Review checklists](references/review-checklists.md) is the index: universal
+items, the severity guide and a table of the per-type checklist files. Load the
+index and only the checklist files the prompt type needs.
 
 ## Compose with other skills
 

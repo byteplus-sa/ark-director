@@ -26,6 +26,12 @@ account, an edited copy, a compressed or forwarded copy, or past 30 days. Save
 the original straight to TOS. Trust covers the input check only; the new
 output can still be moderated. Without a face in the input, no trust is needed.
 
+Observed: a muted 480p Seedance draft from the same account, downloaded and
+re-uploaded through `media_upload` for extension, was rejected with
+`InputVideoSensitiveContentDetected.PrivacyInformation`. Plan any video input
+that shows a person as an `asset://` video unless the unedited original is
+passed straight from the provider and accepted on a probe.
+
 ## Registering an invented character (Virtual Portrait)
 
 1. Approve the Seedream sheet first. Seedream rejects `asset://` inputs.

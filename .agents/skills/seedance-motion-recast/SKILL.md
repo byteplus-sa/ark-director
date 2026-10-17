@@ -68,31 +68,26 @@ the post-audio route and the test-ladder rung it targets.
 2. **References come only from approved elements** (Seedream sheets or
    authorized downloads) with current SHA-256. Use separate images per view;
    never collages or turnaround strips.
-3. **Every new character is a Virtual Portrait.** Register approved invented
-   designs as Virtual Portrait assets and bind them as `asset://`. A real,
-   identifiable person as the target is out
-   of scope, including when the job is called a test; offer a Virtual Portrait
-   character. Source footage needs a recorded rights decision covering the
-   footage and the people in it; unknown rights stop the work. See the
-   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)
-   and [element identification](../../contracts/element-identification.md).
-4. **Privacy and moderation rejections are diagnosed, not routed around.**
-   Follow the
-   [rejection rule](../../contracts/video-to-video-inputs.md#provider-rejections):
-   report the request ID and flagged inputs, never crop, blur, stylize,
-   recompose or swap inputs to get a real likeness or real footage past the
-   check, and resubmit only on the user's explicit decision.
+3. **Every new character is a Virtual Portrait**, and the source footage
+   carries a recorded rights decision, both per the
+   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md).
+   A real, identifiable person as the target is out of scope, including when
+   the job is called a test; offer a Virtual Portrait character. Brands and
+   products follow [element identification](../../contracts/element-identification.md).
+4. **Rejections are diagnosed, not routed around**, per the contract's
+   [rejection rule](../../contracts/video-to-video-inputs.md#provider-rejections).
 5. **Stay within recommended reference ranges**: 1–8 distinct subjects in R2V,
    1–5 reference images in edit mode, source under 20 s for edit. Above those,
    warn the user that stability drops and propose splitting into shots.
 6. **No baked text.** Keep generated footage free of captions, taglines, CTAs,
    end cards and legible signage copy; add text in post.
-7. **Submit the muted master.** `@Video 1` is the muted master,
-   `generate_audio` is `false`, and there are no `@Audio` bindings. Sound
-   returns in post through the recorded route in
+7. **Submit the muted master** with `generate_audio: false`; sound returns in
+   post through the recorded route in
    [audio and lip-sync](references/audio-and-lipsync.md).
 8. **Test ladder**: a 480p probe of the key beat, then the full duration at
-   480p, then the final resolution. Each rung is a separate reviewed request.
+   480p as a native Draft (`draft: true`), then promote the selected draft with
+   only `draft_task_id`, `resolution` and `watermark` when the live schema
+   confirms Draft for edit tasks (otherwise a new reviewed request).
 
 ## Mode selection
 
@@ -121,7 +116,10 @@ cases at 480p first and record each result in the project.
   confirms it, is the second test before plan B. Change one variable per test.
 
 Resolve the live tool's accepted parameters and model ID before writing
-parameters; do not assume a `seed` parameter exists.
+parameters; do not assume a `seed` parameter exists. Extending a recast take
+with `omni_reference_task_type: extend` is also a video input: a take that shows
+people is rejected unless it is bound as an `asset://` video, so plan the full
+length as one natural-duration recast or assemble separate shots.
 
 ## Procedure and reference loading
 

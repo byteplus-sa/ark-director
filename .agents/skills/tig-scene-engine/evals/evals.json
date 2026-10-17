@@ -52,6 +52,18 @@
         "Does not certify a reversal or audience value shift without the reveal evidence.",
         "Distinguishes established information from inference and missing context."
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "This audited 40-second sequence works on the page: Lena searches three drawers for a key, the third is locked, her brother walks in holding it. Turn it into Seedance clips. Can we just generate the first 15 seconds and extend it?",
+      "expected_output": "A shot breakdown that keeps the engine beats visible, and a clear answer that extension of a clip with people is rejected without asset:// assets, with the blocking-map continuation route instead.",
+      "files": [],
+      "expectations": [
+        "Maps each tactic, the locked drawer (returned information), the reveal (hidden agency) and Lena's reaction to visible shots with action and intent.",
+        "States that Seedance rejects extending a clip showing realistic people unless each person is an asset:// asset, and proposes new generations staged from the previous last frame with tig-blocking-map text geometry and the same element references.",
+        "Gives the reaction carrying the value shift a held close shot of at least about 1 s and keeps shots above about 0.8 s.",
+        "Does not change the audited beats or invent new motives while converting to shots."
+      ]
     }
   ]
 }

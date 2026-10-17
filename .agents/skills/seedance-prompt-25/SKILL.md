@@ -1,18 +1,19 @@
 ---
 name: seedance-prompt-25
-description: >
+description: >-
   Write production-grade Seedance 2.5 video prompts with the flexible six-part
-  formula, 50-material multimodal referencing, variable-duration scene staging
-  (4-30s), timestamp pacing, structured video editing (subject replacement,
-  background replacement, audio editing), forward and backward video extension,
-  keyframe sequences, storyboard grids, coarse and fine blockout references,
-  one-click video, seamless transitions, audio bracket syntax, dialogue
-  language reinforcement, emotional direction, and camera language. Use this
+  formula, per-shot camera, lens and light lines, 50-material multimodal
+  referencing, variable-duration scene staging (4-30s), timestamp pacing and
+  dialogue timing, structured video editing (subject replacement, background
+  replacement, audio editing), forward and backward video extension, keyframe
+  sequences, coarse and fine blockout references, one-click video, seamless
+  transitions, audio bracket syntax, dialogue language reinforcement, emotional
+  direction, camera language, and draft-first request packaging. Use this
   skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene
   staging, video editing, extension, and corrections to generated motion or
-  continuity. For legacy Seedance 2.0 prompts, use seedance-prompt-20 instead.
-  For 4K output through legacy 2.0 or Fast/Mini speed variants, also use
-  `seedance-prompt-20`; whitelist-only 2.5 Premium (4K) uses this skill.
+  continuity. For legacy Seedance 2.0 prompts, 4K output through 2.0, or the
+  Fast/Mini speed variants, use seedance-prompt-20; whitelist-only 2.5 Premium
+  (4K) uses this skill.
 ---
 
 # Seedance Prompt
@@ -39,29 +40,31 @@ for each critical action beat.
 ## Procedure and reference loading
 
 Use reference-inputs for R2V; video-editing for edits; video-extension for
-extensions; keyframes-storyboards-blockouts for approved visual conditioning
-and validated blockout manifests; shot-staging for any clip that cuts. Add
-audio-performance-camera only for applicable dialogue, acting, UI, or camera
-detail.
+extensions; keyframes-storyboards-blockouts for keyframes, boards and validated
+blockout manifests; shot-staging for any clip that cuts or carries dialogue.
+Add audio-performance-camera only for applicable dialogue, sound, acting, UI, or
+camera detail.
 
-When packaging generation parameters, read the parameter reference: Seedance
-2.5 drafts explicitly default to 480p, with the final delivery target recorded
-separately. Honor user overrides and verified operation constraints.
+When packaging generation parameters, read the parameter reference: a Seedance
+2.5 clip is drafted first (`draft: true`, 480p) and the selected draft is
+promoted by `draft_task_id`, so every prompt, reference, duration and audio
+decision is final before the draft. Honor user overrides and verified
+operation constraints.
 
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
 
 - [Reference Inputs](references/reference-inputs.md) — Reference materials; Multi-reference workflow (5 steps).
-- [Scene Action](references/scene-action.md) — Scene staging; Action description.
-- [Shot Staging](references/shot-staging.md) — Shots or stages; Per-shot template; Carrying a shot plan; Dialogue inside shots.
-- [Audio Performance Camera](references/audio-performance-camera.md) — Special audio and text syntax; Emotional direction; Scripted dialogue for all speaking characters; Describing screen and UI layout positively; Camera language; Video call scenes; Spatial continuity.
+- [Scene Action](references/scene-action.md) — Scene staging; Action description; Counts, hands and surfaces; Progressive change.
+- [Shot Staging](references/shot-staging.md) — Shots or stages; Building a spot from sequences; Per-shot template; Carrying a shot plan; Dialogue inside shots.
+- [Audio Performance Camera](references/audio-performance-camera.md) — Special audio and text syntax; Choosing the audio route; Emotional direction; Scripted dialogue for all speaking characters; Describing screen and UI layout positively; Camera language; Video call scenes; Spatial continuity.
 - [Video Editing](references/video-editing.md) — Video editing.
 - [Video Extension](references/video-extension.md) — Video extension.
-- [Keyframes Storyboards Blockouts](references/keyframes-storyboards-blockouts.md) — Keyframes, storyboards, and blockouts.
+- [Keyframes Storyboards Blockouts](references/keyframes-storyboards-blockouts.md) — Keyframes; why boards are never bound; blockouts.
 - [Transitions And One Click](references/transitions-and-one-click.md) — One-click video; Seamless video transitions.
 - [Repair Examples](references/repair-examples.md) — Read after specific identity or geography feedback; hypothetical minimal repairs and tradeoffs.
-- [Worked Examples](references/worked-examples.md) — Full example: T2V 30-second one-take; Full example: R2V multi-reference concert; Full example: Video editing — subject replacement.
-- [Parameter Reference](references/parameter-reference.md) — Quick reference card; Guide disclaimer.
+- [Worked Examples](references/worked-examples.md) — Three-shot R2V sequence with dialogue; ambient-only one-take; video editing subject replacement.
+- [Parameter Reference](references/parameter-reference.md) — Quick reference card; Draft mode; Guide disclaimer.
 
 ## Submission boundary and failure behavior
 
@@ -108,8 +111,9 @@ the scene's shot plan (see [Shot Staging](references/shot-staging.md)) or
 recorded as a static choice with a reason. Summarize the main action first;
 add detail only to critical movements. Write the Action slot as granular physical detail — see
 [Action description](references/scene-action.md#action-description). **Do not describe the same action
-twice.** Generation parameters (duration, resolution, aspect ratio) belong in
-the generation interface or API, not in the prompt.
+twice.** Generation parameters (duration, resolution, aspect ratio, audio on
+or off) belong in the request, not the prompt: a sentence such as "composed for
+2.39:1" or "a 30-second 16:9 video" is wrong (`prompt.parameters_in_request`).
 
 ```
 <Subject> performs <primary action or event> in <scene and environment>.
@@ -130,8 +134,8 @@ Example with three presets active:
 
 ```
 The visuals feature warm golden key light from screen-right, shallow depth of
-field with compressed bokeh, a teal-and-orange cinematic grade, and subtle
-film grain with soft halation.
+field with compressed bokeh, and the teal-and-orange cinematic grade the brief
+requested.
 ```
 
 Each preset skill (`seedance-lighting-presets`, `seedance-lens-presets`,
@@ -145,10 +149,11 @@ in the shared opening and each shot line carries its own light fact.
 ```
 A ceramic artist finishes a pale blue cup in a studio at dawn, lifts it from the wheel,
 and places it in the center of a wooden shelf.
-Soft morning light enters through the window. The wet clay has a delicate sheen, and the
-workbench remains tidy.
+Soft morning light enters through the window at frame-left. The wet clay has a delicate
+sheen, and the workbench remains tidy.
 Begin with a medium shot of the wheel-throwing process, slowly push in toward the cup's
-surface texture, then cut to a frontal view of the shelf.
+surface texture, then cut to a low frontal view of the shelf as she sets the cup down
+with her right hand, frame-left.
 Retain the low hum of the pottery wheel, the friction of clay, and subtle indoor ambience.
 ```
 
@@ -223,42 +228,70 @@ retype or reinterpret the Blender object map from memory. Keep measurements in
 review metadata; translate them into observable prompt language rather than
 claiming the model guarantees numeric precision.
 
+## Prompt hygiene that changes results
+
+These habits come from reviewed takes; each has a rule ID that `prompt-review`
+checks, so the reasons live here and the checks live there.
+
+- **Say what you want to see** (`prompt.positive_direction`). A negation does not
+  remove a strong visual prior: "never a cone" still draws a cone. Describe the
+  wanted shape, state or layout. Night is "black sky, low exposure, a small pale
+  moon", not "not daytime".
+- **Pin every count** (`prompt.exact_counts`). Counted items, clones, runners and
+  crowds drop or duplicate. Name each item by size or position, keep all of them
+  in open view from the first frame, restate the count and positions at every
+  stage, and never mention spare copies lying around.
+- **Name hands by anatomy and frame side** (`prompt.hand_frame_side`): "her right
+  hand, frame-left". The model reads left/right as the character's own side.
+- **Keep frames text-free** (`video.text_free`). No captions, subtitles, titles,
+  CTAs, logos or end cards in the footage; they are added in post. Generic
+  tubes, jars, jugs, hard cases, garment labels, tickets and generated screens
+  grow invented lettering: describe them as plain ("plain white ceramic jug,
+  smooth solid surface, nothing printed"), leave them out, or give a story prop
+  a reference sheet.
+- **Bound photos outrank text.** A detail visible in a bound reference (landing
+  gear down) wins over contrary text; change the reference, not the adjectives.
+- **Write hair past covering garments.** Hair length drifts under shawls and
+  blankets; state the hair falling over the garment.
+- **Choose the audio route before writing** (`audio.native_route`). Ambient-only,
+  score-driven and speech-free pieces are picture-only requests; see
+  [Choosing the audio route](references/audio-performance-camera.md#choosing-the-audio-route).
+- **Budget speech** (`dialogue.speech_budget`); see
+  [Dialogue inside shots](references/shot-staging.md#dialogue-inside-shots).
+- **Never bind a board** (`board.animatic_review_only`); see
+  [Keyframes Storyboards Blockouts](references/keyframes-storyboards-blockouts.md).
+
 ## Preflight review
 
-Before generation, verify:
+Before handing the package to review, confirm:
 
-1. **Subject & action**: Does the prompt clearly state the subject and primary action?
-2. **Reference roles**: Does every reference state what to use and what not to use?
-3. **Subject binding**: Is every required canonical character, product, and prop named and bound to a reference, with incidental objects handled by the prop threshold?
-4. **Scene selection**: Are references selected by scene, not forced to appear all at once?
-5. **Stage structure**: Does each stage contain only one primary change and a clear end state?
-6. **Consistency**: Do character count, clothing, prop ownership, and spatial relationships stay consistent?
-7. **Editing master**: For editing, is the sole editing master, edit scope, target quantity, and content to preserve defined?
-8. **Emotion & camera**: Are abstract emotions and cinematography terms paired with visible/audible cues?
-9. **First/last frames**: Are first/last frames assigned one role per image? Do first and last share aspect ratio?
-10. **Storyboards & blockouts**: Does the storyboard state which structure to inherit, call every board mark (panel numbers, badges, dividers, captions) a planning annotation, and forbid numbers or text in every frame including all four corners — at the binding, per shot, and in the closing constraint? For blockouts, is coarse vs fine identified? Is a video-lock master treated as the sole motion authority, re-dressed not re-imagined?
-11. **Auto-lock rules**: Do editing, first/last-frame, and extension follow their locked aspect-ratio and duration rules?
-12. **Extension boundary**: For extension, are the boundary image, motion trend, and audio continuity checked?
-13. **One-click video**: Are material roles, image order, motion amount, editing style, and audio defined?
-14. **Seamless transitions**: Are the two videos' roles, trigger action, transition process, and arrival state defined?
-15. **Action granularity**: Is the primary action described at the body-part level with range, speed, force, and physics grounding — not as a bare verb?
-16. **Motion acceptance**: Does every critical movement have an observable
-    direction, relationship, contact, or end-state criterion? Could camera
-    movement falsely appear to satisfy required subject movement?
-17. **Manifest currency**: When a blockout manifest exists, do its source,
-    previz, selection, and reference hashes match the generation package?
-18. **Camera and light per shot**: Does every shot or stage carry the camera and
-    light facts from its shot plan (or a recorded static reason)?
+1. Subject and primary action are clear, and the action is at body-part level
+   with an observable end state for every critical beat.
+2. Every reference has one stated role, subjects are bound individually, and
+   references are selected by scene.
+3. Every shot or stage carries its planned size, angle, move and named light,
+   or a recorded static reason; shot count and lengths fit the duration.
+4. Emotions and cinematography terms are paired with visible or audible cues.
+5. The hygiene items above hold: positive wording, counts, frame-side hands,
+   text-free frames, no parameters in the text.
+6. Spoken lines fit the speech budget; the audio route matches the piece.
+7. Mode rules hold: auto-locked ratio and duration for edit, frames and
+   extension; one editing master; first and last frames share a ratio.
+8. For blockouts, coarse, fine or video-lock is identified and a manifest's
+   hashes match the package; camera movement cannot stand in for required
+   subject movement.
+9. The request is a draft (`draft: true`, 480p) unless a recorded override
+   applies, and the final will be promoted from the selected draft.
 
 ## Usage limitations
 
 - Timestamps allocate time to events; they are **not frame-accurate edit points**.
 - Video-editing prompts improve the probability of alignment but cannot guarantee frame-by-frame overlap.
 - Multi-reference goal is to select and combine correct materials, **not** to make every material appear at once.
-- For subtitles, formulas, signs, product specs, or frame-level timing that must be completely accurate, use prepared reference materials, video generation, and post-production together.
-- Video editing locks input aspect ratio and approximate duration (±0.3s); neither can be set separately.
-- First/last-frame generation locks aspect ratio to the first image; duration can be set. Mismatched ratios may stretch the last frame.
-- Video extension locks input aspect ratio; extension duration can be set.
+- For subtitles, formulas, signs, product specs, or frame-level timing that must be completely accurate, keep the footage text-free and add the exact layer in post.
+- Mismatched first/last-frame ratios may stretch the last frame (auto-lock rules above).
+- Shots shorter than about 0.8 s merge; blink cuts, intercuts and vision flashes are assembly cuts.
+- A rack focus that leaves the subject soft mostly fails; the model keeps the face sharp. Add that defocus in post.
 - For one-click video, specify image order and character mapping explicitly if they matter.
 - Seamless transitions aim for visual/audio continuity; they do not guarantee pixel-identical preservation.
 - A generated 3D asset is not a motion reference unless an animated render is

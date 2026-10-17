@@ -76,11 +76,11 @@ A single <product> floats out of the picture toward the viewer, its <crossing pa
 <t2>-<t3> seconds: ...  End state: ...
 <t3>-<t4> seconds: ...  End state: ...
 
-Frame and layer order, back to front: (1) <calm backdrop> fills only the central window, which is the large majority of the frame height; (2) two flat, solid black bars about 12 percent of the frame height each lie at the top and bottom as static 2D graphics laid over the picture, at the same height in every frame, never moving, tilting or bending; (3) the <product> sits fully inside the window and is drawn complete on top of the bars only during the named break-outs, in full colour. Whatever covers a bar sits on top and never changes it; when the product withdraws, the straight edge is simply visible again. The bars are a graphic overlay, not part of the camera's picture.
+Frame and layer order, back to front: (1) <calm backdrop, lit by a named key light from one side> fills only the central window, which is the large majority of the frame height; (2) two flat, solid black bars about 12 percent of the frame height each lie at the top and bottom as static 2D graphics laid over the picture, at the same height in every frame, never moving, tilting or bending; (3) the <product> sits fully inside the window and is drawn complete on top of the bars only during the named break-outs, in full colour. Whatever covers a bar sits on top and never changes it; when the product withdraws, the straight edge is simply visible again. The bars are a graphic overlay, not part of the camera's picture.
 
 Camera: locked-off wide-angle camera on a tripod, no movement, no zoom, no cuts; the <product> stays in place and only the extending part grows toward the lens.
 
-Audio: <effects such as <a soft whoosh> and <a light tap>>. No music and no dialogue.
+Audio: only <effects such as <a soft whoosh> and <a light tap>>. (For a music-free piece set `generate_audio: false` and add the effects in post.)
 
 No people or hands; no on-screen text, captions, logos added to the scene or watermarks; the bars stay plain black and unmarked.
 ```

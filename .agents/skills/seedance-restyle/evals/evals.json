@@ -39,6 +39,18 @@
         "Any character identity is bound as a Virtual Portrait asset:// reference; no liveness step is requested.",
         "Before writing any prompt, the agent asks for or records the user's rights decision for the street interview footage and the people in it."
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Restyle my 5-second city-street clip as watercolor, but just with a prompt. I don't want to upload any images.",
+      "expected_output": "An honest scoping answer: a same-place background restyle from prompt words alone is not reliable (the street tends to stay photographic or the place changes), so the skill offers an environment image it generates from a text description of the same street, which needs no user upload, or a subject-only restyle; it never names a different location, and the first request is a 480p probe.",
+      "files": [],
+      "assertions": [
+        "The response states that a words-only same-place background restyle is unreliable before writing a prompt.",
+        "It offers a text-generated environment image of the same street, noting that the user does not have to upload anything, or a subject-only restyle.",
+        "No different location is named in any prompt.",
+        "The watercolor medium on this route is flagged as untested, and the first request is a 480p probe."
+      ]
     }
   ]
 }

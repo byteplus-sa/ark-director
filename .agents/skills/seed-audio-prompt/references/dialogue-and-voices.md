@@ -37,7 +37,7 @@ Examples:
 ```
 Marcus (male voice, smooth and confident, warm playful broadcaster tone, clear articulation, voiced by <<TGT_SPK1>>), upbeat and inviting, says: "Hey there! Quick question—what's the most embarrassing thing that's ever happened to you?"
 
-Lux (clear, bright young female voice, resonant with a crystalline timbre, voiced by <<TGT_SPK1>>) says firmly yet pleadingly: "Sylas, it's not too late to stop."
+Lira (clear, bright young female voice, resonant with a crystalline timbre, voiced by <<TGT_SPK1>>) says firmly yet pleadingly: "Voss, it's not too late to stop."
 ```
 
 **Voice profile components** (describe as many as apply):

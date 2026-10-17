@@ -107,9 +107,9 @@ Subject:
 Always include:
 - an inline binding for each supplied reference in the section it controls
 - age
-- ethnicity / cultural identity when relevant
-- 2–4 stable facial traits
-- hair and headwear
+- ethnicity / cultural identity when relevant, and complexion in plain words
+- 2–4 stable facial traits, including the appeal traits below
+- hair length, texture, and headwear
 - costume
 - key accessories
 - **a relaxed neutral expression** — the sheet is an identity reference, so the
@@ -117,46 +117,63 @@ Always include:
   mood (smiles, frowns, glare) that bleeds into every downstream use
 - explicit statement that it is the **same person in all panels**
 
-Signature accessories the character always wears — eyewear, a hat, a helmet,
-jewelry, footwear — belong in the descriptor word for word **as part of the
-outfit**, so identity and costume stay consistent across generations.
-
 Use this canonical neutral-expression phrase verbatim in every character sheet:
 
 ```text
 Relaxed neutral expression in all panels: mouth relaxed and closed, eyes looking straight into camera, no smile, no frown, no raised brows, no emotion.
 ```
 
+### Wearables: always-worn versus scene-variant
+
 **Never put held props in the character sheet.** Anything the character holds,
-carries, aims, or operates on camera (devices, weapons, tools, bags) is a
-separate from the character identity. Exclude held items from the sheet.
-Branded, recurring, or story-critical objects need a dedicated `prop_` reference
-(see `seedream-prop-asset`) bound downstream; incidental objects may remain
-text-only in a scene.
+carries, aims, or operates on camera (devices, weapons, tools, bags) stays off
+the sheet. Branded, recurring, or story-critical objects get a dedicated
+`prop_` reference (see `seedream-prop-asset`) bound downstream; incidental
+objects may remain text-only in a scene.
 
-**Scene-variant wearables are props, not outfit.** A wearable that is not worn
-in every scene (e.g. sunglasses the character wears in some scenes and removes
-in others) must be **excluded from the character sheet** and generated as a
-`prop_` sheet instead (see `seedream-prop-asset`). Only include wearables that
-are always part of the look
-in every scene.
+| Wearable | Where it belongs |
+| --- | --- |
+| Worn in every scene of this look (glasses, wedding ring, signature hat, shoes) | The outfit descriptor, word for word, in every panel |
+| Worn in some scenes only (sunglasses taken off, a raincoat for one scene) | A separate `prop_` sheet; excluded from this sheet |
+| A different full look for the same person | A derivative sheet through `seedream-character-outfit` |
 
-### Cast distinguishability and panel continuity
+### Video-ready garment and hair description
+
+The sheet becomes a Seedance identity reference, so describe what the video
+must keep:
+
+- **Garments stay plain unless print is canon.** Collars, neck labels, cuffs,
+  and chest areas grow invented lettering in video. Write "plain fabric, no
+  visible label or print" for every garment without canonical graphics; route
+  real logos through an acquired or deterministic reference.
+- **Hair falls over wraps.** When a shawl, blanket, scarf, or high collar covers
+  the shoulders, hair length drifts. State where the hair ends relative to the
+  garment, for example "long straight black hair falling over the shawl to the
+  mid-back", in the back and front panels.
+- **Layers carry their sleeves.** State layered garments (cardigan, jacket,
+  apron) with their sleeve length so back and front panels agree; a back panel
+  with a different sleeve or layer fails continuity.
+- **Eyewear keeps the face readable.** Put eyewear in the outfit with
+  `clear non-reflective lenses and eyes fully visible through them` so glare
+  does not hide the face anchor.
+
+### Cast appeal and distinguishability
 
 Write each sheet against the rest of the cast, not alone. Before submitting a
 sheet for a recurring cast, compare it with the approved sheets and make every
-character differ in at least three of: hair silhouette (length and style), garment
-silhouette (neckline, sleeve, hem, apron or cardigan), dominant color, and
-complexion. Spread complexions across the cast (fair, light-tan, morena, brown)
-and vary age cues. Appeal is a design requirement: describe observable beauty
-(face shape, eyes, lashes, skin texture, hair) for every character, and keep older
-characters warm and graceful, never haggard.
+character differ in at least three of: hair silhouette (length and style),
+garment silhouette (neckline, sleeve, hem, apron or cardigan), dominant color,
+complexion, and age cues.
 
-State layered garments (cardigan, jacket, apron) with their sleeves so the back and
-front panels agree; a sheet whose back panel shows a different sleeve length or
-layer than the front fails continuity. Put eyewear in the outfit with
-`clear non-reflective lenses and eyes fully visible through them` so glare does not
-hide the face anchor.
+- **Appeal is a design requirement.** Describe observable appeal for every
+  character, villains included: face shape, bright clear eyes, lashes, healthy
+  skin texture, groomed hair. Keep older characters warm, soft-featured, and
+  endearing, never haggard or gaunt, unless the story explicitly calls for it.
+- **Spread complexions across the cast.** Give the cast a natural range of skin
+  tones that fits the story's setting instead of one tone for everyone, and
+  name each character's complexion in plain words in its descriptor.
+- The neutral expression rule still applies: appeal comes from the design, not
+  from a smile.
 
 ## 4. Setting
 
@@ -167,14 +184,8 @@ Setting:
 Clean plain gray studio background, consistent across all three panels.
 ```
 
-Default:
-- plain gray seamless background
-- no props
-- no held objects
-- no furniture
-- no environmental clutter
-
-Only deviate if the user explicitly wants a stylized or filmic sheet background.
+Keep the background free of props, furniture, and clutter. Only deviate if the
+user explicitly wants a stylized or filmic sheet background.
 
 ## 5. Style
 
@@ -210,17 +221,9 @@ Lighting:
 [Soft, even, neutral studio light, flat fill, no mood, no dramatic shadows, no light reflection on the skin, consistent across all panels.]
 ```
 
-Default:
-- soft studio key
-- gentle even fill
-- neutral white balance
-- no scene mood, no color cast
-- no hotspots
-- no blown highlights
-- no specular shine, flash, gloss, or light reflection on the skin — matte, diffuse skin texture that absorbs light evenly, never glossy, never reflective
-
-The same neutral lighting is used for every character sheet regardless of what
-lighting the scene or character's world uses.
+Keep skin matte and diffuse, with no hotspots, blown highlights, specular
+shine, or color cast. Neutral sheet light lets each shot prompt own its own
+motivated light without fighting a baked-in mood.
 
 ## 7. Composition
 
@@ -249,29 +252,11 @@ overlays unless requested.
 
 ## 9. Constraints
 
-Use quality + negative constraints together:
-
-```text
-Constraints:
-Quality: 4K, consistent character identity across all panels
-Negative: no extra panels, no side profile, no 3/4 view, no props, no held objects, no weapons, no light reflection on the skin, no text overlays, no watermarks, no distorted anatomy
-```
-
-Common negatives:
-- no extra panels
-- no profile panel
-- no 3/4 panel
-- no props in hands
-- no held objects, weapons, or carried items
-- no background variation
-- no scene lighting or color cast
-- no exaggerated expressions, no smiling, no frowning, no strong emotions
-- no glossy skin, no specular shine, flash, or light reflection on the skin
-- no plastic skin, no airbrushed skin, no over-smoothing, no waxy texture, no CGI sheen
-- no unnatural symmetry
-- no distorted hands
-- no extra fingers
-- no watermark
+Describe the wanted result positively in the sections above; keep Constraints
+to the few exclusions that protect the layout and identity (extra panels,
+profile or 3/4 panels, held objects, skin shine, text, watermark). Set output
+resolution with the `size` parameter, not a "4K" quality word, and use the
+smallest size whose close-up panel keeps the face legible.
 
 ## Standard prompt template
 
@@ -280,7 +265,7 @@ Task:
 Text-to-Image (T2I)
 
 Subject:
-Character reference sheet, single character [name / description]. Same person in all panels, consistent identity. Relaxed neutral expression in all panels: mouth relaxed and closed, eyes looking straight into camera, no smile, no frown, no raised brows, no emotion. Three-panel sheet only: one full-body back view, one full-body front view, and one face close-up panel. Worn outfit elements only — hat, helmet, always-worn eyewear, jewelry — nothing held in the hands, no props, no weapons.
+Character reference sheet, single character [name / description, complexion, appeal traits, hair length relative to the garments]. Same person in all panels, consistent identity. Plain fabric with no visible label or print unless the costume has canonical graphics. Relaxed neutral expression in all panels: mouth relaxed and closed, eyes looking straight into camera, no smile, no frown, no raised brows, no emotion. Three-panel sheet only: one full-body back view, one full-body front view, and one face close-up panel. Worn outfit elements only — hat, helmet, always-worn eyewear, jewelry — nothing held in the hands, no props, no weapons.
 
 Setting:
 Clean plain gray studio background, consistent across all three panels. No props, no held objects, no furniture, no background variation.
@@ -295,20 +280,23 @@ Composition:
 Three-panel character sheet with even spacing: back full-body view on the left, front full-body view in the center, face close-up on the right. Eye-level camera, consistent framing across the two body panels, relaxed neutral expression in every panel.
 
 Constraints:
-Quality: 4K, rich skin texture, natural hair detail, consistent character identity across all panels
+Quality: rich skin texture, natural hair detail, consistent character identity across all panels
 Negative: no props in hands, no held objects, no weapons, no background variation, no scene lighting or color cast, no exaggerated expressions, no smiling, no frowning, no strong emotions, no glossy skin, no light reflection on the skin, no specular shine or flash on the skin, no plastic skin, no airbrushed skin, no over-smoothing, no waxy texture, no CGI sheen, no unnatural symmetry, no extra panels, no side profile, no 3/4 view, no text overlays, no watermarks, no distorted anatomy, no extra fingers
 ```
 
 ## Worked example: Film-style pirate sheet
 
-This example mirrors the user-provided sample image in `examples/`.
+This example follows the sample image in `examples/` but differs from it in
+panel order and lighting. Set a
+16:9 `size` (for example `2816x1584`) in the request rather than naming the
+ratio in the prompt.
 
 ```text
 Task:
 Text-to-Image (T2I)
 
 Subject:
-3-view character reference sheet for a film character. The same man in all three views: youthful attractive man in his early 30s, warm olive-brown skin, dark thick curly hair, thin mustache with a small soul-patch under the lip, faint stubble along the jaw, two small silver hoop earrings on the left ear, thin silver chain necklace, subtly asymmetrical face, a small subtle healed scar near the right eye. Age-of-sail pirate costume: faded mustard-yellow durag tied at the back with the tails hanging down, small shark tooth pendant attached to the durag above the left temple, open off-white linen shirt, worn dark leather vest, wide sash belt, baggy dark breeches, scuffed leather boots, weathered and dirty fabrics. Relaxed neutral expression in all panels: mouth relaxed and closed, eyes looking straight into camera, no smile, no frown, no raised brows, no emotion. Three panels only: full-body back view, full-body front view, and frontal face close-up.
+3-view character reference sheet for a film character. The same man in all three views: youthful attractive man in his early 30s, warm olive-brown skin, dark thick curly hair, thin mustache with a small soul-patch under the lip, faint stubble along the jaw, two small silver hoop earrings on the left ear, thin silver chain necklace, subtly asymmetrical face, a small subtle healed scar near the right eye. Age-of-sail pirate costume: faded mustard-yellow durag tied at the back with the tails hanging down, small shark tooth pendant attached to the durag above the left temple, open plain off-white linen shirt with no label or print, worn dark leather vest, wide sash belt, baggy dark breeches, scuffed leather boots, weathered and dirty fabrics. Relaxed neutral expression in all panels: mouth relaxed and closed, eyes looking straight into camera, no smile, no frown, no raised brows, no emotion. Three panels only: full-body back view, full-body front view, and frontal face close-up.
 
 Setting:
 Plain gray seamless studio backdrop, consistent across all three panels, with thin subtle vertical divider lines separating the panels.
@@ -323,7 +311,7 @@ Composition:
 Three panels side by side in a single horizontal row. Left panel: full-body back view. Center panel: full-body front view. Right panel: frontal close-up portrait from the chest up, face square to camera, relaxed neutral expression. Consistent identity, costume, scar, accessories, proportions, and lighting across all panels.
 
 Constraints:
-Quality: 16:9 horizontal sheet, film-photo finish, consistent identity across all panels
+Quality: film-photo finish, consistent identity across all panels
 Negative: no extra panels, no 3/4 view, no profile view, no props, no missing limbs, no prosthesis, no glossy skin, no light reflection on the skin, no exaggerated expressions, no smiling, no frowning, no strong emotions, no watermarks, no text overlays
 ```
 

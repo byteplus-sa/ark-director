@@ -2,6 +2,8 @@
 
 Targeted pronunciation and intonation guidance for common dubbing target languages. Keep prompts concise — only include what's necessary.
 
+Every pronunciation note, stress mark or respelling is a hypothesis: the model may ignore it, and a hyphenated respelling can be heard as an extra syllable. Verify each take with an ASR transcript for the words and a native listener for pronunciation and accent. When one word keeps failing after a few samples, stop sampling, keep the best take and flag the word for a native-listener decision or a word-scoped fix.
+
 ## Tagalog / Filipino
 
 **Phonology key points:**
@@ -32,7 +34,8 @@ Targeted pronunciation and intonation guidance for common dubbing target languag
 **Register markers:**
 - po / opo — formal/polite (elders, strangers, superiors)
 - No po / opo — casual (peers, friends, same age)
-- Taglish — mixed Tagalog-English, common in urban settings
+- Taglish — mixed Tagalog-English, common in urban settings. Keep the register of the approved target script; when writing Filipino-market lines from scratch, English-dominant Taglish with simple Tagalog words (po, opo, sige, tara, ingat, salamat) is the common default
+- "English with a Filipino accent" is an accent note in the voice description, not a request to code-switch the dialogue
 
 **Pronunciation block (copy into prompt):**
 ```

@@ -90,7 +90,7 @@
     },
     {
       "id": 8,
-      "prompt": "Write a 10-second Seedance prompt for a wild card ad for a new energy drink. I want something experimental \u2014 surprise me, but make sure the visual texture is consistent throughout.",
+      "prompt": "Write a 10-second Seedance prompt for a wild card ad for a new energy drink. I want something experimental — surprise me, but make sure the visual texture is consistent throughout.",
       "expected_output": "A useful, evidence-bounded ad prompt preserving the explicit brief; unresolved factual dependencies are identified without invented dialogue.",
       "files": [],
       "expectations": [
@@ -141,6 +141,19 @@
       "expectations": [
         "Honors silence and visible-geometry scope; no mandatory voice.",
         "Does not infer speed, durability, compatibility, or personal preference from shapes."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Write a 10-second UGC Seedance prompt: a creator lifts a lip balm tube with her left hand, shows the two spare refills on the desk and says 'This tiny tube saves my lips all winter long, honestly I carry it everywhere, grab yours today at the link.' Add 'LINK IN BIO' text on screen at the end.",
+      "expected_output": "An executable phone-shot prompt that fits the speech budget, fixes counts, hands and invented-text risks, and moves the on-screen text to finishing.",
+      "files": [],
+      "expectations": [
+        "Flags that the 20-word line does not fit a 10 s clip at about 2.2 words/s with a 0.4 s tail, and shortens editable copy or asks rather than keeping every word.",
+        "Names the hand by anatomy and frame side (for example her left hand, frame-right).",
+        "States the exact count of refills, keeps them in open view from the first frame and restates where they are at each beat.",
+        "Describes the tube and refills positively as plain with nothing printed unless a product reference is supplied.",
+        "Keeps 'LINK IN BIO' out of the generated video and routes it to a finishing layer; adds no AI-generated label to the clip."
       ]
     }
   ]

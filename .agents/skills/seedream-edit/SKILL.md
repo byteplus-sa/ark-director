@@ -27,7 +27,31 @@ Use `seedream_generate_image` instead when:
 - The user wants text-to-image generation (no reference image)
 - The edit is a global style change ("make it look like a watercolor painting")
   without spatial targeting
-- The user does not provide specific coordinates or region information
+- The user does not provide specific coordinates or region information; the
+  edit tool requires at least one `point` or `bbox`
+
+## Edits that feed video
+
+An image edit is a still-image tool. Before using it to prepare a Seedance
+input, check what the video actually needs:
+
+- **A full-frame image-to-image edit re-composes the scene.** Figures shift,
+  poses change, and background geometry drifts even when the prompt asks to
+  keep them. Do not use an edited first frame as a shortcut for a video
+  change that should happen on screen.
+- **Progressive or partial changes belong in the video prompt.** A change that
+  travels across a subject over time, such as an outfit changing only on the
+  part of the body that has crossed a line, is
+  directed in a pure reference-to-video prompt with timestamped stages and the
+  element references, not in an I2I-edited first frame.
+- **Local edits of element references are fine.** A bounded edit that fixes a
+  sheet (a wrong button, a stray hand, a leaked label) keeps the rest of the
+  sheet. Compare the unmarked area against the source before accepting it,
+  save the edited file as a new version with its own hash, and treat every
+  review that cited the old hash as stale.
+- **Plain surfaces stay plain.** When an edit adds or replaces a generic prop
+  on a reference, describe it as a smooth solid surface with nothing printed
+  so the edit does not invent lettering the video will then animate.
 
 ## Coordinate System
 
@@ -52,7 +76,8 @@ Always clamp to `[0, 999]` after conversion.
 
 ### Tool Input: Point vs Bbox
 
-The tool accepts structured coordinates, not raw markup strings:
+The tool accepts structured coordinates, not raw markup strings. The examples
+below show the fields of the tool's `input` object:
 
 **Point** — for object-level editing near a position:
 ```json
@@ -131,7 +156,15 @@ or:
 ```
 
 URLs are validated for SSRF safety (HTTPS only, public IPs, no metadata
-endpoints). Base64 data is limited to 10 MiB.
+endpoints). Base64 data is limited to 10 MiB. When the operator has enabled asset resolve
+mode, an Active private asset can be passed as
+`{"kind": "url", "url": "asset://<asset_id>"}`. Local file paths are
+not accepted: upload the file or presign a cached object key first, then submit
+promptly because presigned URLs expire.
+
+The prompt plus the prepended coordinate markup must stay within 4,000
+characters. Set `watermark: false` for reference sheets unless the user wants a
+visible watermark.
 
 ## Model Compatibility
 
@@ -172,13 +205,20 @@ to the local artifact store. The returned `ArtifactRef.uri` (e.g.
 `seed-media://artifacts/abc123`) survives provider URL expiry (24 hours for
 images). Always use `persist=true` unless you have a specific reason not to.
 
+The edit runs as a long task. Submit it through `ark_job_submit` and poll with
+`ark_job_get`; do not pass `output_path` through `ark_job_submit` (the
+background job fails). Read the `ArtifactRef` from the finished job and copy it
+locally with `seed_media_export_artifact`. `output_path` is only for clients
+that negotiate MCP task augmentation and call the tool directly.
+
 ## Related Tools
 
 - `seedream_generate_image` — text-to-image and reference-based generation
   (without coordinate markup)
 - `seedream_generate_image_variations` — parallel image generation with
   distinct seeds
-- `seedance_create_task` — video generation from images or text
+- `media_upload` / `media_presign` — turn a local file or cached object key into
+  the HTTPS URL the edit needs
 
 ## Related skills
 

@@ -171,9 +171,9 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   engineering through `template-factory`; lighter analysis may use
   `ark-mcp` (`seed_understand`) alone. See
   [Routing](.agents/contracts/routing.md).
-- Elements define identity; derivative boards require current source hashes and
-  explicit selection before video use. Control-only diagrams stay analysis-only
-  by default. New projects set `approval_mode: approve_for_me` in `project.md`;
+- Elements define identity and are the only bound video references; storyboards
+  are planning and review artifacts whose staging is written into prompt text.
+  Control-only diagrams stay analysis-only by default. New projects set `approval_mode: approve_for_me` in `project.md`;
   `ask_for_approval` is the alternative. A legacy project without the field uses
   the default for new decisions only. In `approve_for_me`, an agent may select
   and approve a passing candidate after modality-appropriate inspection and a
@@ -365,9 +365,9 @@ Run the applicable checks from the repository root:
 ```bash
 uv run python .agents/scripts/validate_workspace.py --offline
 uv run python -m unittest discover -s tests -v
-uv run ruff check .agents/scripts tests
-uv run mypy .agents/scripts
-PYTHONPYCACHEPREFIX=/tmp/ai-director-pycache uv run python -m compileall -q .agents/scripts
+uv run ruff check .agents/scripts .agents/skills/scene-board-sheet tests
+uv run mypy .agents/scripts .agents/skills/scene-board-sheet/scripts
+PYTHONPYCACHEPREFIX=/tmp/ai-director-pycache uv run python -m compileall -q .agents/scripts .agents/skills/scene-board-sheet/scripts
 uv run pip-audit
 git diff --check
 ```

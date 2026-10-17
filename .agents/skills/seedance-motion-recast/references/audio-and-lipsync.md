@@ -5,6 +5,7 @@ for mode selection, gates and caller responsibilities.
 
 - [Silent submission](#silent-submission)
 - [Post-audio routes](#post-audio-routes)
+- [Re-voicing over the kept soundtrack](#re-voicing-over-the-kept-soundtrack)
 - [Speaker ownership](#speaker-ownership)
 - [Preparing source audio](#preparing-source-audio)
 - [Lip-sync QA](#lip-sync-qa)
@@ -45,6 +46,23 @@ Voice rules:
 - When lips are off-screen or not the focus, a voice overlay in post avoids
   re-rendering the mouth.
 
+## Re-voicing over the kept soundtrack
+
+A Re-voiced or Mixed route changes words or a voice, not the whole sound.
+Keep the source's music, ambience and effects unless the brief replaces them.
+
+1. Measure the whole saved source audio first: loudness (LUFS), a per-0.5 s
+   level profile, a `speech_to_text` transcript with word times from the local
+   file, and a list of the non-voice sounds.
+2. When only some words are wrong or must change, patch those word windows
+   only; never re-dub a whole track that is mostly correct. Keep the samples
+   outside each patched window identical to the source and use short fades.
+3. When an audio model re-voices, give it the source with its full soundtrack
+   and name the words to change, then take the full audio back. A dialogue-only
+   result loses the bed and the room tone.
+4. Normalize the result to the source loudness and mux it over the untouched
+   silent picture with `-c:v copy`; confirm the video stream hash is unchanged.
+
 ## Speaker ownership
 
 Speech windows come from the subject map or your own inspection. Map each
@@ -67,9 +85,10 @@ character, or keep it off-screen.
 
 Apply after the mux when any character speaks on screen:
 
-- Transcribe the final audio and diff it against the intended lines. Kept
-  dialogue matches the source; replaced or translated lines match the approved
-  script.
+- Transcribe the final audio with `speech_to_text` and diff it against the
+  intended lines; the transcript is the authority for words. Kept dialogue
+  matches the source; replaced or translated lines match the approved script.
+  Accent and pronunciation verdicts need a native listener, not a model.
 - Each line comes from the mapped character's mouth, never from a removed
   subject or an extra.
 - Step through close frames on plosives (p, b, m) and open vowels; mouth shapes

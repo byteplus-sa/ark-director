@@ -3,10 +3,11 @@ name: seedance-lighting-presets
 description: >
   Translate a named lighting setup into a canonical Seedream `Lighting:` recipe
   and a matching Seedance visual-style lighting phrase, so the same lighting
-  intent works for images (elements, storyboards) and video. Use when the user
+  intent works for images (elements, storyboards) and video, and word timed
+  light cues inside a shot (a lamp clicking off, a flicker). Use when the user
   or a shot plan asks for lighting, light, rim light, backlight, golden hour,
-  soft or hard light, three-point, Rembrandt, practical lights, silhouette,
-  contre-jour, or key light direction. Golden hour here means the physical lighting (sun
+  night or moonlight, soft or hard light, three-point, Rembrandt, practical
+  lights, silhouette, contre-jour, key light direction, or a light change. Golden hour here means the physical lighting (sun
   position and light); for a golden-hour color grade, use color-grade-palettes.
 ---
 
@@ -90,6 +91,7 @@ one direction and compose the quality, color, and ratio yourself.
 | **Low-key** | Minimal light, mostly shadow, high contrast, one dominant source. | `Lighting: low-key — a single small source, deep shadows, high contrast, most of the frame falling to black.` | `The visuals feature low-key lighting — a single source, deep shadow, high contrast, the frame mostly falling to black.` |
 | **High-key** | Bright, even, low-contrast fill with almost no shadow. | `Lighting: high-key — bright even fill, soft shadows, low contrast, airy and clean.` | `The visuals feature high-key lighting — bright even fill, almost no shadow, airy and clean.` |
 | **Night neon** | Cool ambient night with saturated neon gel accents. | `Lighting: night neon — cool 6500K ambient, neon-blue and magenta gel accents from signage, wet reflections carrying the color.` | `The visuals feature night-neon lighting — cool ambient night, saturated neon accents, color bleeding across wet surfaces.` |
+| **Moonlit night** | True night with no artificial light: a black sky, low exposure, one small pale moon as the only source. | `Lighting: true night, low exposure, a black sky with one small pale moon high camera-right as the only source, cold silver rim on the subject's hair and shoulders, the ground falling to near black.` | `The visuals feature moonlit night — a black sky, low exposure, one small pale moon high in the frame as the only light, a cold silver rim on the subject, everything beyond the rim falling to near black.` |
 | **Dappled light** | Light filtered through foliage or blinds casts broken patches of light and shadow. | `Lighting: dappled light through overhead foliage, broken patches of warm sunlight and shadow moving across the subject.` | `The visuals feature dappled light — sunlight filtered through leaves, broken patches of warm light and shadow playing across the subject.` |
 
 ### Intent to preset
@@ -110,12 +112,40 @@ take, and reach the look through the prompt rather than a post grade.
 A change of feeling inside a scene is a light cue on a declared source (on,
 off, dim or flicker) planned in the shot plan, not a new invented source.
 
+### Night needs stating
+
+A bare "night" or "moonlight" was not enough to make workspace Seedance drafts
+read as night. State what the viewer sees: a black sky, low
+exposure, the one source that lights the subject (a small pale moon, a
+streetlamp, a lit window) and what falls to black. Describe the moon or lamp
+by its visible shape and size ("a small, round, pale moon") rather than
+excluding a shape; a negated shape does not remove it.
+
+### Timed light cues
+
+This skill owns the wording of a light change inside a shot; the shot plan
+records its time, change and trigger.
+
+| Change | Canonical phrase template |
+|---|---|
+| Off | `At <N>s, <declared source> clicks off and the room drops to <visible result, such as faces just above black>.` |
+| On | `At <N>s, <declared source> switches on, throwing <quality and color> light across <subject or surface>.` |
+| Dim | `From <N>s to <M>s, <declared source> fades down to <visible result>.` |
+| Flicker | `At <N>s, <declared source> flickers <twice / rapidly for about one second>, then <holds steady / goes out>.` |
+
+In workspace 480p Seedance 2.5 drafts a stated cue time was honoured to about
+0.1 s, and an `off` cue switched the source instantly; write a fade as a time
+range. Plain wording ("the lamp goes out") already produces the change; the
+timestamp adds control of when it lands and of the hold after it. An untimed
+"partway through" lands at an unplanned moment. Name the source the scene
+already declared, and say what the frame looks like after the change.
+
 ## Parameter schema
 
 ```
 preset            — preset name from the bank (soft-cross, overhead-fall, contre-jour, window,
                      practicals, silhouette, auto, three-point, rembrandt, golden-hour, low-key,
-                     high-key, night-neon, dappled) or none for a fully custom recipe
+                     high-key, night-neon, moonlit-night, dappled) or none for a fully custom recipe
 direction         — front/beauty, top, back/rim, left, right, bottom/underlight, auto
                      (used for custom or relight-style setups; ignored when preset fully defines direction)
 quality           — soft | hard (diffused source vs small bare source)
@@ -125,6 +155,8 @@ brightness        — bright | dimmed | a rough level (e.g. "dimmed to a single 
 target_model      — seedream | seedance | both
 subject           — the subject being lit
 time_of_day       — optional: golden hour, blue hour, night, noon, dawn, dusk
+cue               — optional timed change on a declared source: at_s or a range, on | off | dim | flicker,
+                     and the visible result after it
 ```
 
 Resolve the preset from the bank when it fully defines direction; otherwise
@@ -149,7 +181,7 @@ Subject:
 A detective in her mid-30s in a rumpled trench coat, seated at a metal table, hands folded.
 
 Setting:
-A windowless interrogation room, bare concrete walls, a single table lamp off frame.
+A windowless interrogation room, bare concrete walls, a large frosted light panel on the wall at frame-left.
 
 Lighting:
 Soft key light at 90 degrees camera-left, large diffused source, half the face lit and half in shadow, gentle wrap onto the shadow side, no fill from the right.
@@ -166,9 +198,9 @@ The visuals feature <preset or direction> lighting — <direction/quality>, <col
 Worked example:
 
 ```
-A detective sits alone in a windowless interrogation room under a single bare bulb.
-The visuals feature soft cross lighting — a large diffused source at 90 degrees camera-left, cold 5600K, one half of the face in deep shadow with a gentle wrap on the lit side.
-Hold a locked-off eye-level shot; stillness is the beat (`performance_hold`).
+A detective sits alone at a metal table in a windowless interrogation room, a large frosted light panel on the wall at frame-left.
+The visuals feature soft cross lighting — the frosted panel at 90 degrees camera-left as a large diffused source, cold 5600K, one half of the face in deep shadow with a gentle wrap on the lit side. At 4s the panel flickers twice and holds steady.
+Use a slow push-in from a medium shot to a close-up on her face, eye level, ending as the flicker settles.
 ```
 
 ### Six-part formula placement
@@ -200,8 +232,9 @@ in the `Lighting:` section only — never in `Style:` or `Subject:`.
 - **Consistency across chained scenes.** Repeat the same lighting phrase
   verbatim in every scene in a chain and keep the same reference bundle so
   lighting does not drift across scene boundaries.
-- **Watermark false by default.** Set `watermark: false` on all generation
-  unless the user explicitly requests the AIGC watermark.
+- **No default grade or look.** Light lives in the prompt; a color grade,
+  grain, halation or vignette is added only when requested, and a camcorder or
+  film-stock look is a post treatment.
 - **No empty phrasing.** Never write "well lit, bright" or "good lighting".
   Both the Seedream `Lighting:` section and the Seedance Visual Style slot
   require direction, quality, and color temperature.
@@ -218,3 +251,5 @@ Before handing off a lighting block, verify:
 6. Practicals and Silhouette outputs add no hidden off-camera fill source.
 7. No "well lit", "bright", or "good lighting" empty phrasing appears.
 8. The phrase is stable and reusable verbatim across chained scenes that must match; per-shot key sides may differ within a scene.
+9. Every light change inside a shot is a timed cue on a declared source, with the visible result after it.
+10. A night scene states the black sky, low exposure and its one named source.

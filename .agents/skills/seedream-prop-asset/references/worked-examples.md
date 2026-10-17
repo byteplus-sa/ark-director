@@ -2,7 +2,8 @@
 
 Hypothetical patterns for `seedream-prop-asset` without bundled result evidence.
 Each follows the standard prompt template in `SKILL.md` and the view plan in its
-Default production rule section.
+Default production rule section. Set the sheet size with the `size` parameter
+(`2048x2048` for the stacked vehicle sheet), not in the prompt.
 
 ## Photoreal front and back sheet: apple
 
@@ -50,7 +51,7 @@ Task:
 Text-to-Image (T2I)
 
 Subject:
-Vehicle prop sheet for an original stylized-3D animated family film: one small motorcycle-and-sidecar tricycle, about two metres long. A compact motorcycle with a rounded teal fuel tank and a single round headlight, joined on its right side to a boxy covered sidecar with a curved teal roof, a cream body with a hand-painted marigold-yellow stripe, a padded red vinyl bench seat, and polished chrome grab bars. A small chrome rooster ornament stands on the front of the sidecar roof. The plate holder is empty and blank. Parked upright, headlight off. The same tricycle in all three views, identical design. Front: the round headlight, the front of the sidecar roof with the rooster ornament, a chrome bumper. Back: a single round red tail lamp on the motorcycle, a flat cream rear panel on the sidecar with a small chrome rear step, and a blank plate holder. Side: the full profile from the sidecar side, showing the sidecar's cream body with the marigold stripe, its curved teal roof, a rounded door with a chrome handle, and all three wheels.
+Vehicle prop sheet for an original stylized-3D animated family film: one small motorcycle-and-sidecar tricycle, about two metres long. A compact motorcycle with a rounded teal fuel tank and a single round headlight, joined on its right side to a boxy covered sidecar with a curved teal roof, a cream body with a hand-painted marigold-yellow stripe, a padded red vinyl bench seat, and polished chrome grab bars. A small chrome rooster ornament stands on the front of the sidecar roof. The plate holder is empty and blank. Parked upright, headlight off. The same tricycle in all three views, identical design. Front: the round headlight, the front of the sidecar roof with the rooster ornament, a chrome bumper. Back: a single round red tail lamp on the motorcycle, a flat cream rear panel on the sidecar, smooth solid paint with nothing printed, with a small chrome rear step, and a blank plate holder. Side: the full profile from the sidecar side, showing the sidecar's cream body with the marigold stripe, its curved teal roof, a rounded door with a chrome handle, and all three wheels.
 
 Setting:
 Neutral light-gray seamless studio background running continuously across the whole sheet as a flat even field with no floor line, with a faint contact shadow directly beneath each view of the tricycle that does not join the next. No people, no other vehicles, no other objects.
@@ -65,6 +66,6 @@ Composition:
 Three views on one continuous background, separated by empty space only. Top row, two views with even spacing: left, the whole tricycle in a front three-quarter view from its front right, from slightly above eye level, the front end at the right of the frame and the sidecar flank on the left; right, the same tricycle turned half a revolution on a turntable, in a rear three-quarter view from its rear left, the rear end at the right of the frame and the left flank on the left. Beneath them, centered: a full side profile of the sidecar flank, square to the vehicle, the front end at the right, with all three wheels fully visible. All three views drawn at the same scale, the tricycle the same height in each view, with a clear margin of at least 6% of the sheet to the canvas edge and to the next view; same lighting.
 
 Constraints:
-Quality: square sheet, crisp stylized detail, consistent vehicle design across all views
+Quality: crisp stylized detail, consistent vehicle design across all views
 Negative: no letters, no words, no numbers, no plate characters, no logos, no maker badges, no people, no driver, no other vehicles, no cropped wheels, no boxes, frames, borders, or divider lines, no off-white rectangles behind the views, no cropped edges, no extra views, no captions, no watermarks
 ```

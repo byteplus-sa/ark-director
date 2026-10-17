@@ -77,8 +77,11 @@ Use one trigger: the intended downstream reference policy requires a single
 readable face and inspection finds an extra readable face in a body panel, or
 the user explicitly requests this cleanup. A failed video is not required.
 If the sheet already meets the requested policy, keep it unchanged. Any cleanup
-is a new unapproved version; preserve the original and ask the user to select
-before switching the canonical reference.
+is a new version in `review`; preserve the original. Switching the canonical
+reference follows the project's approval mode: an agent decision with a
+hash-bound record under `approve_for_me`, or the user's choice under
+`ask_for_approval`. Reviews and video prompts that cited the old sheet hash
+become stale.
 
 ## Recommended Editing Mode
 
@@ -87,6 +90,16 @@ full-body panel. This is a deletion or cleanup edit, not a full regeneration.
 
 Box the whole head (hair and headwear included), not just the facial features.
 Do not box the entire panel unless absolutely necessary.
+
+### Long hair over the shoulders
+
+Removing the head also removes the hair that frames it. When the character's
+hair falls below the shoulders or over a shawl, scarf, or collar, the hair
+length is identity: end the box at the neck so the hair lying over the garment
+below the shoulders stays in the front panel, and keep the back panel as the
+authority for hair length. This box shape is a hypothesis; inspect that the
+remaining hair does not regrow a head or face, and fall back to the standard
+box if it does.
 
 ## Prompt Template
 
@@ -98,6 +111,17 @@ headless. There must be no head, no face, no hair and no headwear in that
 panel. Fill the space where the head was with the studio background. Keep the
 neck, shoulders, body, costume, pose, panel spacing, divider lines, studio
 background, and the close-up face panel unchanged.
+```
+
+Long-hair variant (pair it with the neck-ending box above):
+
+```text
+Remove the head from the full-body front-view panel so the figure is headless
+above the neck. There must be no face and no headwear in that panel. Keep the
+long hair that lies over the garment below the shoulders exactly as it is, and
+fill the space where the head was with the studio background. Keep the body,
+costume, pose, panel spacing, divider lines, studio background, and the
+close-up face panel unchanged.
 ```
 
 ## Stronger Prompt Variant
@@ -123,8 +147,8 @@ When using `seedream_edit_image`:
 - a box that is too small leaves a blurred or featureless head — widen it to
   the full head before changing the prompt
 
-For the standard three-panel 16:9 sheet (e.g. 2048×1152), the front full-body
-panel is the middle third and the head sits at the top of that panel. A good
+For the standard three-panel 16:9 sheet (e.g. 2048×1152) in the default order
+(back, front, close-up), the front full-body panel is the middle third and the head sits at the top of that panel. A good
 starting box in `seedream_edit_image` normalized coordinates (0–999) is:
 
 ```text
@@ -161,15 +185,16 @@ View the original and cleaned image and force a per-panel answer. Write a
 structured, panel-by-panel inventory of faces that:
 
 - confirm the full-body panel is headless: no head, no face, no hair, and no
-  headwear in that panel;
+  headwear in that panel (with the long-hair variant: no head, face or
+  headwear above the neck, and the hair below the shoulders kept unchanged);
 - confirm the close-up panel still shows exactly one intact, readable face;
 - confirm no new face appeared in any other panel.
 
 If direct or assisted inspection finds damage to the close-up or a readable
 face remaining in a targeted body panel, investigate the actual edit boundary.
 Correct the bounding box or instruction as needed and verify the new version.
-Do not hand the sheet to Seedance until visual verification passes and the
-user selects that version.
+Do not hand the sheet to Seedance until visual verification passes and that
+version is selected under the project's approval mode.
 
 ### Example verification questions
 
@@ -192,25 +217,31 @@ Recommended sequence:
 3. If an extra face violates the requested single-face policy, apply this cleanup.
 4. Supply the source sheet to `seedream_edit_image` in `images` (an HTTPS URL
    from `media_upload`, base64, or an `asset://` reference), pass the bbox and
-   the cleanup prompt, and set `output_path` to the new versioned file so the
-   source image is never overwritten. Remove the extra face with that call.
+   the cleanup prompt, and export the result with `seed_media_export_artifact`
+   to a new versioned file so the source image is never overwritten (pass
+   `output_path` only on a direct call with MCP task augmentation, never
+   through `ark_job_submit`). Remove the extra face with that call.
 5. Compare original and edited panels directly against the approved visible
    descriptors: target body panel headless, close-up intact. Unavailable visual
    verification stays unresolved; re-edit only
    when inspection establishes a defect, using a corrected bbox when appropriate.
 6. Save the cleaned sheet as a **new version/file**, not as an overwrite of the
    source image.
-7. Present the new version for explicit selection before canonical use.
+7. Select the new version under the project's approval mode before canonical
+   use, and record its hash.
 
 ## Example From The User
 
-The user provided a before-and-after pirate character-sheet example:
+The user provided a before-and-after pirate character-sheet example. Its
+layout predates the current default order: front full body on the left, back
+full body in the center, close-up on the right.
 - Before: the left full-body panel still shows a readable front face, while the
   right close-up panel also shows the face. This creates two competing face
   anchors.
-- After: the left full-body panel keeps the body, costume, and headwear, but
-  the readable face is removed so the right close-up panel is the only face
-  anchor left on the sheet.
+- After: the left full-body panel is headless; the head, face, hair, and
+  headwear are gone and the studio background fills the space, so the right
+  close-up panel is the only face anchor left on the sheet. The back panel
+  still shows the headwear knot and hair from behind.
 
 Use the examples as inspection context, not an instruction to edit every sheet.
 The requested reference policy and selected edit determine the required result.

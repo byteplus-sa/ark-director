@@ -95,3 +95,28 @@ judgments drawn from recurring prompt shapes, not measured generation outcomes.
 - **Acceptance:** No large move is planned during a spoken line, the key line
   sits in a single shot, and the speakers' lit sides differ without a second
   source appearing.
+
+## A 30-second spot written as one pass
+
+- **Brief:** A 30-second cinematic ad for a hair-care product: a rider crosses a
+  rain-soaked neon city at night and arrives with her hair still flowing.
+- **Initial prompt shape:** One 30-second prompt with nine timestamped beats
+  (street, traffic, rain, close-up, product, wind, arrival, smile, pack shot),
+  one global "cinematic lighting" sentence and no camera move per beat.
+- **Observed shape:** Workspace reviews of single 30-second passes like this
+  one judged them stock footage: each beat gets about three seconds, the camera
+  defaults to neutral framing, and nothing is designed to be remembered.
+- **Hypothesis:** Too many beats per clip, no per-shot camera or light, and no
+  image built to land.
+- **Smallest repair:** Six sequences of about 5 s, each its own clip of 2-3
+  shots with one action per shot. Sequence 1: a low tracking shot beside the
+  wheel through puddles, then a crash zoom onto her eyes under the helmet
+  visor, magenta sign light from frame-right, rain in the foreground, the
+  street receding behind. The `wow` shot of each sequence is planned first
+  (sequence 3: her hair lifting in slow motion against a wall of signs). The
+  pack shot and all copy are post layers.
+- **Tradeoff:** Six generations and an assembly instead of one; each clip can
+  be drafted, reviewed and replaced alone.
+- **Acceptance:** Each sequence has 2-3 shots with a lens intent, a move, a
+  named source and depth layers, one `wow` shot, and lengths that vary between
+  sequences; the edit, not one prompt, carries the 30-second structure.

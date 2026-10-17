@@ -24,6 +24,18 @@
       "prompt": "Gloria wears sunglasses in the pool scene only. Make a sheet with sunglasses on.",
       "expected_output": "Routes to seedream-prop-asset as a scene-variant wearable, with a one-line reason, and writes no outfit prompt for this request.",
       "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Gloria's approved sheet shows waist-length black hair. Put her in a plain grey wool sweater with a thick cream shawl over her shoulders for every scene of the winter episodes. Prompt only.",
+      "expected_output": "Outfit prompt with the shawl as an always-worn outfit item, the waist-length hair stated as falling over the shawl in both body panels, every garment described as plain fabric with no visible label or print, and no generation.",
+      "files": [],
+      "expectations": [
+        "The shawl is an always-worn outfit item.",
+        "The waist-length hair is stated as falling over the shawl in both body panels.",
+        "Every garment is plain fabric with no visible label or print.",
+        "No generation call is made."
+      ]
     }
   ]
 }

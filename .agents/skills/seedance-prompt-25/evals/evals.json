@@ -57,14 +57,13 @@
     {
       "id": 5,
       "prompt": "Write a Seedance 2.5 prompt for a scene where a barista greets a customer in Japanese, a bell rings in the distance, soft piano music plays, and a subtitle appears saying 'Chapter One: Departure'. The dialogue must be in natural conversational Japanese.",
-      "expected_output": "A prompt that correctly uses all four audio/text bracket syntaxes and the dialogue language reinforcement formula.",
+      "expected_output": "A prompt that uses the music, sound-effect and dialogue bracket syntax with dialogue language reinforcement, and routes the chapter title to a post overlay instead of the generated footage.",
       "files": [],
       "expectations": [
-        "The output uses () for music: (Soft, rhythmic piano music plays in the background).",
-        "The output uses <> for sound effects: <A bell rings in the distance>.",
-        "The output uses {} for dialogue with Japanese text inside.",
-        "The output uses 【】 for the subtitle: 【Chapter One: Departure】.",
-        "The output specifies the dialogue language as Japanese before the dialogue line."
+        "The output uses () for the piano music and <> for the distant bell.",
+        "The output uses {} for dialogue with Japanese text inside and states the dialogue language as Japanese before the line.",
+        "The subtitle 'Chapter One: Departure' is kept out of the generated footage and assigned to a post overlay; 【】 is at most mentioned as provider syntax.",
+        "The barista's greeting fits its window at conversational pace and ends before the clip end."
       ]
     },
     {
@@ -102,6 +101,65 @@
         "The shared opening binds @Image 1 and @Image 2 individually and states the scene and one grade once.",
         "Time ranges are consecutive and non-overlapping and are not treated as frame-accurate cut points.",
         "The static third shot is kept static and the other two shots keep their planned moves; no extra moves are added."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Write a Seedance 2.5 prompt for a 10-second dawn shot of an empty lighthouse cliff with wind, waves and gulls only — no music and nobody speaking. The final sound mix will be done separately.",
+      "expected_output": "A picture-only request with generate_audio false, a positively described image, and the ambience assigned to a post bed rather than a negative audio line.",
+      "files": [],
+      "expectations": [
+        "The request sets generate_audio to false (or explains why native audio is avoided) instead of relying on a 'no music, no voices' line.",
+        "The ambience, waves and gulls are assigned to a separate Seed Audio bed in post, noted as not frame-synced.",
+        "The shot states a camera move or a recorded static reason and a named light source with its side.",
+        "No aspect ratio, resolution or duration sentence appears inside the prompt text."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Write a Seedance 2.5 prompt where a pharmacist takes two of the four medicine bottles on a shelf with her left hand and puts them in a paper bag for a customer. Nothing on the bottles or bag should have readable text.",
+      "expected_output": "A prompt that pins the count and positions of every bottle, names the hand by anatomy and frame side, and describes the bottles and bag as plain surfaces.",
+      "files": [],
+      "expectations": [
+        "All four bottles are named by size or position and visible from the first frame; the count and the positions of the bottles taken and left are restated after the action.",
+        "The hand cue names both anatomy and frame side (for example her left hand, frame-right).",
+        "Bottles and bag are described positively as plain or unprinted surfaces rather than only with 'no text'.",
+        "The prompt does not mention extra bottles elsewhere in the scene."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "I need a 30-second cinematic spot for a running shoe. Write it as one Seedance 2.5 prompt with about ten beats.",
+      "expected_output": "A recommendation to build the spot from several short sequences of 2-3 shots each, generated separately and assembled, with per-shot camera, lens intent and light, rather than one ten-beat pass.",
+      "files": [],
+      "expectations": [
+        "The output explains that a single 30-second pass with many beats tends to read flat and proposes about five or six shorter sequences.",
+        "Each proposed shot has one action, a size and angle, a camera move, a lens intent as a visible result and a named light source.",
+        "Adjacent shots differ in at least two of size, angle, move and key side.",
+        "No caption, tagline, logo or end card is requested inside the footage; those are left to post."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Here is an approved 6-panel storyboard grid for the scene plus the character and location sheets. Bind the storyboard as @Image 1 so Seedance follows the shot order, and write the prompt.",
+      "expected_output": "A prompt package that declines to bind the board, translates its six panels into shot lines, and binds only the character and location references.",
+      "files": [],
+      "expectations": [
+        "The output does not bind the storyboard grid and explains the leak risk (panel numbers, sketch medium, rejections).",
+        "Each panel's composition and action become a shot line with camera and light facts.",
+        "Only the canonical character and location sheets are bound as references.",
+        "The output suggests auditing takes with frame samples and corner crops if any board-like input was used before."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "The 480p draft of shot 3 was approved. Prepare the request that renders it at 1080p, and also change the last line of dialogue to 'See you tomorrow.'",
+      "expected_output": "No promotion of the approved draft: the requested dialogue change makes that draft stale, so the output prepares a revised prompt for a new reviewed 480p draft, or asks whether to promote the draft unchanged instead.",
+      "files": [],
+      "expectations": [
+        "The output does not prepare a promotion that would carry the old dialogue to 1080p as if it met the request.",
+        "The output explains that a dialogue change cannot ride on the promotion and needs a revised prompt, a new review and a new draft.",
+        "When a promotion is prepared later, it carries draft_task_id and output settings only (resolution, watermark false, optional return_last_frame), and the final's playback and audio are checked again."
       ]
     }
   ],

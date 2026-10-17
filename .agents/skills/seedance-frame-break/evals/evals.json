@@ -11,13 +11,14 @@
         "The layer order is stated back to front: scene confined to the central window, flat black bars, subject drawn complete on top.",
         "The bars are described as flat, static 2D graphics laid over the picture and drawn under the subject, about 12 percent of the frame height, with no promise of exactness; the word letterbox is not used to describe them.",
         "The bars are fixed once early with perfectly straight horizontal inner edges at the same height in every frame, and the layer-order block repeats the constant-height phrase and says whatever covers them never changes them.",
-        "There are four stages; each has one coherent action by one named limb (screen-left or screen-right), a numeric overlap anchor, a crossing direction, a peak and a return, and an observable End state with the subject back fully inside the window and nothing over a bar.",
+        "There are four stages; each has one coherent action by one named limb (anatomy plus screen side, such as her left leg, screen-right), a numeric overlap anchor, a crossing direction, a peak and a return, and an observable End state with the subject back fully inside the window and nothing over a bar.",
         "The opening and every stage boundary have the subject full-body and completely inside the central window, about two thirds of the window height, with the bars fully visible and clear of her; each break-out is a brief limb or hem extension inside a stage and nothing overlaps a bar between break-outs.",
         "The upper bar has its own stage with a limb or hem that can reach it and an explicit End state.",
         "The camera is locked off with no movement, zoom or cuts, and only the subject moves.",
         "There are no held props and no on-screen text, captions, logos or watermarks, and the clip duration is not repeated in the prompt text.",
         "The audio block states whether music is wanted, the backdrop is calmer and darker than the subject with colours that differ from it, and the package is returned to the caller rather than submitted.",
-        "The prompt states once that the central window is the large majority of the frame height, asks for about 12 percent bars, and does not have the subject walk or lean closer so that torso or legs reach a bar."
+        "The prompt states once that the central window is the large majority of the frame height, asks for about 12 percent bars, and does not have the subject walk or lean closer so that torso or legs reach a bar.",
+        "The backdrop names its key light source and side, and the package's one-row shot plan records the locked-off camera with its reason that the bars need a fixed frame."
       ]
     },
     {

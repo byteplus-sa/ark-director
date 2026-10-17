@@ -152,3 +152,8 @@ prior shot (Woman standing in @neon-alley). She turns and walks toward camera,
 > extending a clip), Seedance 2.5's native forward/backward extension can replace
 > the manual `return_last_frame` chaining above. Use `seedance-prompt-25` with
 > the 2.5 model (`dreamina-seedance-2-5-260628`) and `seedance_2_5_create_task`.
+> Extension rejects a clip that shows a realistic person unless each person is
+> an `asset://` asset; without assets, the chaining above is rejected the same
+> way, so make a new generation from element references and stage the
+> continuation in text (a blocking map translated to positions, facing and
+> paths) with element references.

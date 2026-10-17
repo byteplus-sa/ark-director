@@ -1,0 +1,62 @@
+{
+  "skill_name": "film-production",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make a cinematic 30-second TVC for a running shoe: dawn city streets, one runner, a score. Take it to the first Seedance drafts.",
+      "expected_output": "A staged plan that records the audio route, look and cinematic bar in the brief, plans sequences, and submits 480p native Drafts with picture-only generation.",
+      "files": [],
+      "expectations": [
+        "Runs brief-intake first and records a picture_only audio route, ungraded original colours and the logo/end card as post overlays in project.md.",
+        "Plans about six 5 s sequences of 2-3 shots with one action per shot, each shot carrying lens intent, camera move, a named light and depth, and one wow image per sequence.",
+        "Submits each sequence as a 480p native Draft with generate_audio false after prompt-review and registration, with a declared run budget.",
+        "Does not bind any storyboard image as a Seedance reference."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The drafts are approved. Make the finals at 1080p, and tighten the second shot's prompt a little while you're at it.",
+      "expected_output": "Promotes unchanged approved drafts by draft_task_id and routes the prompt change through a new Draft instead of a promotion.",
+      "files": [],
+      "expectations": [
+        "Promotes only the selected, unchanged Drafts with draft_task_id, resolution and watermark.",
+        "Treats the prompt change as a new reviewed 480p Draft, not an edit to a promotion.",
+        "Re-inspects every final, including a fresh speech-to-text and listening pass, before replacing drafts in Studio."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Assemble the approved takes into the master. Make it look cinematic.",
+      "expected_output": "An ungraded assembly in original colours unless a look is recorded, with exact-length intermediates and a Studio render.",
+      "files": [],
+      "expectations": [
+        "Keeps original Seedance colours and asks or records before adding any grade, grain, halation or vignette, because no look is locked in the brief.",
+        "Builds exact-length lossless intermediates, joins with the concat demuxer, encodes once and decodes HEVC finals as limited-range BT.709.",
+        "Places the result in Studio and renders the master with studio_project.py render; adds no AI label."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "In the final master, the narrator mispronounces one product name in shot 3. Re-dub the narration.",
+      "expected_output": "A word-scoped fix that keeps the rest of the soundtrack and picture untouched.",
+      "files": [],
+      "expectations": [
+        "Proposes patching only the wrong word window instead of re-dubbing the whole track.",
+        "Uses speech_to_text word times, pitch and loudness matching, short fades, and proves samples outside the window are unchanged.",
+        "If a model re-voices the word, sends the original clip with its audio and muxes the full returned audio over the untouched picture.",
+        "Returns the affected picture/audio locks to review and re-renders in Studio."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Extend shot 4, where the two leads walk away, by another 8 seconds using Seedance extension.",
+      "expected_output": "Explains that extension of clips with people needs asset:// Virtual Portrait identities and offers short single passes held by a blocking map otherwise.",
+      "files": [],
+      "expectations": [
+        "Does not submit an extension of a clip with people unless the identities are registered asset:// Virtual Portrait assets.",
+        "Offers a new single-pass shot with matching first frame and a blocking map, assembled at a cut.",
+        "Does not submit a paid request before the user chooses the route."
+      ]
+    }
+  ]
+}

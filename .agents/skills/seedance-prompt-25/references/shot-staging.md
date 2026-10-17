@@ -4,6 +4,7 @@ Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) f
 mode selection and caller responsibilities.
 
 - [Shots or stages](#shots-or-stages)
+- [Building a spot from sequences](#building-a-spot-from-sequences)
 - [Per-shot template](#per-shot-template)
 - [Carrying a shot plan](#carrying-a-shot-plan)
 - [Dialogue inside shots](#dialogue-inside-shots)
@@ -28,6 +29,25 @@ The six-part formula requires only Subject and Action to be valid. A narrative
 shot is not finished at that minimum: its Camera and light source are craft
 requirements, and a missing camera line leaves the model free to pick the
 flattest default.
+
+## Building a spot from sequences
+
+Flat video has recurring causes: a single camera setup for the whole clip, no
+camera-move statement, soft verbs ("enjoys", "walks around") instead of
+dynamic ones, and presets added without a plan. Build longer pieces from short
+sequences instead of one long pass:
+
+- A 30 s spot is about six 5 s sequences of 2-3 shots each, generated as
+  separate clips and assembled. A single 30 s pass with nine or more beats
+  reads as stock footage.
+- Each shot carries one action, a lens intent, a camera move, a motivated
+  light and at least two depth layers (foreground frame, subject, background).
+- Each sequence has one image worth stopping on: a reveal, a silhouette against
+  a practical, a low angle through foreground detail.
+- Shots under about 0.8 s merge; blink cuts, intercuts and vision flashes are
+  cut in assembly from separately generated sides.
+
+Presets refine timing and holds; they do not create energy on their own.
 
 ## Per-shot template
 
@@ -85,12 +105,24 @@ from the plan or the user's request.
 
 ## Dialogue inside shots
 
-Place a spoken line inside the shot that frames the speaker. Make the shot at
-least spoken words / 2.2 + 1 s long: the late start of speech (observed 0.5-1.5 s
-in this workspace's draft runs) needs the margin. Vary size and angle between
-speakers, and keep moves slow while a line is spoken so the lips and eyes stay
-readable. For Filipino or Taglish lines, compose with the dialogue partner skill
-for the delivery direction.
+Place a spoken line inside the shot that frames the speaker, and budget it
+(`dialogue.speech_budget`). Observed timing in reviewed takes:
+
+- Speech starts 0.5-1.5 s after the shot or cue begins, later after long
+  pre-line action, so a line should not follow a busy action beat.
+- Conversational pace is about 2.2 words per second. A shot that holds a line
+  lasts at least spoken words / 2.2 + 1 s.
+- Speech tends to fill to the clip end. End the last line at least 0.4 s before
+  the end, and keep the final 3 s to at most two state changes (for example a
+  line and a reaction, not a line, a turn and an exit).
+- Opening hook words are short and transcribe cleanly; a mumbled first word
+  costs the hook.
+- Trimming the clip head in assembly does not lengthen the tail; fix timing in
+  the prompt, before the draft.
+
+Vary size and angle between speakers, and keep moves slow while a line is
+spoken so lips and eyes stay readable. For Filipino or Taglish lines, compose
+with the dialogue partner skill for the delivery direction.
 
 ## Examples
 
@@ -108,7 +140,7 @@ Shot 1 (0-3 s): wide shot, high angle; slow crane down from ceiling height to
 table height, left to right. The mother crosses the kitchen to the front door.
 Light: the window sun from camera-left, long soft shadows across the table.
 Shot 2 (3-5.5 s): medium close-up, eye level; slow push-in on the door handle,
-ending on the mother's hand as she opens the door inward. Light: the same window
+ending on the mother's right hand, frame-left, as she opens the door inward. Light: the same window
 sun from camera-left, her face half in shade.
 Shot 3 (5.5-9 s): close-up, low angle; static hold on the son leaning out from
 behind the aunt's near leg to tap the door frame once with his fingertips.
@@ -139,5 +171,5 @@ Before submitting a cutting clip, confirm:
    light fact from a declared source, matching the shot plan.
 2. The shot count and lengths fit the duration and the shot ceiling; a single shot
    across a long clip is a recorded one-take or hold choice.
-3. Every spoken line fits inside its shot with the margin above.
+3. Every spoken line fits inside its shot with the speech budget above.
 4. No shot stacks competing moves.

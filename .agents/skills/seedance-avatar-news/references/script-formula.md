@@ -1,14 +1,18 @@
 # Script formula
 
-Target 60–72 words for 22–27s at a fast explainer pace (about 2.7 words/s).
+Target 50–60 words for a 25–29 s take. Budget about 2.2 spoken words per
+second: native lines land 0.5–1.5 s late and speech runs to the clip end, so
+leave about 1 s of onset and at least 0.4 s of tail after the last word. A
+faster explainer pace (about 2.7 words/s) fits more words but is an untested
+hypothesis that risks a clipped closer; check it in the 480p draft.
 
-| Beat | Pattern | Example (Digit 5) |
+| Beat | Pattern | Example (hypothetical product) |
 |---|---|---|
-| Hook | "<Who/where> just <built/launched/put> <X> that <surprising claim>." | America just built a humanoid that works right next to people. |
-| What/who | Name + maker, one line. | It's Digit 5, from Agility Robotics. |
+| Hook | "<Who/where> just <built/launched/put> <X> that <surprising claim>." | A robotics startup just built a robot that sorts parcels next to people. |
+| What/who | Name + maker, one line. | It's the <Model>, from <Company>. |
 | Pivot | "But the crazy part isn't <obvious thing>. It's what it can do." | But the crazy part isn't how it looks. It's what it can do. |
 | Beat ×3 | Short concrete capability lines, one number each. | It lifts fifty pounds, over and over. |
-| Closer | Stat/twist, often "it's not even out yet, but…" or the price. | …it already has over three hundred million dollars in orders. |
+| Closer | Stat/twist, often "it's not even out yet, but…" or the price. | …and it already has <sourced number> in orders. |
 
 ## Rules
 
@@ -17,6 +21,10 @@ Target 60–72 words for 22–27s at a fast explainer pace (about 2.7 words/s).
 - Spell numbers the way they should be spoken ("fifty pounds",
   "twenty-one ninety-five"), and use digits in captions ("50 POUNDS", "$2,195").
 - One idea per sentence; short sentences carry lip-sync and caption rhythm.
+- Choose hook words speech recognition hears cleanly; a near-homophone in the
+  hook produces wrong captions and a misheard opening.
+- Keep the last 3 s to the closer and a held smile; no new gesture or layout
+  change rides on the final words.
 - Pick topics that have official footage available, and check before writing.
 
 ## Caption chunks

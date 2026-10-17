@@ -304,7 +304,7 @@
       "applies_to": [
         "recast"
       ],
-      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "owner_path": ".agents/skills/prompt-review/references/checklist-seedance-edits.md",
       "summary": "A recast motion source supplies motion, camera, framing, cuts, and timing only; appearance comes from the bound references.",
       "exceptions": []
     },
@@ -314,7 +314,7 @@
       "applies_to": [
         "recast"
       ],
-      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "owner_path": ".agents/skills/prompt-review/references/checklist-seedance-edits.md",
       "summary": "Every visible source subject is mapped, removed, or kept as a background extra, with no unresolved ambiguity.",
       "exceptions": []
     },
@@ -324,7 +324,7 @@
       "applies_to": [
         "recast"
       ],
-      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "owner_path": ".agents/skills/prompt-review/references/checklist-seedance-edits.md",
       "summary": "Each mapped subject is identified by observable descriptors and bound to exactly one reference.",
       "exceptions": []
     },
@@ -334,7 +334,7 @@
       "applies_to": [
         "recast"
       ],
-      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "owner_path": ".agents/skills/prompt-review/references/checklist-seedance-edits.md",
       "summary": "A recast states per-cut person counts and keeps source accessories and extra people out of the rebuilt cast.",
       "exceptions": []
     },
@@ -344,7 +344,7 @@
       "applies_to": [
         "recast"
       ],
-      "owner_path": ".agents/skills/prompt-review/references/review-checklists.md",
+      "owner_path": ".agents/skills/prompt-review/references/checklist-seedance-edits.md",
       "summary": "A recast states one audio route and lip-sync expectations that agree with it.",
       "exceptions": []
     },
@@ -418,13 +418,122 @@
       "id": "board.animatic_review_only",
       "severity": "error",
       "applies_to": [
-        "preflight"
+        "preflight",
+        "narrative_video"
       ],
       "owner_path": ".agents/skills/scene-board-sheet/SKILL.md",
-      "summary": "A scene board sheet, overview, animatic or edited panel is a planning artifact and never a Seedance reference; its record states bind_to_seedance false.",
+      "summary": "A scene board sheet, overview, animatic, storyboard panel or board image is a planning artifact and never a generation reference. The request validator rejects such references by path for every model except Seedream (whose edit operation takes the panel as the image to edit), and scene_board.py check also matches them by hash.",
       "exceptions": [
-        "Blocking maps and other control diagrams follow references.control_only instead."
+        "Blocking maps and other control diagrams follow references.control_only instead.",
+        "Adopting an already submitted job is allowed, because the job exists and cannot be withdrawn."
       ]
+    },
+    {
+      "id": "seedance.draft_promotion",
+      "severity": "error",
+      "applies_to": [
+        "preflight"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25/references/parameter-reference.md",
+      "summary": "A Seedance 2.5 draft is a draft-mode 480p request, and its final is promoted by draft_task_id carrying only output settings; prompt, references, duration, ratio and audio change only before the draft, and the final's audio is checked again.",
+      "exceptions": [
+        "An operation without native Draft support records capability evidence and runs the final as a new reviewed request.",
+        "An explicit user instruction to skip the draft."
+      ]
+    },
+    {
+      "id": "audio.native_route",
+      "severity": "error",
+      "applies_to": [
+        "preflight",
+        "narrative_video"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25/references/audio-performance-camera.md",
+      "summary": "An ambience-only, score-driven or speech-free clip is generated with generate_audio false (or keeps the provider master untouched) and gets its bed from Seed Audio in post; a negative audio line with native audio on is not the control.",
+      "exceptions": [
+        "A recorded, user-requested native-audio exception for a named take."
+      ]
+    },
+    {
+      "id": "prompt.positive_direction",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video",
+        "static_image",
+        "editing"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "Wanted shapes, states, surfaces and layouts are described positively and observably; a negation does not stand in for the wanted description.",
+      "exceptions": [
+        "Technical exclusions, edit boundaries and preservation constraints beside a positive description."
+      ]
+    },
+    {
+      "id": "prompt.parameters_in_request",
+      "severity": "error",
+      "applies_to": [
+        "preflight",
+        "narrative_video",
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25/SKILL.md",
+      "summary": "Duration, resolution, aspect ratio and audio switches are request parameters; the prompt carries no ratio, resolution or duration sentence.",
+      "exceptions": [
+        "A skill whose documented prompt structure includes a parameter line."
+      ]
+    },
+    {
+      "id": "prompt.exact_counts",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video",
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25/references/scene-action.md",
+      "summary": "Counted items, clones, crowds and repeated props carry an exact count, each item named by size or position and in open view from the first frame, with the count and positions restated at every stage.",
+      "exceptions": []
+    },
+    {
+      "id": "prompt.hand_frame_side",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video",
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25/references/scene-action.md",
+      "summary": "Every hand or side cue names both the character's anatomical side and the frame side.",
+      "exceptions": []
+    },
+    {
+      "id": "video.text_free",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video",
+        "editing"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25/SKILL.md",
+      "summary": "Generated video requests no captions, subtitles, titles, taglines, CTAs, logos, end cards or AI labels, and recurring generic props and generated surfaces are described as plain or given a reference sheet.",
+      "exceptions": []
+    },
+    {
+      "id": "dialogue.speech_budget",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25/references/shot-staging.md",
+      "summary": "Each spoken line fits its shot at about 2.2 words per second after a 0.5-1.5 s late start, and the last line ends at least 0.4 s before the clip end with at most two state changes in the final 3 s.",
+      "exceptions": []
+    },
+    {
+      "id": "dialogue.filipino_register",
+      "severity": "error",
+      "applies_to": [
+        "narrative_video"
+      ],
+      "owner_path": ".agents/skills/seedance-prompt-25-filipino/SKILL.md",
+      "summary": "Approved Filipino lines keep their words and register; new drafts with no register in the brief default to English-dominant Taglish with simple, common Tagalog; an accent request is a delivery note outside the dialogue braces, not code-switching.",
+      "exceptions": []
     }
   ]
 }

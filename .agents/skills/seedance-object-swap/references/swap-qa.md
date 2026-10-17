@@ -34,8 +34,10 @@ each contact window and cut. Record each item as pass, fail or not applicable.
   halo.
 - **Everything else untouched.** Faces, wardrobe, accessories, other props,
   background, camera, cuts and mouth movement match `@Video 1`.
-- **Technical.** The output decodes cleanly, has no audio stream, and its
-  duration is within about 0.3 s of the source.
+- **Technical.** The output decodes cleanly and has no audio stream. An 8n+1
+  frame input returns the same frame count; any other input lands within about
+  0.3 s of the source length. Check the frame edges for black side bars the
+  source did not have.
 
 ## Audio checks after mux
 
@@ -61,3 +63,6 @@ Change one variable per retry: wording, reference or route.
 | Source accessories return on a swapped character | Accessories not named | Name each source accessory that must not appear |
 | Location halo or floating feet | Grounding not stated | Add the grounding line and contact shadows |
 | Label text garbles | Small print beyond model fidelity | Keep the layout; correct in post if exact copy matters |
+| Lettering appears on a plain target | Generic surfaces invite invented text | Describe the surface positively ("smooth solid surface, nothing printed") |
+| Wrong hand holds the target | Left and right read as the character's own side | Name the hand by anatomy and frame side |
+| `PrivacyInformation` on `@Video 1` before a task exists | The source shows a person and was bound by URL | Follow the asset:// video rule in the video-to-video inputs contract; never alter the source |

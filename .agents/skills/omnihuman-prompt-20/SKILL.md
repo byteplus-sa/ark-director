@@ -97,7 +97,7 @@ speaking state and one gesture. Leave out a slot rather than padding it.
 | Add props, effects, events | `The chick puts on sunglasses and holds two toy blasters, speaking menacingly.` | [techniques](references/techniques.md#added-elements-and-effects) |
 | Focus pull between planes | `Meanwhile the camera focuses on the soldier behind her.` | [techniques](references/techniques.md#focus-control) |
 | Environment and background | `A breeze moves her hair and coat; fireworks burst in the distance behind her.` | [techniques](references/techniques.md#environment-interaction) |
-| Pick the speaker in a group | `The woman on the left talks; the man on the right listens and nods.` | [techniques](references/techniques.md#multi-person-scenes) |
+| Pick the speaker in a group | `The woman frame-left talks; the man frame-right listens and nods.` | [techniques](references/techniques.md#multi-person-scenes) |
 | Hold the background steady | `The background remains still throughout.` | [techniques](references/techniques.md#environment-interaction) |
 | Selfie or vlog look | `Selfie view. The man holds the camera at arm's length and talks while walking.` | [techniques](references/techniques.md#selfie-and-vlog-framing) |
 | Animal, mascot, pixel subject | `The penguin waddles toward the camera, flaps its flippers and sings.` | [techniques](references/techniques.md#non-human-and-stylized-subjects) |
@@ -157,6 +157,8 @@ editing but risks structural drift in its later part.
 - [ ] No character leaves frame and comes back.
 - [ ] The prompt agrees with what the audio says and how it sounds.
 - [ ] Negations are minimal and the sentences do not contradict each other.
+- [ ] Positions and hands use frame sides; added props carry no requested
+      lettering, and any captions or exact text are left to post.
 
 ## Output
 

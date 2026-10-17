@@ -197,6 +197,10 @@ limit. Fewer cues are appropriate when the brief asks for minimal action.
   delivery if audio is requested. Preserve the framing; do not uncover the face
   merely to satisfy an eye-work template.
 
+Name a hand, arm or foot by anatomy and frame side together ("her right hand,
+frame-left"): the model reads "left" and "right" as the character's own side, so
+a bare side flips in mirrored or facing shots.
+
 Keep motive and goal stable when comparing framings; translate their evidence.
 For revision diagnosis, load [hypothetical acting repairs](references/acting-repairs.md)
 only when a performance is stiff, overstated or unreadable.
@@ -334,6 +338,12 @@ language stated):
 Dialogue language: <language>. <character> <says/shouts/whispers> in <delivery style>: {<exact line>}
 ```
 
+Give each line room: native speech starts about 0.5-1.5 s after its cue and
+runs at about 2.2 words per second, so a line needs a shot of at least
+words / 2.2 + 1 s and should end at least 0.4 s before the clip does. The
+Seedance 2.5 prompt skill owns the full dialogue timing rules; keep the
+performance beats around a line inside that window.
+
 ### Worked example
 
 Directive: A woman confronts a locked door. Her husband just left. Scene
@@ -351,8 +361,9 @@ OBSTACLE: the locked door; the silence on the other side; the feeling pressing
 to surface.
 TACTIC: pressing the door, testing the handle, eyes hunting the frame for
 anything he left behind — checking the threshold, the mat, the hallway.
-CUES: gaze searches the threshold for a response; hand tests the handle once;
-weight stays toward the door while her reply catches in her breath.
+CUES: gaze searches the threshold for a response; her right hand, frame-left,
+tests the handle once; weight stays toward the door while her reply catches in
+her breath.
 Moment to moment:
 — presses the handle — finds it locked — eyes snap to the gap under the door
 — "Get out of my way." — said at the door, voice strained, eyes still searching
@@ -409,20 +420,14 @@ dialogue-to-shot timestamp mapping in `shot.md` and `scene.md`.
 - **Cues serve the tactic, not the emotion label.** Always derive visible
   behavior from what the character is doing (the tactic), not from what they're
   feeling. The emotion bank is a lookup table, not a menu.
-- **Dialogue must be verbatim across both prompts.** If the Seed Audio line or
-  the Seedance `{line}` changes, change both. A mismatch causes lip-sync drift.
-- **Audio longer than video: trim audio, never pad video.** Reduce pauses,
-  ambience tails, and scene description in the Seed Audio prompt; regenerate.
+- **Plain wording already produces a big action.** "She lunges" makes a lunge;
+  the console adds control: the timed hold before it, the stop, the hold after
+  it and the wardrobe restated after it.
 - **Emotion arcs need ordered triggers and consequences.** Use multiple beats;
   timestamps are optional unless requested or needed for verified audio alignment.
 - **`reference_audio` forces lip-sync, not acting fidelity.** It locks the voice
   and mouth timing to the audio emotion. Whether Seedance visibly acts the
   emotion needs an empirical A/B: same prompt, neutral voice vs angry voice.
-- **`watermark: false` where supported** by the selected tool.
-  Enable the AIGC watermark only when explicitly requested.
-- **Cost.** Audio and video bill per generation. Prototype at the lowest
-  suitable resolution and duration; confirm duration fits before submitting the
-  video task.
 - **Content safety.** Do not direct performances depicting identifiable real
   people without rights or otherwise restricted content.
 
@@ -460,8 +465,7 @@ Before finalizing an acting block or plan, verify:
       duration checked (`audio_duration <= video_duration`), `reference_audio`
       passed as `@Audio 1`, identical `{dialogue}` text in both prompts, shot
       timestamps aligned to actual audio.
-- [ ] `shot.md` records the audio asset path, SHA-256, verified duration, and
-      the dialogue-to-shot mapping; `scene.md` carries the same single source
-      of truth.
-- [ ] Where the tool supports it, `watermark: false` unless the user requested the AIGC
-      watermark.
+- [ ] `shot.md` records the dialogue-to-shot mapping beside the audio record.
+- [ ] Every named hand, arm or foot gives both anatomy and frame side.
+- [ ] Each spoken line fits its shot: words / 2.2 + 1 s, ending at least 0.4 s
+      before the clip ends.

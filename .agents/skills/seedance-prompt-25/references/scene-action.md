@@ -5,6 +5,8 @@ mode selection and caller responsibilities.
 
 - [Scene staging](#scene-staging)
 - [Action description](#action-description)
+- [Counts, hands and surfaces](#counts-hands-and-surfaces)
+- [Progressive change](#progressive-change)
 
 ## Scene staging
 
@@ -147,3 +149,39 @@ head", write "the featureless neon figure floats with a gentle up-down bob
 (~0.5Hz sine, ~5% of body height) in a leaning pose, while a fan-shaped rainbow
 beam projects from its head with the color bands continuously scrolling along
 the beam (~1s full-spectrum cycle) and the background stars twinkle randomly."
+
+## Counts, hands and surfaces
+
+These three failures recur across takes and are cheap to prevent in text.
+
+**Counts** (`prompt.exact_counts`). Counted items, clones, runners and crowds
+drop or duplicate, and effects shots overshoot. State the exact number, name
+each item by size or position, put every counted item in open view from the
+first frame, restate the count and positions at every stage, and say where
+every other item is. Never mention spare copies lying around.
+
+```text
+Three ceramic cups stand in a row on the counter from the first frame: small at
+frame-left, medium in the center, large at frame-right. She lifts only the
+medium cup; the small and large cups stay where they are. Three cups in total
+throughout.
+```
+
+**Hands** (`prompt.hand_frame_side`). The model reads left and right as the
+character's own side, so a bare "left hand" is often mirrored. Name anatomy and
+frame side together: "her right hand, frame-left". When the character faces
+away from the camera the two sides agree; say so anyway.
+
+**Surfaces** (`video.text_free`). Generic tubes, jars, jugs, hard-shell cases,
+garment neck labels, tickets and generated screens grow invented lettering.
+Describe a recurring non-sheet prop positively as plain ("a plain white ceramic
+jug, smooth solid surface, nothing printed"), leave it out, or give a story prop
+a reference sheet with its real markings. Exact copy is a post layer.
+
+## Progressive change
+
+A change that spreads across the body or frame over time (an outfit changing
+only on the part of the body that has crossed a line) is staged by timestamp
+and body part in a pure reference-to-video prompt, never as an instant swap or
+an image-edited first frame. The working recipe and the wordings that failed
+live in `seedance-pacing-presets` (Progressive change); compose with it.

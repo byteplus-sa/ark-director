@@ -4,6 +4,7 @@ Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) f
 mode selection and caller responsibilities.
 
 - [Special audio and text syntax](#special-audio-and-text-syntax)
+- [Choosing the audio route](#choosing-the-audio-route)
 - [Emotional direction](#emotional-direction)
 - [Scripted dialogue for all speaking characters](#scripted-dialogue-for-all-speaking-characters)
 - [Describing screen and UI layout positively](#describing-screen-and-ui-layout-positively)
@@ -18,7 +19,7 @@ mode selection and caller responsibilities.
 | **Music** | `()` | `(Soft, rhythmic piano music plays in the background)` |
 | **Sound Effects** | `<>` | `<A bell rings in the distance>` |
 | **Dialogue** | `{}` | `{Hello, welcome back.}` |
-| **Subtitles** | `【】` | `【Chapter One: Departure】` |
+| **Subtitles** | `【】` | Provider syntax only: workspace footage stays text-free, so titles and subtitles are added in post (`video.text_free`) |
 
 ### Dialogue language reinforcement
 
@@ -59,9 +60,27 @@ with it whenever the scene contains Filipino dialogue.
 
 ```
 No background music. Keep only the characters' dialogue, ambience, and action sound effects.
-No subtitles.
-No audio at all.
 ```
+
+A control line like this is a request, not a switch. Pick the route below
+before relying on it.
+
+## Choosing the audio route
+
+With `generate_audio: true` the model voices whatever the scene implies. In
+reviewed ambient-only clips, a line such as "no music, no spoken words" did not
+hold in about two thirds of takes: speech, chants and score leaked in.
+(`audio.native_route`)
+
+| Piece | Route |
+|---|---|
+| Dialogue, lip-sync or diegetic action sound that must sync | Native audio (`generate_audio: true`) with bracketed dialogue and effects |
+| Ambience-only, score-driven, speech-free, or a bed that will be replaced | Picture only (`generate_audio: false`); build ambience or score with Seed Audio in post |
+| A provider master that already passed review | Keep it untouched; mix additions in post |
+
+Record that a post bed is not frame-synced, so hits that must land on an action
+are placed in assembly. Re-check audio on a promoted final: it is not
+byte-identical to the draft's soundtrack.
 
 ## Emotional direction
 
@@ -103,6 +122,9 @@ Finally, <subject's final action, expression, or manner of speaking>.
 | Relief | long exhale, tense shoulders relaxing completely, a faint smile appearing, looking up toward the distance |
 
 ## Scripted dialogue for all speaking characters
+
+Budget every line for time; see
+[Dialogue inside shots](shot-staging.md#dialogue-inside-shots).
 
 Every character who speaks in the video — including background characters,
 people on phone screens, voiceover narrators, and characters with a single line
@@ -189,6 +211,16 @@ Rack focus: shift focus smoothly from the leaves in the foreground to the person
 background. The leaves gradually blur while the person's face changes from soft to sharp.
 ```
 
+Hypothesis: a rack that ends on the subject is the safer direction; probe it
+at 480p (focus wording is owned by `seedance-lens-presets`). "Focus left
+behind" (subject sharp, then focus moves to the background) mostly fails
+because the model keeps the face sharp; add that defocus in post.
+
+A timed light change on a declared source is honoured to about a tenth of a
+second: "at 3.2 s the overhead lamp clicks off and the room drops to the blue
+window light". Plain wording already produces a light going off or a lunge;
+presets add timing and holds, not the effect.
+
 For a precise transition, also state the **trigger time**, **occluding object**,
 **camera direction**, **transition method**, and the **composition or motion
 trend** that should continue afterward.
@@ -236,9 +268,9 @@ instructions alone.
 2. **Do not provide character sheet references for people on the phone screen.**
    Providing a character sheet for someone visible only through a video call
    causes the model to render them as a static image — they don't move or
-   talk. Instead, describe the person in text: "a young Filipino man (warm
-   brown skin, short textured black hair, friendly smile, plain t-shirt)
-   talking and moving naturally."
+   talk. Instead, describe the person in text: "a young man (short textured
+   black hair, friendly smile, plain grey t-shirt) talking and moving
+   naturally."
 
 3. **Use a Camera and Blocking section.** When a scene alternates between
    showing the main character's face and showing the phone screen, define

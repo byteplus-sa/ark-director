@@ -49,7 +49,7 @@
         "The output uses a point or bounding-box edit path when coordinates are available.",
         "The acceptance criteria place the vial behind the hunter's right boot.",
         "The output preserves camera, pose, identity, screen direction, lighting, and geometry.",
-        "The output does not mark the edited panel approved without explicit user approval."
+        "The output does not mark the edited panel approved without a selection recorded under the project approval mode."
       ]
     },
     {
@@ -76,7 +76,20 @@
         "The output presents v01, v02, and v03 as alternatives of p010 rather than separate story beats.",
         "The three variants materially change composition or emphasis while preserving the same subjects, decisive moment, and continuity contract.",
         "The output records omitted action or transitions as motion notes instead of adding panels.",
-        "The output recommends I2V or R2V and keeps video handoff ineligible until one variant is explicitly selected and approved."
+        "The output recommends reference-to-video with the bound element sheets, carries the panel staging into prompt text, never lists the storyboard panel as a Seedance reference, and keeps video handoff ineligible until one variant is selected under the project approval mode."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "The six-panel storyboard grid for scene 2 is approved. Attach the grid image to the Seedance request as a reference so the video follows the panels exactly.",
+      "expected_output": "A refusal to bind the grid that explains the leakage risk and hands off the staging as prompt text plus element references.",
+      "files": [],
+      "expectations": [
+        "The output does not bind the grid, any panel, or a crop of it as a Seedance reference in any role.",
+        "The output names the risks: panel numbers, dividers, or sketch look leaking into the video, and more output-copyright rejections.",
+        "The output translates each panel's staging, screen direction, and camera intent into shot prompt text.",
+        "The output binds only the character, location, and prop element references the panels used, with their hashes.",
+        "The output plans a take audit with sampled frames and top-left corner crops."
       ]
     }
   ]

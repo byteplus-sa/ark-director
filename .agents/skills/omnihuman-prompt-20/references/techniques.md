@@ -102,6 +102,10 @@ causes it, and what it does.
 - Props, costume additions, magic, distortion and disappearance effects can
   appear even though the image does not contain them.
 - Describe the effect's motion and end state so it resolves cleanly.
+- Describe added props by shape, colour and material with nothing printed;
+  generated cans, cups, signs and screens tend to invent lettering in video
+  models. Exact text, captions or logos come from the source image or are
+  added in post, never from the prompt.
 
 ```
 The father and son look at the camera in shock, and the son speaks. Then the
@@ -169,12 +173,18 @@ give the speaking state to that person only, and give everyone else a
 listening or background action.
 
 ```
-The woman on the left in the red coat talks to the man beside her, smiling.
-The man on the right listens, nods slowly and glances at the camera.
+The woman on the frame-left side in the red coat talks to the man beside her,
+smiling. The man on the frame-right side listens, nods slowly and glances at
+the camera.
 ```
 
+- Say "frame-left" / "frame-right" for positions and name hands by anatomy
+  plus frame side ("her right hand, frame-left"). Seedance reads a bare
+  left/right as the character's own side; whether OmniHuman does the same is
+  unverified, so the frame-side wording removes the ambiguity either way.
+
 - If the audio contains more than one voice, describe turn-taking in order:
-  `First the woman on the left speaks; then the man on the right answers.`
+  `First the woman frame-left speaks; then the man frame-right answers.`
   Verify the result, since speaker assignment on multi-voice audio is not
   guaranteed.
 

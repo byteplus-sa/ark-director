@@ -7,6 +7,7 @@ mode selection and caller responsibilities.
 - [Scene transitions and dynamic arcs](#scene-transitions-and-dynamic-arcs)
 - [Scene and atmosphere](#scene-and-atmosphere)
 - [Sonic motifs and voice treatment](#sonic-motifs-and-voice-treatment)
+- [Ambience or score bed for a video clip](#ambience-or-score-bed-for-a-video-clip)
 
 ### Full-soundscape composition workflow
 
@@ -129,3 +130,38 @@ silence (room tone, a breath).
 A layered or multi-voice line is still one speaker for lip-sync. Keep the
 exact words identical across the layers, and when lip-sync audio is opt-in,
 deliver the lead voice clean and add the chorus layer in post.
+
+### Ambience or score bed for a video clip
+
+Use a standalone bed when a clip must carry only ambience or only score, or
+when its native video audio leaked speech, chants, cheering or music. A
+negative "no music, no spoken words" line in a video prompt often does not
+hold (in one batch, two of three ambient-only clips leaked speech or score),
+and regenerating the video to fix sound would change an approved picture.
+
+1. Keep the picture untouched: stream-copy it, or generate it without native
+   audio when the audio plan is post-only from the start.
+2. Match the bed to the cut: the same duration, and a short timeline of the
+   audible events in picture order.
+3. Describe what the bed contains positively, layer by layer; that list is the
+   main control. A closing limit sentence such as `Only wind, surf and distant
+   gulls throughout; no voices and no music.` is a hypothesis for Seed Audio,
+   so check the output for voices and music.
+4. Loudness-normalise the bed to the project target and place it in the
+   project's Studio timeline as an audio clip under the untouched provider
+   picture; the Studio render produces the final file.
+5. Record that the bed is **not frame-synced**. A sound tied to a visible
+   action (a door slam, a footfall) is placed as a separate effect in the edit
+   or accepted as loose sync.
+
+```text
+A 30-second ambience bed for a coastal village at dawn.
+[0.0s:30.0s] Low steady surf on a pebble beach, close; light onshore wind across open ground, mid-distance.
+[6.0s:9.0s] A single gull calls twice, far left, then drifts away.
+[18.0s:24.0s] Wind gusts a little stronger, then settles back.
+The bed ends as it began, with surf and wind continuing to the last second.
+Only surf, wind and gulls throughout; no voices and no music.
+```
+
+Speech-free beds need a model that accepts prompts without dialogue; this
+example targets Seed Audio 1.0.
