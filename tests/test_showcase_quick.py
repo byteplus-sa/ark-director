@@ -9,6 +9,10 @@ from unittest.mock import patch
 import test_showcase_selection as fixtures
 
 showcase = fixtures.showcase
+REVIEW_SHEET = (
+    Path(__file__).resolve().parents[1]
+    / ".agents/skills/showcase-html/assets/review-page.css"
+)
 
 
 class QuickReviewPlainPageTests(unittest.TestCase):
@@ -46,6 +50,16 @@ class QuickReviewPlainPageTests(unittest.TestCase):
         self.assertIn("<img", page)
         self.assertIn("<audio", page)
         self.assertIn("<video", page)
+
+    def test_stylesheet_is_the_shared_vercel_review_sheet(self):
+        self.build([self.image])
+        stylesheet = self.out.with_suffix(".css").read_text()
+        self.assertEqual(stylesheet, REVIEW_SHEET.read_text())
+        self.assertIn('"Geist"', stylesheet)
+        self.assertIn("--bg: #000", stylesheet)
+        self.assertNotIn("#faf8f5", stylesheet)
+        self.assertNotIn("@import", stylesheet)
+        self.assertNotIn("url(", stylesheet)
 
     def test_media_links_are_relative_to_the_page_and_never_file_uris(self):
         self.build([self.image, self.audio, self.video])
