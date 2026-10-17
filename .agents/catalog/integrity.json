@@ -693,6 +693,7 @@
     ".agents/skills/ugc-motion-presets/SKILL.md": "67ce642fc0d2b1c3f24cde398185ce5b247b9f0a61e38f5b95e4198a6d7ffc1f",
     ".agents/skills/ugc-motion-presets/evals/evals.json": "487834a8aa0e8154005994810095642a63637ac9408be87410100fdcff8999d9",
     ".agents/skills/ugc-motion-presets/references/execution-constraints.md": "fb02ed0f0056a0b45c831ce2cb68a09a9d485ad791af9af820fcc667a09cea06",
-    ".agents/skills/ugc-motion-presets/references/motion-presets.md": "a861ada5128bc6fb91637af3c7ef0ad6206608dc6c84c56ae48413ef55d76239"
+    ".agents/skills/ugc-motion-presets/references/motion-presets.md": "a861ada5128bc6fb91637af3c7ef0ad6206608dc6c84c56ae48413ef55d76239",
+    ".agents/skills/update/SKILL.md": "6bcc711ea41161b2d096448091014c5a040c8816bd238b8be2a43e2f6051f2ea"
   }
 }

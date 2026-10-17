@@ -468,6 +468,12 @@
       "sourceType": "local",
       "skillPath": ".agents/skills/omnihuman-prompt-20/SKILL.md",
       "computedHash": "703838a056fde165e4d98bc228cc54d18b468de682e83dc88af16dcdc96f51d1"
+    },
+    "update": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/update/SKILL.md",
+      "computedHash": "6bcc711ea41161b2d096448091014c5a040c8816bd238b8be2a43e2f6051f2ea"
     }
   }
 }
