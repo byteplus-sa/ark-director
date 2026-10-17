@@ -16,7 +16,7 @@
     },
     {
       "id": 2,
-      "prompt": "Make this viral aura-farming TikTok with my character. Link: https://www.tiktok.com/@somecreator",
+      "prompt": "Make this viral TikTok edit with my character. Link: https://www.tiktok.com/@somecreator",
       "expected_output": "A request for the media file itself because a profile link is not a reference, plus a rights question; with unknown rights the plan falls back to grammar-only extraction and hands off to template-factory.",
       "files": [],
       "assertions": [
@@ -116,7 +116,7 @@
     },
     {
       "id": 10,
-      "prompt": "Put me in this aura edit. I'm the person in these three selfies, and this is my own reference video.",
+      "prompt": "Put me in this edit. I'm the person in these three selfies, and this is my own reference video.",
       "expected_output": "A consent-aware plan: the user's own photos go straight into layered segments, generated footage segments need an authorized real-person asset (reuse an existing valid one), and without one the user chooses layers only or an invented character, with no disguised inputs.",
       "files": [],
       "assertions": [

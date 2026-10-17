@@ -3,7 +3,7 @@
 Every EDL segment gets exactly one route, chosen from what the measured
 reference segment shows, not from the genre of the edit. Mixed edits are
 normal: a fashion lookbook can cut sticker cutouts against walking footage, an
-aura edit can drop a cutout over a collage between cinematic shots. Type and
+music-led hero edit can drop a cutout over a collage between cinematic shots. Type and
 effects are always deterministic on top of any route.
 
 ## Read the segment first

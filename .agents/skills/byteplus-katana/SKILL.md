@@ -42,11 +42,6 @@ genre label.**
   the reference (or a rights-safe equivalent in grammar-only mode).
   Deterministic, exact, cheap and editable per segment.
 
-Lessons from one showcase comparison, useful when the reference cuts between
-cinematic shots of one character, are in the
-[aura showcase lessons](references/aura-showcase-lessons.md); they are
-examples, not defaults.
-
 It is a prompt-and-plan leaf. It never calls MCP tools, the Ark API or any
 generator. Composition hints below are prose for the caller.
 

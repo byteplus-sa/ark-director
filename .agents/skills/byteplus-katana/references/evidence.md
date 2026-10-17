@@ -48,7 +48,7 @@ never names a generation model. Residual uncertainty: person-in-motion shots in
 fashion and aura-farming presets use generated person footage. The trailer's
 "context-aware shot generation" card and walking-person clips in the fashion
 preset support this, so the skill treats generation as present, not absent.
-The revisions below decide where it applies.
+Segment routing decides where it applies.
 
 ## Design inferences made here
 
@@ -62,29 +62,10 @@ These are choices for this workspace, not claims about the vendor's internals.
    code-built composition (HyperFrames here); segments that show footage of a
    subject moving through space get footage (kept, recast or generated). Type
    and effects are always code-built. This follows the user's report, the
-   "editable motion graphics" wording, the side-by-side test and the mixed
-   presets (the fashion lookbook is mostly cutouts with a few walking shots).
+   "editable motion graphics" wording and the mixed presets (the fashion
+   lookbook is mostly cutouts with a few walking shots).
 3. A refinement ledger keyed by segment and dependency, to reproduce "only the
    affected shots regenerate".
 4. The cut grid enforced in assembly, because Seedance timelines drift.
 5. A five-asset default limit copied from the published product, kept as a plan
    limit rather than a model limit.
-
-## Revision after a side-by-side test (2026-10-15)
-
-A first build that followed "layers first" for an aura edit (one static cutout
-repeated on flat colour cards) was judged ugly next to the vendor reel. Closer
-frames of the reel show every beat is a different cinematic video shot of the
-character, with code-built type and effects on top. Details:
-[aura showcase lessons](aura-showcase-lessons.md).
-
-## Revision after a generality review (2026-10-17)
-
-The first revision turned that one comparison into a genre rule (people-led
-formats generate, 5-8 setups of 4-5 s). A review against fashion, product,
-travel, talking-head, food and long-edit references found it misrouted cutout
-lookbooks, chopped long takes and had no speech-led timing. Routing now reads
-each segment, setups scale to the reference, each cut records its driver
-(beat, speech, action or none), speech-led segments have a `dialogue_sync`
-route, labels are composited rather than generated, and a consenting real
-person can be the target through an authorized asset.
