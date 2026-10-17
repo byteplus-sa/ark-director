@@ -87,6 +87,18 @@
         "Does not impose a crane, orbit or whip pan on the selfie frame.",
         "Still names a light stance and the beats of the demonstration."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Brief: adapt the opening test scene of a classic science-fiction novel, where an old woman tests a boy with a box that causes pain. We have the novel's text. Keep it cinematic and faithful.",
+      "expected_output": "A compact proposal that says where the pain lives instead of VFX, treats the novel as the source bible, and names a quality bar.",
+      "files": [],
+      "expectations": [
+        "It says where the feeling lives (performance, sound, light, framing) rather than relying on literal effects for the pain.",
+        "It treats the novel as a source bible and lists lines or details that must survive later stages.",
+        "It names a quality bar or asks whose reaction it is only if the brief cannot answer it.",
+        "It does not turn the questions into a long questionnaire, and it still gives a camera and light stance with an energy level."
+      ]
     }
   ]
 }

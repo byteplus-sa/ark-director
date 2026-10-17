@@ -111,6 +111,55 @@
         "The repair either declares the front door as a source with the event that switches it on, or relights shot 3 from the declared window with a stated key side.",
         "The repaired shots still name a declared source and a key side relative to the lens."
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "Plan a 10-second Seedance 2.5 sequence: in a dark stone library, a veiled elder commands a young man to cross the room and kneel. A literal walk would look like a zombie, so the audience should feel they lost the moment with him. The hall has wall sconces behind him and a cold window high on the left.",
+      "expected_output": "A plan with a push-in clip on his face, a declared light cue that switches the sconces off inside that shot, and a second clip that opens with him already kneeling, joined by a blink cut made in assembly. No clip shows the walk, and any defocus is left to post.",
+      "files": [],
+      "assertions": [
+        "The sconces are declared with a position, and a cue on that source records a time, the change (off or dim), a trigger and the shot it lands in.",
+        "The push-in and the kneeling end state are separate clips generated at natural lengths, joined by an assembly blink cut rather than a cut requested inside one prompt.",
+        "No clip shows or prompts the walk across the room, and no prompt asks the model to skip it.",
+        "The plan does not prompt the face to drift out of focus; any defocus is assigned to post.",
+        "Every shot still names a declared source and a key side, and no shot invents a source that was not declared."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "A two-character interrogation: a seated elder dominates a kneeling young man for the first half, then he starts resisting and takes control. Plan the coverage so the power shift reads without dialogue explaining it.",
+      "expected_output": "A Power-shift plan: dirty over-the-shoulder shots with the elder as a dark foreground mass while she dominates, a high angle on him before the turn, and a push-in held back until he takes control.",
+      "files": [],
+      "assertions": [
+        "While the elder dominates, his coverage keeps her in the foreground as a soft dark mass (a dirty over-the-shoulder).",
+        "The angle changes at the turn, high on him before and low or level after, and only once rather than every shot.",
+        "A push-in is given only to the young man as he takes control, and not to both characters.",
+        "Exactly one shot is flagged as the turn, and it falls where he starts resisting."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Plan the coverage for a 14-second Seedance 2.5 scene: a detective sees a bloodied glove in a locker and her two partners react behind her. Make the discovery land for the viewer.",
+      "expected_output": "A plan that covers the discovery as a look, point-of-view and reaction sequence and the trio reaction in one shot, with framing and featured subjects named per shot.",
+      "files": [],
+      "assertions": [
+        "The glove discovery is shown from the detective's viewpoint, with her looking before it and her reaction after it.",
+        "Every shot names a framing and its featured subjects.",
+        "The detective and her two partners reacting together are covered in one shot that features all three rather than three separate singles.",
+        "Adjacent shots still differ in at least two of size family, angle class, camera move and key side, and exactly one shot is flagged as the turn."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "A grandmother stands over her seated grandson at the dinner table and scolds him; halfway through he stands up and answers back. Cover it in four shots so the power shift reads from the camera alone.",
+      "expected_output": "A plan using an over-the-hip shot over the standing grandmother onto the seated boy, a single on him at the turn, and framing named per shot, with the foreground mass leaving the frame at the turn.",
+      "files": [],
+      "assertions": [
+        "While she stands and he sits, the coverage keeps her in the foreground as a soft, unfeatured mass (a dirty single, over-the-shoulder or over-the-hip).",
+        "Once he stands, the coverage no longer relies on the height difference, and the plan records which framing replaces it.",
+        "Every shot names a framing and featured subjects, and at least one shot features the boy alone.",
+        "The foreground mass or the angle changes once at the turn rather than on every shot."
+      ]
     }
   ]
 }

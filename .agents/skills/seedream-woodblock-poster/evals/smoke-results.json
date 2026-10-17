@@ -1,0 +1,42 @@
+{
+  "mode": "offline prompt-only smoke evaluation",
+  "cases": [
+    {
+      "id": 1,
+      "result": "pass",
+      "checks": [
+        "style-only reference",
+        "explicit bipedal anatomy",
+        "distinct subject"
+      ]
+    },
+    {
+      "id": 2,
+      "result": "pass",
+      "checks": [
+        "three separate prompts",
+        "identical shared style block",
+        "custom palette and borderless",
+        "no invented references"
+      ]
+    },
+    {
+      "id": 3,
+      "result": "pass",
+      "checks": [
+        "ordered identity and style roles",
+        "visible anatomy preserved",
+        "exact slogan routed to deterministic finishing"
+      ]
+    }
+  ],
+  "baseline": "Baseline outputs also met the expected cases; no superiority or image-quality improvement is claimed.",
+  "limits": [
+    "No new generated candidates; live image fidelity and candidate selection remain caller responsibilities.",
+    "Historical examples are actual outputs but not a controlled prompt experiment."
+  ],
+  "unit_validation_tests": 6,
+  "metadata_links_inventory": "pass",
+  "type_build": "not applicable; documentation-only skill",
+  "secrets_diff_review": "pass"
+}

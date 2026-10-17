@@ -51,6 +51,8 @@ shot_plan:
       duration_s: 3.0
       job: establish
       size: wide
+      framing: three-shot
+      featured: [mother, aunt, boy]
       angle: high
       angle_reason: show the whole room and where each person will stand
       move: slow crane down from ceiling height to table height, left to right
@@ -62,6 +64,8 @@ shot_plan:
       duration_s: 2.5
       job: reveal
       size: medium close-up
+      framing: single
+      featured: [mother]
       angle: eye level
       move: slow push-in on the door handle, ending on her hand as the door opens
       move_reason: moves the viewer to the point of contact
@@ -73,6 +77,8 @@ shot_plan:
       turn: true
       job: emphasize
       size: close-up
+      framing: single
+      featured: [boy]
       angle: low
       angle_reason: the boy's sudden appearance at adult hip height gets presence
       move: static hold, no movement
@@ -84,8 +90,10 @@ shot_plan:
       duration_s: 3.0
       job: release
       size: medium
+      framing: two-shot
+      featured: [mother, boy]
       angle: eye level
-      move: slow drift right, ending on her smile
+      move: slow drift right, ending on her smile with the boy at her side
       move_reason: releases the tension by sliding to the mother's reaction
       lens_intent: natural depth, mother sharp
       light: {source: window, key_side: camera-left, quality: soft sun with a warm rim from the open door}
@@ -100,11 +108,15 @@ shot_plan:
 | `energy` | restrained, standard or kinetic |
 | `axis_carry` | Where each confirmed project axis appears (camera, lens, lighting, pacing, energy), or the scene override and its reason |
 | `sources` | Every light source the scene uses, with a fixed world position and the event that switches it on |
+| `cues` | Optional, per source. Each cue has `at_s` (scene time), `change` (`on`, `off`, `dim` or `flicker`), `trigger` (the visible or story event) and, when it lands inside a shot, that shot's `id`. A shot's `light` describes the state at its start and names any cue inside it |
 | `duration_s` | Shot length in seconds; lengths are uneven and the turn differs from its neighbors |
 | `turn` | `true` on exactly one shot |
 | `job` | One of establish, reveal, emphasize, connect, escalate, hold, release |
 | `size` | Extreme wide, wide, medium, medium close-up, close-up, extreme close-up or insert |
-| `angle` | Eye level, over-the-shoulder, low, high, overhead or first-person |
+| `framing` | Single, dirty single, two-shot, three-shot, group, over-the-shoulder, over-the-hip, point of view or insert, per [framing](framing.md). Required in a scene with two or more characters |
+| `featured` | The subjects the shot is about, with screen sides when it matters; empty for an insert or an unpeopled point of view |
+| `composition` | Optional. Balanced or deliberately unbalanced (isolation, tension), with the reason when unbalanced |
+| `angle` | Eye level, over-the-shoulder, low, high, overhead or first-person. A dirty single, over-the-shoulder or over-the-hip framing records over-the-shoulder, and a point-of-view framing records first-person |
 | `angle_reason` | Required for any angle other than eye level |
 | `move` | The primary move with subject, start and end, or `static hold` |
 | `move_reason` | What the move reveals or emphasizes |
@@ -112,6 +124,27 @@ shot_plan:
 | `lens_intent` | A visible result (sharp plane, soft background, compression), never a number alone |
 | `light` | A declared `source`, the `key_side` relative to the lens, and the quality and contrast |
 | `contrast_with_previous` | Which of size family, angle class, move and key side change; `n/a` for the first shot |
+
+A cue that lands inside a shot is written once on the source and named on the
+shot's `light` line:
+
+```yaml
+sources:
+  - id: hall-sconces
+    position: wall sconces along both sides of the library, behind the subject
+    switched_on_by: always on
+    cues:
+      - {at_s: 6.5, change: off, trigger: the Voice takes hold, shot: s01_sh030}
+shots:
+  - id: s01_sh030
+    light: {source: hall-sconces, key_side: behind the subject, quality: dim rim
+      that goes out at about 2 s into the shot, leaving his face just above black}
+```
+
+In Seedance 2.5 drafts a stated cue time is honoured closely (2 s asked, 2 s
+delivered) and an `off` cue switches the source instantly. When a fade is
+wanted, write it into the light line ("fades out over about one second"). An
+untimed "partway through" switch lands at an unplanned moment.
 
 A plan with `energy`, `sources`, a `turn`, uneven `duration_s` values and a
 `contrast_with_previous` for every shot after the first is complete enough for

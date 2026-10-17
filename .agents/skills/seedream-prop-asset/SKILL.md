@@ -244,9 +244,9 @@ Always include:
   band, a chrome hood ornament, rows of brass pegs); a complex object may need
   more, but each one earns its place. Count repeated features per face ("a front
   door and a separate rear door, each with its own brass handle")
-- **wear and age** only as far as the story needs; do not invent damage as a
-  realism cue
-- **the canonical state**, stated explicitly
+- **wear, age and any recorded `emotional_function`** only as the story needs,
+  as visible fit, scale or age ("the slot just fits one hand"), never mood words
+  or invented damage; and **the canonical state**, stated explicitly
 - **each planned face described on its own** — "Front: ... Back: ... Side: ...".
   The back is not a mirror of the front: name its identity-critical details
   (rear lights, a stitched seam, an unmarked case back, the stem end) so the
