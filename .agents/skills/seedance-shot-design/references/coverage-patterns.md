@@ -20,6 +20,9 @@ wording for a named light setup belongs to the lighting preset skill.
 - [Orbit on the payoff](#orbit-on-the-payoff)
 - [Light progression](#light-progression)
 - [Insert and cutaway rhythm](#insert-and-cutaway-rhythm)
+- [Look, point of view, reaction](#look-point-of-view-reaction)
+- [Group in one take](#group-in-one-take)
+- [Uneven terrain](#uneven-terrain)
 - [Failure shapes to avoid](#failure-shapes-to-avoid)
 
 ## Reveal ladder
@@ -165,6 +168,42 @@ Use to add tempo to a calm scene.
 - Watch for: inserts that introduce props the canon never approved; they follow
   the prop threshold.
 
+## Look, point of view, reaction
+
+Use when the viewer must share a character's discovery.
+
+- Shots: a single or dirty single of the character looking, a point-of-view shot
+  of what they see (an insert or a reveal), then a single of their reaction.
+  The point of view can belong to an object, such as a thrown item.
+- What changes: viewpoint and size across the sandwich; the reaction is usually
+  the closer or longer shot.
+- Watch for: a point-of-view shot with no looker beside it; the viewer cannot
+  tell whose view it is.
+
+## Group in one take
+
+Use when three or more characters share a beat and coverage would be a ladder of
+singles.
+
+- Shots: one three-shot or group shot that holds the beat, then a single on the
+  character who turns it.
+- What changes: featured count and size, with a move kept quiet if lines are
+  spoken.
+- Watch for: a group shot where one character is the only one with something to
+  play; cut to the single on that character.
+
+## Uneven terrain
+
+Use when two characters stand at different heights (standing and seated,
+kneeling, a child and an adult) and the height gap is the story.
+
+- Shots: an over-the-hip shot over the standing character onto the lower one,
+  then a single on the lower one from a low or level angle at the turn.
+- What changes: the foreground mass leaves the frame at the turn. The power
+  shift pattern covers the push-in and the angle swap.
+- Watch for: an over-the-hip shot between characters at the same height; use an
+  over-the-shoulder instead.
+
 ## Failure shapes to avoid
 
 | Shape | Why it reads as boring | Repair |
@@ -177,3 +216,4 @@ Use to add tempo to a calm scene.
 | A shot stacking more than two simultaneous moves | The camera preset guidance records instability risk | One primary move per shot and at most one secondary |
 | Equal shot lengths with the turn the same length as its neighbors | Nothing marks the turning point | Uneven durations; give the turn a length unlike its neighbors |
 | A move that decorates but has no story reason | Movement without meaning adds noise | State what the move reveals or emphasizes |
+| A multi-character scene covered by clean singles only | The relationship between the characters never shares a frame | Add a dirty single, an over-the-shoulder or a two-shot, per the framing reference |

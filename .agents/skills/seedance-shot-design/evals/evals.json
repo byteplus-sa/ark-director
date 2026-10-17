@@ -136,6 +136,31 @@
         "A push-in is given only to the young man as he takes control, and not to both characters.",
         "Exactly one shot is flagged as the turn, and it falls where he starts resisting."
       ]
+    },
+    {
+      "id": 12,
+      "prompt": "Plan the coverage for a 14-second Seedance 2.5 scene: a detective sees a bloodied glove in a locker and her two partners react behind her. Make the discovery land for the viewer.",
+      "expected_output": "A plan that uses a look, point-of-view and reaction sandwich, an insert or POV on the glove, and a three-shot for the two partners and her, with framing and featured subjects named per shot.",
+      "files": [],
+      "assertions": [
+        "The glove discovery is covered as a looker shot, a point-of-view or insert shot of the glove, then a reaction shot, in that order.",
+        "Every shot names a framing and its featured subjects, and the point-of-view or insert shot has no featured face.",
+        "The detective and her two partners reacting together are covered by one three-shot rather than three singles.",
+        "Adjacent shots still differ in at least two of size family, angle class, camera move and key side, and exactly one shot is flagged as the turn.",
+        "The plan notes that point-of-view and insert wording are heuristics to check in a 480p draft."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "A grandmother stands over her seated grandson at the dinner table and lectures him; halfway through he stands up and answers back. Cover it in four shots without dialogue explaining the shift.",
+      "expected_output": "A plan using an over-the-hip shot over the standing grandmother onto the seated boy, a single on him at the turn, and framing named per shot, with the foreground mass leaving the frame at the turn.",
+      "files": [],
+      "assertions": [
+        "While she stands and he sits, the coverage uses an over-the-hip or dirty single with her as a soft, unfeatured foreground mass.",
+        "The over-the-hip framing is used only while their heights differ, and an over-the-shoulder replaces it once he stands.",
+        "Every shot names a framing and featured subjects; at least one shot is a clean single and one holds both characters.",
+        "The angle or foreground mass changes once at the turn rather than every shot."
+      ]
     }
   ]
 }

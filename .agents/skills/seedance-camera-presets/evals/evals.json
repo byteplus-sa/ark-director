@@ -102,6 +102,29 @@
         "Every move names the subject it follows and where it starts and ends.",
         "The static hold is stated as a deliberate hold, not left as a missing camera line."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Word the Camera block for an over-the-shoulder shot of Marta, seen from behind her brother Ben, in a medium close-up at eye level with a slow push-in.",
+      "expected_output": "One Camera block using the over-the-shoulder template: Ben's shoulder and head soft and dark on one side, Marta sharp facing the camera, medium close-up, one slow push-in with start and end.",
+      "files": [],
+      "expectations": [
+        "The block names Ben as the soft foreground subject on a named side of the frame and Marta as the sharp featured subject.",
+        "The block gives the shot size and angle and one primary move with a start and an end.",
+        "The block does not present over-the-shoulder wording as an official Seedance control."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Write Camera blocks for a three-shot of Ana, Bo and Cy at a bus stop, then a point-of-view shot from Ana's eyes of a letter in her hands.",
+      "expected_output": "A three-shot block naming left-to-right order and a point-of-view block from Ana's eyes showing only her hands, with advice to cover the POV with a looker and a reaction shot.",
+      "files": [],
+      "expectations": [
+        "The three-shot names Ana, Bo and Cy in left-to-right order, all in focus, with a shot size.",
+        "The point-of-view block is from Ana's eyes, shows the letter, and has nothing of Ana visible except her hands.",
+        "The output says the point-of-view shot should sit beside a shot of Ana looking and a reaction shot, or records why it stands alone.",
+        "Neither block has more than two simultaneous moves."
+      ]
     }
   ]
 }
