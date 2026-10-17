@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "17a0f34f3f7b34f62457ad5074e79d77024f8cc21f80fc9037917eb11a080a6c"
+      "computedHash": "3b7ac80799a5b6332bbec9cedd291b509ef71837f54c1d39b24c5f97381d85a9"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -293,7 +293,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-storyboard/SKILL.md",
-      "computedHash": "0490cc6cfce8eb88573d708816238376b715f68a767eb0de29cb94e016e70b5d"
+      "computedHash": "2f5202c7c1358a98c29085243f44318160e75a510e31ee9b37c781c5e23dae1c"
+    },
+    "scene-board-sheet": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/scene-board-sheet/SKILL.md",
+      "computedHash": "f6e478ebcf292cab1f8fd4b304dddb4aaa1e63a9668e9156f1e0930f80183579"
     },
     "showcase-html": {
       "source": "./local",
