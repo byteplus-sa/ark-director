@@ -303,7 +303,7 @@ Props slide vertically and never pop; {subject} keeps the outfit, shoes and stan
 
 ### `studio-slide` - Studio slide
 **Look:** Three copies of the same fashion model at different scales and depths slide past one another in one lateral camera move against a flat solid-colour backdrop.
-**Route:** `i2v-first-frame`. `@Image 1` is the first frame (the user's single-person photo); the copies are created by the prompt. The recipe fixes the copy count at three for reliability for reliability.
+**Route:** `i2v-first-frame`. `@Image 1` is the first frame (the user's single-person photo); the copies are created by the prompt. The recipe fixes the copy count at three for reliability.
 **Parameters:** duration 8 s; ratio follows the photo (typical: 16:9 and 4:3); `generate_audio` false by default; draft at 480p.
 **Start photo:** Clean full-body fashion photo of a single person against a plain, evenly lit solid-colour seamless backdrop, face visible, accessories (bag, cap, necklace) clear. Bad inputs: textured or gradient background, props or furniture, cropped limbs, a second person, a heavily patterned outfit that will drift between copies.
 **Beats:**

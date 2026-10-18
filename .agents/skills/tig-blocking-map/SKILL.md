@@ -145,7 +145,7 @@ Seedance rejects `extend` and video-to-video inputs of a clip that shows a reali
 2. In STEP 2, write the text geometry for the next clip: each letter's start position, facing and crop must match that last frame, then its path, end mark and trigger beat.
 3. Choose one route, because first-frame and reference modes are mutually exclusive:
    - **Reference route (default):** bind the same character, location and prop element references by role, and use the last frame only to write the text geometry. Never bind the previous clip as a video input and, by default, never the map.
-   - **First-frame route:** the last frame opens the new clip as `first_frame`, with no element references. Stills of generated people as first frames passed in local runs, while face or body crops as `reference_image` were rejected, so keep the reference route ready.
+   - **First-frame route:** the last frame opens the new clip as `first_frame`, with no element references. Stills of generated people as first frames are usually accepted, while face or body crops as `reference_image` tend to be rejected, so keep the reference route ready.
 4. QA the seam: positions, facing, wardrobe and light match on both sides of the cut.
 
 ## Intentional conditioning representation

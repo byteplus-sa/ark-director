@@ -241,8 +241,8 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **tig-scene-engine** | Writes and audits screenplay scenes and sequences using a five-element dramatic engine — Goal, Obstacle, Tactic, Reversal, Value Shift — with custom definitions. Use to write new scenes, draft options, develop sequences, or audit/test/diagnose existing scenes for structural strength. Default scene-craft skill for thriller and psychological drama. |
-| **tig-blocking-map** | Tigran's project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). |
+| **tig-scene-engine** | Writes and audits screenplay scenes and sequences using a five-element dramatic engine — Goal, Obstacle, Tactic, Reversal, Value Shift — with custom definitions. Use to write new scenes, draft options, develop sequences, or audit/test/diagnose existing scenes for structural strength. Default scene-craft skill for any genre. |
+| **tig-blocking-map** | Project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). |
 
 ### UGC & Advertising
 
@@ -342,7 +342,7 @@ sibling hints, and explicitly-marked orchestrators.
 - [ModelArk console docs — Seedance 2.5 multimodal reference](https://console.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2536875?lang=en)
 - [BytePlus ModelArk quick start](https://docs.byteplus.com/en/docs/ModelArk/1399008)
 - [Seedance video generation API](https://docs.byteplus.com/en/docs/ModelArk/1520757)
-- [Seedance 2.5 prompt guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh)
+- [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689)
 - [OmniHuman 2.0 API reference](https://docs.byteplus.com/en/docs/byteplus-vision/omnihuman-2-0-video-generation)
 - [Seed Audio 1.0 API reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01)
 - [ModelArk model list](https://docs.byteplus.com/en/docs/ModelArk/1330310)

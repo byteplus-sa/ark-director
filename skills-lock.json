@@ -161,7 +161,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
-      "computedHash": "ad266beeba2907d7f888e5a043d1c6fc977121b85f6cacd6bd7a14464eca6a31"
+      "computedHash": "71bda1090262aa3dc2e709ec788f278f7e3f2a413931054a74a13c78756ede1e"
     },
     "seedance-shot-design": {
       "source": "./local",
@@ -317,7 +317,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/tig-blocking-map/SKILL.md",
-      "computedHash": "54281e23756ca39d6e0b473e91cd49a7143fa5bc97c4677746412728dabf927b"
+      "computedHash": "45ca5670cf042c036a73e16ab0cac33e868e157bd9141ec213a0d929f507c858"
     },
     "tig-scene-engine": {
       "source": "./local",
