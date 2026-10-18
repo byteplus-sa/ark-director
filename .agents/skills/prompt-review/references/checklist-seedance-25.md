@@ -25,8 +25,8 @@ states CRITICAL or MINOR when it differs.
 
 2. **Audio route (`audio.native_route`).** With `generate_audio: true` the
    model voices what the prompt implies, and a negative line such as "no music,
-   no spoken words" often fails (speech, chants and score have leaked into most
-   ambient-only takes). An ambience-only, score-driven or speech-free piece uses
+   no spoken words" does not reliably hold (speech, chants and score can leak
+   in). An ambience-only, score-driven or speech-free piece uses
    `generate_audio: false` (or keeps the provider master untouched) and gets its
    bed from Seed Audio in post, recorded as not frame-synced. A prompt that
    relies on a negative audio line for one of these pieces is MAJOR.
@@ -79,8 +79,8 @@ states CRITICAL or MINOR when it differs.
 
 13. **No storyboard or board binding (`board.animatic_review_only`).** A
     storyboard grid, board or board panel is never bound to a Seedance request:
-    its panel numbers and sketch or watercolour medium leak into the video and
-    output-copyright rejections rise. Its staging goes into the prompt text and
+    its panel numbers and sketch or watercolour medium can leak into the video.
+    Its staging goes into the prompt text and
     identity comes from element references. A bound board is CRITICAL. A first
     or last frame must be a clean, full-frame keyframe in the final medium with
     no marks. Blocking maps and other control diagrams are judged under item 12.
@@ -189,8 +189,8 @@ states CRITICAL or MINOR when it differs.
     over time (an outfit changing only past a line) is staged by timestamp and
     body part, slow enough that the crossing lasts about 1.5 s, with the motion
     continuing unbroken and no glow, flash, sparkle, dissolve or particle
-    effect. Wording that makes it instantaneous ("swaps at the pole", "changes
-    in place", "the pole is the boundary", a bare wipe) is MAJOR. It is pure
+    effect. Wording that makes it instantaneous ("swaps at the doorway",
+    "changes in place", "the doorway is the boundary", a bare wipe) is MAJOR. It is pure
     reference-to-video; an I2I-edited first frame recomposes the scene (MAJOR).
 
 30. **Known drift points (MINOR).** Hair covered by a shawl, blanket or high

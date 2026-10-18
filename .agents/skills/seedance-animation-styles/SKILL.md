@@ -265,9 +265,9 @@ For an unlisted style:
 
 The animation medium is a construction the prompt describes. A finishing look
 laid over the footage (a VHS or camcorder look, a film-stock grain, halation, a
-vignette, a color grade) is a post treatment: a camcorder word in a Seedance
-prompt returned clean footage in workspace drafts; the color-grade skill owns
-post looks. Add no grade or film texture by default. Period film wear that
+vignette, a color grade) is a post treatment: a camcorder or film-stock word in a
+Seedance prompt may be ignored or may cost medium fidelity; the color-grade
+skill owns post looks. Add no grade or film texture by default. Period film wear that
 belongs to the medium itself, such as the exposure flicker and dust of vintage
 rubber-hose cels, stays in the recipe.
 

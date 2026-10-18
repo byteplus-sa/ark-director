@@ -30,8 +30,7 @@ generated media. The page is one portable file: it embeds lifecycle status,
 project sources, exact prompts, media, a fixed template, and a small renderer —
 no build step or external CSS/JS.
 
-This skill captures the page design used across the `seedance-lens-showcase`
-and `honda-civic-location-swap` projects: color-coded asset cards, an
+The page design is: color-coded asset cards, an
 "elements used" list per video, before/after comparison tables, and a combined
 grid view.
 
@@ -118,11 +117,11 @@ uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
 
    **Mark selectable cards** so variants can be locked from the page. Every card
    that represents a *variant* of an approved asset gets:
-   - `id` — the asset's stable key (the element id, e.g. `lucky-lion`; or a
+   - `id` — the asset's stable key (the element id, e.g. `example-hero`; or a
      short key like `lockup` for a multi-asset brand kit). All variant cards of
      one asset share the same `id`.
    - `manifest` — relative path to the manifest to write back to
-     (e.g. `elements/lucky-lion/character.md`).
+     (e.g. `elements/example-hero/character.md`).
    - `field` — `selected_variant` (default) or `selected_variants` (map, for a
      multi-asset kit). When `selected_variants`, also set `key`.
    - `reviewPath` — project-relative passing candidate review JSON for every
@@ -264,14 +263,14 @@ uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
 
 # Compare images:
 uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
-  --quick elements/lucky-lion/char_lucky-lion_turnaround_v01.png \
-         elements/lucky-lion/char_lucky-lion_turnaround_v02.png \
-         elements/lucky-lion/char_lucky-lion_turnaround_v03.png
+  --quick elements/example-hero/char_example-hero_turnaround_v01.png \
+         elements/example-hero/char_example-hero_turnaround_v02.png \
+         elements/example-hero/char_example-hero_turnaround_v03.png
 
 # Mix of videos, images, and audio:
 uv run python .agents/skills/showcase-html/scripts/generate_showcase.py \
   --quick scenes/scene-01/s01_sh010/s01_sh010_t01_v01.mp4 \
-         elements/neon-reels/screen_slot-grid_v01.png \
+         elements/example-reel/screen_menu_v01.png \
          library/sfx_sonic-logo_v01.wav
 ```
 

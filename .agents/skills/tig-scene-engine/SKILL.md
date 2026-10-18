@@ -10,19 +10,19 @@ description: >
   scene," "test this against goal/obstacle/tactic/reversal/value shift," "is this scene
   working," "what's weak here," "check my sequence," or when a screenplay/scene is pasted or a
   .docx/.pdf/Fountain/FD script is given for structural feedback. Also use proactively when the
-  user is working on dramatic structure for thriller or psychological drama. Default to this
+  user is working on dramatic structure. Default to this
   skill for any scene-craft work rather than improvising generic story advice.
 ---
 
-# Tig's Scene Engine
+# Scene Engine
 
-Tig's skill for writing and auditing scenes/sequences against a precise five-element engine.
+A skill for writing and auditing scenes/sequences against a precise five-element engine.
 
 **These definitions are bespoke. Do not substitute textbook craft definitions. Apply exactly as written below.** When in doubt, re-read the relevant element's definition before judging or writing.
 
 ---
 
-## The Five-Element Engine (the user's definitions — authoritative)
+## The Five-Element Engine (this skill's definitions — authoritative)
 
 ### 1. Goal
 The single, unchanging thing the hero is fighting for: to fix what has already been established and reach, as fast as possible, the result that resolves it. "Already established" means *anything* set up earlier — deep backstory, a few scenes ago, or one minute ago (the stink from the previous scene counts as "the past" this scene fixes).
@@ -179,7 +179,7 @@ WHAT IF…
 3. (Optional — only if it genuinely adds something) <…>
 ```
 
-The three-tier "What if" rule (the user's spec — follow exactly):
+The three-tier "What if" rule (this skill's spec — follow exactly):
 - **#1 Minimal:** start from the user's own version; change only the single weakest point so the rest of their scene still works.
 - **#2 Clean:** your version that fully works, even if it departs more from the original.
 - **#3 Optional:** include a third only if you feel it's genuinely necessary / adds something.
@@ -258,8 +258,8 @@ prose hints for the calling workflow, not steps this skill runs:
 
 ## Reminders
 
-- The five definitions above are the user's, not the textbook's. Re-read before judging.
-- Genre default: psychological drama / thriller. Confirm theme/idea with the user when writing.
+- The five definitions above are this skill's own, not the textbook's. Re-read before judging.
+- The engine is genre-agnostic. Confirm genre, theme and idea with the user when writing.
 - Audit is in-chat prose; rewrites within it are in FD format.
 - The single most common real failure to hunt for: **a reversal that turns the plot but does not move the audience's verdict — it is inert.** Surface it first.
 - When an audited scene becomes a storyboard or video, compose with `tig-blocking-map` for staging and `seedance-prompt-25` for the video prompt (see From scene to video).

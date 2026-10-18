@@ -57,7 +57,6 @@ The prompt structure and rules in this skill are sourced from:
 - [Seedream 5.0 Pro official blog](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro) (2026-07-08)
 - [Seedream 4.0-5.0 API Tutorial](https://docs.byteplus.com/en/docs/ModelArk/1824121)
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186)
-- Seedream 5.0 Pro User Manual (Lark wiki, internal)
 
 When the official guide is updated, prefer the live page over this skill where they conflict.
 

@@ -1,6 +1,6 @@
 # Example Images
 
-The two user-provided reference images for this skill:
+The two reference images for this skill:
 - `before_duplicate-face.png`
 - `after_single-face.png`
 

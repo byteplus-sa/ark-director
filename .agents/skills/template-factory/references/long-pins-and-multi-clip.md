@@ -6,9 +6,8 @@ when its video exceeds one reliable clip, or when one run handles several pins.
 ## Windowed analysis for long pins
 
 A single `seed_understand` call over a long, dense pin can time out on the
-provider or come back too long to use. A 33.6 s, 42-beat montage timed out four
-times at full length, including at half length. Plan windows from the start
-rather than after a failure:
+provider or come back too long to use. Plan windows from the start rather than
+after a failure:
 
 1. Measure picture duration and hard cuts first (step 2).
 2. Split the pin into 3–6 windows of about 5–8 s. Each window must start and
@@ -55,9 +54,8 @@ Timing rules at clip boundaries:
 Continuity across clips:
 
 - Give each clip a one-line state ledger at the top of its prompt. Say what the
-  subject looks like at the clip's start, for example "raw: pepper strips and
-  onions already on top; no shrimp or scallops yet". For food builds, state raw
-  versus baked explicitly.
+  subject looks like at the clip's start, for example "base layer only; no
+  toppings yet". For build or assembly sequences, state each stage explicitly.
 - Generated clips can still show later-stage items early. Check this in QA. A
   re-order of whole shots in the edit is often cheaper than a retake. Record the
   edit list and the reason on the scene manifest.
@@ -65,7 +63,7 @@ Continuity across clips:
 ## Continuous audio across clips
 
 Native audio generated per clip does not share tempo or key across seams, and a
-"no music" or "ambience only" line often does not hold. For a multi-clip spot
+"no music" or "ambience only" line does not reliably hold. For a multi-clip spot
 whose sound is score-led or ambient, generate picture with
 `generate_audio: false` and either:
 

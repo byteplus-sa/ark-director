@@ -137,20 +137,19 @@ shot's `light` line:
 
 ```yaml
 sources:
-  - id: hall-sconces
-    position: wall sconces along both sides of the library, behind the subject
+  - id: corridor-lamps
+    position: ceiling lamps along both sides of the corridor, behind the subject
     switched_on_by: always on
     cues:
-      - {at_s: 6.5, change: off, trigger: the Voice takes hold, shot: s01_sh030}
+      - {at_s: 6.5, change: off, trigger: a power cut, shot: s01_sh030}
 shots:
   - id: s01_sh030
-    light: {source: hall-sconces, key_side: behind the subject, quality: dim rim
+    light: {source: corridor-lamps, key_side: behind the subject, quality: dim rim
       that goes out at about 2 s into the shot, leaving his face just above black}
 ```
 
-The lighting preset skill words the cue for the prompt and records how closely
-Seedance 2.5 drafts honour a stated cue time. The plan's job is to give every
-cue a time, a change and a trigger; an untimed "partway through" switch lands
+The lighting preset skill words the cue for the prompt. The plan's job is to
+give every cue a time, a change and a trigger; an untimed "partway through" switch lands
 at an unplanned moment.
 
 A plan with `energy`, `sources`, a `turn`, uneven `duration_s` values and a

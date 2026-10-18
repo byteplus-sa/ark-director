@@ -128,17 +128,17 @@ the street layout is chosen. When the user supplies no image, generate this one
 from text yourself; it needs no user input.
 
 **Be honest about words-only requests.** A same-place background restyle
-from prompt words alone is not reliable: in observed takes, every words-only
-wording that kept the place (restyle wording, layout-keeping words, a
-background-only edit, a two-pass edit) left the background photographic, and a
-words-only location change rebuilt the frame but moved the scene somewhere else.
+from prompt words alone is not reliable: words-only wordings that try to keep
+the place (restyle wording, layout-keeping words, a background-only edit, a
+two-pass edit) tend to leave the background photographic, and a words-only
+location change rebuilds the frame but moves the scene somewhere else.
 When no image may be bound at all, say so before writing the prompt and offer a
 subject-only restyle, or a different place described in words if the user wants
 one.
 
-Evidence: the environment-image recipe was observed on a claymation restyle at
-480p. Other media (2D drawn styles, pixel art) and higher resolutions are
-untested; treat them as hypotheses. Start a new case (another style, camera
+Evidence for the environment-image recipe is limited to one medium at 480p.
+Other media (2D drawn styles, pixel art) and higher resolutions are untested;
+treat them as hypotheses. Start a new case (another style, camera
 move, people count or resolution) with a 480p test of the hardest beat.
 
 ## Procedure

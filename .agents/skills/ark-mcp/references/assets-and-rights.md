@@ -54,8 +54,7 @@ Scopes: `assets:read`, `assets:write`, `assets:verify`, `assets:delete`.
   people bound as Virtual Portrait assets; submit the source muted
   (`generate_audio: false`) and add audio in post.
 - Any account-specific exception needs applicable BytePlus terms or provider
-  confirmation plus a supported route. Employment at the provider alone is not
-  evidence of an exception.
+  confirmation plus a supported route.
 
 ## Workflow
 

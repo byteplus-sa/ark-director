@@ -12,7 +12,7 @@ clip of the presenter is enough to carry timbre, accent and pacing.
 3. Poll by submitting `vod_get_audio_separation` through `ark_job_submit`
    (`persist_output: true` needs background execution), then read it with
    `ark_job_get`. Download the `voice` track to
-   `references/ref_03_voice-isolated.wav` and check that its SHA-256 matches
+   `references/ref_voice-isolated.wav` and check that its SHA-256 matches
    the persisted artifact.
 
 ## Cut the clip
@@ -20,20 +20,20 @@ clip of the presenter is enough to carry timbre, accent and pacing.
 Find natural pauses:
 
 ```bash
-ffmpeg -i references/ref_03_voice-isolated.wav -af silencedetect=n=-40dB:d=0.25 -f null - 2>&1 | grep silence_
+ffmpeg -i references/ref_voice-isolated.wav -af silencedetect=n=-40dB:d=0.25 -f null - 2>&1 | grep silence_
 ```
 
 Cut at a pause, mono 48 kHz, normalised, short fade:
 
 ```bash
-ffmpeg -i references/ref_03_voice-isolated.wav -ss 0 -to 8.86 -ac 1 -ar 48000 \
+ffmpeg -i references/ref_voice-isolated.wav -ss 0 -to 8.86 -ac 1 -ar 48000 \
   -af "loudnorm=I=-16:TP=-1.5:LRA=11,afade=t=out:st=8.66:d=0.2" \
   elements/<id>/refs/ref_voice-timbre.wav
 ```
 
 Also keep a ~15s alternate (`refs/ref_voice-timbre-long.wav`) for a retake if
 resemblance is weak. Upload the clip with `media_upload` (`media_type: audio`,
-7-day TTL) and put its URL in `options/BRIEF.md`.
+7-day TTL) and keep its URL only in the request, never in a file.
 
 ## Binding
 
@@ -49,4 +49,4 @@ Put the full new script in the `{}` dialogue block and state the language
 - Run `speech_to_text` on the generated take and diff it against the script.
   No words from the reference clip may appear.
 - Compare median pitch as a rough check (e.g. with a `librosa`/`parselmouth`
-  one-off). A human listen is still required, so say so in NOTES.
+  one-off). A human listen is still required, so say so in the take report.

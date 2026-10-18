@@ -142,6 +142,21 @@ skill-isolation remediation. Preserve upstream design, record local overlays,
 and review changes before re-vendoring. Do not remove a skill because it is
 currently unused. All installed bundles and `skills-lock.json` belong in Git.
 
+Skills stay generic, because other users install them. Never write one
+project's content, one test's outcome or one market's taste into a skill:
+
+- No real brand, client, person or project names, and no `projects/` paths, in
+  skill text, examples, evals or script defaults. Use fictional placeholders.
+- No lessons or defaults learned from a single build, probe or run, and no dated
+  run logs. Keep those in the project's `handoff.md` or memory. Change a skill
+  only with a rule that holds across formats, derived from measuring the input
+  rather than from a genre label. Dated provenance for a provider or vendor
+  fact with a public source is allowed.
+- No internal or inaccessible links, machine-specific paths or account details.
+- Market-neutral skills carry no market, language or locale default. Only skills
+  named for a market, such as `filipino-*`, may.
+- Evals span formats and subjects instead of repeating one case.
+
 Keep skill metadata concise and valid YAML. Move substantial conditional modes
 and examples into focused same-skill references with explicit loading guidance.
 A reference file must ship with the bundle or be a declared workspace adapter.

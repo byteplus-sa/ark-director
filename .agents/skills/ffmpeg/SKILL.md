@@ -69,7 +69,7 @@ ffmpeg -i input.mp4 -vn output.wav
 ### Convert Audio Formats
 
 ```bash
-# M4A to MP3 (for ElevenLabs voice samples)
+# M4A to MP3 (for voice samples)
 ffmpeg -i input.m4a -codec:a libmp3lame -qscale:a 2 output.mp3
 
 # WAV to MP3
@@ -127,11 +127,11 @@ ffmpeg -f concat -safe 0 -i list.txt -c:v libx264 -c:a aac output.mp4
 
 When crossfading multiple AI-generated clips into one film, the video and audio
 timelines can drift apart across boundaries. Cause: each clip's audio stream is
-often slightly shorter than its video (e.g. ~90 ms per 30 s at 32 kHz AAC
-padding). `xfade` advances the video timeline by *video* duration while
-`acrossfade` advances the audio timeline by *audio* duration — the mismatch
-accumulates per boundary (4 boundaries → ~0.36 s of lip-sync drift by the last
-scene).
+often slightly shorter than its video (for example, tens of milliseconds
+from AAC padding). `xfade` advances the video timeline by *video* duration
+while `acrossfade` advances the audio timeline by *audio* duration — the
+mismatch accumulates per boundary and shows up as lip-sync drift by the last
+scene.
 
 Check first, then fix:
 
@@ -511,17 +511,3 @@ ffmpeg -v error -i input.mp4 -f null - 2>&1 | head -20
 | "height not divisible by 2" | Odd dimensions | Add scale filter with trunc |
 | "encoder not found" | Missing codec | Install FFmpeg with full codecs |
 | Output 0 bytes | Silent failure | Check full ffmpeg output for errors |
-
----
-
-## Feedback & Contributions
-
-If this skill is missing information or could be improved:
-
-- **Missing a command?** Describe what you needed
-- **Found an error?** Let me know what's wrong
-- **Want to contribute?** I can help you:
-  1. Update this skill with improvements
-  2. Create a PR to github.com/digitalsamba/claude-code-video-toolkit
-
-Just say "improve this skill" and I'll guide you through updating `.agents/skills/ffmpeg/SKILL.md`.

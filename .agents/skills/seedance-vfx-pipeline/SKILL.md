@@ -128,7 +128,7 @@ The workspace's recurring pattern for a text-only before/after VFX demo:
    target, inspect and select it, then bind that final source to a separately
    reviewed and registered final AFTER request. Recheck the AFTER output against
    its current source; a regenerated BEFORE invalidates the draft source binding.
-4. Transcode the AFTER (usually HEVC) to H.264 for review/Lark — see the
+4. Transcode the AFTER (usually HEVC) to H.264 for review/web — see the
    "Delivery transcode" recipe in Step 5. Keep the HEVC master.
 5. Comparison — if the halves differ mainly in audio (language swap / dialogue
    rewrite), use the staggered one-at-a-time split from

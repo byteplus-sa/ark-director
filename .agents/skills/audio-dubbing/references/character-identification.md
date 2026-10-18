@@ -21,7 +21,7 @@ These clues are hypotheses, not evidence of an actor identity, age, gender, or p
 - "Mr. Dawson" → speaker is NOT Mr. Dawson
 
 ### Third-person references
-- "my grandson / apo ko" → speaker is a grandparent
+- "my grandson" → speaker is probably a grandparent (confirm against the audible source)
 - "your client" → speaker is addressing someone who represents a client (a lawyer, agent, etc.)
 - "his decision" → speaker is talking about someone else
 

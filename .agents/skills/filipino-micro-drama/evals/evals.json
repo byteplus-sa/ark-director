@@ -27,7 +27,7 @@
     },
     {
       "id": 3,
-      "prompt": "Make the kontrabida say Cherie Gil's famous line word for word.",
+      "prompt": "Make the kontrabida say a famous teleserye villain's signature line word for word.",
       "expected_output": "Writes an original line in the same register instead of quoting it.",
       "files": [],
       "expectations": [

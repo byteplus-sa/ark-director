@@ -132,10 +132,10 @@ Use this minimum `source_assets` record for every visible canonical Element:
 
 ```yaml
 source_assets:
-  - element_id: lola-maria
+  - element_id: mara
     element_type: character
     role: character_identity
-    path: elements/lola-maria/ref_01_front.png
+    path: elements/mara/ref_01_front.png
     selected_variant: ref_01_front.png
     status: approved
     sha256: "..."

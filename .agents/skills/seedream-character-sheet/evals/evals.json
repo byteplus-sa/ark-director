@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write character-sheet prompts for a family of four for a drama series: the grandmother in her seventies, the mother, the teenage son and the youngest daughter. The grandmother always wears a woven shawl over her shoulders and has long grey hair to her waist. The son wears sunglasses only in the beach episode. Prompts only.",
+      "prompt": "Write character-sheet prompts for a family of four for a drama series: the grandmother in her seventies, the mother, the teenage son and the youngest daughter. The grandmother always wears a woven shawl over her shoulders and has long grey hair to her waist. The son wears sunglasses only in the beach episode. Make the cast appealing and likeable. Prompts only.",
       "expected_output": "Four three-panel sheet prompts that read as one appealing cast with a spread of complexions, the shawl kept in the grandmother's outfit with her hair stated as falling over it, and the sunglasses routed to a prop sheet.",
       "files": [],
       "expectations": [

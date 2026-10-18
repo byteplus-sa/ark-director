@@ -52,9 +52,8 @@ reasoning or evaluation notes when useful, not boilerplate in every final prompt
 
 ## Source authority
 
-The public API reference is the authoritative source of truth for request fields and limits. Prompt-writing conventions originate from the internal Seed Audio 1.0 prompting guide and are labeled where they are not defined in the public API.
+The public API reference is the authoritative source of truth for request fields and limits. Prompt-writing conventions follow the Seed Audio 1.0 prompting guidance and are labeled where they are not defined in the public API.
 - [Seed Audio 1.0 API Reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01) — authoritative
-- [Seed Audio 1.0 Prompting Guide](https://bytedance.larkoffice.com/wiki/WgU4wFVQ8iZgvjkHHdbcDmhCnug) — T2A/TA2A prompting conventions and examples, modified July 23, 2026
 - [Seed Audio 1.0 Pricing](https://docs.byteplus.com/en/docs/byteplusvoice/audiopricing) — authoritative
 
 Seed Audio 1.0 is in early access. Applications for early access are open via a whitelist form; confirm current access status before building.
@@ -65,7 +64,7 @@ When the official API reference is updated, prefer the live page over this skill
 
 Build the shortest prompt that clearly communicates the requested result. Use plain-language headings only when they improve readability, and omit sections that do not apply.
 
-For full-soundscape generation, cover the five ingredients recommended by the prompting guide:
+For full-soundscape generation, cover the five ingredients recommended by the prompting guidance:
 
 1. The environment: location, weather, context, and acoustic space
 2. Background music and sound effects

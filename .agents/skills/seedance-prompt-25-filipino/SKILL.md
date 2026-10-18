@@ -80,7 +80,7 @@ Read only the references needed for the current issue:
 | Explicitly requested separate audio track | [Audio first](references/audio-first.md) |
 | Complete illustrative prompt forms | [Worked examples](references/worked-examples.md) |
 | Before/after natural-dialogue diagnosis | [Hypothetical dialogue repairs](references/dialogue-repairs.md) |
-| Actual heard failures from past takes, as listening priorities | [Observed failures](references/observed-failures.md) |
+| Generalized failure patterns, as listening priorities | [Observed failures](references/observed-failures.md) |
 | Compact preflight | [Quick reference](references/quick-reference.md) |
 
 ## Minimal native-audio forms
@@ -124,9 +124,8 @@ video duration. Unknown submission outcomes are reconciled, not duplicated.
 
 The [Seedance prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689)
 and [Seed Audio API reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01)
-are capability pointers. The guide page was reachable on 2026-09-08, but its
-substantive body was unavailable to the read tool; no current language support
-claim was verified in this revision.
+are capability pointers. Verify current language support against the live tool
+and provider documentation; this skill makes no language support claim.
 
 [Farinella and Jun's Tagalog intonation study](https://journals.linguisticsociety.org/proceedings/index.php/PLSA/article/view/5966)
 describes variable alignment of tones to syllables and phrase edges. This

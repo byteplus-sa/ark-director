@@ -17,8 +17,8 @@ separate Seed Audio is used only when explicitly requested.
 5. Return a prompt package; the caller owns model support checks, review, and
    submission. Listen to any generated result before judging pronunciation.
 6. Name the listening priorities for review. A locked line whose plot-critical
-   Tagalog word is shouted at the start of a line or whispered at the end has
-   been garbled in past takes; see [observed failures](observed-failures.md).
+   Tagalog word is shouted at the start of a line or whispered at the end is
+   a known garbling risk; see [observed failures](observed-failures.md).
    Flag it for a word-by-word check, but do not rewrite a locked line without
    rewrite scope.
 
@@ -27,10 +27,9 @@ separate Seed Audio is used only when explicitly requested.
 Check every generated line with a `speech_to_text` transcript of the take's own
 audio (the authority for words), compared word by word against the approved
 text, and with a listening pass for the speaker, accent and register.
-An audio-understanding model cannot judge accent and can mislabel speech. A video model's summary of what was said is not enough: in a past
-review it reported the dialogue as unintelligible while the transcript matched
-the approved lines. Record the heard wording, not only a
-pass or fail.
+An audio-understanding model cannot judge accent and can mislabel speech. A video model's summary of what was said is not enough: it can
+report dialogue as unintelligible while the transcript matches the approved
+lines. Record the heard wording, not only a pass or fail.
 
 ## Minimal native form
 
@@ -62,8 +61,8 @@ Examples of distinct diagnoses:
 - **A word differs from the approved script.** Verify the exact script and
   heard output before proposing a targeted pronunciation cue or a text repair.
   When the heard word is an English look-alike (heard "Hey" for {Hoy}), a
-  single note naming it as the Filipino interjection or honorific has fixed it
-  in a past retake.
+  single note naming it as the Filipino interjection or honorific is the
+  smallest repair to test.
 - **A line finishes too late.** Check the speaking window and pace; do not claim
   a stress change can solve an impossible duration without changing delivery.
 - **A user wants a natural rewrite.** Use [vocabulary](vocabulary.md) only within

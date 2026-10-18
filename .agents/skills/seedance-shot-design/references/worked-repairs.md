@@ -103,9 +103,9 @@ judgments drawn from recurring prompt shapes, not measured generation outcomes.
 - **Initial prompt shape:** One 30-second prompt with nine timestamped beats
   (street, traffic, rain, close-up, product, wind, arrival, smile, pack shot),
   one global "cinematic lighting" sentence and no camera move per beat.
-- **Observed shape:** Workspace reviews of single 30-second passes like this
-  one judged them stock footage: each beat gets about three seconds, the camera
-  defaults to neutral framing, and nothing is designed to be remembered.
+- **Typical shape:** A single 30-second pass like this tends to read as stock
+  footage: each beat gets about three seconds, the camera defaults to neutral
+  framing, and nothing is designed to be remembered.
 - **Hypothesis:** Too many beats per clip, no per-shot camera or light, and no
   image built to land.
 - **Smallest repair:** Six sequences of about 5 s, each its own clip of 2-3

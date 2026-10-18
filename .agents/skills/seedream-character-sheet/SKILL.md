@@ -165,13 +165,16 @@ character differ in at least three of: hair silhouette (length and style),
 garment silhouette (neckline, sleeve, hem, apron or cardigan), dominant color,
 complexion, and age cues.
 
-- **Appeal is a design requirement.** Describe observable appeal for every
-  character, villains included: face shape, bright clear eyes, lashes, healthy
-  skin texture, groomed hair. Keep older characters warm, soft-featured, and
-  endearing, never haggard or gaunt, unless the story explicitly calls for it.
+- **Appeal follows the brief.** When the brief asks for attractive or likeable
+  characters, describe observable appeal for every character, villains
+  included: face shape, bright clear eyes, lashes, healthy skin texture,
+  groomed hair. Keep older characters warm and soft-featured rather than
+  haggard or gaunt unless the story calls for it. When the brief asks for a
+  different casting intent, describe that intent with equally observable traits.
 - **Spread complexions across the cast.** Give the cast a natural range of skin
-  tones that fits the story's setting instead of one tone for everyone, and
-  name each character's complexion in plain words in its descriptor.
+  tones that fits the brief and the story's setting instead of one tone for
+  everyone, and name each character's complexion in plain words in its
+  descriptor.
 - The neutral expression rule still applies: appeal comes from the design, not
   from a smile.
 
@@ -329,7 +332,7 @@ Recommended sequence:
 
 ## Example asset
 
-The user-provided sample image is stored beside this skill:
+The bundled sample image is stored beside this skill:
 - `examples/pirate-character-sheet-generated-sample.png`
 
 Use it as a visual target for layout and panel balance, not as a literal

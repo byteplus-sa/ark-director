@@ -90,8 +90,9 @@ make every folklore creature a colossal monster just to match a reference.
 
 Ground cultural details in supplied descriptions or verified information.
 Do not invent sacred meanings or label an artistic interpretation as a
-definitive traditional depiction. Read [folklore recipe](references/folklore.md)
-when adapting the Philippine collection; other cultures need their own facts.
+definitive traditional depiction. The woodblock treatment applies to any culture;
+read [folklore recipe](references/folklore.md) only when the brief covers the
+Philippine creatures it lists, and gather facts for any other culture separately.
 
 ## Keep a series cohesive and distinct
 

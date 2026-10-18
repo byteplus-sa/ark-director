@@ -30,14 +30,11 @@ promise exact geometry, exposure, aberration, or bokeh.
 
 The following references informed the earlier authoring bank; they do not establish current tool capabilities:
 
-- [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh) and
-  [Seedance 2.5 Prompt Guide (ModelArk)](https://docs.byteplus.com/en/docs/ModelArk/2607689) —
-  retained camera-language references for pairing numeric cues with visible intent.
+- [Seedance 2.5 Prompt Guide (ModelArk)](https://docs.byteplus.com/en/docs/ModelArk/2607689) —
+  camera-language reference for pairing numeric cues with visible intent.
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186) — official ModelArk prompt guide. The film-stock and lens-character vocabulary used here (e.g. "shot on 35mm prime lens", "widescreen anamorphic look") follows the `seedream-prompt` skill's *Avoiding the AI look* guidance, which derives from the official Seedream manual and tutorial.
 
-The guide links were retained from the earlier skill revision. On 2026-09-08 the
-BytePlus guide page was reachable but its substantive body was unavailable to
-the read tool; this revision makes no new model capability claim. The
+This skill makes no model capability claim. The
 distinction between focal length, angle of view, and magnification is a
 physical-photography concept; it informs the heuristics but does not establish
 generative-model behavior.
@@ -108,9 +105,8 @@ an exact shape or near-to-far focus outcome.
 
 ### Focus changes: rack focus and focus loss
 
-This skill owns focus-change wording. Seedance keeps a face sharp: in 480p
-Seedance 2.5 text-to-video drafts a face that was asked to drift out of focus
-stayed sharp in all six takes across three wordings, and the model softened the
+This skill owns focus-change wording. Seedance tends to keep a face sharp: a
+face asked to drift out of focus often stays sharp while the model softens the
 background instead.
 
 | Change | Status | What to write |
@@ -151,8 +147,8 @@ Sensor character is a texture and tone choice, not a resolution guarantee.
 Pair it with the actual output resolution set in the generation interface.
 
 **Tape and camcorder looks are post treatments for Seedance video.** A
-camcorder format word ("MiniDV") in a Seedance prompt returned clean cinema
-footage in workspace drafts. For a VHS, MiniDV or camcorder piece, prompt the
+camcorder format word ("MiniDV") in a Seedance prompt tends to return clean
+cinema footage. For a VHS, MiniDV or camcorder piece, prompt the
 camera behaviour the format implies (handheld at arm's length, an on-camera
 light; whether these cues read as tape is unverified) and apply the scanlines,
 color bleed, noise and frame size in post (the color-grade skill owns post

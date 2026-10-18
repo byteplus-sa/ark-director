@@ -18,7 +18,7 @@ uv run .agents/skills/seedance-avatar-news/scripts/stt_words.py qa/stt_result.js
 ```
 
 The script prints `index start-end word`. Map caption chunks to those
-indices. STT can merge or split tokens ("115 inch", "2195"), so always build
+indices. STT can merge or split tokens ("12 inch", "1995"), so always build
 the chunks from this printout, never from the script.
 
 ## 2. Build the edit

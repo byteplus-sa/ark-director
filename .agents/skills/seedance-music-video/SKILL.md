@@ -49,11 +49,11 @@ inputs stay unresolved rather than invented.
 - Music-video craft and beat-sync practice — format taxonomy, song-section
   energy mapping, and section-relative cut density (sources below).
 - Genre conventions — per-genre visual recipes, vertical-vs-landscape norms.
-- **Field-tested learnings from local productions (2026-08 to 2026-10):** the
-  timestamped lyric timeline (section 3b), native audio re-performance (3a),
-  hybrid audio mode (3) and ASR lyric verification (3c) came from takes where
-  large `{...}` blocks dropped lyrics; the native-audio leak, shot-merge and
-  assembly rules came from later ambient and multi-shot runs.
+- **Lyric-coverage and assembly practice:** the timestamped lyric timeline
+  (section 3b), native audio re-performance (3a), hybrid audio mode (3) and ASR
+  lyric verification (3c) address large `{...}` blocks dropping lyrics; the
+  native-audio leak, shot-merge and assembly rules address ambient and
+  multi-shot clips.
 
 Key third-party sources (accessed 2026-08-20):
 [AI music-video production workflows](https://www.creativeainews.com/articles/how-to-make-ai-music-video-2026/),
@@ -155,7 +155,7 @@ Choose one of the audio modes below; state it explicitly.
 **Picture-only (default).** A music video is score-driven: the song is a
 supplied master or a Seed Audio track muxed in assembly. Set
 `generate_audio: false` and keep sung lines out of `{...}` unless lip-sync is
-requested. Native audio has added score, chants and stray speech to most
+requested. Native audio often adds score, chants and stray speech to
 ambient-only clips even with a "no music" line, so it is not a safe base under
 a song. Say in the package that a post bed is not frame-synced.
 
@@ -212,7 +212,7 @@ When `generate_audio` is enabled with a reference audio, the model
 **re-performs** the track — it does not copy the reference bit-for-bit.
 Treat the generated soundtrack as a candidate to inspect, not an exact copy.
 Retain the supplied master for deterministic assembly when exact fidelity matters.
-These observations are historical local evidence, not a capability guarantee.
+These observations are not a capability guarantee.
 
 ### 3b. Timestamped lyric timeline (for performance videos with lip-sync)
 
@@ -221,9 +221,9 @@ is critical, **do NOT** group all lyrics into one or two large `{...}` blocks.
 Instead, bind each lyric line to its own timestamped slot:
 
 ```
-[2-4 seconds] { I used to pray before I went to bed, }
-[5-7 seconds] { back when I was like eleven or ten. }
-[7-8 seconds] { I don't remember the facts, }
+[2-4 seconds] { I counted every streetlight on the way, }
+[5-7 seconds] { back when the nights were longer than the days. }
+[7-8 seconds] { I don't recall the reasons, }
 ```
 
 Add an explicit mandate:
@@ -264,13 +264,13 @@ Example ASR-to-timeline conversion:
 
 ```
 # ASR returns word-level timestamps:
-"ever" start=17170ms  "really" start=17530ms  "took" start=17810ms
-"charge" start=18170ms  "like" start=18530ms  "a" start=18690ms
-"wiring" start=18890ms  "fee" start=19450ms end=19730ms
+"river" start=12340ms  "kept" start=12700ms  "our" start=12950ms
+"secrets" start=13190ms  "till" start=13610ms  "the" start=13770ms
+"morning" start=13890ms  "came" start=14400ms end=14910ms
 
-# Verified phrase interval: 17.170–19.730s; retain as evidence.
+# Verified phrase interval: 12.340–14.910s; retain as evidence.
 # Separate simplified prompt window:
-[17-20 seconds] { ever really took charge like a wiring fee, }
+[12-15 seconds] { river kept our secrets till the morning came, }
 ```
 
 ### 3c. Post-generation lyric verification (for audio-first / native audio)
@@ -320,7 +320,7 @@ requested inside one prompt. Inside a generation keep each shot at least about
 move; the cinematic bar is a 30 s section built from about six 5 s generations
 of two or three shots each, every shot with a lens intent, a camera move, a
 motivated named light source, depth layers and one striking image. A single
-30 s pass with nine or more beats reads as stock footage.
+30 s pass with nine or more beats tends to read as stock footage.
 
 In-prompt, name each audio event, the visual event it triggers, and their
 relationship (simultaneous, leads, or trails):

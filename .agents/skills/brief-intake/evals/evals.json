@@ -90,12 +90,12 @@
     },
     {
       "id": 9,
-      "prompt": "Brief: adapt the opening test scene of a classic science-fiction novel, where an old woman tests a boy with a box that causes pain. We have the novel's text. Keep it cinematic and faithful.",
-      "expected_output": "A compact proposal that says where the pain lives instead of VFX, treats the novel as the source bible, and names a quality bar.",
+      "prompt": "Brief: adapt the opening scene of a short story in which a stern examiner tests a child with a sealed device said to cause pain. We have the story's text. Keep it cinematic and faithful.",
+      "expected_output": "A compact proposal that says where the pain lives instead of VFX, treats the story as the source bible, and names a quality bar.",
       "files": [],
       "expectations": [
         "It says where the feeling lives (performance, sound, light, framing) rather than relying on literal effects for the pain.",
-        "It treats the novel as a source bible and lists lines or details that must survive later stages.",
+        "It treats the story as a source bible and lists lines or details that must survive later stages.",
         "It names a quality bar or asks whose reaction it is only if the brief cannot answer it.",
         "It does not turn the questions into a long questionnaire, and it still gives a camera and light stance with an energy level."
       ]
@@ -106,7 +106,7 @@
       "expected_output": "A compact cinematic treatment that sets a picture-only audio route, keeps original colours, and structures the spot as short multi-shot sequences.",
       "files": [],
       "expectations": [
-        "Proposes the picture_only audio route (silent generation, ambience and score built in post) with the reason that a negative audio line on native audio often leaks speech or music.",
+        "Proposes the picture_only audio route (silent generation, ambience and score built in post) with the reason that a negative audio line on native audio does not reliably keep speech or music out.",
         "Proposes about six 5 s sequences of 2-3 shots, one action per shot, each with a camera move, a named light and one wow image, rather than one long pass.",
         "Defaults the look to ungraded original colours and treats any requested look as a post treatment.",
         "Lists the logo or end card as a post overlay and adds no AI label."

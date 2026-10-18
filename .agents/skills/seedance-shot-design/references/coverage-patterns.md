@@ -75,7 +75,7 @@ action would look silly, such as a compelled walk across a room.
 - Shots: a strong push-in on the character's face while a declared light cue
   dims or switches the room lights off during the move. Then an assembly blink
   cut (see the pacing preset skill) straight to the end state, such as the
-  character already kneeling. Prompted focus loss failed in 480p probes (see
+  character already kneeling. Prompted focus loss tends not to hold (see
   the lens preset skill), so generate the push-in with ordinary focus and add
   any defocus ramp in post.
 - What changes: focus, light and position all change between the two clips;
@@ -124,7 +124,7 @@ Use when attention should shift inside one frame.
   trucks or pushes past it, or the subject steps out from behind it, so the
   subject takes over the frame.
 - What changes: what the frame is about, carried by the move or the staging.
-- Watch for: a prompted rack focus as the device. Seedance drafts keep a face
+- Watch for: a prompted rack focus as the device. Seedance tends to keep a face
   sharp, so a pull from the face to the background fails, and a pull onto a
   face is unverified. Plan the shift as a move, or mark the focus pull `post`.
 
@@ -215,10 +215,10 @@ kneeling, a child and an adult) and the height gap is the story.
 | "Hold steady" as the default camera line | The static choice is unrecorded and applied everywhere | Record a `static_reason` or give the shot a move |
 | One global lighting sentence for a multi-shot clip | The light never changes meaning | Name source and direction per shot |
 | A project axis promising dolly and crane work that no shot line uses | The plan was written but never carried | Copy the axis into the shot lines or record the override |
-| More than about seven shots in one clip, or shots under about 0.8 s | Observed in this workspace's production reviews as cuts the model merges or drops | Respect the shot ceiling and split a long kinetic sequence into several clips; make a shorter cut in post as an assembly cut |
+| More than about seven shots in one clip, or shots under about 0.8 s | Cuts the model tends to merge or drop | Respect the shot ceiling and split a long kinetic sequence into several clips; make a shorter cut in post as an assembly cut |
 | A shot stacking more than two simultaneous moves | The camera preset guidance records instability risk | One primary move per shot and at most one secondary |
 | Equal shot lengths with the turn the same length as its neighbors | Nothing marks the turning point | Uneven durations; give the turn a length unlike its neighbors |
 | A move that decorates but has no story reason | Movement without meaning adds noise | State what the move reveals or emphasizes |
-| A 30 s spot written as one pass with nine or more beats | Read as stock footage in workspace reviews | Plan about 5 s sequences of 2-3 shots, each with one `wow` shot, per the cinematic sequence bar |
+| A 30 s spot written as one pass with nine or more beats | Tends to read as stock footage | Plan about 5 s sequences of 2-3 shots, each with one `wow` shot, per the cinematic sequence bar |
 | A focus pull away from a face asked of the prompt | Drafts keep the face sharp | Generate with ordinary focus and add the defocus in post |
 | A multi-character scene covered by clean singles only | The relationship between the characters never shares a frame | Add a dirty single, an over-the-shoulder or a two-shot, per the framing reference |

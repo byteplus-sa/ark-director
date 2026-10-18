@@ -41,7 +41,7 @@
     },
     {
       "id": 4,
-      "prompt": "In this new street shot I want her summer outfit to turn into a winter coat only on the part of her body that has walked past the lamp post, like those transition reels. Can you swap it?",
+      "prompt": "In this new courtyard shot I want his dusty travel cloak to turn into polished ceremonial armour only on the part of his body that has walked through the stone arch, like those transition reels. Can you swap it?",
       "expected_output": "A routing response: a progressive, partial outfit change inside one new shot is not an Object Swap of kept footage; it is a pure reference-to-video generation with timestamped body-part stages, so the request is pointed to the progressive-change pacing pattern instead of an edit package.",
       "files": [],
       "assertions": [

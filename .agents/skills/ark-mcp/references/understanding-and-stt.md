@@ -174,9 +174,9 @@ partial result.
 | `audio_url` | HTTPS URL |
 | `audio_format` | Required: `wav`, `mp3`, `ogg`, `raw`, `flac` |
 
-**Observed in this workspace:** presigned object-storage URLs (S3/TOS) were
-rejected as an untrusted host. Pass a local file path. Extract a clip's audio
-first (for example 16 kHz mono 16-bit WAV with FFmpeg).
+Presigned object-storage URLs (S3/TOS) are rejected as an untrusted host.
+Pass a local file path. Extract a clip's audio first (for example 16 kHz mono
+16-bit WAV with FFmpeg).
 
 `options`: `language` (BCP-47, default `en-US`), `enable_punc`, `enable_itn`.
 

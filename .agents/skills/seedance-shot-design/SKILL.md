@@ -25,8 +25,8 @@ skill.
 
 ## Why clips read flat
 
-Workspace reviews of rejected drafts traced flat, stock-footage takes to four
-causes. The plan exists to remove each one.
+Flat, stock-footage takes trace to four common causes. The plan exists to
+remove each one.
 
 | Cause | What the plan does instead |
 | --- | --- |
@@ -43,8 +43,8 @@ them together in assembly. A 30 s spot is about six such sequences. Each shot
 carries one action, a lens intent, a camera move, a motivated light source and
 depth layers (a named foreground, the subject, a named background), and each
 sequence has one `wow` shot: the image the sequence is remembered for. A single
-30 s pass that carries nine or more beats read as stock footage in workspace
-reviews, so do not plan one unless the user asks for a single take.
+30 s pass that carries nine or more beats tends to read as stock footage, so do
+not plan one unless the user asks for a single take.
 
 ## Boundary
 
@@ -116,15 +116,13 @@ and the per-shot facts the Seedance 2.5 prompt carries.
 3. **Give every beat a job:** establish, reveal, emphasize, connect, escalate,
    hold or release. A shot with no job is cut or merged into its neighbor.
 4. **Set the shot count and lengths** from the beats. A clip carries at most
-   about 7 shots and none shorter than about 0.8 s (observed in this
-   workspace's production reviews); split a longer kinetic sequence into
+   about 7 shots and none shorter than about 0.8 s; split a longer kinetic sequence into
    several clips. A shorter cut is planned as an assembly cut: generate each
    side at a natural length and trim in post (see the pacing preset skill's
    assembly-only cuts). Make lengths uneven and give the turn shot a length unlike its
    neighbors. One shot across a long clip needs a recorded one-take or
    `static_reason`. A spoken line needs a shot at least words / 2.2 + 1 s long,
-   because speech starts late (observed 0.5-1.5 s in this workspace's draft
-   runs). End the last line at least 0.4 s before the clip ends, and plan no
+   because speech typically starts 0.5-1.5 s into a shot. End the last line at least 0.4 s before the clip ends, and plan no
    more than two visible state changes in the clip's last 3 s. For a spot of
    about 15 s or more, apply the cinematic sequence bar above.
 5. **Declare the scene's light sources** with world positions, the event that
@@ -144,8 +142,8 @@ and the per-shot facts the Seedance 2.5 prompt carries.
    changes which side of a source the camera sees, or a motivated event adds or
    removes a source (a door opens, a lamp is switched on, the room lights go
    out). A light cue may land inside a shot, even during a move, when the plan
-   records its time and trigger; a timed cue is one of the most reliable
-   controls in Seedance 2.5 drafts. A shot never invents a source or a cue the
+   records its time and trigger; a timed cue tends to land close to its
+   stated time. A shot never invents a source or a cue the
    scene did not declare. Silhouette is for shots without speech; contre-jour
    that keeps the face readable is allowed on spoken shots.
 8. **Write the plan** per [shot plan format](references/shot-plan-format.md).
@@ -182,10 +180,9 @@ views, or request an approved extra view before Stage 6.
 
 A recorded plan (or exemption) is a workspace requirement under the
 `shot.plan_bound`, `shot.variety` and `shot.axis_carry` rules. The V1-V10
-thresholds are craft heuristics and optional artistic technique, drawn from the
-failure shape of earlier workspace prompts: equal-length wide, medium,
-two-shot, wide ladders with no move and no light change, and project axes that
-never reached the shot lines. V10 and the framing vocabulary follow a
+thresholds are craft heuristics and optional artistic technique, drawn from
+common failure shapes: equal-length wide, medium, two-shot, wide ladders with
+no move and no light change, and project axes that never reach the shot lines. V10 and the framing vocabulary follow a
 StudioBinder framing article, with the group shot and the over-the-hip height
 condition as workspace heuristics. None of them is a measured video-quality
 gain.

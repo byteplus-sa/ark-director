@@ -140,8 +140,8 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    large boards into readable grids while preserving one ordered panel plan.
    The board is a planning and review artifact: translate its blocking into
    prompt text and **never bind a board, grid or panel as a Seedance
-   reference**. Observed: panel numbers, corner labels and the sketch look
-   leaked into video, and output-copyright rejections rose.
+   reference**: panel numbers, corner labels and the sketch look can leak into
+   video.
 
 7. **Video** — use current capability evidence to choose one supported clip or
    multiple natural-duration shots plus assembly. Compose the Seedance 2.5
@@ -162,10 +162,10 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    **Audio route:** when the pin's sound is score-led, ambient or a music bed,
    generate picture with `generate_audio: false` and rebuild the sound grammar
    with Seed Audio in post, because a "no speech" or "ambience only" line on
-   native audio often leaks speech or score. Keep native audio for on-camera
+   native audio does not reliably keep speech or score out. Keep native audio for on-camera
    dialogue.
-   Expect Seedance to stretch dense beat timelines by roughly 0.5–1.2 s; a
-   stronger timing prompt rarely fixes it. When a take's beats land late, retime
+   Seedance can stretch dense beat timelines, and a stronger timing prompt does
+   not reliably fix it. Measure the take's actual cuts. When its beats land late, retime
    in the edit (trim a held tail, clone-pad the final hold, crossfade audio)
    rather than regenerating, and record the edit operations on the take.
    Capture-format and texture looks in the pin (camcorder, film grain,

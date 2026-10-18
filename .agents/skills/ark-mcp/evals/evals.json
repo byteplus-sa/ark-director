@@ -52,7 +52,7 @@
     },
     {
       "id": 5,
-      "prompt": "Generate three Seedream variations through ark_job_submit and write them straight into elements/hero/ with output_dir.",
+      "prompt": "Generate three Seedream variations through ark_job_submit and write them straight into assets/hero/ with output_dir.",
       "expected_output": "Submits seedream_generate_image_variations through ark_job_submit without output_dir, keeps persist true, reads the artifacts from ark_job_get.result.structured_content, then copies each with seed_media_export_artifact and verifies SHA-256.",
       "files": [],
       "assertions": [

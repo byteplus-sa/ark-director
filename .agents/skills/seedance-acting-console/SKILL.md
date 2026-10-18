@@ -75,9 +75,9 @@ THROUGH them, as a byproduct.
 
 Always look at how the scene ENDS before naming its event. The last line/beat
 is the key you read the whole scene backward through. Watch for the
-double-meaning last line — spoken about one thing, meant about another ("Poor
-bastard. Just can't forgive himself" — said looking at the patient, meant about
-himself).
+double-meaning last line — spoken about one thing, meant about another ("He
+never could forgive himself" — said looking at the patient, meant about the
+speaker).
 
 #### 1b. ALL in one event
 
@@ -87,8 +87,8 @@ character stands outside the named event, the event is named wrong.
 
 #### 1c. The PHYSICAL ACTION is the channel
 
-The surface activity of the scene (the "terrain" — e.g., routine rounds;
-packing a suitcase) stays as the PHYSICAL ACTION, and each character pursues
+The surface activity of the scene (the "terrain" — e.g., a routine
+inspection; packing a suitcase) stays as the PHYSICAL ACTION, and each character pursues
 the event THROUGH it — each via their own distinct, visible physical behavior.
 The invisible task must have a physical channel the camera can read.
 
@@ -103,8 +103,8 @@ reason**. The son keeps it painless *for mom*; the mother *out of superstition*
 is what makes each performance distinct while the scene reads unified.
 
 Motives can be alternative hypotheses; the director picks. Given circumstances
-constrain motives: a man who took the job at an experimental convict lab is
-ALREADY compromised — he cannot play a moral innocent.
+constrain motives: a character who has already accepted a morally compromising
+job is ALREADY compromised — they cannot play a moral innocent.
 
 #### 3. Each character's GOAL — the personal fight
 
@@ -115,7 +115,7 @@ never the theme.
 #### 4. OBSTACLE — what presses against the direction
 
 The thing threatening to break the scene's line (the real feeling pressing to
-surface; the case too horrifying to stay routine). One crack and the shared goal
+surface; a discovery too alarming to stay routine). One crack and the shared goal
 collapses. This pressure is what the audience actually feels — precisely because
 nobody plays it; everyone plays keeping it out.
 
@@ -131,8 +131,8 @@ to the partner — with the eye-work named as purposeful action:
   show
 
 Beats are keyed to the actual dialogue words. Where the script demands it, mark
-the point where a character's fuel runs out and the line breaks (the medic's
-"...Poor bastard," under his breath — the break IS the delivery of the scene).
+the point where a character's fuel runs out and the line breaks (a last phrase
+let slip under the breath — the break IS the delivery of the scene).
 
 ### Contrast pairing (build duos on mirrored +/-)
 
@@ -372,7 +372,7 @@ the frame
 (Safety: gaze always engaged in the task; natural blink cadence.)
 ```
 
-Dialogue language: American English. Gloria says in a sharp, strained voice
+Dialogue language: English. Gloria says in a sharp, strained voice
 through gritted teeth: {Get out of my way.}
 
 For the full scene prompt, drop this acting block into the six-part formula

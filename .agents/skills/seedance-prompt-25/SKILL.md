@@ -91,8 +91,7 @@ reasoning or evaluation notes when useful, not boilerplate in every final prompt
 ## Source authority
 
 The prompt structure and rules in this skill are sourced from the official
-Dreamina Seedance 2.5 Prompt Guide:
-- [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh)
+Dreamina Seedance 2.5 Prompt Guide, plus these public pages:
 - [Seedance 2.5 Launch Blog](https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5)
 - [BytePlus ModelArk Model List](https://docs.byteplus.com/en/docs/ModelArk/1330310)
 - [Seedance 2.0 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/2222480) (legacy — for 2.0, use `seedance-prompt-20`)

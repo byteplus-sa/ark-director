@@ -33,18 +33,16 @@ prompt, or into the timestamped lines of a staged prompt.
 **Core constraint:** timestamps are a **time budget, not frame-accurate**.
 Pacing is *directed*, not guaranteed frame-by-frame. An action may land
 slightly before or after the stated boundary, so write beats with margin and
-never promise exact frame sync. Some timed events land closely in workspace
-480p drafts (a light cue within about 0.1 s, a staged body-part progression),
-while cuts inside one clip may merge, and shots shorter than about 0.8 s are
-merged or dropped.
+never promise exact frame sync. Some timed events land closely (a light cue, a
+staged body-part progression), while cuts inside one clip may merge, and shots
+shorter than about 0.8 s are merged or dropped.
 
 ## Source authority
 
 The preset bank is built from the official Seedance 2.5 timestamp and
 speed-ramp grammar. All sources accessed 2026-08-13:
 
-- [Seedance 2.5 Prompt Guide (Lark)](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh) — official timestamp syntax (`At Ns`, `0-3 seconds...`) and the bounce-speed-ramp technique
-- [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — official prompt guidance
+- [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — official prompt guidance, timestamp syntax (`At Ns`, `0-3 seconds...`) and the bounce-speed-ramp technique
 - [Seedance 2.5 launch blog](https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5) — official announcement
 
 **The base grammar is defined in `seedance-prompt-25`.** This skill adds the
@@ -121,14 +119,14 @@ At <T5>s, <subject> fully shows <new state>.
 The change appears only on the parts that have crossed <the line>; there is no glow, flash, sparkle, dissolve or particle effect. <Subject>'s position, stride and direction continue unbroken.
 ```
 
-In a workspace probe this staged wording worked in a locked-off,
-pure reference-to-video clip, while these wordings failed: "swap at the pole"
-(a hard cut with a pose jump), "changes in place at the instant" (a glowing
-top-to-bottom morph or an instant whole-body swap), "the pole is the boundary
-between the looks" (a cut), and a wipe along the line alone (a cut). Generate
-it as reference-to-video from the element references: an image-edited first
-frame re-composes the scene and moves the subject and the line. One probe is
-evidence, not a guarantee; check a 480p draft.
+Staged wording works best in a locked-off, pure reference-to-video clip.
+Wordings that name only the boundary tend to fail: "swap at the line" can give
+a hard cut with a pose jump, "changes in place at the instant" a glowing
+top-to-bottom morph or an instant whole-body swap, "the line is the boundary
+between the looks" a cut, and a wipe along the line alone a cut. Generate it
+as reference-to-video from the element references: an image-edited first frame
+re-composes the scene and moves the subject and the line. This is a
+hypothesis, not a guarantee; check a 480p draft.
 
 ### Named cuts and transitions
 
@@ -235,8 +233,8 @@ list before generation.
   Reserve them for a genuine single continuous take or audio-driven long
   dialogue where seamless motion across scene boundaries matters more than
   per-scene iteration. Otherwise right-size each scene to its natural
-  duration. A 30 s spot packed into one pass with nine or more beats read as
-  stock footage in workspace reviews; the shot-design skill's cinematic
+  duration. A 30 s spot packed into one pass with nine or more beats tends to read as
+  stock footage; the shot-design skill's cinematic
   sequence bar plans it as about 5 s clips of 2-3 shots cut together.
 - **Per-scene natural duration 4-30s — do not pad.** Set `duration` to the
   length the scene actually needs (7s for a single beat, 12s for a short

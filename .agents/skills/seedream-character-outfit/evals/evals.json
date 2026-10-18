@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "I have an approved three-panel sheet for Gloria, a morena woman in her late 20s with shoulder-length black hair, currently in a red dress. Write the Seedream prompt to put her in an ivory silk blouse, charcoal blazer, charcoal trousers and tan loafers. Do not generate anything.",
+      "prompt": "I have an approved three-panel sheet for Gloria, a medium-brown-skinned woman in her late 20s with shoulder-length black hair, currently in a red dress. Write the Seedream prompt to put her in an ivory silk blouse, charcoal blazer, charcoal trousers and tan loafers. Do not generate anything.",
       "expected_output": "I2I prompt with the parent as @Image 1 identity and layout authority, a CHANGE/PRESERVE/REMOVE contract, the red dress named as absent, sleeve lengths stated, neutral expression, empty hands, gray studio, and no generation.",
       "files": []
     },

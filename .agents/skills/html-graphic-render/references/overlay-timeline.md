@@ -16,7 +16,7 @@ one validated JSON timeline and a hash-bound sidecar record.
 - Record the sidecar (`overlay_<output-stem>.json`) path and output SHA-256 in
   the shot or scene manifest `finish` block, then update the project's review
   surface per the [production policy](../../../contracts/production-policy.md).
-- The machine ffmpeg has no `drawtext`; this tool uses only `overlay`,
+- Some ffmpeg builds lack `drawtext`; this tool uses only `overlay`,
   `scale`, `format`, `fade` (alpha) and `enable` expressions.
 
 ## Usage
@@ -71,7 +71,7 @@ rejected. Unknown keys are rejected.
   "output": "scenes/scene-02/s02_sh010/finish/fin_s02_sh010_t01_v04.mp4",
   "duration": 10.04,
   "layers": [
-    {"src": "elements/shakeys-logo/refs/ref_official_v01.png", "start": 0, "end": null, "x": "center", "y": 24, "width": 250},
+    {"src": "elements/acme-logo/refs/ref_official_v01.png", "start": 0, "end": null, "x": "center", "y": 24, "width": 250},
     {"src": "scenes/scene-02/s02_sh010/overlays/ov_s02_word-1_v01.png", "start": 0, "end": 7.13, "fade_out": 0.08},
     {"src": "scenes/scene-02/s02_sh010/overlays/ov_s02_word-2_v01.png", "start": 2.375, "end": 7.13, "fade_in": 0.08, "fade_out": 0.08},
     {"src": "scenes/scene-02/s02_sh010/overlays/ov_s02_name_v01.png", "start": 7.45, "rise_px": 60, "rise_s": 0.15, "fade_in": 0.15}

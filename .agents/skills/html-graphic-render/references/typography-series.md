@@ -7,11 +7,9 @@ typeface, one size, one position, and only the word changes.
 
 ## When to use this instead of hand-authoring
 
-Hand-authoring N near-identical HTML entrypoints wastes time and drifts: the
-original Straightforward weekday set was produced as five bespoke HTML files
-with five separate sub-agent round trips. The series generator replaces that
-with one command that produces all entrypoints, the shared stylesheet, the
-rendered PNGs, and the manifest in a single pass.
+Hand-authoring N near-identical HTML entrypoints wastes time and drifts. The
+series generator replaces that with one command that produces all entrypoints,
+the shared stylesheet, the rendered PNGs, and the manifest in a single pass.
 
 Use the generator when: one text element per card, identical layout across
 cards, one font. For anything beyond that (logo lockups, images, multi-line
@@ -23,7 +21,7 @@ tokens.
 
 ```bash
 uv run python .agents/skills/html-graphic-render/scripts/typography_series.py \
-  projects/example/elements/day-text \
+  --out-dir projects/example/elements/day-text \
   --prefix day \
   --words Monday,Tuesday,Wednesday,Thursday,Friday \
   --width 720 --height 1280 \
@@ -32,9 +30,7 @@ uv run python .agents/skills/html-graphic-render/scripts/typography_series.py \
   --font-size 112 --position 44
 ```
 
-(Note: pass `--out-dir` form `projects/example/elements/day-text`; the first
-positional-style form above is illustrative — see `--help` for the exact
-argument list.)
+See `--help` for the exact argument list.
 
 What one run produces inside `--out-dir`:
 
@@ -54,8 +50,7 @@ What one run produces inside `--out-dir`:
   `Wednesday`-length words). Do not per-card shrink; the series must read as
   one system.
 - **Optical centering** is set once via `--position` (percentage of card
-  height for the word's vertical center; 44% matches the reference campaign
-  look). Letterform side bearings may leave 1–3px horizontal variation between
+  height for the word's vertical center; choose it by eye on one card). Letterform side bearings may leave 1–3px horizontal variation between
   words — that is font anatomy, not a defect.
 - **Word spelling is exact by construction** (`data-copy-key` verification in
   the renderer), which is the entire reason day labels are rendered here
@@ -72,10 +67,3 @@ What one run produces inside `--out-dir`:
 - **Fonts stay project-local.** The generator copies the font and its license
   into the series directory; the renderer's remote/data policy then covers
   them like any other audited asset.
-
-## Reference example
-
-`projects/straightforward/elements/day-text-04/` — five weekday cards,
-720×1280, Playfair Display 500 at 112px, white on `#101014`, ink centers at
-~44% height, rendered as typography references for the Monday–Friday cycling
-film.

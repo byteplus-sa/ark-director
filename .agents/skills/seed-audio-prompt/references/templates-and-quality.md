@@ -87,10 +87,6 @@ Do not alter locked dialogue, captions or visible brand copy. Compare an authori
 take against the approved pronunciation; a transcript alone does not establish
 stress or phonetic accuracy.
 
-The earlier Echo-nos example was a local anecdote without a linked audio artifact
-or recorded model conditions in this bundle. Treat it as unverified historical
-context, not a rule that notes never work or that respelling always succeeds.
-
 ## Repair example: crowded soundscape
 
 **Hypothetical teaching example. No audio was generated or measured.**

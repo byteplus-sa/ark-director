@@ -136,8 +136,7 @@ deliver the lead voice clean and add the chorus layer in post.
 Use a standalone bed when a clip must carry only ambience or only score, or
 when its native video audio leaked speech, chants, cheering or music. A
 negative "no music, no spoken words" line in a video prompt often does not
-hold (in one batch, two of three ambient-only clips leaked speech or score),
-and regenerating the video to fix sound would change an approved picture.
+hold, and regenerating the video to fix sound would change an approved picture.
 
 1. Keep the picture untouched: stream-copy it, or generate it without native
    audio when the audio plan is post-only from the start.

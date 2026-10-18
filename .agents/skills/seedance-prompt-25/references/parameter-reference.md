@@ -78,8 +78,7 @@ mode selection and caller responsibilities.
   canvas dimensions. Final requests and outputs need fresh request review and QA
   under the workspace production policy.
 - Video generation is billed per successful task completion; a 1080p final costs
-  roughly five times the 480p draft in tokens (observed; confirm on the pricing
-  page).
+  substantially more than the 480p draft; estimate it from the pricing page.
 - Confirm current billing rules on the [Pricing page](https://docs.byteplus.com/en/docs/ModelArk/1544106).
 
 ### When to use Seedance 2.0 instead of 2.5

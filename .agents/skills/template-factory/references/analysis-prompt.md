@@ -22,8 +22,7 @@ can be acquired.
 ## Segmentation granularity: beats by default
 
 Each `shots[]` entry is a **beat**, not only a hard cut. Cut-only breakdowns
-(one entry per edit) are too coarse to reproduce motion and were rejected in
-practice. Start a new beat at every hard cut **and** at every change of action
+(one entry per edit) are too coarse to reproduce motion. Start a new beat at every hard cut **and** at every change of action
 phase, camera move onset/stop/direction, focus, on-screen text or graphic,
 VFX event, lighting, or subject entry/exit. Target 0.3–1.0 s beats, never
 longer than 1.2 s. Rough density: ~1.2–1.6 beats per second of picture.
@@ -33,11 +32,11 @@ beats. Use cut-level segmentation only when the user explicitly asks for it.
 
 ## Measure before you ask (required pre-step)
 
-`seed_understand` cut times drift by 0.2–0.6 s. Before the analysis call:
+`seed_understand` cut times can drift. Before the analysis call:
 
 1. Read the **picture** duration from the video stream, not the container
    (`ffprobe -select_streams v:0 -show_entries stream=duration`). Audio
-   padding commonly makes the container 0.1–0.25 s longer. Use the picture
+   padding can make the container longer. Use the picture
    duration everywhere: prompt `{DUR}`, `--source-duration-s`, clip length.
 2. Detect hard cuts: `ffmpeg -i pin.mp4 -vf "select='gt(scene,0.08)',metadata=print" -f null -`
    and keep scores ≥ ~0.25 as cuts; inspect lower scores on the strip.

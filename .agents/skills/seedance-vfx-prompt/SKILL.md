@@ -171,8 +171,8 @@ Constraints: [NON-IP, face protection, no-warp, camera-motion lock, etc.]
 
 ## Iteration discipline
 
-The user iterates fast and in small steps: "softer light," "from the right,"
-"bigger snowier mountains," "make the chimp huge," "a beat before the zoom,"
+Users often iterate in small steps: "softer light," "from the right,"
+"bigger mountains," "make the creature larger," "a beat before the zoom,"
 "keep the original runtime." Change **only the named thing** and keep the rest
 of the prompt stable — re-rolling the whole prompt loses what already worked.
 

@@ -53,8 +53,8 @@ alone in the prompt.
 | Cat play | Toying with a weaker partner | Slow, loose movement, a relaxed half-smile, one sudden quick touch, then withdrawal |
 
 A strike or other sudden speed change is a burst action. Plain wording already
-produces it; in workspace 480p drafts a timed snake strike landed, with the coat
-color drifting after the burst. What this pattern adds is control. Use at most
+produces it, and the burst is where wardrobe and identity tend to drift. What
+this pattern adds is control. Use at most
 one per shot, give the still hold before it a length (about 2 seconds), keep a still
 hold after it, and restate the wardrobe after the burst ("her charcoal coat
 unchanged"): the burst is where wardrobe and identity drift. Record the

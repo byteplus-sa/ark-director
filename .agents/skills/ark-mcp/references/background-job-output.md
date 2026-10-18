@@ -20,7 +20,7 @@ has not been established yet.
 failure happens before billing. A retry without those options is a new, valid
 submission; record the failed Ark job ID beside the operation first.
 
-Observed in this workspace for `seedance_get_task` (`persist_output=true`,
+This applies to `seedance_get_task` (`persist_output=true`,
 `output_path`), `seedream_generate_image` (`output_path`),
 `seed_audio_generate` (`output_path`), and `seed_understand` /
 `seed_audio_understand` (`save_to`). `seedance_get_task` can also fail to write

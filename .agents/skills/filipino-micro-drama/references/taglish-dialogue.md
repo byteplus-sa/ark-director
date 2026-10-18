@@ -51,7 +51,7 @@ the accent "read".
   and after the last.
 - Put plot-critical words in English, or in one short common Tagalog word
   placed mid-sentence and spoken at normal volume. Shouted openings and
-  whispered closings are where words were most often garbled.
+  whispered closings are where words tend to be garbled.
 - Open the hook with plain words that transcribe cleanly.
 - Prefer common spellings and mark contractions consistently. Expect a model
   to normalize some forms. Pronunciation respellings are delivery hypotheses

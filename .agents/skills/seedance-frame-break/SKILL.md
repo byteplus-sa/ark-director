@@ -68,8 +68,8 @@ Supporting rules:
 - Keep any extending limb from filling a third of the frame: a near-lens limb
   or head distorted the bar edge. This is about protecting the bars, not about
   making the subject big.
-- Bars of 17 to 21 percent shrink the window and push the subject over them.
-  Ask for about 12 percent and state once that the central window is the large
+- Bars much thicker than asked (roughly 17 percent and above) shrink the window
+  and push the subject over them. Ask for about 12 percent and state once that the central window is the large
   majority of the frame height.
 - The lower bar is crossed far more reliably than the upper bar. The upper bar
   needs its own stage, a limb or hem that plausibly reaches it, an explicit peak
@@ -237,24 +237,20 @@ duration in prompt text.
 ## Evidence labels
 
 Distinguish the kind of claim when it affects a decision: **observed result**
-(Seedance 2.5 takes at 1080p, October 2026: the six first-round example takes plus
-later regenerated takes, each row naming its take; the pixel gates were calibrated
-on eight real clips, A to H in the QA checklist; conditions stated, not a
-guarantee), **documented convention** (owned by `seedance-prompt-25`) and **optional
-technique** (a hypothesis to test).
+(frame-based checks of Seedance 2.5 takes at 1080p, conditions stated; not a
+guarantee), **documented convention** (owned by `seedance-prompt-25`) and
+**optional technique** (a hypothesis to test).
 
 | Claim | Label |
 | --- | --- |
-| Describing bars as flat overlay graphics with numeric overlap anchors fixed takes where the subject sat behind the bars; re-rolling the same wording did not | observed result |
-| Bars measured 9.4 to 18.9 percent of frame height when about 12 percent was asked, often unequal; about 7 percent once when treated as letterbox | observed result |
-| Bars were static within 1 px in most takes; one take had a lower-bar bow up to about 4.6 percent and one a 0.25 to 0.5 s edge jump with the subject very close to the lens | observed result |
-| A photoreal boxer take was rejected by the user although it passed an older soft gate: the lower bar's inner edge tilted (about row 680 at the left against 605 at the right at 5.5 s), bowed at about 6.5 s and jumped up as a whole for 0.25 to 0.5 s at about 6.75 s, when the subject leaned very close to the lens; sampling every 0.5 s and an 8 fps scan did not flag it clearly | observed result |
-| Extreme foreshortening, a limb or head very close to the lens, is the observed cause of bar-edge distortion | observed result |
-| A photoreal boxer take with static bars (17.5 and 21.1 percent measured) was rejected by the user because the subject was outside the window from the first frame: big, with legs, shorts and robe over the lower bar for most of the clip (overlap in about 80 percent of frames), so it read as standing outside the frame, not as a frame break; the earlier keep-it-at-arm's-length repair overcorrected | observed result |
-| Takes the user accepted overlapped a bar in about 15 to 65 percent of frames and began inside the window | observed result |
-| Ring ropes and rails near the bar zone were drawn as bars; the model painted a real-brand logo on background bags despite plain, unmarked wording | observed result |
-| A stylised 3D fox take was rejected by the user: the fox reached out with a paw, then a giant bare cream sole appeared at about 1.25 to 2.0 s and filled half the frame, a scale jump and limb swap from two unconnected limb actions in one stage; the sole also differed from the sheet's teal sole | observed result |
-| Drawn subjects gave 3 to 5 strong overlap moments; photoreal subjects gave 1 to 3 | observed result |
+| Describing bars as flat overlay graphics with numeric overlap anchors fixes takes where the subject sat behind the bars; re-rolling the same wording does not | observed result |
+| Rendered bar thickness varies widely from the requested 12 percent and is often unequal top versus bottom; bars treated as letterbox come out thinner, and bars much thicker than asked shrink the window | observed result |
+| Bars are usually static; a bow, tilt or short edge jump appears when a limb or head is very close to the lens, and sparse sampling hides it | observed result |
+| A subject that starts outside the window, or overlaps a bar for most of the clip, reads as standing outside the frame even when the bars are static | observed result |
+| Acceptable takes begin inside the window and overlap a bar intermittently | observed result |
+| Bar-like scene objects near the bar position (ropes, rails) are drawn as the bars; real-brand logos can appear on background objects despite plain, unmarked wording | observed result |
+| Two unconnected limb actions in one stage produce a sudden scale jump or limb swap | observed result |
+| Drawn subjects give more strong overlap moments than photoreal ones | observed result |
 | Calm, darker, lower-contrast backdrops with colours that differ from the subject read well | observed result |
 | Avoid the word letterbox in the prompt; keep other limbs small and tucked behind until their stage; make each break-out a brief event that ends back inside | optional technique |
 

@@ -60,9 +60,9 @@ When writing scene labels, clip descriptions, and reference lists:
 |---|---|
 | "Clip used: s01_sh010_t01_v01 — full (12.1s)" | "Full clip (12.1s)" |
 | "Clip used: s03_sh020_t01_v02 — 1–9s only (8s)" | "Trimmed clip (8s)" |
-| "Input references: Bianca, Lola Maria..." | "References used: Bianca, Lola Maria..." |
-| "Asset: dlg_s01_kiko_t01.wav (9.2s)" | "Scene 1 — audio track" |
-| "s04a — The Eruption (shot 1)" | "Scene 4a — The Eruption" |
+| "Input references: Maya, Grandma Rosa..." | "References used: Maya, Grandma Rosa..." |
+| "Asset: dlg_s01_hero_t01.wav (9.2s)" | "Scene 1 — audio track" |
+| "s04a — The Reveal (shot 1)" | "Scene 4a — The Reveal" |
 | "shot 2, part 1" | "first part" / "second part" |
 | "`@Audio 1` reference" | "audio reference" |
 

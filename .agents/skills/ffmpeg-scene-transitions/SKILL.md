@@ -36,14 +36,15 @@ For single-clip operations (trim, resize, speed, extract audio), the
 AI-generated clips frequently carry an audio stream whose length differs from
 the video stream, and the direction is not guaranteed:
 
-- audio **shorter** than video (e.g. ~90 ms per 30 s at 32 kHz AAC padding), or
-- audio **longer** than video (Seedance 2.5 clips have been observed ~30-40 ms
-  longer per clip at 32 kHz).
+- audio **shorter** than video (for example, tens of milliseconds from AAC
+  padding), or
+- audio **longer** than video (some generators emit audio a few tens of
+  milliseconds longer per clip).
 
 When you crossfade, the video chain advances by each clip's *video* duration
 while the audio chain advances by each clip's *audio* duration. Either
-mismatch accumulates at every boundary — a 0.3-0.5 s lip-sync drift by the
-last scene after several joins. The fix is the same regardless of direction:
+mismatch accumulates at every boundary — a visible lip-sync drift by the last
+scene after several joins. The fix is the same regardless of direction:
 **make every audio branch exactly match its video duration before
 crossfading**, so both chains walk the same timeline.
 
@@ -108,7 +109,7 @@ Example: `D = 30.041667`, transitions `[0.3, 0.5, 0.5, 0.5]`:
 ### Mixed-duration clips (cumulative method)
 
 Real films often mix durations (e.g. 30s action + 14s dialogue + 12s
-loading screen + 30s outro). Equal-duration formulas do **not** apply.
+title card + 30s outro). Equal-duration formulas do **not** apply.
 Instead, walk the timeline cumulatively. After transition `i` (duration `d_i`,
 between clip `i` and clip `i+1`):
 
@@ -227,7 +228,7 @@ ffmpeg -y -v error \
  -ss 42.83 -i film_v01.mp4 \
  -ss 72.38 -i film_v01.mp4 \
  -filter_complex "[0:v][1:v][2:v]xstack=inputs=3:layout=0_0|w0_0|w0+w1_0,scale=1920:-1[out]" \
- -map "[out]" -frames:v 1 /tmp/boundaries_contact.png
+ -map "[out]" -frames:v 1 boundaries_contact.png
 ```
 
 Each strip should show the two neighboring scenes visibly mixing — never black,
@@ -248,7 +249,7 @@ boundary. Then open the film to eyeball the cuts.
 ## Worked example — mixed durations, audio longer than video
 
 A 12-clip film of mixed durations (30.04s / 14.04s / 12.04s / 30.04s …) where
-every clip's audio is ~30-40 ms *longer* than its video. Offsets come from the
+every clip's audio is slightly *longer* than its video. Offsets come from the
 cumulative script in Step 3. The audio branches trim (`atrim`) instead of pad;
 `asetpts=N/SR/TB` restarts each audio timeline so `acrossfade` sees clean
 0-based streams.

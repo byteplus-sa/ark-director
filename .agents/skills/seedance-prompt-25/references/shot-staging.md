@@ -106,7 +106,7 @@ from the plan or the user's request.
 ## Dialogue inside shots
 
 Place a spoken line inside the shot that frames the speaker, and budget it
-(`dialogue.speech_budget`). Observed timing in reviewed takes:
+(`dialogue.speech_budget`). Typical timing:
 
 - Speech starts 0.5-1.5 s after the shot or cue begins, later after long
   pre-line action, so a line should not follow a busy action beat.
@@ -121,8 +121,9 @@ Place a spoken line inside the shot that frames the speaker, and budget it
   the prompt, before the draft.
 
 Vary size and angle between speakers, and keep moves slow while a line is
-spoken so lips and eyes stay readable. For Filipino or Taglish lines, compose
-with the dialogue partner skill for the delivery direction.
+spoken so lips and eyes stay readable. For dialogue in a language or register the model handles weakly, compose
+with a market dialogue leaf (for example `seedance-prompt-25-filipino`) for the
+delivery direction.
 
 ## Examples
 

@@ -67,7 +67,7 @@ shot_plan:
       angle: low
       move: static hold
       static_reason: performance_hold
-      dialogue: "Noon today, <b>Mang</b> Ador."
+      dialogue: "Noon today, <b>Mister</b> Alder."
       light: {source: sun, key_side: behind}
     - id: s02_sh030_a
       duration_s: 3.0
@@ -778,8 +778,8 @@ class SheetTests(BoardTestCase):
             (self.root / page["html"]).read_text(encoding="utf-8")
             for page in result["pages"]
         )
-        self.assertIn("&lt;b&gt;Mang&lt;/b&gt;", pages)
-        self.assertNotIn("<b>Mang</b>", pages)
+        self.assertIn("&lt;b&gt;Mister&lt;/b&gt;", pages)
+        self.assertNotIn("<b>Mister</b>", pages)
         self.assertEqual(len(MODULE.short("x" * 300, 120)), 120)
         self.assertEqual(MODULE.short("a  b\n c", 50), "a b c")
 

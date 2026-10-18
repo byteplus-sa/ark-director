@@ -24,7 +24,7 @@ region; a recast rebuilds everything except motion.
 | --- | --- | --- | --- |
 | VFX edit | Add, remove or restyle an effect, environment or element while the source cast and camera stay | `seedance-vfx-prompt` (2.5 edit grammar) | `omni_reference_task_type: edit` |
 | Object Swap | Replace one named character, outfit, product, prop, object or the location and preserve everything else | `seedance-object-swap` | `omni_reference_task_type: edit` |
-| Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; verified on one case); fallback full-frame edit |
+| Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; confirm with a route probe); fallback full-frame edit |
 | Restyle | Redraw the whole clip in a new visual medium; keep the performance, motion, camera and cuts; the background is restyled as the same place through an environment image | `seedance-restyle` | Full-frame edit with an environment image of the same place; reference route as the alternative |
 
 Decision rules:
@@ -111,7 +111,7 @@ main agent owns this file; rows change only by an explicit user decision.
 
 | Column | Content |
 | --- | --- |
-| `variant_id` | Lowercase kebab-case, stable, for example `ph-maria-cola` |
+| `variant_id` | Lowercase kebab-case, stable, for example `market-a-soda` |
 | `market` | Market or locale; drives location, signage language and cast brief |
 | `talent` | Element ID of the replacement cast member(s), or `keep` |
 | `product` | Element ID of the replacement product, or `keep` |
@@ -218,7 +218,7 @@ confirmed scope needs a new confirmation.
 
 | Row | Route | Probe (s × res) | Final (s × res) | Estimated probe | Estimated final |
 | --- | --- | --- | --- | --- | --- |
-| `ph-maria-cola` | Object Swap | 5 × 480p | 12 × 720p | from rate | from rate |
+| `market-a-soda` | Object Swap | 5 × 480p | 12 × 720p | from rate | from rate |
 | ... | | | | | |
 | **Total** | | Σ probe seconds | Σ final seconds | Σ | Σ |
 

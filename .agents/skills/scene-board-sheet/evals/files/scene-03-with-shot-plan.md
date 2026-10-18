@@ -45,7 +45,7 @@ shot_plan:
       angle: low
       move: static hold
       static_reason: performance_hold
-      dialogue: "Noon today, <b>Mang</b> Ador."
+      dialogue: "Noon today, Mr. Alder."
       light: {source: sun, key_side: behind}
     - id: s03_sh030_a
       duration_s: 3.0

@@ -19,7 +19,7 @@ hypothesis that risks a clipped closer; check it in the 480p draft.
 - Every number and claim traces to `topic.md` (at least two sources). Use the
   company's own wording for soft claims ("orders", "pre-orders").
 - Spell numbers the way they should be spoken ("fifty pounds",
-  "twenty-one ninety-five"), and use digits in captions ("50 POUNDS", "$2,195").
+  "nineteen ninety-five"), and use digits in captions ("50 POUNDS", "$1,995").
 - One idea per sentence; short sentences carry lip-sync and caption rhythm.
 - Choose hook words speech recognition hears cleanly; a near-homophone in the
   hook produces wrong captions and a misheard opening.
@@ -32,4 +32,4 @@ hypothesis that risks a clipped closer; check it in the 480p draft.
 1–3 words, uppercase, broken on natural phrase boundaries. In `edl.json`,
 chunks map to STT word indices: `[first_word_idx, last_word_idx, "TEXT"]`.
 Build the map after transcription, since STT may merge or split words
-("115 inch", "2195").
+("12 inch", "1995").

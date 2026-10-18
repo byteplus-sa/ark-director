@@ -57,8 +57,7 @@ flowchart TD
     E --> F["She stays silent and treats her own daughter coldly"]
 ```
 
-Ladder shape for ten episodes: 1 accusation and heir reveal; 2 the other daughter
-arrives and an envelope is sealed until the 40th-day prayer; 3 the planted theft;
-4 the night nurse and paired bracelets; 5 the envelope opened (father's result);
-6 the birthmark finds the cook; 7 the matriarch's confession and cash offer;
-8 the frame; 9 the two mothers; 10 the Don's letter and the daughters together.
+Ladder shape for ten episodes: open with an accusation and the first reveal; use
+the middle episodes to plant a proof object, complicate it with a rival and a
+frame, and open the sealed proof at the midpoint; deliver the second reveal
+near the end and close on the characters together.

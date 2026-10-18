@@ -69,8 +69,8 @@ the result:
   lands harder than a literal effect; keep one brief stylized image when the
   idea needs a picture (a burned-texture hand instead of fire).
 - **Is there a counterpoint?** A location, prop or sound that plays against
-  the genre can state the world's rules without dialogue (a science-fiction
-  test held in a library says this world has no computers). Propose one only
+  the genre can state the world's rules without dialogue (a medical
+  exam held in a barn says this world has no clinics). Propose one only
   when it serves the reaction.
 - **What is the bible?** When a source exists, list the lines, images and
   details that must survive, and recheck them at script, generation, edit and
@@ -94,8 +94,8 @@ question; static images and sound-only briefs skip the ones that do not apply.
   so the video is generated silent and the bed is built in post; `lipsync_audio`
   only when the user asks for a separate dialogue track; `silent` for a silent
   deliverable. Prefer `picture_only` for ambience-only and score-driven pieces:
-  a "no music, no speech" line on native audio often does not hold, and speech
-  or score leaks in. Say that a post bed is laid to the cut rather than
+  a "no music, no speech" line on native audio does not reliably hold, and
+  speech or score can leak in. Say that a post bed is laid to the cut rather than
   frame-synced to action.
 - **Look.** Default to the model's original colours with no grade, grain,
   halation or vignette. Record a grade or a capture-format look (camcorder,
@@ -210,7 +210,7 @@ directorial_axes:
     source: defaulted
   audio_mode:
     value: picture_only
-    rationale: an ambience-and-score piece; native audio tends to add speech or music, so the bed is built in post
+    rationale: an ambience-and-score piece; native audio can add speech or music, so the bed is built in post
     source: user_confirmed
     approval_evidence: "User accepted silent picture with a post ambience bed."
 locked:
