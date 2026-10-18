@@ -133,7 +133,7 @@ Run these checks before a take passes, and use the narrowest fix.
   whole track. Transcribe with word times, splice pitch- and loudness-matched
   replacements with short fades, and prove that samples outside each window are
   identical. Measure the speaker's pitch first: a replacement whose pitch
-  differs noticeably from the speaker is heard as a voice change, and leaving a
+  differs from the speaker by more than about 10% is heard as a voice change, and leaving a
   mild mispronunciation can be the better choice.
 - **Re-voicing keeps the source soundtrack:** when a model re-voices a clip,
   send the original video with its audio, name the words to fix, take the full

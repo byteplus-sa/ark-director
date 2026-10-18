@@ -60,7 +60,7 @@ camera).
 | --- | --- | --- |
 | Bar thickness | Near 12 percent of frame height; rendered thickness varies widely, and thicker than about 17 percent shrinks the window (observed) | Script `thickness_pct` |
 | Top and bottom match | Median difference within about 1 point | Script `top_bottom_differ` |
-| Break-out moments | At least one per bar; drawn subjects give more than photoreal ones (observed) | Script `overlap_intervals` |
+| Break-out moments | At least one per bar; typically 3 to 5 for drawn subjects and 1 to 3 for photoreal ones | Script `overlap_intervals` |
 | Backdrop | Calm, darker than the subject, no bar-like objects | Frames |
 | Timing | End states within about 0.5 s of the stage budget; timestamps are allocations | Frames |
 | Unrequested effects | No glow arcs or flare around near-lens parts | Frames |

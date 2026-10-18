@@ -42,7 +42,7 @@ The visuals feature natural daylight, photorealistic detail and the color grade 
 - Final framing is a medium shot close to the opening framing.
 - No readable lettering appears on signs.
 **Risks:** Identity drift when the subject turns away and back; the subject flipping upside down with the world; buildings melting instead of folding; crosswalk stripe or vehicle counts changing; signage garbling; the fold not completing by 6s (move the peak earlier or raise duration to 10 s).
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `architecture-wave` - Architecture wave
 **Look:** Rigid buildings and bridges behind the subject bend like liquid and curl into a giant wave while the person stays crisp and unchanged.
@@ -79,7 +79,7 @@ The visuals feature crisp natural daylight, photorealistic materials and clear s
 - Subject identity matches the photo at 7 s.
 - Structure bends as one body, not shattered fragments.
 **Risks:** The warp spreading to the subject or ground; the structure shattering instead of bending; lattice and window detail smearing; identity drift if the subject walks toward the camera (prefer a pose); the wave not reaching its peak within the short duration (the prompt already places the peak in the last 2 s).
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `melting` - Melting
 **Look:** The person's outfit and body sag into a glossy, color-matched puddle on the pavement, leaving only a hat or shoes floating in it.
@@ -117,7 +117,7 @@ The visuals feature glossy liquid with sharp reflections of the sky, rich satura
 - By 7s the subject is gone, the remnant count matches the slot, the background is unchanged.
 - Camera does not move.
 **Risks:** Faces or skin melting grotesquely (the clothing-first wording reduces this); body-horror tone; puddle color mismatch; accessory counts drifting; the subject remaining as a statue; the background also melting. For a group, state the exact count and per-person colors at every stage.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `burning-man` - Burning man
 **Look:** A copy of the subject wrapped head to toe in living fire walks in and shakes hands with the untouched original.
@@ -159,7 +159,7 @@ The visuals feature warm firelight against the cool {ambient_light}, natural fil
 - The handshake shows two hands with five fingers each and no fusion.
 - Fire does not spread to the original, the ground or the scene.
 **Risks:** Both figures burning; a third person appearing; the double's face or outfit not matching; finger fusion at the handshake; fire spreading into the scene; crowd count changing in the background; moderation flags on fire plus a real person's face (reflect before submit; moderation rejection is evidence to diagnose, not proof of a false positive).
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `particles` - Particles
 **Look:** The subject and the world dissolve into glowing iridescent point clouds, with strobing cuts to a black void.
@@ -194,7 +194,7 @@ The visuals feature luminous cyan, silver and iridescent particles on dark tones
 - No lettering or digits inside the generated clip.
 - Particles do not hide the face in real-scene shots.
 **Risks:** Outline boxes can still hold text-like line patterns, and a near-static subject leaves the overlay to carry the effect, so give the subject a continuous action. Gibberish HUD text if the model invents labels (the template keeps boxes abstract and puts text in post); identity lost in the point-cloud shots; over-bright particles hiding the face; cut count drifting. Lowest-confidence effect in this category: the page gave one line and the two examples differ (night street and surf), so treat the beats as indicative.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `lidar` - Lidar transition
 **Look:** A neon-cyan point-cloud flythrough of the location solidifies into the real photographed scene with the person scanned into place.
@@ -232,7 +232,7 @@ Camera: wide-angle first-person dolly forward at low height, fast at the start, 
 - The camera decelerates; the final 2 s match `@Image 2`.
 - The subject does not appear as a real person before the dissolve.
 **Risks:** This recipe is a point-cloud flythrough, not a tilting world with sliding objects. The scan not matching the photo's objects; the subject appearing early as a real person; overglow washing out the final frame; constant camera speed; identity drift at materialisation; a last-frame-only request is rejected, so the first frame must be generated. The change into real colour can finish later than planned. Confidence is medium.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `earth-zoom` - Earth zoom
 **Look:** One unbroken dive from orbit through clouds and over the city that lands in front of the person in the photo.
@@ -272,7 +272,7 @@ The visuals feature photorealistic daylight, a motion-blurred descent and the sh
 - The final 2 s match `@Image 2`'s street and framing.
 - No lettering on signs or screens.
 **Risks:** City geography not matching the photo's street; the subject appearing during the dive; a scale seam at the cloud break; motion blur hiding the landing so the person looks new (identity drift); 10 s costs more than the shorter recipes; a last-frame-only request is rejected, so the first frame must be generated.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `blue-depth` - Blue depth
 **Look:** A person held perfectly still against a wall of dark blue water while fish and jellyfish drift past in slow motion.
@@ -305,7 +305,7 @@ The visuals feature deep blue low-key light, a moody hypnotic mood and soft high
 - Subject stays still after the 2-4s head turn, same identity at 8s.
 - Jellyfish pulse slowly.
 **Risks:** The water wall is added by the recipe (if the Seedream prep alters the person, rerun the generation before submitting); fish counts and species changing; fish merging with the subject or crossing the face; jellyfish pulsing too fast; micro-motion identity drift over long durations (hence 8 s); fish passing through the body. Confidence is medium.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `desktop-glitch` - Desktop glitch
 **Look:** Stacked generic retro-desktop error panels, swarming cursors and solid blue full-screen layers strobe over blue-toned CRT footage.
@@ -340,4 +340,4 @@ The visuals feature a cold blue duotone, scanlines and a phosphor glow.
 - The subject stays readable and uncovered and keeps moving.
 - Blue duotone and scanlines persist throughout.
 **Risks:** Panels described as title bars, progress bars, folder or terminal panels draw pseudo-lettering and code-like lines; the plain-panel wording above reduces the lettering, but panel counts stay approximate and the subject may barely move. Gibberish text if the model writes labels (the template keeps panels abstract and moves text to post); panels covering the subject; text baked into video violating the no-overlay rule; trademark risk from reproducing a real operating system's interface; cut timing drifting (timestamps are a time budget, not frame-accurate); stutter look needing post. Confidence is medium and the page gave one line.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.

@@ -137,7 +137,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seed-audio-commercial/SKILL.md",
-      "computedHash": "927e4b7db9fac0c7194e9aaa5b8f9b3b1562b58fa4ad15a89a9743dd4064e837"
+      "computedHash": "3242a6726819f81db221eef9dc9ec08f18a36a7e382bdac1582a418954fcbd23"
     },
     "seed-audio-prompt": {
       "source": "./local",

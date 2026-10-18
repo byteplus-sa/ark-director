@@ -310,9 +310,6 @@ pronunciation are judged by a native listener; a transcript or a listening model
 cannot confirm them. Pronunciation notes and respellings are hypotheses, and a
 respelling can add a syllable.
 
-Optional: for Filipino or Taglish spots, `seedance-prompt-25-filipino` and
-`filipino-micro-drama` hold the market's register and dialogue conventions.
-
 A moderation error is a provider
 rejection, not proof that a language, phrase, or cultural term is unsafe or that
 the classifier made a false positive. Save the provider code, request/task ID,

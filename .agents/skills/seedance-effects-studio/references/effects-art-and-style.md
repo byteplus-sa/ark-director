@@ -38,7 +38,7 @@ Silent output. Sound is added in post.
 - No letters, digits or words on any surface.
 - After post, frame holds are an even three frames at 30 fps.
 **Risks:** Seedance smooths the flicker into one steady grade, so the cadence is also enforced in post; outfit colour drift is intended only if `{outfit_policy}` allows it; invented container lettering; speed lines can render static; a Seedream environment image gives one look, so the background variants rely on text. The page for this effect had no copy beyond a title, so the look is read from frames only.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `canvas` - Canvas
 **Look:** real footage where the one main subject carries a thick white spray-painted sticker outline and the whole scene is scribbled over with bright marker doodles that redraw differently at every step.
@@ -177,7 +177,7 @@ Silent output. Sound is added in post.
 - Kick holds between 2 s and 4 s; last frame matches the first.
 - Matte has no backdrop halo, and no text in any panel.
 **Risks:** leg, shoe and heel anatomy during the kick; hair flyaways break the matte; crop-derived insets cannot show a profile unless the head actually turns (accepted trade for sync); backdrop shadow or colour matching the garment ruins the key; count errors if insets are generated rather than cropped.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `cutout` - Cutout
 **Look:** the surroundings erode to a pure white void and separate into floating paper-flat cut-out layers around an untouched person, then snap back to the exact original photo.
@@ -218,7 +218,7 @@ Silent output. Sound is added in post.
 - At 4 s exactly `{kept_count}` pieces float and `{erased_count}` are erased, with no added or extra piece.
 - Last frame matches the first frame; no residual white.
 **Risks:** background kept instead of white; layers melt instead of cut flat; subject drifts or is carried away with debris; pieces fail to return to original positions; item counts change; first-and-last with identical images is unproven.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `pearl-earring` - Pearl earring
 **Look:** the user, costumed in a blue-and-yellow turban and ochre jacket, turns over the shoulder to the camera in the pose of a famous Dutch portrait, shown above the real painting.
@@ -252,7 +252,7 @@ Both inputs are scaled to the same width, so a 480p draft clip and the square pa
 - The two halves are 1:1 each, stacked 1:2, with no text and no gap.
 - Top half does not reproduce the painting's face; it is the user's face.
 **Risks:** identity drift when re-costuming a casual portrait; earring count or ear side; turban fold geometry; head turning past three-quarter; lighting not matching; speech or music baked into native audio (generate_audio stays false). Gallery clips were matched to presets by thumbnail inspection, so the beats are read with medium certainty.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `cyclope` - Cyclope
 **Look:** a photoreal one-eyed giant slowly lifts over a boulder to peer down at a small human on the grass, shown above the painting that inspired the pose.
@@ -285,7 +285,7 @@ Silent output. Sound is added in post.
 - Last frame matches `@Image 2`; seagull leaves; person count never changes.
 - Stack is 1:2 with no text.
 **Risks:** two eyes or extra fingers; scale (the giant must tower); the hand not gripping the rock convincingly; person identity from a prone pose; the seagull multiplying; the painting must not be reproduced in the top half. The first/last stills double the prep cost and need scene continuity between them. Gallery matching by thumbnail inspection, medium certainty.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `fallen-angel` - Fallen angel
 **Look:** a white-winged person seated on seaside rocks lifts an arm across the face in a grief gesture, shown above the painting that inspired the pose.
@@ -317,4 +317,4 @@ Silent output. Sound is added in post.
 - Face identity and skin tone match the still before and after the arm lift.
 - Stack is 1:2, clean crop, no text.
 **Risks:** wings fusing with the back or doubling during the arm lift; fingers and eye contact artifacts when the hand covers the face; identity drift while the face is covered; skin-tone drift; the nude source painting (crop it, do not generate nudity). Gallery matching by thumbnail inspection, medium certainty.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.

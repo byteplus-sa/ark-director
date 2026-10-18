@@ -10,7 +10,7 @@ recipe as a starting point and check its QA list on each draft.
 
 | Level | Meaning | Say to the user |
 | --- | --- | --- |
-| Verified in a limited probe | The signature look has been produced at least once on an invented subject at 480p; defects such as approximate counts, leaked sound or small timing drift are possible | "Tried on an invented subject only; your photo may differ" |
+| Limited probe | The signature look has been produced at least once on an invented subject at 480p; defects such as approximate counts, leaked sound or small timing drift are possible | "Tried on an invented subject only; your photo may differ" |
 | Unverified | No take has passed review (`canvas`, `palette`, `lsd`); the recipe is a hypothesis | Say so before any paid run and offer `comic` or a `seedance-restyle` catalog style |
 
 A template amended after a probe is a hypothesis until a new draft shows the

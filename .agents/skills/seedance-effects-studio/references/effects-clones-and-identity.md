@@ -40,7 +40,7 @@ At 5.5s the near copy raises their open right palm (the hand on the frame-left s
 - The original stays where it was; the near copy does not replace her.
 - Picture ends black behind the palm; no text anywhere.
 **Risks:** Count drift (5 becomes 8-12). Identity and outfit drift in tiny distant copies. Dissolve or morph instead of a hard pop-in. Shadows pointing the wrong way. The near copy replacing the original. Copies mirroring each other when independence was asked. Counts overshoot even when stated; treat the count as approximate, or ask for one fewer when an upper bound matters. Copies may stand on the ground between objects rather than on the named surface.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `infinite-clones` - Infinite clones
 **Look:** A single car brakes to a stop and an unending stream of identical people clown-car out of every door and sprint off in all directions, filmed from a locked high angle.
@@ -79,7 +79,7 @@ End state at 7s: 20 figures scattered across the lot, the car parked with four o
 - Camera is static and high-angle throughout; no second cut.
 - No lettering on the car, ground or clothing.
 **Risks:** The stream fades out at 6-10 figures. Dense runners merge or lose limbs. Floaty drift physics. Car drives away or doors close. Outfit and size drift across copies. Car design unconstrained without a description or reference. Painted lot markings may render as glyphs. Keep the count as a ramp, not an exact figure. Not every door may open and runners can leave the frame, so 'nobody leaves the frame' does not reliably hold.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `selfception` - Selfception
 **Look:** The camera dives into the tiny self on a palm and that figure becomes the full-size subject holding another tiny self, Droste-style.
@@ -117,7 +117,7 @@ Exactly two complete figures are visible at any moment, one large and one figuri
 - Camera glides continuously; no cut and no plain push-in with no recursion.
 - Ends on the back of the coat and hair.
 **Risks:** Wrong miniature scale (both similar size). Hand and finger anatomy on the palm. Tier outfit drift. A cut replaces the glide. Zoom becomes a plain push-in with no handoff. Background not rotating with the orbit. Visible nesting past two tiers is unreliable, so do not ask for more.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `act-natural` - Act natural
 **Look:** The subject and the objects tied to their action are frozen like a statue mid-action while the world carries on and the camera glides around them.
@@ -153,7 +153,7 @@ End state at the final frame: the subject in the identical pose, the camera 30 d
 - Frozen items do not slide or fall; no new objects or people join the frozen group.
 - Packaging shows no readable lettering.
 **Risks:** Micro-motion (breathing, blinking, hair sway) creeps in. Frozen items slide. The whole frame freezes. Objects pull out of frame as the camera moves. Packaging text garbles. The subject drifts when the orbit is not explicit.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `stop-world` - Stop world
 **Look:** One calm person moves at normal pace through a crowd sped up into blur, as if a finger-snap fast-forwarded the world around them.
@@ -188,7 +188,7 @@ End state: one calm sharp figure in medium shot in the foreground, {crowd_count}
 - Subject ends in medium shot near the lens; crowd arrangement differs from the opening and does not rewind.
 - No cuts; camera stays locked.
 **Risks:** Everything renders at the same speed (no contrast). Crowd speed-up looks like jitter. The subject gets motion-blurred too. The gesture reads as a wave. Crowd members merge or duplicate. Do not prompt a rewind.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `eyes-in` - Eyes in
 **Look:** One continuous accelerating dive from a street portrait into one eye, through the iris, until the pupil swallows the frame in black.
@@ -229,7 +229,7 @@ Join with FFmpeg: normalise both clips to the same size, frame rate and timebase
 - No scene change inside the eye; no signage-style text in the first seconds.
 - With the optional join: the circle opens from the black frame onto the destination.
 **Risks:** Eye shape or colour drift in the macro. Double or off-centre pupil. A blink. The model cutting to a different scene halfway instead of staying in the eye. The dive stopping at the iris. Street reflection in the cornea not matching the photo. Text on clothing or signs in the opening frame warps during the push.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `lacewalker` - Lacewalker
 **Look:** A figurine-sized copy of the person strolls the ground in front of their giant sideways head, then, after a hard cut, balances on a thin strap stretched between two giant bags.
@@ -268,7 +268,7 @@ End state: one miniature on one strap between two giant bags.
 - Giant head and miniature read as the same person; the miniature keeps the outfit.
 - No hardware text, logos or lettering.
 **Risks:** Scale ratios collapse (the miniature grows). Giant head and miniature differ in identity. Extra bags or straps. The strap sags unrealistically or the miniature floats. Hardware text or logos garble. No cut, so the second setup never appears. Unnatural walking cadence.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `superstar` - Superstar
 **Look:** A fan's handheld phone video of a packed stadium concert in which the person is the star on stage and on the jumbotron.
@@ -301,7 +301,7 @@ At 12.5s hard cut, the only cut in the clip, to a wide pan across the full stadi
 - No lettering, numbers or logos on stage, screens, phones or clothing.
 - Generated clip carries no baked-in speech, chant or music.
 **Risks:** Too clean a cinematic look. Warped hands and phones in the crowd. Screen content not matching the performer. Backup dancers duplicating. Mouth and mic mismatch. Logo-like glyphs on the stage. A second cut inserted. Native audio would bake in chanting, so it stays off.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `vanish` - Vanish
 **Look:** A person blinks out of existence in one frame and their empty clothes slump to the surface where they stood.
@@ -333,4 +333,4 @@ From 3s to the end the clothes lie completely still; the empty scene stays in fr
 - Garments hold body shape for a moment, then collapse and come to rest by about 3 s; no floating clothes.
 - Camera is locked; the empty scene is held to the end; no black frame; no text on the surface.
 **Risks:** The body fades out gradually. Ghost or semi-transparent residue. Clothing does not collapse and keeps floating in body shape. Invisible-body shapes remain. Extra garments, shoes or hair appear. Collapse timing off. Text on the mat garbles.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.

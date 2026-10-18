@@ -109,7 +109,7 @@ another shot) are recorded, not retaken.
   re-dub a whole clip. Transcribe with word times, splice pitch- and
   loudness-matched replacements with short fades, and prove that samples
   outside each window are unchanged. Measure the speaker's pitch first: a replacement whose
-  pitch differs noticeably sounds like another voice, and a mild
+  pitch differs from the speaker by more than about 10% sounds like another voice, and a mild
   mispronunciation can be the better choice.
 - When a model re-voices words, send the original clip with its audio, name
   the words to fix, take the full audio back, match the original loudness and

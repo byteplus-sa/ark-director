@@ -41,7 +41,7 @@ The clip ends with the thief mid-stride in the centre of frame, product in both 
 - Exactly two officers; the thief's outfit matches across the cut.
 - No stray text on clothing, cars or the label beyond what the photo already shows.
 **Risks:** outfit and identity drift across the cut; the label warps during the grab close-up (the recipe covers it with the fingers to avoid showing it); lettering invented on the can, uniforms or patrol car; officer count drifts; stone appearing early; native audio adding a music bed. If the product photo carries a real logo, never regenerate it in a derived reference. Native audio can add a short voice despite 'no music and no speech'; for a clean track keep native audio off and add the glass and siren sound effects in post. A draft promotion reuses the draft's audio, so verify the draft's track for speech and music before promoting. The carried object is easy to lose in the chase shot, so say what the thief carries and keep it in view.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `boarding-pass` - Boarding pass
 **Look:** A person walks left to right on a white floor and each giant flight-ticket card that sweeps in wipes the backdrop above it into a new city.
@@ -78,7 +78,7 @@ At 8.3s the subject slows, stops, turns to face the camera and raises the left h
 - Final wave occurs after about 8 s with the last backdrop holding.
 - No lettering generated on tickets.
 **Risks:** feet slide at the wipe edge; shadow breaks; ticket count drifts; outfit change per ticket causes face drift and outfit-count errors; the model writes invented prices and digit strings on tickets described with header bands, barcodes or boxes, even when asked for blank cards (plain single-colour wording avoids lettering, but a described thin band and stripe row can be drawn as a column of perforation holes instead); 0.7 s for the turn-and-wave is tight. A real-person photo may be refused or drift; the route for identity-bound work is a Virtual Portrait asset (`asset://`) for an invented character, never a real specific person.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `monster-dab` - Monster dab
 **Look:** A building-sized creature wearing a copy of the subject's outfit crashes in behind a calmly walking subject, looms around them and bounds out of frame.
@@ -115,7 +115,7 @@ At 1s exactly one colossal invented creature, {creature_design}, drops from abov
 - Camera stays locked; subject keeps walking toward the lens and the face stays recognisable.
 - Shadows share one direction; no clipping or fusing of creature and subject.
 **Risks:** scale collapses to normal size; creature identity drifts frame to frame; subject face drifts as it nears the lens; creature and subject fuse or clip; shadow mismatch; unwanted push-in or shake; second creature appears; native audio invents a roar or score. Confidence in the recipe is medium. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a real specific person needs separate rights and consent.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `pigeons` - Pigeons (animal ride)
 **Look:** A rider hovers down a city street standing on two flapping pigeons like roller skates, filmed on a low circular-fisheye tracking camera.
@@ -147,7 +147,7 @@ At 0s exactly two grey city pigeons sweep in from the frame edges at ground leve
 - Camera low, tracking, one take; after post the frame is a round fisheye with black corners.
 - Rider face and clothing match the photo; pedestrians neither react nor morph.
 **Risks:** bird count drifts to one or three; birds fuse with shoes or drift in front; feet float above the birds; wing motion reads static; the fisheye reads as plain wide-angle (hence the post); rider face drift; pedestrians morph. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented rider, and a specific real person needs separate rights and consent.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `skatedog` - Skatedog (animal ride)
 **Look:** A rider stands on the back of one running dachshund as if it were a skateboard, carves, jumps a ledge and rides away, filmed on a low circular-fisheye tracking camera.
@@ -179,7 +179,7 @@ At 0s exactly one {dog_colour} dachshund, long low body, four short legs, nose p
 - Ledge climb at about 4.5 s and drop at about 6.3 s; one continuous take.
 - Round fisheye with black corners after post; face matches the photo.
 **Risks:** dog leg count and gait errors; the dachshund elongates; rider feet float or sink into the dog; the dog's posture does not reflect the rider; dog changes between frames; face drift on the ledge jump; fisheye reads plain-wide without post. Keep the dog tone playful. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented rider, and a specific real person needs separate rights and consent.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `agamemnon` - Agamemnon
 **Look:** A cinema audience watches a burning-siege movie until the screen rips open and armoured warriors step out into the theatre.
@@ -214,7 +214,7 @@ The clip ends on the hero centred in the smoke, two warriors flanking the hero, 
 - Hero plus exactly two warriors, not a horde; one hero costume throughout.
 - Curved screen geometry holds; hero stays visible in the smoke.
 **Risks:** selfie face drifts after the whip-pan; audience faces melt; the curved screen flattens; warriors appear on the screen instead of stepping out; smoke hides the hero; fire flickers; native audio invents a score. A real-person photo may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent. Confidence in the recipe is medium.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `mighty-fighter` - Mighty fighter
 **Look:** A battered knight in a misty poppy field drops the helmet, is revealed face-last by a slow tilt up, then lies fallen among the flowers.
@@ -255,7 +255,7 @@ The same knight in {armour_block} lies on the back among red poppies in a misty 
 - Face in shot B matches shot A and the portrait; no blood.
 - No text anywhere in frame.
 **Risks:** face drift between shot A and shot B; helmet physics (appears worn or floats); armour merges with the cloak; extra swords; the face never fully matches the portrait; the collapse reads as a glitch. Real-person photo: a real face may be rejected as a `reference_image`; the identity route is a Virtual Portrait asset (`asset://`, see the video-to-video inputs contract) for an invented character only, and a specific real person needs separate rights and consent. Single-pass fallback: one 11 s generation with the portrait as `reference_image` and the cut written as "At 7s, hard cut to", at the cost of a less reliable cut.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `fairytale-castle` - Fairytale castle
 **Look:** A figure in an empty twilight field runs toward a glowing castle revealed by a rising pullback, with a winding stream and fireworks.
@@ -288,7 +288,7 @@ The clip ends on the high wide view: castle lit, last firework fading, the runne
 - Camera rises and pulls back into a high wide view with the stream visible and curving.
 - Subject keeps the garment colour and moves toward the castle; fireworks appear only from about 11 s.
 **Risks:** the castle appears too early or looks pasted in; subject scale and identity drift once the subject is small; sheep count drifts; fireworks flicker or smear; sky continuity between dusk and night; the follow-plus-crane move (two moves, the limit) destabilises. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
 
 ### `frozen-in-motion` - Frozen in motion
 **Look:** One person hangs motionless in mid-air in a busy street while pedestrians and traffic flow past at normal speed.
@@ -323,4 +323,4 @@ At 0s exactly one {vehicle_a} passes behind the subject from left to right and l
 - The foreground walker crosses in front without merging with the subject.
 - No lettering on vehicles or clothing.
 **Risks:** the subject starts to fall, land or sway; micro-motion in the face or breathing; pedestrians morph near the subject; the shadow shifts; crowd chaos when counts are not stated; the foreground crossing is the occlusion stress test. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent.
-**Status:** Verified in a limited probe; treat as a starting point.
+**Status:** Limited probe (invented subject, 480p); treat as a starting point.
