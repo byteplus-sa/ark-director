@@ -233,6 +233,26 @@ uv run python $S reopen projects/<project> --stage assembly-review \
    `--showreel` it joins every locked master back to back, gain-matched to
    `--target-lufs` (default -16) with a limiter, and writes a build record.
 
+   Portfolio subtitle metadata belongs on the selected delivery-stage `sources`
+   entry, for example `{"path":"assembly/master.srt","kind":"data","language":"es","label":"Spanish"}`.
+   Keep the existing selection order: prefer filenames starting with the locked
+   master's stem, then lexical path order, and render the first SRT.
+   Set `language` from the subtitle's confirmed language, never the operator,
+   machine locale, project dialogue language, or installed market packs.
+   Explicit `language` takes precedence; when absent, a language suffix immediately
+   before `.srt` (such as `master.en.srt` or `master.pt-BR.srt`) is supported for
+   compatibility. Supported tag syntax is two or three ASCII letters followed by
+   optional hyphen-separated subtags of two to eight ASCII letters/digits.
+   This is syntax validation, not a language-registry lookup.
+   Missing, null, malformed or `und` language fails the CLI with a JSON error on
+   stderr and exit code 1 before media rendering. Add confirmed source metadata
+   and rerun; an unlabeled `master.srt` is not implicitly English.
+   Optional `label` must be a nonblank string; otherwise a known language name
+   or the tag itself is used. Labels are HTML-escaped. Output is
+   `<project-slug>.<language>.vtt` with matching required `srclang`.
+   Projects without a selected SRT need no language metadata. CLI arguments and
+   final-master lock checks are unchanged.
+
 5. **Verify.** Run `--check` to confirm every media `src` resolves (relative
    paths are the #1 failure), then spot-check sections, prompts, and the
    combined view in the opened page:

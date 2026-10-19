@@ -23,8 +23,10 @@ Source skill: `seedream-character-sheet`
 
 4. **Reference binding.** Each reference is bound inline.
 
-5. **Required elements.** Age, ethnicity/cultural identity, 2-4 stable facial traits,
-   hair and headwear, costume, key accessories.
+5. **Identity continuity.** Preserve supplied age, stable facial traits, hair,
+   headwear, costume and key accessories. Include ethnicity or cultural identity
+   only when supplied and relevant; its absence is not a defect and never
+   authorizes inferring it from appearance or the operator's market.
 
 6. **Same person statement.** Explicitly states it is the same person in all panels.
 

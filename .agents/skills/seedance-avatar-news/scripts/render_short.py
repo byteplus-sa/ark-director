@@ -19,18 +19,14 @@ FPS_EXPR = "30000/1001"
 FPS = 30000 / 1001
 LAYOUTS = {"full_m", "full_mz", "full_b", "split", "card"}
 CAPTION_Y = {"split": 960, "full": 1350, "card": 1500}
-FONT_CANDIDATES = [
-    ("/System/Library/Fonts/HelveticaNeue.ttc", 1),
-    ("/System/Library/Fonts/Supplemental/Arial Bold.ttf", 0),
-    ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 0),
-]
 
 
-def font(size):
-    for path, index in FONT_CANDIDATES:
-        if os.path.exists(path):
-            return ImageFont.truetype(path, size, index=index)
-    return ImageFont.load_default(size)
+def font(size, path, index=0):
+    if not isinstance(path, str) or not path.strip():
+        raise ValueError("EDL font must name an approved font file; no fallback is used")
+    if not os.path.isfile(path):
+        raise OSError(f"Approved font file not found: {path}")
+    return ImageFont.truetype(path, size, index=index)
 
 
 def pill(text, fnt, pad, fill, radius, outline=None):
@@ -179,12 +175,13 @@ def build_cues(cfg, words):
         following = [s for s in segs if s["start"] >= seg["end"] - 1e-6]
         if following and layout_class(following[0]["layout"]) != layout_class(seg["layout"]):
             en = min(en, seg["end"])
-        cues.append({"text": text.upper(), "start": round(st, 3), "end": round(min(en, end), 3), "y": CAPTION_Y[layout_class(seg["layout"])]})
+        cues.append({"text": text, "start": round(st, 3), "end": round(min(en, end), 3), "y": CAPTION_Y[layout_class(seg["layout"])]})
     return cues
 
 
 def build_graphics(cfg, cues, work):
-    big, small = font(64), font(26)
+    big = font(64, cfg.get("font"), cfg.get("font_index", 0))
+    small = font(26, cfg.get("font"), cfg.get("font_index", 0))
     paths = []
     for i, cue in enumerate(cues):
         p = os.path.join(work, f"cap_{i:03d}.png")
@@ -193,7 +190,7 @@ def build_graphics(cfg, cues, work):
     header = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     style = {"pad": (22, 12), "fill": (20, 20, 24, 120), "radius": None, "outline": (255, 255, 255, 70)}
     if cfg.get("sources_label"):
-        header.alpha_composite(pill(f"Sources: {cfg['sources_label']}", small, **style), (48, 70))
+        header.alpha_composite(pill(cfg["sources_label"], small, **style), (48, 70))
     if cfg.get("channel_label"):
         right = pill(cfg["channel_label"], small, **style)
         header.alpha_composite(right, (W - 48 - right.width, 70))
@@ -203,7 +200,7 @@ def build_graphics(cfg, cues, work):
 
 
 def resolve_paths(cfg, base):
-    for key in ("take", "stt", "out", "clips_dir"):
+    for key in ("take", "stt", "out", "clips_dir", "font"):
         if cfg.get(key):
             cfg[key] = os.path.normpath(os.path.join(base, cfg[key]))
     clips_dir = cfg.get("clips_dir") or base
@@ -225,9 +222,9 @@ def main():
     if errors:
         sys.exit("Invalid EDL:\n  " + "\n  ".join(errors))
     with tempfile.TemporaryDirectory(prefix="avatar_short_") as work:
-        video = build_segments(cfg, work)
         cues = build_cues(cfg, words)
         caps, header = build_graphics(cfg, cues, work)
+        video = build_segments(cfg, work)
         inputs = ["-i", video, "-i", cfg["take"], "-i", header]
         graph, prev = "[0:v][2:v]overlay=0:0[v0]", "v0"
         for i, (cue, cap) in enumerate(zip(cues, caps)):

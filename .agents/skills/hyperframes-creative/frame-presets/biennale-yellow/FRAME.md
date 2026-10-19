@@ -143,6 +143,8 @@ fill, never text. **The system never inverts** — ink on sun is correct; yellow
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading/data ramp** (Archivo body 0.85cqw ink, micro-labels in px, JetBrains Mono
 data) carries copy + chrome; the **display ramp** (Instrument Serif `ledger-title` 1.55cqw →
 `numeral-jumbo` 28cqw) carries every headline, numeral, and quote.
@@ -284,6 +286,6 @@ until the script supplies them. Chapter ordinals (01, 02…) are decorative.
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the source's 280ms crossfade is a deck mechanic.
-- **Instrument Serif + Archivo + JetBrains Mono via Google Fonts.** CJK: Smiley Sans (display) / Noto Serif SC (body) / Noto Sans SC (labels); italic serif and mono tabular figures have no exact Hanzi equal — keep ledger dates Latin.
+- **Instrument Serif + Archivo + JetBrains Mono via Google Fonts.** Simplified Chinese examples: Smiley Sans (display) / Noto Serif SC (body) / Noto Sans SC (labels), not a generic CJK mapping. Other scripts/locales need appropriate fonts with actual coverage. Italic serif and mono tabular figures have no exact Hanzi equal; preserve the brief's ledger dates and numeral format rather than forcing Latin.
 - **9:16 / 1:1 are guidance**; the `min(vw,vh)` clamp pattern keeps display from blowing out — verify per ratio.
 - Sun/ember blooms, block tiles, yellow panels, and hairline rules are CSS-only; no external imagery is required.

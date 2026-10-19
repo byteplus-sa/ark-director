@@ -64,6 +64,12 @@ HyperFrames is stricter than vanilla GSAP. Animate only:
 - **Media `volume`** (on `<audio>` / `<video>`): do not tween it for fades or ducking; use the `data-automation` volume lane (`creator-editing-recipes.md` in `hyperframes-core`). A lane wins over a tween on the same element.
 - **DOM text `innerText`** (for numeric counters): tween it directly, e.g. `tl.to(el, { innerText: 100, snap: { innerText: 1 } })` — `snap` keeps it integer; the GSAP inspector recognizes it as a counter. Equivalent to the `onUpdate`-proxy form in `../rules/counting-dynamic-scale.md`; prefer that proxy form for locale formatting (`toLocaleString`) or suffix logic, and pair it with a separate transform-scale tween when the number should grow.
 
+For locale formatting, define `const locale = brief.locale` from the confirmed
+brief before building the timeline and use `value.toLocaleString(locale)`.
+Require a non-empty explicit locale; ask when it is missing rather than using
+the browser or operating-system locale. Keep this variable defined in copied
+templates and use it for both initial text and update callbacks.
+
 **Avoid** (use the transform alias instead):
 
 - `width` / `height` / `top` / `left` / `right` / `bottom` / `margin*` / `padding*` — trigger layout reflows. Use `scaleX/Y` (with `transformOrigin`) or `x` / `y`.

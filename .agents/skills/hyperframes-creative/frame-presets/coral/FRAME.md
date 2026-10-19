@@ -159,6 +159,8 @@ cream/ink, ink on coral — coral-on-coral does not exist. The only sanctioned g
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (Inter body 1.0cqw, body-light 1.5cqw, labels in px) carries copy
 and eyebrows; the **display/hero ramp** (Bebas, `card-title` 1.9cqw → `jumbo-feature` 9.0cqw, plus
 the decorative `background-numeral` 10cqw and `giant-mark` 14cqw) carries every headline and stat.
@@ -282,7 +284,7 @@ timeline-line with 4–5 coral nodes (cream halos) and Bebas labels. **Accent** 
 | Timeline             | horizontal rail            | vertical rail                        | compact horizontal   |
 
 Safe area holds the `5cqw` padding on the short edge; re-step display per ratio so no load-bearing
-line drops below the 1.4cqw floor. Bebas runs ~20% wider in CJK — adjust line breaks per ratio.
+line drops below the 1.4cqw floor. Measure the approved text in the selected script-covering font and adjust line breaks per ratio; do not assume a fixed CJK width multiplier.
 
 ## Approved Entities
 
@@ -309,6 +311,6 @@ catalog, and timeline especially carry placeholders, not fabricated values. Wall
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; timing and transitions are a later stage. The 0.6s opacity fade in the source is a deck mechanic, not a frame spec.
-- **Bebas Neue + Inter via Google Fonts.** CJK pairing (ZCOOL XiaoWei / Yozai) carries over from the source's CJK section; Bebas runs ~20% wider in CJK.
+- **Bebas Neue + Inter via Google Fonts.** The source suggests ZCOOL XiaoWei / Yozai for Chinese text; this is not a generic CJK mapping. Choose the appropriate locale/script assets with verified coverage and measure actual line fit while preserving the display/body roles.
 - **9:16 / 1:1 are guidance**, not pixel-locked; verify the legibility floor per ratio.
 - The 45° hatch, wallpaper numerals, giant marks, and timeline dash are CSS-only; no external imagery is required.

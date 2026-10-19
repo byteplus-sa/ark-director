@@ -145,6 +145,8 @@ new hue. Cream text on orange does not exist (ink-on-fire is absolute).
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (Barlow body 1.2cqw, mono label 0.72cqw) carries copy + chrome; the
 **display ramp** (Barlow `h2` 4.5cqw → `display` 13cqw, weight 700–900) carries every statement.
 
@@ -253,7 +255,7 @@ compare-panel pair, kicker, h3. **Focal** two panels — left documents (cream o
 | Compare    | side-by-side panels        | stacked (dark over orange) | stacked          |
 
 `pad-x` holds tight on the short edge; re-step display so the one big line stays ≤78cqw and above the
-1.4cqw floor. Mono chrome stays Latin/digit-only.
+1.4cqw floor. Mono chrome preserves the approved script and explicit user/brief numeral format.
 
 ## Approved Entities
 
@@ -279,6 +281,6 @@ them. Catalogue numbers (No. 01) are decorative chrome and may be sequential.
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the source's 0.8s deck slide + per-element entry animations are deck mechanics.
-- **Barlow + IBM Plex Mono via Google Fonts**; Noto Sans SC is the CJK fallback (the lowercase-display signal has no CJK equivalent — the two-register color system carries the identity, per the source).
+- **Barlow + IBM Plex Mono via Google Fonts**; Noto Sans SC is a Simplified Chinese example, not a generic CJK fallback. Other scripts/locales need appropriate fonts with actual coverage. Hanzi has no lowercase-display signal; the two-register color system carries the identity, per the source.
 - **9:16 / 1:1 are guidance**; verify the one big line stays ≤78cqw and above the floor per ratio.
 - Bars, compare panels, and the dashed image placeholder are CSS-only; no external imagery is required.

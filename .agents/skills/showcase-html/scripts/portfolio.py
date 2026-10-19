@@ -5,6 +5,9 @@ without a final_master lock is shown as in production. With --showreel, the
 locked masters are joined back to back with hard cuts and per-project gain to
 one loudness target, and a build record is written beside the video.
 
+Selected delivery SRT sources accept language and label metadata. Language
+falls back only to an explicit .<language>.srt suffix; unknown language fails.
+
 Usage:
   portfolio.py OUT_DIR PROJECT [PROJECT ...] [--title T] [--showreel]
 """
@@ -65,12 +68,37 @@ def project_entry(project: Path) -> dict[str, Any]:
         raise ValueError(f"{project.name}: final master changed after its lock")
     entry["master"] = master
     entry["master_sha256"] = lock["artifact_sha256"]
-    srts = [s["path"] for s in delivery.get("sources", []) if str(s.get("path", "")).endswith(".srt")]
+    srts = [s for s in delivery.get("sources", []) if str(s.get("path", "")).endswith(".srt")]
     stem = master.stem
-    srts.sort(key=lambda path: (not Path(path).name.startswith(stem), path))
+    srts.sort(key=lambda source: (not Path(source["path"]).name.startswith(stem), source["path"]))
     if srts:
-        entry["subtitles"] = inside(project, srts[0])
+        entry["subtitles"] = subtitle_track(project, srts[0])
     return entry
+
+
+LANGUAGE_LABELS = {
+    "ar": "Arabic", "de": "German", "en": "English", "es": "Spanish", "fr": "French",
+    "hi": "Hindi", "id": "Indonesian", "ja": "Japanese", "ko": "Korean", "ms": "Malay",
+    "pt": "Portuguese", "sw": "Swahili", "th": "Thai", "tl": "Filipino", "vi": "Vietnamese",
+    "zh": "Chinese",
+}
+
+
+def subtitle_track(project: Path, source: dict[str, Any]) -> dict[str, Any]:
+    path = inside(project, source["path"])
+    parts = Path(source["path"]).name.split(".")
+    language = source.get("language", parts[-2] if len(parts) >= 3 else None)
+    if (not isinstance(language, str)
+            or not re.fullmatch(r"[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*", language)
+            or language.split("-")[0].lower() == "und"):
+        raise ValueError(
+            f"{project.name}: {source['path']}: set source language to a supported language tag "
+            "(e.g. en, es, zh-Hant-TW); unknown or invalid subtitle language"
+        )
+    label = source.get("label", LANGUAGE_LABELS.get(language.split("-")[0].lower(), language))
+    if not isinstance(label, str) or not label.strip():
+        raise ValueError(f"{project.name}: {source['path']}: subtitle label must be a nonempty string")
+    return {"path": path, "language": language, "label": label}
 
 
 def duration(path: Path) -> float:
@@ -180,9 +208,12 @@ def build(out_dir: Path, projects: list[Path], title: str, subtitle: str, showre
                             "-i", str(entry["master"]), "-frames:v", "1", "-vf", "scale=540:-1", str(poster)], check=True)
             track = ""
             if entry["subtitles"] is not None:
-                vtt = out_dir / f"{entry['slug']}.en.vtt"
-                srt_to_vtt(entry["subtitles"], vtt)
-                track = f'<track kind="subtitles" srclang="en" label="English" src="{vtt.name}">'
+                caption = entry["subtitles"]
+                language = caption["language"]
+                vtt = out_dir / f"{entry['slug']}.{language}.vtt"
+                srt_to_vtt(caption["path"], vtt)
+                track = (f'<track kind="subtitles" srclang="{html.escape(language)}" '
+                         f'label="{html.escape(caption["label"])}" src="{html.escape(vtt.name)}">')
             source = os.path.relpath(entry["master"], out_dir)
             media = (f'<video controls preload="metadata" playsinline poster="{poster.name}">'
                      f'<source src="{html.escape(source)}" type="video/mp4">{track}</video>')

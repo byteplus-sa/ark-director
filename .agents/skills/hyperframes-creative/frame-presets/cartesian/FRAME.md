@@ -155,6 +155,8 @@ accent** — when emphasis is needed, grow the type, switch sans→serif, or add
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (Inter body 1.0cqw gray, labels in px taupe) carries copy + chrome;
 the **display ramp** (Playfair `h3` 1.8cqw → `display` 8.0cqw, all weight 400) carries every headline.
 
@@ -273,6 +275,6 @@ Stats and timeline years carry placeholders until the script supplies them. Agen
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the 0.6s fade in the source is a deck mechanic.
-- **Playfair Display + Inter via Google Fonts.** CJK pairing (Noto Serif SC 700/400) carries over; Playfair has no Hanzi italic — substitute weight/taupe for emphasis.
+- **Playfair Display + Inter via Google Fonts.** Simplified Chinese pairing example: Noto Serif SC 700/400, not a generic CJK mapping. Other scripts/locales need appropriate fonts with actual coverage. Playfair has no Hanzi italic; retain weight/taupe emphasis.
 - **9:16 / 1:1 are guidance**; verify the legibility floor and that the timeline collapses to a vertical list.
 - Geo rings, the crossed-X placeholder, and the dashed inner ring are CSS-only; no external imagery is required.

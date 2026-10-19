@@ -209,14 +209,16 @@ states CRITICAL or MINOR when it differs.
     Every speaking character, including phone-screen voices and narrators, has
     a scripted line; unscripted speakers ad-lib.
 
-33. **Speech budget (`dialogue.speech_budget`).** Lines start 0.5-1.5 s late,
-    later after long pre-line action, and speech tends to fill to the clip end.
-    Each shot or stage that holds a line lasts at least spoken words / 2.2 +
-    1 s; the last line ends at least 0.4 s before the clip end; the final 3 s
-    hold at most two state changes. Opening hook words are short and ASR-clean.
-    A script far shorter than the duration directs the gap (pauses, beats). An
-    over-budget line is MAJOR; trimming the clip head does not lengthen the
-    tail.
+33. **Speech budget (`dialogue.speech_budget`).** Use measured delivery or a
+    native-language-informed read, including pauses, onset and tail. About
+    2.2 words/s is an English planning estimate, not a universal gate. An onset
+    allowance of 0.5-1.5 s and a final tail of at least 0.4 s are planning
+    margins, to be checked against the actual take. Preserve requested language
+    and locked text; propose retiming or splitting before authorized rewrites.
+    A demonstrated duration conflict is MAJOR; an English word-count estimate
+    alone cannot establish one. Without delivery evidence, timing is provisional.
+    Direct unused gaps and keep the final 3 s to at most two state changes;
+    trimming the clip head does not lengthen the tail.
 
 34. **Same dialogue in both prompts.** When separate audio is in scope, the Seed
     Audio text matches the `{}` text exactly: no paraphrase, reorder or omission.

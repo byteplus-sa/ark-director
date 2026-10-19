@@ -35,15 +35,17 @@ draft the brief with the fields in
 [episode structure](references/episode-structure.md).
 
 Output per episode: a project under `projects/<slug>/` with all eight production
-stages closed, a final master (1080×1920 H.264/AAC), an English subtitle
-sidecar, locks, and an honest defect list. For a batch, also a portfolio page
+stages closed, a final master (1080×1920 H.264/AAC), subtitle sidecars in the
+requested languages, locks, and an honest defect list. Confirm subtitle
+languages or an explicit no-subtitles choice in the brief; never assume English.
+For a batch, also a portfolio page
 and an optional full-episode showreel.
 
 ## Workflow
 
 1. **Brief.** Lock logline, formula, a cast of at most three recurring
    characters, one or two locations, threshold props, and exact dialogue per
-   scene within the word budget in
+   scene within the language-aware timing budget in
    [episode structure](references/episode-structure.md). Record
    `approval_mode`, format, run budget, the native-dialogue audio route and an
    ungraded look in `project.md`, run `brief-intake` with a fast proposal, then
@@ -76,7 +78,8 @@ and an optional full-episode showreel.
 7. **Assembly.** In Studio, place the cold open first, then the title card, the
    three clips with short dissolves, and the to-be-continued card, in original
    colours with no grade. Fix wrong words with word-scoped audio patches. Add a
-   subtitle sidecar and normalize loudness. Picture and audio locks come from
+   subtitle sidecar for each requested language and normalize loudness. Omit
+   sidecars only for an explicit no-subtitles choice. Picture and audio locks come from
    real playback and listening evidence.
 8. **Delivery.** Final lock and passing Studio stage-exit checks, with the final
    master from `studio_project.py render`; FFmpeg assembly, subtitle and

@@ -178,6 +178,8 @@ accent; never use pure white; never gradient.
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (body, mono labels, table heads) holds px+cqw for chrome and copy.
 The **display/hero ramp** is frame-native and authored in `cqw` — from `display-head` (4.2cqw) up
 to `display-hero` (15.5cqw) for a wordmark cover.
@@ -328,6 +330,6 @@ grid and ledger especially carry placeholders, not fabricated values.
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; timing and transitions are a later stage. The closing green is described as a _plate_, not a transition.
-- **Archivo Black requires Google Fonts**; fallback is `sans-serif`. CJK pairing (Noto Serif SC 900 / NSC 400) carries over from the source's CJK section.
+- **Archivo Black is available via Google Fonts**; use a licensed staged asset with verified coverage, not a generic `sans-serif` fallback. The source's Noto Serif SC 900 / Noto Sans SC 400 pairing is a Simplified Chinese example, not a generic CJK mapping. Other scripts/locales need appropriate fonts with actual coverage.
 - **9:16 / 1:1 are guidance**, not pixel-locked; verify the legibility floor per ratio.
 - Decorative geometry (circle, stamp, stacked blocks) is CSS-only; no external imagery is required.

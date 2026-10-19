@@ -3,28 +3,26 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Write a Seedream prompt package for a new adult everyday character named Berto: deep brown skin, broad rounded face, short straight black hair, stocky body, ochre woven camp shirt, indigo pleated trousers and cream sandals. Use handcrafted painterly 3D, tactile cloth and subtle pencil hatching. I need a back/front/face sheet and a wardrobe material-study draft. No image generation. There are no image references yet.",
+      "prompt": "Write a Seedream prompt package for a fictional adult everyday character: deep brown skin, broad rounded face, short straight black hair, stocky body, ochre woven camp shirt, indigo pleated trousers and cream sandals. Use handcrafted painterly 3D, tactile cloth and subtle pencil hatching. I need a back/front/face sheet and a wardrobe material-study draft. No image generation. There are no image references yet.",
       "expected_output": "Two consistent prompt drafts with explicit T2I/no invented references, complete requested views, preserved stocky proportions and palette, garment-only macro framing, and no claim of a selected costume reference.",
       "files": [],
       "expectations": [
         "Returns character-sheet and material-study prompts without generating media.",
-        "Preserves Berto's stocky body, skin tone, face, wardrobe and palette.",
+        "Preserves the character's stocky body, skin tone, face, wardrobe and palette.",
         "Does not invent image bindings or an approved reference.",
         "Material draft excludes face/hair descriptors and fills the upper frame edge with garment surfaces."
       ]
     },
     {
       "id": 2,
-      "prompt": "Using the attached Sinag character sheet as the costume reference, write a Seedream prompt for three wardrobe macro panels in the same handcrafted 3D treatment: jacket ornament, waist/cape attachment, and gauntlet/boot details. Preserve the visible costume. Keep every head and face outside the frame. Return reference roles and a visual checklist; do not generate or approve images.",
-      "expected_output": "An I2I macro prompt bound to the supplied sheet, accurate marigold/aubergine/cream costume, tall boots and split cape, cloth-filled upper-edge framing, no portrait descriptors, and an honest geometry/face QA checklist.",
-      "files": [
-        "examples/sinag-sheet-v01.webp"
-      ],
+      "prompt": "Using my approved fictional character sheet, write an exact costume material-study prompt in handcrafted painterly 3D: chest ornament, waist attachment and boots. I forgot to attach the sheet and have supplied no costume description. Keep all heads and faces outside the panels. Do not generate anything.",
+      "expected_output": "Requests the missing sheet before claiming exact matching, records unresolved palette and construction, and does not invent visible details, bindings or approval evidence.",
+      "files": [],
       "expectations": [
-        "Binds @Image 1 to the supplied costume rather than only general style.",
-        "Preserves visible palette, tall boots and split cape.",
-        "Keeps facial anatomy and hair outside the material-study prompt subject.",
-        "Includes visible face-fragment and costume-construction checks without claiming approval."
+        "Asks for the missing sheet instead of claiming it was inspected.",
+        "Does not invent a palette, garment construction or @Image binding.",
+        "Keeps the task prompt-only and does not generate or approve a candidate.",
+        "Records that exact costume matching remains unresolved; any offered generic draft is labeled as provisional."
       ]
     },
     {

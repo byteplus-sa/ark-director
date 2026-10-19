@@ -4,17 +4,18 @@
     {
       "id": 1,
       "prompt": "Turn our 10-second office comedy clip into 2D anime. Same two coworkers, same gags, same camera. We own the footage.",
-      "expected_output": "A restyle package with the cel-anime-2d fragment, a content inventory for both coworkers by observable descriptors, an environment image of the same office drawn in the style and bound as the environment reference, the muted master as @Video 1 trimmed to an 8n+1 frame count with generate_audio false and an original-audio post route, and a 480p probe of the hardest beat first.",
+      "expected_output": "A full-frame cel-anime-2d package preserving both coworkers, office layout and source timing, with muted picture, saved source audio and a supported draft. Additional environment imagery is conditional on this request or observed output.",
       "files": [],
       "assertions": [
         "The edit scope redraws every person, object and surface in the style and states exactly two people.",
         "Each coworker keeps identity cues (hair shape, wardrobe colours) described from the source, not by name.",
         "@Video 1 is the muted master, generate_audio is false and the saved source audio is the recorded post-audio route.",
-        "An environment image of the same office, drawn in the style, is generated from a text description and bound with an Environment Reference Role; the prompt names no different location and does not rely on 'same layout' wording to restyle the background.",
-        "The package checks that the environment image reads as the same office as the source and holds no stray objects, and states that the background must stay the same place.",
-        "The source is trimmed to an 8n+1 frame count (for example 241 frames at 24 fps for 10 s) before the edit.",
+        "The medium lock includes the office background without requiring an environment image.",
+        "Any environment image has a current-request justification and approval, preserves the same place and layout, and excludes extra objects.",
+        "Preserves the original source; frame adaptation requires current capability evidence and approval, not an automatic 8n+1 trim.",
         "No studio, artist or franchise is named.",
-        "The first request is a 480p probe."
+        "Follows the workspace draft policy with currently supported parameters; does not require a short probe when no actual difficulty is identified in the current input or result.",
+        "Any proposed short 480p probe targets the hardest window of that identified difficulty and requires user approval for its selected span before preparation or submission; without approval, preserves the full timeline and leaves the probe pending."
       ]
     },
     {
@@ -43,13 +44,25 @@
     {
       "id": 4,
       "prompt": "Restyle my 5-second city-street clip as watercolor, but just with a prompt. I don't want to upload any images.",
-      "expected_output": "An honest scoping answer: a same-place background restyle from prompt words alone is not reliable (the street tends to stay photographic or the place changes), so the skill offers an environment image it generates from a text description of the same street, which needs no user upload, or a subject-only restyle; it never names a different location, and the first request is a 480p probe.",
+      "expected_output": "A words-only watercolor prompt covering the entire street scene, with source content and timing preserved and actual draft review required.",
       "files": [],
       "assertions": [
-        "The response states that a words-only same-place background restyle is unreliable before writing a prompt.",
-        "It offers a text-generated environment image of the same street, noting that the user does not have to upload anything, or a subject-only restyle.",
+        "Writes the requested whole-frame prompt without claiming words cannot restyle backgrounds.",
+        "Does not generate or bind an unrequested image or reduce the scope to subject-only.",
         "No different location is named in any prompt.",
-        "The watercolor medium on this route is flagged as untested, and the first request is a 480p probe."
+        "Makes no watercolor capability verdict from an old test; proposes a supported draft and review of actual medium coverage."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Our current ink-wash restyle missed the train carriage ceiling. We approve a same-place environment reference, but not a different layout or any trimming of the 237-frame original.",
+      "expected_output": "A scoped medium-coverage repair with an approved ceiling reference and source-preserving timeline.",
+      "files": [],
+      "assertions": [
+        "Bases the repair on the current ceiling failure, not a previous cafe test.",
+        "Keeps source geometry and camera authoritative; the image supplies medium only.",
+        "Preserves the 237-frame original and does not impose 8n+1 or whole-second adaptation.",
+        "Records reference approval and hashes and measures actual returned timing rather than promising exact frames."
       ]
     }
   ]

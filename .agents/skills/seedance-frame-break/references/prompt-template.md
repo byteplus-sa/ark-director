@@ -49,7 +49,7 @@ No on-screen text, captions, logos or watermarks; no held props; the bars stay p
 | Gaze, spin, sweep | Pick one gaze rule per stage. A spin or sweep direction must match the direction stated elsewhere. |
 | Bars, early sentence | Said once right after the main idea: fixed graphics, perfectly straight horizontal inner edges, same height in every frame. |
 | Frame and layer order | Back to front, with the bars as flat static graphics under the subject, the constant-height phrase repeated, the rule that whatever covers them never changes them, and the window stated as the large majority of the frame height. Avoid the word letterbox. |
-| Scale | Scale grows only for the extending limb or hem, and no limb or head should fill a third of the frame, because a near-lens limb can distort the bars. This protects the bars; it does not mean making the subject big. |
+| Scale | Scale grows only for the extending limb or hem. Keep the surrounding bar edge readable; a one-third-frame limit is a staging suggestion, not a validated failure boundary. |
 | Audio | State the sound arc and whether music is wanted. Verify by listening, since effects-only requests may still produce light music or a chime; when music must be absent, suggest `generate_audio: false` and post sound. |
 | Closing exclusions | One or two lines. Necessary exclusions are allowed; positive direction comes first. |
 
@@ -58,8 +58,9 @@ quarters are a sound default). Do not state the total duration in the prompt.
 
 ## Worked example
 
-An original stylised character with a scenic backdrop. The identity reference is
-one approved character sheet bound as `@Image 1`.
+A fictional stylised character with a scenic backdrop, not a prior-project take.
+Assume one approved character sheet bound as `@Image 1` for this example only.
+The preflight below checks prompt structure, not generated-media quality.
 
 ```text
 @Image 1 defines the lantern-keeper girl's face, silver bob hair, orange rain cape, cream scarf and 2D anime illustration style only; ignore its panel layout, borders and background.
@@ -83,13 +84,11 @@ Audio: only soft harbour wind, gentle water ambience, <boot taps on stone> and <
 No on-screen text, captions, logos or watermarks; no held props; the bars stay plain black and unmarked.
 ```
 
-Notes on the choices (optional technique unless labelled):
+Notes on the choices (optional techniques, not validation claims):
 
 - The backdrop is indigo and muted; the subject is orange and cream, so the
-  colours differ and the subject separates from the scene (calmer backdrops with differing colours
-  read well).
-- The upper bar has its own stage with an open-palm peak, because it is crossed
-  less reliably than the lower bar.
+  colours differ; inspect whether the generated silhouette remains readable.
+- The upper bar has its own stage with an explicit open-palm peak and return.
 - Each stage is one event with a peak and a return. She never walks toward the
   lens, so torso and legs never end up over a bar, and the opening and every
   stage boundary are fully inside the window.

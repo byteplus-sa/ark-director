@@ -1,50 +1,27 @@
 # Evidence status
 
-Recipes are written from the observed example footage of each effect and then
-tried on invented subjects at 480p. That shows a recipe can produce the effect,
-or fail to, on one subject at one resolution; it does not guarantee the effect
-on other photos, other subjects, other resolutions or real people. Treat every
-recipe as a starting point and check its QA list on each draft.
+Every recipe is unvalidated on current inputs. The recipes describe intended
+visual mechanics, not successful generation results. Keep take-specific tests,
+observations and approvals with the current production, not in this skill.
 
-## Confidence levels
+## Current-input checks
 
-| Level | Meaning | Say to the user |
-| --- | --- | --- |
-| Limited probe | The signature look has been produced at least once on an invented subject at 480p; defects such as approximate counts, leaked sound or small timing drift are possible | "Tried on an invented subject only; your photo may differ" |
-| Unverified | No take has passed review (`canvas`, `palette`, `lsd`); the recipe is a hypothesis | Say so before any paid run and offer `comic` or a `seedance-restyle` catalog style |
+- Inspect the supplied asset against the recipe's input contract.
+- Verify current model, tool, reference-role and parameter capabilities before
+  submission. Preserve documented unsupported flags; unknown support is not
+  permission to submit. See [provider rules](generation-flow.md#provider-rules).
+- Test only within the user's generation authorization, then review the take
+  against the recipe's QA list. Report inspection method and unresolved defects.
+- Check counts, identity, wardrobe, timing, lettering and audio on the actual
+  output. Keep the requested counts; do not compensate for assumed count bias.
+- Check style coverage across the whole intended region, including foreground
+  and subject, and validate post-dependent mechanics in the completed composite.
+- Recheck finals, changed references and chained clips. An accepted draft does
+  not validate a different output.
+- Offer a scoped revision or alternative when the current take misses the brief;
+  another recipe is also unvalidated on current inputs.
 
-A template amended after a probe is a hypothesis until a new draft shows the
-change. Never present either level as proof on the user's photo.
-
-## Recurring failure modes
-
-These hold across effects; each recipe's Risks and QA lists carry the specifics.
-
-- Counts of people, copies, objects and panels drift upward or land
-  approximate. State the count at every timestamp and count on a full-size
-  frame.
-- Native audio can leak music, singing or stray voices despite the audio
-  sentence. Check the track, or generate silent and add a bed in post.
-- Described tickets, panels, screens and signs invent lettering and digits.
-  Name plain surfaces and add readable overlays in post.
-- Prompted cut times drift and cuts closer than about 0.8 s merge. Finish rapid
-  cuts and stepped cadence in post.
-- Whole-clip restyle effects may restyle only part of the frame.
-
-Provider rules that affect routing are in
-[generation-flow.md](generation-flow.md#provider-rules).
-
-## Not covered by the probes
-
-- 720p or 1080p finals and the draft promotion path.
-- A user's own photo (a real face may be refused as a start frame; see the
-  rights step), a second subject and branded products.
-- Source clips with people bound as `asset://` assets, and edit-route draft
-  mode.
-- Reference-image routes with a user-supplied non-crop reference.
-- The chained second clip for `eyes-in`.
-
-## Tooling findings
+## Tooling contracts
 
 - Reference images and start frames need `--ref` evidence: an approved manifest,
   a candidate review and a hash-bound decision.

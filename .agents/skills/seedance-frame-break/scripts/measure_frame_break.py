@@ -546,6 +546,7 @@ def build_flags(summary: dict[str, Any], thin_pct: float) -> list[str]:
 
 
 def measure(args: argparse.Namespace) -> dict[str, Any]:
+    check_ranges(args)
     path: Path = args.video
     if not path.is_file():
         raise MeasureError(f"Input file not found: {path}")
@@ -553,6 +554,12 @@ def measure(args: argparse.Namespace) -> dict[str, Any]:
     width, height = info["width"], info["height"]
     if height < 16 or width < 16:
         raise MeasureError(f"Frame size {width}x{height} is too small to measure")
+    calibration = getattr(args, "calibrated_resolution", None)
+    if calibration is not None and list(calibration) != [width, height]:
+        raise MeasureError(
+            f"--calibrated-resolution must match the input size {width}x{height}; "
+            "recalibrate for this input instead of reusing pixel tolerances"
+        )
     fps = args.fps if args.fps is not None else info["native_fps"]
     if not 0 < fps <= 120:
         raise MeasureError("Could not determine a sampling rate; pass --fps")
@@ -656,8 +663,29 @@ def measure(args: argparse.Namespace) -> dict[str, Any]:
     summary["frames_scanned"] = len(frames)
     summary["overlap_intervals"] = len(intervals)
     summary["flags"] = build_flags(summary, args.thin_pct)
+    for key in ("top", "bottom", "static_bar_gate", "break_out_gate", "verdict"):
+        record = summary[key]
+        record["diagnostic_status"] = record["status"]
+        if calibration is None:
+            record["status"] = "inspect"
+            if key in ("top", "bottom"):
+                record["static"] = False
+            else:
+                record["passed"] = False
+                record["needs_review"] = True
+    if calibration is None:
+        summary["verdict"]["note"] = (
+            "Uncalibrated advisory analysis: diagnostic_status, flags and records "
+            "are inspection leads, not acceptance or rejection gates. Review the "
+            "frames and calibrate settings for this resolution and content."
+        )
     return {
         "input": str(path),
+        "calibration": {
+            "mode": "explicit" if calibration is not None else "advisory",
+            "resolution": list(calibration) if calibration is not None else None,
+            "note": "Explicit means caller-declared calibration, not validation by this tool.",
+        },
         "width": width,
         "height": height,
         "duration_s": round(info["duration_s"], 3),
@@ -673,6 +701,9 @@ def measure(args: argparse.Namespace) -> dict[str, Any]:
             "top_bottom_tolerance_pct": args.top_bottom_tolerance_pct,
             "bar_shape_fraction": args.bar_shape_fraction,
             "start_window_s": args.start_window_s,
+            "min_bar_pct": args.min_bar_pct,
+            "thin_pct": args.thin_pct,
+            "merge_gap_s": args.merge_gap_s,
         },
         "frames": frames,
         "overlap_intervals": intervals,
@@ -739,6 +770,15 @@ def check_outputs(args: argparse.Namespace) -> None:
 
 
 def check_ranges(args: argparse.Namespace) -> None:
+    for name, value in vars(args).items():
+        if isinstance(value, float) and not math.isfinite(value):
+            raise MeasureError(f"--{name.replace('_', '-')} must be finite")
+    calibration = getattr(args, "calibrated_resolution", None)
+    if calibration is not None and (
+        len(calibration) != 2
+        or any(type(value) is not int or value < 16 for value in calibration)
+    ):
+        raise MeasureError("--calibrated-resolution needs WIDTH HEIGHT, both at least 16")
     rules = (
         ("--fps", args.fps is None or 0 < args.fps <= 120),
         ("--black-level", 0 <= args.black_level <= 128),
@@ -785,9 +825,10 @@ def check_window(args: argparse.Namespace) -> None:
 
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(
-        description="Measure frame-break bar motion and subject overlap in a 16:9 clip"
+        description="Measure frame-break bar motion and subject overlap; advisory unless explicitly calibrated"
     )
     value.add_argument("video", type=Path)
+    value.add_argument("--calibrated-resolution", type=int, nargs=2, metavar=("WIDTH", "HEIGHT"), help="enable gates only after caller calibration of all settings for this exact input resolution and content; otherwise all statuses are inspect")
     value.add_argument("--fps", type=float, default=None, help="sampling rate; default is the clip's native frame rate so every frame is scanned")
     value.add_argument("--black-level", type=int, default=8, help="luma at or below this counts as black; keep it below dark picture content")
     value.add_argument("--edge-fraction", type=float, default=0.01, help="width fraction of each column strip")
@@ -803,7 +844,7 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--jump-threshold-px", type=float, default=3.0, help="frame-to-frame change of both far edges that counts as a jump")
     value.add_argument("--start-window-s", type=float, default=0.25, help="opening window in which the subject must sit inside the central window")
     value.add_argument("--start-overlap-tolerance", type=float, default=0.02, help="largest non-black bar-band fraction allowed in the opening window")
-    value.add_argument("--max-overlap-duty", type=float, default=0.7, help="largest fraction of frames with overlap in either bar; break-outs are events, not a state")
+    value.add_argument("--max-overlap-duty", type=float, default=0.7, help="diagnostic overlap duty limit; not a universal acceptance threshold")
     value.add_argument("--top-bottom-tolerance-pct", type=float, default=1.0, help="allowed median thickness difference, percentage points of frame height")
     value.add_argument("--min-bar-pct", type=float, default=1.0)
     value.add_argument("--thin-pct", type=float, default=8.0)

@@ -110,20 +110,22 @@ Place a spoken line inside the shot that frames the speaker, and budget it
 
 - Speech starts 0.5-1.5 s after the shot or cue begins, later after long
   pre-line action, so a line should not follow a busy action beat.
-- Conversational pace is about 2.2 words per second. A shot that holds a line
-  lasts at least spoken words / 2.2 + 1 s.
+- About 2.2 words per second is an English planning estimate, not a universal
+  gate. Budget measured delivery or a native-language-informed read, including
+  pauses, onset and tail; without delivery evidence, timing is provisional.
 - Speech tends to fill to the clip end. End the last line at least 0.4 s before
   the end, and keep the final 3 s to at most two state changes (for example a
   line and a reaction, not a line, a turn and an exit).
 - Opening hook words are short and transcribe cleanly; a mumbled first word
   costs the hook.
 - Trimming the clip head in assembly does not lengthen the tail; fix timing in
-  the prompt, before the draft.
+  the prompt, before the draft. Preserve requested language and locked words;
+  propose a longer shot or split before an authorized wording revision.
 
 Vary size and angle between speakers, and keep moves slow while a line is
-spoken so lips and eyes stay readable. For dialogue in a language or register the model handles weakly, compose
-with a market dialogue leaf (for example `seedance-prompt-25-filipino`) for the
-delivery direction.
+spoken so lips and eyes stay readable. A market dialogue leaf (for example
+`seedance-prompt-25-filipino`) can supplement delivery direction when explicitly
+selected for the requested market; its presence never selects the language mix.
 
 ## Examples
 

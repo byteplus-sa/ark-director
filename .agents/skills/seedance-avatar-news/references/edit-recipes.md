@@ -49,7 +49,14 @@ cannot drift.
 ## edl.json
 
 All paths are relative to the EDL file. `clip` is relative to `clips_dir`, or
-to the EDL folder when `clips_dir` is omitted.
+to the EDL folder when `clips_dir` is omitted. `font` is a required approved
+font file; `font_index` selects a face in a collection (default 0).
+Missing or unreadable fonts stop rendering before video segments are built.
+There is no system-font fallback. Verify glyph coverage and shaping for the
+approved text; never transliterate, translate or change the script to fit a font.
+
+The following EDL is a fictional layout example. Replace its media, timing,
+font and copy with the current approved inputs.
 
 ```json
 {
@@ -59,7 +66,9 @@ to the EDL folder when `clips_dir` is omitted.
   "end": 27.0,
   "take_focus_y": 0.3,
   "take_split_focus_y": 0.05,
-  "sources_label": "<Brand>",
+  "font": "fonts/approved.ttf",
+  "font_index": 0,
+  "sources_label": "<approved complete source badge>",
   "channel_label": "<CHANNEL NAME>",
   "out": "s01_render_v01.mp4",
   "segments": [
@@ -82,7 +91,10 @@ to the EDL folder when `clips_dir` is omitted.
 | `focus_x` | 0–1 horizontal anchor for the cover-crop |
 | `crop_bottom_frac` | Fraction trimmed from the bottom before cropping (burned-in subtitle bands) |
 
-Captions are uppercased by the script.
+Captions and badges render verbatim. Supply the approved case and language,
+including any source-label prefix, in the EDL. For older EDLs, explicitly add
+the desired prefix to `sources_label` and select the approved font before
+rendering; no English prefix or uppercase conversion is applied automatically.
 
 ## Layouts
 
@@ -94,8 +106,8 @@ Captions are uppercased by the script.
 | `full_b` | B-roll full frame | 1350 |
 | `card` | Presenter in a rounded frame on black ("and here's…") | 1500 |
 
-A faithful replica is all `split` segments plus one `card` beat on the pivot
-line. A remix opens on `full_m` for the hook, alternates `full_b` and `split`
+A split-screen option uses `split` segments plus a `card` beat on the pivot
+line. Match an actual supplied reference only after inspecting it. A remix opens on `full_m` for the hook, alternates `full_b` and `split`
 every 1.5–3s on the capability beats, uses `card` on the pivot, and closes on
 `full_mz`. In practice each B-roll cut is its own segment.
 
@@ -108,9 +120,9 @@ full-screen on the presenter.
 - A cue starts at its first word. It ends at the next cue's start, or 0.45s
   after its last word when the gap is over 0.6s. Cues are clipped at a
   layout-class change so a caption never jumps position mid-display.
-- Style: Helvetica Neue Bold 64 px (Arial Bold / DejaVu Sans Bold fallback),
+- Style: the explicitly selected font at 64 px,
   white on a 22 px-radius pill at rgba(10,10,12,0.69).
-- Badges: "Sources: <brand>" top-left and the channel name top-right, 26 px on
+- Badges: the approved complete source label top-left and channel name top-right, 26 px on
   a frosted pill with a thin outline, at y=70.
 
 ## B-roll provenance and rights

@@ -52,12 +52,13 @@ class FrameBreakMeasureTests(unittest.TestCase):
         duration: int = 3,
         rate: int = 10,
         codec: tuple[str, ...] = ("-c:v", "ffv1"),
+        size: tuple[int, int] = (WIDTH, HEIGHT),
     ) -> Path:
         path = self.root / name
         subprocess.run(
             [
                 "ffmpeg", "-v", "error", "-y", "-f", "lavfi",
-                "-i", f"color=c=0x3a7bd5:s={WIDTH}x{HEIGHT}:r={rate}:d={duration}",
+                "-i", f"color=c=0x3a7bd5:s={size[0]}x{size[1]}:r={rate}:d={duration}",
                 "-vf", ",".join(filters), "-pix_fmt", "yuv420p", *codec, str(path),
             ],
             check=True,
@@ -66,6 +67,7 @@ class FrameBreakMeasureTests(unittest.TestCase):
 
     def args(self, video: Path, **values: object) -> argparse.Namespace:
         namespace = MODULE.parser().parse_args([str(video)])
+        namespace.calibrated_resolution = [WIDTH, HEIGHT]
         for key, value in values.items():
             setattr(namespace, key, value)
         return namespace
@@ -85,6 +87,95 @@ class FrameBreakMeasureTests(unittest.TestCase):
 
     def gate(self, result: dict[str, Any]) -> dict[str, Any]:
         return result["summary"]["static_bar_gate"]
+
+    def test_uncalibrated_results_are_advisory_at_multiple_resolutions(self) -> None:
+        for width, height in ((640, 360), (854, 480), (1920, 1080)):
+            for defect in ("none", "motion", "absent", "missing_bars"):
+                with self.subTest(size=(width, height), defect=defect):
+                    bar = round(height * 0.12)
+                    crossing = box("iw/3", "0", "iw/3", str(bar), "red", "eq(n,1)")
+                    extra = [] if defect == "absent" else [crossing]
+                    if defect == "motion":
+                        extra.append(box("0", str(bar), "iw", "12", "black", "eq(n,2)"))
+                    filters = ["null"] if defect == "missing_bars" else self.bars(bar, bar, extra)
+                    video = self.clip(
+                        f"{width}-{defect}.mkv", filters, duration=1, rate=4,
+                        size=(width, height),
+                    )
+                    result = MODULE.measure(MODULE.parser().parse_args([str(video)]))
+                    self.assertEqual(result["calibration"]["mode"], "advisory")
+                    self.assertEqual(result["summary"]["frames_scanned"], 4)
+                    for key in ("static_bar_gate", "break_out_gate", "verdict"):
+                        gate = result["summary"][key]
+                        self.assertEqual(gate["status"], "inspect")
+                        self.assertFalse(gate["passed"])
+                        self.assertTrue(gate["needs_review"])
+                    for name in ("top", "bottom"):
+                        self.assertEqual(result["summary"][name]["status"], "inspect")
+                        self.assertFalse(result["summary"][name]["static"])
+                    expected = "pass" if defect == "none" else "fail"
+                    self.assertEqual(result["summary"]["verdict"]["diagnostic_status"], expected)
+                    if defect == "motion":
+                        self.assertIn("encroach", self.kinds(result, "top"))
+                    if defect == "none":
+                        self.assertEqual(result["overlap_intervals"][0]["start_s"], 0.25)
+                    if defect == "missing_bars":
+                        self.assertFalse(result["summary"]["bars_detected"])
+
+    def test_explicit_calibration_preserves_measurements_and_configures_gates(self) -> None:
+        for width, height in ((640, 360), (854, 480), (1920, 1080)):
+            with self.subTest(size=(width, height)):
+                bar = round(height * 0.12)
+                crossing = box("iw/3", "0", "iw/3", str(bar), "red", "gte(n,1)")
+                video = self.clip(
+                    f"calibrated-{width}.mkv", self.bars(bar, bar, [crossing]),
+                    duration=1, rate=4, size=(width, height),
+                )
+                advisory = self.measure(video, calibrated_resolution=None)
+                strict = self.measure(video, calibrated_resolution=[width, height])
+                relaxed = self.measure(
+                    video, calibrated_resolution=[width, height], max_overlap_duty=0.75,
+                )
+                self.assertEqual(strict["calibration"]["mode"], "explicit")
+                self.assertEqual(strict["calibration"]["resolution"], [width, height])
+                self.assertEqual(advisory["frames"], strict["frames"])
+                self.assertEqual(strict["frames"], relaxed["frames"])
+                self.assertEqual(advisory["overlap_intervals"], strict["overlap_intervals"])
+                self.assertEqual(strict["summary"]["verdict"]["status"], "fail")
+                self.assertTrue(relaxed["summary"]["verdict"]["passed"])
+                self.assertEqual(strict["summary"]["break_out_gate"]["overlap_duty"]["overall"], 0.75)
+                self.assertEqual(
+                    self.measure(video, calibrated_resolution=None, max_overlap_duty=1.0)
+                    ["summary"]["verdict"]["status"], "inspect",
+                )
+
+    def test_calibration_resolution_mismatch_and_nonfinite_options_fail(self) -> None:
+        video = self.clip("calibration.mkv", self.bars(43, 43), duration=1)
+        for values in ([1920, 1080], [0, HEIGHT], [WIDTH, -1]):
+            with self.subTest(resolution=values):
+                code, document = self.run_cli(
+                    str(video), "--calibrated-resolution", *(str(value) for value in values),
+                )
+                self.assertEqual(code, 1)
+                self.assertIn("--calibrated-resolution", document["error"])
+        for option in ("--edge-tolerance-px", "--merge-gap-s", "--jump-threshold-px"):
+            for value in ("nan", "inf"):
+                with self.subTest(option=option, value=value):
+                    code, document = self.run_cli(str(video), option, value)
+                    self.assertEqual(code, 1)
+                    self.assertIn(option, document["error"])
+
+    def test_cli_calibration_is_explicit_and_does_not_change_exit_status(self) -> None:
+        crossing = box("200", "0", "240", "43", "red", "eq(n,1)")
+        video = self.clip("cli-calibrated.mkv", self.bars(43, 43, [crossing]), duration=1, rate=4)
+        code, advisory = self.run_cli(str(video), "--summary-only")
+        self.assertEqual(code, 0)
+        self.assertEqual(advisory["summary"]["verdict"]["status"], "inspect")
+        code, calibrated = self.run_cli(
+            str(video), "--summary-only", "--calibrated-resolution", str(WIDTH), str(HEIGHT),
+        )
+        self.assertEqual(code, 0)
+        self.assertTrue(calibrated["summary"]["verdict"]["passed"])
 
     def test_static_equal_bars_without_overlap_pass_the_gate(self) -> None:
         result = self.measure(self.clip("static.mkv", self.bars(43, 43)))

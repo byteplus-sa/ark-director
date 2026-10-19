@@ -58,12 +58,15 @@ State:
 
 ### Dialogue timing
 
-Speech lands 0.5–1.5 s after its cue, later after a long pre-line action, and
-fills to the clip end. Budget for it:
+Speech onset and duration depend on language, register, performance and
+pre-line action. Budget from the current dialogue, not a universal word rate:
 
-- Each spoken line sits inside one shot at least `words / 2.2 + 1` s long.
-- Keep the spoken total near 2.2 words per second of available time, and end
-  the last line at least 0.4 s before the clip's end.
+- Time a read of each exact line at the requested delivery pace. Record the
+  language, register and timing basis; estimates remain provisional until the
+  draft is heard.
+- Allow each shot enough time for its line, onset, pauses and action beats.
+  End the last line at least 0.4 s before the clip's end and verify actual
+  onset and tail in the draft. Do not shorten locked dialogue without approval.
 - Avoid three state changes (a line, a move, a reveal) inside the last 3 s.
 - Choose hook words that speech-to-text transcribes cleanly; a garbled first
   word costs the hook.

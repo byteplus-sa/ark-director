@@ -22,8 +22,8 @@ in [the entrypoint](../SKILL.md); this file replaces the character parts.
   imagination when photos exist.
 - The camera is locked off; the product moves between the far distance and
   close to the lens inside the same three layers (scene, bars, subject on top).
-- A photoreal product crosses the bars less often than a drawn subject (observed
-  result: fewer overlap moments), so plan one deliberate crossing per bar.
+- Plan one deliberate crossing per required bar. This is a staging choice,
+  not a claim about photoreal versus drawn-subject reliability.
 
 ## References
 
@@ -59,10 +59,10 @@ one named part per stage:
 Name the part that crosses in each stage (toe, heel, rim, cap, handle) and
 keep that part the actor through the stage. Break-outs are events: the product
 sits fully inside the window at the start and at every stage boundary, and only
-the named part extends over a bar briefly and returns. No part should fill a
-third of the frame, because a subject very close to the lens can distort the bar
-edge (observed result). One coherent motion per stage also keeps a second part
-from popping in at a different scale.
+the named part extends over a bar briefly and returns. Keep enough of the bar
+visible to inspect its edge; the one-third-frame scale suggestion is not a
+validated failure boundary. One coherent motion per stage makes the intended
+acting part unambiguous; inspect the output for scale or identity changes.
 
 ## Product prompt skeleton
 
@@ -85,9 +85,9 @@ Audio: only <effects such as <a soft whoosh> and <a light tap>>. (For a music-fr
 No people or hands; no on-screen text, captions, logos added to the scene or watermarks; the bars stay plain black and unmarked.
 ```
 
-The backdrop colours must differ from the product's. A part that
-shares a hue with the backdrop is unreadable (observed result), so pick a calm, darker scene in a
-different hue. Read [scenes and subjects](scenes-and-subjects.md).
+Try a calm, darker backdrop with a different hue from the product, then inspect
+the crossing silhouette. This is a design technique, not a validated result.
+Read [scenes and subjects](scenes-and-subjects.md).
 
 ## Text and end card in post
 

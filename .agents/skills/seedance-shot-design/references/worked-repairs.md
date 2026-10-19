@@ -74,8 +74,11 @@ judgments drawn from recurring prompt shapes, not measured generation outcomes.
 - **Tradeoff:** More cuts than a single hold; every move stays slow, and each
   line sits inside one shot with room for the late start of speech.
 - **Acceptance:** Size family, angle class and key side change between shots
-  while every move stays slow and motivated, each line sits in one shot at least
-  words / 2.2 + 1 s long, and no large move lands during speech.
+  while every move stays slow and motivated, each line fits its shot, and no
+  large move lands during speech. For this fictional English exchange only,
+  words / 2.2 plus 1 s onset and 0.4 s tail is a provisional planning estimate,
+  not a rejection threshold. Measured or native-language-informed delivery
+  determines fit; retime or split if needed, without rewriting approved text.
 
 ## Dialogue scene whose moves hide the lips
 

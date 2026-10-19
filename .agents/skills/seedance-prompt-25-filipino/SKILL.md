@@ -1,17 +1,6 @@
 ---
 name: seedance-prompt-25-filipino
-description: >-
-  Write or revise Filipino, Tagalog, and Taglish dialogue direction for Seedance.
-  Preserve approved exact words, speaker identity, meaning, and register; draft
-  new lines as English-dominant Taglish with simple Tagalog unless the brief
-  sets another register, and treat "English with a Filipino accent" as an
-  accent note rather than code-switching. Use native audio by default;
-  separate Seed Audio lip-sync is opt-in. Diagnose a
-  specific pronunciation or delivery issue before proposing targeted annotation
-  or an agreed vocabulary change. Treat pronunciation directions as hypotheses
-  requiring listening review. Use for Filipino video prompts, natural dialogue,
-  pronunciation, intonation, and code-switching; this independent prompt-only
-  leaf returns a dialogue layer and does not submit generation tasks.
+description: Write Seedance dialogue direction when Filipino, Tagalog, Taglish, or Filipino-accent support is explicitly requested. Preserve approved words, speaker identity, meaning, language, register, code-switching and subtitle choices; ask about material gaps. Keep accent notes separate from spoken words and pronunciation hypotheses subject to listening review. Native audio is the default; separate lip-sync audio is opt-in. This prompt-only leaf does not submit generation tasks.
 ---
 
 # Seedance Prompt 2.5 — Filipino/Tagalog Partner
@@ -49,10 +38,11 @@ words and completing the unaffected direction.
    simpler wording only when rewriting is in scope, and preserve meaning,
    relationship, period, regional voice, and register. Do not replace literary
    language merely because it is literary.
-5. **Draft new lines English-dominant by default; keep accent separate from
-   language.** When the brief sets no register, new dialogue is English-dominant
-   Taglish with simple, common Tagalog (po, opo, sige, tara, ingat, salamat):
-   dense Tagalog raises the native-audio mispronunciation risk. A request for
+5. **Preserve the requested language; clarify material code-switch choices.**
+   This Filipino pack is opt-in, not a language default. Preserve pure Tagalog,
+   Taglish, or English and locked text as requested. For new lines with no
+   language or code-switch preference, ask before choosing a mix; dense Tagalog
+   is not itself a defect. Honor an explicit English-dominant request. A request for
    "English with a Filipino accent" is different: every spoken word stays
    English inside the braces and the accent goes in a delivery note outside
    them. It is not a reason to add Tagalog words, and only a listener can
@@ -106,6 +96,11 @@ Use enough delivery direction to make the line playable. Do not pad every line
 with a pronunciation dictionary, prescribed flat contour, or invented syllables.
 Timing remains event-relative unless the user or a critical synchronization
 point calls for timestamps.
+
+Fit speech using measured delivery or a native-language-informed read, including
+pauses, onset and tail. About 2.2 words/s is an English planning estimate, not a
+universal gate. Without delivery evidence, timing is provisional. Preserve exact
+text and propose retiming or splitting before an authorized wording revision.
 
 ## Model and review boundaries
 

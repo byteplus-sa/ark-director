@@ -164,6 +164,8 @@ directional change chips — never as fills. **No second accent color.**
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (Inter body 0.85cqw muted; Space Grotesk eyebrow uppercase 0.08em
 cobalt) carries copy + chrome; the **display/numerical ramp** (Space Grotesk `h3` 1.25cqw → `h1`
 4.2cqw near-black; numerals `stat-num`/`metric-value` in cobalt) carries headings and figures.
@@ -276,7 +278,7 @@ label. **Density** low.
 | Closing / CTA     | centered + CTA             | centered + CTA                 | centered + CTA           |
 
 `pad-x` holds on the short edge; re-step display above the 1.4cqw floor. The diagonal cover panel
-becomes a top/bottom band on 9:16. Numerals stay Latin Arabic digits in CJK builds.
+becomes a top/bottom band on 9:16. Numeral formatting follows the explicit user/brief locale.
 
 ## Approved Entities
 
@@ -302,6 +304,6 @@ until the script supplies them. Directional chips require a real comparison from
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the source's 500ms translateX transitions + bar-fill animations are deck mechanics.
-- **Space Grotesk + Inter via Google Fonts.** CJK pairing (Noto Sans SC 700 display / Noto Serif SC 400 body) carries over; the eyebrow's uppercase+tracking signal weakens in CJK — pair it with the accent-line.
+- **Space Grotesk + Inter via Google Fonts.** Simplified Chinese pairing example: Noto Sans SC 700 display / Noto Serif SC 400 body, not a generic CJK mapping. Other scripts/locales need appropriate fonts with actual coverage. Hanzi has no uppercase signal; retain the accent-line for eyebrow emphasis.
 - **9:16 / 1:1 are guidance**; verify the floor and that the diagonal panel reflows to a band.
 - Diagonal panel (clip-path), dot grid, concentric rings, and bars are CSS-only; no external imagery is required.

@@ -65,14 +65,12 @@ Supporting rules:
   at the same height in every frame; whatever covers them sits on top and never
   changes them, and when a limb withdraws the straight edge is simply visible
   again. Moving bars fail the take.
-- Keep any extending limb from filling a third of the frame: a near-lens limb
-  or head distorted the bar edge. This is about protecting the bars, not about
-  making the subject big.
-- Bars much thicker than asked (roughly 17 percent and above) shrink the window
-  and push the subject over them. Ask for about 12 percent and state once that the central window is the large
+- Keep the extending part small enough that the bar edges remain readable.
+  A one-third-frame limit is a staging suggestion, not a measured failure boundary.
+- Thicker bars leave less room for the subject. Ask for about 12 percent as a
+  template starting point and state once that the central window is the large
   majority of the frame height.
-- The lower bar is crossed far more reliably than the upper bar. The upper bar
-  needs its own stage, a limb or hem that plausibly reaches it, an explicit peak
+- Give the upper bar its own stage, a limb or hem that plausibly reaches it, an explicit peak
   ("the open palm covers the upper bar") and an End state back inside.
 - If the model reads the bars as camera letterbox, the subject stays behind or
   clipped by them and the effect is lost. Describe the bars as an overlay and
@@ -159,9 +157,10 @@ duration in prompt text.
 7. **QA returned takes** with [QA checklist](references/qa-checklist.md): the
    all-frames bar and break-out scan from `scripts/measure_frame_break.py`, a 12 fps window
    contact sheet for every stage, and frame inspection. Treat the script's
-   `inspect` status as needs review, never as a pass.
+   `inspect` status as needs review, never as a pass. Uncalibrated analysis is
+   advisory; it cannot automatically accept or reject a take.
 8. **Repair** with [failure modes](references/failure-modes.md): change one
-   thing at a time; re-rolling the same wording did not help.
+   thing at a time and compare results without promising improvement.
 
 ## Reference loading
 
@@ -213,18 +212,18 @@ duration in prompt text.
 
 ## Usage limitations
 
-- Timestamps allocate time; actions arrive about 0.25 to 0.5 s late and are not
-  frame-accurate cut points.
+- Timestamps allocate time, not frame-accurate cut points; measure the actual
+  timing instead of assuming a fixed delay.
 - Bars are approximate in thickness and may differ top versus bottom. Never
   promise exact geometry. Bars that tilt, bow or jump are not a limitation to
   accept: moving bars are a hard-gate failure in QA, and a take that moves them
   is rejected, however well the subject crosses.
-- A sudden scale jump or limb swap inside a stage is a hard-gate failure. It is
-  found by reading a 12 fps contact sheet of each stage, not by sparse sampling.
+- A confirmed scale jump or limb swap fails the visual requirement. Use contact
+  sheets to locate suspect moments, then inspect native frames.
 - A prompt improves the odds of overlap; it does not guarantee it. Judge overlap
   from frames and the pixel script, and treat a video-understanding model as
   secondary evidence only.
-- Photoreal subjects cross the bars less often than drawn ones.
+- Do not infer crossing reliability or count from photoreal versus drawn style.
 - A take whose subject starts over a bar, or overlaps a bar for most of the
   clip, reads as standing outside the frame and fails the break-out gate even
   when the bars are perfectly static.
@@ -236,23 +235,11 @@ duration in prompt text.
 
 ## Evidence labels
 
-Distinguish the kind of claim when it affects a decision: **observed result**
-(frame-based checks of Seedance 2.5 takes at 1080p, conditions stated; not a
-guarantee), **documented convention** (owned by `seedance-prompt-25`) and
-**optional technique** (a hypothesis to test).
-
-| Claim | Label |
-| --- | --- |
-| Describing bars as flat overlay graphics with numeric overlap anchors fixes takes where the subject sat behind the bars; re-rolling the same wording does not | observed result |
-| Rendered bar thickness varies widely from the requested 12 percent and is often unequal top versus bottom; bars treated as letterbox come out thinner, and bars much thicker than asked shrink the window | observed result |
-| Bars are usually static; a bow, tilt or short edge jump appears when a limb or head is very close to the lens, and sparse sampling hides it | observed result |
-| A subject that starts outside the window, or overlaps a bar for most of the clip, reads as standing outside the frame even when the bars are static | observed result |
-| Acceptable takes begin inside the window and overlap a bar intermittently | observed result |
-| Bar-like scene objects near the bar position (ropes, rails) are drawn as the bars; real-brand logos can appear on background objects despite plain, unmarked wording | observed result |
-| Two unconnected limb actions in one stage produce a sudden scale jump or limb swap | observed result |
-| Drawn subjects give more strong overlap moments than photoreal ones | observed result |
-| Calm, darker, lower-contrast backdrops with colours that differ from the subject read well | observed result |
-| Avoid the word letterbox in the prompt; keep other limbs small and tucked behind until their stage; make each break-out a brief event that ends back inside | optional technique |
+Treat staging recipes and worked examples as optional techniques, not measured
+success rates or validation claims. An observed result must refer to accessible
+evidence from the current task with its conditions and limitations. Do not carry
+prior-project take narratives or thresholds into a new task. The 12 percent bar
+height, suggested part scale and stage budgets are editable design choices.
 
 ## Submission boundary and failure behavior
 
@@ -264,12 +251,14 @@ package; the text route is post-production.
 
 ## Verification
 
-The script's `summary.verdict` has `status` (`pass`, `inspect`, `fail`), `passed`
-(true only for `pass`) and `needs_review` (true for `inspect`). An automated caller
-must not treat `inspect` as a pass: it means a person checks the listed windows.
-The pixel tolerances were calibrated on 1080p takes; on a 480p draft the same
-pixel tolerances are relatively looser, so treat a draft pass as provisional and
-re-run the scan on the final render.
+Default analysis is advisory: bar, gate and verdict statuses are `inspect`,
+gates and verdict have `passed: false`, `needs_review: true`. Measurements and
+`diagnostic_status` remain available, but are not acceptance or rejection gates.
+Only `--calibrated-resolution WIDTH HEIGHT` enables the prior gate logic after
+caller calibration of all effective settings for that exact resolution and
+content. A dimension mismatch is an error; pixel thresholds are not rescaled.
+This declaration is not validation by the script. See the
+[calibration contract](references/qa-checklist.md#calibration-contract).
 
 ```bash
 uv run python .agents/skills/seedance-frame-break/scripts/measure_frame_break.py take.mp4 --summary-only --output take_measure.json

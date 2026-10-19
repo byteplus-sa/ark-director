@@ -57,10 +57,16 @@ observed generated-media behavior or measured advertising results.
 - **Initial prompt:** "She picks up the bottle with her left hand, drops three
   pods in (more pods in the drawer), sips from her logo mug and says {45 words}.
   Caption 'SHOP NOW' at the end."
-- **Simulated failure:** 45 words cannot fit 15 s at about 2.2 words/s, so the
-  CTA is cut off; "left hand" can mirror; the drawer invites a fourth pod; the
+- **Simulated failure:** Assume English delivery at 2.2 words/s for this
+  fictional example: 45 / 2.2 is about 20.5 s before onset and tail, so the
+  15 s plan risks a cut-off CTA; this is not a universal rejection rule.
+  Measured or native-language-informed delivery determines fit. "Left hand"
+  can mirror; the drawer invites a fourth pod; the
   mug grows invented lettering; the caption is rendered as garbled text.
 - **Smallest repair:**
+
+  This example assumes the draft copy is editable. Preserve approved text in
+  real tasks; propose retiming or splitting before an authorized rewrite.
 
   ```text
   @Image 1 defines only the refill bottle: shape, colour, material and its

@@ -3,11 +3,9 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Use the attached Kapre poster as STYLE ONLY. Write one Seedream prompt for a Tikbalang in bamboo: horse head, muscular human torso, exactly two human arms with fingers and two supporting legs with hooflike feet. Keep the engraved red, jade and gold print look. No generation.",
-      "expected_output": "One Tikbalang prompt with style-only image binding, human anatomy, bamboo setting, print medium, and anatomy checklist.",
-      "files": [
-        "examples/kapre-v01.png"
-      ]
+      "prompt": "Write one Seedream woodblock poster prompt for a fictional clockwork gardener in a glasshouse: round metal head, compact torso, exactly two articulated arms with fingered hands and two supporting legs. Use engraved red, jade and printed gold ink on aged paper. No references and no generation.",
+      "expected_output": "One text-only prompt preserving the supplied anatomy and glasshouse, flat print treatment, readable silhouette and anatomy checklist, with no invented image binding or cultural setting.",
+      "files": []
     },
     {
       "id": 2,
@@ -17,12 +15,9 @@
     },
     {
       "id": 3,
-      "prompt": "Write one poster prompt. Image 1 is the Tikbalang identity poster; image 2 is the Kapre style poster. Preserve Tikbalang anatomy and silhouette; borrow only print texture and palette from image 2. I need the exact slogan MYTHS LIVE HERE at the bottom. No generation.",
-      "expected_output": "Correct ordered identity/style bindings, Tikbalang anatomy, text-free generated illustration and deterministic slogan finishing.",
-      "files": [
-        "examples/tikbalang-v01.png",
-        "examples/kapre-v01.png"
-      ]
+      "prompt": "Write one poster prompt for my fictional masked traveler. Image 1 should supply identity and silhouette; image 2 should supply only print texture and palette. I forgot to attach both images and have no further visual description. Preserve the existing design exactly. I need the exact slogan JOURNEYS AHEAD at the bottom. No generation.",
+      "expected_output": "Requests the missing images, records intended ordered identity/style roles without claiming inspection or inventing visible details or usable bindings, leaves exact matching unresolved, and reserves exact slogan text for deterministic finishing.",
+      "files": []
     }
   ]
 }

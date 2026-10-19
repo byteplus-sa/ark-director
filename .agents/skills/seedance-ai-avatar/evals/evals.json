@@ -27,11 +27,11 @@
     },
     {
       "id": 3,
-      "prompt": "Gates are recorded and the presenter has an Active authorized asset. Write the 9:16 take for this 72-word script at 1080p, 26 seconds, with him pointing at the screen with his left hand on the word 'launch'.",
+      "prompt": "Gates are recorded and the presenter has an Active authorized asset. Plan a 9:16 take for a locked 72-word English script at 1080p, 26 seconds, with him pointing at the screen with his left hand on the word 'launch'. No delivery recording or full script is supplied yet.",
       "expected_output": "A take plan that flags the speech budget, starts with a 480p draft promoted by draft_task_id, binds the authorized asset, and names the gesture hand by anatomy and frame side.",
       "files": [],
       "assertions": [
-        "The agent flags that 72 words at about 2.2 words per second plus onset and tail exceed 26 s and the 30 s limit, and proposes shortening an editable script or splitting into two takes.",
+        "Flags that the provisional English estimate of 72 / 2.2 plus onset and tail exceeds 26 s and 30 s, but does not treat it as a universal rejection. Requests the exact script and measured or native-language-informed delivery to establish fit; proposes retiming or splitting if overfull, never automatically shortening locked copy.",
         "The first submission is a 480p draft; 1080p comes from promoting the selected draft by draft_task_id, and the transcript and lip-sync are re-checked on the final.",
         "The likeness is bound through the existing authorized asset:// reference rather than real photos or a fresh onboarding.",
         "The gesture is written as his left hand plus its frame side (frame-right when he faces the camera).",

@@ -145,6 +145,8 @@ near-duplicates is the whole palette; never `rgba` transparency on a surface.
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading/chrome ramp** (Source Serif 4 **400** body 1.56cqw; JetBrains Mono labels
 in px) carries copy + chrome; the **display ramp** (Source Serif 4 **500** `title-card-sm` 2.9cqw →
 `display-hero`/`stat-figure` 11.5cqw, opsz, negative-tracked) carries every headline + figure.
@@ -259,7 +261,7 @@ supplies them. Issue numbers / counters are decorative chrome.
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the source relies on `deck-stage.js` for scaling/nav, no transition spec.
-- **Source Serif 4 (opsz 8..60) + JetBrains Mono via Google Fonts** — the optical-size axis is critical; a non-opsz fallback flattens the size-aware letterforms. CJK: LXGW WenKai (display) / Noto Serif SC (body) / Noto Sans Mono CJK (chrome).
+- **Source Serif 4 (opsz 8..60) + JetBrains Mono via Google Fonts** — the optical-size axis is critical; a non-opsz fallback flattens the size-aware letterforms. Simplified Chinese examples: LXGW WenKai (display) / Noto Serif SC (body), not a generic CJK mapping. Select locale-appropriate chrome with verified glyph coverage and mono metrics; a generic Noto Sans Mono CJK name is not an asset. Other scripts/locales need appropriate fonts with actual coverage.
 - **9:16 / 1:1 are guidance**; verify the floor and that two-tone discipline holds per ratio.
 - Bars, hairlines, tiles, and the monogram circle are CSS-only; no external imagery is required.
 - **Contrast:** green-on-pink / pink-on-green only at display scale (84px+); keep small text cream-on-green or ink-on-cream.

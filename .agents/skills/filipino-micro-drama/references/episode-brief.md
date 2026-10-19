@@ -16,7 +16,7 @@ Cast (≤3): **<Name>** (<age>, <complexion and hair>, <appealing look>,
 <wardrobe>, always-worn: <items>). ...
 Location(s): <name> — <layout, landmarks, light, time of day>.
 Props: <story-critical objects, described as plain, unlettered surfaces>.
-Dialogue mode: <English-dominant Taglish | English with a Filipino accent>.
+Dialogue mode: <requested language, register and code-switch preference; clarify if material and unknown>.
 
 S1 Hook (<N> s, <W> words): <action beats>.
 - <Speaker>: {<exact line>}
@@ -25,18 +25,20 @@ S2 Turn (<N> s, <W> words): <action, sampal or reveal, proof shown in close-up>.
 S3 Cliffhanger (<N> s, <W> words): <action>; hold on <character>'s face.
 - <Speaker>: {<exact line>}
 
-Subtitles: "<Tagalog>" = "<English>"; ...
+Subtitles: <requested target language(s), or none>; "<approved source line>" = "<approved translation>"; ...
 Limits: fictional cast, no real brands, plain unlettered surfaces, non-injurious conflict.
 ```
 
-Keep each scene's word count near 2.2 words per second of the time the lines
-can occupy, with air before the first line and after the last (a 15 s scene
-carries roughly 20–25 words).
+Use measured delivery or a native-language-informed read to fit each scene,
+including pauses, onset and tail. About 2.2 words per second is an English
+planning estimate, not a universal gate. Preserve exact text; propose retiming
+or splitting before an authorized wording revision.
 
 ## Worked example
 
-A filled brief in the current dialogue default: plot words in English, simple
-Tagalog for status and warmth.
+A fictional filled brief with explicitly selected English-dominant Taglish:
+plot words in English, simple Tagalog for status and warmth. This example
+does not select the language or register for other briefs.
 
 ```text
 ## hidden-heiress — "Know Your Place" (hidden heiress vs. kontrabida)
@@ -78,6 +80,6 @@ Subtitles: "po" = polite marker (no direct translation); "iha" = "dear
 (condescending)".
 ```
 
-The hook opens on plain English words at normal volume and keeps Tagalog to
-honorifics, because a shouted Tagalog opening word is the likeliest to be
-garbled.
+The hook follows this example's selected English-dominant register. Preserve
+pure Tagalog or another requested mix in other briefs; judge intelligibility
+from actual delivery, not language density.

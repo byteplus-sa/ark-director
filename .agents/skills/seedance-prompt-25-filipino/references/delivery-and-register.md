@@ -29,12 +29,11 @@ prove how a generation model will respond.
 
 ## Taglish code-switching
 
-**Default for new drafts.** When the brief sets no register, draft
-English-dominant Taglish with simple, high-frequency Tagalog: po, opo, sige,
-tara, ingat, salamat, and short tags such as "diba" or "na". Deep or dense
-Tagalog lines are reserved for characters and briefs that call for them;
-long Tagalog words in shouted or whispered positions are the likeliest to be
-garbled.
+**Brief-led drafts.** Preserve the requested language and register, including
+pure Tagalog without English insertions. When a missing code-switch preference
+materially affects new dialogue, ask before drafting a mix. English-dominant
+Taglish with simple Tagalog is valid when explicitly requested, not a fallback.
+Dense Tagalog alone is not a defect or evidence of mispronunciation.
 
 **Accent is not code-switching.** "English with a Filipino accent" keeps the
 spoken text English and puts the accent in a delivery note outside the braces.

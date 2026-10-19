@@ -1,6 +1,6 @@
 # Philippine folklore recipe
 
-**These are creative interpretations used for the observed poster collection.**
+**Use these optional creative directions only for a requested Philippine subject.**
 Use the user's variant or verified cultural sources when a precise folklore
 claim matters. Do not present these visual descriptors as universal canon.
 
@@ -13,13 +13,13 @@ claim matters. Do not present these visual descriptors as universal canon.
 | Tikbalang | Horse head and mane on a human torso, two human arms with fingers, two support legs with hooflike feet | Upright figure among bamboo and balete roots |
 | Bakunawa | Long serpentine body, horned head, fangs, mane, and overlapping scales | Rising coils and waves around a luminous moon |
 
-Keep Aswang's whole body connected in this collection and Manananggal's upper
-and lower halves distinct. Render the separation as stylized ink shapes when
+For these optional interpretations, keep Aswang's whole body connected and
+Manananggal's upper and lower halves distinct. Render the separation as stylized ink shapes when
 the brief calls for non-graphic folklore artwork. Keep Tikbalang's human chest
 and arms explicit; a generic dragon or horse description loses its identity.
 Do not reuse a style reference's own monster or city.
 
-In the observed collection, miniature bahay na bato houses, capiz windows,
+Possible Philippine setting cues include miniature bahay na bato houses, capiz windows,
 nipa roofs, coconut palms, bamboo, rice fields, coastal boats, and river curves
-supplied Philippine setting cues. Choose only details that fit the particular
-scene rather than inserting every cue into every image.
+where appropriate. Choose only details that fit the particular scene rather
+than inserting every cue into every image.

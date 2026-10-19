@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
+import json
 import re
 import shutil
 import struct
@@ -76,7 +78,7 @@ body {{
 """
 
 HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="en">
+<html{locale}>
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" href="./{css_name}">
@@ -90,11 +92,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def slug(word: str) -> str:
-    s = re.sub(r"[^a-z0-9]+", "-", word.lower()).strip("-")
-    if not s:
-        raise SystemExit(f"word does not slugify to a filename: {word!r}")
-    return s
+def output_path(directory: Path, name: str) -> Path:
+    path = directory / name
+    if path.is_symlink() or not path.resolve().is_relative_to(directory.resolve()):
+        raise SystemExit(f"output path escapes the series directory or is a symlink: {path}")
+    return path
 
 
 def font_format(font_file: Path) -> str:
@@ -122,6 +124,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--out-dir", type=Path, required=True)
     p.add_argument("--prefix", required=True)
     p.add_argument("--words", required=True, help="comma-separated series words, e.g. Monday,Tuesday")
+    p.add_argument("--language", help="optional BCP 47 language tag; no language is assumed")
+    p.add_argument("--direction", choices=("ltr", "rtl", "auto"),
+                   help="optional text direction; auto follows each card's text")
     p.add_argument("--width", type=int, required=True)
     p.add_argument("--height", type=int, required=True)
     p.add_argument("--font-file", type=Path, required=True)
@@ -146,31 +151,54 @@ def main() -> int:
     words = [w.strip() for w in args.words.split(",") if w.strip()]
     if not words:
         raise SystemExit("--words is empty")
-    if len({slug(w) for w in words}) != len(words):
-        raise SystemExit("words collide after slugification")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}", args.prefix):
+        raise SystemExit("--prefix must be a filename token of at most 64 ASCII characters")
+    if args.language is not None and not re.fullmatch(
+        r"[A-Za-z]{1,8}(?:-[A-Za-z0-9]{1,8})*", args.language
+    ):
+        raise SystemExit("--language must be a BCP 47 language tag")
+    if not args.font_family.strip():
+        raise SystemExit("--font-family must not be empty")
     if not args.font_file.is_file():
         raise SystemExit(f"font file not found: {args.font_file}")
     if not font_format(args.font_file):
         raise SystemExit(f"unsupported font type: {args.font_file.suffix}")
 
-    out_dir = args.out_dir
+    out_dir = args.out_dir.resolve()
     asset_root = (args.asset_root or out_dir).resolve()
+    if not out_dir.is_relative_to(asset_root):
+        raise SystemExit("--out-dir must be inside --asset-root")
+    fonts_dir = output_path(out_dir, "fonts")
+    font_name = f"font-{sha256(args.font_file)}{args.font_file.suffix.lower()}"
+    font_dest = output_path(out_dir, f"fonts/{font_name}")
+    license_dest = output_path(out_dir, "fonts/LICENSE.txt")
+    if args.font_license and not args.font_license.is_file():
+        raise SystemExit(f"font license not found: {args.font_license}")
+    css_name = f"{args.prefix}_series.css"
+    css_path = output_path(out_dir, css_name)
+    manifest = output_path(out_dir, "manifest.md")
+    stems = [f"{args.prefix}_{index:03d}_v01" for index in range(1, len(words) + 1)]
+    targets = [css_path, manifest]
+    for stem in stems:
+        targets.extend(output_path(out_dir, f"{stem}.{suffix}") for suffix in ("html", "png"))
+        targets.append(output_path(out_dir, f"render_{stem}.json"))
+    if not args.overwrite:
+        for target in targets:
+            if target.exists():
+                raise SystemExit(f"refusing to overwrite existing {target}; pass --overwrite to repair")
     out_dir.mkdir(parents=True, exist_ok=True)
-    fonts_dir = out_dir / "fonts"
     fonts_dir.mkdir(exist_ok=True)
-    font_dest = fonts_dir / args.font_file.name
     if not font_dest.exists():
         shutil.copy2(args.font_file, font_dest)
-    if args.font_license:
-        if not args.font_license.is_file():
-            raise SystemExit(f"font license not found: {args.font_license}")
-        shutil.copy2(args.font_license, fonts_dir / args.font_license.name)
+    elif sha256(font_dest) != sha256(args.font_file):
+        raise SystemExit(f"copied font hash mismatch: {font_dest}")
+    if args.font_license and args.font_license.resolve() != license_dest:
+        shutil.copy2(args.font_license, license_dest)
 
-    css_name = f"{args.prefix}_series.css"
     background = "transparent" if args.transparent else args.background
     css = CSS_TEMPLATE.format(
-        family=args.font_family,
-        font_name=args.font_file.name,
+        family="series-font",
+        font_name=font_name,
         format=font_format(args.font_file),
         background=background,
         text_color=args.text_color,
@@ -180,18 +208,20 @@ def main() -> int:
         width=args.width,
         height=args.height,
     )
-    css_path = out_dir / css_name
-    if css_path.exists() and not args.overwrite:
-        raise SystemExit(f"refusing to overwrite existing {css_path}; pass --overwrite to repair")
-    css_path.write_text(css)
+    css_path.write_text(css, encoding="utf-8")
+    locale = ""
+    if args.language is not None:
+        locale += f' lang="{html.escape(args.language, quote=True)}"'
+    if args.direction is not None:
+        locale += f' dir="{args.direction}"'
 
     rows = []
-    for word in words:
-        stem = f"{args.prefix}_{slug(word)}_v01"
+    for word, stem in zip(words, stems):
         html_path = out_dir / f"{stem}.html"
         png_path = out_dir / f"{stem}.png"
         html_path.write_text(
-            HTML_TEMPLATE.format(css_name=css_name, word=H_escaped(word))
+            HTML_TEMPLATE.format(css_name=css_name, word=H_escaped(word), locale=locale),
+            encoding="utf-8",
         )
         cmd = [
             sys.executable, str(RENDERER),
@@ -199,11 +229,13 @@ def main() -> int:
             "--width", str(args.width),
             "--height", str(args.height),
             "--asset-root", str(asset_root),
-            "--require-local-font", args.font_family,
+            "--require-local-font", "series-font",
             "--copy", f"word={word}",
         ]
         if args.transparent:
             cmd.append("--transparent")
+        if args.overwrite:
+            cmd.append("--overwrite")
         result = subprocess.run(cmd, check=False)
         if result.returncode != 0:
             return result.returncode
@@ -215,7 +247,6 @@ def main() -> int:
         rows.append((word, stem, w, h, png_path))
         print(f"rendered {png_path.name} ({w}x{h})")
 
-    manifest = out_dir / "manifest.md"
     lines = [
         "---",
         "type: typography-card-series",
@@ -223,8 +254,11 @@ def main() -> int:
         "source: deterministic_render",
         "renderer: html-graphic-render (scripts/typography_series.py)",
         f"canvas: {args.width}x{args.height}",
-        f"font_family: {args.font_family}",
-        f"font_file: fonts/{args.font_file.name}",
+        f"font_family: {json.dumps(args.font_family, ensure_ascii=False)}",
+        "font_alias: series-font",
+        f"font_file: fonts/{font_name}",
+        f"language: {json.dumps(args.language)}",
+        f"direction: {json.dumps(args.direction)}",
         f"font_size_px: {args.font_size}",
         f"background: {background}",
         f"text_color: {args.text_color}",
@@ -241,9 +275,10 @@ def main() -> int:
         "| --- | --- | --- | --- |",
     ]
     for word, stem, w, h, png_path in rows:
-        lines.append(f"| {word} | `{stem}.png` | {w}x{h} | {sha256(png_path)} |")
+        display = html.escape(word).replace("|", "&#124;").replace("\n", "&#10;").replace("\r", "&#13;")
+        lines.append(f"| {display} | `{stem}.png` | {w}x{h} | {sha256(png_path)} |")
     lines.append("")
-    manifest.write_text("\n".join(lines))
+    manifest.write_text("\n".join(lines), encoding="utf-8")
     print(f"manifest: {manifest}")
     return 0
 

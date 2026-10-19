@@ -3,23 +3,24 @@
 Read [the entrypoint](../SKILL.md). Use this reference when writing or
 revising dialogue.
 
-## Default register: English-dominant, simple Tagalog
+## Requested register
 
-- **English carries every sentence of content:** accusations, facts, names of
+- Preserve the requested language and locked text, including pure Tagalog.
+  Ask when a missing register or code-switch preference materially affects a
+  new draft. Dense Tagalog is not a defect. The following English-dominant
+  pattern applies only when explicitly selected:
+- **English may carry content:** accusations, facts, names of
   things, the insult and the plot-critical words.
-- **Simple Tagalog carries warmth and status:** honorifics (*po, opo*), kin and
+- **Simple Tagalog may carry warmth and status:** honorifics (*po, opo*), kin and
   rank terms (*Ate, Kuya, Nay, Tay, Lola, Tita, iha*), and a small set of common
   words and particles (*sige, tara, ingat, salamat, naman, lang, ha?, diba,
   Hoy!, Ay!, Grabe*).
-- Keep each line to at most one or two Tagalog words or a short common phrase.
-  Longer Tagalog clauses are where generated delivery most often garbles.
-- The kontrabida retreats into polished English to assert rank. The heroine's
-  sincerity shows through *po* and a soft particle, not a switch to full
-  Tagalog.
+- The amount of Tagalog follows the requested balance, not a word-count cap.
+- Polished English or a soft Tagalog particle can serve a selected character's
+  tactic; neither language inherently signals rank or sincerity.
 
-Write heavier code-switching only when the user asks for it. Then switch at a
-natural clause break, not word by word, and keep the plot-critical word in a
-short, clear, mid-sentence position.
+For requested code-switching, follow the approved pattern and speaker's voice.
+Do not translate plot-critical words or add switches to locked lines.
 
 ## Accent-only variant
 
@@ -46,20 +47,22 @@ the accent "read".
 ## Line craft
 
 - 3–5 lines per 15–20 s scene. One idea per line.
-- Word budget: about 2.2 words per second of the time the lines can occupy.
-  Speech starts late in generated video, so leave air before the first line
-  and after the last.
-- Put plot-critical words in English, or in one short common Tagalog word
-  placed mid-sentence and spoken at normal volume. Shouted openings and
-  whispered closings are where words tend to be garbled.
+- About 2.2 words per second is an English planning estimate, not a universal
+  gate. Use measured delivery or a native-language-informed read, with onset,
+  pauses and tail. Preserve text and propose retiming before authorized rewrites.
+- Keep plot-critical words in the requested language. Check intelligibility
+  by listening in context; a shouted or whispered line needs evidence before repair.
 - Open the hook with plain words that transcribe cleanly.
 - Prefer common spellings and mark contractions consistently. Expect a model
   to normalize some forms. Pronunciation respellings are delivery hypotheses
   for the dialogue partner skill; they can add syllables, so do not bake them
   into the locked wording.
-- Give every non-English word a subtitle translation in the brief.
+- Include subtitle translations only when requested, in the requested subtitle
+  languages. Preserve approved dialogue; do not assume English subtitles or
+  translate words merely because they are non-English. Ask when subtitle
+  languages are unspecified and needed for the requested output.
 
-## Sample lines (default register)
+## Sample lines (fictional, explicitly selected English-dominant register)
 
 1. "Ma'am, with all due respect, I did not take it po."
 2. "Hoy! Don't you dare walk away. I'm still talking to you!"
@@ -74,7 +77,7 @@ the accent "read".
 
 ## Iconic kontrabida register
 
-Short, crisp, class-based English put-downs delivered coldly and close, not
+When this English register is selected, use short, crisp, class-based put-downs delivered coldly and close, not
 shouted, for example: "Know your place." "You're nothing but the help."
 "No daughter of mine smells like a carinderia." Write original lines in this
 register; do not quote famous lines verbatim.

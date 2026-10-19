@@ -9,12 +9,13 @@ checking an episode brief, or when no market writer skill supplies one.
 - Cast of at most three recurring characters per episode; incidental extras are
   described in scene direction, not canonized.
 - One or two locations. One location per scene keeps geography stable.
-- Dialogue carries the plot. Aim for 3–5 short lines per clip; a clip with more
-  than about 12 spoken seconds rushes delivery and invites word errors.
-- Word budget: about 2.2 spoken words per second of the time the lines can
-  occupy, remembering that speech starts 0.5–1.5 s after its cue. A 15 s clip
-  carries roughly 20–25 words; the last line ends at least 0.4 s before the
-  clip ends.
+- Dialogue carries the plot. Aim for 3–5 short lines per clip, allowing time
+  for the requested delivery, actions and reactions.
+- Derive the dialogue budget from a timed read in the requested language and
+  register. Use language-appropriate speech units when estimating; whitespace
+  word counts are not comparable across languages. Include measured onset,
+  pauses and a tail of at least 0.4 s, then verify the complete lines in the
+  draft. Preserve locked wording and ask before shortening it.
 - The hook line uses plain, common words that speech-to-text transcribes
   cleanly, spoken at normal volume.
 
@@ -63,8 +64,9 @@ A market writer skill or the author supplies:
 4. Locations: layout, light, time of day, geography-critical landmarks.
 5. Props that pass the threshold: story-critical or identity-critical only.
 6. Three scenes, each with duration, action beats, exact locked dialogue in
-   `{braces}` with speaker, the spoken word count, the turn or proof beat, and
+   `{braces}` with speaker, the estimated spoken duration and timing basis, the turn or proof beat, and
    the final visible state.
-7. Subtitle translations for any non-English words.
+7. Requested subtitle languages (or an explicit no-subtitles choice), with
+   approved transcriptions or translations for each requested track.
 8. Content limits: fictional characters only, no real brands, plain unlettered
    surfaces instead of signage, non-injurious conflict.

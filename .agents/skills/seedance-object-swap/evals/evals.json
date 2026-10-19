@@ -4,14 +4,16 @@
     {
       "id": 1,
       "prompt": "This is our own 8-second UGC clip: a guy on a couch drinks from a green energy-drink can, sets it down, and talks to camera. Swap the can for our approved Volt Zero packshot and keep everything else, including his voice.",
-      "expected_output": "A product swap package: the muted master as @Video 1 with the source audio saved for an original-audio post route, the packshot as @Image 1 with background and lighting excluded, the five-part swap contract with per-cut count, contact windows for grip, drink and set-down, generate_audio false, edit task type, and a 480p contact-window probe as the first rung.",
+      "expected_output": "A product swap package: the muted master as @Video 1 with the source audio saved for an original-audio post route, the packshot as @Image 1 with background and lighting excluded, the five-part swap contract with per-cut count, contact windows for grip, drink and set-down, generate_audio false, and a currently supported edit task type and workspace draft. A short 480p hardest-contact-window probe is conditional on an actual difficulty in the current input or result and user approval for its selected span.",
       "files": [],
       "assertions": [
         "The original can is identified by observable descriptors (colour, which hand named by anatomy plus frame side, first appearance), never as 'the product'.",
         "The prompt states that the entire video contains exactly one target can and includes a Timeline Inheritance clause.",
         "@Video 1 is the muted master, generate_audio is false, no @Audio binding is used, and the original-audio post route is recorded for his voice.",
         "Grip, mouth contact and set-down windows are listed with approximate times.",
-        "The first proposed request is a 480p probe, and the package is returned to the caller rather than submitted.",
+        "Follows the workspace draft policy with currently supported parameters; does not require a short probe merely because the source includes grip, drink or set-down contacts.",
+        "Any proposed short 480p probe targets the hardest window of an actual difficulty identified in the current input or result and requires user approval for its selected span before preparation or submission; without approval, preserves the full timeline and leaves the probe pending.",
+        "Returns the package to the caller rather than submitting it.",
         "Because the source shows a person, @Video 1 is bound as an asset:// video per the video-to-video inputs contract rather than a presigned URL."
       ]
     },
@@ -48,6 +50,18 @@
         "The skill does not write an edit-route swap package for the progressive change.",
         "It explains that the change is written as a reference-to-video shot with stages by timestamp and body part.",
         "No task is submitted."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Replace the lantern in our authorized 240-frame scene, keeping the whole take and original audio. An old guide says trim to 8n+1, but we have no current endpoint evidence and no trim approval.",
+      "expected_output": "A source-preserving swap package with timing requirements left open rather than automatic adaptation.",
+      "files": [],
+      "assertions": [
+        "Keeps the original unchanged and uses a muted derivative on the same timeline.",
+        "Requires current capability evidence and approval before trimming, padding or retiming to any frame-count rule.",
+        "Records any later approved adaptation as a separate hashed derivative with matching audio span.",
+        "Measures output duration, frame timestamps and contact sync; no exact-frame guarantee or blanket 0.3-second acceptance."
       ]
     }
   ]

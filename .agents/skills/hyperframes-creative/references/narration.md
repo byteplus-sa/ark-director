@@ -4,8 +4,9 @@ How to write narration scripts for video compositions. Read when the composition
 
 ## Pacing
 
-- **2.5 words per second** is natural speaking pace
-- 15s = ~37 words. 30s = ~75 words. 60s = ~150 words
+- **About 2.5 English words per second** is a rough planning estimate, not a universal speaking pace.
+- English estimates: 15s = ~37 words. 30s = ~75 words. 60s = ~150 words.
+- Measure delivery in the requested language, voice, and register, including pauses; actual recorded or synthesized timing overrides word-count estimates. Do not apply English counts to other languages or change approved copy to meet them. Translation requires explicit user authorization.
 - Leave room for pauses. Silence between sentences is a feature, not dead air
 - The script should feel SHORTER than the video — visual breathing room matters
 
@@ -89,4 +90,4 @@ Watch it build.
 Hyperframes. Go make something.
 ```
 
-Note: ~140 words for 62 seconds — that's 2.3 words/sec, leaving room for pauses and visual breathing.
+Note: the approximate English word count is only a planning estimate for this 62-second example. Measured delivery, including pauses and visual breathing, determines the timing in each requested language and voice.

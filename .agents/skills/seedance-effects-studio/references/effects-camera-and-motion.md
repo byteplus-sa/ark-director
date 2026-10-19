@@ -39,7 +39,7 @@ The vehicle keeps {wheel_count} wheels and one body shape throughout, and the pe
 - Wheel count and body shape unchanged during the overhead pass; no legible licence plate or sign text.
 - Ends on a low side view with the person leaning out.
 **Risks:** Person detaching or doubling; wheel count or geometry drifting on the overhead pass; orbit direction flipping mid-clip; mushy crowd faces; invented plate and billboard lettering; motion blur swallowing identity; a single first frame gives no side or rear view of the vehicle, so unseen faces of the car are invented.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
@@ -79,7 +79,7 @@ Exactly {slider_count} sliding things appear in total: {slider_names}. Every sig
 - Walls and furniture tilt coherently with the floor; gravity direction matches the slide.
 - Last frame matches the first frame's composition, floor clear.
 **Risks:** Subject also sliding or changing pose; furniture not tilting with the room; object or animal counts and species drifting; gravity contradicting the tilt; background architecture staying level while the floor tilts.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
@@ -118,8 +118,8 @@ The giant's face, hair and outfit are identical in all three shots, and the buil
 - Pedestrians and taxis stay car and human scale; helicopter count is one in shot 2.
 - Face, hair and outfit identical across the three shots.
 - No readable lettering on shirts, signs or taxis.
-**Risks:** Scale collapsing into a normal-sized person; feet floating or not touching the street; outfit pattern drifting between shots; inconsistent glass reflections; helicopter count; mushy crowd faces; a single continuous prompt loses scale, so the three-shot cut list is mandatory; identity drift on the extreme scale change. A second helicopter can appear despite 'exactly one'.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Risks:** Scale collapsing into a normal-sized person; feet floating or not touching the street; outfit pattern drifting between shots; inconsistent glass reflections; helicopter count; mushy crowd faces; the three-shot cut list defines this recipe; review scale continuity across its cuts; identity drift on the extreme scale change. Check the requested helicopter count on the current take.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
@@ -153,7 +153,7 @@ Rolling dutch-angle camera. 0-1s: low dutch angle, slowly orbiting counter-clock
 - Performer count matches `{performer_count_line}`; face and hands visible in each shot.
 - After post: brackets stay attached to face, hands and mic through every cut.
 **Risks:** The model drawing its own gibberish HUD or screen lettering despite the clean-picture wording; tracking drift when a cut changes the subject's scale; hands lost behind the mic; thin source description (confidence medium); several cuts in 5 s can reduce identity stability.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
@@ -191,7 +191,7 @@ At 13s, hard cut to a tight longer-lens close-up with shallow focus of {subject}
 - Subject head and hands do not move during the freeze; exactly one server before and after.
 - Ends on a smirk in the close-up with no readable lettering.
 **Risks:** Item counts and physics drifting; subject moving during the freeze; orbit stopping short of 360 degrees; server duplicating or changing identity; food merging with the subject; 15 s is long, so keep the beats compact and expect a trimmed take; the look tolerates upscaled low-resolution, so expect more softness in the references than in the model's output.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
@@ -225,7 +225,7 @@ Scene A contains only {subject_a} and scene B contains only {subject_b} and {cro
 - Last frames match `@Image 2` in subject, wardrobe and location.
 - Subject A has exactly one person; scene B person and crowd counts match the description.
 **Risks:** Scene B leaking into scene A early; subject A staying visible after the flip; up-axis confusion during the roll; crowd density artefacts in B; the "seamless" blend becoming a visible morph; first-and-last conditioning not guaranteeing frame-accurate arrival at `@Image 2`; the analysis did not observe the roll in the model description, only in frames (confidence medium).
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
@@ -263,7 +263,7 @@ Exactly {item_count} items float and land; every item keeps the shape and colour
 - Macro shots show crisp items; any text is as photographed, not invented.
 - Subject lands flat on the back; exactly one bystander before and after.
 **Risks:** Item identity and count drift; invented or garbled label text in macro (avoid asking for legible text); subject limbs distorting in the fall; bystander appearing or vanishing; items falling too early; an opening on the legs cannot be reproduced from a normal first-frame photo.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
@@ -297,13 +297,13 @@ Props slide vertically and never pop; {subject} keeps the outfit, shoes and stan
 - Outfit and face constant; no foot sliding that looks like skating.
 - End frame matches `@Image 2` composition.
 **Risks:** Subject drifting left or right instead of staying centred; props popping instead of sliding; gait foot-slide; ball swaps showing a visible cut; outfit change across 15 s; a crown is easy to drop (confidence medium); a single image-to-video is hard to hold for 15 s, so consider two chained 7 s takes with the mid-state as a middle keyframe if drift appears.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ---
 
 ### `studio-slide` - Studio slide
 **Look:** Three copies of the same fashion model at different scales and depths slide past one another in one lateral camera move against a flat solid-colour backdrop.
-**Route:** `i2v-first-frame`. `@Image 1` is the first frame (the user's single-person photo); the copies are created by the prompt. The recipe fixes the copy count at three for reliability.
+**Route:** `i2v-first-frame`. `@Image 1` is the first frame (the user's single-person photo); the copies are created by the prompt. The recipe specifies three copies; check that count on the current output.
 **Parameters:** duration 8 s; ratio follows the photo (typical: 16:9 and 4:3); `generate_audio` false by default; draft at 480p.
 **Start photo:** Clean full-body fashion photo of a single person against a plain, evenly lit solid-colour seamless backdrop, face visible, accessories (bag, cap, necklace) clear. Bad inputs: textured or gradient background, props or furniture, cropped limbs, a second person, a heavily patterned outfit that will drift between copies.
 **Beats:**
@@ -333,4 +333,4 @@ One continuous lateral dolly: 0-3s dolly back and to the left; 3-6s dolly forwar
 - Foreground crop never fully hides the focal copy's face for more than a moment.
 - Ends close on the back of a neck.
 **Risks:** Copy count errors (the most likely failure); identity or outfit drift between copies; copies merging at overlaps; identical poses on clones; foreground crop covering the face; backdrop gaining gradients; no second reference image can be added to a first-frame route, so identity comes from the photo alone.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.

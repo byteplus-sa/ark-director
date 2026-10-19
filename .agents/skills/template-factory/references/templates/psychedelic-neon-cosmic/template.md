@@ -1,10 +1,12 @@
 # Template — Psychedelic Neon Cosmic Journey
 
-Reusable style recipe derived from a prior local reference experiment. The
-machine contract is version 1.1 and separates locked grammar from replaceable
-inputs and adaptation rules.
-The local source assets and historical approval are not bundled; inspect and
-obtain selection for the current project's references before production use.
+Optional named style recipe with illustrative synthetic components, not measured
+observations or experimental proof. Select it only when the current brief calls
+for this neon treatment. [template.json](template.json) is recipe version 1.1
+with schema version 1.0 under the [template schema](../../template-schema.json);
+it separates locked grammar from replaceable inputs and adaptation rules.
+Use only current-brief inputs and explicitly selected canon; inspect and obtain
+selection for the current project's references before production use.
 
 ## Style
 
@@ -12,16 +14,17 @@ obtain selection for the current project's references before production use.
   vaporwave/synthwave palette, analog film grain + CRT scanlines
 - **Lighting:** all emissive neon; self-illuminated subjects; no natural
   directional light; high contrast vs dark starfields
-- **Lens:** wide-angle for cosmic/road shots, standard for figure shots, soft
+- **Lens:** wide-angle for expansive travel beats, standard for subject tableaux, soft
   glow bloom on bright neon
 - **Film look:** low-fi retro digital animation, film grain, color shifting,
   analog distortion
 
 ## Camera
 
-Static framing for most shots (motion comes from elements + light, not the
-camera). Only the rainbow-road shot has a real forward dolly. All transitions
-are hard cuts.
+Use static framing for held tableaux, with motion from elements and light.
+Contrast these with fast travel beats using a forward dolly, parallax, or
+scrolling geometry chosen for the current environment. Use hard cuts between
+distinct graphic environments.
 
 ## Reusable recipe
 
@@ -34,44 +37,50 @@ project canon.
 - For another duration, preserve the relative held-versus-travel rhythm and
   split at shot boundaries when one clip cannot contain the sequence.
 - For another aspect ratio, recompose each centered graphic arrangement for the
-  new frame rather than cropping the source layout.
+  new frame rather than cropping a layout designed for another ratio.
 - For another shot count, merge or expand beats while retaining the pattern of
   tableau, transition, travel, and resolved final state.
 - For audio, preserve synchronization between the strongest light/color change
   and beat transitions; a silent run marks audio preparation skipped.
 
-## Motion grammar (from the combined per-beat breakdown)
+## Motion grammar (illustrative synthetic components)
 
-- Floating figure: slow sine bob (~0.5Hz), leaning pose
-- Rainbow beams/heads/rings: continuous hue scroll (0.3–2s cycle)
-- Palm fronds: out-of-phase slow sway (~0.4Hz)
-- Ringed planets: counter-rotating, rings in sync (~3s cycle)
-- Car: forward drive via scrolling lane markers + passing streetlights
-- Rainbow road: fast first-person dolly, bands scroll toward viewer
-- Walkers: outline-only figures, natural walk cycles, glitch distortion
-  through light beams
-- Global: subtle pulsing chromatic aberration (~1Hz) + soft edge distortion on
-  all elements
+These are optional construction examples, not a required object list or shot
+sequence. Choose components for the current subject and environment; set motion
+speed, cycle length, amplitude, and phase from the approved beat durations and
+readability checks, not fixed frequencies.
+
+- Suspended geometric subject: slow vertical oscillation with a readable silhouette
+- Emissive contour layers: continuous hue travel within the selected palette
+- Peripheral ribbons: slow out-of-phase sway behind a stable central composition
+- Nested geometric shells: counter-rotation with coordinated layer phases
+- Depth markers: scrolling near and far layers to suggest forward movement
+- Abstract passage: fast forward dolly with geometry passing toward frame edges
+- Moving silhouettes: subject-appropriate action cycles with optional distortion
+  as they cross light fields
+- Global treatment: subtle pulsing chromatic aberration and soft edge distortion,
+  scaled to preserve subject readability
 
 ## Audio
 
-Source has a synthwave score. The reusable audio grammar places accents on
-major visual transitions and preserves the opening-to-ending dynamic arc;
-the source track, melody, and effects are not template assets. The factory
-generates **no audio** by default
-(`generate_audio: false`). Set `generate_audio: true` and supply the `audio`
-slot to generate native audio.
+An optional synthetic sound design could use a synthwave pulse with accents on
+major visual transitions and a clear opening-to-ending dynamic arc. Choose
+genre, instruments, tempo, and cues from the current brief; no soundtrack is
+implied. The template defaults to `generate_audio: false`. For a requested
+score or ambience, supply the `audio` slot and plan post-production audio;
+enable `generate_audio: true` only for requested native audio after verifying
+the selected operation's support. Keep a silent run silent.
 
 ## Key parameters
 
 | Setting | Value |
 |---|---|
-| Historical default model | `dreamina-seedance-2-5-260628`; revalidate the live binding before use |
-| Draft resolution | 480p; delivery target is recorded separately after draft review and selection |
-| Ratio | 1:1 |
-| Duration | sum of shot durations (source ≈ 16s) |
-| Storyboard | sketch by default, one panel per source shot, 3 variants, human review |
-| watermark | false |
+| Model | Resolve the current live binding and operation for the brief; the JSON model value is not capability evidence |
+| Draft resolution | 480p proposal, subject to current capability checks and explicit brief overrides; record delivery target separately after draft review and selection |
+| Ratio | Current brief's supported ratio; JSON proposes 1:1 when no ratio is selected |
+| Duration | Sum of current planned shot durations; fit each request to verified clip limits and assemble as needed |
+| Storyboard | Sketch by default, one panel per current beat unless a panel budget is specified, 3 variants unless overridden, QA and selection under the current approval mode |
+| watermark | false only when supported and not overridden by the user |
 
 ## Reuse contract
 
