@@ -358,6 +358,177 @@ class TemplateFactoryValidationTests(unittest.TestCase):
         )
         self.assertIn("audio.schema", rules)
 
+    def native_audio_analysis(self, analysis_bytes, method="native_agent_audio"):
+        audio = self.audio_analysis(analysis_bytes)
+        audio["schema_version"] = "1.1"
+        audio["auditory_review"] = {
+            "status": "completed",
+            "method": method,
+            "evidence_ref": "audio-analysis.md",
+            "capability_evidence": "Fixture runtime received the full audio input.",
+            "audio_sha256": "d" * 64,
+            "coverage": [
+                {"start_s": 0.0, "end_s": 1.0},
+                {"start_s": 1.0, "end_s": 2.2},
+            ],
+        }
+        return audio
+
+    def validate_audio(self, audio, analysis_bytes):
+        return validation.validate_audio_analysis(
+            audio,
+            self.breakdown,
+            breakdown_sha256=hashlib.sha256(analysis_bytes).hexdigest(),
+            source_pin_sha256="a" * 64,
+        )
+
+    def test_native_and_local_audio_accept_full_coverage_without_provider_ids(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        for method in ("native_agent_audio", "local_audio_model"):
+            with self.subTest(method=method):
+                audio = self.native_audio_analysis(analysis_bytes, method)
+                before = copy.deepcopy(audio)
+                self.assertEqual(self.validate_audio(audio, analysis_bytes), [])
+                self.assertEqual(audio, before)
+
+    def test_native_audio_requires_version_and_provenance(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        for field in (
+            "evidence_ref", "capability_evidence", "audio_sha256", "coverage"
+        ):
+            with self.subTest(field=field):
+                audio = self.native_audio_analysis(analysis_bytes)
+                del audio["auditory_review"][field]
+                self.assertIn(
+                    "audio.schema",
+                    self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                )
+        audio = self.native_audio_analysis(analysis_bytes)
+        audio["schema_version"] = "1.0"
+        self.assertIn(
+            "audio.schema", self.rule_ids(self.validate_audio(audio, analysis_bytes))
+        )
+        audio = self.native_audio_analysis(analysis_bytes)
+        audio["auditory_review"]["capability_evidence"] = "   "
+        self.assertIn(
+            "audio.auditory_evidence",
+            self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+        )
+
+    def test_native_audio_rejects_partial_overlapping_or_malformed_coverage(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        cases = [
+            [],
+            [{"start_s": 0.0, "end_s": 1.0}],
+            [{"start_s": 0.5, "end_s": 2.2}],
+            [{"start_s": 0.0, "end_s": 2.5}],
+            [{"start_s": 0.0, "end_s": 0.8}, {"start_s": 1.0, "end_s": 2.2}],
+            [{"start_s": 0.0, "end_s": 1.2}, {"start_s": 1.0, "end_s": 2.2}],
+            [{"start_s": float("nan"), "end_s": 2.2}],
+            [{"start_s": True, "end_s": 2.2}],
+            [{"start_s": {}, "end_s": 2.2}],
+            [None],
+            "not ranges",
+        ]
+        for coverage in cases:
+            with self.subTest(coverage=coverage):
+                audio = self.native_audio_analysis(analysis_bytes)
+                audio["auditory_review"]["coverage"] = coverage
+                self.assertIn(
+                    "audio.auditory_evidence",
+                    self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                )
+
+    def test_unavailable_review_cannot_claim_native_evidence(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.native_audio_analysis(analysis_bytes)
+        audio["auditory_review"].update(
+            status="unavailable", method=None, evidence_ref=None
+        )
+        self.assertIn(
+            "audio.auditory_evidence",
+            self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+        )
+
+    def test_historical_seed_and_human_reviews_remain_valid(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        for method in ("ark_mcp_seed_audio_understand", "human_review"):
+            with self.subTest(method=method):
+                audio = self.audio_analysis(analysis_bytes)
+                audio["auditory_review"]["method"] = method
+                self.assertEqual(self.validate_audio(audio, analysis_bytes), [])
+
+    def test_tool_audio_reviews_require_full_evidence_in_current_schema(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        for method in ("ark_mcp_seed_audio_understand", "audio_understanding_tool"):
+            with self.subTest(method=method):
+                audio = self.native_audio_analysis(analysis_bytes, method)
+                self.assertEqual(self.validate_audio(audio, analysis_bytes), [])
+                for field in ("capability_evidence", "audio_sha256", "coverage"):
+                    incomplete = copy.deepcopy(audio)
+                    del incomplete["auditory_review"][field]
+                    self.assertIn(
+                        "audio.schema",
+                        self.rule_ids(self.validate_audio(incomplete, analysis_bytes)),
+                    )
+                audio["auditory_review"]["coverage"] = [
+                    {"start_s": 0.0, "end_s": 1.0}
+                ]
+                self.assertIn(
+                    "audio.auditory_evidence",
+                    self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                )
+
+    def test_audio_coverage_rejects_small_and_accumulated_discontinuities(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        cases = [
+            [{"start_s": 0.0, "end_s": 1.0}, {"start_s": 1.04, "end_s": 2.2}],
+            [{"start_s": 0.0, "end_s": 1.0}, {"start_s": 0.96, "end_s": 2.2}],
+            [{"start_s": 0.04, "end_s": 2.2}],
+            [{"start_s": 0.0, "end_s": 2.16}],
+            [{"start_s": 0.0, "end_s": 2.24}],
+            [
+                {"start_s": i * 0.05, "end_s": i * 0.05 + 0.01}
+                for i in range(44)
+            ],
+            [
+                {"start_s": 0.0, "end_s": 0.5},
+                {"start_s": 0.5 + 6e-10, "end_s": 1.0},
+                {"start_s": 1.0 + 6e-10, "end_s": 2.2},
+            ],
+        ]
+        for method in (
+            "native_agent_audio", "local_audio_model",
+            "ark_mcp_seed_audio_understand", "audio_understanding_tool",
+        ):
+            for coverage in cases:
+                with self.subTest(method=method, coverage=coverage):
+                    audio = self.native_audio_analysis(analysis_bytes, method)
+                    audio["auditory_review"]["coverage"] = coverage
+                    self.assertIn(
+                        "audio.auditory_evidence",
+                        self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                    )
+
+    def test_audio_coverage_accepts_floating_point_roundoff(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.native_audio_analysis(analysis_bytes)
+        audio["auditory_review"]["coverage"] = [
+            {"start_s": 0.0, "end_s": 0.1 + 0.2},
+            {"start_s": 0.3, "end_s": 2.2},
+        ]
+        self.assertEqual(self.validate_audio(audio, analysis_bytes), [])
+
+    def test_asr_and_separation_are_not_auditory_review_methods(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        for method in ("speech_to_text", "asr", "separation"):
+            with self.subTest(method=method):
+                audio = self.native_audio_analysis(analysis_bytes, method)
+                self.assertIn(
+                    "audio.schema",
+                    self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                )
+
     def test_audio_analysis_accepts_measured_silence_without_auditory_model(self):
         analysis_bytes = json.dumps(self.breakdown).encode()
         audio = self.audio_analysis(analysis_bytes)
@@ -480,7 +651,9 @@ class TemplateFactoryValidationTests(unittest.TestCase):
             analysis = Path(directory) / "analysis.json"
             analysis.write_text(json.dumps(self.breakdown))
             audio = Path(directory) / "audio-analysis.json"
-            audio.write_text(json.dumps(self.audio_analysis(analysis.read_bytes())))
+            audio.write_text(
+                json.dumps(self.native_audio_analysis(analysis.read_bytes()))
+            )
             valid = subprocess.run(
                 [
                     sys.executable,

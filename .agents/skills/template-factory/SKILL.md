@@ -1,22 +1,6 @@
 ---
 name: template-factory
-description: >-
-  Reverse-engineer a reference video ("pin") into reproducible AIGC output.
-  Orchestrates pin intake (prefer a public HTTPS URL seed_understand can watch;
-  download and media_upload only when unusable), video and audio breakdown,
-  per-beat motion analysis, keyframes, a planning-only sketch storyboard, optional
-  element sheets
-  (Seedream for invented identity; web/user download-first for authorized real
-  brands/logos/products; deterministic HTML-entrypoint graphics for exact posters, cards,
-  screens, product layouts, and overlays), and a Seedance 2.5 video —
-  generation-bound prompts through prompt-review; reviewed in a HyperFrames
-  Studio project. Explicit orchestrator composing ark-mcp (including
-  seed_audio_understand), seedream-storyboard,
-  seedance-prompt-25, prompt-review, html-graphic-render, hyperframes,
-  and ffmpeg; never calls the Ark REST API. Use to
-  replicate style/composition/grammar, build a reusable template, or turn a
-  cited brand ad, Pinterest pin, or other reference video into elements and
-  video.
+description: Reverse-engineer reference videos with native-agent analysis and available tool fallbacks. Use to build reusable style and motion recipes, then orchestrate reviewed assets and video generation.
 ---
 
 # Template Factory
@@ -28,8 +12,10 @@ element sheets, and a Seedance 2.5 video take — all
 manifested for later reproduction.
 
 This skill is an **explicitly-marked orchestrator** (precedent: `film-production`).
-It composes MCP tools + specialist skills; it never calls the Ark REST API
-directly. Approval modes, Studio commands, stage gates, prompt review,
+The host agent owns analysis, synthesis, prompt writing and review using local
+media and available perception tools. It composes specialist skills and
+MCP analysis or generation tools; it never calls the Ark REST API directly.
+Approval modes, Studio commands, stage gates, prompt review,
 registration and submission recovery follow `AGENTS.md` and the
 [production policy](../../contracts/production-policy.md); this skill adds the
 factory-specific steps.
@@ -37,6 +23,39 @@ factory-specific steps.
 ## Core operating model
 
 - Act as the single manager communicating with the user.
+- Establish whether the request is analysis-only, recipe/prompt-only, or a
+  production run. For analysis-only work, stop after the validated breakdown
+  and requested recipe; do not initialize Studio, generate assets, or demand
+  production-stage locks. Studio and stage-exit instructions below apply to
+  production runs. A recipe is not authorization to spend generation credits.
+- Prefer the current host-agent session or a capable local LLM for visual,
+  audio and motion reasoning. When native capabilities are insufficient, use
+  available tools, including `ark-mcp` `seed_understand` for visual/motion
+  analysis and `seed_audio_understand` for audio analysis. These are optional
+  fallbacks, not mandatory dependencies. Available MCP tools may also assist
+  with ASR, stem separation, media preparation and measurements; local ASR and
+  separation are not required. Select tools
+  by capability, availability and the user's privacy and cost constraints.
+  Native reasoning needs no ModelArk credentials, uploads or provider task IDs;
+  an optional provider tool still follows its own authentication, upload,
+  authorization and persistence contracts. Do not require tool setup for
+  unrelated analysis that the host can already perform.
+  "Local" describes orchestration and media tooling, not a guarantee that the
+  host model runs on-device. Respect an explicit offline-only constraint:
+  use only verified on-device perception or human review in that case.
+- Check actual image, video and audio input capabilities independently.
+  A file-reading shell or player launch is not visual or auditory perception.
+  Inspect extracted images when native video input is unavailable, or use an
+  available visual-understanding tool. If no permitted route can inspect the
+  picture, request human visual evidence and keep the breakdown incomplete.
+  Never fill gaps from filenames or transcripts.
+- Prefer native audio input or a capable local audio model; when unavailable,
+  use an available audio-understanding tool or documented human listening.
+  Missing perception leaves audio grammar unresolved only when no permitted
+  reviewer/tool can inspect the sound. Record the fallback reason, actual
+  tool/model, input hashes, inspected ranges and saved results. Do not report
+  tool observations as native listening. Generation remains a separate,
+  authorized provider operation with its existing review and registry gates.
 - Treat `project.md`, `task_ids.json`, `ref_cache.json`, shot manifests and the
   Studio project (pre-Studio canvas projects: the `showcase.json`/`index.html`
   canvas) as production memory.
@@ -62,45 +81,47 @@ factory-specific steps.
 ## Pipeline (one stage at a time)
 
 ```text
-pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
+pin_local → breakdown_draft → breakdown_approved → elements_draft
   → elements_approved → storyboard_draft
   → storyboard_approved → video_draft → video_review → approved
 ```
 
-1. **Pin intake** — resolve watchable media for the pin before analysis.
-   Prefer a public HTTPS URL that `seed_understand` already accepts as a video
-   input. Download into `pins/` and `media_upload` only when the cited link is a
-   page/platform URL, auth-gated, or otherwise unusable as a video input (use an
-   available downloader such as `yt-dlp` when present). User-supplied local files
-   always upload. Record `object_key` (when uploaded), content SHA-256, source
-   URL, and storage scope in `ref_cache.json`. Re-presign unchanged cached
-   objects on demand; re-upload only if content changed or the recorded remote
-   object is missing. Do not treat transcripts, scripts, or article write-ups as
-   the pin.
+1. **Pin intake** — resolve a local, decodable copy before analysis.
+   Reuse user-supplied files without changing them; download remote media into
+   `pins/` with an available downloader such as `yt-dlp`. A page URL is not the
+   video. Record the local path, bytes, content SHA-256 and nonsensitive source
+   provenance in `breakdown.md`; omit credentials and signed query strings.
+   Native inspection needs no upload. When a selected MCP operation needs
+   media, reuse an accepted media URL or upload only its needed input under
+   the applicable privacy and tool contracts. Cache transport references
+   without making analysis media eligible for generation. Transcripts, scripts and
+   article write-ups do not substitute for inspecting the media.
 2. **Analysis** — first measure the pin: picture (video-stream) duration,
    ffmpeg scene-detected hard cuts, and a 5–8 fps timestamped frame strip.
-   Then make one `seed_understand` call with the template's combined picture
-   and motion prompt (`references/analysis-prompt.md`), which segments into
+   Inspect the picture with native video/image tools or a capable fallback and apply the
+   analysis checklist (`references/analysis-prompt.md`), which segments into
    **beats by default** (0.3–1.2 s, every cut plus every action/camera/text/VFX
    change, each tagged `[HARD CUT IN]` or `[CONTINUOUS]`) and returns per-beat
    motion grammar in `VideoBreakdown` v1.1. The validator still accepts legacy
-   v1.0 breakdowns. Parse large results from the persisted tool-result file
-   with a script. Correct
+   v1.0 breakdowns. Record inspected timestamp ranges, frame files, runtime
+   capabilities, measurements and uncertainty in `breakdown.md`. Correct
    beat boundaries against the frame strip, run the de-identification leak
    scan, validate `VideoBreakdown` against `references/breakdown-schema.json`,
    and run `scripts/validate_breakdown.py --source-duration-s <picture
    duration>` → write `analysis.json` + `breakdown.md` (one keyframe per beat,
    corrections recorded). Freeze the reviewed source as `analysis.vNN.json`;
-   record its SHA-256 and approval scope. Gate A: user reviews the breakdown.
+   record its SHA-256 and approval scope. Gate A: review and record the
+   decision under the project's approval mode.
    Use cut-level segmentation only when the user asks for it.
    For a pin longer than about 20 s or with more than about 25 beats, plan
    windowed analysis on hard cuts from the start; see
    [long pins and multi-clip takes](references/long-pins-and-multi-clip.md).
 3. **Reference audio analysis** — this remains a separate audio-only review;
    follow `references/audio-analysis.md`. Probe the original pin's audio stream
-   and measure silence/loudness. Extract the soundtrack, then submit it to
-   `ark-mcp` (`seed_audio_understand`) as a background job. Record the response
-   or review-note reference in `auditory_review`. A playable UI and FFmpeg output
+   and measure silence/loudness. Extract the soundtrack, then inspect it through
+   verified native audio input, a local audio model, an available
+   audio-understanding tool, or human listening.
+   Record the review-note reference in `auditory_review`. A playable UI and FFmpeg output
    alone do not show that the agent heard the soundtrack. When no auditory
    review is available, leave sound identity and reusable audio grammar
    unresolved. Build `audio-analysis.json` with timestamped music, voice, effect,
@@ -109,7 +130,7 @@ pin_uploaded → breakdown_draft → breakdown_approved → elements_draft
    only when the mix obscures needed evidence. Validate against
    `references/audio-analysis-schema.json` with the pin SHA-256 and frozen
    breakdown SHA-256. An absent stream and unavailable audio are distinct
-   states. Do not assume `seed_understand` heard the soundtrack merely because
+   states. Do not assume the host heard the soundtrack merely because
    it accepted a video. Carry only reusable sound grammar and sync rules into
    the template; keep source recordings and words out of it.
 4. **Keyframes** — `ffmpeg` extracts a frame per beat (mid-beat, or the flagged
@@ -208,8 +229,12 @@ authorized brand's official packshot.
 
 ### Multi-pin batches
 
-Run one analysis sub-agent per pin, each owning only `templates/<pin-id>/`.
-Every write to the shared registry goes through the lock in
+When the host supports sub-agents, run one native analysis sub-agent per pin,
+each owning only `templates/<pin-id>/`, with explicit local input paths and
+perception requirements. Otherwise process bounded windows in the main session.
+The main agent integrates findings and owns shared state. Native reasoning creates no
+provider registry entries; optional provider operations retain their required
+task IDs and records. Generation registry writes still use the lock in
 `.agents/scripts/operation_store.py`. See
 [multi-pin batches](references/long-pins-and-multi-clip.md#multi-pin-batches).
 
@@ -227,14 +252,14 @@ takes only.
 
 | Need | Primary skill |
 | --- | --- |
-| Pin download when URL is not seed_understand-usable | Available downloader (e.g. `yt-dlp`); then `ark-mcp` (`media_upload`) |
-| Upload / presign references | `ark-mcp` (`media_upload`, `media_presign`) |
-| Video breakdown + per-beat motion grammar | One `ark-mcp` (`seed_understand`) call |
-| Generated-take motion diagnosis when needed | `ark-mcp` (`seed_understand`) comparison pass |
-| Auditory review of a pin with sound | `ark-mcp` (`seed_audio_understand`) on the extracted soundtrack, or documented human listening review |
+| Pin acquisition | Local file reuse or available downloader (e.g. `yt-dlp`); native inspection needs no upload |
+| Upload / presign inputs for selected MCP operations or eligible generation references | `ark-mcp` (`media_upload`, `media_presign`); analysis upload does not grant generation eligibility |
+| Video breakdown + per-beat motion grammar | Native host-agent/local LLM inspection plus FFmpeg measurements; `ark-mcp` `seed_understand` when native perception is insufficient |
+| Generated-take motion diagnosis when needed | Native comparison of source/take media and timestamped frames; capable visual-understanding tool when needed |
+| Auditory review of a pin with sound | Native audio input or capable local model first; `ark-mcp` `seed_audio_understand`, another audio-capable tool, or documented human listening when needed |
 | Reference audio stream, silence, loudness, and waveform | `ffmpeg` (`ffprobe`, audio filters) |
-| Speech transcription when needed | `ark-mcp` (`speech_to_text`), then listening verification |
-| Voice/music/effect separation when needed | `ark-mcp` (`vod_separate_audio`, `vod_get_audio_separation`), then listening verification |
+| Speech transcription when needed for analysis | Available MCP ASR (e.g. `ark-mcp` `speech_to_text`) or local ASR; verify important words and timing where listening is available; transcripts alone do not verify soundscape |
+| Voice/music/effect separation when needed for analysis | Available MCP separation (e.g. `ark-mcp` VOD separation) or local separator, then listening verification; unavailable tooling leaves uncertainty |
 | Keyframe extraction, cut detection, frame strips, end-card compositing, retiming, loudness | `ffmpeg` |
 | Storyboard grid prompt | `seedream-storyboard` |
 | Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prop-asset` |
@@ -338,6 +363,10 @@ visible QA, and explicit selection.
 Validate every committed template against `references/template-schema.json`.
 Keep the recipe distinct from a particular run:
 
+- Prefer the native host session for `analyze` and `motion_review`; use
+  capability-driven tool fallbacks when needed. Legacy recipe
+  temperature, reasoning-effort and token-limit fields are historical hints,
+  not instructions to call a provider or change the host runtime.
 - `locked_grammar` contains the reusable style, composition, motion,
   transition, rhythm, and optional audio rules that define the template.
 - `replaceable_inputs` declares subject, product, environment, palette, copy,

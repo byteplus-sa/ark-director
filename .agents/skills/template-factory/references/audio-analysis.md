@@ -11,12 +11,15 @@ older visual breakdowns remain valid.
    duration, channel count, and sample rate. Record `absent` only after a
    successful probe shows no audio stream. Use `unavailable` when the pin cannot
    be decoded or the audio cannot be accessed.
-2. When audio exists, extract a lossless copy without changing the pin. Send
-   that audio to `seed_audio_understand`, or obtain a documented human listening
-   review. A terminal agent cannot hear sound by running FFmpeg or opening a
-   player. Cover the full soundtrack, then inspect short windows around cuts,
-   prominent action, speech, effects, and the ending. Record the Ark job ID,
-   completion ID, model, audio hash, exact prompt, and response in a review note;
+2. When audio exists, extract a lossless copy without changing the pin. Use
+   verified native audio input or a capable local audio model first. If those
+   cannot inspect audio, use an available audio-understanding tool such as
+   `ark-mcp` `seed_audio_understand`, or documented human listening.
+   A terminal agent cannot hear sound by
+   running FFmpeg or opening a player. Cover the full soundtrack, then inspect
+   short windows around cuts, prominent action, speech, effects and the ending.
+   Record the reviewer/runtime, actual audio input capability, audio hash,
+   inspected ranges, exact analysis instructions and observations in a review note;
    link it from `auditory_review.evidence_ref`. A waveform can locate transients
    but cannot name their source.
 3. Measure silence and loudness with FFmpeg, recording the command, thresholds,
@@ -24,13 +27,16 @@ older visual breakdowns remain valid.
    for loudness; neither identifies speech, instruments, music, or sound effects.
    Keep picture and audio durations separate because an audio tail may extend
    beyond the final frame.
-4. If speech matters, use `speech_to_text` on the extracted audio and check
+4. If speech matters, use available MCP or local ASR on the extracted audio and check
    important words and timestamps against the auditory review. If overlapping voice, music,
-   and effects prevent reliable listening, use `vod_separate_audio` with a
-   suitable scene, retain its task and artifact provenance, and send the stems
+   and effects prevent reliable listening, use an available MCP or local separator,
+   retain its tool/model version, arguments and artifact hashes, and pass the stems
    through a verified audio-capable reviewer. Separation is an optional
    analysis aid, not proof of exact source
-   identity. Do not submit a paid separation task for a pin with no need for it.
+   identity. Local ASR and separation are not prerequisites. Follow the selected
+   tool's authentication, upload, cost, authorization and task-persistence
+   contracts; honor explicit offline constraints. Missing local tools alone do
+   not block an available permitted MCP route.
 5. Build a timestamped event map with music entrances, changes and accents;
    voice entries; identifiable effects; ambience changes; deliberate silence;
    and audio tails. Link each event only to visual beats it overlaps. Describe
@@ -45,40 +51,46 @@ older visual breakdowns remain valid.
 
 ## Auditory review route
 
-Use Ark MCP's `seed_audio_understand` on the extracted soundtrack. Check
-`ark_job_capabilities` for `seed_audio_understand` and `media_upload`; both
-require background jobs. Submit `media_upload` with `media_type: "audio"`,
-`mime_type: "audio/flac"`, and the absolute `file_path`, then poll its Ark job
-with `ark_job_get`. Submit the understanding job with the returned presigned
-HTTPS URL and poll it to completion:
+Use `auditory_review.method: native_agent_audio` only when the current host
+actually receives and understands audio, or `local_audio_model` for a verified
+on-device audio-capable model. A local CLI that proxies to a remote model is
+not an on-device model. Use `ark_mcp_seed_audio_understand` for that MCP tool,
+`audio_understanding_tool` for another verified audio-capable tool (identify
+the tool/model in the evidence note), and `human_review` for a person who listened.
+ASR or separation alone is not an auditory review method.
+New records use `schema_version: "1.1"` and completed native/local/tool reviews
+include `capability_evidence` (the actual audio interface/runtime),
+`audio_sha256` (the extracted audio bytes), and `coverage` (contiguous
+`start_s`/`end_s` ranges in extracted-audio time covering the full soundtrack).
+Set `evidence_ref` to the saved listening note. The validator checks coverage
+and required provenance, not whether the reviewer truly heard the clip; inspect
+the note and current audio hash before accepting it.
 
-```json
-{
-  "input": {
-    "tool_name": "seed_audio_understand",
-    "arguments": {
-      "input": {
-        "prompt": "Listen to the entire supplied audio. Map audible music, speech, effects, ambience, and silence with timestamps in seconds relative to this audio clip. Describe changes and accents, uncertainty, and undecodable passages. Report only what is audible; do not infer sound from the picture.",
-        "audios": [{ "kind": "url", "url": "<presigned audio URL>" }],
-        "reasoning_effort": "medium"
-      }
-    }
-  }
-}
+Apply these instructions to the actual audio:
+
+```text
+Listen to the entire supplied audio. Map audible music, speech, effects,
+ambience and silence with timestamps in seconds relative to this audio clip.
+Describe changes, accents, uncertainty and undecodable passages. Report only
+what is audible; do not infer sound from the picture.
 ```
 
-The JSON object is the complete argument to `ark_job_submit`. Keep presigned URLs out of
-durable notes. Record the submitted prompt and the returned job, completion,
-and model IDs alongside the original pin and extracted audio hashes. Set
-`auditory_review.method: ark_mcp_seed_audio_understand` only after a completed
-response covers the supplied audio. If a clip exceeds the upload or model
-limit, split it into contiguous, labeled windows, review all windows, and
-retain each window's start offset and response. Do not leave gaps. The model
-receives audio only: translate its clip-relative timestamps to picture time
+If the input exceeds native context limits, split it into contiguous labeled
+windows, review all windows and retain each window's offset and notes. Do not
+leave gaps. Translate clip-relative event timestamps to picture time
 using the measured audio and video stream start times, then compare against
 cuts and visible action. Recheck uncertain claims with shorter audio windows,
 ASR, or separated stems where useful. Do not infer that a visible event made a
 sound merely because its timing overlaps an audio accent.
+
+Use an available audio-understanding tool when native audio perception is
+insufficient and the user's constraints permit it; no additional preference
+for local ASR is imposed. Record the capability gap, input hashes, tool/model,
+request instructions, saved response and any actual task ID. Do not fabricate
+provider IDs for synchronous tools. Retain full-soundtrack coverage and check
+uncertain claims; provider output is evidence, not automatic approval. Historical
+`ark_mcp_seed_audio_understand` evidence remains valid under schema v1.0;
+preserve it without fabricating new native provenance or repeating the job.
 
 A human may listen (to the audio file, to a take in its Studio frame, or in the pre-Studio project canvas) and supply timestamped notes; link
 those notes as `auditory_review.evidence_ref`. Opening a player for the user
@@ -86,7 +98,9 @@ does not count as agent listening. If the audio tool or source is unavailable
 and no reviewer can hear the clip, set `auditory_review.status: unavailable`.
 Keep music, speech, effects and ambience unknown, and leave reusable audio
 grammar empty. FFmpeg may still establish stream properties and
-threshold-defined silence. Do not represent this as a completed sound map.
+threshold-defined silence. Keep `audio_stream.status: present` when the stream
+is decodable but the runtime cannot listen. Do not represent this as a completed
+sound map. Continue visual work; source-matching audio remains unresolved.
 
 ## Example measurement commands
 

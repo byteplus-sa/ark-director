@@ -5,24 +5,30 @@ when its video exceeds one reliable clip, or when one run handles several pins.
 
 ## Windowed analysis for long pins
 
-A single `seed_understand` call over a long, dense pin can time out on the
-provider or come back too long to use. Plan windows from the start rather than
-after a failure:
+A long, dense pin can exceed the host's visual context. Plan bounded local
+inspection windows before analysis:
 
 1. Measure picture duration and hard cuts first (step 2).
-2. Split the pin into 3–6 windows of about 5–8 s. Each window must start and
-   end on a measured hard cut, so no beat straddles a boundary.
-3. Run the same analysis prompt once per window on the same uploaded object,
-   in parallel. Tell each call its window span and that its beat times are
-   pin-absolute.
+2. Prefer windows of about 5-8 s aligned to confirmed hard cuts. Use as many
+   as the duration requires. If a long continuous shot has no cut, use
+   overlapping context around window edges and assign each beat to one owner;
+   do not invent a cut at a context boundary.
+3. Inspect every window with the same checklist, preferring native/local
+   perception and using available understanding tools when needed. With host sub-agent
+   support, delegate independent windows to native agents with unique output
+   files, read-only media, explicit pin-absolute offsets and image/video input
+   requirements. Otherwise work sequentially with saved checkpoints.
 4. Merge the windows in order, renumber the beats, and reconcile any element
    names that differ between windows.
-5. Record every window's job ID and span in `raw_seed_understand_windows_vNN.json`.
-   Then validate the merged breakdown as usual.
+5. Record window spans, inspected frame paths, reviewer/runtime, uncertainty
+   and completion in `analysis-windows.vNN.json`. The main agent checks gap-free
+   coverage and overlap consistency, reconciles boundary action and element IDs,
+   and validates the merged breakdown before freezing it.
 
-A timeout with `ambiguous_completion` still needs reconciliation before retry.
-The windowed calls are new operations with a different scope, not a duplicate
-of the full-length call.
+Resume completed windows from saved evidence after interruption. Native
+analysis needs no provider tasks or IDs. For optional provider tools, retain
+actual task IDs/results under their contracts and reconcile ambiguous
+submissions before retrying. Do not resubmit completed windows.
 
 ## Splitting video into clips
 
@@ -92,11 +98,16 @@ prompt's timing.
 
 When one run handles several pins:
 
-- Give each pin its own analysis sub-agent. It owns only
+- When the host supports sub-agents, give each pin its own native analysis
+  sub-agent with explicit media inputs and perception capabilities. Otherwise
+  process pins sequentially. Each analysis worker owns only
   `templates/<pin-id>/` and never edits the Studio project (or pre-Studio
   canvas `showcase.json`, `index.html`),
   `project.md`, or `ref_cache.json`.
-- Every registry write, by any agent, goes through the lock in
+- Native analysis does not write the provider registry. The main agent owns
+  optional tool submissions, uploads and task records to prevent duplicates.
+  Every generation registry
+  write, by any agent, goes through the lock in
   `.agents/scripts/operation_store.py`: `registry_lock`, `read_registry`,
   `replace_registry`, or `prepare_operation`.
   `.agents/scripts/prepare_request.py --register` does this for you.
