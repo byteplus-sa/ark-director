@@ -430,6 +430,7 @@ def validate_audio_analysis(
             capability = review.get("capability_evidence")
             coverage = review.get("coverage")
             coverage_end = 0.0
+            coverage_error_s = 0.0
             valid_coverage = isinstance(coverage, list) and bool(coverage)
             if isinstance(coverage, list):
                 for span in coverage:
@@ -443,15 +444,17 @@ def validate_audio_analysis(
                         or end is None
                         or start < 0
                         or end <= start
-                        or abs(start - coverage_end) > tolerance_s
                     ):
                         valid_coverage = False
+                    if start is not None:
+                        coverage_error_s += abs(start - coverage_end)
                     if end is not None:
                         coverage_end = end
-            if (
-                audio_duration is None
-                or abs(coverage_end - audio_duration) > tolerance_s
-            ):
+            if audio_duration is None:
+                valid_coverage = False
+            else:
+                coverage_error_s += abs(coverage_end - audio_duration)
+            if coverage_error_s > 1e-9:
                 valid_coverage = False
             if (
                 not isinstance(capability, str)

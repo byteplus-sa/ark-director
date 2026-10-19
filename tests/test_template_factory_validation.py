@@ -479,6 +479,46 @@ class TemplateFactoryValidationTests(unittest.TestCase):
                     self.rule_ids(self.validate_audio(audio, analysis_bytes)),
                 )
 
+    def test_audio_coverage_rejects_small_and_accumulated_discontinuities(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        cases = [
+            [{"start_s": 0.0, "end_s": 1.0}, {"start_s": 1.04, "end_s": 2.2}],
+            [{"start_s": 0.0, "end_s": 1.0}, {"start_s": 0.96, "end_s": 2.2}],
+            [{"start_s": 0.04, "end_s": 2.2}],
+            [{"start_s": 0.0, "end_s": 2.16}],
+            [{"start_s": 0.0, "end_s": 2.24}],
+            [
+                {"start_s": i * 0.05, "end_s": i * 0.05 + 0.01}
+                for i in range(44)
+            ],
+            [
+                {"start_s": 0.0, "end_s": 0.5},
+                {"start_s": 0.5 + 6e-10, "end_s": 1.0},
+                {"start_s": 1.0 + 6e-10, "end_s": 2.2},
+            ],
+        ]
+        for method in (
+            "native_agent_audio", "local_audio_model",
+            "ark_mcp_seed_audio_understand", "audio_understanding_tool",
+        ):
+            for coverage in cases:
+                with self.subTest(method=method, coverage=coverage):
+                    audio = self.native_audio_analysis(analysis_bytes, method)
+                    audio["auditory_review"]["coverage"] = coverage
+                    self.assertIn(
+                        "audio.auditory_evidence",
+                        self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                    )
+
+    def test_audio_coverage_accepts_floating_point_roundoff(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        audio = self.native_audio_analysis(analysis_bytes)
+        audio["auditory_review"]["coverage"] = [
+            {"start_s": 0.0, "end_s": 0.1 + 0.2},
+            {"start_s": 0.3, "end_s": 2.2},
+        ]
+        self.assertEqual(self.validate_audio(audio, analysis_bytes), [])
+
     def test_asr_and_separation_are_not_auditory_review_methods(self):
         analysis_bytes = json.dumps(self.breakdown).encode()
         for method in ("speech_to_text", "asr", "separation"):
