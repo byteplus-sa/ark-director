@@ -76,8 +76,10 @@ Exit: the production objective, constraints, and directorial defaults are clear
 enough to break down. When the brief cites brand ads or other footage for
 visual or motion inspiration, record the reference URL or local path and treat
 local media acquisition and native video/image inspection as unresolved until
-decodable media and a capable reviewer are available; no analysis upload or
-cloud understanding call is required. Scripts and
+decodable media and a capable reviewer are available. Prefer native/local
+inspection; use available MCP understanding tools when needed, under privacy
+and cost constraints. No upload or cloud call is required when native
+inspection suffices. Scripts and
 article text alone do not satisfy that gap.
 
 ## 2. Scene and production breakdown
@@ -86,10 +88,13 @@ Entry: an accepted brief and available story or script material. Draft scene
 and shot breakdown may precede canonical asset generation; it identifies which
 assets are required and does not make a prompt ready for production submission.
 If the brief borrows grammar from cited reference footage, that media must
-already be locally decodable and inspected through native video/image tools,
+already be locally decodable and inspected through native video/image tools
+or a capable permitted understanding tool,
 with timestamped frames and local timing measurements, before treating
 visual/motion claims as breakdown evidence. Missing perception stays unresolved;
-reference audio needs verified native/on-device audio input or human listening.
+reference audio needs native/local audio perception, an available
+audio-understanding tool, or human listening. MCP or local ASR/separation may
+assist; local-only tools are not required.
 
 Required output: scene list, cast, locations, props, dialogue, sound needs,
 continuity states, delivery assumptions, and scene-level acceptance criteria.

@@ -1,6 +1,6 @@
 ---
 name: template-factory
-description: Reverse-engineer reference videos with native host-agent media analysis and local tools. Use to build reusable style and motion recipes, then orchestrate reviewed assets and video generation.
+description: Reverse-engineer reference videos with native-agent analysis and available tool fallbacks. Use to build reusable style and motion recipes, then orchestrate reviewed assets and video generation.
 ---
 
 # Template Factory
@@ -13,8 +13,8 @@ manifested for later reproduction.
 
 This skill is an **explicitly-marked orchestrator** (precedent: `film-production`).
 The host agent owns analysis, synthesis, prompt writing and review using local
-media and available native perception tools. It composes specialist skills and
-MCP generation tools; it never calls the Ark REST API directly.
+media and available perception tools. It composes specialist skills and
+MCP analysis or generation tools; it never calls the Ark REST API directly.
 Approval modes, Studio commands, stage gates, prompt review,
 registration and submission recovery follow `AGENTS.md` and the
 [production policy](../../contracts/production-policy.md); this skill adds the
@@ -28,20 +28,33 @@ factory-specific steps.
   and requested recipe; do not initialize Studio, generate assets, or demand
   production-stage locks. Studio and stage-exit instructions below apply to
   production runs. A recipe is not authorization to spend generation credits.
-- Run analysis in the current host-agent session, not through `seed_understand`,
-  `seed_audio_understand`, or another external LLM service. Do not require
-  ModelArk credentials, uploads, or provider task IDs for analysis.
+- Prefer the current host-agent session or a capable local LLM for visual,
+  audio and motion reasoning. When native capabilities are insufficient, use
+  available tools, including `ark-mcp` `seed_understand` for visual/motion
+  analysis and `seed_audio_understand` for audio analysis. These are optional
+  fallbacks, not mandatory dependencies. Available MCP tools may also assist
+  with ASR, stem separation, media preparation and measurements; local ASR and
+  separation are not required. Select tools
+  by capability, availability and the user's privacy and cost constraints.
+  Native reasoning needs no ModelArk credentials, uploads or provider task IDs;
+  an optional provider tool still follows its own authentication, upload,
+  authorization and persistence contracts. Do not require tool setup for
+  unrelated analysis that the host can already perform.
   "Local" describes orchestration and media tooling, not a guarantee that the
   host model runs on-device. Respect an explicit offline-only constraint:
   use only verified on-device perception or human review in that case.
 - Check actual image, video and audio input capabilities independently.
   A file-reading shell or player launch is not visual or auditory perception.
-  Inspect extracted images when native video input is unavailable. If neither
-  route can show the agent the picture, request human visual evidence and keep
-  the breakdown incomplete. Never fill gaps from filenames or transcripts.
-- Use native audio input, an available on-device audio model, or documented
-  human listening. Missing audio perception leaves audio grammar unresolved;
-  do not silently fall back to a cloud LLM. Generation remains a separate,
+  Inspect extracted images when native video input is unavailable, or use an
+  available visual-understanding tool. If no permitted route can inspect the
+  picture, request human visual evidence and keep the breakdown incomplete.
+  Never fill gaps from filenames or transcripts.
+- Prefer native audio input or a capable local audio model; when unavailable,
+  use an available audio-understanding tool or documented human listening.
+  Missing perception leaves audio grammar unresolved only when no permitted
+  reviewer/tool can inspect the sound. Record the fallback reason, actual
+  tool/model, input hashes, inspected ranges and saved results. Do not report
+  tool observations as native listening. Generation remains a separate,
   authorized provider operation with its existing review and registry gates.
 - Treat `project.md`, `task_ids.json`, `ref_cache.json`, shot manifests and the
   Studio project (pre-Studio canvas projects: the `showcase.json`/`index.html`
@@ -78,12 +91,14 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
    `pins/` with an available downloader such as `yt-dlp`. A page URL is not the
    video. Record the local path, bytes, content SHA-256 and nonsensitive source
    provenance in `breakdown.md`; omit credentials and signed query strings.
-   Do not upload the pin for analysis. Keep `ref_cache.json` for later,
-   explicitly eligible generation references only. Transcripts, scripts and
+   Native inspection needs no upload. When a selected MCP operation needs
+   media, reuse an accepted media URL or upload only its needed input under
+   the applicable privacy and tool contracts. Cache transport references
+   without making analysis media eligible for generation. Transcripts, scripts and
    article write-ups do not substitute for inspecting the media.
 2. **Analysis** — first measure the pin: picture (video-stream) duration,
    ffmpeg scene-detected hard cuts, and a 5–8 fps timestamped frame strip.
-   Inspect the picture with native video or image tools and apply the local
+   Inspect the picture with native video/image tools or a capable fallback and apply the
    analysis checklist (`references/analysis-prompt.md`), which segments into
    **beats by default** (0.3–1.2 s, every cut plus every action/camera/text/VFX
    change, each tagged `[HARD CUT IN]` or `[CONTINUOUS]`) and returns per-beat
@@ -104,7 +119,8 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
 3. **Reference audio analysis** — this remains a separate audio-only review;
    follow `references/audio-analysis.md`. Probe the original pin's audio stream
    and measure silence/loudness. Extract the soundtrack, then inspect it through
-   verified native audio input, a local audio model, or human listening.
+   verified native audio input, a local audio model, an available
+   audio-understanding tool, or human listening.
    Record the review-note reference in `auditory_review`. A playable UI and FFmpeg output
    alone do not show that the agent heard the soundtrack. When no auditory
    review is available, leave sound identity and reusable audio grammar
@@ -216,8 +232,9 @@ authorized brand's official packshot.
 When the host supports sub-agents, run one native analysis sub-agent per pin,
 each owning only `templates/<pin-id>/`, with explicit local input paths and
 perception requirements. Otherwise process bounded windows in the main session.
-The main agent integrates findings and owns shared state. Analysis creates no
-provider registry entries; generation registry writes still use the lock in
+The main agent integrates findings and owns shared state. Native reasoning creates no
+provider registry entries; optional provider operations retain their required
+task IDs and records. Generation registry writes still use the lock in
 `.agents/scripts/operation_store.py`. See
 [multi-pin batches](references/long-pins-and-multi-clip.md#multi-pin-batches).
 
@@ -235,14 +252,14 @@ takes only.
 
 | Need | Primary skill |
 | --- | --- |
-| Pin acquisition | Local file reuse or available downloader (e.g. `yt-dlp`); no analysis upload |
-| Upload / presign eligible generation references | `ark-mcp` (`media_upload`, `media_presign`) |
-| Video breakdown + per-beat motion grammar | Native host-agent video/image inspection plus local FFmpeg measurements |
-| Generated-take motion diagnosis when needed | Native host-agent comparison of local source/take media and timestamped frames |
-| Auditory review of a pin with sound | Verified native audio input, available on-device audio model, or documented human listening |
+| Pin acquisition | Local file reuse or available downloader (e.g. `yt-dlp`); native inspection needs no upload |
+| Upload / presign inputs for selected MCP operations or eligible generation references | `ark-mcp` (`media_upload`, `media_presign`); analysis upload does not grant generation eligibility |
+| Video breakdown + per-beat motion grammar | Native host-agent/local LLM inspection plus FFmpeg measurements; `ark-mcp` `seed_understand` when native perception is insufficient |
+| Generated-take motion diagnosis when needed | Native comparison of source/take media and timestamped frames; capable visual-understanding tool when needed |
+| Auditory review of a pin with sound | Native audio input or capable local model first; `ark-mcp` `seed_audio_understand`, another audio-capable tool, or documented human listening when needed |
 | Reference audio stream, silence, loudness, and waveform | `ffmpeg` (`ffprobe`, audio filters) |
-| Speech transcription when needed for analysis | Available local ASR, then listening verification; transcripts alone do not verify soundscape |
-| Voice/music/effect separation when needed for analysis | Available local separator, then listening verification; unavailable tooling leaves uncertainty |
+| Speech transcription when needed for analysis | Available MCP ASR (e.g. `ark-mcp` `speech_to_text`) or local ASR; verify important words and timing where listening is available; transcripts alone do not verify soundscape |
+| Voice/music/effect separation when needed for analysis | Available MCP separation (e.g. `ark-mcp` VOD separation) or local separator, then listening verification; unavailable tooling leaves uncertainty |
 | Keyframe extraction, cut detection, frame strips, end-card compositing, retiming, loudness | `ffmpeg` |
 | Storyboard grid prompt | `seedream-storyboard` |
 | Element sheets (invented / generative) | `seedream-character-sheet`, `seedream-location-asset`, `seedream-prop-asset` |
@@ -346,7 +363,8 @@ visible QA, and explicit selection.
 Validate every committed template against `references/template-schema.json`.
 Keep the recipe distinct from a particular run:
 
-- Run `analyze` and `motion_review` in the native host session. Legacy recipe
+- Prefer the native host session for `analyze` and `motion_review`; use
+  capability-driven tool fallbacks when needed. Legacy recipe
   temperature, reasoning-effort and token-limit fields are historical hints,
   not instructions to call a provider or change the host runtime.
 - `locked_grammar` contains the reusable style, composition, motion,

@@ -13,7 +13,8 @@ inspection windows before analysis:
    as the duration requires. If a long continuous shot has no cut, use
    overlapping context around window edges and assign each beat to one owner;
    do not invent a cut at a context boundary.
-3. Inspect every window locally with the same checklist. With host sub-agent
+3. Inspect every window with the same checklist, preferring native/local
+   perception and using available understanding tools when needed. With host sub-agent
    support, delegate independent windows to native agents with unique output
    files, read-only media, explicit pin-absolute offsets and image/video input
    requirements. Otherwise work sequentially with saved checkpoints.
@@ -24,9 +25,10 @@ inspection windows before analysis:
    coverage and overlap consistency, reconciles boundary action and element IDs,
    and validates the merged breakdown before freezing it.
 
-Resume completed windows from local evidence after interruption. Do not create
-provider tasks for analysis or invent job IDs. A generation timeout remains a
-separate provider-reconciliation case under the production policy.
+Resume completed windows from saved evidence after interruption. Native
+analysis needs no provider tasks or IDs. For optional provider tools, retain
+actual task IDs/results under their contracts and reconcile ambiguous
+submissions before retrying. Do not resubmit completed windows.
 
 ## Splitting video into clips
 
@@ -102,7 +104,9 @@ When one run handles several pins:
   `templates/<pin-id>/` and never edits the Studio project (or pre-Studio
   canvas `showcase.json`, `index.html`),
   `project.md`, or `ref_cache.json`.
-- Analysis does not write the provider registry. Every generation registry
+- Native analysis does not write the provider registry. The main agent owns
+  optional tool submissions, uploads and task records to prevent duplicates.
+  Every generation registry
   write, by any agent, goes through the lock in
   `.agents/scripts/operation_store.py`: `registry_lock`, `read_registry`,
   `replace_registry`, or `prepare_operation`.

@@ -26,7 +26,7 @@
       "additionalProperties": false,
       "properties": {
         "status": { "enum": ["completed", "unavailable", "not_needed"] },
-        "method": { "enum": ["native_agent_audio", "local_audio_model", "ark_mcp_seed_audio_understand", "human_review", null] },
+        "method": { "enum": ["native_agent_audio", "local_audio_model", "ark_mcp_seed_audio_understand", "audio_understanding_tool", "human_review", null] },
         "evidence_ref": { "type": ["string", "null"], "minLength": 1 },
         "capability_evidence": { "$ref": "#/$defs/nonEmptyString" },
         "audio_sha256": { "$ref": "#/$defs/sha256" },
@@ -94,7 +94,7 @@
       "if": {
         "properties": {
           "auditory_review": {
-            "properties": { "method": { "enum": ["native_agent_audio", "local_audio_model"] } },
+            "properties": { "method": { "enum": ["native_agent_audio", "local_audio_model", "audio_understanding_tool"] } },
             "required": ["method"]
           }
         },
@@ -103,6 +103,25 @@
       "then": {
         "properties": {
           "schema_version": { "const": "1.1" },
+          "auditory_review": {
+            "required": ["capability_evidence", "audio_sha256", "coverage"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": { "const": "1.1" },
+          "auditory_review": {
+            "properties": { "method": { "const": "ark_mcp_seed_audio_understand" } },
+            "required": ["method"]
+          }
+        },
+        "required": ["schema_version", "auditory_review"]
+      },
+      "then": {
+        "properties": {
           "auditory_review": {
             "required": ["capability_evidence", "audio_sha256", "coverage"]
           }

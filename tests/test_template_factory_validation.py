@@ -458,6 +458,37 @@ class TemplateFactoryValidationTests(unittest.TestCase):
                 audio["auditory_review"]["method"] = method
                 self.assertEqual(self.validate_audio(audio, analysis_bytes), [])
 
+    def test_tool_audio_reviews_require_full_evidence_in_current_schema(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        for method in ("ark_mcp_seed_audio_understand", "audio_understanding_tool"):
+            with self.subTest(method=method):
+                audio = self.native_audio_analysis(analysis_bytes, method)
+                self.assertEqual(self.validate_audio(audio, analysis_bytes), [])
+                for field in ("capability_evidence", "audio_sha256", "coverage"):
+                    incomplete = copy.deepcopy(audio)
+                    del incomplete["auditory_review"][field]
+                    self.assertIn(
+                        "audio.schema",
+                        self.rule_ids(self.validate_audio(incomplete, analysis_bytes)),
+                    )
+                audio["auditory_review"]["coverage"] = [
+                    {"start_s": 0.0, "end_s": 1.0}
+                ]
+                self.assertIn(
+                    "audio.auditory_evidence",
+                    self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                )
+
+    def test_asr_and_separation_are_not_auditory_review_methods(self):
+        analysis_bytes = json.dumps(self.breakdown).encode()
+        for method in ("speech_to_text", "asr", "separation"):
+            with self.subTest(method=method):
+                audio = self.native_audio_analysis(analysis_bytes, method)
+                self.assertIn(
+                    "audio.schema",
+                    self.rule_ids(self.validate_audio(audio, analysis_bytes)),
+                )
+
     def test_audio_analysis_accepts_measured_silence_without_auditory_model(self):
         analysis_bytes = json.dumps(self.breakdown).encode()
         audio = self.audio_analysis(analysis_bytes)

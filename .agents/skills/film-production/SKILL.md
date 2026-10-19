@@ -69,7 +69,7 @@ between modalities.
 | Production need | Primary skill |
 | --- | --- |
 | Brief intake, directorial defaults, audio route, look intent | `brief-intake` |
-| Brand-ad / reference-video inspiration | `template-factory` for native host-agent reverse-engineering; native video/image inspection and local timing evidence for lighter analysis, without cloud understanding calls |
+| Brand-ad / reference-video inspiration | `template-factory` for native-first reverse-engineering; native/local inspection and timing evidence for lighter analysis, with available MCP understanding tools when capabilities are insufficient |
 | Vertical episodic micro-drama | `micro-drama` (with a market writer such as `filipino-micro-drama`) |
 | Camera, cuts and timing locked from a 3D blockout | `blender-to-seedance` |
 | Character identity asset | `seedream-character-sheet` |

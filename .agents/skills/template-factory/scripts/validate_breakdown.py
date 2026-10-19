@@ -407,6 +407,7 @@ def validate_audio_analysis(
                 "native_agent_audio",
                 "local_audio_model",
                 "ark_mcp_seed_audio_understand",
+                "audio_understanding_tool",
                 "human_review",
             }
             or not isinstance(evidence_ref, str)
@@ -419,9 +420,13 @@ def validate_audio_analysis(
                     "Completed auditory review needs a method and evidence reference",
                 )
             )
-        if isinstance(method, str) and method in {
-            "native_agent_audio", "local_audio_model"
-        }:
+        if isinstance(method, str) and (
+            method in {"native_agent_audio", "local_audio_model", "audio_understanding_tool"}
+            or (
+                method == "ark_mcp_seed_audio_understand"
+                and value.get("schema_version") == "1.1"
+            )
+        ):
             capability = review.get("capability_evidence")
             coverage = review.get("coverage")
             coverage_end = 0.0
@@ -457,7 +462,7 @@ def validate_audio_analysis(
                     Finding(
                         "audio.auditory_evidence",
                         "auditory_review",
-                        "Native/local listening needs audio capability evidence "
+                        "Native/local/tool listening needs audio capability evidence "
                         "and contiguous full-soundtrack coverage",
                     )
                 )

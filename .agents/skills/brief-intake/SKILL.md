@@ -51,8 +51,10 @@ this skill does not download or analyze media. Downstream work must obtain
 decodable local media via `template-factory` for full reverse-engineering or
 native host-agent video/image inspection for a lighter pass, with local timing
 measurements and timestamped evidence. Do not require an analysis upload or
-cloud LLM call. Missing perception stays unresolved; audio needs verified
-audio input or human listening. Transcripts, scripts and article write-ups may note claims or dialogue
+cloud LLM call when native inspection suffices. Available MCP understanding,
+ASR and separation tools may fill capability gaps under privacy and cost
+constraints; local-only tools are not required. Audio needs verified
+audio perception or human listening. Transcripts, scripts and article write-ups may note claims or dialogue
 but must not replace watching the video.
 
 An absent genre is not a blocker. If intent is clear, derive a proposal from it.

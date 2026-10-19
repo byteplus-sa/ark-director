@@ -462,8 +462,8 @@
     },
     "template-factory": {
       "kind": "orchestrator",
-      "description": "Reverse-engineer reference videos with native host-agent media analysis and local tools. Use to build reusable style and motion recipes, then orchestrate reviewed assets and video generation.",
-      "readme_summary": "Use native host-agent inspection and local media tools to build timed reference-video recipes without ModelArk understanding calls, then orchestrate requested asset generation and Studio review.",
+      "description": "Reverse-engineer reference videos with native-agent analysis and available tool fallbacks. Use to build reusable style and motion recipes, then orchestrate reviewed assets and video generation.",
+      "readme_summary": "Build timed reference-video recipes with native/local analysis first and available MCP understanding, ASR or separation tools when needed, then orchestrate requested generation and Studio review.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,

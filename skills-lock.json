@@ -71,7 +71,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/brief-intake/SKILL.md",
-      "computedHash": "ee012a8338351068e5c868b5774bb30b1cac99aa9f7858b9deff0230d85e2b05"
+      "computedHash": "9a1509f10a268de48f2651219a5c3c883a8cc1205357d2cbf22645cc7f227950"
     },
     "color-grade-palettes": {
       "source": "./local",
@@ -101,7 +101,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "982d3d2f3ce7078a0acec1d81125aec00eced942e000bd7a53771041805c3634"
+      "computedHash": "b24307e8cf61b1cbe75dbe2224b04a2f03863d3eb1be92acd84cf519c27a881f"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -311,7 +311,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/template-factory/SKILL.md",
-      "computedHash": "532edd1fd4ca83d90fa55e0b3c552904e1a70f527d4ebd845ac4f91e922ed0ba"
+      "computedHash": "e088ad108301d450f2d20a84127149ab32256b3565d434fc4e404cd892d1b7a4"
     },
     "tig-blocking-map": {
       "source": "./local",

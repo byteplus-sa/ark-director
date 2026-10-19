@@ -5,9 +5,12 @@ playback has identified a motion mismatch that needs diagnosis. The source pin's
 per-beat motion grammar already comes from the initial combined breakdown
 (`VideoBreakdown` v1.1). Feed the approved shot list and its analysis SHA-256
 with the checklist, the local pin as `source`, and the local take as `take`.
-Inspect both with native video/image tools and timestamped frame sequences.
+Prefer native video/image tools and timestamped frame sequences for both.
+When native perception is insufficient, use an available visual-understanding
+tool such as `seed_understand` with the same comparison contract, subject to
+the skill's privacy and cost checks; save the request and tool results.
 Record both media hashes, inspected ranges, frame paths, actual cut times and
-uncertainty in `motion-review.md`. No cloud LLM or upload is required.
+uncertainty in `motion-review.md`. Native comparison needs no cloud LLM or upload.
 Set `mode: comparison`.
 
 ```text

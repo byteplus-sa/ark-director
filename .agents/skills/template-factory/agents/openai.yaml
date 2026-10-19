@@ -1,4 +1,4 @@
 interface:
   display_name: "Template Factory"
   short_description: "Native-agent reference analysis and production orchestration"
-  default_prompt: "Use $template-factory to inspect local reference media with native host tools, build a validated recipe, and orchestrate only the requested production stages without cloud understanding calls."
+  default_prompt: "Use $template-factory to build a validated recipe, preferring native/local visual, audio and motion analysis and using available MCP understanding, ASR or separation tools when needed. Honor privacy and cost constraints and orchestrate only the requested production stages."
