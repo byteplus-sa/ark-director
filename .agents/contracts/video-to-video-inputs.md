@@ -56,23 +56,26 @@ character.
   supplies this decision.
 - **Inspection.** Record duration, frame rate, aspect ratio, resolution, audio
   streams, cut times and SHA-256 before writing a prompt.
-- **Length.** Sources run 4–30 s. Edit routes (Object Swap, Restyle) are most
-  stable under 20 s; split longer takes into shots.
-- **Trim by route.** Re-encode the trim so the cut is frame-exact, and derive
-  the muted master and saved audio from the trimmed file so all three share one
-  timeline.
-  - *Reference routes* set `duration`, which takes whole seconds. Trim to a
-    whole-second span.
-  - *Edit routes* (Object Swap, Restyle) lock duration to the source. The
-    official Seedance 2.5 guide says the output comes back up to about 0.3 s
-    shorter unless the input frame count is 8n+1 (for example 121 frames at
-    24 fps, 5.04 s). Trim to an 8n+1 frame count instead: a 121-frame input
-    returns exactly 121 frames, while a 120-frame input returns 113.
+- **Length.** Check the selected model and route's current documented input
+  limits. Preserve the source timeline; propose splitting only when current
+  limits or inspected content warrant it, with user approval of the spans.
+- **Trim by route.** Keep the original unchanged. Verify current duration
+  increments and frame-count constraints before preprocessing either route.
+  Never impose an empirical 8n+1 pattern, whole-second rounding or a prior
+  run's duration tolerance. If a verified requirement needs trimming, padding
+  or retiming, explain alternatives and timing/audio consequences, then obtain
+  user approval for that specific adaptation before proceeding.
+  - *Reference routes* use currently supported duration settings without
+    silently rounding the source.
+  - *Edit routes* preserve the selected source timeline; frame-count patterns
+    do not guarantee exact output timing.
+  - An approved trim is a separate, frame-exact derivative. Record its source
+    span, command and hashes; derive muted picture and saved audio from that
+    same span. With no approved trim, use the full source.
 
+  Example only for an approved trim:
   ```bash
-  ffmpeg -ss <start> -i <source>.mp4 -t <whole seconds> -map 0:v:0 -map 0:a:0? \
-    -c:v libx264 -crf 16 -preset slow -c:a pcm_s24le source/<stem>_trim.mov
-  ffmpeg -ss <start> -i <source>.mp4 -frames:v <8n+1> -map 0:v:0 -map 0:a:0? \
+  ffmpeg -ss <approved-start> -i <source>.mp4 -t <approved-duration> -map 0:v:0 -map 0:a:0? \
     -c:v libx264 -crf 16 -preset slow -c:a pcm_s24le source/<stem>_trim.mov
   ```
 
@@ -94,7 +97,8 @@ character.
 ## Muted source master
 
 Submit only a muted master; never the source with its audio. Keep the audio as
-a separate file for post.
+a separate file for post. Here `<source>` is the full original or the approved
+trim derivative; both commands use the same selected span.
 
 ```bash
 ffmpeg -i <source>.mp4 -map 0:a:0 -vn -c:a pcm_s24le source/<stem>_audio.wav
@@ -124,7 +128,9 @@ manifest.
 | **Mixed** | Keep one layer (usually dialogue) and replace the rest | Separate the saved audio with the VOD voice/background tool, mix the kept stem with the new stem |
 | **Re-voiced** | New words or a new voice over the same picture | Post voice overlay through `audio-dubbing`; lip-sync work follows the [audio-video alignment contract](audio-video-alignment.md) and is opt-in |
 
-Mux to the picture length:
+Measure picture and audio timing before muxing. Do not use padding or
+`-shortest` to hide a mismatch. The following recipe is only for an agreed
+picture timeline with user-approved audio padding or truncation:
 
 ```bash
 ffmpeg -i <generated>.mp4 -i <audio>.wav -map 0:v:0 -map 1:a:0 \
@@ -133,9 +139,11 @@ ffmpeg -i <generated>.mp4 -i <audio>.wav -map 0:v:0 -map 1:a:0 \
 
 - Keep the silent generated master. The muxed file is a derivative with its own
   SHA-256 and a recorded recipe.
-- Edit outputs land within about 0.3 s of the source length (exactly equal for an 8n+1 frame input, per the official guide); reference-route
-  outputs match the requested whole-second duration. Record the measured
-  output duration and any padding or trim.
+- Measure decoded frame timestamps, duration, playback speed and cut boundaries
+  against the approved source span for both routes. Report mismatches; no
+  frame-count recipe or blanket tolerance establishes a pass. Obtain user
+  approval before any corrective trim, padding or retiming, and record the
+  derivative and its audio consequences.
 - Output frame rate may differ from the source. Audio aligns by time; check two
   or three sync points (hits, claps, plosives) by playback.
 - When a person speaks on screen, the mouth follows the source mouth motion.

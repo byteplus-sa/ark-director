@@ -86,11 +86,11 @@ parameters, the post-audio route, and the test-ladder rung.
    Several views of one target state that the output contains only one.
 5. **No baked text.** A label printed on a product is part of the product;
    captions, taglines, CTAs and end cards are added in post.
-6. **Test ladder**: a 480p probe of the hardest contact window, then the full
-   clip at 480p as a native Draft (`draft: true`), then promote the selected
-   draft with only `draft_task_id`, `resolution` and `watermark` when the live
-   schema confirms Draft for edit tasks (otherwise a new reviewed request). Re-check
-   the final's audio and picture.
+6. **Test ladder**: follow the workspace draft policy with currently supported
+   parameters. Propose a contact-window probe for a difficulty in the current
+   source or result, with user approval for its selected span. Use native Draft
+   and promotion only when the live schema supports the route; otherwise use a
+   new reviewed request. Re-check final audio and picture. Prior runs are not gates.
 
 ## Route and parameters
 
@@ -103,11 +103,18 @@ Seedance 2.5 edit, through `seedance_2_5_create_task`:
 - `omni_reference_task_type`: `edit`. Seedance 2.5 does not accept
   `edit_video`. Confirm the accepted value from current capability evidence for
   the case at hand.
-- Omit `ratio` and `duration`; both lock to the source. Use an 8n+1 frame input
-  (for example 121 at 24 fps) so the output keeps the source frame count.
+- Preserve source ratio and duration; omit those parameters only when the current
+  edit schema locks them to the source.
 - `generate_audio: false`, `watermark: false`, `resolution` per ladder rung.
 
 Resolve the live tool schema and model ID before writing parameters.
+
+Preserve the original source and full timeline. Any trim, padding, rounding or
+retiming needs current capability evidence and user approval for that specific
+change. Explain alternatives when the selected route cannot accept the source
+unchanged. Record approved derivatives, source spans, hashes and audio
+consequences; derive muted picture and saved audio from the same span. Measure
+returned timing rather than relying on a frame-count recipe.
 
 ## Procedure
 
@@ -147,6 +154,8 @@ retry.
 
 - [ ] One element class changes; recast and restyle requests routed elsewhere
 - [ ] Source inspected and hashed; rights decision recorded
+- [ ] Original timeline preserved; adaptations have current evidence, user
+      approval and separate derivative records
 - [ ] Muted master bound as `@Video 1`; source audio saved; `generate_audio: false`
 - [ ] Original identified by observable descriptors and first appearance;
       hands named by anatomy and frame side ("her right hand, frame-left")

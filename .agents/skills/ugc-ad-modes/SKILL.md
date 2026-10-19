@@ -30,6 +30,7 @@ Read supplied references, locked copy, and instructions first. Extract:
 | Experience evidence | Whose actual experience, quotation, or review can be used, and in what approved scope? |
 | CTA | What one action and destination were requested? |
 | Creative constraints | Runtime, mode, ratio, audio, product identity references, and forbidden changes |
+| Language and register | Preserve requested language and locked copy; ask when a missing code-switch preference materially affects new dialogue |
 
 Keep an internal ledger: `claim → supplied source → supported scope → usable
 wording`. It need not appear in a prompt-only answer. Unknowns stay unknown;
@@ -137,12 +138,13 @@ invent a brand name for a missing field.
 Ad formats hit the same few Seedance failure modes; apply these to every mode
 (the generic rules live with the Seedance prompt grammar):
 
-- **Speech budget and tail.** Budget about 2.2 spoken words per second. Native
-  lines land 0.5–1.5 s late (later after a long pre-line action) and speech
-  runs to the clip end, so a 15 s clip carries roughly 25–30 words. End the CTA
-  line at least 0.4 s before the clip end, keep the last 3 s to one or two state
-  changes, and choose hook words speech recognition hears cleanly. Trimming the
-  head later does not lengthen the tail; shorten editable copy instead.
+- **Speech budget and tail.** About 2.2 words/s is an English planning estimate,
+  not a universal gate. Use measured delivery or a native-language-informed read
+  with pauses, onset (initially 0.5-1.5 s) and final tail (initially at least
+  0.4 s); verify the actual take. Without evidence, timing is provisional.
+  Preserve language and locked copy; propose retiming or splitting before
+  authorized rewrites. Keep the last 3 s to one or two state changes.
+  Trimming the head later does not lengthen the tail.
 - **Counted items.** When the demo counts items (three pods, two lids), name
   each by size and position, keep every counted item in open view from the first
   frame, restate count and positions at every beat, and say where every other
@@ -211,6 +213,6 @@ hypothetical editorial diagnoses, not observed campaign or generated-media resul
 - Product references and accepted copy remain faithful; generated imagery is not proof.
 - Beat count, dialogue, framing, and audio fit the actual request and runtime.
 - CTA action and destination are accurate; all on-screen text is in finishing.
-- Spoken words fit about 2.2 words/s with a 0.4 s tail; counts, unreferenced
+- Measured or native-language-informed delivery fits with onset, pauses and tail; counts, unreferenced
   props and hands follow section 5.
 - A scoped revision preserves unrelated decisions; no recommendation becomes approval.

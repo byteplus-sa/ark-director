@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Using the approved avatar, recreate this creator's split-screen news short on a new robotics story from this month.",
-      "expected_output": "A BRIEF.md from the reference format, a sourced topic and 50-60 word script fitted to about 2.2 words per second, a 1:1 talking-head take, official B-roll with provenance and usage basis, and a split-screen render with STT-timed captions and badges, reflected in the Studio project (pre-Studio canvas: the production canvas).",
+      "expected_output": "A BRIEF.md from the supplied reference format, a sourced script timed in the approved language and register, a 1:1 talking-head take, official B-roll with provenance and usage basis, and a split-screen render with STT-timed captions and badges, reflected in the Studio project (pre-Studio canvas: the production canvas).",
       "files": [],
       "assertions": [
         "Every number in the script appears in topic.md with at least two sources.",
@@ -12,7 +12,8 @@
         "Captions are timed from speech_to_text words of the generated take via stt_words.py.",
         "The edit is built from a contiguous edl.json with render_short.py, placed in Studio as a clip, and the short is produced with studio_project.py render.",
         "The Studio project (pre-Studio canvas: the showcase-html canvas) is updated with the take and the render.",
-        "The script fits about 2.2 words per second with an onset allowance and at least 0.4 s of tail; the take duration is derived from that budget.",
+        "The script fits a timed read in the approved language and register with an onset allowance and at least 0.4 s of tail.",
+        "Captions and source/channel labels preserve the approved case and language; the EDL selects an explicit font and missing fonts block rendering.",
         "The generated take contains no captions or badges; they are added by render_short.py in the edit."
       ]
     },

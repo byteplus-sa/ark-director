@@ -71,6 +71,9 @@ again in the prompt where it applies.
 
 Use T2I when there are no images and I2I when any image guides the result. Do not
 invent image bindings, approved selections, or unsupported provider parameters.
+Inspect accessible supplied images before describing visible details. If an
+image is missing or unreadable, request it and leave exact matching unresolved.
+Offer a text-only exploration only when it does not depend on that image.
 
 ## Output formats
 
@@ -111,10 +114,8 @@ palette unless their construction has also been checked against the sheet.
 Declare differences instead of claiming exact consistency. Retain the source
 when proposing a correction and describe the specific visible change needed.
 
-## Examples and evidence
+## Prompt evaluation
 
-Read [reviewed examples](examples/README.md) when a visual comparison or an exact
-historical prompt is useful. The bundle includes resized previews, unchanged
-prompt snapshots, provenance hashes, and observed limitations from everyday and
-superhero designs. These are observed results, not API requirements or proof
-that one phrasing always works. No new generation is required to use this skill.
+Use the [prompt-only cases](evals/evals.json) to check format adaptation,
+missing-reference handling, and preservation of supplied identity and wardrobe.
+These cases require no image generation and do not establish visual fidelity.

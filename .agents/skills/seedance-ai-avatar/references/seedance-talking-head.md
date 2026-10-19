@@ -4,15 +4,20 @@ Inputs: the likeness binding approved at gate 2 (an authorized `asset://`
 reference, or the character sheet as `reference_image` where that route is
 sanctioned), `audios: [voice clip URL]`, `generate_audio: true`,
 `resolution: "480p"` with `draft: true` for the first take, `watermark: false`,
-and `duration` from the speech budget (script words ÷ 2.2 + ~1 s onset +
-≥0.4 s tail, ≤30). Submit the `seedance_2_5_create_task` tool through
+and `duration` from measured or language-aware speech timing, including onset
+and final-word tail, within current tool limits. Submit the `seedance_2_5_create_task` tool through
 `ark_job_submit`, poll with `seedance_get_task`, and promote the selected draft
 by `draft_task_id`. Only send the likeness after the consent and real-likeness
 gates are recorded.
 
+These are optional framing recipes, not a default topic or performance.
+Resolve language, accent, setting, wardrobe, delivery, gestures and final
+expression from the current brief. News pacing, statistics, smiles and studio
+styling below apply only when requested; replace them for other scripts.
+
 ## A. Locked take for split-screen (ratio 1:1)
 
-The square frame crops cleanly to the 1080×960 lower half and to the framed card.
+Choose the source crop and safe area from the actual destination layout.
 
 ```
 [Character]
@@ -22,7 +27,7 @@ The square frame crops cleanly to the 1080×960 lower half and to the framed car
 <Studio and backdrop description, lighter behind his head and falling off to dark at the edges>. A small black lavalier mic is clipped at the center of his collar.
 
 [Shot]
-<Name> delivers a fast, energetic news explainer straight to camera in one continuous take, in a centered medium close-up framed from just above the top of his head to just below the sternum. He keeps direct eye contact with the lens the whole time. While speaking, he uses natural open-hand explanatory gestures at chest height: <2–4 gestures tied to quoted words, each hand named by anatomy and frame side, e.g. "on 'crazy part' his right hand, frame-left, opens palm-up">. Brows lift on key words, head gives small emphatic nods, and his lips form every syllable in sync with the dialogue. His hands rest loosely together at the bottom edge of frame between gestures. After the last word he holds a closed-mouth smile to the end of the clip.
+<Name> delivers <requested subject and performance> straight to camera in one continuous take, in a centered medium close-up. Use <brief-selected gestures tied to exact script words, with anatomical and frame sides>. Keep gestures inside the delivery crop and lips synchronized with the dialogue. After the last word, hold <brief-selected final expression and pose> to the end.
 
 [Style and camera]
 Soft frontal key light slightly above eye level with gentle falloff into the dark background, clean 50mm-equivalent look, neutral slightly cool studio grade with natural skin tones. Static locked-off medium close-up at eye level, no camera movement, no cuts.
@@ -31,7 +36,7 @@ Soft frontal key light slightly above eye level with gentle falloff into the dar
 @Audio 1 defines <Name>'s voice timbre, accent and pacing only; do not reuse any words from @Audio 1.
 
 [Audio]
-Dialogue language: <language and accent>. <Name> says in fast, confident, energetic news-explainer delivery, with a punchy rise on <key phrase> and a brief beat before the final stat: {<full script>}
+Dialogue language: <requested language and accent>. <Name> says with <brief-selected delivery, emphasis and pauses>: {<full approved script>}
 Close lavalier-mic studio voice over quiet room tone. A clean, text-free frame.
 ```
 
@@ -47,9 +52,9 @@ vertical framing, <Name> centered and facing the camera throughout." and
 
 ## Notes
 
-- Budget words / 2.2 s + 1 s of onset, with at least 0.4 s of tail after the
-  last word, and keep gesture hands inside the frame (a chest-up frame hides
-  hands held lower).
+- Measure the intended delivery in its language, including pauses, onset and
+  final-word tail. Word-count estimates are language-specific planning aids,
+  not permission to accelerate or rewrite approved dialogue.
 - Adapt pronouns to the presenter; the templates use one example presenter.
 - Wardrobe and accessories come through the sheet, but a small prop such as a
   lav mic does not reliably appear from text alone. If it matters, QA it and say

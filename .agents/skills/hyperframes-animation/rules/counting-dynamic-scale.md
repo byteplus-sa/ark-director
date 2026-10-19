@@ -11,9 +11,11 @@ A number counts from A → B while its transform scale grows to the final size �
 
 ## How It Works
 
-Two synchronized tweens at the SAME timeline position with the SAME ease: (1) a proxy value rendered as text via `onUpdate` (`Math.round(...).toLocaleString()`), (2) the counter's transform `scale: START_SCALE → 1`, where `START_SCALE = START_SIZE / END_SIZE`. A suffix (`%`, `×`, `+`) slides in AFTER the count lands — the number gets its own beat — and a label fades in early.
+Two synchronized tweens at the SAME timeline position with the SAME ease: (1) a proxy value rendered as text via `onUpdate` (`numberFormat.format(Math.round(...))`), (2) the counter's transform `scale: START_SCALE → 1`, where `START_SCALE = START_SIZE / END_SIZE`. A suffix (`%`, `×`, `+`) slides in AFTER the count lands — the number gets its own beat — and a label fades in early.
 
 ## Recipe
+
+Set `NUMBER_LOCALE` to the explicit locale approved by the user or brief; ask if missing, never inherit the host locale or invent a default. Use the same formatter for the initial value and every update, and verify the staged font covers its digits and separators.
 
 ```html
 <!-- inside a standard scene clip (hyperframes-core) -->
@@ -44,7 +46,13 @@ Two synchronized tweens at the SAME timeline position with the SAME ease: (1) a 
 
 ```js
 const counter = document.getElementById("counter");
+if (typeof NUMBER_LOCALE !== "string" || !NUMBER_LOCALE.trim() ||
+    Intl.NumberFormat.supportedLocalesOf([NUMBER_LOCALE]).length === 0) {
+  throw new Error("An explicit, supported user/brief number locale is required.");
+}
+const numberFormat = new Intl.NumberFormat(NUMBER_LOCALE);
 const state = { value: 0 };
+counter.textContent = numberFormat.format(state.value);
 const START_SCALE = START_SIZE / END_SIZE;
 
 // Count value — onUpdate changes text only
@@ -55,7 +63,7 @@ tl.to(
     duration: COUNT_DUR,
     ease: COUNT_EASE,
     onUpdate: () => {
-      counter.textContent = Math.round(state.value).toLocaleString();
+      counter.textContent = numberFormat.format(Math.round(state.value));
     },
   },
   0,

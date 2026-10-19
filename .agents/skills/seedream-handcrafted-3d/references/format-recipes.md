@@ -86,8 +86,8 @@ Soft neutral studio light that reveals weave without glossy highlights.
 
 Adjust the panel count to the request. Inspect the actual output: a phrase such
 as "below the chin" can still leave a chin in frame. A cloth-filled top-edge
-instruction is a useful framing hypothesis supported by the bundled correction
-example, not a guarantee. Neck skin alone is different from a face fragment;
+instruction specifies the intended crop, not a guaranteed result.
+Neck skin alone is different from a face fragment;
 apply the user's actual crop requirement rather than inventing a stricter one.
 
 ## Scope boundaries

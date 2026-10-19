@@ -65,12 +65,24 @@
     {
       "id": 6,
       "prompt": "The episode's 15 s hook scene has six lines totalling 48 words, and the last line ends at 14.8 s. Write the clip prompt.",
-      "expected_output": "Flags the dialogue as over budget and proposes a trimmed set before writing the prompt.",
+      "expected_output": "Flags the insufficient tail and checks the dialogue duration in its requested language and register before proposing timing or wording changes.",
       "files": [],
       "expectations": [
-        "Applies a budget of about 2.2 spoken words per second and the 0.5-1.5 s late speech start.",
+        "Uses a timed read in the requested language and register with onset and pauses, not a universal words-per-second rule.",
         "Ends the last line at least 0.4 s before the clip end and avoids three state changes in the last 3 s.",
         "Keeps the trimmed wording as a draft for the writer or user to accept rather than silently changing locked lines."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Produce the episode with the locked Japanese dialogue and only Spanish subtitle sidecars. Preserve all approved wording.",
+      "expected_output": "A Japanese-dialogue episode with Spanish subtitle sidecars only and a timing budget based on the requested delivery.",
+      "files": [],
+      "expectations": [
+        "Does not add English subtitles or translate the spoken dialogue.",
+        "Records Spanish as the requested subtitle language and obtains approved translations.",
+        "Times the Japanese dialogue without relying on whitespace word counts.",
+        "Preserves locked wording and asks before any shortening."
       ]
     }
   ]

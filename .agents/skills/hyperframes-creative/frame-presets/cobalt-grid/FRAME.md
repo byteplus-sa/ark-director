@@ -142,6 +142,8 @@ Hanken→Newsreader, from a mono delta arrow, or from opacity, never from color.
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (Hanken body 0.83cqw, mono chrome in px) carries copy + labels;
 the **display/hero ramp** (Newsreader `headline` 4.6cqw → `vbig-numeral` 12.5cqw) carries every
 statement and figure.
@@ -232,7 +234,7 @@ Flat. Depth is structural only:
 | Colophon          | right-aligned, glitch left  | stacked, glitch top                  | centered close               |
 
 Grid + hairlines hold on the short edge for every ratio; re-step display so no load-bearing line
-drops below 1.4cqw. Mono chrome stays Latin/digit-only.
+drops below 1.4cqw. Mono chrome preserves the approved script and explicit user/brief numeral format.
 
 ## Approved Entities
 
@@ -260,6 +262,6 @@ script supplies values. Mono catalogue ordinals (001, 002…) are decorative and
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the 280ms cross-fade in the source is a deck mechanic.
 - **Pixel-glitch is rendered in CSS here** (stacked scanline blocks) rather than the source's inline SVG, to keep the showcase SVG-free; fidelity is preserved.
-- **Three Google Fonts** (Newsreader, Hanken Grotesk, DM Mono); CJK pairing (Noto Serif SC 700/400) carries over from the source.
+- **Three Google Fonts** (Newsreader, Hanken Grotesk, DM Mono); the source's Noto Serif SC 700/400 pairing is a Simplified Chinese example, not a generic CJK mapping. Other scripts/locales need appropriate fonts with actual coverage.
 - **9:16 / 1:1 are guidance**; verify the legibility floor and grid density per ratio.
 - The QR mosaic and glitch step patterns are hand-authored; there is no generative layer.

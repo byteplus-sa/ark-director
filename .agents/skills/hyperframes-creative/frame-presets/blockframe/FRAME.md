@@ -154,6 +154,8 @@ cream+yellow warm pair). `{colors.yellow}` is the CTA + the one colored (close) 
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading/chrome ramp** (Inter body 0.95cqw weight 500, Space Grotesk labels in px)
 carries copy + chrome; the **display ramp** (Inter `heading-md` 2.1cqw → `heading-xl` 5cqw, weight
 800–900 uppercase) carries every headline + stat.
@@ -270,6 +272,6 @@ list numbers are decorative.
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the source toggles slides via display, no transition.
-- **Inter + Space Grotesk via Google Fonts.** CJK: Noto Sans SC 900 (sentence case — the uppercase signal drops); lean harder on borders/shadows/decoration to carry the brutalist identity.
+- **Inter + Space Grotesk via Google Fonts.** Simplified Chinese example: Noto Sans SC 900, not a generic CJK mapping. Other scripts/locales need appropriate fonts with actual coverage. Hanzi has no uppercase signal; retain the borders/shadows/decoration that carry the brutalist identity.
 - **9:16 / 1:1 are guidance**; verify the floor and that decoration count scales down.
 - Star bursts (clip-path), stripe blocks, dot grids, and tilts are CSS-only; no external imagery is required.

@@ -154,7 +154,12 @@ project's content, one test's outcome or one market's taste into a skill:
   fact with a public source is allowed.
 - No internal or inaccessible links, machine-specific paths or account details.
 - Market-neutral skills carry no market, language or locale default. Only skills
-  named for a market, such as `filipino-*`, may.
+  explicitly selected for a requested market, such as `filipino-*`, may offer
+  that market's guidance. A pack being installed does not select it. Preserve
+  the brief's language and register; ask when a missing choice affects output.
+- Use only current-task inputs and explicitly selected reusable assets. Do not
+  infer client, cast, setting, copy or permissions from another user's project.
+  Clearly label fictional examples and keep them separate from runtime defaults.
 - Evals span formats and subjects instead of repeating one case.
 
 Keep skill metadata concise and valid YAML. Move substantial conditional modes

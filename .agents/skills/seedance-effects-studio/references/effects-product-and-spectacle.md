@@ -40,8 +40,8 @@ The clip ends with the thief mid-stride in the centre of frame, product in both 
 - Glass shatters inward with spray on the seat and no intact pane left.
 - Exactly two officers; the thief's outfit matches across the cut.
 - No stray text on clothing, cars or the label beyond what the photo already shows.
-**Risks:** outfit and identity drift across the cut; the label warps during the grab close-up (the recipe covers it with the fingers to avoid showing it); lettering invented on the can, uniforms or patrol car; officer count drifts; stone appearing early; native audio adding a music bed. If the product photo carries a real logo, never regenerate it in a derived reference. Native audio can add a short voice despite 'no music and no speech'; for a clean track keep native audio off and add the glass and siren sound effects in post. A draft promotion reuses the draft's audio, so verify the draft's track for speech and music before promoting. The carried object is easy to lose in the chase shot, so say what the thief carries and keep it in view.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Risks:** Check outfit and identity continuity across the cut, label integrity, unwanted lettering, officer count, stone timing and the requested sound design. If the product photo carries a real logo, never regenerate it in a derived reference. Verify the current draft's audio before promotion and the final audio again. Check that the thief carries the specified product visibly in the chase shot; revise only from current-output evidence.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `boarding-pass` - Boarding pass
 **Look:** A person walks left to right on a white floor and each giant flight-ticket card that sweeps in wipes the backdrop above it into a new city.
@@ -77,8 +77,8 @@ At 8.3s the subject slows, stops, turns to face the camera and raises the left h
 - Same face and (unless outfits were requested) same outfit before and after every wipe.
 - Final wave occurs after about 8 s with the last backdrop holding.
 - No lettering generated on tickets.
-**Risks:** feet slide at the wipe edge; shadow breaks; ticket count drifts; outfit change per ticket causes face drift and outfit-count errors; the model writes invented prices and digit strings on tickets described with header bands, barcodes or boxes, even when asked for blank cards (plain single-colour wording avoids lettering, but a described thin band and stripe row can be drawn as a column of perforation holes instead); 0.7 s for the turn-and-wave is tight. A real-person photo may be refused or drift; the route for identity-bound work is a Virtual Portrait asset (`asset://`) for an invented character, never a real specific person.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Risks:** Check foot placement at wipe edges, shadows, ticket count, outfit and face continuity, card design, unwanted lettering and the final turn-and-wave on the current take. A real-person photo remains subject to provider restrictions and rights checks; Virtual Portrait assets (`asset://`) are for invented characters, never a specific real person.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `monster-dab` - Monster dab
 **Look:** A building-sized creature wearing a copy of the subject's outfit crashes in behind a calmly walking subject, looms around them and bounds out of frame.
@@ -115,7 +115,7 @@ At 1s exactly one colossal invented creature, {creature_design}, drops from abov
 - Camera stays locked; subject keeps walking toward the lens and the face stays recognisable.
 - Shadows share one direction; no clipping or fusing of creature and subject.
 **Risks:** scale collapses to normal size; creature identity drifts frame to frame; subject face drifts as it nears the lens; creature and subject fuse or clip; shadow mismatch; unwanted push-in or shake; second creature appears; native audio invents a roar or score. Confidence in the recipe is medium. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a real specific person needs separate rights and consent.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `pigeons` - Pigeons (animal ride)
 **Look:** A rider hovers down a city street standing on two flapping pigeons like roller skates, filmed on a low circular-fisheye tracking camera.
@@ -147,7 +147,7 @@ At 0s exactly two grey city pigeons sweep in from the frame edges at ground leve
 - Camera low, tracking, one take; after post the frame is a round fisheye with black corners.
 - Rider face and clothing match the photo; pedestrians neither react nor morph.
 **Risks:** bird count drifts to one or three; birds fuse with shoes or drift in front; feet float above the birds; wing motion reads static; the fisheye reads as plain wide-angle (hence the post); rider face drift; pedestrians morph. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented rider, and a specific real person needs separate rights and consent.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `skatedog` - Skatedog (animal ride)
 **Look:** A rider stands on the back of one running dachshund as if it were a skateboard, carves, jumps a ledge and rides away, filmed on a low circular-fisheye tracking camera.
@@ -179,7 +179,7 @@ At 0s exactly one {dog_colour} dachshund, long low body, four short legs, nose p
 - Ledge climb at about 4.5 s and drop at about 6.3 s; one continuous take.
 - Round fisheye with black corners after post; face matches the photo.
 **Risks:** dog leg count and gait errors; the dachshund elongates; rider feet float or sink into the dog; the dog's posture does not reflect the rider; dog changes between frames; face drift on the ledge jump; fisheye reads plain-wide without post. Keep the dog tone playful. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented rider, and a specific real person needs separate rights and consent.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `agamemnon` - Agamemnon
 **Look:** A cinema audience watches a burning-siege movie until the screen rips open and armoured warriors step out into the theatre.
@@ -214,11 +214,11 @@ The clip ends on the hero centred in the smoke, two warriors flanking the hero, 
 - Hero plus exactly two warriors, not a horde; one hero costume throughout.
 - Curved screen geometry holds; hero stays visible in the smoke.
 **Risks:** selfie face drifts after the whip-pan; audience faces melt; the curved screen flattens; warriors appear on the screen instead of stepping out; smoke hides the hero; fire flickers; native audio invents a score. A real-person photo may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent. Confidence in the recipe is medium.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `mighty-fighter` - Mighty fighter
 **Look:** A battered knight in a misty poppy field drops the helmet, is revealed face-last by a slow tilt up, then lies fallen among the flowers.
-**Route:** `composite`. Seedance image role: `reference_image` for the portrait in both shots (identity only), and no `first_frame`. First_frame cannot mix with reference_image, and a first_frame portrait would open on the face, which kills the legs-first, face-last reveal and puts a face-forward portrait where the scene needs boots; so the portrait is an identity reference and the opening is text-described. Provider rule: the `reference_image` role can be rejected before any cost (`InputImageSensitiveContentDetected.PrivacyInformation`) for a face close-up or a clean full-body crop of a person, whereas a generated still of the person inside a scene may be accepted; treat person-crop references as likely to fail and have the first-frame fallback ready. Fallback: build three Seedream stills from the portrait (a legs-and-torso frame with the face out of frame, a face-and-shoulders frame, a fallen high-angle frame); shot A is `i2v-first-and-last` (legs frame first, face frame last: `@Image 1 is the first frame and @Image 2 is the last frame`, with the face kept out of view before 5 s), shot B is `i2v-first-frame` on the fallen frame, and the two are joined by the FFmpeg hard cut as before. Two Seedance generations (shot A, shot B) are joined with an FFmpeg hard cut so the cut lands exactly where wanted.
+**Route:** `composite`. Seedance image role: `reference_image` for the portrait in both shots (identity only), and no `first_frame`. First_frame cannot mix with reference_image, and a first_frame portrait would open on the face, which kills the legs-first, face-last reveal and puts a face-forward portrait where the scene needs boots; so the portrait is an identity reference and the opening is text-described. Provider privacy restrictions apply (`InputImageSensitiveContentDetected.PrivacyInformation`); verify current capabilities and stop to diagnose a rejection, without assuming another role permits the same input. Unvalidated alternative, only when supported and authorized: build three Seedream stills from the portrait (a legs-and-torso frame with the face out of frame, a face-and-shoulders frame, a fallen high-angle frame); shot A is `i2v-first-and-last` (legs frame first, face frame last: `@Image 1 is the first frame and @Image 2 is the last frame`, with the face kept out of view before 5 s), shot B is `i2v-first-frame` on the fallen frame, and the two are joined by the FFmpeg hard cut as before. Two Seedance generations (shot A, shot B) are joined with an FFmpeg hard cut so the cut lands exactly where wanted.
 **Parameters:** two separate requests, each with its own prompt snapshot, review and take: Shot A duration 7 s, Shot B duration 4 s (11 s total; trim shot B in post if wanted); ratio chosen to match the portrait orientation (9:16 for vertical, 16:9 for landscape) because no first frame locks it; `generate_audio` false by default (a helm thud and wind sting would help; keep it to sound effects); draft 480p.
 **Start photo:** A clear face-forward portrait or head-and-shoulders photo in even light with hair and face unobstructed. Bad inputs: sunglasses, a hat or heavy shadow, a very small face, group photos, heavy filters. Likeness: use only the user's own photo or a photo they have consent for; real-face handling follows the repo's real-person contract.
 **Beats:**
@@ -254,8 +254,8 @@ The same knight in {armour_block} lies on the back among red poppies in a misty 
 - Knight buckles at the end of shot A; shot B shows the knight already lying on the back, eyes closed.
 - Face in shot B matches shot A and the portrait; no blood.
 - No text anywhere in frame.
-**Risks:** face drift between shot A and shot B; helmet physics (appears worn or floats); armour merges with the cloak; extra swords; the face never fully matches the portrait; the collapse reads as a glitch. Real-person photo: a real face may be rejected as a `reference_image`; the identity route is a Virtual Portrait asset (`asset://`, see the video-to-video inputs contract) for an invented character only, and a specific real person needs separate rights and consent. Single-pass fallback: one 11 s generation with the portrait as `reference_image` and the cut written as "At 7s, hard cut to", at the cost of a less reliable cut.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Risks:** face drift between shot A and shot B; helmet physics (appears worn or floats); armour merges with the cloak; extra swords; the face never fully matches the portrait; the collapse reads as a glitch. Real-person photo: a real face may be rejected as a `reference_image`; the identity route is a Virtual Portrait asset (`asset://`, see the video-to-video inputs contract) for an invented character only, and a specific real person needs separate rights and consent. Single-pass fallback: one 11 s generation with the portrait as `reference_image` and the cut written as "At 7s, hard cut to", with cut timing to be reviewed on the current output.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `fairytale-castle` - Fairytale castle
 **Look:** A figure in an empty twilight field runs toward a glowing castle revealed by a rising pullback, with a winding stream and fireworks.
@@ -288,7 +288,7 @@ The clip ends on the high wide view: castle lit, last firework fading, the runne
 - Camera rises and pulls back into a high wide view with the stream visible and curving.
 - Subject keeps the garment colour and moves toward the castle; fireworks appear only from about 11 s.
 **Risks:** the castle appears too early or looks pasted in; subject scale and identity drift once the subject is small; sheep count drifts; fireworks flicker or smear; sky continuity between dusk and night; the follow-plus-crane move (two moves, the limit) destabilises. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `frozen-in-motion` - Frozen in motion
 **Look:** One person hangs motionless in mid-air in a busy street while pedestrians and traffic flow past at normal speed.
@@ -323,4 +323,4 @@ At 0s exactly one {vehicle_a} passes behind the subject from left to right and l
 - The foreground walker crosses in front without merging with the subject.
 - No lettering on vehicles or clothing.
 **Risks:** the subject starts to fall, land or sway; micro-motion in the face or breathing; pedestrians morph near the subject; the shadow shifts; crowd chaos when counts are not stated; the foreground crossing is the occlusion stress test. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.

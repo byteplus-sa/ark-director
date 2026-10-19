@@ -121,8 +121,12 @@ and the per-shot facts the Seedance 2.5 prompt carries.
    side at a natural length and trim in post (see the pacing preset skill's
    assembly-only cuts). Make lengths uneven and give the turn shot a length unlike its
    neighbors. One shot across a long clip needs a recorded one-take or
-   `static_reason`. A spoken line needs a shot at least words / 2.2 + 1 s long,
-   because speech typically starts 0.5-1.5 s into a shot. End the last line at least 0.4 s before the clip ends, and plan no
+   `static_reason`. Size dialogue shots from measured delivery or a
+   native-language-informed read with pauses. About 2.2 words/s is an English
+   estimate, not a universal gate. Allow for onset (initially 0.5-1.5 s) and
+   a final tail (initially at least 0.4 s), then verify actual delivery.
+   Without evidence, timing is provisional. Preserve language and locked text;
+   propose retiming or splitting before authorized rewrites. Plan no
    more than two visible state changes in the clip's last 3 s. For a spot of
    about 15 s or more, apply the cinematic sequence bar above.
 5. **Declare the scene's light sources** with world positions, the event that

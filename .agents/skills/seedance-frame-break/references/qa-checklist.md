@@ -1,239 +1,149 @@
 # Frame Break QA Checklist
 
-Focused reference for `seedance-frame-break`. Read it when reviewing takes or
-running the pixel script. QA is frame-based: judge bar motion, break-out timing,
-limb continuity and camera from every frame and the script, and treat a
-video-understanding model as secondary evidence only (it can report no
-overlap and a moving camera on clips whose frames show overlap and a locked
-camera).
-
-- [Procedure](#procedure)
-- [Hard gates](#hard-gates)
-- [Soft gates](#soft-gates)
-- [Pixel script](#pixel-script)
-- [How the static-bar gate decides](#how-the-static-bar-gate-decides)
-- [Break-out gate](#break-out-gate)
-- [Reading the script output](#reading-the-script-output)
-- [Threshold rationale](#threshold-rationale)
-- [Script limits](#script-limits)
-- [Delivery copy](#delivery-copy)
+Read this when reviewing returned takes or using `scripts/measure_frame_break.py`.
+Measurements locate evidence; they do not establish creative acceptance.
 
 ## Procedure
 
-1. Run the all-frames scan (below) and save the JSON beside the take. Read
-   `summary.verdict`: `pass` means both gates passed; `inspect` means the take
-   needs review and is not a pass (a person checks every listed window by eye
-   before anything else is judged); `fail` rejects the take. An automated caller
-   must never treat `inspect` as a pass.
-2. For every stage of the prompt, make a 12 fps contact sheet of that stage's
-   time window with `--window START END` and read every tile in order. This step
-   is mandatory: a sudden scale jump or limb swap inside a stage is found only
-   this way. Sparse sampling (a frame every 0.5 s, or an 8 fps scan) can miss a
-   bar-edge failure and hides a one-second limb pop-in.
-3. Inspect the frames at every reported overlap interval and at each stage End
-   state, and inspect the backdrop in several frames for lettering, logos, glow
-   or flare.
-4. Listen to the audio.
-5. Apply the gates. A take that fails a hard gate is not selectable. Among takes
-   that pass, rank by the soft gates; plan a few takes and pick the cleanest.
-6. Record the decision per the project's approval mode; the caller owns it. A
-   retouched copy is never delivered as a model output without saying so.
+1. Run the scan and save its JSON beside the take. Default results are advisory,
+   not automated passes or rejections. Inspect the reported windows.
+2. Read a contact sheet for each stage, then step through native frames around
+   crossings, returns, scale changes and suspected bar motion. A 12 fps sheet is
+   a navigation aid, not proof that every native frame was checked.
+3. Check the first frame, stage End states, backdrop, identity and camera lock.
+4. Listen to the audio; pixel measurements cannot assess it.
+5. Compare against the brief's visual requirements below. The caller owns the
+   selection and decision record. Disclose any retouching of a model output.
 
-## Hard gates
+## Visual Requirements
 
-| Gate | Evidence |
+| Requirement | Evidence |
 | --- | --- |
-| Bars do not move. Black must not encroach into the window at any column, both far columns must not jump together, and no smooth bar-shaped bow may grow into the window; a subject covering a bar is never a violation, and a bar that opens (both far columns retreat together) is never counted as a subject | Script `summary.static_bar_gate.status` is `pass`, or `inspect` (needs review: `passed` false, `needs_review` true) with every listed window checked by eye; `fail` rejects the take. Run on every frame |
-| Bars are present, solid black, flat and unmarked at the top and bottom throughout, and no extra black bars appear at the left or right edges | Script `bars_detected` true; frames, including both side edges, which the script does not measure |
-| The subject starts completely inside the window and break-outs are intermittent events, not a state | Script `summary.break_out_gate`: start overlap near zero and overlap duty under the limit |
-| The subject is drawn on top, never clipped or hidden behind a bar at a break-out | Frames at overlap intervals and at each peak |
-| Every break-out the brief requires occurs; by default at least one on each bar. A clip with no overlap at all is the effect-absent case | Script `break_out_gate.status` is not `absent`; `frames_with_overlap`, `overlap_intervals`; frames |
-| No sudden scale jump or limb swap inside a stage; the limb that arrives at the lens is the limb that crosses | 12 fps window contact sheet per stage, read tile by tile |
-| The camera is locked: background features do not pan, zoom or shift | Contact sheets; compare fixed background features across frames |
-| No on-screen text, logos, stray lettering or watermarks, including on background objects | Frames |
-| Identity matches the approved reference, including soles, markings and colours; one subject only (one product, never a pair, for a product hero) | Frames against the reference |
-| No unrequested held props, hands or people (product hero: none) | Frames |
+| Bars stay fixed, straight, solid black and unmarked throughout; no extra side bars | Native frames before, during and after suspected motion; edge measurements are leads |
+| Subject starts inside, crosses on top of the bars and returns inside between the specified events | Opening, peak and End-state frames, with overlap intervals as navigation |
+| Every crossing requested by the brief occurs; normally at least one on each bar | Frames confirming the subject, not scenery or flare, covers the bar |
+| No scale jump, limb swap or clipped crossing part | Ordered stage frames against the identity reference |
+| Camera stays locked | Compare fixed background features across frames |
+| Identity, subject count and props match the approved inputs | Frames against the reference |
+| No unwanted text, logos, watermarks, people or hands | Inspect subject and background; product-only means one product |
 
-## Soft gates
+Confirmed violations of these requirements reject the take. An uncalibrated
+pixel classification alone cannot confirm a violation or acceptance.
 
-| Gate | Target | Evidence |
-| --- | --- | --- |
-| Bar thickness | Near 12 percent of frame height; rendered thickness varies widely, and thicker than about 17 percent shrinks the window (observed) | Script `thickness_pct` |
-| Top and bottom match | Median difference within about 1 point | Script `top_bottom_differ` |
-| Break-out moments | At least one per bar; typically 3 to 5 for drawn subjects and 1 to 3 for photoreal ones | Script `overlap_intervals` |
-| Backdrop | Calm, darker than the subject, no bar-like objects | Frames |
-| Timing | End states within about 0.5 s of the stage budget; timestamps are allocations | Frames |
-| Unrequested effects | No glow arcs or flare around near-lens parts | Frames |
-| Audio | Requested sound arc; no music when none was asked (effects-only may still add light music or a chime) | Listening |
+Soft targets come from the brief: approximate bar height (the prompt template
+suggests 12 percent), top/bottom symmetry, crossing count, timing, backdrop
+contrast and sound arc. These are design choices, not measured model success
+rates. Do not infer a required crossing count from photoreal versus drawn style.
 
-## Pixel script
+## Pixel Script
 
-The script needs `ffmpeg` and `ffprobe`. By default it decodes every frame at
-the clip's native frame rate, twice: the first pass takes the clip's median
-far-left and far-right bar edge rows as the reference, the second measures every
-frame against that reference.
+Requires `ffmpeg` and `ffprobe`; no Python dependencies. It decodes at the native
+frame rate by default in two passes: median far-edge references, then per-frame
+measurement against those references. `--fps` overrides sampling; sparse scans
+can miss brief events. Variable-frame-rate media are resampled by the fps filter,
+so the output is not a native presentation-timestamp inventory.
 
 ```bash
-uv run python .agents/skills/seedance-frame-break/scripts/measure_frame_break.py take.mp4 \
+python .agents/skills/seedance-frame-break/scripts/measure_frame_break.py take.mp4 \
   --output take_measure.json --summary-only
-uv run python .agents/skills/seedance-frame-break/scripts/measure_frame_break.py take.mp4 \
+python .agents/skills/seedance-frame-break/scripts/measure_frame_break.py take.mp4 \
   --summary-only --contact-sheet stage2.png --window 3 6
 ```
 
-- `--fps` overrides the sampling rate; leave it unset for the gates. A lower value
-  is only for quick looks and can miss a 6-frame edge jump.
-- `--black-level` (default 8) is the luma at or below which a pixel counts as
-  black. Keep it below dark picture content: rendered bars decode to luma 0 to 2,
-  while dark scenery measured 19 and above. At the older default of 24 a dark wall
-  beside a bar made the bar look thicker and produced false failures.
-- `--output` saves the full per-frame JSON; `--summary-only` keeps stdout short.
-- `--contact-sheet` writes a tiled PNG. Without `--window` it covers the whole
-  clip at 2 fps, 4 columns, 480 px tiles. With `--window START END` (seconds) it
-  covers only that window at 12 fps, 6 columns, 320 px tiles; override with
-  `--contact-fps`, `--contact-columns` and `--contact-width`, within
-  `--max-tiles` (default 120). Tiles are unlabelled and run left to right, top to
-  bottom, one every `1/contact-fps` seconds from the window start.
-- Static-bar tolerances: `--edge-tolerance-px` (2), `--tilt-tolerance-px` (3),
-  `--encroach-tolerance-px` (8), `--jump-threshold-px` (3), `--bar-shape-fraction`
-  (0.4), `--merge-gap-s` (0.2), `--interior-columns` (19).
-- Break-out tolerances: `--start-window-s` (0.25), `--start-overlap-tolerance`
-  (0.02), `--max-overlap-duty` (0.7), `--overlap-threshold` (0.05).
-- Existing outputs are not replaced unless `--overwrite` is given.
-- Bad input (a missing file, a non-video, an out-of-range option or window) exits
-  with status 1 and prints `{"error": ...}`.
+`--output` always contains full per-frame data; `--summary-only` omits frames only
+from stdout. Existing outputs require `--overwrite`. A contact sheet defaults
+to 2 fps, 4 columns and 480 px tiles, or 12 fps, 6 columns and 320 px tiles with
+`--window START END`. Tiles run left to right, top to bottom from the window
+start. Override with `--contact-fps`, `--contact-columns`, `--contact-width`;
+`--max-tiles` defaults to 120.
 
-## How the static-bar gate decides
+## Calibration Contract
 
-The earlier rule counted any deviation of an interior column as bar motion. On an
-acceptable take, a robe flare, boots and gloves covering the lower bar
-were counted as bar deformation, because a subject over a bar and a bar that
-moved both change the measured edge row. The gate now separates them by
-direction and by shape.
+**No calibration is bundled.** Existing numeric defaults remain for diagnostic
+compatibility, not as universal QA thresholds:
 
-- **Retreat** (the visible edge moves toward the frame edge, the window grows
-  into the bar) is how a subject covering a bar looks. At an interior column it is
-  never a violation; it feeds the overlap intervals. At a far column it is
-  reported as `far_retreat` and `tilt` under `inspect`, not as a failure, because
-  a subject, a flare or a light streak can reach a far column and a retreating bar
-  looks the same. The exception is a bar that opens (see below).
-- **Bar opening** (both far columns retreat together by more than 2 px in the
-  same frame): a subject does not cover both far-edge columns while the picture
-  appears in the bar band, so this is the bar retreating toward the frame edge.
-  It is reported as `bar_opening` under `inspect`, and that frame's bar-band
-  overlap is not counted as subject overlap (the exposed picture is stored as
-  `raw_overlap_fraction`, and `overlap_fraction` is zero). A clip whose only
-  overlap is a bar opening therefore reads `absent` in the break-out gate. A bar
-  opening on one side only looks like a subject at a far column and stays
-  `far_retreat` (inspect), with its overlap counted; the take still needs review.
-  This is a simple rule, not a spatial classifier: a near-lens object covering
-  both far columns at once would be read as a bar opening and lose that overlap.
-- **Encroachment** (black grows into the window, the bar gets thicker) is not
-  something a subject does, so it counts. Growth of either far column by more
-  than 2 px is `encroach` (fail). A frame-to-frame change of both far columns by
-  more than 3 px at once is `jump` (fail). Interior growth over the left-right
-  chord by more than 8 px is `bow_in` (fail) only when it is bar-shaped: a
-  contiguous group of at least 40 percent of the sampled columns whose profile is
-  smooth. A narrower or ragged group is `dark_merge` (inspect): a dark subject,
-  such as black shorts or a dark robe, merging with the bar can fake a thicker bar
-  and cannot be told apart from one by pixels.
-- A constant left-versus-right difference is not motion; it is reported as
-  `static_tilt` (inspect) when it exceeds 3 px. Changes of the difference are
-  `tilt` (inspect).
-- `status` is `fail` when any fail record exists or the bars are not detected,
-  `inspect` when only inspect records exist, otherwise `pass`. `passed` is true
-  only when the status is `pass`; `needs_review` is true when the status is
-  `inspect`.
-
-Ambiguous cases are inspect, with timestamps, on purpose: open the 12 fps window
-sheet for each listed window and decide by eye. `inspect` is never a pass.
-
-## Break-out gate
-
-A take whose static bars are perfect can still fail if the subject starts over a
-bar or stays over one for most of the clip: it reads as standing outside the
-frame, not as a frame break. The gate measures the non-black fraction of each bar
-band across the central columns.
-
-- **Starts inside**: the largest overlap fraction in the first
-  `--start-window-s` (0.25 s) of each bar must be at most
-  `--start-overlap-tolerance` (0.02). A failure is `starts_overlapping` with the
-  bar, the offending timestamps and the peak fraction.
-- **Intermittent**: the fraction of frames with overlap above `--overlap-threshold`
-  in either bar (`overlap_duty.overall`; per bar is reported too) must be at most
-  `--max-overlap-duty` (0.7). A failure is `overlap_too_continuous` with the duty,
-  the limit and the overlap intervals.
-- **Absent**: a clip with no overlap in any frame has status `absent`, the
-  existing effect-absent case. `not_applicable` means the bars were not detected.
-- `passed` is true only for status `pass`. Frames where a bar is opening do not
-  count as overlap (see above).
-
-`summary.verdict` combines both gates: `fail` when the static-bar gate fails or
-the break-out gate is anything but `pass` (including `absent` and
-`not_applicable`), `inspect` when the break-out gate passes and the static-bar gate
-needs review, and `pass` only when both pass. Its `passed` and `needs_review`
-fields follow the same rule, and its `note` repeats that an automated caller must
-not treat `inspect` as a pass.
-
-## Reading the script output
-
-| Field | Meaning |
+| Options | Diagnostic defaults |
 | --- | --- |
-| `summary.verdict` | `status` (`pass`, `inspect`, `fail`), `passed` (true only for `pass`), `needs_review` (true for `inspect`), `note` |
-| `summary.static_bar_gate` | `status` (`pass`, `inspect`, `fail`), `passed` (true only for `pass`), `needs_review` (true for `inspect`), tolerances, the fail `violations` and the `inspect` records across both bars |
-| `summary.top`, `summary.bottom` | Thickness (percent and px), median edge rows, static tilt, max far encroach and retreat, max interior encroach, `status`, `violations`, `inspect`, overlap counts |
-| records | `bar`, `severity`, `kind` (`encroach`, `jump`, `bow_in` fail; `bar_opening`, `far_retreat`, `tilt`, `dark_merge`, `static_tilt` inspect), `start_s`, `end_s`, `frames`, `peak_px` |
-| `summary.break_out_gate` | `status` (`pass`, `fail`, `absent`, `not_applicable`), `start_overlap` per bar, `overlap_duty` per bar and overall with limits, `violations` with timestamps |
-| `frames[].top` and `frames[].bottom` | Left and right edge rows in px, all sampled column rows, excess over the reference chord, thickness, tilt, `bar_opening`, `raw_overlap_fraction`, `overlap_fraction` (zero while the bar opens) |
-| `overlap_intervals` | Runs of frames above the overlap threshold: bar, first and last frame time, frame count, peak fraction |
-| `summary.top_bottom_difference_pct` | Absolute difference of the two median thicknesses, in points of frame height |
-| `summary.flags` | `bars_not_detected`, `bars_thin`, `top_bottom_unequal`, `top_bar_moves`, `bottom_bar_moves`, `top_bar_inspect`, `bottom_bar_inspect`, `top_bar_never_crossed`, `bottom_bar_never_crossed`, `no_overlap`, `starts_overlapping`, `overlap_too_continuous` |
+| `--black-level`, `--edge-fraction`, `--centre-span`, `--edge-margin` | 8, 0.01, 0.7, 4 px |
+| `--edge-tolerance-px`, `--tilt-tolerance-px`, `--encroach-tolerance-px`, `--jump-threshold-px` | 2, 3, 8, 3 px |
+| `--interior-columns`, `--bar-shape-fraction`, `--merge-gap-s` | 19, 0.4, 0.2 s |
+| `--overlap-threshold`, `--start-window-s`, `--start-overlap-tolerance`, `--max-overlap-duty` | 0.05, 0.25 s, 0.02, 0.7 |
+| `--min-bar-pct`, `--thin-pct`, `--top-bottom-tolerance-pct` | 1, 8, 1 percentage points of frame height |
 
-Flags and records point at frames to inspect; they are not verdicts on the
-creative result.
+With no `--calibrated-resolution WIDTH HEIGHT`:
 
-## Threshold rationale
+- `calibration.mode` is `advisory`, with `resolution: null`.
+- Both bar summaries, both gates and `summary.verdict` have `status: inspect`.
+  Gates and verdict have `passed: false`, `needs_review: true`; bar `static`
+  values are false, meaning not certified static.
+- `diagnostic_status` retains the previous classification, including `pass`,
+  `fail`, `absent` and `not_applicable` where relevant. Measurements, intervals,
+  flags and violation records retain their original meanings and values.
+- A diagnostic `fail`, a record with `severity: fail`, or a `*_bar_moves` flag
+  is an inspection lead, not an uncalibrated rejection gate. False `passed` is
+  not a rejection either. Never route these directly to acceptance automation.
+- Overriding a threshold alone does not opt in to gating.
 
-The thresholds above were tuned on a small set of 1080p Seedance 2.5 clips, so
-treat them as calibrated on a small set, not as validated in general. Every
-`inspect` result means `passed` false and `needs_review` true, so it is never an
-automated pass.
+Use `--calibrated-resolution WIDTH HEIGHT` only after the caller has calibrated
+the effective settings for the current resolution, encoding, scene contrast,
+bar geometry and intended timing. Record the command, settings, representative
+accepted and defective examples, human decisions and limitations with the
+current task. Check more than one example and include dark content, occlusion,
+motion and near-boundary cases; do not select limits from one take's outcome.
+Review every setting, including unchanged defaults. There is no universal duty
+limit: overlap duration must reflect the requested choreography.
 
-- Direction decides. Takes that were acceptable never grew a far-column
-  encroachment, while takes with moving bars did.
-- Many acceptable takes still read `inspect` (a subject part or flare at a far
-  column, a dark costume merging with a bar). The gate is a triage tool, not a
-  replacement for reading the window sheets.
-- The default `--max-overlap-duty` is 0.7, not 0.5, because acceptable takes can
-  legitimately overlap a bar for more than half of the frames, while a subject
-  standing over a bar for most of the clip measured near 0.8. The margin is
-  small, so check clips between 0.6 and 0.8 by eye.
-- The bar-opening rule lowers the overall duty of a take whose bars retreat,
-  because those frames no longer count as subject overlap.
-- At `--black-level` 24, dark walls beside a bar inflated the bar by tens of
-  pixels and produced a persistent tilt; at 8 they did not.
-- Dark costume windows merging with a bar (`dark_merge`) cannot be separated
-  from a real bar by pixels; they are inspect, not fail.
-- Ambiguity that remains: a lower-bar retreat reported as `inspect` has the same
-  signature as a subject at a far column. A take whose only finding is such a
-  retreat reads `inspect` and needs a decision by eye.
+The flag is a **caller declaration**, not calibration performed or validated
+by the script. It sets `calibration.mode: explicit` and records the dimensions.
+Dimensions must exactly match the decoded input or the command fails before
+measurement. Pixel values remain in input pixels; they are not automatically
+scaled. Recalibrate for drafts, finals or changed content instead of carrying
+thresholds across them. Keep advisory mode when calibration evidence is absent.
 
-## Script limits
+Explicit mode restores the prior gate behavior: `pass`, `inspect`, `fail` for
+the static-bar gate and verdict; `pass`, `fail`, `absent`, `not_applicable` for
+the break-out gate. `passed` is true only for `pass`. The verdict fails when
+the static gate fails or the break-out gate is not `pass`; otherwise it requires
+review if the static gate does. Even a calibrated pass does not assess all the
+visual requirements above.
 
-- A dark subject or costume over a black bar is invisible to the overlap count;
-  the count is a lower bound. Always inspect frames.
-- Glow, flare or backdrop light inside a bar band also counts as non-black and
-  raises the overlap duty.
-- Dark scenery next to a bar edge can still read as a thicker bar when it is
-  below the black level; lower `--black-level` if a dark scene is flagged.
-- A bar that retreats rather than grows is reported as `inspect`, never as `fail`,
-  so a take whose only fault is a bar opening needs review and cannot pass; the
-  rule that both far columns retreating is a bar opening can mislabel a near-lens
-  object covering both far columns.
-- The duty limit and tolerances were calibrated on a handful of 1080p clips.
-- Limb continuity and the camera lock are not measured; read the window sheets.
+Exit status remains 0 for a completed analysis, including `inspect` or `fail`;
+it is not a QA exit code. Invalid input, resolution mismatch, nonfinite numeric
+settings or out-of-range values return 1 with `{"error": ...}`. Argument syntax
+errors use argparse's exit status 2.
 
-## Delivery copy
+## Diagnostic Logic And Limits
 
-Seedance 1080p masters can come back HEVC 10-bit with the moov atom at the end; make
-a faststart H.264/AAC copy for browsers and shared documents, per the `ffmpeg`
-skill.
+- Edge growth beyond the configured far-edge tolerance gives `encroach`.
+  Both far edges changing between frames beyond the jump threshold gives `jump`.
+- Interior growth beyond the encroachment tolerance gives `bow_in` when a
+  contiguous group covers the configured fraction of samples and is smooth.
+  Smooth means adjacent excess differences are at most `max(3 px, 0.25 * peak)`.
+  Narrow or ragged groups give `dark_merge`, requiring inspection.
+- Far-edge retreat or changing tilt gives `far_retreat` or `tilt`; a constant
+  tilt beyond tolerance gives `static_tilt`. These are ambiguous inspection leads.
+- Both far columns retreating beyond tolerance gives `bar_opening`. Its exposed
+  band is retained as `raw_overlap_fraction` but `overlap_fraction` becomes zero.
+  This heuristic can mislabel an object covering both far columns.
+- Overlap is the non-black fraction of the central bar band, excluding the edge
+  margin. Intervals include frames strictly above `--overlap-threshold`.
+  `starts_overlapping` means opening overlap exceeds the configured tolerance;
+  `overlap_too_continuous` means overall frame duty exceeds its limit.
+  Equality with those limits is allowed. No measured overlap gives `absent`;
+  undetected bars give `not_applicable`.
+- Dark subjects may be invisible to overlap measurement; dark scenery can merge
+  with bars, while flare and background light can masquerade as overlap. Neither
+  direction nor shape proves object identity or the cause of apparent motion.
+- Side bars, identity, limb continuity, required crossings and camera lock are
+  not checked automatically. A median reference can hide persistent deformation.
+
+The report retains `frames`, `overlap_intervals`, thickness in pixels and percent,
+edge rows, tilt, encroachment, retreat, overlap counts, `violations`, `inspect`
+records and flags. Records carry bar, kind, severity, timestamps, count and peak.
+Effective settings are recorded in `parameters` and gate tolerance/limit fields.
+
+## Delivery Copy
+
+Probe the actual output codec and container. If the destination needs a browser
+copy, the caller can prepare faststart H.264/AAC and verify that copy separately.
+Do not assume all masters share an encoding or transfer calibration between copies.

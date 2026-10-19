@@ -153,6 +153,8 @@ Body is charcoal/muted; pastels carry **no semantic meaning**. No ninth color.
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (Quicksand 500 body 0.95cqw, 600 emphasis, meta) carries copy; the
 **display ramp** (Fredoka One `label-display` 1.3cqw → `display` 6.5cqw, single weight) carries
 every headline, title, quote, and marker numeral.
@@ -268,7 +270,7 @@ counter is decorative chrome.
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the source uses scroll-snap nav, no transition spec.
-- **Fonts:** the source names _Fredoka One_; Google now serves the **Fredoka** variable family — request `Fredoka:wght@500;600;700` and set display weight 600 (visually equal to Fredoka One), with `Fredoka One` kept first in the stack for environments that still serve it. Quicksand loads normally. CJK: ZCOOL XiaoWei (display) / Yozai (body).
+- **Fonts:** the source names _Fredoka One_; Google now serves the **Fredoka** variable family — request `Fredoka:wght@500;600;700` and set display weight 600 (visually equal to Fredoka One), with `Fredoka One` kept first in the stack for environments that still serve it. Quicksand loads normally. The source suggests ZCOOL XiaoWei (display) / Yozai (body) for Chinese text, not a generic CJK mapping. Choose appropriate locale/script assets with verified coverage while preserving these roles.
 - **9:16 / 1:1 are guidance**; keep ornament count high so corners stay filled per ratio.
 - Ornaments (daisy/star/sun/cloud/rainbow), markers, and framed headers are CSS/SVG-only; recoloring SVG ornaments requires editing their stroke values.
 - **Contrast:** keep `{colors.text-muted}` off pastel surfaces (cream/white cards only); small text on saturated grounds should be charcoal or white.

@@ -2,7 +2,7 @@
 
 Nine effects that multiply, scale, freeze, remove or dive into one person from a single photo. They share one skeleton: an image-role line (`@Image 1 is the first frame.` for first-frame routes, `@Image 1 defines ...` for reference routes), the subject read from the photo through `{subject}`, a timestamped timeline with an exact figure or object count at every stage, one concrete camera move with start and end, and an observable end state. Every duplicated-person effect states that all copies share one face, one hairstyle and one identical outfit, and counts them at each timestamp. Prompts contain no on-screen text, no brand names and no negative-only lists; native audio is off unless the recipe says otherwise.
 
-Route note: Seedance 2.5 cannot mix a `first_frame` image with `reference_image` inputs. Three recipes (`infinite-clones`, `lacewalker`, `superstar`) open on a frame that is not the photo, so they are written for reference images only (`reference-images`). The live tool can reject person face and body crops as `reference_image`; treat the reference route as unverified and the first-frame fallback in each Route line as the safer path.
+Route note: Seedance 2.5 cannot mix a `first_frame` image with `reference_image` inputs. Three recipes (`infinite-clones`, `lacewalker`, `superstar`) open on a frame that is not the photo, so they are written for reference images only (`reference-images`). Person references remain subject to provider privacy restrictions. Verify current role support and rights for either route; the first-frame alternatives are unvalidated on current inputs and must not bypass a rejection.
 
 ### `clones` - Clones
 **Look:** One person stands in a real location while identical copies pop into existence through the scene, until one copy steps to the lens and covers it with a palm.
@@ -39,12 +39,12 @@ At 5.5s the near copy raises their open right palm (the hand on the frame-left s
 - Pop-ins read as instant appearances, with no cross-dissolve or morph.
 - The original stays where it was; the near copy does not replace her.
 - Picture ends black behind the palm; no text anywhere.
-**Risks:** Count drift (5 becomes 8-12). Identity and outfit drift in tiny distant copies. Dissolve or morph instead of a hard pop-in. Shadows pointing the wrong way. The near copy replacing the original. Copies mirroring each other when independence was asked. Counts overshoot even when stated; treat the count as approximate, or ask for one fewer when an upper bound matters. Copies may stand on the ground between objects rather than on the named surface.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Risks:** Check requested copy and total figure counts, identity and outfit continuity, instant pop-ins, shadow direction, the original's position, independent poses and placement on the named surfaces. Keep the requested count; revise from the current take rather than assuming a count bias.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `infinite-clones` - Infinite clones
 **Look:** A single car brakes to a stop and an unending stream of identical people clown-car out of every door and sprint off in all directions, filmed from a locked high angle.
-**Route:** `reference-images`. `@Image 1` = reference image (identity, hair, headwear, outfit). Optional `@Image 2` = reference image of the car. No first-frame image, because the clip opens on an empty lot. With two images both use role `reference_image`, in order: person first, car second. Provider rule: the `reference_image` role can be rejected before any cost (`InputImageSensitiveContentDetected.PrivacyInformation`) for a face close-up or a clean full-body crop of a person, whereas a generated still of the person inside a scene may be accepted; treat person-crop references as likely to fail and have the first-frame fallback ready. Fallback: `i2v-first-frame` with a Seedream still of the person standing alone beside the parked car with all four doors closed (built from the person's references); replace the two role lines with `@Image 1 is the first frame: <what the frame shows>`, delete the `@Image 2` sentence, hold 'the car stays parked with its doors closed and the person holds still' for 0-2.5 s, and count the person among the figures (1 figure to 3 s, then the ramp to 20 including the person).
+**Route:** `reference-images`. `@Image 1` = reference image (identity, hair, headwear, outfit). Optional `@Image 2` = reference image of the car. No first-frame image, because the clip opens on an empty lot. With two images both use role `reference_image`, in order: person first, car second. Provider privacy restrictions apply (`InputImageSensitiveContentDetected.PrivacyInformation`); verify current capabilities and stop to diagnose a rejection, without assuming another role permits the same input. Unvalidated alternative, only when supported and authorized: `i2v-first-frame` with a Seedream still of the person standing alone beside the parked car with all four doors closed (built from the person's references); replace the two role lines with `@Image 1 is the first frame: <what the frame shows>`, delete the `@Image 2` sentence, hold 'the car stays parked with its doors closed and the person holds still' for 0-2.5 s, and count the person among the figures (1 figure to 3 s, then the ramp to 20 including the person).
 **Parameters:** duration 7 s; ratio 16:9 by default (wide lot), 9:16 also fine; `generate_audio` false (an SFX-only sting, tire screech then doors, could help but risks baked music; add SFX in post by default); draft 480p.
 **Start photo:** Full-body, distinctive outfit and headwear (a beanie, cap or bold hair accessory) so tiny top-down copies still read as one person. Bad inputs: plain outfit with no headwear, face-only crop, heavy accessories that vary by angle, a photo with several people.
 **Beats:**
@@ -78,8 +78,8 @@ End state at 7s: 20 figures scattered across the lot, the car parked with four o
 - Car stays parked with four open doors; it does not drive off or close doors.
 - Camera is static and high-angle throughout; no second cut.
 - No lettering on the car, ground or clothing.
-**Risks:** The stream fades out at 6-10 figures. Dense runners merge or lose limbs. Floaty drift physics. Car drives away or doors close. Outfit and size drift across copies. Car design unconstrained without a description or reference. Painted lot markings may render as glyphs. Keep the count as a ramp, not an exact figure. Not every door may open and runners can leave the frame, so 'nobody leaves the frame' does not reliably hold.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Risks:** Check the requested count ramp at each timestamp, runner separation and anatomy, drift physics, parked car, all four doors, outfit and size continuity, car design, markings and whether runners stay in frame. Do not infer a count bias or relax the requested end count without current-output evidence and approval.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `selfception` - Selfception
 **Look:** The camera dives into the tiny self on a palm and that figure becomes the full-size subject holding another tiny self, Droste-style.
@@ -116,8 +116,8 @@ Exactly two complete figures are visible at any moment, one large and one figuri
 - Same coat colour, trim and hair on every tier.
 - Camera glides continuously; no cut and no plain push-in with no recursion.
 - Ends on the back of the coat and hair.
-**Risks:** Wrong miniature scale (both similar size). Hand and finger anatomy on the palm. Tier outfit drift. A cut replaces the glide. Zoom becomes a plain push-in with no handoff. Background not rotating with the orbit. Visible nesting past two tiers is unreliable, so do not ask for more.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Risks:** Wrong miniature scale (both similar size). Hand and finger anatomy on the palm. Tier outfit drift. A cut replaces the glide. Zoom becomes a plain push-in with no handoff. Background not rotating with the orbit. Review each requested nesting transition on the current take.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `act-natural` - Act natural
 **Look:** The subject and the objects tied to their action are frozen like a statue mid-action while the world carries on and the camera glides around them.
@@ -153,7 +153,7 @@ End state at the final frame: the subject in the identical pose, the camera 30 d
 - Frozen items do not slide or fall; no new objects or people join the frozen group.
 - Packaging shows no readable lettering.
 **Risks:** Micro-motion (breathing, blinking, hair sway) creeps in. Frozen items slide. The whole frame freezes. Objects pull out of frame as the camera moves. Packaging text garbles. The subject drifts when the orbit is not explicit.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `stop-world` - Stop world
 **Look:** One calm person moves at normal pace through a crowd sped up into blur, as if a finger-snap fast-forwarded the world around them.
@@ -188,7 +188,7 @@ End state: one calm sharp figure in medium shot in the foreground, {crowd_count}
 - Subject ends in medium shot near the lens; crowd arrangement differs from the opening and does not rewind.
 - No cuts; camera stays locked.
 **Risks:** Everything renders at the same speed (no contrast). Crowd speed-up looks like jitter. The subject gets motion-blurred too. The gesture reads as a wave. Crowd members merge or duplicate. Do not prompt a rewind.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `eyes-in` - Eyes in
 **Look:** One continuous accelerating dive from a street portrait into one eye, through the iris, until the pupil swallows the frame in black.
@@ -229,11 +229,11 @@ Join with FFmpeg: normalise both clips to the same size, frame rate and timebase
 - No scene change inside the eye; no signage-style text in the first seconds.
 - With the optional join: the circle opens from the black frame onto the destination.
 **Risks:** Eye shape or colour drift in the macro. Double or off-centre pupil. A blink. The model cutting to a different scene halfway instead of staying in the eye. The dive stopping at the iris. Street reflection in the cornea not matching the photo. Text on clothing or signs in the opening frame warps during the push.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `lacewalker` - Lacewalker
 **Look:** A figurine-sized copy of the person strolls the ground in front of their giant sideways head, then, after a hard cut, balances on a thin strap stretched between two giant bags.
-**Route:** `reference-images`. `@Image 1` = reference image (identity, outfit, glasses or hat). Optional `@Image 2` = reference image of the product that becomes the giant object. No first-frame image, because neither shot opens on the photo. Provider rule: the `reference_image` role can be rejected before any cost (`InputImageSensitiveContentDetected.PrivacyInformation`) for a face close-up or a clean full-body crop of a person, whereas a generated still of the person inside a scene may be accepted; treat person-crop references as likely to fail and have the first-frame fallback ready. Fallback: `i2v-first-frame` with a Seedream still of the giant sideways head and exactly one figurine-sized copy on the sand; replace the first paragraph with `@Image 1 is the first frame. It shows <the giant head and the one miniature>`, keep the in-clip hard cut behind the bag, and shot 2 needs no image.
+**Route:** `reference-images`. `@Image 1` = reference image (identity, outfit, glasses or hat). Optional `@Image 2` = reference image of the product that becomes the giant object. No first-frame image, because neither shot opens on the photo. Provider privacy restrictions apply (`InputImageSensitiveContentDetected.PrivacyInformation`); verify current capabilities and stop to diagnose a rejection, without assuming another role permits the same input. Unvalidated alternative, only when supported and authorized: `i2v-first-frame` with a Seedream still of the giant sideways head and exactly one figurine-sized copy on the sand; replace the first paragraph with `@Image 1 is the first frame. It shows <the giant head and the one miniature>`, keep the in-clip hard cut behind the bag, and shot 2 needs no image.
 **Parameters:** duration 8 s; ratio 3:4 (typical: as) or follows the photo; `generate_audio` false; draft 480p.
 **Start photo:** Full-body shot with a distinct outfit, plus a clear face with glasses or a hat for the giant head. Product reference (optional): one clean image of a handbag, sneaker or similar item. Bad inputs: plain outfit, face partly hidden, a product with visible lettering or logo (it garbles at giant scale; use a plain unmarked version or describe it), several products in one image.
 **Beats:**
@@ -268,11 +268,11 @@ End state: one miniature on one strap between two giant bags.
 - Giant head and miniature read as the same person; the miniature keeps the outfit.
 - No hardware text, logos or lettering.
 **Risks:** Scale ratios collapse (the miniature grows). Giant head and miniature differ in identity. Extra bags or straps. The strap sags unrealistically or the miniature floats. Hardware text or logos garble. No cut, so the second setup never appears. Unnatural walking cadence.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `superstar` - Superstar
 **Look:** A fan's handheld phone video of a packed stadium concert in which the person is the star on stage and on the jumbotron.
-**Route:** `reference-images`. `@Image 1` = reference image (face, hair, outfit). No first-frame image, because the clip opens on a crowd POV. The stage, crowd, phones and dancers are generated. Provider rule: the `reference_image` role can be rejected before any cost (`InputImageSensitiveContentDetected.PrivacyInformation`) for a face close-up or a clean full-body crop of a person, whereas a generated still of the person inside a scene may be accepted; treat person-crop references as likely to fail and have the first-frame fallback ready. Fallback: `i2v-first-frame` with a Seedream still of the opening crowd POV (4 raised phones, the performer centre stage, 2 backup dancers, an abstract LED screen); replace the role line with `@Image 1 is the first frame. It shows <that view>` and keep every timestamp.
+**Route:** `reference-images`. `@Image 1` = reference image (face, hair, outfit). No first-frame image, because the clip opens on a crowd POV. The stage, crowd, phones and dancers are generated. Provider privacy restrictions apply (`InputImageSensitiveContentDetected.PrivacyInformation`); verify current capabilities and stop to diagnose a rejection, without assuming another role permits the same input. Unvalidated alternative, only when supported and authorized: `i2v-first-frame` with a Seedream still of the opening crowd POV (4 raised phones, the performer centre stage, 2 backup dancers, an abstract LED screen); replace the role line with `@Image 1 is the first frame. It shows <that view>` and keep every timestamp.
 **Parameters:** duration 15 s; ratio 9:16 (phone video) by default; `generate_audio` false (native audio stays off so no crowd chanting, sung words or music are baked in); draft 480p, final 720p or 1080p.
 **Start photo:** Clear face and a distinctive outfit; waist-up portrait is enough. A person holding or near a microphone is helpful but not required. Bad inputs: sunglasses, a face turned away, tiny face in a wide photo, heavy costume details that change per angle.
 **Beats:**
@@ -301,7 +301,7 @@ At 12.5s hard cut, the only cut in the clip, to a wide pan across the full stadi
 - No lettering, numbers or logos on stage, screens, phones or clothing.
 - Generated clip carries no baked-in speech, chant or music.
 **Risks:** Too clean a cinematic look. Warped hands and phones in the crowd. Screen content not matching the performer. Backup dancers duplicating. Mouth and mic mismatch. Logo-like glyphs on the stage. A second cut inserted. Native audio would bake in chanting, so it stays off.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `vanish` - Vanish
 **Look:** A person blinks out of existence in one frame and their empty clothes slump to the surface where they stood.
@@ -324,7 +324,7 @@ From 3s to the end the clothes lie completely still; the empty scene stays in fr
 **Slots:**
 - `{subject}`, `{pose}`, `{surface}`: from the photo (for example "kneels with the right hand (frame-left side) on the mat"); name the side of any hand or arm by anatomy plus frame side.
 - `{garment_count}`, `{garments}`: count and name every garment in the photo (for example 2: a blue knit sweater and a denim skirt). When the count is 1 write "1 garment" in the sentence.
-- `{collapse_order}`: default "sweater first, then skirt".
+- `{collapse_order}`: derive a plausible order from the observed garments and their positions; name only items listed in `{garments}`. For one garment, describe that garment collapsing without inventing a second item. Ask when occlusion makes the garment inventory unclear.
 - `{accessories_rule}`: default "Hair ties, jewellery and shoes vanish with the body, and no new objects appear." If shoes are a visible garment, list them in `{garments}` instead.
 **Post:** none. Optional soft cloth-thud effect from Seed Audio at 2-3 s.
 **QA:**
@@ -333,4 +333,4 @@ From 3s to the end the clothes lie completely still; the empty scene stays in fr
 - Garments hold body shape for a moment, then collapse and come to rest by about 3 s; no floating clothes.
 - Camera is locked; the empty scene is held to the end; no black frame; no text on the surface.
 **Risks:** The body fades out gradually. Ghost or semi-transparent residue. Clothing does not collapse and keeps floating in body shape. Invisible-body shapes remain. Extra garments, shoes or hair appear. Collapse timing off. Text on the mat garbles.
-**Status:** Limited probe (invented subject, 480p); treat as a starting point.
+**Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.

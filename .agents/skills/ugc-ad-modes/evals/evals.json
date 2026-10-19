@@ -149,7 +149,7 @@
       "expected_output": "An executable phone-shot prompt that fits the speech budget, fixes counts, hands and invented-text risks, and moves the on-screen text to finishing.",
       "files": [],
       "expectations": [
-        "Flags that the 20-word line does not fit a 10 s clip at about 2.2 words/s with a 0.4 s tail, and shortens editable copy or asks rather than keeping every word.",
+        "Counts the quoted English line as 20 words and flags a provisional overrun at 2.2 words/s plus onset and tail, not a universal rejection. Requests measured or native-language-informed delivery to establish fit; proposes retiming or splitting if needed, and changes approved copy only with authorization.",
         "Names the hand by anatomy and frame side (for example her left hand, frame-right).",
         "States the exact count of refills, keeps them in open view from the first frame and restates where they are at each beat.",
         "Describes the tube and refills positively as plain with nothing printed unless a product reference is supplied.",

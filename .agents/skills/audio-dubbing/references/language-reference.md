@@ -34,7 +34,7 @@ Every pronunciation note, stress mark or respelling is a hypothesis: the model m
 **Register markers:**
 - po / opo — formal/polite (elders, strangers, superiors)
 - No po / opo — casual (peers, friends, same age)
-- Taglish — mixed Tagalog-English, common in urban settings. Keep the register of the approved target script; when writing Filipino-market lines from scratch, English-dominant Taglish with simple Tagalog words (po, opo, sige, tara, ingat, salamat) is the common default
+- Taglish — mixed Tagalog-English, common in urban settings. Keep the register and switching pattern of the approved target script. Use English-dominant Taglish only when explicitly requested; a Filipino audience alone does not select it. Ask for the language and register when writing new lines without an approved target script.
 - "English with a Filipino accent" is an accent note in the voice description, not a request to code-switch the dialogue
 
 **Pronunciation block (copy into prompt):**

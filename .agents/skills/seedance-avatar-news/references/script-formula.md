@@ -1,10 +1,10 @@
 # Script formula
 
-Target 50–60 words for a 25–29 s take. Budget about 2.2 spoken words per
-second: native lines land 0.5–1.5 s late and speech runs to the clip end, so
-leave about 1 s of onset and at least 0.4 s of tail after the last word. A
-faster explainer pace (about 2.7 words/s) fits more words but is an untested
-hypothesis that risks a clipped closer; check it in the 480p draft.
+Fit the requested news-short duration with a timed read in the approved
+language and register, including onset, pauses and at least 0.4 s of tail.
+A 50–60 word script for 25–29 s is an illustrative English planning example,
+not a universal speech rate or prior-run guarantee. Verify actual timing in
+the draft; do not shorten or translate approved copy to fit a template.
 
 | Beat | Pattern | Example (hypothetical product) |
 |---|---|---|
@@ -18,8 +18,9 @@ hypothesis that risks a clipped closer; check it in the 480p draft.
 
 - Every number and claim traces to `topic.md` (at least two sources). Use the
   company's own wording for soft claims ("orders", "pre-orders").
-- Spell numbers the way they should be spoken ("fifty pounds",
-  "nineteen ninety-five"), and use digits in captions ("50 POUNDS", "$1,995").
+- Spell numbers as spoken in the requested language. Caption number formatting,
+  units and currency follow the approved copy and brief locale, not these
+  fictional examples.
 - One idea per sentence; short sentences carry lip-sync and caption rhythm.
 - Choose hook words speech recognition hears cleanly; a near-homophone in the
   hook produces wrong captions and a misheard opening.
@@ -29,7 +30,9 @@ hypothesis that risks a clipped closer; check it in the 480p draft.
 
 ## Caption chunks
 
-1–3 words, uppercase, broken on natural phrase boundaries. In `edl.json`,
+Use short chunks at natural phrase boundaries (often 1–3 words in
+space-delimited languages). Preserve approved case and language; uppercase is
+an explicit style choice, never an automatic conversion. In `edl.json`,
 chunks map to STT word indices: `[first_word_idx, last_word_idx, "TEXT"]`.
 Build the map after transcription, since STT may merge or split words
-("12 inch", "1995").
+(measurements or numbers).

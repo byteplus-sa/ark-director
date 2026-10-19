@@ -45,11 +45,11 @@
     {
       "id": 4,
       "prompt": "Run Clones on my photo but I need exactly 5 copies.",
-      "expected_output": "The clones recipe with the count stated at every timestamp, plus a warning that the model tends to overshoot stated counts and an offer to request 4 or revise after the draft.",
+      "expected_output": "The clones recipe with the requested count at every timestamp, unvalidated on current inputs, followed by count review on an authorized current-input draft.",
       "files": [],
       "assertions": [
         "The prompt states 1 figure, then exactly 5 copies plus the original (6 figures) from 3.5s.",
-        "The reply offers to request fewer copies or revise after the draft because counts tend to run high, and it does not promise an exact count.",
+        "The reply keeps the requested five copies, does not assume a count bias or promise exact output, and proposes revisions only from current-take evidence.",
         "Each copy has one face and one outfit and its own idle pose.",
         "After the draft the run counts figures on a full-size frame at the stated timestamp and reports the number it found."
       ]
@@ -75,7 +75,7 @@
         "The Seedance prompt contains no label text, HUD words or numbers.",
         "The reply routes the labels to HyperFrames or html-graphic-render in post.",
         "The route is composite and generate_audio is false.",
-        "The reply says Particles has a thin source description and is a limited-probe starting point, and names the risks that outline boxes can hold text-like line patterns and a near-static subject leaves the overlay to carry the effect."
+        "The reply says Particles is unvalidated on current inputs, retains the thin source-description caveat, and plans to check lettering, subject motion and the completed composite."
       ]
     },
     {
@@ -105,11 +105,11 @@
     {
       "id": 9,
       "prompt": "Do Smash and grab with generated sound.",
-      "expected_output": "The smash-and-grab recipe with generate_audio true, an audio sentence limited to sound effects that ends with a positive list (with only these effects and ambience), and a listening check of the draft's track.",
+      "expected_output": "The smash-and-grab recipe with generate_audio true, the requested sound effects and ambience, and a listening check of the current draft's track.",
       "files": [],
       "assertions": [
-        "The audio sentence lists sound effects only and ends with a positive list (with only these effects and ambience) rather than a no-music line.",
-        "The reply warns that native audio can leak a voice, music or singing despite the audio sentence.",
+        "The audio sentence describes the requested sound effects and ambience without treating any wording as a verified exclusion guarantee.",
+        "The reply plans to review the current output for requested sound effects and unwanted voice, music or singing without citing prior runs.",
         "After the draft the track is extracted and checked for music and speech, and the result is reported as a flag for a human listen, not proof.",
         "Before promoting, the reply says the promotion reuses the draft's audio."
       ]
@@ -123,7 +123,7 @@
         "The photo is bound with role last_frame and a generated low-orbit planet frame at the photo's ratio is bound with role first_frame; the run does not submit a last_frame alone, which the live tool rejects.",
         "The Seedream first frame is reviewed, approved and registered before it is used, and the request omits ratio because the first frame locks it.",
         "The prompt describes the approach into the photo, ending at street level in front of the person.",
-        "The recipe is reported as a limited-probe starting point, not as proven on the user's photo."
+        "The recipe is reported as unvalidated on current inputs, with current capability verification and a current-output QA plan."
       ]
     },
     {
@@ -141,24 +141,24 @@
     {
       "id": 12,
       "prompt": "Do the Palette effect on this clip of my two friends dancing in the street.",
-      "expected_output": "A reply that reports Palette as unverified, explains the video-input rule for people, and offers alternatives before any paid run.",
+      "expected_output": "A reply that reports Palette as unvalidated on current inputs, verifies current capabilities without overriding unsupported flags, explains the video-input rule for people, and proposes current-input testing and review before any paid run.",
       "files": [],
       "assertions": [
-        "The reply says Palette is unverified and treats the recipe as a hypothesis rather than a verified effect.",
+        "The reply says Palette is unvalidated on current inputs and treats the recipe as a hypothesis rather than a verified effect.",
         "The reply explains that a source clip showing realistic people is rejected unless each person is bound as an asset:// Virtual Portrait or authorized asset, and asks for rights and asset status before any submission.",
         "The route keeps the muted source master with generate_audio false and audio added in post.",
-        "The reply offers an alternative such as Comic or a seedance-restyle catalog style, and submits nothing without the user's choice."
+        "Any alternative is also unvalidated on current inputs; the reply submits nothing without authorization and does not rank recipes by prior run outcomes."
       ]
     },
     {
       "id": 13,
       "prompt": "Run Infinite clones on my photo and tell me if it is a proven effect.",
-      "expected_output": "An evidence-honest reply: the reference route can be rejected for person crops, the first-frame fallback is prepared, and counts are restated and checked.",
+      "expected_output": "An evidence-honest reply: neither route is validated on current inputs; verify current capabilities and privacy restrictions, retain unsupported flags, and review requested counts on an authorized current-input test.",
       "files": [],
       "assertions": [
-        "The reply says the effect is a limited-probe starting point that relies on the first-frame fallback and is not proven on the user's photo.",
-        "The prompt states the exact runner count at every timestamp and the reply plans to count on a full-size frame, noting that counts tend to run high.",
-        "The reference_image route is not presented as the tested path; the first-frame fallback is prepared.",
+        "The reply says the effect and its first-frame alternative are unvalidated on current inputs.",
+        "The prompt states the requested runner count at every timestamp and plans full-size-frame count checks without assuming an upward or downward bias.",
+        "Neither reference_image nor the first-frame alternative is called tested or safer; both need current capability and rights checks, and a rejection is not bypassed.",
         "Native audio stays off unless requested; any SFX bed comes from Seed Audio in post."
       ]
     }

@@ -135,6 +135,8 @@ from position, label, and tilt. Red is never body text, never a tint, never an u
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading/chrome ramp** (Baskerville body 0.85cqw, Space Grotesk labels in px)
 carries copy + chrome; the **display ramp** (Shrikhand `section-header` 3.3cqw → `stat-big` 22cqw)
 carries every statement and numeral.
@@ -270,6 +272,6 @@ supplies them. Catalogue numbers / progress are decorative.
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the source's 550ms slide transitions are deck mechanics.
-- **Shrikhand + Libre Baskerville + Space Grotesk via Google Fonts.** CJK: Noto Serif SC 900/400 + Noto Sans SC; Shrikhand's slab-script has no Hanzi equal — keep tilts + red + double-borders to carry the identity.
+- **Shrikhand + Libre Baskerville + Space Grotesk via Google Fonts.** Simplified Chinese examples: Noto Serif SC 900/400 + Noto Sans SC, not a generic CJK mapping. Other scripts/locales need appropriate fonts with actual coverage. Shrikhand's slab-script has no Hanzi equal; keep tilts + red + double-borders to carry the identity.
 - **9:16 / 1:1 are guidance**; verify the one big line ≤78cqw per ratio and that tilts don't clip.
 - Grids, leftbar cards, and the stacked shadow are CSS-only; no external imagery is required.

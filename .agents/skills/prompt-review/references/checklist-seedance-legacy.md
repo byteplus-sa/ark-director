@@ -91,9 +91,12 @@ Source skill: `seedance-prompt-20`
 
 20. **Dialogue format and budget (`dialogue.speech_budget`).** Spoken text in
     `{curly braces}` or quotes for lip-sync, with speaker labels for several
-    speakers. The same speech budget as Seedance 2.5 applies (about 2.2 words
-    per second after a late start; the last line ends at least 0.4 s before the
-    clip end).
+    speakers. Use measured delivery or a native-language-informed read with
+    pauses, onset and tail. Words / 2.2 is an English planning estimate, not a
+    universal rejection rule. Initially allow 0.5-1.5 s onset and at least
+    0.4 s tail, then verify actual delivery; without evidence, fit is provisional.
+    Preserve approved text; propose retiming or splitting before an authorized
+    wording change.
 
 ### Timing
 

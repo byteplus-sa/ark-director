@@ -1,17 +1,6 @@
 ---
 name: filipino-micro-drama
-description: >-
-  Develop Filipino-market micro-drama stories: pick a proven Pinoy formula
-  (kontrabida matriarch, hidden heir, kabit and legal-wife revenge, OFW
-  homecoming, switched at birth, CEO fake relationship, aswang folk horror and
-  more), then write a locked episode brief with a three-beat hook, sampal or
-  reveal, and cliffhanger, a light cast, authentic Filipino settings, props
-  and wardrobe, English-dominant Taglish dialogue with correct honorifics and
-  class markers, and English subtitle translations. Use for Filipino or Taglish
-  micro-drama concepts, loglines, episode briefs, series bibles or dialogue
-  passes, including concept-only or prompt-only work. This leaf writes story
-  material only; it does not generate media. Pair it with micro-drama for
-  production and seedance-prompt-25-filipino for spoken-delivery direction.
+description: Develop micro-drama concepts, loglines, episode briefs, series bibles and dialogue when Filipino-market support is explicitly requested. Offer genre formulas, cultural context and story beats while preserving approved words and requested language, register, code-switching and subtitle choices. Ask about material gaps; do not assume a language mix or English subtitles. This leaf writes story material only and does not generate media or submit tasks.
 ---
 
 # Filipino Micro-Drama
@@ -24,14 +13,18 @@ orchestrator can consume it.
 ## Inputs and outputs
 
 Input: the number of episodes or concepts, an optional formula, audience
-(mass, youth, OFW families), the dialogue mode, and any locked names, lines or
-limits. The default dialogue mode is English-dominant Taglish with simple
-Tagalog (honorifics and a few common words); "English with a Filipino accent"
-is an English-only mode with an accent note; heavier Taglish is written only on
-request.
+(mass, youth, OFW families), the requested language, register and code-switch
+preference, and any locked names, lines or limits. This Filipino pack is opt-in;
+it does not select a language mix. Preserve pure Tagalog, Taglish, or English
+as requested, and ask when a missing preference materially affects dialogue.
+English-dominant Taglish remains a valid explicit choice; "English with a
+Filipino accent" is English-only with a separate accent note.
 
-Output per episode: the brief fields below, with dialogue in `{braces}` and a
-subtitle translation for every Tagalog word or phrase. For batches, choose a
+Output per episode: the brief fields below, with dialogue in `{braces}`.
+Provide subtitle translations only when requested, and only in the requested
+target languages; preserve the locked dialogue separately. If subtitles are
+requested without a target language, ask before translating. Do not add
+translations merely because dialogue contains Tagalog. For batches, choose a
 different formula for each episode unless the user asks otherwise.
 
 ## Procedure
@@ -43,13 +36,15 @@ different formula for each episode unless the user asks otherwise.
    characters and one or two locations.
 3. **Build the beats.** Hook in the first 3 s, then the setup, the sampal or
    reveal with physical proof, and a cliffhanger held on a close-up. Keep each
-   scene to 3–5 short lines within about 2.2 words per second of the time the
-   lines can occupy.
+   scene to 3–5 short lines when the requested delivery fits. About 2.2 words
+   per second is an English planning estimate, not a universal gate. Use
+   measured delivery or a native-language-informed read with pauses, onset and
+   tail; preserve exact text and propose retiming before authorized rewrites.
 4. **Write the dialogue.** Follow [Taglish dialogue](references/taglish-dialogue.md):
-   English carries content and the plot-critical words, simple Tagalog carries
-   warmth, and honorifics mark status. Keep every story-critical line short and
-   speakable, open the hook on plain words that transcribe cleanly, and never
-   whisper or shout a plot-critical word.
+   preserve the requested language and locked wording, including plot-critical
+   Tagalog words. Do not assign content to English or feeling to Tagalog by
+   default. Keep lines speakable in the chosen register; use listening evidence
+   to diagnose delivery problems, not language density or ASR difficulty alone.
 5. **Cast the characters.** Make every character appealing on a phone screen:
    bright eyes and soft, readable faces, elders warm and endearing rather than
    haggard, villains marked by wardrobe and manner. Spread a natural range of

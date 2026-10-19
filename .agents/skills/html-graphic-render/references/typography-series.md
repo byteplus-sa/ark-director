@@ -36,15 +36,30 @@ What one run produces inside `--out-dir`:
 
 | Output | Rule |
 | --- | --- |
-| `<prefix>_<word>_v01.html` | one entrypoint per word, each with a `data-copy-key="word"` exact-copy node |
+| `<prefix>_<ordinal>_v01.html` | one entrypoint per word, using a 1-based ordinal padded to at least three digits |
 | `<prefix>_series.css` | one shared stylesheet: `@font-face`, palette tokens, shared size/position |
-| `fonts/<font>` (+ license) | font copied once into the series directory; project-local thereafter |
-| `<prefix>_<word>_v01.png` | rendered via `render_html.py` with `--require-local-font` and copy verification |
-| `render_<prefix>_<word>_v01.json` | the renderer's hash-bound record per card |
+| `fonts/font-<sha256>.<ext>` (+ `LICENSE.txt`) | font copied under a content-based filename; project-local thereafter |
+| `<prefix>_<ordinal>_v01.png` | rendered via `render_html.py` with `--require-local-font series-font` and copy verification |
+| `render_<prefix>_<ordinal>_v01.json` | the renderer's hash-bound record per card |
 | `manifest.md` | provenance block + per-card file/dimensions/SHA-256 table |
 
 ## Rules
 
+- **Display text is not an identifier.** CJK, Arabic, mixed scripts, punctuation
+  and duplicate strings are accepted. IDs such as `card_001_v01` follow input
+  order and do not transliterate text. Existing CLI flags remain supported;
+  consumers of the old word-slug filenames must use the manifest's file column.
+  `--words` still splits on commas, trims surrounding whitespace and ignores
+  empty entries; embedded commas require hand-authored cards.
+- **Language and direction are optional, explicit inputs.** Pass `--language ar
+  --direction rtl`, or `--language zh-Hant --direction ltr`, when specified by
+  the brief. `--direction auto` lets each card's text determine direction. With
+  neither flag, the HTML has neither attribute; no English language is assumed.
+- **Font names are metadata.** Unicode family names and filenames are accepted.
+  CSS uses the internal `series-font` alias and a hash-based local filename,
+  never the supplied name as CSS syntax. Select a licensed font covering the
+  requested scripts and inspect glyph coverage and shaping in the raster.
+  An output path or font destination escaping the series directory is refused.
 - **One size, one position, whole series.** Size the font against the longest
   word (for a didone serif at 720px wide, ~112px lands a ~78% ink width for
   `Wednesday`-length words). Do not per-card shrink; the series must read as

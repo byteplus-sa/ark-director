@@ -15,11 +15,12 @@
     },
     {
       "id": 2,
-      "prompt": "This is formal testimony. The speaker must say exactly \"Nais ko lamang malaman kung nakarating ka na.\" Is the line too literary for Seedance? No generated sample is available.",
+      "prompt": "This is formal testimony in pure Tagalog, without code-switching. The speaker must say exactly \"Nais ko lamang malaman kung nakarating ka na.\" Is the line too literary for Seedance? No generated sample is available. Do not reject it using a 2.2 words/sec estimate.",
       "expected_output": "Preserve formal testimony and locked words; identify absence of actual failure evidence.",
       "files": [],
       "expectations": [
-        "Does not replace the wording with casual speech.",
+        "Preserves pure Tagalog verbatim without adding English or treating dense Tagalog as a defect.",
+        "Uses measured or native-language-informed delivery for timing, not a universal 2.2 words/sec gate; preserves text before proposing timing revisions.",
         "Does not diagnose a pronunciation failure without audio.",
         "Treats register as intentional and preserves it.",
         "Does not claim a vocabulary tier guarantees success."
@@ -76,13 +77,23 @@
     {
       "id": 7,
       "prompt": "Write three short lines for a friendly sari-sari store owner greeting a regular customer in a Seedance ad. The brief gives no language register.",
-      "expected_output": "English-dominant Taglish lines with simple, common Tagalog, a playable intent and a delivery cue, presented as drafts for approval.",
+      "expected_output": "Ask for the missing language and code-switch preference before drafting spoken lines; retain unaffected scene direction.",
       "files": [],
       "expectations": [
-        "The lines are mostly English with simple, common Tagalog words or particles (for example po, sige, salamat).",
-        "No line relies on long or uncommon Tagalog words in a shouted or whispered position.",
-        "Spoken words sit inside braces and delivery notes sit outside them.",
-        "The lines are marked as drafts awaiting the user's approval."
+        "Asks whether the user wants pure Tagalog, Taglish with a chosen balance, or English before drafting the lines.",
+        "Does not infer English-dominant Taglish from the store setting or installed Filipino pack.",
+        "May complete unaffected performance direction without inventing spoken text."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Write three short greeting lines in explicitly English-dominant Taglish with simple Tagalog for a friendly store owner. Draft only; no generation.",
+      "expected_output": "Honor the explicit English-dominant request without making it a default for other briefs.",
+      "files": [],
+      "expectations": [
+        "Writes mostly English with simple Tagalog as requested, not pure Tagalog.",
+        "Keeps delivery notes outside spoken braces and marks new text as draft.",
+        "Does not ask again for the already specified language balance or generate media."
       ]
     },
     {

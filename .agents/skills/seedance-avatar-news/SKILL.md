@@ -16,7 +16,7 @@ description: >-
 # Seedance Avatar News
 
 The "creator explains the latest tech news" short, hosted by an AI avatar.
-The reference layout (observed in the source short): B-roll on top, the presenter below, and word captions on the
+One supported layout: B-roll on top, the presenter below, and word captions on the
 seam. Only the presenter is generated; product footage is real and official,
 and every caption, badge and label is added in the edit, never generated.
 
@@ -60,17 +60,23 @@ projects/<slug>/
 ## Stages
 
 ### 1. Reference format
-Download the reference short with `yt-dlp` and build a 1-frame-per-2s contact
+Use only the current supplied reference and explicitly selected avatar assets;
+do not inherit footage, voice, wardrobe or source claims from a prior run.
+Download the supplied reference short with `yt-dlp` and build a 1-frame-per-2s contact
 sheet. Write `options/BRIEF.md` covering: layout beats (split, full, card),
 caption style and position, badges, backdrop, wardrobe, framing, gestures,
-delivery, and the script shape. Add the locked avatar asset paths and their
-presigned URLs.
+delivery, language, register, approved caption case, font, and the script shape.
+Without a supplied reference, confirm a news layout from the edit recipes rather
+than claiming to have inspected a source. Add the locked avatar asset paths and
+hashes; resolve expiring transport URLs only when submitting.
 
 ### 2. Topic and script (per option)
 Research a real story from the last ~4 weeks in the presenter's niche.
-Confirm every fact with at least two sources. Write 50–60 words for a 25–29 s
-take using [the script formula](references/script-formula.md), including 1–3
-word caption chunks.
+Confirm every fact with at least two sources. Fit the requested duration using
+a timed read in the approved language and register, with
+[the script formula](references/script-formula.md). The 50–60 word, 25–29 s
+example is not a cross-language rate. Preserve approved wording and case in
+caption chunks.
 
 ### 3. Talking-head take (per option)
 Follow seedance-ai-avatar stages 4–5. Use a 1:1 locked take for an all

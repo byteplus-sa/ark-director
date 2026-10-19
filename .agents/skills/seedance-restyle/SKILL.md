@@ -59,7 +59,7 @@ post-audio route, and the test-ladder rung.
 1. **The performance stays; the medium changes.** Keep the subject count, their
    screen positions, actions, props, the furniture they use and identity cues
    (hair shape, wardrobe colours, silhouettes). The background keeps its place
-   and is restyled through an environment image of that place (rule 9). Read
+   and geometry while taking the requested medium. Read
    [restyle grammar](references/restyle-grammar.md).
 2. **One style per take, applied to everything.** People, props, set, sky and
    effects share one medium lock. Blends happen only on request.
@@ -76,70 +76,62 @@ post-audio route, and the test-ladder rung.
    sound returns in post.
 7. **No baked text.** Source signage becomes abstract shapes in the style;
    captions and copy are added in post.
-8. **Test ladder**: a 480p probe of the hardest beat (fast motion, a face close-up
-   or a cut), then the full clip at 480p as a native Draft (`draft: true`), then
-   promote the selected draft by `draft_task_id` when the live schema confirms
-   Draft for edit tasks (otherwise a new reviewed request at the final
-   resolution).
+8. **Test ladder**: follow the workspace draft policy with currently supported
+   parameters. Propose a short probe only for a difficulty identified in the
+   current source or result, with user approval for its selected span. Use
+   native Draft and promotion only when the live schema supports the route;
+   otherwise use a new reviewed request. Prior runs do not gate a new case.
 9. **Keep the same place.** A restyle changes how the background looks, never
    where the scene is: a city street stays a city street, with the same kind of
    buildings, furniture and plants. Never name a different location unless the
-   user asks for one. Build an environment image of the same place and bind it
-   (see Environment image).
+   user asks for one. Select an environment image only when the current brief,
+   input or observed failure warrants it (see Environment image).
 
 ## Routes
 
-- **Route A (default): full-frame edit with an environment image of the same
-  place.** `omni_reference_task_type: edit`, `@Video 1` as editing master,
-  ratio and duration locked to the source. Use an 8n+1 frame input (for example
-  121 frames at 24 fps) so the output keeps the source frame count. Say "Replace
-  the scene with the <style> <place> from @Image 1" and restyle the subject and
-  props in the same sentence.
-- **Route B (alternative): reference.** `auto`, or `reference` when recorded
-  capability evidence confirms it, with `@Video 1` as the authority for motion,
-  timing and camera, a detailed shot-by-shot description, and the same
-  environment image. Set `ratio` to the source and `duration` to the
-  whole-second source length. Use it when the duration must be exact or Route A
-  keeps photoreal pixels.
+- **Route A (when supported): edit.** Use `omni_reference_task_type: edit`
+  with `@Video 1` as editing master. Preserve source content, ratio and timing;
+  describe subjects, props and background surfaces in the requested medium.
+  A words-only style block is valid; an environment image is not required.
+- **Route B (when supported): reference.** Use the currently accepted task type
+  with `@Video 1` authoritative for content, motion, timing and camera.
+  Select this alternative from the current brief or reviewed failure, not a
+  prior probe. Neither route guarantees exact duration or medium coverage.
+
+Preserve the original source and full timeline. Verify current route constraints
+before setting duration or preparing media. Any trim, padding, rounding or
+retiming needs current capability evidence and user approval for that specific
+change. Record approved derivatives, source spans, hashes and audio consequences;
+derive muted picture and saved audio from the same span. Measure returned timing
+rather than relying on a frame-count recipe.
 
 Both routes bind `@Video 1` as an `asset://` video when the source shows a
 person (see the
 [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
-Bind the environment image, then style images and identity anchors, as
-`reference_image` after `@Video 1`; 1–5 images for Route A; `watermark: false`.
-Resolve the live tool schema and model ID before writing parameters.
+Bind only selected environment images, style images and identity anchors in
+supported roles after `@Video 1`; omit absent roles and number actual bindings.
+Resolve the live tool schema, reference budget, model ID and supported
+parameters before writing the package.
 
 ### Environment image
 
-Make one for every whole-frame restyle. It carries the background into the new
-medium, so the street, buildings, furniture and plants take the style while the
-scene stays in the same place.
+An environment image is optional guidance for the same place's surfaces, palette
+and texture. Use one supplied or requested by the user, or propose one for a
+specific need found in the current input or reviewed failure.
 
-1. Describe the source's own place in the target medium (the same city,
-   building style, furniture, plants and light) and generate the empty set from
-   text with Seedream: no people, no props the shot does not have.
-2. Check that it reads as the same place as the source and holds no stray
-   objects, then approve it.
-3. Bind it with an Environment Reference Role that names what to use and what to
-   ignore (extra chairs, objects, people).
+1. Name the background surfaces needing medium guidance in the prompt.
+2. When warranted, propose an authorized same-place plate or generated reference
+   through the caller. A missing upload does not authorize image generation.
+3. Inspect and approve the selected image, record its hash, and exclude its
+   people and extra props in the Environment Reference Role.
+4. Keep source geometry, layout, camera parallax and timing authoritative.
+   Reject conflicting references rather than accepting an unintended new place.
 
-The background's geometry follows the image, so the image is also where
-the street layout is chosen. When the user supplies no image, generate this one
-from text yourself; it needs no user input.
-
-**Be honest about words-only requests.** A same-place background restyle
-from prompt words alone is not reliable: words-only wordings that try to keep
-the place (restyle wording, layout-keeping words, a background-only edit, a
-two-pass edit) tend to leave the background photographic, and a words-only
-location change rebuilds the frame but moves the scene somewhere else.
-When no image may be bound at all, say so before writing the prompt and offer a
-subject-only restyle, or a different place described in words if the user wants
-one.
-
-Evidence for the environment-image recipe is limited to one medium at 480p.
-Other media (2D drawn styles, pixel art) and higher resolutions are untested;
-treat them as hypotheses. Start a new case (another style, camera
-move, people count or resolution) with a 480p test of the hardest beat.
+**Honor words-only requests.** Include the background in the requested restyle
+without inventing an image binding or reducing the task to subject-only. If a
+current draft leaves surfaces photographic, report those surfaces and offer a
+scoped wording or supported-route repair. An image remains optional. Do not use
+one medium's prior test as proof of another medium's limitations or as a gate.
 
 ## Procedure
 
@@ -150,7 +142,7 @@ move, people count or resolution) with a 480p test of the hardest beat.
    props, set layout, cuts, fast-motion windows and on-screen text.
 4. **Style.** Pick a catalog entry or write a custom recipe from the user's
    style images; confirm the cadence note for stop-motion styles.
-   For a whole-frame restyle, also make the environment image of the same place
+   Include an environment image only when selected for the current case
    (see Environment image).
 5. **Anchors.** For recurring characters, register or reuse medium-matched
    Virtual Portraits.
@@ -180,14 +172,15 @@ in the
 - [ ] Source inspected and hashed; rights decision recorded
 - [ ] Muted master bound as `@Video 1`; `generate_audio: false`; audio saved
 - [ ] Content inventory covers every subject, key prop, cut and text surface
-- [ ] Whole-frame restyle: environment image of the same place bound; no
-      different location named; output compared with the source for the place
-- [ ] Edit input trimmed to an 8n+1 frame count
+- [ ] Background takes the medium; any environment image is justified and
+      approved, with source place and geometry preserved
+- [ ] Original timeline preserved; adaptations have current evidence, user
+      approval and separate derivative records
 - [ ] One style with a medium lock that names people, props, set and effects
 - [ ] Style image role limited to medium, palette, line, texture and light
 - [ ] No studio, artist or franchise names
 - [ ] Identity anchors are medium-matched Virtual Portraits, when used
 - [ ] Stop-motion cadence note present when the style steps motion
 - [ ] Source text disposition stated; no new copy requested
-- [ ] Route and ladder rung stated; a new case (other style, camera or people count) tested at 480p first
+- [ ] Verified route and ladder rung stated; any probe addresses a current need
 - [ ] Post-audio route recorded

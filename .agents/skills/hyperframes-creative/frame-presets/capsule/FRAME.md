@@ -162,6 +162,8 @@ never on a Bodoni headline. Shadow is always `{colors.shadow}` (8% ink). No tent
 
 ## Typography
 
+**Workspace script overlay:** preserve approved copy and its locale. Where a preset face lacks glyph coverage, obtain a licensed project-local font for the requested script or report a blocker. This permits only coverage-driven font substitutions; keep the preset's type roles and visual design. Verify actual glyphs, shaping, and line fit. Romanization, transliteration, or translation requires explicit user authorization.
+
 Two ramps. The **reading ramp** (Space Grotesk body 0.85cqw, uppercase tracked pill/label text)
 carries copy + chips; the **display ramp** (Bodoni `card-headline` 1.9cqw → `display` 12cqw, all
 700–800) carries every headline, stat, and quote.
@@ -279,6 +281,6 @@ Never invent figures, stats, or counts at frame scale. Render slots as `— figu
 ## Known Gaps
 
 - **Motion intentionally out of scope.** frame.md specifies composition only; the 0.6s fade in the source is a deck mechanic.
-- **Bodoni Moda + Space Grotesk via Google Fonts.** CJK pairing (ZCOOL XiaoWei / Yozai) carries over from the source.
+- **Bodoni Moda + Space Grotesk via Google Fonts.** The source suggests ZCOOL XiaoWei / Yozai for Chinese text; this is not a generic CJK mapping. Choose the appropriate locale/script assets with verified coverage and preserve the display/body roles.
 - **9:16 / 1:1 are guidance**; verify the floor and that floating-pill count scales down.
 - The grain overlay, radial glows, floating pills, and bar fills are CSS-only; no external imagery is required.

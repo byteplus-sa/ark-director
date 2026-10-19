@@ -532,7 +532,7 @@
         "narrative_video"
       ],
       "owner_path": ".agents/skills/seedance-prompt-25/references/shot-staging.md",
-      "summary": "Each spoken line fits its shot at about 2.2 words per second after a 0.5-1.5 s late start, and the last line ends at least 0.4 s before the clip end with at most two state changes in the final 3 s.",
+      "summary": "Each spoken line fits its shot using measured delivery or a native-language-informed read, including pauses and a 0.5-1.5 s late start; the last line ends at least 0.4 s before the clip end with at most two state changes in the final 3 s. About 2.2 words per second is an English planning estimate, not a universal gate; without delivery evidence, timing is provisional. Preserve requested language and locked words; propose retiming or splitting before an authorized wording revision.",
       "exceptions": []
     },
     {
@@ -542,7 +542,7 @@
         "narrative_video"
       ],
       "owner_path": ".agents/skills/seedance-prompt-25-filipino/SKILL.md",
-      "summary": "Approved Filipino lines keep their words and register; new drafts with no register in the brief default to English-dominant Taglish with simple, common Tagalog; an accent request is a delivery note outside the dialogue braces, not code-switching.",
+      "summary": "Apply Filipino-specific register guidance only when that support is explicitly requested or confirmed in the brief, never because a pack is installed. Preserve approved words and requested language, register and code-switching, including pure Tagalog, Taglish or English; ask about material gaps before drafting, with no assumed mix. Dense Tagalog is not itself a defect. An accent request is a delivery note outside the dialogue braces, not permission to change language or add code-switching.",
       "exceptions": []
     }
   ]

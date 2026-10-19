@@ -48,7 +48,7 @@
       "expectations": [
         "The plan includes a Seed Audio voice profile for rage with tone and speed from the bank (e.g. shouted, voice cracking; harsh, escalating).",
         "The plan states the exact line in the Seed Audio text prompt and the identical line inside {} in the Seedance prompt.",
-        "The plan includes a duration check: audio_duration <= video_duration, trimming the audio prompt if exceeded.",
+        "The plan checks measured audio_duration <= video_duration and resolves overrun without changing approved dialogue; any trimming targets editable non-speech material, not the exact line.",
         "The plan passes the WAV as reference_audio and binds it as @Audio 1 in the Seedance prompt.",
         "The plan aligns shot timestamps to the actual audio timing after generation.",
         "The plan records the audio path, SHA-256, duration, and dialogue-to-shot mapping in shot.md and scene.md."
@@ -127,15 +127,27 @@
     },
     {
       "id": 11,
-      "prompt": "Write the acting block for a 5-second medium shot: a nurse facing the camera hides a syringe behind her back with her left hand while she tells the patient {Nothing to worry about, it is just a quick check.}",
+      "prompt": "Write the acting block for a 5-second medium shot: a nurse facing the camera hides a syringe behind her back with her left hand while she tells the patient in English {Nothing to worry about, it is just a quick check.} Keep the line exactly. No delivery recording is available.",
       "expected_output": "An acting block whose hand cue names anatomy and frame side, whose tactic is directed at the patient, and whose line is checked against the shot length with room for the late start of speech.",
       "files": [],
       "expectations": [
         "The hiding hand is named by anatomy and frame side together, such as 'her left hand, frame-right'.",
         "The tactic is a verb directed at the patient, not an emotion adjective.",
-        "The output checks that the ten-word line needs about words / 2.2 + 1 s and flags that 5 s leaves little room, proposing a longer shot or a shorter line.",
+        "Treats the ten-word English line's words / 2.2 plus onset and tail as a provisional planning estimate, not proof that 5 s cannot fit. Requests measured or native-language-informed delivery and proposes retiming or splitting if overfull, without rewriting the locked line.",
         "The line ends at least 0.4 s before the clip ends in the proposed timing.",
         "The cues are readable in a medium shot."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Fictional timing fixture: a native Spanish reviewer timed the complete locked line 'No cierres la puerta, espera un momento y deja que termine de explicarte lo que pas\u00f3 esta tarde.' at 3.4 s including pauses, with clear natural delivery. In a 5-second medium shot, speech starts at 0.5 s. Write a restrained appeal to the listener without changing the line or language. Use these supplied measurements, not an English word-rate estimate.",
+      "expected_output": "A Spanish acting block preserving the exact line and using supplied timing: speech ends at 3.9 s, leaving 1.1 s tail.",
+      "files": [],
+      "expectations": [
+        "Uses the supplied 3.4 s delivery plus 0.5 s onset to establish fit with 1.1 s tail; does not reject the line using words / 2.2.",
+        "Preserves the Spanish line verbatim, including accents; does not translate, shorten or split a line that fits.",
+        "Keeps the appeal restrained and readable in the requested medium shot.",
+        "Attributes timing to the fictional supplied reviewer evidence, not a recording the agent claims to have heard; final take verification remains necessary."
       ]
     }
   ]

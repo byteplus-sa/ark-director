@@ -149,10 +149,10 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 | Skill | Description |
 |---|---|
 | **film-production** | Orchestrates multi-scene, multi-modality production one stage at a time while keeping one HyperFrames Studio project synchronized for review and handoff. |
-| **seedance-effects-studio** | Orchestrator: pick one of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, smash and grab and more), fit your photo or clip to the effect's recipe, write the Seedance 2.5 prompt, run prompt-review and a 480p draft through ark-mcp, inspect it against the recipe's checks, and ask before any final. Twelve recipes are probed; the rest are labelled untested. |
+| **seedance-effects-studio** | Select a named effect recipe for the current source, preserve observed identity and wardrobe, and validate supported generation in the owning project's workflow. |
 | **template-factory** | Build timed reference-video recipes with native/local analysis first and available MCP understanding, ASR or separation tools when needed, then orchestrate requested generation and Studio review. |
 | **micro-drama** | Produce vertical micro-drama episodes end to end for any market: hook, reveal and cliffhanger clips from element references (storyboards are planning-only), draft-first generation, dialogue-accuracy QA with word-scoped fixes, ungraded loudness-matched delivery and a full-episode showreel. |
-| **filipino-micro-drama** | Write Filipino-market micro-drama stories: proven Pinoy formulas, locked episode briefs with English-dominant Taglish dialogue, honorifics, authentic settings and subtitle translations. |
+| **filipino-micro-drama** | Opt-in Filipino-market micro-drama stories and episode briefs with genre formulas and cultural context, preserving approved words and requested language, register, code-switching and subtitle choices. Story material only. |
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
@@ -173,7 +173,7 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 |---|---|
 | **seedance-prompt-25** | Write production-grade Seedance 2.5 video prompts with the six-part formula, per-shot camera, lens and light, multimodal referencing, 4-30 s scene staging, dialogue timing, video editing and extension, keyframes, blockouts and draft-first request packaging. |
 | **seedance-prompt-20** | Legacy Seedance 2.0 prompt skill. Use when you need 4K output (unsupported by 2.5), Fast/Mini speed variants, or lower cost per generation. Provides reference-role classification, subject definitions, spatial continuity, shot sequencing, and native audio direction. |
-| **seedance-prompt-25-filipino** | Write Filipino and Taglish dialogue direction while preserving exact words and register: English-dominant Taglish by default, accent notes kept separate from code-switching, evidence-based pronunciation hypotheses and opt-in separate lip-sync audio. |
+| **seedance-prompt-25-filipino** | Opt-in Filipino dialogue support preserving approved words and requested language, register, code-switching and subtitle choices; separate accent notes, listening-based pronunciation review and opt-in separate lip-sync audio. |
 | **seedance-shot-design** | Plan per-shot coverage for Seedance scenes: shot count and jobs, size, framing, angle, camera move, lens intent and light per shot, with variety rules and an energy level. |
 | **seedance-camera-presets** | Compose prompt-only camera moves and framing, including optical zoom, Dutch angle, dolly, orbit, FPV, whip pan, and single, two-shot, over-the-shoulder, point-of-view and insert framing. |
 | **seedance-frame-break** | Write and QA Seedance 2.5 frame-break pop-out prompts where the subject is drawn over two fixed black bars, with a locked camera, staged break-outs, a product-hero variant, failure repairs and an all-frames pixel check of bar motion and overlap. |
@@ -211,8 +211,8 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 | Skill | Description |
 |---|---|
 | **seedream-prompt** | Write Seedream prompts for synthesized or edited imagery while routing exact typography, pricing, CTA, product grids, logos, and pixel layouts to deterministic graphics. |
-| **seedream-handcrafted-3d** | Writes handcrafted stylized 3D character and material-study prompts with painterly surfaces, tactile fabrics, reference roles, and visual QA. |
-| **seedream-woodblock-poster** | Writes engraved woodblock-style poster and art-series prompts with reference roles, distinct subjects, shared print treatment, and visual QA. |
+| **seedream-handcrafted-3d** | Write handcrafted painterly 3D character and wardrobe prompts from the current brief, with reusable material techniques and no historical project gallery. |
+| **seedream-woodblock-poster** | Write engraved woodblock-style poster and series prompts for requested subjects and cultures, with optional folklore guidance and no historical project gallery. |
 | **seedream-character-sheet** | Writes structured Seedream prompts for three-panel character sheets and identity references. Produces the canonical character turnarounds that Seedance uses as face anchors. |
 | **seedream-character-sheet-cleanup** | Cleans Seedream character sheets by removing the head from the full-body panels so only the close-up panel keeps a readable face. |
 | **seedream-character-outfit** | Writes Seedream image-to-image prompts that change the outfit on an approved character sheet, with always-worn accessories, a change contract, and identity-drift QA. |

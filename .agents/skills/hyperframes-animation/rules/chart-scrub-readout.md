@@ -20,6 +20,8 @@ Boundary with its neighbors: [stat-bars-and-fills.md](stat-bars-and-fills.md) ow
 
 ## Recipe
 
+Set `NUMBER_LOCALE` to the explicit locale approved by the user or brief; ask if missing, never inherit the host locale or invent a default. Format `{firstValue}` with the same formatter used below, retain approved date/unit text, and verify the staged font covers the resulting digits and separators.
+
 ```html
 <!-- inside a standard scene clip. Size the SVG so viewBox units === CSS pixels:
      one coordinate space serves the polyline, tracking line, marker, AND the HTML tooltip. -->
@@ -50,6 +52,12 @@ Boundary with its neighbors: [stat-bars-and-fills.md](stat-bars-and-fills.md) ow
 ```
 
 ```js
+if (typeof NUMBER_LOCALE !== "string" || !NUMBER_LOCALE.trim() ||
+    Intl.NumberFormat.supportedLocalesOf([NUMBER_LOCALE]).length === 0) {
+  throw new Error("An explicit, supported user/brief number locale is required.");
+}
+const numberFormat = new Intl.NumberFormat(NUMBER_LOCALE);
+
 // Data baked at setup — literal values.
 const DATA = [
   { d: "{date1}", v: V1 },
@@ -105,7 +113,7 @@ tl.to(
       const idx = Math.round(f);
       if (idx !== lastIdx) {
         tipDate.textContent = DATA[idx].d;
-        tipValue.textContent = `${DATA[idx].v.toLocaleString()} {unitLabel}`;
+        tipValue.textContent = `${numberFormat.format(DATA[idx].v)} {unitLabel}`;
         lastIdx = idx;
       }
     },

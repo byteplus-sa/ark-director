@@ -8,7 +8,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "audio-split": {
       "kind": "tooling",
@@ -161,7 +161,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "lark-showcase-aigc": {
       "kind": "orchestrator",
@@ -197,7 +197,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seed-audio-commercial": {
       "kind": "leaf",
@@ -224,7 +224,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-animation-styles": {
       "kind": "leaf",
@@ -251,7 +251,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-frame-break": {
       "kind": "leaf",
@@ -260,7 +260,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-graybox-world": {
       "kind": "leaf",
@@ -332,16 +332,16 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-prompt-25-filipino": {
       "kind": "leaf",
-      "description": "Write or revise Filipino, Tagalog, and Taglish dialogue direction for Seedance. Preserve approved exact words, speaker identity, meaning, and register; draft new lines as English-dominant Taglish with simple Tagalog unless the brief sets another register, and treat \"English with a Filipino accent\" as an accent note rather than code-switching. Use native audio by default; separate Seed Audio lip-sync is opt-in. Diagnose a specific pronunciation or delivery issue before proposing targeted annotation or an agreed vocabulary change. Treat pronunciation directions as hypotheses requiring listening review. Use for Filipino video prompts, natural dialogue, pronunciation, intonation, and code-switching; this independent prompt-only leaf returns a dialogue layer and does not submit generation tasks.",
-      "readme_summary": "Write Filipino and Taglish dialogue direction while preserving exact words and register: English-dominant Taglish by default, accent notes kept separate from code-switching, evidence-based pronunciation hypotheses and opt-in separate lip-sync audio.",
+      "description": "Write Seedance dialogue direction when Filipino, Tagalog, Taglish, or Filipino-accent support is explicitly requested. Preserve approved words, speaker identity, meaning, language, register, code-switching and subtitle choices; ask about material gaps. Keep accent notes separate from spoken words and pronunciation hypotheses subject to listening review. Native audio is the default; separate lip-sync audio is opt-in. This prompt-only leaf does not submit generation tasks.",
+      "readme_summary": "Opt-in Filipino dialogue support preserving approved words and requested language, register, code-switching and subtitle choices; separate accent notes, listening-based pronunciation review and opt-in separate lip-sync audio.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-vfx-pipeline": {
       "kind": "orchestrator",
@@ -391,11 +391,11 @@
     "seedream-handcrafted-3d": {
       "kind": "leaf",
       "description": "Write Seedream prompts for handcrafted stylized 3D characters, portraits, superheroes, and wardrobe material studies with expressive proportions, painterly matte surfaces, pencil hatching, and tactile fabrics. Use when this visual treatment is requested or a supplied reference shows it; not for every character sheet, photorealism, animation, or exact graphic layouts.",
-      "readme_summary": "Writes handcrafted stylized 3D character and material-study prompts with painterly surfaces, tactile fabrics, reference roles, and visual QA.",
+      "readme_summary": "Write handcrafted painterly 3D character and wardrobe prompts from the current brief, with reusable material techniques and no historical project gallery.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedream-edit": {
       "kind": "leaf",
@@ -458,7 +458,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "template-factory": {
       "kind": "orchestrator",
@@ -467,7 +467,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "byteplus-katana": {
       "kind": "leaf",
@@ -503,7 +503,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "general-video": {
       "kind": "vendored",
@@ -521,7 +521,7 @@
       "dependencies": [],
       "source_revision": "v0.8.141",
       "upstream_hash": "a277e9e46b3b5b8619639a353a4af3f46f8ae4f2e622ba802d5af730d135f410",
-      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local overlays: workflow skills and references/routes/ are not vendored; when the matched workflow is absent, SKILL.md section 4 asks the owner to vendor it through a reviewed change. SKILL.md drops the Remotion-port state row and the /figma domain row, replaces the route-contract read with a workspace overlay paragraph, changes the BRIEF.md row to execute a workflow only when vendored, replaces the `usage --json` requirement and the `npx hyperframes@latest upgrade` instructions with workspace overlay rules (no `usage`, no upgrade; the release is pinned), states that `publish` and the cloud commands run only on explicit user request, and points the skills-install ban at the production policy privacy environment. references/route-briefs.md and references/workflow-catalog.md point to the owner-vendoring rule instead of on-demand install. Upstream plugin-installation.md and plugin-cli.mjs are vendored because refreshed skills link them. Compare with upstream before re-vendoring. The upstream media-use skill is intentionally not installed; its pointers inside hyperframes* skills are unresolved and routing.md names the replacement route. Section 6 forbids `hyperframes open` and `catch-up` unless the user asks."
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local overlays: workflow skills and references/routes/ are not vendored; when the matched workflow is absent, SKILL.md section 4 asks the owner to vendor it through a reviewed change. SKILL.md drops the Remotion-port state row and the /figma domain row, replaces the route-contract read with a workspace overlay paragraph, changes the BRIEF.md row to execute a workflow only when vendored, replaces the `usage --json` requirement and the `npx hyperframes@latest upgrade` instructions with workspace overlay rules (no `usage`, no upgrade; the release is pinned), states that `publish` and the cloud commands run only on explicit user request, and points the skills-install ban at the production policy privacy environment. references/route-briefs.md and references/workflow-catalog.md point to the owner-vendoring rule instead of on-demand install. Upstream plugin-installation.md and plugin-cli.mjs are vendored because refreshed skills link them. Compare with upstream before re-vendoring. The upstream media-use skill is intentionally not installed; its pointers inside hyperframes* skills are unresolved and routing.md names the replacement route. Section 6 forbids `hyperframes open` and `catch-up` unless the user asks. Local portability overlay: preserve approved non-Latin copy, require licensed script-covering fonts, use explicit number locales and language-aware narration timing; retain upstream design and provenance."
     },
     "hyperframes-animation": {
       "kind": "vendored",
@@ -530,7 +530,7 @@
       "dependencies": [],
       "source_revision": "v0.8.141",
       "upstream_hash": "b35f1f8eff68e9ff480a5d5d343a1bf5a40ebb7d0d9be20b0b980cfdb36047f3",
-      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. No local overlays; bundle matches upstream."
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local portability overlay: preserve approved non-Latin copy, require licensed script-covering fonts, use explicit number locales and language-aware narration timing; retain upstream design and provenance."
     },
     "hyperframes-audio": {
       "kind": "vendored",
@@ -566,7 +566,7 @@
       "dependencies": [],
       "source_revision": "v0.8.141",
       "upstream_hash": "9da7b7ac84c8d884b54125887ecca1a645a38337013082b96af2fdc0259c945a",
-      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. No local overlays; bundle matches upstream."
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local portability overlay: preserve approved non-Latin copy, require licensed script-covering fonts, use explicit number locales and language-aware narration timing; retain upstream design and provenance."
     },
     "hyperframes-keyframes": {
       "kind": "vendored",
@@ -602,7 +602,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-ai-avatar": {
       "kind": "orchestrator",
@@ -611,7 +611,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-avatar-news": {
       "kind": "orchestrator",
@@ -620,7 +620,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "source-subject-map": {
       "kind": "leaf",
@@ -645,7 +645,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null,
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in.",
       "description": "Write Seedance 2.5 Object Swap prompts that replace one named element in existing footage (a character, outfit, product, prop or object, or the location behind the subjects) and preserve everything else as filmed: performance, camera path, cuts, lighting and event order. Covers the five-part swap contract (identification, object count, Timeline Inheritance, residual-original guard, preservation), contact and occlusion windows, Virtual Portrait asset:// references for character swaps, a muted source master with audio added in post, and swap QA. Use for product placement, competitor-to-own SKU swaps, wardrobe changes, single-character replacement or location swaps on a kept take. Not for rebuilding the whole cast or world around the source motion (seedance-motion-recast), whole-frame style changes (seedance-restyle), new T2V/I2V shots, or task submission.",
       "readme_summary": "Write Seedance 2.5 Object Swap prompts that replace one character, outfit, product, prop, object or location in existing footage and keep the rest of the shot, with the five-part swap contract, Virtual Portrait characters, a muted source with post audio and swap QA."
     },
@@ -654,7 +654,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null,
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in.",
       "description": "Write Seedance 2.5 Restyle prompts that redraw an entire existing clip in a new visual style (2D cel anime, watercolor, claymation, needle felt, toy miniature, stylized 3D, pixel art, woodblock, film noir and 20+ more, or a custom style reference image) while keeping its performance, subject positions, motion, camera path, cuts and timing. Covers the style catalog, the style-only reference role, medium-matched Virtual Portrait identity anchors, an environment-image recipe that restyles the background while keeping the same place, edit and reference routes, a muted source master with audio added in post, a 480p test ladder, and restyle QA. Use to turn live action into animation, change the medium of an animated clip, or match a house style. Not for replacing the cast or world (seedance-motion-recast), swapping one element (seedance-object-swap), grading or relighting the original look (seedance-vfx-prompt), or task submission.",
       "readme_summary": "Write Seedance 2.5 Restyle prompts that redraw a whole clip in one of 24 visual styles or a custom style reference while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, an environment-image recipe that keeps the same place and restyles the background too, a muted source with post audio and a 480p probe ladder."
     },
@@ -665,25 +665,25 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "filipino-micro-drama": {
       "kind": "leaf",
-      "description": "Develop Filipino-market micro-drama stories: pick a proven Pinoy formula (kontrabida matriarch, hidden heir, kabit and legal-wife revenge, OFW homecoming, switched at birth, CEO fake relationship, aswang folk horror and more), then write a locked episode brief with a three-beat hook, sampal or reveal, and cliffhanger, a light cast, authentic Filipino settings, props and wardrobe, English-dominant Taglish dialogue with correct honorifics and class markers, and English subtitle translations. Use for Filipino or Taglish micro-drama concepts, loglines, episode briefs, series bibles or dialogue passes, including concept-only or prompt-only work. This leaf writes story material only; it does not generate media. Pair it with micro-drama for production and seedance-prompt-25-filipino for spoken-delivery direction.",
-      "readme_summary": "Write Filipino-market micro-drama stories: proven Pinoy formulas, locked episode briefs with English-dominant Taglish dialogue, honorifics, authentic settings and subtitle translations.",
+      "description": "Develop micro-drama concepts, loglines, episode briefs, series bibles and dialogue when Filipino-market support is explicitly requested. Offer genre formulas, cultural context and story beats while preserving approved words and requested language, register, code-switching and subtitle choices. Ask about material gaps; do not assume a language mix or English subtitles. This leaf writes story material only and does not generate media or submit tasks.",
+      "readme_summary": "Opt-in Filipino-market micro-drama stories and episode briefs with genre formulas and cultural context, preserving approved words and requested language, register, code-switching and subtitle choices. Story material only.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-effects-studio": {
       "kind": "orchestrator",
       "description": "Orchestrator. Offer a menu of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and grab and more), let the user pick one, inspect their photo or clip, write that effect's Seedance 2.5 prompt from its recipe, run prompt-review, submit a 480p draft through ark-mcp, save and QA the take, then ask before any higher resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp, seedance-restyle (video-to-video effects), the Studio project and the post tools named in each recipe. Use when the user wants a named visual effect applied to their own photo, product or clip, or asks what effects are available. Not for free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the menu (seedance-restyle), or multi-scene films (film-production).",
-      "readme_summary": "Orchestrator: pick one of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, smash and grab and more), fit your photo or clip to the effect's recipe, write the Seedance 2.5 prompt, run prompt-review and a 480p draft through ark-mcp, inspect it against the recipe's checks, and ask before any final. Twelve recipes are probed; the rest are labelled untested.",
+      "readme_summary": "Select a named effect recipe for the current source, preserve observed identity and wardrobe, and validate supported generation in the owning project's workflow.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedream-character-outfit": {
       "kind": "leaf",
@@ -706,11 +706,11 @@
     "seedream-woodblock-poster": {
       "kind": "leaf",
       "description": "Write Seedream prompts for vivid engraved woodblock-style illustrated posters and cohesive image series from a supplied visual reference or a text concept. Use for folklore, mythology, creatures, or other subjects rendered with flat ink shapes, fine contour hatching, aged paper, dramatic silhouettes, and miniature landscapes. Not for animation, collage assembly, photorealism, character turnarounds, or exact typography and graphic layouts.",
-      "readme_summary": "Writes engraved woodblock-style poster and art-series prompts with reference roles, distinct subjects, shared print treatment, and visual QA.",
+      "readme_summary": "Write engraved woodblock-style poster and series prompts for requested subjects and cultures, with optional folklore guidance and no historical project gallery.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "omnihuman-prompt-20": {
       "kind": "leaf",
@@ -728,7 +728,7 @@
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
-      "overlay_notes": null
+      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     }
   }
 }

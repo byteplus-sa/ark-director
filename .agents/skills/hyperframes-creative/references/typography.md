@@ -53,6 +53,8 @@ Inter, Roboto, Open Sans, Noto Sans, Arimo, Lato, Source Sans, PT Sans, Nunito, 
 
 **Syne in particular** is the most overused "distinctive" display font. It is an instant AI design tell.
 
+**Workspace overlay:** these are style preferences, not script exclusions. Approved fonts and actual script coverage take precedence; do not reject non-Latin families wholesale or change approved copy to fit a font. Use a licensed, render-available asset with verified glyph coverage and shaping for the requested script and locale, or report the missing asset as a blocker. Translation, transliteration, and romanization require explicit user authorization.
+
 ## Guardrails
 
 You know these rules but you violate them. Stop.
@@ -78,7 +80,7 @@ You know these rules but you violate them. Stop.
 
 Don't default to what you know. If the content is luxury, a grotesque sans might create more tension than the expected Didone serif. Decide the register first, then search.
 
-Save this script to `/tmp/fontquery.py` and run with `curl -s 'https://fonts.google.com/metadata/fonts' > /tmp/gfonts.json && python3 /tmp/fontquery.py /tmp/gfonts.json`:
+Save this script to `/tmp/fontquery.py`. Fetch metadata with `curl -s 'https://fonts.google.com/metadata/fonts' > /tmp/gfonts.json`, then run `python3 /tmp/fontquery.py /tmp/gfonts.json <requested-subset> [<additional-subset> ...]`. Supply Google Fonts subset names matching the brief's scripts; ask if unspecified rather than defaulting to Latin. Subset metadata is a discovery filter, not proof of the downloaded asset's glyph coverage.
 
 ```python
 import json, sys, random
@@ -90,17 +92,19 @@ with open(sys.argv[1]) as f:
     data = json.load(f)
 fonts = data.get("familyMetadataList", [])
 
+requested_subsets = set(sys.argv[2:])
+if not requested_subsets:
+    sys.exit("Supply the script subsets requested by the user or brief.")
+known_subsets = {subset for family in fonts for subset in (family.get("subsets") or [])}
+if not requested_subsets <= known_subsets:
+    sys.exit("Requested subsets are absent from metadata; verify the names or source a licensed asset.")
+
 ban = {"Inter","Roboto","Open Sans","Noto Sans","Lato","Poppins","Source Sans 3",
        "PT Sans","Nunito","Outfit","Sora","Playfair Display","Cormorant Garamond",
        "Bodoni Moda","EB Garamond","Cinzel","Prata","Arimo","Source Sans Pro","Syne"}
-skip_pfx = ("Roboto","Noto ","Google Sans","Bpmf","Playwrite","Anek","BIZ ",
-            "Nanum","Shippori","Sawarabi","Zen ","Kaisei","Kiwi ","Yuji ","Radio ")
 
 def ok(f):
-    if f["family"] in ban: return False
-    if any(f["family"].startswith(b) for b in skip_pfx): return False
-    if "latin" not in (f.get("subsets") or []): return False
-    return True
+    return requested_subsets <= set(f.get("subsets") or [])
 
 seen = set()
 R = OrderedDict()
@@ -145,7 +149,7 @@ for f in fonts:
 
 # Randomize the top 5 in each category so the LLM doesn't always pick the same first result
 for cat in R:
-    R[cat].sort(key=lambda x: x.get("popularity",9999))
+    R[cat].sort(key=lambda x: (x["family"] in ban, x.get("popularity",9999)))
     top5 = R[cat][:5]
     rest = R[cat][5:]
     random.shuffle(top5)
@@ -162,7 +166,7 @@ for cat in R:
     print()
 ```
 
-Five categories: trending sans, trending serif, monospace, impact/condensed, script/handwriting. All dynamically filtered from Google Fonts metadata — no hardcoded font names. Cross classification boundaries when pairing.
+Five categories: trending sans, trending serif, monospace, impact/condensed, script/handwriting. Candidates are filtered by the requested subsets; the style list only deprioritizes familiar faces. If recency/popularity filters leave no suitable result, broaden discovery among script-covering families rather than switching scripts. For mixed scripts, complementary licensed faces may be needed. Verify the actual staged files against all approved text, including punctuation, numerals, combining marks, and shaping, before rendering. Noto Sans SC and Noto Serif SC are Simplified Chinese examples, not generic CJK mappings; choose the appropriate locale/script family for Traditional Chinese, Japanese, Korean, or other text. Preserve the intended type roles and cross classification boundaries when pairing.
 
 ## Selection Thinking
 

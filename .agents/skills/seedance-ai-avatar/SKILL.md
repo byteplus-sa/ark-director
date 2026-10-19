@@ -99,10 +99,13 @@ Confirm gate 2 is recorded. Write the prompt from
 
 Settings: `generate_audio: true`, `watermark: false`, `resolution: "480p"`
 draft first, then promote the selected draft by `draft_task_id` to the delivery
-resolution. Duration: script words ÷ 2.2, plus about 1 s for the late speech
-onset and at least 0.4 s of tail, rounded up (≤30). Lines land 0.5–1.5 s late
-and speech runs to the clip end, so a script that does not fit is shortened (if
-editable) or split into two takes. The caller owns prompt-review, saving the
+resolution. Duration: measured delivery or a native-language-informed read,
+including pauses, onset and tail, within the supported clip length. About
+2.2 words/s is an English planning estimate, not a universal gate; allow roughly
+1 s for onset and at least 0.4 s of tail initially, then check actual delivery.
+Preserve the requested language and exact script; propose retiming or splitting
+before an authorized rewrite. Without delivery evidence, timing is provisional.
+The caller owns prompt-review, saving the
 request JSON, a single submission and polling the provider task.
 
 ### 5. Take QA
@@ -130,6 +133,6 @@ At most one retake, and only for a clear defect. Tell the user why before retaki
 | Mic or accessory missing | Name it in both scene and subject text and QA it. It cannot come from the sheet. |
 | Words from the voice clip spoken | Strengthen the timbre-only binding and keep the clip ≤15s |
 | Voice resemblance weak | Retake with the 15s alternate clip |
-| Last words clipped or rushed | Script too long for the take: about 2.2 words/s plus onset and tail; shorten or split |
+| Last words clipped or rushed | Measure delivery, onset and tail; preserve the exact script and propose retiming or splitting before authorized rewrites |
 | Gesture on the wrong hand | Name each hand by anatomy plus frame side ("his right hand, frame-left") |
 | Background job lost after MCP restart | Check `.artifacts/` for newer files, then poll the provider task ID |

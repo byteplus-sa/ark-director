@@ -338,11 +338,13 @@ language stated):
 Dialogue language: <language>. <character> <says/shouts/whispers> in <delivery style>: {<exact line>}
 ```
 
-Give each line room: native speech starts about 0.5-1.5 s after its cue and
-runs at about 2.2 words per second, so a line needs a shot of at least
-words / 2.2 + 1 s and should end at least 0.4 s before the clip does. The
-Seedance 2.5 prompt skill owns the full dialogue timing rules; keep the
-performance beats around a line inside that window.
+Give each line room using measured delivery or a native-language-informed
+read, including pauses. About 2.2 words/s is an English planning estimate, not
+a universal gate. Allow for onset (initially 0.5-1.5 s) and a final tail
+(initially at least 0.4 s), then verify the actual take. Without delivery
+evidence, timing is provisional. Preserve the requested language and locked
+words; propose retiming or splitting before authorized text revisions. Keep
+performance beats inside the resulting speaking window.
 
 ### Worked example
 
@@ -467,5 +469,5 @@ Before finalizing an acting block or plan, verify:
       timestamps aligned to actual audio.
 - [ ] `shot.md` records the dialogue-to-shot mapping beside the audio record.
 - [ ] Every named hand, arm or foot gives both anatomy and frame side.
-- [ ] Each spoken line fits its shot: words / 2.2 + 1 s, ending at least 0.4 s
-      before the clip ends.
+- [ ] Each spoken line fits its shot using measured or native-language-informed
+      delivery with onset, pauses and tail, not a universal English word-rate gate.

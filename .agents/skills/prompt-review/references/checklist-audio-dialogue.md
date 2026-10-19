@@ -19,10 +19,11 @@ Filipino, or Taglish dialogue.
    timing problems. Change vocabulary only when authorized and appropriate to
    the speaker, relationship, region and period; literary language is valid.
 3. **Register grounded (`dialogue.filipino_register`).** Approved lines keep
-   their register, code-switching and politeness. Newly drafted lines with no
-   register in the brief default to English-dominant Taglish with simple,
-   common Tagalog (po, opo, sige, tara, ingat, salamat); dense or deep Tagalog
-   in a new draft is MINOR unless the brief or character calls for it. Do not
+   their register, code-switching and politeness. New lines preserve the requested
+   language, including pure Tagalog or explicitly English-dominant Taglish.
+   Ask when a missing register or code-switch preference materially affects the
+   draft; an installed Filipino pack does not choose it. Dense Tagalog alone
+   is not a finding. Do not
    impose contractions, honorifics or a fixed sentence length on every speaker.
 3a. **Accent is not code-switching (`dialogue.filipino_register`).** "English
    with a Filipino accent" keeps every spoken word English inside the braces

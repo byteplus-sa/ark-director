@@ -101,8 +101,11 @@ Two supported paths:
 - **Hands.** The model reads left/right as the subject's own side; name each
   hand by anatomy plus frame side ("his right hand, frame-left").
 - **Spoken lines.** Presets are mostly non-verbal; when a line is added, budget
-  about 2.2 words per second, expect it 0.5–1.5 s late, and end it at least
-  0.4 s before the clip end.
+  measured delivery or a native-language-informed read with pauses, onset and
+  tail. Words / 2.2 is an English planning estimate, not a universal rejection
+  rule. Initially allow 0.5-1.5 s onset and at least 0.4 s tail, then verify
+  actual delivery; without evidence, fit is provisional. Preserve approved
+  text; propose retiming or splitting before an authorized rewrite.
 - **Spatial continuity (action).** Name the start point, travel axis,
   boundary, and end state; never demand impossible movement frequencies.
 - **Keyframe chains (multi-shot).** First and last images must share an aspect
