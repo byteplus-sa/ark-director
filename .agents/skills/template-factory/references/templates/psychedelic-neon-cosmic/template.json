@@ -10,15 +10,14 @@
   "analyze": {
     "system": "You are a film-analysis expert. Extract a reproducible breakdown as JSON.",
     "schema_ref": "VideoBreakdown v1.1",
-    "temperature": 0.2,
-    "reasoning_effort": "high",
-    "max_tokens": 32768,
+    "execution": "native_host_agent",
+    "evidence": "local timestamped frames and measured cuts",
     "deidentify": true
   },
   "motion_review": {
     "purpose": "generated_take_comparison_only",
-    "reasoning_effort": "high",
-    "temperature": 0.2
+    "execution": "native_host_agent",
+    "evidence": "local source and take comparison"
   },
   "storyboard": {
     "skill": "seedream-storyboard",

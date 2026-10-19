@@ -1,20 +1,24 @@
 # Motion Comparison Prompt — generated-take diagnosis
 
-Use this optional `seed_understand` pass only after a generated take exists and
+Use this optional native host-agent comparison only after a generated take exists and
 playback has identified a motion mismatch that needs diagnosis. The source pin's
 per-beat motion grammar already comes from the initial combined breakdown
 (`VideoBreakdown` v1.1). Feed the approved shot list and its analysis SHA-256
-with the prompt, the pin as `@Video 1`, and the generated take as `@Video 2`.
+with the checklist, the local pin as `source`, and the local take as `take`.
+Inspect both with native video/image tools and timestamped frame sequences.
+Record both media hashes, inspected ranges, frame paths, actual cut times and
+uncertainty in `motion-review.md`. No cloud LLM or upload is required.
 Set `mode: comparison`.
 
 ```text
 You are a senior motion designer and video analyst. Compare the source pin
-(`@Video 1`) with the generated take (`@Video 2`) frame by frame. Treat the
+(`source`) with the generated take (`take`) over corresponding inspected
+timestamp ranges. Treat the
 source breakdown as the approved timing contract.
 
 Use the supplied shot boundaries without renumbering them. In each result,
-describe source motion from `@Video 1`; report missing or incorrect take motion
-from `@Video 2` relative to that source. For EACH shot report:
+describe source motion from `source`; report missing or incorrect take motion
+from `take` relative to that source. For EACH shot report:
 1. time range
 2. what is in the shot (subjects, background elements, effects)
 3. every moving element with its motion type (translate/rotate/scale/parallax/
@@ -61,16 +65,18 @@ level, and the relevant aesthetic.
 
 ## Reliability notes
 
-- Pass a compact beat list (`index: start-end label`) instead of the full
-  breakdown; the model only needs boundaries and a short label per beat.
+- Work from a compact beat list (`index: start-end label`) and the approved
+  source motion fields. Measure take cuts separately; do not assume equal
+  timestamps mean corresponding action when timing has drifted.
 - Add "Output STRICT valid JSON only: no fences, no trailing commas, escape
   double quotes inside strings, keep each string under 300 characters." Long
   free-text fields are the usual source of unparseable output.
-- Start with `reasoning_effort=medium`. On a provider timeout or
-  unparseable result, retry once with `reasoning_effort=low, temperature=0.1`. If the
-  retry also fails, record the comparison as skipped with the reason and use
-  standard playback QA against the source motion fields — do not block further
-  work on the optional comparison.
+- Inspect denser consecutive frames where sampling hides motion. Do not claim
+  frame-by-frame review after viewing only sparse thumbnails. Repair malformed
+  JSON locally and revisit evidence for semantic failures. If perception is
+  unavailable, record the optional diagnosis as unavailable, not passed.
+  Required playback QA still needs a capable reviewer; do not approve a take
+  because the optional diagnosis was skipped.
 - Comparison output may quote descriptions of source people or products.
   Re-author prompt wording with the project's own talent and products, and run
   the de-identification leak scan on the saved JSON.

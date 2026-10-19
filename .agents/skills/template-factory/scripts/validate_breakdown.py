@@ -403,7 +403,12 @@ def validate_audio_analysis(
         evidence_ref = review.get("evidence_ref")
         if (
             not isinstance(method, str)
-            or method not in {"ark_mcp_seed_audio_understand", "human_review"}
+            or method not in {
+                "native_agent_audio",
+                "local_audio_model",
+                "ark_mcp_seed_audio_understand",
+                "human_review",
+            }
             or not isinstance(evidence_ref, str)
             or not evidence_ref.strip()
         ):
@@ -414,8 +419,53 @@ def validate_audio_analysis(
                     "Completed auditory review needs a method and evidence reference",
                 )
             )
+        if isinstance(method, str) and method in {
+            "native_agent_audio", "local_audio_model"
+        }:
+            capability = review.get("capability_evidence")
+            coverage = review.get("coverage")
+            coverage_end = 0.0
+            valid_coverage = isinstance(coverage, list) and bool(coverage)
+            if isinstance(coverage, list):
+                for span in coverage:
+                    if not isinstance(span, dict):
+                        valid_coverage = False
+                        continue
+                    start = finite_number(span.get("start_s"))
+                    end = finite_number(span.get("end_s"))
+                    if (
+                        start is None
+                        or end is None
+                        or start < 0
+                        or end <= start
+                        or abs(start - coverage_end) > tolerance_s
+                    ):
+                        valid_coverage = False
+                    if end is not None:
+                        coverage_end = end
+            if (
+                audio_duration is None
+                or abs(coverage_end - audio_duration) > tolerance_s
+            ):
+                valid_coverage = False
+            if (
+                not isinstance(capability, str)
+                or not capability.strip()
+                or not valid_coverage
+            ):
+                findings.append(
+                    Finding(
+                        "audio.auditory_evidence",
+                        "auditory_review",
+                        "Native/local listening needs audio capability evidence "
+                        "and contiguous full-soundtrack coverage",
+                    )
+                )
     elif any(
-        review.get(field) is not None for field in ("method", "evidence_ref")
+        review.get(field) is not None
+        for field in (
+            "method", "evidence_ref", "capability_evidence", "audio_sha256", "coverage"
+        )
     ):
         findings.append(
             Finding(

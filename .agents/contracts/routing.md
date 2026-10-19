@@ -17,7 +17,8 @@
 | Interactive editing, assembly and final render of a production | HyperFrames Studio; `studio_project.py render` is the only authority for final files and writes the hash-bound render record; post work made elsewhere is placed in Studio and rendered. Skills stay local; no `hyperframes skills` installs; `publish`, `cloud`, `lambda`, `cloudrun` and other account commands only on explicit request |
 | Ad-hoc media comparison, also an optional look at a Studio project's elements, audio or candidate takes (never a gate) | `showcase-html --quick`; `media-review` only for an explicitly requested OS player or unavailable browser |
 | Mermaid system/process diagram | `design-doc-mermaid` when available; cinematic blocking requests use `tig-blocking-map` |
-| Brand-ad / reference-video inspiration | Obtain watchable media first: pass a public HTTPS URL that `seed_understand` accepts, or download then `media_upload` when the link is unusable; do not substitute scripts or article text. Full reverse-engineering → `template-factory`; lighter visual/motion analysis → `ark-mcp` (`seed_understand`) |
+| Brand-ad / reference-video inspiration | Obtain decodable local media first. Full reverse-engineering → `template-factory` with native host-agent inspection and local FFmpeg measurements; lighter analysis → native video/image inspection with timestamped evidence. No analysis upload or cloud understanding LLM by default; scripts and article text are not visual evidence |
+| Reference soundtrack analysis | Verified native audio input, available on-device audio model, or documented human listening; local ASR/separation may assist. No automatic cloud fallback; missing perception leaves sound grammar unresolved |
 
 Deterministic HTML/CSS/SVG is a production route, not a provider fallback. In
 this workspace, that shorthand means one HTML entrypoint with project-local CSS

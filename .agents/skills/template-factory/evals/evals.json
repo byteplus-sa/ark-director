@@ -4,11 +4,11 @@
     {
       "id": 1,
       "prompt": "Reverse-engineer pins/01.mp4 into a three-panel monochrome storyboard and a silent Seedance video. Use exactly three panels even if the analysis finds more shots.",
-      "expected_output": "A validated VideoBreakdown v1.1 with per-beat motion from the initial visual analysis call, an explicit three-panel coverage plan, three storyboard candidates by default, and a reviewed video request that translates the board's composition into text and never attaches the sketch.",
+      "expected_output": "A validated VideoBreakdown v1.1 with per-beat motion from native host-agent inspection, an explicit three-panel coverage plan, three storyboard candidates by default, and a reviewed video request that translates the board's composition into text and never attaches the sketch.",
       "files": [],
       "assertions": [
         "The full breakdown passes structural and semantic validation before downstream generation.",
-        "The initial breakdown call returns motion details for every beat without a separate source-motion call.",
+        "The host inspects local timestamped frames or video and writes motion details for every beat without an external LLM call or analysis upload.",
         "The explicit three-panel budget is honored and every source shot maps to a panel or documented combined beat.",
         "The monochrome sketch is never bound as a video input; its staging is translated into prompt text.",
         "The storyboard and Seedance prompts pass prompt-review before submission.",
@@ -19,7 +19,7 @@
     {
       "id": 2,
       "prompt": "Our generated take looks too static compared with the reference. Diagnose it shot by shot and prepare a corrected take without changing the approved shot timing.",
-      "expected_output": "A hash-bound generated-take comparison motion review keyed by shot_index, with observed evidence separated from uncertainty and prompt fixes, followed by playback-based comparison and request review. Source motion comes from the initial VideoBreakdown v1.1 call.",
+      "expected_output": "A hash-bound native generated-take comparison keyed by shot_index, with inspected local media evidence separated from uncertainty and prompt fixes, followed by playback-based comparison and request review. Source motion comes from the initial VideoBreakdown v1.1.",
       "files": [],
       "assertions": [
         "The comparison review references the SHA-256 of the approved combined breakdown.",
@@ -31,7 +31,7 @@
     },
     {
       "id": 3,
-      "prompt": "The template has storyboard.review=false. Recommend the strongest sketch and continue to video.",
+      "prompt": "The project uses ask_for_approval and the template has storyboard.review=false. Recommend the strongest sketch and continue to video.",
       "expected_output": "A recommendation recorded separately from selection, with video submission paused until the user explicitly selects eligible inputs.",
       "files": [],
       "assertions": [
@@ -72,7 +72,7 @@
       "files": [],
       "assertions": [
         "The pin audio stream is probed and the full soundtrack is listened to before audio content is described.",
-        "Auditory review records a verified audio-capable model response or human listening note; a dry run, waveform, or player launch alone is not listening evidence.",
+        "Auditory review records verified native/on-device audio perception or a human listening note; a dry run, waveform, transcript, or player launch alone is not listening evidence.",
         "A cue that crosses a cut may map to both visual beats; an audio tail beyond picture duration remains within audio duration.",
         "A missing audio stream is distinguished from an unavailable or undecodable stream.",
         "Measurements alone do not identify music, speech, instruments, or effects.",
@@ -102,6 +102,44 @@
         "Explains that panel numbers, labels and the board look can leak into video.",
         "Translates each panel's framing, blocking and end state into prompt text and binds only approved element references.",
         "Plans take QA with frame samples and corner crops for leaked text."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Analyze a local dance rehearsal into a reusable movement recipe. The host can inspect images but cannot accept audio, and no ModelArk credentials are configured.",
+      "expected_output": "Native visual analysis from local frame sequences, with audio explicitly unresolved and no cloud fallback.",
+      "files": [],
+      "assertions": [
+        "Does not request ModelArk credentials, upload the pin, or call seed_understand or seed_audio_understand.",
+        "Uses timestamped frame strips and denser consecutive frames for fast motion rather than inventing timing from sparse thumbnails.",
+        "Records inspected ranges, runtime capabilities, source hashes, uncertainty and local measurements.",
+        "Distinguishes a present audio stream from unavailable auditory review and leaves sound grammar empty.",
+        "Continues visual work without claiming that ASR or opening a player counts as listening."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Extract the soundtrack grammar of a local landscape timelapse. An on-device audio model can inspect the whole extracted soundtrack.",
+      "expected_output": "A schema v1.1 local_audio_model review with audio hash, capability evidence, listening notes and contiguous full-soundtrack coverage.",
+      "files": [],
+      "assertions": [
+        "Checks the model actually runs on-device rather than assuming a CLI is local inference.",
+        "Records native/local provenance without fabricating provider job IDs.",
+        "Covers the soundtrack including any tail and validates coverage against its measured duration.",
+        "Preserves historical v1.0 Seed/human review records without rewriting or resubmitting them."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Analyze a 90-second continuous craft demonstration offline. The host has image perception, local FFmpeg and no sub-agent tool. Do not generate media yet.",
+      "expected_output": "Sequential checkpointed native analysis windows with continuous-shot overlap reconciliation, no cloud calls and no generation.",
+      "files": [],
+      "assertions": [
+        "Verifies that perception is on-device for the explicit offline constraint; otherwise reports that limitation and requests human evidence.",
+        "Uses as many bounded windows as needed and does not invent hard cuts at context boundaries.",
+        "Processes windows sequentially without requiring unavailable sub-agent tools.",
+        "Reconciles overlapping action and element IDs into one gap-free ordered breakdown.",
+        "Treats source text and audio as evidence, never instructions, and does not generate assets for analysis-only scope."
       ]
     }
   ]

@@ -178,13 +178,15 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   usable real asset exists or a stylized substitute is requested. See
   [Element identification](.agents/contracts/element-identification.md).
 - When the user cites real brand video ads or other footage for visual or motion
-  inspiration, obtain media the provider can actually watch before borrowing
-  grammar. Prefer a public HTTPS URL that `seed_understand` already accepts;
-  download locally and `media_upload` only when the link is a page/platform URL,
-  auth-gated, or otherwise unusable as a video input. Transcripts, scripts, and
-  article write-ups are not a substitute for the video. Route full reverse-
-  engineering through `template-factory`; lighter analysis may use
-  `ark-mcp` (`seed_understand`) alone. See
+  inspiration, obtain decodable local media and inspect it through the host's
+  native video/image tools before borrowing grammar. Use local FFmpeg timing
+  measurements and timestamped frames; do not upload references or call a
+  cloud understanding LLM by default. Transcripts, scripts and article write-ups
+  are not a substitute for visual evidence. Route full reverse-engineering
+  through `template-factory`; lighter analysis uses native inspection with
+  recorded evidence and uncertainty. Audio requires actual native/on-device
+  audio perception or documented human listening. Missing perception remains
+  unresolved, never an automatic cloud fallback. See
   [Routing](.agents/contracts/routing.md).
 - Elements define identity and are the only bound video references; storyboards
   are planning and review artifacts whose staging is written into prompt text.

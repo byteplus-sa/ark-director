@@ -6,8 +6,8 @@ description: >
   reasons; offer two distinct treatments during exploration or a compact
   proposal when direction is settled. Confirm only decisions that need a lock.
   When the brief cites real brand video ads or other footage for visual or motion
-  inspiration, record that reference and hand off media acquisition plus
-  seed_understand or template-factory — do not treat scripts or article text as
+  inspiration, record that reference and hand off local media acquisition plus
+  native host-agent inspection or template-factory — do not treat scripts or article text as
   the reference. Use for a new project or a scoped brief revision. Never
   generates media.
 ---
@@ -48,10 +48,11 @@ When a tone or genre reference is a **concrete brand video ad or other footage**
 (URL, campaign name, or user-supplied file) meant for visual or motion
 inspiration, record it under constraints or creative intent and **hand off** —
 this skill does not download or analyze media. Downstream work must obtain
-watchable media (prefer a public HTTPS URL that `seed_understand` accepts;
-download and upload only when that link is unusable) via `template-factory` for
-full reverse-engineering or `ark-mcp` (`seed_understand`) for a lighter
-pass. Transcripts, scripts, and article write-ups may note claims or dialogue
+decodable local media via `template-factory` for full reverse-engineering or
+native host-agent video/image inspection for a lighter pass, with local timing
+measurements and timestamped evidence. Do not require an analysis upload or
+cloud LLM call. Missing perception stays unresolved; audio needs verified
+audio input or human listening. Transcripts, scripts and article write-ups may note claims or dialogue
 but must not replace watching the video.
 
 An absent genre is not a blocker. If intent is clear, derive a proposal from it.
