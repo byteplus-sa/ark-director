@@ -107,8 +107,7 @@ native task support.
        "arguments": {
          "input": {
            "prompt": "...",
-           "draft": true,
-           "resolution": "480p",
+           "resolution": "1080p",
            "ratio": "16:9",
            "duration": 10,
            "generate_audio": true,
@@ -246,6 +245,14 @@ every operation:
   properties from `ffprobe` or inspection;
 - estimated cost separately from confirmed usage or billing.
 
+For workspace production, read `review_mode` independently of `approval_mode`
+in `project.md`. Default mode uses minimal inline preflight and actual output
+sanity, not a full checklist or mandatory prompt-review report. Strict or
+explicit rule requirements need genuine matching review evidence. Both modes
+register before submission and retain capability, hash, reference approval,
+rights, budget and reconciliation checks. A supplied failing/stale report is
+never ignored; an absent report never becomes a fabricated passing record.
+
 While a take is under review, record it under `outputs` or
 `generated_output`; reserve `selected_variant` and `approved` for a
 mode-authorized, hash-bound decision after review passes.
@@ -261,8 +268,11 @@ actual properties. Media QA steps live in
    live schema carries the fields you plan to send. Do not send fields the
    live tool lacks; for example, the Seedance create tools may expose no
    `camera_fixed` or `seed`.
-2. **Draft Seedance 2.5 first.** Submit `draft: true` (480p), review, then
-   promote with `draft_task_id` only. Details and constraints in
+2. **Use the mode-appropriate target.** Default mode generates directly at the
+   requested final target, with one image unless a count is requested. Strict
+   mode retains three-image sets and draft-first video. For strict or
+   requested/justified drafts, submit `draft: true` (480p) when supported,
+   inspect and select, then promote with `draft_task_id`. Details and constraints in
    [Seedance creation](references/seedance.md).
 3. **Poll at the advertised interval** (`recommended_poll_after_ms`,
    `poll_after_ms`) and relay `queue.hint`; ModelArk publishes no queue

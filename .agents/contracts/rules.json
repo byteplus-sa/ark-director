@@ -165,7 +165,17 @@
         "preflight"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "All applicable checks have complete request-bound evidence.",
+      "summary": "Strict or explicitly required reviews have complete request-bound evidence; any supplied report must be valid even in default mode.",
+      "exceptions": []
+    },
+    {
+      "id": "review.current_mode",
+      "severity": "error",
+      "applies_to": [
+        "preflight"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "Project review_mode is default or strict, independent of approval_mode; absent defaults for new actions and invalid values fail closed.",
       "exceptions": []
     },
     {
@@ -438,7 +448,8 @@
       "summary": "A Seedance 2.5 draft is a draft-mode 480p request, and its final is promoted by draft_task_id carrying only output settings; prompt, references, duration, ratio and audio change only before the draft, and the final's audio is checked again.",
       "exceptions": [
         "An operation without native Draft support records capability evidence and runs the final as a new reviewed request.",
-        "An explicit user instruction to skip the draft."
+        "An explicit user instruction to skip the draft.",
+        "Default review_mode generates directly at the final target unless a draft is requested or concretely justified."
       ]
     },
     {

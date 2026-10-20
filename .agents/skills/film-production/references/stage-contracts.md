@@ -17,20 +17,27 @@ each take, without deleting prior frames, variants or decisions. Exact
 generation prompts stay in their immutable snapshot files, referenced from the
 manifests.
 
-Read `approval_mode` from `project.md` at start/resume and before each stage
-decision; the production policy defines both modes. Record the effective mode,
+Read independent `approval_mode` and `review_mode` from `project.md` at
+start/resume and before new actions; the production policy defines their values.
+Default review mode uses inline preflight and short actual candidate/final
+sanity records, not mandatory full checklist reports. Strict retains detailed
+reviews. Explicit required rules and any supplied report remain binding.
+Record the effective approval mode,
 decision actor, reason, review outcome, current selection or stage lock, and
 unresolved gaps in the relevant manifest. `status` checks takes and Studio
 assets only; it does not read review, decision or scene files, so re-run
-prompt-review or reopen the stage when those files change.
+mode-appropriate preflight or reopen the stage when those files change.
 
 Every stage exit additionally requires:
 
 1. `studio_project.py stage <project> complete <stage-id>` passes. Its
    per-stage requirements (valid `project.md`, clean `status`, placed takes and
-   a passing `check`, no pending selection, `picture`/`audio`/`final_master`
+   a passing `check` at delivery in default mode or all three frame stages in
+   strict mode, no pending selection, `picture`/`audio`/`final_master`
    locks, a current delivery-level `render`) are the stage-exit table in the
-   production policy. Only `storyboard-visual-plan` and `audio-preparation` may
+   production policy. An unrun check records `check_ran: false` and
+   `check_ok: false`; lightweight gates remain in both modes. Only
+   `storyboard-visual-plan` and `audio-preparation` may
    be skipped with `--reason`;
 2. the stage's inputs, outputs, prompts, bindings, review evidence and
    mode-authorized decisions or pending recommendations are in the manifests;
@@ -52,7 +59,7 @@ not replace this checkpoint.
 
 Entry: user intent or an existing `project.md`.
 
-Required output: `approval_mode`, audience, format, runtime, aspect ratio,
+Required output: `approval_mode`, `review_mode`, audience, format, runtime, aspect ratio,
 delivery resolution, story objective, tone, creative constraints, known rights
 constraints, run budget, and unresolved questions recorded in `project.md`.
 Confirmed directorial defaults (structure, energy level, camera and light
@@ -212,28 +219,33 @@ assembly, to the cut's measured length.
 
 Entry: shot objective, the scene's revalidated shot plan (or recorded exemption), selected
 video mode, approved inputs, reference roles, prompt snapshot target, duration,
-and any requested audio (if Stage 5 was completed) exist. Before submission the `prompt-review` gate has passed for
-every prompt being submitted. Review inline by default; use a sub-agent only
+and any requested audio (if Stage 5 was completed) exist. Before submission,
+minimal inline preflight passes in default mode; strict mode requires the
+`prompt-review` gate for every prompt. Review inline; use a sub-agent only
 when the user explicitly requests sub-agent prompt review for the project or
 specific generation. The ordered `references:` array is verified 1:1
 against `shot.md` (same files, same order, same `@Image N` / `@Video N` /
 `@Audio N` bindings); the request's `generate_audio` matches the brief's audio
-route; no storyboard image is bound; and the Seedance 2.5 draft pass uses
+route; no storyboard image is bound. Default generates at the final target
+directly unless a draft is requested or concretely justified. A strict or
+otherwise chosen Seedance 2.5 draft pass uses
 `resolution: "480p"` as a native Draft when the live schema supports it.
 Initialize Studio at the delivery target, not the draft resolution. Record any
 explicit user override or verified operation constraint under the production
 policy.
 
-Required output: task registry entry, local media, exact prompt snapshot,
+Required output in either mode: task registry entry, local media, exact prompt snapshot,
 provider metadata, actual media properties, cost fields, SHA-256, semantic QA
-including a comparison of the take against its shot plan, frame samples with
+including actual output sanity against the brief and shot plan, and `review`
+status. Strict detailed QA additionally records frame samples with
 top-left corner crops for leaked text, a speech-to-text diff for every locked
-line, and `review` status. Resolution is raised only after the current pass is
+line. When using drafts, resolution is raised only after the current pass is
 approved (final-candidate gate); a native Draft is promoted by its
 `draft_task_id` without changing its inputs. For multi-shot productions, review the draft
 assembly and record picture/audio decisions before generating final takes.
-Each final request is separately registered and reviewed against its complete
-request hash; each final output needs fresh playback, audio and creative QA and
+Each final request is separately registered and preflighted against its complete
+request hash, with a report when strict or explicitly required; each final output
+needs fresh playback, audio and creative QA and
 a mode-authorized selection before it replaces the draft in Studio. A plain
 480p output requested without `draft: true` cannot be promoted.
 The `shot-generation` stage records every take, exact prompt, ordered element

@@ -8,7 +8,10 @@ states CRITICAL or MINOR when it differs.
 
 ## Request and parameters
 
-1. **Draft first and promotion (`seedance.draft_promotion`).** An initial or
+1. **Draft first and promotion (`seedance.draft_promotion`).** Draft-first is a
+   strict-mode default, not a requirement when explicitly reviewing a
+   default-mode final-target request. Requested or concretely justified drafts
+   retain all promotion safeguards. An initial or
    revised draft is `draft: true` at 480p (or an explicit `resolution: "480p"`
    where native Draft is unavailable), unless a recorded user override or
    verified operation constraint applies. A final is promoted with
