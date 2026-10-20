@@ -71,11 +71,12 @@ mode selection and caller responsibilities.
 - Multi-round extensions up to 180s (beta).
 
 ### Cost ladder
-- Draft first, then promote the selected draft (see [Draft mode](#draft-mode)).
-  Explicit user instructions override the default; record verified operation
-  constraints when a draft is unsupported.
+- In default review mode generate directly at the requested final target.
+  Strict mode defaults to draft first, then promote the selected draft (see
+  [Draft mode](#draft-mode)). A requested draft or concrete cost/uncertainty
+  justification can also use that route. Record verified operation constraints.
 - Keep resolution in request parameters, separate from prompt text and Studio
-  canvas dimensions. Final requests and outputs need fresh request review and QA
+  canvas dimensions. Final requests and outputs need fresh mode-appropriate preflight and QA
   under the workspace production policy.
 - Video generation is billed per successful task completion; a 1080p final costs
   substantially more than the 480p draft; estimate it from the pricing page.
@@ -122,6 +123,9 @@ the chosen mode, ordered reference roles, paths, hashes, selected variants, and
 approval states in the shot manifest before submission.
 
 ## Draft mode
+
+Use this section only for strict or requested/justified draft workflows, not as
+an automatic extra generation in default review mode.
 
 The Seedance 2.5 tool documents a two-step draft (`draft`, `draft_task_id`;
 checked 2026-10-17). Confirm the current tool schema before relying on it.

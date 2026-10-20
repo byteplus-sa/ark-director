@@ -70,9 +70,10 @@ class StudioProjectTests(unittest.TestCase):
         self.project.mkdir()
         self.write_project("approve_for_me")
 
-    def write_project(self, mode):
+    def write_project(self, mode, review_mode=None):
+        review = f"review_mode: {review_mode}\n" if review_mode is not None else ""
         (self.project / "project.md").write_text(
-            f"---\napproval_mode: {mode}\n---\n\n# Demo\n"
+            f"---\napproval_mode: {mode}\n{review}---\n\n# Demo\n"
         )
 
     def add_shot(
@@ -866,6 +867,7 @@ class StudioProjectTests(unittest.TestCase):
         studio.complete_stage(self.project, "scene-breakdown")
 
     def test_shot_generation_needs_a_placed_take_per_shot_and_a_clean_check(self):
+        self.write_project("approve_for_me", "strict")
         self.add_shot()
         studio.sync(self.project)
         self.complete_through("audio-preparation")
@@ -891,6 +893,92 @@ class StudioProjectTests(unittest.TestCase):
             entry["evidence"]["check_ran"] and entry["evidence"]["check_ok"]
         )
         self.assertRegex(entry["evidence"]["provenance_sha256"], "^[0-9a-f]{64}$")
+
+    def test_default_intermediate_stages_skip_check_without_recording_a_pass(self):
+        self.add_shot(selected="s01_sh010_t01_v01.mp4")
+        studio.sync(self.project)
+        runner = fake_runner(returncode=1)
+        self.complete_through("assembly-review", runner)
+        self.assertEqual(runner.calls, [])
+        for mode in (None, "default"):
+            with self.subTest(mode=mode):
+                self.write_project("approve_for_me", mode)
+                runner = fake_runner(returncode=1)
+                for stage in ("shot-generation", "assembly-review"):
+                    ledger = studio.complete_stage(self.project, stage, runner)
+                    evidence = studio.stage_entry(ledger, stage)["evidence"]
+                    self.assertFalse(evidence["check_ran"])
+                    self.assertFalse(evidence["check_ok"])
+                    self.assertTrue(evidence["status_ok"])
+                    self.assertRegex(evidence["provenance_sha256"], "^[0-9a-f]{64}$")
+                    self.assertRegex(evidence["index_sha256"], "^[0-9a-f]{64}$")
+                self.assertEqual(runner.calls, [])
+
+    def test_strict_intermediate_stages_run_and_enforce_check(self):
+        self.write_project("approve_for_me", "strict")
+        self.add_shot(selected="s01_sh010_t01_v01.mp4")
+        studio.sync(self.project)
+        for stage in ("shot-generation", "assembly-review"):
+            for passes in (True, False):
+                with self.subTest(stage=stage, passes=passes):
+                    runner = fake_runner(returncode=0 if passes else 1, stdout=CHECK_OK)
+                    failures, evidence = studio.stage_gate(self.project, stage, runner)
+                    self.assertEqual(len(runner.calls), 1)
+                    self.assertTrue(evidence["check_ran"])
+                    self.assertEqual(evidence["check_ok"], passes)
+                    self.assertEqual("hyperframes check failed" in failures, not passes)
+
+    def test_delivery_runs_and_enforces_check_in_both_modes(self):
+        self.add_shot(selected="s01_sh010_t01_v01.mp4")
+        studio.sync(self.project)
+        for mode in ("default", "strict"):
+            self.write_project("approve_for_me", mode)
+            for passes in (True, False):
+                with self.subTest(mode=mode, passes=passes):
+                    runner = fake_runner(returncode=0 if passes else 1, stdout=CHECK_OK)
+                    failures, evidence = studio.stage_gate(
+                        self.project, "delivery", runner
+                    )
+                    self.assertEqual(len(runner.calls), 1)
+                    self.assertTrue(evidence["check_ran"])
+                    self.assertEqual(evidence["check_ok"], passes)
+                    self.assertEqual("hyperframes check failed" in failures, not passes)
+                    self.assertTrue(
+                        any("final_master lock" in item for item in failures)
+                    )
+                    self.assertTrue(any("no render made" in item for item in failures))
+
+    def test_invalid_review_mode_blocks_every_stage_without_running_check(self):
+        self.add_shot(selected="s01_sh010_t01_v01.mp4")
+        studio.sync(self.project)
+        for mode in ("fast", "null", "[]", "["):
+            self.write_project("approve_for_me", mode)
+            for stage in studio.STAGES:
+                with self.subTest(mode=mode, stage=stage):
+                    runner = fake_runner(stdout=CHECK_OK)
+                    failures, evidence = studio.stage_gate(self.project, stage, runner)
+                    self.assertTrue(failures)
+                    self.assertIn("review mode", str(failures).lower())
+                    self.assertEqual(runner.calls, [])
+                    self.assertFalse(evidence["check_ran"])
+                    self.assertFalse(evidence["check_ok"])
+
+    def test_default_intermediate_stages_keep_placement_status_and_lock_gates(self):
+        directory = self.add_shot()
+        studio.sync(self.project)
+        runner = fake_runner(stdout=CHECK_OK)
+        failures, evidence = studio.stage_gate(self.project, "shot-generation", runner)
+        self.assertIn("s01_sh010: no placed take", failures)
+        studio.sync(self.project, {"s01_sh010": "s01_sh010_t01_v01.mp4"})
+        failures, evidence = studio.stage_gate(self.project, "assembly-review", runner)
+        self.assertTrue(any("selection_pending" in item for item in failures))
+        self.assertIn("picture lock is required before stage exit", failures)
+        self.assertIn("audio lock is required before stage exit", failures)
+        (directory / "s01_sh010_t01_v01.mp4").write_bytes(b"changed")
+        failures, evidence = studio.stage_gate(self.project, "shot-generation", runner)
+        self.assertTrue(any("take_changed" in item for item in failures))
+        self.assertFalse(evidence["status_ok"])
+        self.assertEqual(runner.calls, [])
 
     def test_stage_cannot_exit_with_a_stale_take(self):
         directory = self.add_shot(selected="s01_sh010_t01_v01.mp4")
@@ -1278,6 +1366,7 @@ class StudioProjectTests(unittest.TestCase):
             studio.read_stages(self.project)
 
     def test_check_must_report_ok_and_actually_run_the_browser(self):
+        self.write_project("approve_for_me", "strict")
         self.add_shot(selected="s01_sh010_t01_v01.mp4")
         studio.sync(self.project)
         self.complete_through("audio-preparation")

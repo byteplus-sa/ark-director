@@ -26,9 +26,9 @@ from validate_request import (
     parse_frontmatter,
     prepared_evidence_findings,
     project_mode_snapshot,
+    request_review_findings,
     schema_findings,
     validate_request,
-    validate_review,
 )
 
 VIDEO_SUFFIXES = {".mp4", ".mov", ".mkv", ".webm", ".m4v"}
@@ -137,7 +137,8 @@ def canvas_contract_version(root: Path) -> int:
 
 def declares_approval_mode(root: Path) -> bool:
     text = contained_path(root, "project.md").read_text(encoding="utf-8")
-    return text.startswith("---") and "approval_mode" in parse_frontmatter(text)
+    metadata = parse_frontmatter(text) if text.startswith("---") else {}
+    return any(field in metadata for field in ("approval_mode", "review_mode"))
 
 
 def canvas_finding(root: Path, request: dict[str, Any]) -> Finding | None:
@@ -313,11 +314,15 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
     result: dict[str, Any] = {"request_sha256": request["request_sha256"]}
     review = capabilities = None
     if args.register and not findings:
-        review = load_json(root, args.review)
+        review = load_json(root, args.review) if args.review else None
         capabilities = load_json(root, args.capabilities)
         findings = validate_request(root, request, capabilities, adopting)
+        if args.review and review is None:
+            findings.extend(schema_findings(review, "review-result.schema.json"))
         findings.extend(
-            validate_review(review, request["request_sha256"], args.required_rule)
+            request_review_findings(
+                root, review, request["request_sha256"], args.required_rule
+            )
         )
         canvas = canvas_finding(root, request)
         if canvas is not None:
@@ -329,7 +334,7 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
         release_unregistered_request(root, args.asset, request["operation_id"])
     path = write_once(root, f"requests/request_{args.asset}.json", serialize(request))
     result["path"] = path.relative_to(root).as_posix()
-    if args.register and review is not None and capabilities is not None:
+    if args.register and capabilities is not None:
         try:
             if args.adopt_provider_task_id:
                 adopt_submitted_operation(
@@ -386,8 +391,8 @@ def parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     cli = parser()
     args = cli.parse_args(argv)
-    if args.register and not (args.write and args.review and args.capabilities):
-        cli.error("--register requires --write, --review and --capabilities")
+    if args.register and not (args.write and args.capabilities):
+        cli.error("--register requires --write and --capabilities")
     if args.replace_unregistered and not args.write:
         cli.error("--replace-unregistered requires --write")
     adopting = args.adopt_provider_task_id

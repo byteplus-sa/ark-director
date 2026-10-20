@@ -6,7 +6,7 @@ description: >-
   close-up cliffhanger, delivered as 9:16 episodes with a to-be-continued card.
   Orchestrates a market story writer when one exists (for example
   filipino-micro-drama), then appealing canon sheets, planning-only
-  storyboards, draft-first Seedance 2.5 scene clips with native dialogue bound
+  storyboards, review-mode-aware Seedance 2.5 scene clips with native dialogue bound
   to element references, speech-to-text dialogue QA with word-scoped fixes,
   ungraded assembly, loudness-matched delivery, and an optional full-episode
   showreel, all in a HyperFrames Studio project. Use for micro-dramas, vertical
@@ -47,7 +47,8 @@ and an optional full-episode showreel.
    characters, one or two locations, threshold props, and exact dialogue per
    scene within the language-aware timing budget in
    [episode structure](references/episode-structure.md). Record
-   `approval_mode`, format, run budget, the native-dialogue audio route and an
+   independent `review_mode` (default unless strict is requested), `approval_mode`,
+   format, run budget, the native-dialogue audio route and an
    ungraded look in `project.md`, run `brief-intake` with a fast proposal, then
    run `studio_project.py init <project> --aspect 9:16 --resolution 1080p` (see
    the [production policy](../../contracts/production-policy.md); pre-Studio
@@ -58,8 +59,9 @@ and an optional full-episode showreel.
    shot) from `seedance-shot-design` at standard energy by default; kinetic is for
    shots without spoken lines. Walk every beat against the element-identification
    contract.
-3. **Canon.** Character sheets, location plates and threshold props as
-   three-sample Seedream sets. Design every character to be appealing and spread
+3. **Canon.** Character sheets, location plates and threshold props as one
+   Seedream image each by default, three-sample sets in strict mode, or the
+   user's requested count. Design every character to be appealing and spread
    a natural range of complexions across the cast. Inspect every image and
    select with hash-bound decisions.
 4. **Storyboard.** Optional planning and review grid per scene. It is never
@@ -71,10 +73,12 @@ and an optional full-episode showreel.
    `seedance-prompt-25` and the market's dialogue partner skill (for Filipino,
    `seedance-prompt-25-filipino`), binding element references only. Apply the
    prompt, dialogue-timing and QA rules in the
-   [production recipe](references/production-recipe.md), and run
-   `prompt-review`. Register the operations, submit the three clips in
-   parallel as 480p native Drafts, QA each Draft, then promote the selected
-   Drafts to 1080p and QA the finals again.
+   [production recipe](references/production-recipe.md). Default review mode uses
+   minimal inline preflight without a full checklist or prompt-review report.
+   Register the operations, submit the three clips in parallel at the final
+   target, then inspect the actual outputs. Strict mode runs `prompt-review`
+   and uses 480p native Drafts before selected promotion and fresh final QA.
+   Requested or concretely justified drafts may use that route in default mode.
 7. **Assembly.** In Studio, place the cold open first, then the title card, the
    three clips with short dissolves, and the to-be-continued card, in original
    colours with no grade. Fix wrong words with word-scoped audio patches. Add a
@@ -102,8 +106,8 @@ and a single integrating manager.
 - Every spoken line is checked word by word against the locked dialogue with
   speech-to-text before a take can pass. A model's own summary of what was
   said is not sufficient.
-- Retakes fix hard-gate failures only, within the declared budget, as a new
-  Draft. Dialogue errors are patched word by word, never re-dubbed whole.
+- Retakes fix hard-gate failures only, within the declared budget, at the
+  mode-appropriate target. Dialogue errors are patched word by word, never re-dubbed whole.
   Record residual defects instead of silently promoting a flawed take.
 - Provider success is `review`, never approval. Never resubmit an ambiguous
   paid operation; reconcile it from the task registry.

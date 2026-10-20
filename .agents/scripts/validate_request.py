@@ -142,6 +142,18 @@ def frontmatter(root: Path, relative: str) -> dict[str, Any]:
     return parse_frontmatter(contained_path(root, relative).read_text())
 
 
+def project_review_mode(root: Path) -> str:
+    path = root / "project.md"
+    if not path.exists() and not path.is_symlink():
+        return "default"
+    text = contained_path(root, "project.md").read_text(encoding="utf-8")
+    metadata = parse_frontmatter(text) if text.startswith("---") else {}
+    mode = metadata.get("review_mode", "default")
+    if mode not in ("default", "strict"):
+        raise ValueError("Invalid project review mode; expected default or strict")
+    return mode
+
+
 def project_mode_snapshot(root: Path) -> tuple[str, str]:
     path = contained_path(root, "project.md")
     content = path.read_bytes()
@@ -155,6 +167,22 @@ def project_mode_snapshot(root: Path) -> tuple[str, str]:
 
 def project_mode_findings(root: Path, request: dict[str, Any]) -> list[Finding]:
     if request["schema_version"] != 2:
+        path = root / "project.md"
+        if not path.exists() and not path.is_symlink():
+            return []
+        try:
+            text = contained_path(root, "project.md").read_text(encoding="utf-8")
+            metadata = parse_frontmatter(text) if text.startswith("---") else {}
+        except (ValueError, TypeError, OSError, UnicodeError, YAMLError) as error:
+            return [Finding("approval.current_mode", str(error), "project.md")]
+        if "review_mode" in metadata:
+            return [
+                Finding(
+                    "approval.current_mode",
+                    "Explicit review mode requires a version-2 generation request",
+                    "project.md",
+                )
+            ]
         return []
     try:
         mode, digest = project_mode_snapshot(root)
@@ -766,6 +794,10 @@ def prepared_evidence_findings(
         return findings
     root = Path(project_root).resolve()
     try:
+        project_review_mode(root)
+    except (ValueError, TypeError, OSError, UnicodeError, YAMLError) as error:
+        findings.append(Finding("review.current_mode", str(error), "project.md"))
+    try:
         prompt_path = contained_path(root, request["prompt_file"])
         prompt_bytes = prompt_path.read_bytes()
         prompt_text = prompt_bytes.decode("utf-8")
@@ -882,6 +914,25 @@ def validate_review(
     return findings
 
 
+def request_review_findings(
+    root: Path, review: Any, request_hash: str, required_rule_ids: list[str]
+) -> list[Finding]:
+    try:
+        mode = project_review_mode(root)
+    except (ValueError, TypeError, OSError, UnicodeError, YAMLError) as error:
+        return [Finding("review.current_mode", str(error), "project.md")]
+    if review is not None:
+        return validate_review(review, request_hash, required_rule_ids)
+    if mode == "strict" or required_rule_ids:
+        return [
+            Finding(
+                "review.complete_evidence",
+                "A completed review is required for strict mode or required rules",
+            )
+        ]
+    return []
+
+
 def reconcile_operation(
     operation: dict[str, Any], provider_observation: dict[str, Any]
 ) -> RecoveryDecision:
@@ -923,22 +974,18 @@ def main() -> int:
         findings = validate_request(
             args.project, request, json.loads(args.capabilities.read_text())
         )
-        if args.review:
-            findings.extend(
-                validate_review(
-                    json.loads(args.review.read_text()),
-                    request.get("request_sha256", ""),
-                    args.required_rule,
-                )
+        review = json.loads(args.review.read_text()) if args.review else None
+        if args.review and review is None:
+            findings.extend(schema_findings(review, "review-result.schema.json"))
+        findings.extend(
+            request_review_findings(
+                args.project,
+                review,
+                request.get("request_sha256", "") if isinstance(request, dict) else "",
+                args.required_rule,
             )
-        else:
-            findings.append(
-                Finding(
-                    "review.complete_evidence",
-                    "A completed review is required before submission",
-                )
-            )
-    except (OSError, ValueError) as error:
+        )
+    except (OSError, ValueError, TypeError, YAMLError) as error:
         findings = [Finding("input.readable", str(error))]
     print(
         json.dumps(

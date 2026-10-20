@@ -8,7 +8,7 @@ description: >-
   replacement, audio editing), forward and backward video extension, keyframe
   sequences, coarse and fine blockout references, one-click video, seamless
   transitions, audio bracket syntax, dialogue language reinforcement, emotional
-  direction, camera language, and draft-first request packaging. Use this
+  direction, camera language, and review-mode-aware request packaging. Use this
   skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene
   staging, video editing, extension, and corrections to generated motion or
   continuity. For legacy Seedance 2.0 prompts, 4K output through 2.0, or the
@@ -45,11 +45,12 @@ blockout manifests; shot-staging for any clip that cuts or carries dialogue.
 Add audio-performance-camera only for applicable dialogue, sound, acting, UI, or
 camera detail.
 
-When packaging generation parameters, read the parameter reference: a Seedance
-2.5 clip is drafted first (`draft: true`, 480p) and the selected draft is
-promoted by `draft_task_id`, so every prompt, reference, duration and audio
-decision is final before the draft. Honor user overrides and verified
-operation constraints.
+When packaging generation parameters, read the parameter reference. Default
+review mode goes directly to the final target. Strict mode, a requested draft,
+or a concrete cost/uncertainty justification uses a draft (`draft: true`, 480p)
+when supported, then promotes the selected draft by `draft_task_id`. Every
+prompt, reference, duration and audio decision is frozen before a native draft.
+Honor user overrides and verified operation constraints.
 
 Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
@@ -68,14 +69,16 @@ mentioned in prose are relative to this skill directory unless a link says other
 
 ## Submission boundary and failure behavior
 
-The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
+The caller owns production authorization and the exact request preflight.
+Default review mode requires minimal inline checks and actual output sanity,
+not a full checklist or prompt-review report. Strict mode or explicit review
+requirements need complete hash-bound evidence. The caller reviews inline and
 uses a sub-agent only when the user explicitly requests sub-agent prompt review
 for the project or specific generation. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
 or technical success does not establish user approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+the requested count (one image by default, three in strict mode), and the requested delta.
 
 ## Evidence and creative advice
 
@@ -262,7 +265,9 @@ checks, so the reasons live here and the checks live there.
 
 ## Preflight review
 
-Before handing the package to review, confirm:
+Default mode checks the package inline for intent, capabilities, current hashes,
+bindings, approvals, rights and budget without a checklist report. For strict
+or explicitly requested detailed review, confirm:
 
 1. Subject and primary action are clear, and the action is at body-part level
    with an observable end state for every critical beat.
@@ -279,8 +284,9 @@ Before handing the package to review, confirm:
 8. For blockouts, coarse, fine or video-lock is identified and a manifest's
    hashes match the package; camera movement cannot stand in for required
    subject movement.
-9. The request is a draft (`draft: true`, 480p) unless a recorded override
-   applies, and the final will be promoted from the selected draft.
+9. The target follows review mode: final directly by default; strict or a
+   requested/justified draft uses supported draft settings and selection before
+   promotion. A report is never evidence of output approval.
 
 ## Usage limitations
 

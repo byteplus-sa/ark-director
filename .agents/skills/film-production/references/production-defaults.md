@@ -6,13 +6,23 @@ take needs a fix. These defaults are working practice, not provider guarantees. 
 Exact tool parameters live in the `ark-mcp` Seedance reference; this file says
 when to use them.
 
-## 1. Draft first, then promote
+## 1. Review depth and generation target
 
-Plan every new Seedance 2.5 shot as a 480p Draft followed by a promotion.
+Read `review_mode` from `project.md` independently of approval mode. Default
+uses minimal inline preflight and actual output sanity, no full checklist
+reports, one image unless a count is requested, and video directly at the final
+target. A requested draft or a concrete cost/uncertainty reason within budget
+can justify drafting. Do not invent an inspection or approval.
 
-1. Freeze and review the full request (prompt, ordered references, duration,
+### Strict or justified draft workflow
+
+Strict mode plans Seedance 2.5 as a 480p Draft followed by a promotion. When a
+draft is used in either mode, retain these selection and promotion safeguards.
+
+1. Freeze and preflight the full request (prompt, ordered references, duration,
    ratio, `generate_audio`, task type) and submit it with `draft: true` when
-   the live schema exposes Draft mode. **Edit inputs only before the Draft.**
+   the live schema exposes Draft mode. Strict mode requires a hash-bound
+   prompt review. **Edit inputs only before the Draft.**
 2. Inspect the Draft's playback, motion, continuity, shot plan and audio, and
    record a passing selection under the project's approval mode. For
    multi-shot work, review the draft assembly too.
@@ -26,7 +36,7 @@ Plan every new Seedance 2.5 shot as a 480p Draft followed by a promotion.
 
 A plain 480p request without `draft: true` cannot be promoted; its final is a
 new paid request that may change picture, timing or audio, and it needs its
-own registration and review. When a fix requires a prompt change, write a new
+own registration and mode-appropriate preflight. When a fix requires a prompt change, write a new
 Draft rather than promoting the old one.
 
 ## 2. Choose the audio route at the brief
@@ -117,9 +127,14 @@ Default assembly does **conform, trim, crop, overlays, end card and mix only**.
 - Normalize to the delivery loudness target from the alignment contract, then
   place the result in Studio and render it there.
 
-## 8. Review and fix loop
+## 8. Output sanity and strict review
 
-Run these checks before a take passes, and use the narrowest fix.
+In default mode inspect the actual output for brief fitness, locked words and
+identities, obvious defects and correct media properties; keep a short truthful
+record for selection and final locks. Do not automatically produce the full
+checklist report below. Use detailed checks for strict review or to investigate
+an observed defect, and use the narrowest fix. Listening claims always require
+actual audio perception, not merely a transcript.
 
 - **Words:** `speech_to_text` on the local file is the authority for spoken
   words. A model summary is not evidence. Accent and pronunciation verdicts need

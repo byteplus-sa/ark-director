@@ -3,6 +3,16 @@
 Focused reference for `seedream-storyboard`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
+Read independent `review_mode` and `approval_mode` from `project.md`.
+Default review uses minimal inline preflight and actual output sanity, without
+a full checklist report. Generate one stochastic image per grid or separate
+panel unless a count is requested; strict uses three variants. Narrative panel
+count and three-panel sheet layout do not imply three stochastic samples.
+These mode rules take precedence over generic defaults in the references.
+Preserve capabilities, hashes, canonical approvals, rights, budget and user
+locks; an agent may select a passing result under approve_for_me, while
+ask_for_approval requires the user's choice.
+
 - [1. Inspect existing project context](#1-inspect-existing-project-context)
 - [2. Lock the brief](#2-lock-the-brief)
 - [3. Break the scene into observable beats](#3-break-the-scene-into-observable-beats)
@@ -55,9 +65,10 @@ Extract or infer:
 
 Ask only when a missing answer would materially change identity, format, cost,
 or story meaning. Otherwise state reasonable assumptions and continue. An
-explicit request to generate the storyboard authorizes a low-cost draft pass;
-higher resolution, large batches, or repeated paid re-generation requires a
-new explicit request or approval.
+explicit request to generate authorizes only its scoped output and budget.
+Default review mode goes directly to that target; a draft is strict-mode,
+requested or concretely justified. Higher resolution, large batches, or repeated
+paid generation beyond existing scope require new authorization.
 
 ### 3. Break the scene into observable beats
 
