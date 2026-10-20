@@ -297,6 +297,14 @@ class ReviewModeTests(unittest.TestCase):
         self.assertFalse((self.root / "requests").exists())
         self.assertFalse((self.root / "task_ids.json").exists())
 
+    def test_prepare_cli_empty_report_path_writes_nothing(self):
+        code, result = self.run_prepare("default", "--review", "")
+        self.assertEqual(code, 1, result)
+        self.assertFalse(result["ok"])
+        self.assertIn("input.readable", str(result))
+        self.assertFalse((self.root / "requests").exists())
+        self.assertFalse((self.root / "task_ids.json").exists())
+
     def test_validator_cli_never_ignores_supplied_invalid_report(self):
         for review in (
             None,

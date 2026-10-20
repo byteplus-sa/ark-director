@@ -303,6 +303,8 @@ def load_json(root: Path, relative: str) -> Any:
 
 
 def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
+    if args.review is not None:
+        relative_path(args.review)
     root = args.project.resolve()
     if not root.is_dir():
         raise ValueError("Project directory does not exist")
@@ -314,10 +316,10 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
     result: dict[str, Any] = {"request_sha256": request["request_sha256"]}
     review = capabilities = None
     if args.register and not findings:
-        review = load_json(root, args.review) if args.review else None
+        review = load_json(root, args.review) if args.review is not None else None
         capabilities = load_json(root, args.capabilities)
         findings = validate_request(root, request, capabilities, adopting)
-        if args.review and review is None:
+        if args.review is not None and review is None:
             findings.extend(schema_findings(review, "review-result.schema.json"))
         findings.extend(
             request_review_findings(
