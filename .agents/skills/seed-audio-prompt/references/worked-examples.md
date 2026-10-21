@@ -80,12 +80,15 @@ Ending
 
 ## Full example: T2A — Timestamp control
 
+Fictional illustration with explicitly supplied intervals and voice profiles.
+A real input's windows still need a speech-capacity check; no exact timing is guaranteed.
+
 ```text
 Scene and atmosphere
 A quiet evening room. Soft ambient room tone. Occasional distant traffic. The air is still and heavy with unspoken tension.
 
 Characters and dialogue
-Ryan (young adult male, warm voice) calls out anxiously, slightly out of breath: "[5.5s:8.0s] Maya! Wait—you're really leaving tonight?"
+[5.5s:8.0s] Ryan (young adult male, warm voice) calls out anxiously, slightly out of breath: "Maya! Wait—you're really leaving tonight?"
 
-Maya (young adult female, soft voice) answers softly, forcing herself to stay composed: "[8.5s:11.5s] I have to. I've spent years chasing this… I can't walk away now."
+[8.5s:11.5s] Maya (young adult female, soft voice) answers softly, forcing herself to stay composed: "I have to. I've spent years chasing this… I can't walk away now."
 ```
