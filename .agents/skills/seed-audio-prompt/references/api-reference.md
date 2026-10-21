@@ -80,4 +80,4 @@ raw REST API fields.
 For content longer than 2 minutes, chain generations: take the output of one call, use it as a reference audio clip in the next call, and continue the scene. Voice identity carries through if you re-pass the original voice reference clips.
 
 ### Prompt language
-Prompt language and dialogue/script language should be the same language. Seed Audio 1.0 supports cross-lingual synthesis; consult the [API reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01) for the current voice and language list.
+Preserve the supplied dialogue/script language, including mixed-language lines. Control descriptions follow the user's language preference; do not translate protected dialogue merely to match them. Seed Audio 1.0 supports cross-lingual synthesis; consult the [API reference](https://docs.byteplus.com/en/docs/byteplusvoice/seedaudio-01) for the current voice and language list.

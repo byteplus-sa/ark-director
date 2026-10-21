@@ -40,7 +40,7 @@ Marcus (male voice, smooth and confident, warm playful broadcaster tone, clear a
 Lira (clear, bright young female voice, resonant with a crystalline timbre, voiced by <<TGT_SPK1>>) says firmly yet pleadingly: "Voss, it's not too late to stop."
 ```
 
-**Voice profile components** (describe as many as apply):
+**Voice profile components** (use supplied traits or explicitly authorized voice design, not mandatory inferred fields):
 - **Age**: young, teenage, young adult, middle-aged, old
 - **Gender**: male, female
 - **Accent**: American, British, Australian, etc.
@@ -55,12 +55,12 @@ Lira (clear, bright young female voice, resonant with a crystalline timbre, voic
 - Describe delivery before the quote: "says playfully and teasingly," "shouts in a rapid, soaring tone," "whispers, voice cracking."
 - Include physical actions or appearance when they affect delivery or generate sound: "gasping then bursting out laughing," "slapping his knee with an audible clap."
 - For multi-character scenes, alternate characters chronologically and place actions, music changes, and SFX between the lines where listeners should hear them.
-- Make each voice contrast with the others through useful traits such as pitch, timbre, accent, pacing, emotional baseline, or performance style.
+- Preserve established voice identities and reference bindings. Contrast current delivery where useful; add identity traits only when voice design is authorized.
 - For voices heard through a device or space, describe the filter or acoustics: television reverb, walkie-talkie compression, telephone band-limit, public-address echo, or whispered proximity.
 - For a voice with a power beyond the speaker (a layered chorus under the lead line), use the layered-voice motif in [soundscape arrangement](soundscape-arrangement.md#sonic-motifs-and-voice-treatment).
 - Keep dialogue attribution explicit. Do not write an unlabeled block of alternating quotes.
 - Wrap ambient descriptions and non-speech sounds in square brackets: `[Ambient street sounds: passing cars, distant chatter.]`
-- Prompt language and script language should be the same language.
+- Preserve script language, including mixed-language lines. Match control wording to the user's preference; do not translate dialogue to enforce a single language.
 
 Multi-character dialogue template:
 
@@ -84,11 +84,11 @@ For TA2A, make the reference plan unambiguous:
 
 **Timestamp control** (T2A and TA2A prompting-guide convention, not defined in the public API reference):
 
-Use the `[start_time:end_time]` bracket notation immediately before the dialogue to control per-line timing. Timestamps are available by default — use them when precise placement matters, and omit them when event-relative cues or natural ordering suffice:
+Use `[start_time:end_time]` only for supplied intervals or explicitly authorized timeline design. A total duration alone does not authorize segments. Put controls outside quoted speech:
 
 ```
-Ryan (young adult male, warm voice) calls out anxiously: "[5.5s:8.0s] Maya! Wait—you're really leaving tonight?"
-Maya (young adult female, soft voice) answers softly: "[8.5s:11.5s] I have to. I've spent years chasing this… I can't walk away now."
+[5.5s:8.0s] Ryan (young adult male, warm voice) calls out anxiously: "Maya! Wait—you're really leaving tonight?"
+[8.5s:11.5s] Maya (young adult female, soft voice) answers softly: "I have to. I've spent years chasing this… I can't walk away now."
 ```
 
 Timestamps are in seconds with decimal precision. Treat them as prompting guidance rather than an API guarantee, and ensure the requested windows fit within the validated output duration.

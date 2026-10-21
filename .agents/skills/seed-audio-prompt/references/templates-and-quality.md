@@ -35,7 +35,7 @@ Ending
 [Describe the final sound, music resolution or fade, ambience tail, and transition to silence.]
 ```
 
-For T2A, omit `Input references` and all `<<TGT_SPKN>>` tags, but retain complete text-based voice profiles.
+For T2A, omit `Input references` and all `<<TGT_SPKN>>` tags. Retain supplied voice profiles without inventing unknown traits.
 
 ### Creative and quality constraints
 
@@ -47,7 +47,7 @@ Language: [the prompt and dialogue language]
 Quality notes: [any specific output requirements]
 ```
 
-Do not insert `Max duration: 120 seconds` into every prompt. Duration is a request and API validation concern: reject or split a requested generation longer than 120 seconds before sending it.
+Do not insert `Max duration: 120 seconds` into every prompt. Duration is a request and API validation concern: explain a request beyond the documented limit and ask before splitting or changing protected content.
 
 Key request limits (see Quick reference card for the authoritative table):
 - `text_prompt` max 3000 characters.
@@ -65,11 +65,9 @@ performance, not just for speech:
   starting heuristic for conversational English, not a language-independent cap.
   Account for pauses and delivery, then inspect actual audio. If locked copy is
   too long, propose revised wording or timing for approval; do not silently cut it.
-- **Emotion through delivery, not labels.** Give each beat a delivery cue tied
-  to a physical act: a quick intake of breath to open, speaking faster as
-  excitement builds, slowing down and drawing out a word for awe, a small laugh
-  on the punchline, a satisfied sigh before the close. A bare "casual,
-  friendly" description alone tends to read robotic.
+- **Emotion through delivery, not extra events.** Tie pace, emphasis, and
+  restraint to the intended line. Preserve requested breaths, laughter, or sighs;
+  do not add them as compulsory cues or change the line's emotional intent.
 - **Timestamps are a budget, not a straightjacket.** Keep per-line
   `[start:end]` windows only when lines must land on visual beats; for a
   standalone voiceover, event-relative delivery cues usually sound more natural.
