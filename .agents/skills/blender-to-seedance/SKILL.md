@@ -146,11 +146,11 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
      `omni_reference_task_type=edit`; `edit_video` is a Seedance 2.0 value that
      the 2.5 tool rejects. Recheck the accepted values before submission,
    - `@Video 1` = presigned previz URL,
-   - `resolution="480p"` for drafts and iterations, as a native Draft
-     (`draft: true`) when the live edit operation supports it; after passing
-     draft review and selection, promote by `draft_task_id` (or, without Draft
-     support, submit a separately registered and reviewed final request) to the
-     recorded delivery target, then inspect the final again,
+   - `resolution="480p"` and boolean `draft: true` for every new draft and
+     iteration in every review mode. Resolve capability or transport conflicts
+     before submission; never drop `draft` to use plain 480p. After passing
+     draft review and selection, promote by `draft_task_id` to a supported
+     delivery target, then inspect the final again,
    - `generate_audio` as chosen in preflight step 5,
    - verify previz duration against the live edit limit; omit auto-locked
      `duration` and `ratio` parameters,

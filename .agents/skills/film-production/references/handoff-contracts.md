@@ -57,15 +57,18 @@ unless the brief records a look.
 Pass the selected 480p draft paths and hashes, its provider task ID, passing
 review and selection records, exact prompt snapshot, ordered approved reference
 hashes, requested audio behavior and delivery resolution. For multi-shot work,
-include the reviewed draft assembly and picture/audio decisions. Record any
-user override or verified operation constraint.
+include the reviewed draft assembly and picture/audio decisions. New 2.5
+requests use boolean `draft: true` and `resolution: "480p"` in every review
+mode, with no skip-draft override. Resolve capability or transport conflicts
+without dropping `draft`.
 
 - A native Draft (`draft: true`) is promoted by its `draft_task_id` with only
   the output settings (`resolution`, `watermark`, optional chaining fields);
   the provider reuses its prompt, references, seed, duration and audio. Any
   input change means a new Draft, not a promotion.
-- A plain 480p request is not promotable; its final is a fresh generation that
-  may change picture, timing and audio.
+- Other models without native Draft use ordinary 480p tests; their finals are
+  fresh generations that may change picture, timing and audio. This is not a
+  fallback for new 2.5 requests.
 
 Either way, register and review the final request as a new operation, then
 inspect its output again (playback, speech-to-text, listening) and select it

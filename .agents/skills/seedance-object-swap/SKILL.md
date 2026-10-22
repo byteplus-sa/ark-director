@@ -88,9 +88,10 @@ parameters, the post-audio route, and the test-ladder rung.
    captions, taglines, CTAs and end cards are added in post.
 6. **Test ladder**: follow the workspace draft policy with currently supported
    parameters. Propose a contact-window probe for a difficulty in the current
-   source or result, with user approval for its selected span. Use native Draft
-   and promotion only when the live schema supports the route; otherwise use a
-   new reviewed request. Re-check final audio and picture. Prior runs are not gates.
+   source or result, with user approval for its selected span. Every new test
+   uses `resolution: "480p"` and boolean `draft: true`; promote the selected
+   native Draft after review. Resolve schema or transport conflicts without
+   falling back to plain 480p. Re-check final audio and picture. Prior runs are not gates.
 
 ## Route and parameters
 
@@ -105,7 +106,8 @@ Seedance 2.5 edit, through `seedance_2_5_create_task`:
   the case at hand.
 - Preserve source ratio and duration; omit those parameters only when the current
   edit schema locks them to the source.
-- `generate_audio: false`, `watermark: false`, `resolution` per ladder rung.
+- `generate_audio: false`, `watermark: false`, `resolution: "480p"` and boolean
+  `draft: true` for every new test; final requests promote the selected Draft.
 
 Resolve the live tool schema and model ID before writing parameters.
 

@@ -106,6 +106,15 @@ ai-director/
 
 Draft breakdown identifies required canon. Approve recurring, branded, or story-critical references before dependent generation. Static sheets use visible-design checks; narrative shots use action and intent. Exact typography, UI, posters, prices, CTAs, logos, and product layouts use a deterministic HTML entrypoint with local CSS/SVG dependencies; Seedream remains the route for synthesized photography and illustration. Hybrid graphics select the image layer first and finish exact copy/layout deterministically.
 
+Every new Seedance 2.5 generation starts with `resolution: "480p"` and boolean
+`draft: true` in every review mode, including edits, extensions, probes and
+variants. Resolve tool-schema or transport conflicts before submitting; never
+silently substitute plain 480p. Other video models without native Draft use an
+ordinary 480p test. New Seedance 2.5 generations have no skip-draft override.
+Review and select the draft before a separately reviewed, registered and
+authorized promotion; inspect the final again. Existing submitted tasks and
+their historical request hashes remain unchanged.
+
 Only explicit user choice selects or approves an asset. Freeze exact requests before submission, retain provider IDs, and reconcile unknown acceptance rather than retrying automatically. Default generative-image selection sets retain three equivalent stochastic samples; deterministic graphics produce one exact render per version.
 
 The tracked [production policy](.agents/contracts/production-policy.md), [routing](.agents/contracts/routing.md), [element contract](.agents/contracts/element-identification.md), and [naming rules](.agents/contracts/asset-naming.md) contain the operational details. Root [AGENTS.md](AGENTS.md) is the entrypoint.

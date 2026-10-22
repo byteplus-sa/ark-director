@@ -306,11 +306,13 @@ assemble approved takes; do not compress the whole template into an unsupported
 duration.
 
 Seedance 2.5 template runs default to 480p native Drafts for video drafts and
-revisions, with the delivery resolution recorded as a separate project
-decision. Promote only after passing draft review and mode-authorized selection
+revisions: explicit `resolution: "480p"` and boolean `draft: true` in every
+review mode, with delivery resolution recorded as a separate project decision.
+Resolve capability or transport conflicts without a plain-480p fallback.
+Promote only after passing draft review and mode-authorized selection
 (including draft assembly review for multi-shot work), then re-inspect the
-final: its audio is not identical to the Draft's. Honor explicit user overrides
-and record verified operation constraints.
+final: its audio is not identical to the Draft's. New Seedance 2.5 generations
+have no skip-draft override. Record verified operation constraints.
 
 ## Storyboard rules
 

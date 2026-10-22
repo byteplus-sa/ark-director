@@ -76,7 +76,7 @@ the selected operation's support. Keep a silent run silent.
 | Setting | Value |
 |---|---|
 | Model | Resolve the current live binding and operation for the brief; the JSON model value is not capability evidence |
-| Draft resolution | 480p proposal, subject to current capability checks and explicit brief overrides; record delivery target separately after draft review and selection |
+| Native Draft | Every new Seedance 2.5 request uses `resolution: "480p"` and boolean `draft: true` in every review mode; resolve capability or transport conflicts without plain-480p fallback. New generations have no skip-draft override |
 | Ratio | Current brief's supported ratio; JSON proposes 1:1 when no ratio is selected |
 | Duration | Sum of current planned shot durations; fit each request to verified clip limits and assemble as needed |
 | Storyboard | Sketch by default, one panel per current beat unless a panel budget is specified, 3 variants unless overridden, QA and selection under the current approval mode |
