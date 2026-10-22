@@ -71,6 +71,13 @@ background result. Record the provider `task_id` immediately.
 Draft mode is a provider-native two-step flow. Verify the fields in the live
 schema before use; the tool descriptions list them.
 
+Every new 2.5 or Premium generation uses boolean `draft: true` and
+`resolution: "480p"` in every review mode, including edits, extensions, probes
+and variants. Resolve conflicting capability evidence or transport before
+submission; never silently omit `draft` or substitute plain 480p. New Seedance
+2.5 generations have no skip-draft override. Other models without native Draft
+use an ordinary 480p test without the unsupported flag.
+
 1. **Draft:** submit the full request with `draft: true` and an explicit
    `resolution: "480p"` (the provider also accepts it omitted; record it
    explicitly). It is billed as a normal 480p video.
@@ -96,8 +103,8 @@ Rules for the promotion call:
 - **Re-check audio on the final render.** The final soundtrack is not
   byte-identical to the draft's; speech timing and words can differ.
 - A plain `resolution: "480p"` request without `draft: true` is not a Draft
-  task and cannot be promoted; the final is then a new paid request that can
-  change picture, timing, or audio.
+  task and cannot be promoted. Preserve already-submitted ordinary tasks as
+  history; they do not authorize plain-480p fallback for new 2.5 requests.
 
 ```json
 {"tool_name": "seedance_2_5_create_task",

@@ -59,7 +59,11 @@ differ.
 | `ratio` | Omit; locks to the source | Set explicitly to the source ratio | Omit; locks to the source | Omit; locks to the source | Set explicitly to the source ratio |
 | `duration` | Omit; output is approximately the source length, verify the actual duration | Set explicitly (4–30 s) to the source or beat length | Omit; approximately the source length | Omit; approximately the source length | Set to the whole-second source length |
 | `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | 1–5 style images and anchors | Style images and anchors |
-| `resolution` | 480p probe, then the lowest suitable final (720p or 1080p) | Same | Same | Same | Same |
+| `resolution` | `480p` for every new probe and full-duration Draft; promote to a supported final resolution | Same | Same | Same | Same |
+| `draft` | Boolean `true` for every new generation | Same | Same | Same | Same |
+
+These native Draft parameters apply in every review mode. Resolve a conflicting
+schema or transport before submitting; never omit `draft` or use plain 480p.
 
 The Motion Transfer default route rebuilds appearance from a Virtual Portrait
 character and a text-described location (see `seedance-motion-recast`). For other
@@ -163,12 +167,14 @@ stable; it does not wait for unrelated rows.
    probe and for the final. The probe and final differ in reference video,
    duration or resolution, so each request hash needs a complete review.
    Resolve CRITICAL and MAJOR findings.
-4. **Probe.** Submit the 480p key-beat probe (4–5 s). Inspect it for the route
+4. **Probe.** Submit the key-beat probe (4–5 s) with `resolution: "480p"` and
+   boolean `draft: true`. Inspect it for the route
    evidence and the QA list below. A failed probe blocks the final; revise the
    prompt or elements and re-review.
-5. **Full duration, then final.** Submit the full duration at 480p after the
-   probe passes, then the final resolution after that take passes QA and the
-   cost preview is confirmed. Each rung is a separately reviewed request.
+5. **Full duration, then final.** Submit a new full-duration native Draft with
+   `resolution: "480p"` and boolean `draft: true` after the probe passes.
+   Promote that selected take using `draft_task_id` only after QA passes and
+   the cost preview is confirmed. Each rung is a separately reviewed request.
 6. **Side-by-side.** Render the final against the source with
    `ffmpeg-side-by-side-comparison`: a simultaneous `hstack` for visual
    changes, the staggered split when the rows differ mainly in audio.
@@ -216,19 +222,20 @@ confirmation for the batch unless the user has already authorized that exact
 scope and budget. A change in row count, duration or resolution beyond the
 confirmed scope needs a new confirmation.
 
-| Row | Route | Probe (s × res) | Final (s × res) | Estimated probe | Estimated final |
+| Row | Route | Native probe (s × res) | Full native Draft (s × res) | Promotion (s × res) | Estimated total |
 | --- | --- | --- | --- | --- | --- |
-| `market-a-soda` | Object Swap | 5 × 480p | 12 × 720p | from rate | from rate |
+| `market-a-soda` | Object Swap | 5 × 480p | 12 × 480p | 12 × 1080p | from rates |
 | ... | | | | | |
-| **Total** | | Σ probe seconds | Σ final seconds | Σ | Σ |
+| **Total** | | Σ probe seconds | Σ full Draft seconds | Σ promotion seconds | Σ |
 
 - Estimate each line as seconds × per-second rate at that resolution, from
   current pricing evidence (`arkcli-pricing`) or the usage of a comparable
   confirmed task. State the source of the rate.
-- Batch total = variants × (probe + final). Include the Motion Transfer route
+- Batch total = variants × (probe + full Draft + promotion). Include the Motion Transfer route
   probe and a stated allowance for revision takes.
-- Use the lowest suitable resolution: 480p for probes, 720p for finals unless
-  the delivery needs 1080p.
+- Use native 480p for probes and full tests, then a supported promotion
+  resolution. A different delivery size uses an authorized post resize or an
+  explicit user decision; it does not authorize a fresh non-Draft generation.
 - Keep the estimated cost separate from confirmed billing. Record the confirmed
   cost per task in `task_ids.json` and the row's `shot.md` when available, and
   report actual totals against the preview.

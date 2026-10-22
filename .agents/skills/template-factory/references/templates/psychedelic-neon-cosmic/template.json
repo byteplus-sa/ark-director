@@ -100,6 +100,7 @@
     }
   },
   "defaults": {
+    "draft": true,
     "watermark": false,
     "generate_audio": false,
     "duration_hint": "sum of shot durations, right-sized"

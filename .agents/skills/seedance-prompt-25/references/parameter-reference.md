@@ -72,8 +72,9 @@ mode selection and caller responsibilities.
 
 ### Cost ladder
 - Draft first, then promote the selected draft (see [Draft mode](#draft-mode)).
-  Explicit user instructions override the default; record verified operation
-  constraints when a draft is unsupported.
+  New Seedance 2.5 generations have no skip-draft override.
+  Resolve capability or transport conflicts before submission,
+  never by dropping `draft` on 2.5.
 - Keep resolution in request parameters, separate from prompt text and Studio
   canvas dimensions. Final requests and outputs need fresh request review and QA
   under the workspace production policy.
@@ -140,9 +141,14 @@ checked 2026-10-17). Confirm the current tool schema before relying on it.
 4. **Re-check the final.** Picture and soundtrack are not byte-identical to the
    draft; inspect playback, dialogue words and audio again before placing it.
 
-Without native draft support (another model or operation), a 480p request is
-an ordinary paid generation, and the final is a new reviewed request that may
-change picture, timing or audio.
+Every new 2.5 generation uses boolean `draft: true` and `resolution: "480p"`
+in every review mode, including edits, extensions, probes and variants. If the
+connected tool schema conflicts, resolve the capability evidence, model binding
+or transport; never silently substitute a plain 480p generation.
+
+For other models without native Draft support, use an ordinary 480p paid test
+without an invented `draft` parameter. Its final is a new reviewed request that
+may change picture, timing or audio.
 
 ## Guide disclaimer
 

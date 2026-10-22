@@ -590,6 +590,70 @@ class RequestValidationTests(unittest.TestCase):
         self.promote()
         self.assertEqual(self.findings(), [])
 
+    def test_promotion_rejects_creative_parameters_even_when_capabilities_allow(self):
+        creative_params = {
+            "prompt": "A different scene",
+            "duration": 10,
+            "ratio": "9:16",
+            "generate_audio": False,
+            "seed": 42,
+            "draft": False,
+            "images": [],
+            "videos": [],
+            "audios": [],
+            "omni_reference_task_type": "edit",
+            "unknown_parameter": "value",
+        }
+        for name, value in creative_params.items():
+            with self.subTest(parameter=name):
+                self.promote()
+                self.request["params"][name] = value
+                self.caps["parameters"][name] = {}
+                self.rehash()
+                self.assertEqual(
+                    validation.capability_findings(self.request, self.caps), []
+                )
+                self.assertTrue(self.promotion_findings())
+
+    def test_promotion_accepts_only_supported_output_settings_without_mutation(self):
+        self.promote()
+        output_settings = {
+            "watermark": False,
+            "return_last_frame": True,
+            "execution_expires_after": 3600,
+            "priority": 1,
+            "safety_identifier": "fixture-safety",
+        }
+        self.request["params"].update(output_settings)
+        self.caps["parameters"].update({name: {} for name in output_settings})
+        self.rehash()
+        before = copy.deepcopy(self.request)
+        self.assertEqual(self.findings(), [])
+        self.assertEqual(self.request, before)
+        del self.caps["parameters"]["priority"]
+        self.assertIn("model.supported_mode", {f.rule_id for f in self.findings()})
+
+    def test_promotion_rejects_changed_reference_with_valid_hash_and_approval(self):
+        reference = copy.deepcopy(self.request["references"][0])
+        self.promote()
+        (self.root / "image.png").write_bytes(b"new approved reference image")
+        reference["sha256"] = self.hash("image.png")
+        self.request["references"] = [reference]
+        self.rehash()
+        self.assertEqual(validation.capability_findings(self.request, self.caps), [])
+        self.assertEqual(
+            {f.rule_id for f in self.findings()}, {"seedance.draft_promotion_source"}
+        )
+
+    def test_promotion_rejects_changed_reference_role_with_valid_capabilities(self):
+        reference = copy.deepcopy(self.request["references"][0])
+        self.promote()
+        reference["role"] = "first_frame"
+        self.request["references"] = [reference]
+        self.rehash()
+        self.assertEqual(validation.capability_findings(self.request, self.caps), [])
+        self.assertTrue(self.promotion_findings())
+
     def test_request_without_references_still_fails_prompt_bindings(self):
         self.request["references"] = []
         self.rehash()
@@ -616,9 +680,7 @@ class RequestValidationTests(unittest.TestCase):
         self.rehash()
         self.assertEqual(self.findings(), [])
         (self.root / "image.png").write_bytes(b"changed image")
-        self.assertIn(
-            "references.current_hashes", {f.rule_id for f in self.findings()}
-        )
+        self.assertIn("references.current_hashes", {f.rule_id for f in self.findings()})
 
     def test_promotion_of_draft_selected_by_decision_passes(self):
         self.promote(review_status="review")

@@ -84,10 +84,11 @@ the post-audio route and the test-ladder rung it targets.
 7. **Submit the muted master** with `generate_audio: false`; sound returns in
    post through the recorded route in
    [audio and lip-sync](references/audio-and-lipsync.md).
-8. **Test ladder**: a 480p probe of the key beat, then the full duration at
-   480p as a native Draft (`draft: true`), then promote the selected draft with
-   only `draft_task_id`, `resolution` and `watermark` when the live schema
-   confirms Draft for edit tasks (otherwise a new reviewed request).
+8. **Test ladder**: a key-beat probe, then a full-duration native Draft. Both
+   use `resolution: "480p"` and boolean `draft: true` in every review mode.
+   Promote the selected draft with only `draft_task_id`, `resolution` and
+   `watermark`. Resolve capability or transport conflicts before submission;
+   never drop `draft` or substitute plain 480p.
 
 ## Mode selection
 

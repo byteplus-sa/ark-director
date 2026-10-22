@@ -238,18 +238,23 @@ Provider moderation errors remain moderation_rejected with original error eviden
 
 ## Generation and review defaults
 
-**Seedance 2.5 is 480p draft-first.** Set `resolution: "480p"` explicitly for
-initial video generations and revised drafts, including edits, extensions and
-independent variants when the selected live operation supports it. Keep the
+**Seedance 2.5 is native draft-first in every review mode.** Set both
+`resolution: "480p"` and boolean `draft: true` for every new generation,
+including revised drafts, edits, extensions, probes and independent variants.
+Plain 480p is never a fallback for 2.5 or 2.5 Premium. If the connected schema
+conflicts, resolve the capability evidence, model binding or transport before
+submission; do not drop `draft`. Keep the
 intended aspect, natural duration, approved inputs and requested audio behavior.
 Record draft resolution and the separate delivery target in the owning project
 and shot manifests; Studio canvas dimensions follow the delivery target.
 Initialize Studio with `init --resolution <delivery-target>` before syncing
 480p shots when the target differs; do not let draft resolution define the
 delivery canvas by accident.
-An explicit user instruction overrides the default. If an operation cannot
+New Seedance 2.5 generations have no skip-draft override, including explicit
+user requests or delivery targets. Other video models without native Draft use an
+ordinary 480p test with no invented `draft` parameter. If such a model cannot
 produce 480p, record current capability evidence and the reason for the lowest
-suitable supported resolution; do not switch models solely to force a draft.
+suitable supported resolution. Do not switch models solely to avoid native Draft.
 
 Inspect draft playback and audio, motion, continuity and the shot plan. Record a
 passing, hash-bound draft selection under the project's approval mode before
@@ -263,10 +268,11 @@ and decisions. Generate final takes only within the authorized scope and budget
 at the recorded delivery target; do not assume 1080p is always required. A
 requested 480p delivery can use reviewed 480p takes after delivery QA.
 
-A 480p output is not automatically a provider-native Draft task. Use native
-Draft/promotion only after verifying the current tool/model/operation supports
-it and its constraints. Otherwise final-resolution generation is a new paid
-request using the selected prompt and approved inputs; it can change the
+A 480p output is not automatically a provider-native Draft task: the request
+must carry boolean `draft: true`. Verify native promotion constraints before
+use; a conflicting 2.5 schema blocks submission until capability or transport
+is resolved. For other models without native Draft, final-resolution generation
+is a new paid request using the selected prompt and approved inputs; it can change the
 picture, timing or audio. Every final request has its own prepared registry
 entry and complete hash-bound request review, including changed parameters and
 references, even when prompt text is unchanged. Inspect and select the final
@@ -292,4 +298,4 @@ The manifest is authoritative; selection.json is derived and selection.log is an
 
 Run validate_request.py with --project, --request, --capabilities, --review and applicable --required-rule values. For a generation-bound narrative, ad, micro-drama, music-video or showcase shot with no recorded exemption, pass `shot.plan_bound`, `shot.variety` and `shot.axis_carry`; for an exempt shot, omit them and let the reviewer record `not_applicable` with the exemption as the reason. When a required shot rule has nothing to check (no confirmed axis, a one-take), the reviewer records `pass` with that evidence, because a required rule cannot be `not_applicable`. It is read-only and never submits a provider task. Capability evidence uses capability-evidence.schema.json and self-contained parameter schemas; external schema URLs are rejected.
 
-The operation_store.py helper exposes prepare_operation(root, request, capabilities, review, required_rule_ids, allow_board_references=False) and transition_operation(root, operation_id, expected_status, new_status, provider_task_id, provider_status, allow_board_references=False). Only adoption of an already submitted job sets allow_board_references, because that job exists and cannot be withdrawn; it trusts the caller's provider task ID like the rest of adoption. Prepare only after the immutable snapshot exists. Validation occurs before registry writes. A file lock, unique operation/asset identities, expected state and atomic replace prevent duplicate local preparation and stale transitions. This does not promise provider idempotency. Legacy or invalid registries are preserved and require a migration preview.
+The operation_store.py helper exposes prepare_operation(root, request, capabilities, review, required_rule_ids, allow_board_references=False, *, existing_submission=False) and transition_operation(root, operation_id, expected_status, new_status, provider_task_id, provider_status, allow_board_references=False, *, existing_submission=False). Only adoption of an already submitted job sets allow_board_references and existing_submission, because that job exists and cannot be withdrawn; it trusts the caller's provider task ID like the rest of adoption. The existing_submission flag preserves historical parameters and hashes, not authorization for a new generation. New preparation, registration and transitions to submitting enforce native draft-first (`seedance.draft_promotion`); a passing prompt review alone cannot waive it. Prepare only after the immutable snapshot exists. Validation occurs before registry writes. A file lock, unique operation/asset identities, expected state and atomic replace prevent duplicate local preparation and stale transitions. This does not promise provider idempotency. Legacy or invalid registries are preserved and require a migration preview.

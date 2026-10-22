@@ -183,7 +183,10 @@ states what is missing.
    capability files and `--write --register` so the prepared operation is in the
    project `task_ids.json` before any submission. Read
    [generation flow](references/generation-flow.md) for the exact calls.
-8. **Draft.** Submit one 480p draft through `ark-mcp` (`draft: true`; the video-to-video effects use `resolution: 480p` instead, unless current capabilities explicitly support native draft mode on the edit route). Save the
+8. **Draft.** Submit one native Draft with `resolution: "480p"` and boolean
+   `draft: true` in every review mode, including video-to-video edits. Resolve
+   capability or transport conflicts before submission; never fall back to
+   plain 480p. Save the
    provider task ID as soon as it is acknowledged. Poll the same task; never
    resubmit after a timeout.
 9. **Persist and QA.** Save the video locally, record bytes, SHA-256 and actual
@@ -225,7 +228,8 @@ Provider rules (details and wording in
 - Review generated audio against the requested sound design on the current take.
 - Video inputs (edit, restyle, extend) are rejected when they show a realistic
   person, generated or real, unless each person is bound as an `asset://`
-  Virtual Portrait or authorized asset. Do not use edit-route draft mode without explicit current capability support.
+  Virtual Portrait or authorized asset. Resolve any edit-route native Draft
+  capability or transport conflict before submission; do not drop `draft`.
 - Check lettering, counts and cut timing against the brief on current outputs.
   Keep requested counts explicit; revise only from current-input evidence.
   Use the recipe's post steps for exact overlays, cuts and cadence.
@@ -245,7 +249,9 @@ Provider rules (details and wording in
    is not frame-synced.
 4. **Counts are explicit** at every timestamp, copies share one face and one
    outfit, and the reported count is the one found on a full-size frame.
-5. **Always a draft first.** 480p draft, inspect, then ask before the final.
+5. **Always a draft first.** Explicit `resolution: "480p"` and boolean
+   `draft: true`, inspect, then ask before the final. New Seedance 2.5
+   generations have no skip-draft override.
    Never submit the same paid generation twice or through two transports; an
    ambiguous timeout is reconciled, not retried.
 6. **Identity references are labelled.** A reference image gets "use only for the
