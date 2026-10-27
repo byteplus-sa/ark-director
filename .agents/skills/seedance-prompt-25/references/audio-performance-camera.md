@@ -84,13 +84,20 @@ byte-identical to the draft's soundtrack.
 
 ## Emotional direction
 
-Emotion words communicate a direction but leave performance open to
-interpretation. For stable control, add **directly visible or audible cues**:
-eye movement, brow tension, mouth movement, breathing, gaze direction, hand
-movement.
+For character-performance scenes, consume the caller's `acting-direction`
+plan and `seedance-acting-console` encoding. Carry each relevant beat's
+pursuit, trigger, registration and response once. Give relevant listeners
+a task or intentional non-response. Do not invoke those leaves yourself.
+Missing material input is a handoff gap, not permission to choose gestures
+from a mood label. Isolated cue studies remain provisional.
+
+Visible or audible cues follow the supplied tactic and must fit camera side,
+subject scale, occlusion and speaking window. An unreadable subtle cue cannot
+establish the performance beat.
 
 > For a single emotional transition, **2–4 clear cues** are usually enough.
-> Use event-triggered stages only when emotion changes several times.
+> This is an optional cue budget, not a quality gate or mandatory minimum.
+> Sustained attention, silence and restraint can carry the whole shot.
 
 ### Single emotional transition
 
@@ -111,15 +118,17 @@ gradually becomes visible through <observable behavior>.
 Finally, <subject's final action, expression, or manner of speaking>.
 ```
 
-### Emotion externalization reference
+### Tactic-first encoding example
 
-| Abstract emotion | Externalize as |
-|---|---|
-| Sadness | lowering the head, shoulders trembling slightly, eyes reddening, fingers unconsciously clutching clothing, tears welling but not falling |
-| Joy | corners of the mouth rising uncontrollably, brows relaxing, steps becoming light, unconsciously humming, spinning in place |
-| Nervousness / anxiety | frequently checking watch, fingers tapping tabletop, rapid breathing, eyes darting, unconsciously biting fingernails |
-| Anger | both fists clenched, jawline tense, chest heaving, eyes sharp, squeezing words through gritted teeth |
-| Relief | long exhale, tense shoulders relaxing completely, a faint smile appearing, looking up toward the distance |
+Hypothetical supplied intent: B delays A's departure by keeping a shared
+task unfinished. After A picks up a bag, B offers the remaining cloth corner
+and says the locked line. A's supplied response follows. Preserve the held
+two-shot and leave time to read that response.
+
+This gives the model an event and a responsive attempt, not an arbitrary
+emotion routine. It predicts readability, not verified generation improvement.
+Use transition templates only when the selected performance actually changes;
+do not manufacture an emotion arc.
 
 ## Scripted dialogue for all speaking characters
 

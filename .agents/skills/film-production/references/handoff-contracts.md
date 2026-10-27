@@ -18,6 +18,13 @@ tokens. If an element is not approved, keep the dependent board in `draft` or
 
 ## Storyboard to video
 
+For character-performance shots, also pass the source-bound performance plan,
+its current file hash, beat IDs, listener tasks, triggers, readability needs
+and critical criteria to shot design and `seedance-acting-console`. Staged
+fights pass actor, prop and exchange states from `seedance-fight-choreography`.
+Review applicable `acting.plan_bound` and `fight.readable_exchange` checks under
+[Performance direction](../../../contracts/performance-direction.md).
+
 Pass the board's staging as text, never as an image. Elements are the identity
 sources and the only images bound for identity; a storyboard grid, contact
 sheet or board panel is never a Seedance reference, because panel numbers,
@@ -44,6 +51,10 @@ exceed video duration, map dialogue to observed audio timing, pass the file as
 handoff when the user has not requested lip-synced audio.
 
 ## Shot to assembly
+
+Pass actual timecoded playback/listening evidence for critical performance
+beats, not just transcript accuracy. Verify that trims and cuts retain the
+intended registration, response, delivery and fight continuity where applicable.
 
 Accept only mode-authorized approved takes. Pass local paths, hashes, actual
 video-stream duration, resolution, frame rate, colour range and transfer,
@@ -76,7 +87,7 @@ before updating placed takes.
 
 ## Dependency invalidation
 
-When a selected element, audio file, storyboard anchor, shot plan, confirmed project axis, or exact prompt changes,
+When a selected element, audio file, storyboard anchor, performance plan, choreography ledger, shot plan, confirmed project axis, or exact prompt changes,
 identify every dependent artifact. Return affected downstream artifacts to
 `review`; preserve their files, prompts, task IDs, hashes, and rejection history.
 Run `studio_project.py sync` and `stage <project> reopen <stage-id>` in the same

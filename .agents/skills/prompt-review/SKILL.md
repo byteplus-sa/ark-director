@@ -68,6 +68,11 @@ the semantic submitted request, not just its prompt. Missing review input or req
 evidence leaves a production review `incomplete`; request it from the caller.
 Filename/content inference is a draft-only fallback with an explicit warning.
 
+For character performances, collect the plan or equivalent inline input and
+follow [Performance direction](../../contracts/performance-direction.md):
+`acting.plan_bound`, plus `fight.readable_exchange` for staged fights. Missing
+material input is incomplete; the contract defines exemptions and severity.
+
 For the same request, use generation rules for generate, 2.5 edit rules for a
 2.5 edit, legacy VFX rules for a supported 2.0 edit, and extension rules for
 extend. Language and named-axis checklists are additive only when applicable.
@@ -201,6 +206,8 @@ request_sha256: <canonical request hash>
 required_rule_ids: <IDs supplied by caller>
 reference_evidence: <ordered paths, hashes, roles, and approvals>
 shot_plan: <scene shot plan, or the recorded static_reason / exemption>
+performance_plan: <current source path/hash, beat IDs, intentions, triggers, listener tasks and critical criteria; or applicability reason>
+fight_plan: <participant/prop state and exchange ledger when applicable>
 project_axes: <confirmed camera, lens, lighting, pacing and energy axes with sources, and any scene override>
 
 ## Change contract (may change / must preserve)
@@ -372,12 +379,11 @@ When reviewing multiple prompts (e.g., all prompts for a scene's shots):
 4. Collect all findings, deduplicate, and apply fixes.
 5. Re-review only the prompts that had CRITICAL or MAJOR fixes applied.
 
-This is efficient because:
-- Same-type prompts share the same checklist, loaded once per group.
-- Explicitly requested delegated batches can run in parallel.
-- The main agent only re-reviews prompts that actually changed.
-
 ## Universal directing principles
+
+Always record applicable `acting.plan_bound` and `fight.readable_exchange`
+checks even when the caller omitted them. These are semantic checks under the
+performance contract, not an automated acting-quality classifier.
 
 The workspace policy owner is the tracked production contract, with stable
 rule IDs in `../../contracts/rules.json`. The bundled checklist provides

@@ -1,5 +1,5 @@
 ---
-name: tig-blocking-map
+name: blocking-map
 description: >-
   Project-agnostic method for giving Seedance character DISPOSITION via a
   color-coded outline schematic — a "staging reference" (blocking map). Use
@@ -14,7 +14,7 @@ description: >-
   location into the shot.
 ---
 
-# TIG BLOCKING MAP v2 — staging reference as character disposition (any project)
+# Blocking Map v2 — staging reference as character disposition (any project)
 
 A **staging reference** is a deliberately schematic, color-coded OUTLINE drawing used to design cinematic positions before video prompting. It tells the model WHO IS WHERE — nothing else. It is built to carry maximum geometry with minimum style mass, because style bleed from the map into the shot is the method's known enemy.
 
@@ -70,20 +70,25 @@ ONE PASTE: the connector is self-contained — the LOCKS paragraph is its final 
 
 ```
 @staging_[PROJECT]_[scene]_[version] — POSITION REFERENCE ONLY
-Use this reference solely to read where each figure is placed, its pose, and its facing direction inside @loc_[PROJECT]_[name]_[scene]_[version]. Every visual quality of the shot — style, light, color grade, faces, wardrobe, environment, props — comes exclusively from @loc_[PROJECT]_[name]_[scene]_[version] and the character references. The shot is a fully photoreal live-action frame.
+Use this reference solely to read where each figure is placed, its pose, and its facing direction inside @loc_[PROJECT]_[name]_[scene]_[version]. Every visual quality of the shot — style, light, color grade, faces, wardrobe, environment, props — follows the approved medium and look in the brief and the selected location and character references.
 
 LETTER LEGEND (letters exist only in this prompt; they do not appear on the reference)
 @A = the BLUE figure on the staging reference = [your character reference/tag] → [position: spot, pose, facing].
 @B = the ORANGE figure on the staging reference = [your character reference/tag] → [position].
 [...one line per figure...]
 
-RENDER RULE: place the real, photoreal characters (from their own references) into the real location @loc_[PROJECT]_[name]_[scene]_[version] at the positions this reference defines, and take nothing else from it.
+RENDER RULE: place the approved characters (from their own references) into the approved location @loc_[PROJECT]_[name]_[scene]_[version] at the positions this reference defines, retaining the selected medium and taking nothing else from this position reference.
 
-LOCKS: All style, light, and texture come exclusively from @loc_[PROJECT]_[name]_[scene]_[version] and the character references; @staging_[PROJECT]_[scene]_[version] defines positions only. The colors on the staging reference identify WHO IS WHO on that reference only — wardrobe and grading come from the character and location references. Everyone stays in their staging-locked position until their scripted action.
+LOCKS: All style, light, and texture follow the approved medium and look in the brief and the selected location and character references; @staging_[PROJECT]_[scene]_[version] defines positions only. The colors on the staging reference identify WHO IS WHO on that reference only — wardrobe and grading come from the character and location references. Everyone stays in their staging-locked position until their scripted action.
 ```
 
 OPTIONAL CONDITIONING ORDER: approved location and character references first,
 explicitly selected staging reference last. Otherwise omit the control image.
+
+Use the approved medium, whether live action, animation or another treatment.
+The vocabulary restriction above concerns descriptions of the control map, not
+the approved art direction. Do not erase a selected illustrated look to prevent
+map bleed; ask when the brief and selected references conflict.
 
 ## TAG NAMING
 
@@ -105,7 +110,7 @@ explicitly selected staging reference last. Otherwise omit the control image.
 
 ## KNOWN FAILURES
 
-- **Style bleed (map look enters the shot)**: caused by any of the three feeds — color-block fills in the map, graphic vocabulary in the video prompt (even as negations — negation blindness), or the map attached before/instead of strong photo references. Fix at all three layers; see ANTI-BLEED ARCHITECTURE. If bleed persists in a moving-character shot, keep movement language plain and physical ("real, live-action gestures"), never "come alive"; last resort, drop the map from that shot.
+- **Style bleed (map look enters the shot)**: caused by any of the three feeds — color-block fills in the map, map-style vocabulary in the video prompt (even as negations — negation blindness), or the map attached before/instead of strong approved visual references. Fix at all three layers; see ANTI-BLEED ARCHITECTURE. If bleed persists in a moving-character shot, keep movement language concrete ("turns toward the doorway") and consistent with the approved medium, never "come alive"; last resort, drop the map from that shot.
 - **Color → wardrobe bleed** (blue figure → blue tunic): killed by outline-not-fill figures, muted palette, the legend routing identity to the user's character tag (whose own reference controls wardrobe), and the positive locks line routing wardrobe to the character references.
 - **Model invents what isn't in the frame** (completes a cropped body, adds a helmet to a headless torso, adds furniture): killed by the guard lines "do NOT add anything that is not in the attached image" + "do NOT complete cropped bodies," by describing crops explicitly per figure, and by recording the observed defect as an edit boundary using the selected provider's supported syntax.
 - **Prop at wrong height/place** (sword drifts from throat to chest): pin props to anatomy with a positive AND a contrast ("across the THROAT, under the chin — not the chest").
@@ -122,8 +127,8 @@ On the generated DIAGRAM, before assigning the `@staging_` tag:
 6. Framing/crop matches the source frame's composition and aspect.
 
 On the VIDEO result, after using the connector:
-1. Fully photoreal — no flat/graphic look anywhere in the shot.
-2. No white/grid background artifacts, no drawn-line edges.
+1. Matches the approved medium and look, without adopting the control map's style.
+2. No unintended map background, grid or outline artifacts; intended drawn edges in an approved animated look are not defects.
 3. No staging-reference colors in wardrobe, armor, or grade.
 4. No letters or typography in the shot.
 5. Every character in their map-locked position, facing the mapped direction, until their scripted action.
@@ -139,13 +144,21 @@ Compose with `seedance-prompt-25` when writing the surrounding video prompt.
 
 ## CONTINUING A CLIP WITH PEOPLE (the extension substitute)
 
-Seedance rejects `extend` and video-to-video inputs of a clip that shows a realistic person — generated or real — with `PrivacyInformation` before any cost, unless each person is bound as an `asset://` Virtual Portrait or authorized asset. Without assets, a scene with people continues as a NEW generation, and this method carries the continuity:
+First have the caller check current operation/reference capabilities and the
+authorized likeness route under `seedance-virtual-portrait`. This planning
+skill does not establish a universal privacy rejection, a no-cost guarantee
+or permission to evade an input restriction. When continuation as a new
+generation is selected, carry continuity as follows:
 
 1. Take the previous clip's last frame (`return_last_frame`, or a frame grab) as the STEP 1 source frame and build its blocking map.
 2. In STEP 2, write the text geometry for the next clip: each letter's start position, facing and crop must match that last frame, then its path, end mark and trigger beat.
-3. Choose one route, because first-frame and reference modes are mutually exclusive:
+3. Choose a supported route from live capability evidence; do not assume
+   first-frame and reference modes are always mutually exclusive:
    - **Reference route (default):** bind the same character, location and prop element references by role, and use the last frame only to write the text geometry. Never bind the previous clip as a video input and, by default, never the map.
-   - **First-frame route:** the last frame opens the new clip as `first_frame`, with no element references. Stills of generated people as first frames are usually accepted, while face or body crops as `reference_image` tend to be rejected, so keep the reference route ready.
+   - **First-frame route:** use the last frame only when its role, authorized
+     likeness handling and any combination with element references are
+     supported. Do not repackage a rejected identity input to bypass a rights
+     restriction. Return unsupported combinations to the caller.
 4. QA the seam: positions, facing, wardrobe and light match on both sides of the cut.
 
 ## Intentional conditioning representation

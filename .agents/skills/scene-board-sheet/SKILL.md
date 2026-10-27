@@ -29,7 +29,7 @@ edit, never as the final panel.
 | Panel prompts, panel generation, Seedream image edits | `seedream-storyboard`, `seedream-edit` |
 | The shot plan this board reads | `seedance-shot-design` |
 | Exact static graphics (the sheet is a deterministic render) | `html-graphic-render` |
-| Blocking geometry for Seedance | `tig-blocking-map` |
+| Blocking geometry for Seedance | `blocking-map` |
 | Stage order, approval modes, Studio and spending gates | `film-production` and the production policy |
 
 These are prose pointers for the calling agent. This skill reads files and writes

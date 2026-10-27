@@ -112,8 +112,8 @@ shot_plan:
 | `axis_carry` | Where each confirmed project axis appears (camera, lens, lighting, pacing, energy), or the scene override and its reason |
 | `sources` | Every light source the scene uses, with a fixed world position and the event that switches it on |
 | `cues` | Optional, per source. Each cue has `at_s` (scene time), `change` (`on`, `off`, `dim` or `flicker`), `trigger` (the visible or story event) and, when it lands inside a shot, that shot's `id`. A shot's `light` describes the state at its start and names any cue inside it |
-| `duration_s` | Shot length in seconds; lengths are uneven and the turn differs from its neighbors |
-| `turn` | `true` on exactly one shot |
+| `duration_s` | Shot length in seconds from performance and delivery needs; even or held timing is valid with a rationale |
+| `turn` | `true` on the intended turn when the scene has one; omit for sustained or observational scenes without a turn |
 | `job` | One of establish, reveal, emphasize, connect, escalate, hold, release |
 | `size` | Extreme wide, wide, medium, medium close-up, close-up, extreme close-up or insert |
 | `framing` | Single, dirty single, two-shot, three-shot, group, over-the-shoulder, over-the-hip, point of view or insert, per [framing](framing.md). Required in a scene with two or more characters |
@@ -152,9 +152,11 @@ The lighting preset skill words the cue for the prompt. The plan's job is to
 give every cue a time, a change and a trigger; an untimed "partway through" switch lands
 at an unplanned moment.
 
-A plan with `energy`, `sources`, a `turn`, uneven `duration_s` values and a
+A plan with `energy`, `sources`, performance-led `duration_s` values and
 `contrast_with_previous` for every shot after the first is complete enough for
-review.
+review. Record the rationale for sustained holds or repetition, and relevant
+performance/exchange beat IDs and critical readability needs in shot notes.
+A `turn` is required only when the approved scene contains one.
 
 ## Sequences in a long spot
 

@@ -23,7 +23,7 @@ wording for a named light setup belongs to the lighting preset skill.
 - [Look, point of view, reaction](#look-point-of-view-reaction)
 - [Group in one take](#group-in-one-take)
 - [Uneven terrain](#uneven-terrain)
-- [Failure shapes to avoid](#failure-shapes-to-avoid)
+- [Contextual repairs](#contextual-repairs)
 
 ## Reveal ladder
 
@@ -207,17 +207,21 @@ kneeling, a child and an adult) and the height gap is the story.
   over-the-shoulder instead. The power shift pattern covers a confrontation
   between characters at any height.
 
-## Failure shapes to avoid
+## Contextual repairs
 
-| Shape | Why it reads as boring | Repair |
+None of these shapes is a defect by itself. Apply a repair only when it serves
+the supplied intent and requested axes; preserve purposeful repetition,
+equal timing, stable light and sustained attention.
+
+| Shape | Question to resolve | Repair when needed |
 | --- | --- | --- |
-| Wide, medium, two-shot, wide at equal length with no move | Size changes, nothing else does | Add one angle change, one motivated move and one light-direction change |
-| "Hold steady" as the default camera line | The static choice is unrecorded and applied everywhere | Record a `static_reason` or give the shot a move |
-| One global lighting sentence for a multi-shot clip | The light never changes meaning | Name source and direction per shot |
+| Wide, medium, two-shot, wide at equal length with no move | Does the supplied rhythm call for a change? | Preserve it when intentional; otherwise propose only motivated changes within requested axes |
+| "Hold steady" as the default camera line | Is stillness intentional? | Record the shared rationale; repeated holds need no added movement |
+| One global lighting sentence for a multi-shot clip | Is source geometry clear? | Carry the same declared source and direction into each shot; no light change is required |
 | A project axis promising dolly and crane work that no shot line uses | The plan was written but never carried | Copy the axis into the shot lines or record the override |
 | More than about seven shots in one clip, or shots under about 0.8 s | Cuts the model tends to merge or drop | Respect the shot ceiling and split a long kinetic sequence into several clips; make a shorter cut in post as an assembly cut |
 | A shot stacking more than two simultaneous moves | The camera preset guidance records instability risk | One primary move per shot and at most one secondary |
-| Equal shot lengths with the turn the same length as its neighbors | Nothing marks the turning point | Uneven durations; give the turn a length unlike its neighbors |
+| Equal shot lengths around a supplied turn | Is the supplied change readable? | Use performance evidence within the locks; change duration only when requested or motivated, and do not invent a turn |
 | A move that decorates but has no story reason | Movement without meaning adds noise | State what the move reveals or emphasizes |
 | A 30 s spot written as one pass with nine or more beats | Tends to read as stock footage | Plan about 5 s sequences of 2-3 shots, each with one `wow` shot, per the cinematic sequence bar |
 | A focus pull away from a face asked of the prompt | Drafts keep the face sharp | Generate with ordinary focus and add the defocus in post |

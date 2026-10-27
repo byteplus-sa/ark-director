@@ -115,6 +115,30 @@
       ]
     },
     {
+      "id": 11,
+      "prompt": "The guide says 24mm is always 84 degrees diagonal, 21:9 equals 2.39:1, and every anamorphic shot needs blue flare and film grain. Apply it to our locked deep-focus 9:16 illustrated scene with no light sources in frame.",
+      "expected_output": "Rejects the fixed conversion and exact aspect equivalence while preserving the illustrated medium, vertical frame, focus and lighting locks.",
+      "files": [],
+      "expectations": [
+        "Does not treat focal length as a universal field of view.",
+        "Distinguishes 21:9 from 2.39:1 and preserves 9:16.",
+        "Does not add flare, grain, blur, a lamp, photorealism or letterboxing.",
+        "Treats anamorphic as a conditional look, not an API parameter package."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Keep the locked warm practical and my explicitly requested subtle blue horizontal anamorphic flare. The defocused bulbs should look oval. No grain, new lights or camera relocation.",
+      "expected_output": "Uses the supplied source for the requested blue streak and vertically elongated defocused highlights without imposing a warm flare correction.",
+      "files": [],
+      "expectations": [
+        "Keeps the requested blue horizontal streak rather than declaring it physically impossible.",
+        "Places vertical oval highlights only in defocused areas.",
+        "Does not change camera position, lights or texture locks.",
+        "Makes no claim of exact optical simulation."
+      ]
+    },
+    {
       "id": 10,
       "prompt": "Write the lens line for a shot where a bloodied knife sits sharp in the foreground of a kitchen and focus then pulls onto the face of the woman standing behind it.",
       "expected_output": "A rack focus line that names both planes as visible results, timed, with the pull onto the face marked as an unverified heuristic to check in a 480p draft.",

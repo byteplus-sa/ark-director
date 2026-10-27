@@ -178,7 +178,7 @@
     },
     {
       "id": "blocking_software_diagram",
-      "skill": "tig-blocking-map",
+      "skill": "blocking-map",
       "prompt": "Draw a system architecture diagram showing API gateway, queue, worker, and database.",
       "expected_decisions": {
         "skill_should_trigger": false
@@ -186,7 +186,7 @@
     },
     {
       "id": "blocking_provider_neutral",
-      "skill": "tig-blocking-map",
+      "skill": "blocking-map",
       "prompt": "Write a Seedream blocking-map prompt from this shot. Deliver the geometry before we consider video.",
       "expected_decisions": {
         "skill_should_trigger": true,

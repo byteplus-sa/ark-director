@@ -109,20 +109,20 @@ states CRITICAL or MINOR when it differs.
     reports `not_applicable` with that exemption. A missing plan without an
     exemption is MAJOR.
 
-17. **Shot density.** A spot is built from short sequences of 2-3 shots with
+17. **Shot density.** When the cinematic sequence approach is selected, a spot
+    is built from short sequences of 2-3 shots with
     one action per shot (a 30 s spot as about six 5 s sequences), not one pass
-    of many beats. A 30 s single pass with nine or more beats, or a single-setup
-    clip with no stated camera move, reads as stock footage (MAJOR). About 7
+    of many beats. Inspect overloaded coverage against the supplied intent;
+    a single setup or intentional stillness is not itself a defect. About 7
     shots per clip at most, none shorter than about 0.8 s; shorter cuts merge.
     Each shot or stage has one primary state change and a clear end state.
 
-18. **Neighbor contrast and angle range (`shot.variety`).** Adjacent shots
-    differ in at least two of size family, angle class, camera move and key
-    side. The scene has a non-eye-level shot, moving shots at its energy level,
-    uneven shot lengths and one turn shot, or a recorded reason. A continuous
-    take shows a motivated camera path, a named light at each stage and a
-    distinct payoff. MAJOR when the clip repeats one framing, MINOR when one
-    dimension is thin.
+18. **Intent-led coverage (`shot.variety`).** Neighbor contrast, angle range,
+    motion ratios and uneven timing are optional craft aids, not quotas.
+    Compare coverage with the confirmed script, medium and performance plan.
+    A continuous take may hold its framing and light with a recorded rationale.
+    Do not manufacture a turn, cut, move or light change to pass a count.
+    A contradiction of a critical locked beat is MAJOR; repetition alone is not.
 
 19. **Light sources declared (`shot.plan_bound`).** One set of declared sources
     across the scene's cuts; a new source has a motivating event. A light that
@@ -136,9 +136,9 @@ states CRITICAL or MINOR when it differs.
 
 21. **Static locks carry a reason (`shot.plan_bound`).** "Locked-off" or "no
     camera movement" appears with a recorded `static_reason`, not as
-    boilerplate. A scene has at most one `performance_hold` and one
-    `contrast_hold`; a `contrast_hold` follows a moving shot; in a scene of four
-    or more shots, one reason on more than a third of the shots is MAJOR.
+    boilerplate. Repeated `performance_hold` choices and a wholly held scene
+    are valid when intentional. A `contrast_hold` follows a moving shot, but
+    stillness needs no preceding move when it serves performance directly.
     Quiet moves are fine during a spoken line; large moves there are MINOR.
 
 22. **Post-only effects stay in the edit (`shot.plan_bound`).** Blink cuts,
@@ -226,10 +226,23 @@ states CRITICAL or MINOR when it differs.
 
 ## Emotion, motion and space
 
-35. **Visible or audible cues.** Abstract emotions are paired with 2-4 readable
-    cues (eyes, brows, mouth, breathing, gaze, hands) grounded in the tactic and
-    framing; masked wide shots use posture, spacing or hand action. Bare labels
-    such as "very sad" fail.
+35. **Performance handoff (`acting.plan_bound`).** For new or revised character
+    performance, collect the source-bound plan or equivalent isolated-prompt
+    input. Trace critical beat IDs to intention, trigger, registration,
+    maintained/changed tactic and readable consequence. Relevant listeners
+    have a task or intentional non-response. Missing material input is
+    incomplete; dropping a critical beat or replacing it with a generic
+    mood/gesture list is MAJOR. Cues fit framing, occlusion, scale and time.
+    Two to four cues is a heuristic, not a minimum. Static assets and
+    preservation-only edits record not_applicable with their concrete reason;
+    source performance still needs preservation review.
+
+    **Staged fights (`fight.readable_exchange`).** Trace authored or revised
+    choreography through stable actors, start/end positions, apparent contact
+    or avoidance, motivated reactions, occupied hands and prop transfers.
+    Timing and crop must reveal required events. Missing continuity or an
+    invisible required interaction is MAJOR; style cannot change the locked
+    outcome. Non-fights and preservation-only edits record their scope reason.
 
 36. **Motion grammar.** Each moving element in stylized or reverse-engineered
     takes states motion type, direction, speed, amplitude, easing and loop

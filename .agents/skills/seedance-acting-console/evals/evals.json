@@ -3,12 +3,13 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Direct a performance: @maya is delivering a line after winning the race. Emotion: joy, intensity 3 (high). Dialogue: \"I actually did it!\". Write the acting block for the Seedance prompt using observable cues, not abstract emotion words.",
-      "expected_output": "A single emotional transition acting block for Joy at high intensity, with 2-4 directly observable cues and the dialogue in {} with a delivery style.",
+      "prompt": "Isolated prompt: @maya wants her coach to share her disbelief after winning the race and looks to the coach for confirmation. Medium shot. Requested joy at high intensity; English dialogue locked to \"I actually did it!\". Write a concise Seedance acting block with observable cues.",
+      "expected_output": "A shot-ready appeal to the coach, triggered by the win, with readable cues and exact dialogue. Explicit isolated intent suffices without whole-scene analysis.",
       "files": [],
       "expectations": [
         "The performance connects the race win to a readable change in behavior and a resulting expression; equivalent prose structure is accepted.",
-        "The output encodes high intensity with graduated observable cues, e.g. laughing, spinning in place, breathless, eyes crinkled.",
+        "The output encodes the requested strength through readable cues serving the appeal, without requiring spinning, an emotion-family classification or a numeric model control.",
+        "The output accepts the supplied intention without demanding a whole-scene analysis or inventing motive or source beat IDs.",
         "The output contains no degree adjectives such as 'very happy' or 'extremely joyful'.",
         "The output places the exact line 'I actually did it!' inside curly braces: {I actually did it!}.",
         "The output gives the dialogue a delivery style and a dialogue language when the line is not Chinese."
@@ -16,55 +17,56 @@
     },
     {
       "id": 2,
-      "prompt": "Direct a multi-stage performance over 12 seconds: @kai starts calm, then a phone call pushes him into rage, and footsteps approaching turn him to fear. Give each beat a trigger and a timestamp, then write the Seedance acting block.",
-      "expected_output": "A multi-stage emotion acting block with three emotion x intensity beats (Calm -> Rage -> Fear), each with a trigger event and a timestamp, using the multi-stage template.",
+      "prompt": "Encode this supplied plan in a 12-second medium shot of @kai. b010 at 0-4 s: wait for the caller to confirm the agreement, listening quietly. b020 at 4-8 s: the caller refuses; challenge the refusal with contained anger. b030 at 8-12 s: approaching footsteps trigger concealment of the dispute; lower the phone and hold still. Motive: avoid exposing the disagreement to the approaching colleague. No dialogue or additional action. Keep beat IDs and timing.",
+      "expected_output": "Three compact intent/trigger/response beats preserving supplied IDs, timing, pursuit and end state without an emotion-by-intensity grid.",
       "files": [],
       "expectations": [
-        "The output defines at least three beats, each with an emotion, an intensity level, a trigger event, and a timestamp.",
+        "The output preserves b010, b020 and b030 with their supplied windows, triggers and tactics; no mandatory emotion or intensity labels.",
         "The three transitions are causally connected and readable in order; exact template wording is not required.",
         "Each beat's intensity is encoded through graduated observable cues, not degree adjectives.",
         "The output keeps the character identity consistent across all three beats.",
-        "The output includes a final expression or manner of speaking that resolves the arc."
+        "The final state keeps the phone lowered and the character still; it adds no dialogue, reconciliation or resolution beyond the supplied concealment."
       ]
     },
     {
       "id": 3,
       "prompt": "Write the acting block for Terror at intensity 2 (medium) for @nadia. The door slams behind her. Show the terror through physical cues only. Do not use degree adjectives.",
-      "expected_output": "A medium-intensity terror response caused by the door slam, encoded through readable physical behavior rather than a compulsory emotion-bank phrase list.",
+      "expected_output": "A provisional cue study responding to the door slam, not a production-ready plan; asks for the missing intention and framing without inventing them.",
       "files": [],
       "expectations": [
         "The response shows readable physical consequences of the door slam without requiring a fixed brow, pupil or mouth cue inventory.",
         "The output contains no degree adjectives such as 'very scared' or 'extremely terrified'.",
         "The output uses a triggering event (the door slamming) to drive the transition.",
-        "The output states a final expression through restrained or explicit outward behavior.",
+        "The output labels the study provisional because mood and a trigger do not establish a pursuit; requests missing intent and framing before production use.",
         "The output does not rely on the bare word 'terror' without accompanying cues."
       ]
     },
     {
       "id": 4,
-      "prompt": "Produce the full plan for a dialogue scene: @dario says \"You left me behind.\" with anger. Emotion: rage, intensity 2, reinforce_with_audio: true. Include the Seed Audio voice profile, the duration check, the @Audio 1 binding, and the verbatim dialogue in both prompts.",
-      "expected_output": "An audio-first pipeline plan: Seed Audio prompt with a rage voice profile and the exact line, a duration check (audio_duration <= video_duration), reference_audio passed to Seedance bound as @Audio 1, identical {dialogue} text, aligned shot timestamps, and manifest recording.",
+      "prompt": "In a locked 5-second close-up, @dario tries to make his partner acknowledge abandoning him. English line locked to \"You left me behind.\" Use contained anger. I request separate audio reinforcement, a Seed Audio voice profile and @Audio 1 binding. The caller reports the existing audio lasts 6 seconds with locked pauses. Do not alter the words or timing.",
+      "expected_output": "A concise acting block plus a caller audio handoff, preserving the line and flagging the measured overrun. No generation, sibling invocation, automatic binding or fidelity guarantee.",
       "files": [],
       "expectations": [
-        "The plan includes a Seed Audio voice profile for rage with tone and speed from the bank (e.g. shouted, voice cracking; harsh, escalating).",
-        "The plan states the exact line in the Seed Audio text prompt and the identical line inside {} in the Seedance prompt.",
-        "The plan checks measured audio_duration <= video_duration and resolves overrun without changing approved dialogue; any trimming targets editable non-speech material, not the exact line.",
-        "The plan passes the WAV as reference_audio and binds it as @Audio 1 in the Seedance prompt.",
-        "The plan aligns shot timestamps to the actual audio timing after generation.",
-        "The plan records the audio path, SHA-256, duration, and dialogue-to-shot mapping in shot.md and scene.md."
+        "The acting block directs the attempt to obtain acknowledgment with contained delivery, without mandatory shouting or a bank-derived voice profile.",
+        "The line appears exactly as {You left me behind.}; the handoff requires the same locked text and register in any caller-authored audio prompt.",
+        "The response flags 6-second audio exceeding the locked 5-second shot and returns retiming or splitting for caller authorization, without removing pauses, shortening words, accelerating delivery, padding video or regenerating audio.",
+        "Separate audio is routed via the caller to seed-audio-prompt and alignment work; the leaf does not invoke siblings, generate media or change production records.",
+        "Any reference_audio or @Audio 1 binding is conditional on caller-verified controls; no fabricated asset, hash or measured line alignment.",
+        "The handoff states that lip-sync, voice fidelity and acting fidelity are not guaranteed, and requests actual playback/listening plus caller-owned timing evidence."
       ]
     },
     {
       "id": 5,
-      "prompt": "Write two acting blocks for the same emotion to prove the intensity distinction: Fear at intensity 1 and Fear at intensity 3 for the same character and the same dialogue. The two outputs must differ through graduated cues, not through degree adjectives.",
-      "expected_output": "Two Fear acting blocks at intensity 1 vs 3 that differ only through graduated cues: channel count, amplitude, movement degree, and vocal delivery.",
+      "prompt": "Write two provisional cue studies for @ren, Fear at intensity 1 and Fear at intensity 3, medium close-up, English line locked to \"Wait here.\" No motive, intention or trigger is supplied. Contrast cue strength without pretending this proves a generated acting result.",
+      "expected_output": "Two explicitly provisional studies with identical dialogue and framing, differing through cue strength, plus a request for intent and trigger before production use.",
       "files": [],
       "expectations": [
         "The output contains two distinct blocks for the same emotion (Fear) and same character.",
-        "Intensity 1 is encoded with fewer, fainter cues (e.g. eyes darting, fingers tapping) while intensity 3 uses more channels and amplitude (e.g. body pulled back, shoulders hunched, voice cracking).",
+        "The studies differ through framing-readable amplitude, containment or delivery, not a required channel count or fixed bank routine.",
         "Neither block uses degree adjectives such as 'very fearful' or 'extremely scared'.",
         "The difference between levels is attributed to cue graduation, not to any numeric intensity parameter the model reads.",
-        "The dialogue line is identical in both blocks."
+        "Both blocks preserve {Wait here.} and framing, ask for missing intent/trigger, and remain provisional rather than invented production plans.",
+        "The output makes no claim that prompt comparison proves acting quality or that intensity is numerically controllable."
       ]
     },
     {
@@ -74,7 +76,7 @@
       "files": [],
       "expectations": [
         "The tactic pursues keeping the father engaged rather than performing sadness.",
-        "Two to four restrained cues are readable in close-up and caused by the tactic; no mandatory brow and mouth checklist.",
+        "A few restrained cues, with fewer than two allowed when sufficient, are readable in close-up and caused by the tactic; no mandatory brow and mouth checklist.",
         "The exact line and close-up remain unchanged; no invented timing or additional action arc."
       ]
     },
@@ -85,7 +87,7 @@
       "files": [],
       "expectations": [
         "The tactic pursues keeping the father engaged.",
-        "Two to four cues use readable posture, spacing, hands or physical action rather than relying on pupils or subtle mouth corners.",
+        "A few cues use readable posture, spacing, hands or physical action rather than relying on pupils or subtle mouth corners; no minimum cue count.",
         "Preserves the wide framing and exact line rather than inserting a close-up; no invented timestamps.",
         "Checks proposed body and hand cues for camera-side visibility, occlusion and subject scale; chooses a readable shift, silhouette or spatial action when a subtle cue would be hidden or too small, without requiring any exact gesture."
       ]
@@ -103,14 +105,15 @@
     },
     {
       "id": 9,
-      "prompt": "Outside a closed door, a mother hears her son being tested inside. She starts in quiet panic and slowly forces herself back under control while reciting a calming litany. Medium close-up, no other dialogue.",
+      "prompt": "Outside a closed door, a mother hears her son being tested inside. She starts in quiet panic and slowly forces herself back under control while reciting a calming litany. Medium close-up, no other dialogue. The litany's words and language are not supplied.",
       "expected_output": "A suppression arc that runs from visible panic toward control through a playable tactic and ends on one residual cue the framing can show.",
       "files": [],
       "expectations": [
         "The arc moves toward control, not from a hidden feeling to a visible one.",
         "The control comes from a playable tactic (breathing, pressing the palms, the litany) rather than an emotion label.",
         "It ends on one residual cue that is readable at medium close-up.",
-        "It uses no degree adjectives such as very or extremely."
+        "It uses no degree adjectives such as very or extremely.",
+        "It requests the litany's exact words and language for dialogue encoding rather than inventing them; the physical suppression cues can proceed."
       ]
     },
     {
@@ -133,9 +136,22 @@
       "expectations": [
         "The hiding hand is named by anatomy and frame side together, such as 'her left hand, frame-right'.",
         "The tactic is a verb directed at the patient, not an emotion adjective.",
-        "Treats the ten-word English line's words / 2.2 plus onset and tail as a provisional planning estimate, not proof that 5 s cannot fit. Requests measured or native-language-informed delivery and proposes retiming or splitting if overfull, without rewriting the locked line.",
-        "The line ends at least 0.4 s before the clip ends in the proposed timing.",
-        "The cues are readable in a medium shot."
+        "Treats any English word-rate estimate plus onset and tail as provisional, not proof that 5 s cannot fit. Requests measured or native-language-informed delivery and returns retiming/splitting options if overfull without rewriting the locked line or changing the shot duration.",
+        "Allows for onset, pauses and tail without claiming measured alignment or a guaranteed end timestamp; leaves unresolved fit explicit.",
+        "Preserves the hidden syringe and hand action without calling the occluded hand a readable cue; uses visible posture, orientation or delivery for the reassurance."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Encode only shot sh030 from this supplied performance plan; do not analyze the scene again. Scene sc02, source hash fixture-source-v1, beat b020, source line 8. B's motive is to finish a conversation before A leaves; goal: keep A present; tactic: delay departure through folding a tablecloth. Trigger: A lifts a bag. B offers the last corner with locked English line \"There is one corner left.\" A's listener task is to consider the appeal without accepting; hold the bag, do not take the corner. Locks: held medium two-shot, no tears, no extra dialogue, no resolution. Physical state carries into sh040 with bag still in A's hand and fold unfinished.",
+      "expected_output": "Compact beat-linked shot cues and exact dialogue, preserving listener task, source provenance and unresolved end state without redoing motive/goal analysis.",
+      "files": [],
+      "expectations": [
+        "Retains sh030, sc02, b020 and line 8 linkage, and preserves the caller-supplied source hash rather than claiming to compute it.",
+        "Encodes the bag lift before B's offer and exact {There is one corner left.} in English.",
+        "Includes A's consideration through the supplied bag hold without acceptance or a forced reaction close-up.",
+        "Preserves the medium two-shot, unfinished fold and bag state into sh040.",
+        "Does not repeat a full motive/goal/obstacle analysis, require an emotion family or invent a shared agreement."
       ]
     },
     {
@@ -148,6 +164,54 @@
         "Preserves the Spanish line verbatim, including accents; does not translate, shorten or split a line that fits.",
         "Keeps the appeal restrained and readable in the requested medium shot.",
         "Attributes timing to the fictional supplied reviewer evidence, not a recording the agent claims to have heard; final take verification remains necessary."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Supplied plan, b040: interrogator A wants a confession, while B wants to end the exchange without answering. A repeats the locked English line \"Was it you?\" to test B's refusal. B registers the question, intentionally keeps sorting files and gives no reply. Held wide shot, no new dialogue, no tactic switch, no agreement between them. Encode both performances.",
+      "expected_output": "Distinct opposed pursuits with a readable, deliberately withheld listener response; no compulsory shared scene direction.",
+      "files": [],
+      "expectations": [
+        "Preserves b040, opposing intentions and exact {Was it you?}.",
+        "Encodes B's sustained sorting as intentional non-response without making B confess, stop or display a new emotion.",
+        "Keeps wide framing and tests the readability of the physical task without substituting subtle facial cues or a close-up.",
+        "Does not invent shared direction, mirrored positive/negative traits, backstory or a tactic switch."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Source-preserving cue repair only. Supplied b050: a courier in a sealed helmet, seen from behind in a locked 0-6 s full-body wide shot, silently waits to learn whether the recipient will accept a parcel. Motive and outcome deliberately ambiguous. Both hands hold the parcel at waist height; do not move them. No dialogue, no head turn, no facial visibility, no change of medium. The prompt incorrectly asks for pupils to soften. Return the smallest repair; no actual take is available.",
+      "expected_output": "Remove the invisible pupil cue and preserve sustained waiting through readable orientation or non-action, with ambiguity, timing and physical locks intact.",
+      "files": [],
+      "expectations": [
+        "Keeps b050, sealed helmet, rear wide shot, 0-6 s duration, still hands and parcel position.",
+        "Uses sustained orientation or stillness as appropriate evidence; does not demand 2-4 new movements.",
+        "Does not reveal the face, turn the head, add dialogue or decide acceptance or rejection.",
+        "Preserves ambiguous motive instead of filling a required analysis field.",
+        "Describes a prompt-level visibility repair, not an observed improvement in generated performance."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Encode supplied beat b060. A silently sits beside unconscious B, trying to remain present until help arrives. B's disposition is unconscious and motionless. Locked held wide, no speech, no tactic change or visible emotional turn. A's physical channel is sustained seated attention. Do not add movements.",
+      "expected_output": "A compact sustained-attention beat with B's non-responsive disposition preserved.",
+      "files": [],
+      "expectations": [
+        "Preserves b060, the held wide and A's sustained attention without adding a cue sequence, dialogue or emotional turn.",
+        "Does not assign conscious listening, a decision or a reaction to B.",
+        "Does not force a shared unspoken agreement or require a close-up to prove aliveness."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Encode b070 from the supplied plan. A wants B to stay and uses a direct appeal; B's listener task is to hear it without answering. Close-up on A, no separate audio requested. Keep the Spanish language and exact line {No te vayas.}, quiet register and locked speaking window 2-4 s. Do not translate, add speech or change timing. There is no delivery recording.",
+      "expected_output": "Concise appeal cues with exact Spanish dialogue, a preserved offscreen listener task and provisional duration fit; no automatic audio-first workflow.",
+      "files": [],
+      "expectations": [
+        "Preserves b070, {No te vayas.}, Spanish, quiet register, close-up and 2-4 s speaking window.",
+        "Does not invent a visible reaction for offscreen B or additional dialogue.",
+        "Keeps timing fit unverified and returns any fit concern without changing locked words or timing.",
+        "Does not generate or request separate audio automatically, invoke siblings or promise synchronization."
       ]
     }
   ]

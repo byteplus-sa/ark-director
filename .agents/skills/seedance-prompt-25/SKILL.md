@@ -32,6 +32,10 @@ space, so sound direction in the prompt shapes the final result.
 Input: a video brief, resolved model/operation, duration policy, ordered input
 roles, approved relevant Elements, and any current motion/blockout manifest
 selected for intentional conditioning.
+For new or revised character performances, consume the caller's performance
+plan and encoded beat cues; for staged fights, also consume the choreography
+ledger. Missing intentions, listener tasks, critical triggers or end states
+remain unresolved rather than being replaced by emotion adjectives.
 
 Output: a six-part prompt, reference bindings, applicable mode parameters,
 explicit appearance and motion authorities, and observable acceptance criteria
@@ -272,7 +276,11 @@ Before handing the package to review, confirm:
    references are selected by scene.
 3. Every shot or stage carries its planned size, angle, move and named light,
    or a recorded static reason; shot count and lengths fit the duration.
-4. Emotions and cinematography terms are paired with visible or audible cues.
+4. Performance intentions, triggers, registration and listener responses reach
+   the prompt with framing-readable consequences (`acting.plan_bound`).
+   Staged fights retain actor/prop state and readable action, apparent contact
+   or avoidance, and reaction chains (`fight.readable_exchange`). Stillness and
+   deliberate non-response remain valid; mood labels alone are insufficient.
 5. The hygiene items above hold: positive wording, counts, frame-side hands,
    text-free frames, no parameters in the text.
 6. Spoken lines fit the speech budget; the audio route matches the piece.

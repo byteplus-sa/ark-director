@@ -1,4 +1,0 @@
-interface:
-  display_name: "TIG Blocking Map"
-  short_description: "Help with TIG Blocking Map tasks"
-  default_prompt: "Use $tig-blocking-map to handle this tig blocking map task."

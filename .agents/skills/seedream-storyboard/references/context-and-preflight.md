@@ -83,7 +83,7 @@ scene's subject, conflict or product, environment, and intended emotion.
 ### 4. Decide panel density
 
 **Dynamic panel count.** When an upstream analysis has identified the scene's
-shots or beats — a `seed_understand` breakdown, a `tig-scene-engine` beat list,
+shots or beats — a `seed_understand` breakdown, a `scene-craft` beat list,
 a `film-production` shot list or `seedance-shot-design` shot plan, a script/beat sheet, or any story analysis —
 the board defaults to **one panel per identified scene/shot**, regardless of
 any earlier guess or fixed budget. The panel count is dynamic and follows the

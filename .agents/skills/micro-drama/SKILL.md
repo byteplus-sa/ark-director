@@ -52,7 +52,12 @@ and an optional full-episode showreel.
    run `studio_project.py init <project> --aspect 9:16 --resolution 1080p` (see
    the [production policy](../../contracts/production-policy.md); pre-Studio
    canvas projects with `showcase.json` keep the `showcase-html` canvas).
-2. **Breakdown.** Three scenes: Hook (about 15 s), Turn (about 20 s),
+2. **Breakdown.** For new or revised character performances, run
+   `acting-direction` before shot design and record `## Performance plan`
+   under the [performance contract](../../contracts/performance-direction.md).
+   Use `scene-craft` for the selected framework without forcing its
+   five-element engine. Coordinate `seedance-fight-choreography` for fights.
+   Three scenes: Hook (about 15 s), Turn (about 20 s),
    Cliffhanger (about 15 s). Each scene is one multi-shot Seedance clip with
    internal cuts, and each gets a shot plan (size, angle, move and light per
    shot) from `seedance-shot-design` at standard energy by default; kinetic is for
@@ -67,7 +72,12 @@ and an optional full-episode showreel.
    the stage when the shot plan already carries the staging.
 5. **Audio preparation.** Mark it skipped unless the user requests a separate
    lip-sync track. Native Seedance audio carries the dialogue.
-6. **Shots.** Write each clip prompt from its shot plan with
+6. **Shots.** Encode performance beats with `seedance-acting-console`.
+   Require applicable `acting.plan_bound` and `fight.readable_exchange` checks.
+   Inspect actual registration, listening, response and delivery before
+   selecting or promoting takes; transcript accuracy alone is insufficient.
+   Preserve deliberate stillness and exact dialogue without motion quotas.
+   Write each clip prompt from its shot plan with
    `seedance-prompt-25` and the market's dialogue partner skill (for Filipino,
    `seedance-prompt-25-filipino`), binding element references only. Apply the
    prompt, dialogue-timing and QA rules in the
@@ -80,7 +90,8 @@ and an optional full-episode showreel.
    colours with no grade. Fix wrong words with word-scoped audio patches. Add a
    subtitle sidecar for each requested language and normalize loudness. Omit
    sidecars only for an explicit no-subtitles choice. Picture and audio locks come from
-   real playback and listening evidence.
+   real playback and listening evidence. Verify that trims retain accepted
+   performance beats and any fight exchange continuity.
 8. **Delivery.** Final lock and passing Studio stage-exit checks, with the final
    master from `studio_project.py render`; FFmpeg assembly, subtitle and
    loudness work is placed in Studio as a clip or overlay and rendered, not

@@ -175,6 +175,19 @@ Identify assets using [element-identification.md](element-identification.md). Co
 
 Narrative shots need events, intent, blocking and observable end states. Static character/prop sheets need clear composition and visible design; music/SFX/ambience need a sound arc appropriate to the requested artifact. Do not force story tactics into a static-image or sound-bed prompt.
 
+For new or materially revised character-performance scenes, follow
+[Performance direction](performance-direction.md): `acting-direction` produces
+the scene's performance plan before shot design; `seedance-acting-console`
+encodes it without replacing intention with emotion templates. Stage fights
+through `seedance-fight-choreography`. Review applicable `acting.plan_bound`
+and `fight.readable_exchange` checks against current evidence before submission.
+Before selection or promotion, inspect the actual critical registration,
+response, listening and delivery, not only camera fidelity or transcript
+accuracy. Missing a declared critical performance beat blocks the take.
+Preserve quiet holds and source-preserving edits; static assets do not require
+acting plans. Motion ratios are optional, not quotas. Repeated held shots with
+a recorded rationale need no inserted move, turn or light change.
+
 Narrative, ad, micro-drama, music-video and showcase shots also need a recorded shot plan before prompt authoring: for each shot, duration, size, angle, camera move, lens intent, and a named light source with its key side, produced by `seedance-shot-design` and stored with the scene. A static camera or an unchanging light needs a recorded `static_reason`. Exemptions are recorded, never assumed: a user lock, a static-by-design format (the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), an explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), a plate for cutdown, a source-preserving edit, an extension continuation, or no video shot at all. A confirmed (`agent_confirmed` or `user_confirmed`) camera, lens, lighting, pacing or energy axis recorded in `directorial_axes` or the `locked` block must reach the shot prompts, or the scene records an override with its reason; `proposed` and `defaulted` axes may be revised freely. A user-confirmed lock is never replaced by the plan.
 
 Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. A 480p draft is the default way to check shot structure before final-resolution generation. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.

@@ -98,6 +98,12 @@ assist; local-only tools are not required.
 
 Required output: scene list, cast, locations, props, dialogue, sound needs,
 continuity states, delivery assumptions, and scene-level acceptance criteria.
+For character-performance scenes, require `## Performance plan` from
+`acting-direction` with source evidence, intentions and a
+trigger/registration/response ledger under
+[Performance direction](../../../contracts/performance-direction.md).
+For staged fights, include the `seedance-fight-choreography` state and exchange
+ledger. Reconcile their readability needs with shot design.
 For every narrative, ad, micro-drama, music-video or showcase scene it also
 requires a shot plan from `seedance-shot-design` in the scene file's
 `## Shot plan` section: per shot, duration, size, angle, camera move, lens
@@ -210,6 +216,11 @@ assembly, to the cut's measured length.
 
 ## 6. Shot generation
 
+Applicable new or revised character performances need the current performance
+plan and its `seedance-acting-console` encoding, with `acting.plan_bound` and
+applicable `fight.readable_exchange` checks. Missing material evidence leaves
+review incomplete. Preservation-only edits retain source acting.
+
 Entry: shot objective, the scene's revalidated shot plan (or recorded exemption), selected
 video mode, approved inputs, reference roles, prompt snapshot target, duration,
 and any requested audio (if Stage 5 was completed) exist. Before submission the `prompt-review` gate has passed for
@@ -247,7 +258,10 @@ project instead lists them in one `kind: "takes"` group using
 `groups[].takes[].media` objects (`{ "type": "video", "src": "…" }`); follow
 `showcase-html` production-canvas and schema.
 
-Exit: a passing take has a hash-bound, mode-authorized selection. In
+Exit: a passing take has a hash-bound, mode-authorized selection. Playback and
+listening must demonstrate its declared critical performance beats, listener
+responses and applicable fight continuity. Record beat IDs and timestamps;
+unavailable inspection remains unresolved. In
 `ask_for_approval`, the recommendation remains pending until the user chooses.
 If no take passes, make a bounded correction within the run budget or leave the
 shot blocked.
@@ -255,6 +269,10 @@ shot blocked.
 ## 7. Assembly and review
 
 Entry: approved takes and any requested audio assets exist.
+
+Inspect the actual edit against accepted performance beats. Trims must retain
+critical registration, response, exact dialogue and continuity; an accepted
+raw take does not establish acceptance of the cut.
 
 Required output: ordered edit, review render, transition and continuity review,
 audio presence check, technical decode QA, and outstanding notes. Assembly
