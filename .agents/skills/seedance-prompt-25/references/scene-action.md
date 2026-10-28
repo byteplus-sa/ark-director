@@ -94,7 +94,13 @@ Rules:
 - Time ranges must be **consecutive and non-overlapping**.
 - They are a **time budget**, not a precise edit point — actions may occur slightly before or after a boundary.
 - Too little content gives the model too much freedom; too much causes excessive cutting or omitted events.
-- **Never** demand impossible frequencies (e.g., "complete three actions in one second").
+- Assess action frequency by travel distance, amplitude, contact, balance,
+  recovery and required readability, not count alone. Three small finger taps
+  in one second may be plausible; a sequence requiring incompatible positions
+  or more travel/recovery time than available is a concrete conflict.
+  Preserve source-requested actions and timing; return demonstrated conflicts
+  before retiming or splitting. Without sufficient motion or playback evidence,
+  feasibility or readability remains unverified, not failed by a numeric cap.
 
 ## Action description
 

@@ -167,8 +167,13 @@ states CRITICAL or MINOR when it differs.
     Target Subject + Visual Change + Foreground/Background + Direction or Speed.
 
 24. **Timestamps.** Ranges are consecutive and non-overlapping, treated as a
-    time budget, and never demand impossible densities ("three actions in one
-    second"). The last stage ends at the requested duration.
+    time budget. Judge action frequency by travel distance, amplitude, contact,
+    balance, recovery and required readability, not count alone: three small
+    finger taps in one second may be plausible. Identify concrete physical
+    contradictions or demonstrated unreadability; without sufficient evidence,
+    feasibility or readability remains unverified. Preserve source-requested
+    actions and timing and return conflicts before retiming or splitting.
+    The last stage ends at the requested duration.
 
 25. **Natural duration.** Each scene runs at its natural length (4-30 s); a 30 s
     single pass or native extension is a recorded exception.

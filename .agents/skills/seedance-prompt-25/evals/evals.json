@@ -172,6 +172,39 @@
         "Preserves the held medium and exact line; actor energy is independent of camera and edit energy.",
         "Names readability and actual playback/listening criteria, without claiming a generated result or measured timing."
       ]
+    },
+    {
+      "id": 15,
+      "prompt": "Compile a locked 4-second close-up of a seated percussionist's right hand, frame-left, tapping a plain tabletop to signal readiness. At 1-2 s the index finger makes three small taps in one second, lifting a few millimeters between contacts; the palm stays planted. Preserve the three taps, timing, still camera and final resting hand. No audio or extra holds requested. No generated take is available.",
+      "expected_output": "A prompt preserving the plausible small-amplitude tap sequence, with explicit contact and recovery, without rejecting three actions per second by count.",
+      "files": [],
+      "expectations": [
+        "Preserves all three taps, the locked 1-2 s window, close-up, planted palm and final resting hand without adding a prehold or slowing the action.",
+        "Assesses amplitude, contact, recovery and visibility rather than treating action count as a provider limit.",
+        "Keeps generated readability unverified until playback; does not claim observed success or generate media."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Compile a locked 4-second continuous realistic wide shot: a courier signals readiness by pressing three fixed buttons in order within one second at 1-2 s. Each successive button is 10 meters from the previous one. The courier starts at the first button, must touch each with the same hand, cannot exceed 2 meters per second, and cannot teleport or cut. Preserve these locks; no retiming or splitting is authorized.",
+      "expected_output": "A concrete physical timing conflict returned to the caller: 20 meters of travel requires at least 10 seconds at the locked speed, before contact time.",
+      "files": [],
+      "expectations": [
+        "Identifies the distance and speed contradiction with the locked one-second window, not merely three actions per second.",
+        "Returns the conflict and possible caller-authorized changes without silently retiming, splitting, omitting buttons or changing the travel speed.",
+        "Does not present an impossible prompt as ready or claim a generated failure was observed."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Compile an isolated cue for a performer signaling readiness with three hand actions in one second inside a locked 4-second shot. The action types, travel distances, contact points, framing and any motion evidence are missing. Preserve the count and timing; ask only for what is needed to assess feasibility and readability. No generation.",
+      "expected_output": "A bounded clarification with feasibility and readability unverified, not a count-only rejection or an invented motion plan.",
+      "files": [],
+      "expectations": [
+        "Requests action types, amplitude or travel, contact/recovery and framing needed to judge the locked sequence.",
+        "Preserves count and timing rather than assuming impossibility or substituting taps, a slower action, new holds or extra shots.",
+        "Labels missing evidence unresolved and makes no claim of observed success or failure."
+      ]
     }
   ],
   "evaluation_note": "Judge semantic effectiveness. Exact delimiters remain checks only where the selected model grammar requires them; headings and paraphrases are not quality proxies."

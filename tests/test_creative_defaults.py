@@ -14,6 +14,75 @@ def normalized(path: Path) -> str:
 
 
 class CreativeDefaultsTests(unittest.TestCase):
+    def test_followup_action_frequency_requires_physics_and_readability_evidence(self):
+        paths = (
+            "seedance-prompt-25/references/scene-action.md",
+            "prompt-review/references/checklist-seedance-25.md",
+        )
+        for relative in paths:
+            with self.subTest(path=relative):
+                text = normalized(SKILLS / relative)
+                self.assertNotRegex(
+                    text, r"impossible (?:frequencies|densities).{0,80}three actions",
+                )
+                for concept in ("count alone", "amplitude", "contact", "recovery",
+                                "readability", "preserve", "conflict", "unverified"):
+                    self.assertIn(concept, text)
+
+    def test_followup_lunge_eval_preserves_final_hold_without_requiring_prehold(self):
+        data = json.loads((SKILLS / "seedance-acting-console/evals/evals.json").read_text())
+        case = next(case for case in data["evals"] if case["id"] == 10)
+        text = " ".join([case["expected_output"], *case["expectations"]]).lower()
+        self.assertNotIn("with a still hold before it and a still hold after it", text)
+        self.assertIn("one lunge", text)
+        self.assertIn("final hold", text)
+        self.assertRegex(text, r"prehold.{0,80}optional")
+        self.assertIn("not required", text)
+        self.assertIn("source", text)
+        self.assertIn("veil", text)
+
+    def test_followup_legacy_dispatch_loads_shared_performance_criteria_only(self):
+        path = SKILLS / "prompt-review/references/checklist-seedance-legacy.md"
+        preamble = path.read_text().split("## Seedance 2.0", 1)[0]
+        self.assertIn("acting.plan_bound", preamble)
+        self.assertIn("fight.readable_exchange", preamble)
+        self.assertIn("item 35", preamble)
+        self.assertIn("generation and legacy VFX", preamble)
+        self.assertIn("not the 2.5 model", preamble)
+        links = re.findall(r"\]\((checklist-seedance-25\.md#[^)]+)\)", preamble)
+        self.assertTrue(links)
+        for link in links:
+            filename, anchor = link.split("#")
+            target = (path.parent / filename).read_text()
+            anchors = {
+                re.sub(r"[^a-z0-9 -]", "", heading.lower()).replace(" ", "-")
+                for heading in re.findall(r"^## (.+)$", target, re.MULTILINE)
+            }
+            self.assertIn(anchor, anchors)
+            criteria = target.split("35. **Performance handoff", 1)[1].split(
+                "36. **Motion grammar", 1,
+            )[0].lower()
+            for concept in ("acting.plan_bound", "fight.readable_exchange", "incomplete",
+                            "major", "not_applicable", "preservation-only", "non-response",
+                            "occlusion", "prop transfers"):
+                self.assertIn(concept, criteria)
+
+    def test_followup_frequency_evals_cover_preservation_conflict_and_evidence_gap(self):
+        data = json.loads((SKILLS / "seedance-prompt-25/evals/evals.json").read_text())
+        cases = {case["id"]: case for case in data["evals"]}
+        self.assertEqual(len(cases), len(data["evals"]))
+        self.assertTrue({15, 16, 17} <= cases.keys())
+        for identifier in (15, 16, 17):
+            with self.subTest(case=identifier):
+                case = cases[identifier]
+                self.assertIn("one second", case["prompt"].lower())
+                self.assertGreaterEqual(len(case["expectations"]), 3)
+                self.assertNotIn("observed_result", case)
+                self.assertIn("locked", " ".join(case["expectations"]).lower())
+        self.assertIn("preserv", cases[15]["expected_output"].lower())
+        self.assertIn("conflict", cases[16]["expected_output"].lower())
+        self.assertIn("unverified", cases[17]["expected_output"].lower())
+
     def test_compilers_and_review_do_not_soften_body_energy_or_cap_bursts(self):
         paths = (
             "seedance-prompt-25/references/scene-action.md",

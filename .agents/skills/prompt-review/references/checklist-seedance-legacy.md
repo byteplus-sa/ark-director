@@ -4,6 +4,13 @@ Seedance 2.0 generation (4K, Fast, Mini) and the legacy video-to-video VFX path.
 Apply the universal items in [the
 index](review-checklists.md#universal--all-prompts) first.
 
+For both 2.0 generation and legacy VFX review, also apply item 35,
+[Performance handoff and staged fights](checklist-seedance-25.md#emotion-motion-and-space),
+for `acting.plan_bound` and `fight.readable_exchange`. Load only those shared
+performance criteria, not the 2.5 model or generation requirements. Their
+applicability, incomplete-evidence handling, severity and preservation-only
+exceptions apply unchanged; source performance still needs preservation review.
+
 ## Seedance 2.0
 
 Source skill: `seedance-prompt-20`
