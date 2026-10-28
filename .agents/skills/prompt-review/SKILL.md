@@ -73,6 +73,12 @@ follow [Performance direction](../../contracts/performance-direction.md):
 `acting.plan_bound`, plus `fight.readable_exchange` for staged fights. Missing
 material input is incomplete; the contract defines exemptions and severity.
 
+For moving-image work, check compact premise, early sound/editorial intent and
+project-specific criteria under [Production policy](../../contracts/production-policy.md).
+Return material gaps without reopening settled edits. Review source fidelity and
+readability, not burst, coverage or cadence quotas. Speech is not an energy ceiling;
+actual take/final-edit playback and listening remain separate from prompt approval.
+
 For the same request, use generation rules for generate, 2.5 edit rules for a
 2.5 edit, legacy VFX rules for a supported 2.0 edit, and extension rules for
 extend. Language and named-axis checklists are additive only when applicable.
@@ -168,8 +174,6 @@ review record. The reviewer uses:
 - Respect the host's available concurrency limit, with at most 5 sub-agents.
 
 **Delegation mechanisms (host-agnostic):**
-
-Only within the explicitly requested scope, use a mechanism the host provides:
 
 - **OpenCode CLI (non-interactive):**
   `opencode run -m <review-model> "<worker prompt>"`
@@ -444,8 +448,6 @@ draft breakdown; dependent production submission requires their evidence:
 | Costume variants | If a character wears a different outfit in different scenes, is a full-outfit variant a derivative character sheet linked to its parent hash, and is a scene-only wearable a separate prop sheet? |
 
 ### Reporting element findings
-
-The reviewer reports element completeness findings in a separate section:
 
 ```text
 ### Element Completeness Review

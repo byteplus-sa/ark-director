@@ -40,10 +40,17 @@ remain unresolved rather than being replaced by emotion adjectives.
 Output: a six-part prompt, reference bindings, applicable mode parameters,
 explicit appearance and motion authorities, and observable acceptance criteria
 for each critical action beat.
+Preserve the caller's compact premise, early sound/editorial intent and
+project-specific criteria. Missing material intent remains a handoff question;
+settled single-prompt edits do not acquire an alternatives exercise.
+Body speed, amplitude, interruptions and recovery follow source intent and
+plausibility, with no universal burst cap. Speech is not a kinetic exclusion;
+actor energy, camera energy and edit rhythm must preserve required readability.
+Coverage and duration serve perception, not contrast, turn, hold or `wow` quotas.
 
 ## Procedure and reference loading
 
-Use reference-inputs for R2V; video-editing for edits; video-extension for
+Use scene-action for new action; reference-inputs for R2V; video-editing for edits; video-extension for
 extensions; keyframes-storyboards-blockouts for keyframes, boards and validated
 blockout manifests; shot-staging for any clip that cuts or carries dialogue.
 Add audio-performance-camera only for applicable dialogue, sound, acting, UI, or
@@ -300,7 +307,7 @@ Before handing the package to review, confirm:
 - Multi-reference goal is to select and combine correct materials, **not** to make every material appear at once.
 - For subtitles, formulas, signs, product specs, or frame-level timing that must be completely accurate, keep the footage text-free and add the exact layer in post.
 - Mismatched first/last-frame ratios may stretch the last frame (auto-lock rules above).
-- Shots shorter than about 0.8 s merge; blink cuts, intercuts and vision flashes are assembly cuts.
+- About 0.8 s per shot is a provisional caution, not a provider limit or guaranteed merge threshold. Preserve requested timing; offer assembly for precision or demonstrated failure and return conflicts with locked workflows.
 - A rack focus that leaves the subject soft mostly fails; the model keeps the face sharp. Add that defocus in post.
 - For one-click video, specify image order and character mapping explicitly if they matter.
 - Seamless transitions aim for visual/audio continuity; they do not guarantee pixel-identical preservation.

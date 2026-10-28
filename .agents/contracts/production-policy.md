@@ -171,6 +171,35 @@ assets requires separate authorization.
 
 ## Directing guidance
 
+For new or materially revised moving-image work, resolve a compact creative
+premise before execution: intended audience response, what carries attention,
+and why the ending matters. Use supplied intent first. Ask a focused question
+or offer genuinely different alternatives only when direction is unresolved
+or requested; settled prompt edits do not need exploration or a new story arc.
+Record early sound and editorial intent in the existing brief/scene notes:
+what picture and sound reveal, withhold or emphasize, including intentional
+silence. Final audio assets need not exist yet; final cues follow the measured
+edit and actual listening.
+
+Record a small set of project-specific artistic acceptance criteria before
+generation, identifying critical evidence in the scene or shot notes. Review
+actual takes and the final edit at full speed with sound when applicable;
+cite artifact hashes, timestamps and the criterion or beat being assessed.
+Technical decode, transcripts, screenshots and valid records cannot establish
+audience effect. Missing inspection stays unresolved; a missing critical
+criterion blocks selection or promotion under either approval mode.
+
+Body speed, amplitude, interruptions and recovery follow the approved intention
+and physically plausible action, not a slow-body default or universal burst
+cap. A single-burst-with-holds pattern is optional when selected and compatible
+with source locks; failure-specific remedies require evidence and permission
+before changing locked action. Assess actor energy, camera energy and edit
+rhythm separately. Spoken dialogue allows kinetic coverage when the required
+delivery and performance remain readable at the planned framing and speed.
+Coverage serves perception: repeated framing, equal durations, sustained holds,
+contrast and `wow` images are available choices, not quotas. Generation limits
+do not prescribe an editorial cadence or a mandatory turn.
+
 Identify assets using [element-identification.md](element-identification.md). Copy locked identity descriptors faithfully into prompts where needed. Use positive, observable direction. Necessary technical exclusions may define a limited edit scope; negative-only prompt lists are discouraged rather than universally forbidden.
 
 Narrative shots need events, intent, blocking and observable end states. Static character/prop sheets need clear composition and visible design; music/SFX/ambience need a sound arc appropriate to the requested artifact. Do not force story tactics into a static-image or sound-bed prompt.
@@ -190,7 +219,14 @@ a recorded rationale need no inserted move, turn or light change.
 
 Narrative, ad, micro-drama, music-video and showcase shots also need a recorded shot plan before prompt authoring: for each shot, duration, size, angle, camera move, lens intent, and a named light source with its key side, produced by `seedance-shot-design` and stored with the scene. A static camera or an unchanging light needs a recorded `static_reason`. Exemptions are recorded, never assumed: a user lock, a static-by-design format (the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), an explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), a plate for cutdown, a source-preserving edit, an extension continuation, or no video shot at all. A confirmed (`agent_confirmed` or `user_confirmed`) camera, lens, lighting, pacing or energy axis recorded in `directorial_axes` or the `locked` block must reach the shot prompts, or the scene records an override with its reason; `proposed` and `defaulted` axes may be revised freely. A user-confirmed lock is never replaced by the plan.
 
-Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. A 480p draft is the default way to check shot structure before final-resolution generation. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.
+Inspect each take against its plan. Record missing planned cuts, moves or light
+changes; they are hard failures only when they violate a lock or declared
+critical acceptance criterion, not merely because a shot carries a turn label.
+A 480p native Draft checks Seedance 2.5 structure before final-resolution
+generation; models without native Draft retain their ordinary test workflow.
+A project whose scene breakdown is already complete plans only new or revised
+shots, proposes a migration preview for older scenes, and never invents a plan
+for takes that already exist.
 
 Choose the static-graphics route by fidelity requirement. Exact copy,
 typography, logos, screen/UI layouts, title cards, posters, product lineups,

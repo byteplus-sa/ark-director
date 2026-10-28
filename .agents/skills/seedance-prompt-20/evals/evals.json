@@ -71,6 +71,18 @@
         "The jug is described positively as plain and unprinted (for example smooth glazed surface with nothing printed) rather than only with 'no text'.",
         "Duration, resolution and ratio are request parameters, not sentences in the prompt."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Write a legacy Seedance 2.0 prompt for a 12-second held wide shot. A performer misses a falling hat, recoils, then catches it with a second fast reach and says 'Still mine.' Keep the exact English words, two attempts, grounded recovery, wardrobe and still camera. No single-burst pattern is selected.",
+      "expected_output": "A 2.0 prompt preserving both fast attempts and the exact line, with physically grounded motion and no slow-body default or burst cap.",
+      "files": [],
+      "expectations": [
+        "Retains both reaches, recoil and recovery instead of imposing one burst with holds.",
+        "Keeps identity, wardrobe, held framing and dialogue unchanged.",
+        "Treats actor energy separately from camera and edit rhythm and requires readable action and delivery.",
+        "Keeps 2.0 request limits and does not invent native Draft promotion."
+      ]
     }
   ]
 }

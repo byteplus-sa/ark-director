@@ -166,9 +166,14 @@ never reverses the travel direction.
 
 **Action.** Describe actions at body-part level (hands, legs, head, shoulders)
 with range, speed and force, and link them ("using the turn's momentum, she
-raises a hand"). The official 2.0 guide prefers slow, continuous motion
-("slowly raises a hand", "gently lowers her head") over high-burst actions such
-as sprints, big jumps or violent rolls.
+raises a hand"). Speed, amplitude, interruptions and recovery follow approved
+intent and physically plausible action. There is no slow-body default or
+universal burst cap. Slow motion or one burst with holds is an optional
+selected pattern or a remedy for a demonstrated failure, not a quality gate.
+Preserve locked actions and timing; return conflicts rather than softening
+them. Actor energy, camera energy and edit rhythm are separate choices.
+Speech permits kinetic coverage when required delivery and performance remain
+readable at the planned framing and speed.
 
 **Emotion.** Externalize feelings as visible physical detail, never "very sad":
 
@@ -184,8 +189,11 @@ as sprints, big jumps or violent rolls.
 delta` (the one behavior that changes), `Acceptance criteria` and `Known
 rejections`; carry the locks into the new prompt and change only one of prompt
 wording, reference bundle or motion design per retry when practical.
-Budget about 2.2 words per second after a late start of up to 1.5 s, and end
-the last line at least 0.4 s before the clip end.
+Budget speech from measured delivery or a native-language-informed read with
+pauses, onset and tail. About 2.2 words/s is an English planning estimate;
+0.5-1.5 s onset and about 0.4 s tail are provisional margins, not minimums.
+Verify actual delivery; preserve requested language and locked words, proposing
+retiming or splitting before an authorized wording revision.
 
 ### 5. Quality and constraints
 

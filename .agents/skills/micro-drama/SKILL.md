@@ -2,8 +2,8 @@
 name: micro-drama
 description: >-
   Produce vertical short-form micro-drama episodes end to end for any market:
-  a hook in the first seconds, a mid-episode reveal or confrontation, and a
-  close-up cliffhanger, delivered as 9:16 episodes with a to-be-continued card.
+  source-led 9:16 episodes, with an optional hook, reveal and cliffhanger
+  template and optional to-be-continued card.
   Orchestrates a market story writer when one exists (for example
   filipino-micro-drama), then appealing canon sheets, planning-only
   storyboards, draft-first Seedance 2.5 scene clips with native dialogue bound
@@ -18,8 +18,9 @@ description: >-
 
 # Micro-Drama
 
-Produce one or more vertical micro-drama episodes. Each episode is a complete,
-reviewable 45–60 s unit built from three Seedance scene clips. This skill owns
+Produce one or more vertical micro-drama episodes. The default proposal is a
+reviewable 45–60 s unit built from three Seedance scene clips, not a mandatory
+cadence or arc for supplied writing. This skill owns
 the episode format and its production sequencing. Market story craft, such as
 tropes, dialogue register and cultural signifiers, belongs to a market writer
 skill. Stage, approval, Studio, prompt-review and submission rules come from
@@ -52,16 +53,25 @@ and an optional full-episode showreel.
    run `studio_project.py init <project> --aspect 9:16 --resolution 1080p` (see
    the [production policy](../../contracts/production-policy.md); pre-Studio
    canvas projects with `showcase.json` keep the `showcase-html` canvas).
+   Resolve the compact premise: intended audience response, what carries
+   attention and why the ending matters. Alternatives are only for unresolved
+   or requested direction. Record early sound and editorial intent, including
+   silence, and project-specific artistic criteria for actual take and
+   final-edit playback/listening; no final audio assets are needed at intake.
 2. **Breakdown.** For new or revised character performances, run
    `acting-direction` before shot design and record `## Performance plan`
    under the [performance contract](../../contracts/performance-direction.md).
    Use `scene-craft` for the selected framework without forcing its
    five-element engine. Coordinate `seedance-fight-choreography` for fights.
-   Three scenes: Hook (about 15 s), Turn (about 20 s),
-   Cliffhanger (about 15 s). Each scene is one multi-shot Seedance clip with
-   internal cuts, and each gets a shot plan (size, angle, move and light per
-   shot) from `seedance-shot-design` at standard energy by default; kinetic is for
-   shots without spoken lines. Walk every beat against the element-identification
+   Hook/Turn/Cliffhanger at about 15/20/15 s is an optional episode template.
+   Preserve supplied structure, including scenes without a turn. Derive clip
+   groupings and shot durations from perception and generation feasibility;
+   equal timing, repeated framing and sustained holds need no contrasting shot.
+   Each scene gets a shot plan (size, angle, move or hold and light per shot)
+   from `seedance-shot-design`. Choose actor energy, camera energy and edit
+   rhythm separately. Kinetic dialogue is valid when required delivery and
+   performance retain readability at the planned framing and speed.
+   Walk every beat against the element-identification
    contract.
 3. **Canon.** Character sheets, location plates and threshold props as
    three-sample Seedream sets. Design every character to be appealing and spread
@@ -82,16 +92,20 @@ and an optional full-episode showreel.
    `seedance-prompt-25-filipino`), binding element references only. Apply the
    prompt, dialogue-timing and QA rules in the
    [production recipe](references/production-recipe.md), and run
-   `prompt-review`. Register the operations, submit the three clips in
+   `prompt-review`. Register the operations, submit independent planned clips in
    parallel as 480p native Drafts, QA each Draft, then promote the selected
    Drafts to 1080p and QA the finals again.
-7. **Assembly.** In Studio, place the cold open first, then the title card, the
-   three clips with short dissolves, and the to-be-continued card, in original
+7. **Assembly.** In Studio, follow the approved structure. The default template
+   places the cold open first, then title, scenes and to-be-continued card; cuts,
+   holds and transitions follow editorial intent, in original
    colours with no grade. Fix wrong words with word-scoped audio patches. Add a
    subtitle sidecar for each requested language and normalize loudness. Omit
    sidecars only for an explicit no-subtitles choice. Picture and audio locks come from
    real playback and listening evidence. Verify that trims retain accepted
-   performance beats and any fight exchange continuity.
+   performance beats and any fight exchange continuity. Review the project's
+   artistic criteria with artifact hashes and timestamps; final sound cues
+   follow the measured cut and actual listening. Missing inspection or a failed
+   critical criterion blocks acceptance in either approval mode.
 8. **Delivery.** Final lock and passing Studio stage-exit checks, with the final
    master from `studio_project.py render`; FFmpeg assembly, subtitle and
    loudness work is placed in Studio as a clip or overlay and rendered, not
@@ -108,8 +122,9 @@ and a single integrating manager.
   required.
 - Storyboards are never Seedance references. Bind character, location and prop
   elements; write staging in the prompt.
-- The hook lands within the first 3 s of the delivered episode. Never let a
-  title card consume the hook window.
+- When the optional hook template is selected, place its hook in the first
+  3 s; a title card must not consume that window. Preserve a supplied held
+  opening or different ending instead of imposing this arc.
 - Every spoken line is checked word by word against the locked dialogue with
   speech-to-text before a take can pass. A model's own summary of what was
   said is not sufficient.

@@ -121,6 +121,18 @@
         "The agent moves the registered operation to terminal with a provider status naming the rejection instead of resubmitting it.",
         "The agent registers the corrected request under a new asset id and a new prompt snapshot, and does not edit the frozen one."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Review C6 against an approved plan of three equal 5-second locked wide shots. In version A the middle shot contains a supplied realization; in version B everyone keeps waiting with no turn. Do not generate panels or media. Does either version require unequal timing?",
+      "expected_output": "Neither version fails C6 solely for equal timing. Review required readability against the approved plan without inventing a turn or retiming the realization.",
+      "files": [],
+      "assertions": [
+        "Preserves all three equal durations and held framings in both versions.",
+        "Checks the supplied realization for readability in version A without requiring a different shot length.",
+        "Does not invent a turn or response in version B.",
+        "Reports actual animatic perception as unresolved when no media was inspected; no generation or approval is claimed."
+      ]
     }
   ]
 }

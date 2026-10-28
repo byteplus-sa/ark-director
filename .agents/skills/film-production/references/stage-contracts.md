@@ -66,8 +66,15 @@ brief also records:
   capture-format look is requested, in which case it is a post treatment;
 - the **on-screen copy** (titles, captions, CTA, end card) that post will add,
   and any label the user or platform requires;
-- for ads and TVCs, the **cinematic bar**: sequence count and length, one action
-  per shot, and the wow image each sequence must deliver.
+- the **compact premise**: intended audience response, what carries attention,
+  and why the ending matters; alternatives only when direction is unresolved
+  or requested, with no mandatory arc;
+- **early sound and editorial intent**: what picture and sound reveal, withhold
+  or emphasize, including intentional silence, before generation;
+- **project-specific artistic criteria**: a small relevant set with critical
+  evidence identified for actual take and final-edit playback/listening.
+  Coverage and duration serve these criteria; no contrast, hold, turn, wow or
+  fixed cadence quota applies.
 
 The brief is the `brief-development` stage source; `stage complete` checks that
 `project.md` is a valid record.
@@ -108,9 +115,12 @@ For every narrative, ad, micro-drama, music-video or showcase scene it also
 requires a shot plan from `seedance-shot-design` in the scene file's
 `## Shot plan` section: per shot, duration, size, angle, camera move, lens
 intent and a named light source with key side, the energy level, and where each
-confirmed project axis appears. Ads and TVCs group shots into sequences of
-about 5 s with 2–3 shots each; no planned shot is shorter than about 0.8 s, and
-faster cuts, flashes or intercuts are marked as edit work. A long action with
+confirmed project axis appears. Derive coverage and lengths from intended
+perception, preserving equal timing, repetition and sustained holds when useful.
+Short multi-shot sequences are optional. About 0.8 s per shot is a provisional
+caution, not a provider limit or guaranteed merge threshold. Preserve requested timing;
+offer assembly for precision or demonstrated failure, returning conflicts with
+locked workflows rather than silently replacing them. A long action with
 people that would need extension is planned as short single passes held by a
 blocking map unless `asset://` Virtual Portrait identities are available. The plan is `draft` until the scene's locations
 are approved in Stage 3 and is revalidated before Stage 6. A scene that is exempt
@@ -212,7 +222,9 @@ directly to shot generation. Seedance's native audio handles dialogue by
 default. A music track that the cut must follow (music video, beat-led spot)
 may be prepared here so shot durations can be planned to it. Score and ambience
 for a picture-only project are otherwise built after picture lock, at
-assembly, to the cut's measured length.
+assembly, to the cut's measured length. This does not postpone sound or editorial
+intent: carry the brief's picture-and-sound relationships through the breakdown.
+Final assets need not exist early; final cues require measured timing and listening.
 
 ## 6. Shot generation
 
@@ -273,10 +285,14 @@ Entry: approved takes and any requested audio assets exist.
 Inspect the actual edit against accepted performance beats. Trims must retain
 critical registration, response, exact dialogue and continuity; an accepted
 raw take does not establish acceptance of the cut.
+Review what the edit reveals, withholds and emphasizes against the brief's
+project-specific artistic criteria. Use full-speed playback and actual
+listening with artifact hashes and timestamps, not only technical checks or
+transcripts. Missing perception and failed critical criteria remain blocking.
 
 Required output: ordered edit, review render, transition and continuity review,
 audio presence check, technical decode QA, and outstanding notes. Assembly
-defaults to conform, trim, crop, overlays, end card and mix with no grade, from
+includes the creative pass plus conform, trim, crop, overlays, end card and mix with no grade, from
 exact-length intermediates encoded once; post beds for picture-only projects
 are built here to the measured cut. Audio defects are fixed word by word, and
 re-voicing keeps the source soundtrack (see

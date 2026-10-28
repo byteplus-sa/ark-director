@@ -287,7 +287,7 @@ The clip ends on the high wide view: castle lit, last firework fading, the runne
 - Exact sheep count crossing right to left in the first 3 s.
 - Camera rises and pulls back into a high wide view with the stream visible and curving.
 - Subject keeps the garment colour and moves toward the castle; fireworks appear only from about 11 s.
-**Risks:** the castle appears too early or looks pasted in; subject scale and identity drift once the subject is small; sheep count drifts; fireworks flicker or smear; sky continuity between dusk and night; the follow-plus-crane move (two moves, the limit) destabilises. Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent.
+**Risks:** the castle appears too early or looks pasted in; subject scale and identity drift once the subject is small; sheep count drifts; fireworks flicker or smear; sky continuity between dusk and night; the follow-plus-crane path loses coherence or readability (move count alone is not a failure). Real-person photo: a real face may be refused or drift; the identity route is a Virtual Portrait asset (`asset://`) for an invented character, and a specific real person needs separate rights and consent.
 **Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `frozen-in-motion` - Frozen in motion

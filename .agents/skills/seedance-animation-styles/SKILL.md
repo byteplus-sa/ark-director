@@ -145,9 +145,10 @@ window). A narrative or ad animation takes its shot plan from the shot-design
 skill when one exists; this skill words each shot in the medium. A sequence
 with no camera statement and one global light line tends to read flat.
 
-Treat time ranges as a readable pacing plan. Keep every shot inside one clip
-at about 0.8 s or longer; the model merges shorter shots, so a faster cut is
-made in assembly.
+Treat time ranges as a readable pacing plan. About 0.8 s per shot is a provisional
+caution, not a provider limit or guaranteed merge threshold. Preserve requested timing;
+offer assembly for precision or demonstrated failure and return conflicts with
+locked workflows. The following are optional starting points:
 
 - reaction or detail: roughly 2–3 seconds;
 - simple action: roughly 3–5 seconds;
@@ -289,4 +290,3 @@ Before returning the prompt, verify:
 10. Generated footage carries no text or logos, and no post look is asked of
     the prompt.
 11. The response contains the prompt, not an unrelated production workflow.
-

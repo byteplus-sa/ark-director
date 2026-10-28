@@ -52,6 +52,12 @@ handoff when the user has not requested lip-synced audio.
 
 ## Shot to assembly
 
+Carry the brief's audience response, attention carrier, ending purpose and
+early sound/editorial intent, with project-specific artistic criteria. Final
+cue placement follows the measured cut and actual listening, not a generic bed.
+Review the final edit afresh with artifact hashes and timestamps; a technical
+pass or a good raw take cannot establish the edit's effect.
+
 Pass actual timecoded playback/listening evidence for critical performance
 beats, not just transcript accuracy. Verify that trims and cuts retain the
 intended registration, response, delivery and fight continuity where applicable.

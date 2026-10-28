@@ -80,6 +80,14 @@ review's checks without adding that ID to the required-rule list.
 
 ## Actual-take acceptance
 
+Use the brief's project-specific artistic criteria: intended audience response,
+what carries attention and why the ending matters. Identify the observable
+performance, picture and sound evidence needed for this scene before generation.
+Do not substitute generic "cinematic" quality, a gesture count or camera variety
+for those criteria. Body speed, amplitude, interruptions and recovery follow
+source intent and plausibility; neither speech nor burst count sets an energy
+ceiling. Optional burst holds must fit the selected pattern and source locks.
+
 Before selecting or promoting a take, inspect playback and, when sound is in
 scope, listen. Cite timestamps and the relevant beat IDs:
 
@@ -100,6 +108,9 @@ when an equivalent performance achieves the intent. No passing take means a
 bounded revision within budget or a blocked stage, not the least-bad selection.
 Unavailable playback/listening stays unresolved. Final outputs need fresh
 review. Recheck the actual edit so trimming does not remove the accepted beat.
+Review what the edit and sound reveal, withhold and emphasize at full speed,
+bound to the final artifact hash. Early sound intent may be provisional, but
+final cue placement must follow the measured cut and actual listening.
 
 Prompt checks, fixtures and validators are not evidence of improved generated
 acting. Establish improvement only with authorized matched media comparisons.

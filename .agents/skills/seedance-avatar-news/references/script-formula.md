@@ -1,7 +1,8 @@
 # Script formula
 
 Fit the requested news-short duration with a timed read in the approved
-language and register, including onset, pauses and at least 0.4 s of tail.
+language and register, including onset, pauses and tail. About 0.4 s of tail is
+a provisional planning margin, not a minimum.
 A 50–60 word script for 25–29 s is an illustrative English planning example,
 not a universal speech rate or prior-run guarantee. Verify actual timing in
 the draft; do not shorten or translate approved copy to fit a template.
@@ -24,8 +25,9 @@ the draft; do not shorten or translate approved copy to fit a template.
 - One idea per sentence; short sentences carry lip-sync and caption rhythm.
 - Choose hook words speech recognition hears cleanly; a near-homophone in the
   hook produces wrong captions and a misheard opening.
-- Keep the last 3 s to the closer and a held smile; no new gesture or layout
-  change rides on the final words.
+- A closer with a held smile is an optional ending recipe. Preserve requested
+  closing action and verify its readability with the final words in actual playback;
+  final-three-second density is not an artistic gate.
 - Pick topics that have official footage available, and check before writing.
 
 ## Caption chunks

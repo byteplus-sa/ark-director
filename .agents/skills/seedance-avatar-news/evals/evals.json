@@ -12,7 +12,7 @@
         "Captions are timed from speech_to_text words of the generated take via stt_words.py.",
         "The edit is built from a contiguous edl.json with render_short.py, placed in Studio as a clip, and the short is produced with studio_project.py render.",
         "The Studio project (pre-Studio canvas: the showcase-html canvas) is updated with the take and the render.",
-        "The script fits a timed read in the approved language and register with an onset allowance and at least 0.4 s of tail.",
+        "The script fits a timed read in the approved language and register; onset and about 0.4 s tail are provisional margins, not minimums, and the approved ending is checked in actual playback.",
         "Captions and source/channel labels preserve the approved case and language; the EDL selects an explicit font and missing fonts block rendering.",
         "The generated take contains no captions or badges; they are added by render_short.py in the edit."
       ]

@@ -5,6 +5,13 @@ checking an episode brief, or when no market writer skill supplies one.
 
 ## Format
 
+The following is an optional development template, not a mandatory arc or
+cadence for supplied writing. Preserve source intent, exact words and canon.
+Confirm the episode's audience response, attention carrier and ending purpose;
+record early sound/editorial intent and project-specific playback criteria.
+Adapt durations and coverage to the approved scene, including equal lengths,
+repeated framing and sustained holds. Do not invent turns or reaction shots.
+
 - 9:16 vertical, 45–60 s delivered, three scene clips of about 15 / 20 / 15 s.
 - Cast of at most three recurring characters per episode; incidental extras are
   described in scene direction, not canonized.
@@ -13,9 +20,10 @@ checking an episode brief, or when no market writer skill supplies one.
   for the requested delivery, actions and reactions.
 - Derive the dialogue budget from a timed read in the requested language and
   register. Use language-appropriate speech units when estimating; whitespace
-  word counts are not comparable across languages. Include measured onset,
-  pauses and a tail of at least 0.4 s, then verify the complete lines in the
-  draft. Preserve locked wording and ask before shortening it.
+  word counts are not comparable across languages. Include onset, pauses and
+  tail; about 0.4 s of tail is a provisional margin, not a minimum. Verify
+  actual delivery of the complete lines in the draft. Preserve locked wording
+  and ask before shortening it.
 - The hook line uses plain, common words that speech-to-text transcribes
   cleanly, spoken at normal volume.
 
@@ -43,8 +51,9 @@ injury detail and weapons.
 - The victim is revealed to have an agenda of their own.
 - A supernatural tell seen only by the audience (a shadow, a reflection).
 
-End on a held close-up of at least 1.5 s before the card. Do not resolve the
-question inside the episode.
+For a selected cliffhanger, a held close-up before the card is an option.
+Duration and framing follow the time needed to perceive the ending; no hold
+minimum applies. Preserve a supplied unresolved question or resolved ending.
 
 ## Cards
 
@@ -63,8 +72,8 @@ A market writer skill or the author supplies:
 3. Cast table: name, age, look, wardrobe, always-worn items, role.
 4. Locations: layout, light, time of day, geography-critical landmarks.
 5. Props that pass the threshold: story-critical or identity-critical only.
-6. Three scenes, each with duration, action beats, exact locked dialogue in
-   `{braces}` with speaker, the estimated spoken duration and timing basis, the turn or proof beat, and
+6. Planned scenes, each with duration, action beats, exact locked dialogue in
+   `{braces}` with speaker, the estimated spoken duration and timing basis, any supplied turn or proof beat, and
    the final visible state.
 7. Requested subtitle languages (or an explicit no-subtitles choice), with
    approved transcriptions or translations for each requested track.

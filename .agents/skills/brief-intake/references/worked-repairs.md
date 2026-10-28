@@ -56,16 +56,21 @@ judgments, not observed generated-media results.
   the jacket turns a storm into play.
 - **Initial proposal:** One 30 s pass following a cyclist through the city in
   the rain, native audio with "no music, rain only", warm teal grade.
-- **Simulated failure:** One pass carries nine beats at one framing, so it
-  reads as stock footage; native audio is likely to add a score or voices the
+- **Simulated failure:** The draft never explains what carries attention or
+  why arrival matters; native audio may add a score or voices the
   edit cannot remove; the grade was never requested.
-- **Smallest repair:** Six 5 s sequences of 2–3 shots, one action per shot
-  (the hood snaps up, a puddle jump in low-angle slow motion, a grin under a
-  streetlamp), each with a camera move, a named light and one wow image.
+- **Smallest repair:** Propose play in the rain as the attention carrier and
+  a final shared splash as the ending purpose. Coverage and durations follow
+  readable action (the hood snaps up, a puddle jump, a grin under a streetlamp),
+  with named light and movement or holds. No fixed cadence or wow quota.
   Audio route `picture_only`: generate silent picture and build rain, footsteps
   and score in post. Keep original colours; list the logo end card as a post
-  overlay.
+  overlay. Plan sound before generation: rain establishes the weather, a
+  brief reduction before the jump emphasizes anticipation, then a splash.
+  Final cue placement follows the measured edit and actual listening.
 - **Tradeoff:** More shots to plan and assemble, and a post sound pass; in
   return each sequence has a visible idea and the sound is controlled.
-- **Acceptance:** The proposal names the sequence structure, the audio route
-  with its reason, the look default, and the on-screen copy as post overlays.
+- **Acceptance:** The proposal names audience response, attention, ending,
+  sound/editorial intent and project-specific playback criteria alongside
+  the audio route, look and post copy. Later actual full-speed playback/listening
+  must establish the playful action and audible splash at recorded timestamps.

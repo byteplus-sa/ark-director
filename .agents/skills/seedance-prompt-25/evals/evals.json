@@ -130,12 +130,12 @@
     {
       "id": 11,
       "prompt": "I need a 30-second cinematic spot for a running shoe. Write it as one Seedance 2.5 prompt with about ten beats.",
-      "expected_output": "A recommendation to build the spot from several short sequences of 2-3 shots each, generated separately and assembled, with per-shot camera, lens intent and light, rather than one ten-beat pass.",
+      "expected_output": "A feasibility response preserving the intended spot, identifying overloaded coverage and proposing grounded clip groupings without a fixed cadence or contrast quota.",
       "files": [],
       "expectations": [
-        "The output explains that a single 30-second pass with many beats tends to read flat and proposes about five or six shorter sequences.",
-        "Each proposed shot has one action, a size and angle, a camera move, a lens intent as a visible result and a named light source.",
-        "Adjacent shots differ in at least two of size, angle, move and key side.",
+        "The output distinguishes generation feasibility from creative quality and proposes splitting only where needed for readable beats.",
+        "Each proposed shot has coherent action, size and angle, a camera move or hold, lens intent and a named light source.",
+        "Repeated framing, equal durations and sustained holds remain valid; a memorable still is optional.",
         "No caption, tagline, logo or end card is requested inside the footage; those are left to post."
       ]
     },
@@ -160,6 +160,17 @@
         "The output does not prepare a promotion that would carry the old dialogue to 1080p as if it met the request.",
         "The output explains that a dialogue change cannot ride on the promotion and needs a revised prompt, a new review and a new draft.",
         "When a promotion is prepared later, it carries draft_task_id and output settings only (resolution, watermark false, optional return_last_frame), and the final's playback and audio are checked again."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Compile a 12-second held medium shot from this approved plan: a mechanic tries to catch a rolling part twice, missing first and catching it on the second attempt, then says the locked English line 'Got it.' Preserve fast reaches, the recovery between them, the stationary camera and the plain workbench. No burst-hold pattern selected.",
+      "expected_output": "A source-bound prompt retaining both fast attempts, grounded recovery and exact dialogue with no slow-body default or universal burst cap.",
+      "files": [],
+      "expectations": [
+        "Keeps both attempts and physical continuity instead of reducing them to one burst or adding holds.",
+        "Preserves the held medium and exact line; actor energy is independent of camera and edit energy.",
+        "Names readability and actual playback/listening criteria, without claiming a generated result or measured timing."
       ]
     }
   ],

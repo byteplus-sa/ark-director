@@ -192,8 +192,9 @@ the parts a VFX prompt adds or regenerates: a new BEFORE plate, an inserted
 shot, a chained continuation or a re-staged retake. Give each such shot one
 action with its intent, a size, a lens intent, a stated camera move and a named,
 motivated light source; a single setup with no camera statement reads flat.
-Shots shorter than about 0.8 s merge inside one generation, so flash cuts and
-intercuts belong to the edit.
+About 0.8 s per shot is a provisional caution, not a provider limit or guaranteed
+merge threshold. Preserve requested timing; offer assembly for precision or
+demonstrated failure and return conflicts with source locks or workflows.
 
 ## VFX prompt checklist
 

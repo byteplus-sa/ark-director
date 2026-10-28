@@ -11,7 +11,7 @@ This keeps the mapping reproducible and prevents slot drift.
 | Action | `shots[].action` + `shots[].motion.directing_prompt_text` | Per-beat stages with end states; motion direction comes from the combined breakdown |
 | Scene | `elements[]` location descriptors | `@Image` binding |
 | Visual style | `visual_style.grade` + `lighting_direction` + `lens` + `film_look` | Order: lighting → lens → palette. Capture-format and texture looks in `film_look` (camcorder, grain, scanlines, halation) go to the post recipe, not the prompt |
-| Camera | `camera` + per-shot `shots[].camera` + `shots[].motion.camera_motion` (the pin's per-shot camera and light serve as the shot plan; `skill_owned_camera`) | ≤2 moves per shot |
+| Camera | `camera` + per-shot `shots[].camera` + `shots[].motion.camera_motion` (the pin's per-shot camera and light serve as the shot plan; `skill_owned_camera`) | One primary move and one secondary is a heuristic; preserve source paths and explicitly requested coherent choreography, resolving incompatible locks rather than dropping moves by count |
 | Audio | `audio-analysis.json` soundscape, verified events and sync rules; `audio` fallback for older runs | Native only for on-camera dialogue: `( )` music, `< >` SFX, `{ }` dialogue when authorized; describe replacement audio rather than copying source words or recordings. Score-led or ambient pins generate picture with `generate_audio: false` and map the sound grammar to a Seed Audio post bed |
 
 ## Reference binding order (Seedance)

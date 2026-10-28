@@ -103,11 +103,12 @@
     {
       "id": 10,
       "prompt": "A 30-second wordless TVC for a sparkling water: the city at dusk, rain, a bottle opening. Mood should be ambient, with a score. Give one compact direction.",
-      "expected_output": "A compact cinematic treatment that sets a picture-only audio route, keeps original colours, and structures the spot as short multi-shot sequences.",
+      "expected_output": "A compact treatment that sets a picture-only audio route, keeps original colours, and derives coverage from the intended audience response, attention and ending.",
       "files": [],
       "expectations": [
         "Proposes the picture_only audio route (silent generation, ambience and score built in post) with the reason that a negative audio line on native audio does not reliably keep speech or music out.",
-        "Proposes about six 5 s sequences of 2-3 shots, one action per shot, each with a camera move, a named light and one wow image, rather than one long pass.",
+        "Derives coverage and duration from readable action without fixed cadence, contrast or wow quotas; repeated framing and holds remain valid.",
+        "Records early sound/editorial intent and project-specific actual playback/listening criteria without requiring final audio assets now.",
         "Defaults the look to ungraded original colours and treats any requested look as a post treatment.",
         "Lists the logo or end card as a post overlay and adds no AI label."
       ]
@@ -121,6 +122,28 @@
         "Sets the audio route to native because lip sync matters.",
         "Records the camcorder look as a requested post treatment and does not rely on the prompt word to produce it.",
         "Still names a camera and light stance and an energy level tied to the argument."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Someone gets a rejection and says 'I'm fine.' Make a short film. I have not decided if it is sincere reassurance or an attempt to stop questions. Keep those exact words.",
+      "expected_output": "A compact premise clarification, preserving the exact line and distinguishing the unresolved interpretations rather than silently selecting a motive.",
+      "files": [],
+      "expectations": [
+        "Resolves intended audience response, attention carrier and ending purpose with a focused question or genuinely different directions.",
+        "Does not require a full exploration exercise, mandatory reversal or invented backstory.",
+        "Records provisional sound/editorial intent and project-specific artistic criteria without claiming playback evidence."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Only change the approved lamp reveal's framing to a static wide. Audience response, attention, ending, audio and exact product shape are already settled. No alternatives.",
+      "expected_output": "A scoped framing revision retaining the settled premise and all other locks.",
+      "files": [],
+      "expectations": [
+        "Does not reopen concept development or add alternative directions.",
+        "Keeps the lamp geometry, audio and ending intact and identifies only actual downstream readability checks.",
+        "Does not impose contrast, wow images or extra cuts to compensate for the hold."
       ]
     }
   ]

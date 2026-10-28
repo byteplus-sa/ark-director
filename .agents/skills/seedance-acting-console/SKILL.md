@@ -136,8 +136,8 @@ does not require more movement or override a restraint lock.
 Load [restraint and shape patterns](references/restraint-and-shape.md) when a
 tactic needs a precise shape: a **first sign** (one small cue as the earliest
 consequence), a **suppression arc** (a visible feeling brought under control),
-an **animal image** translated into body cues with at most one burst action
-per shot, or **eyes through concealment** (a veil or mask that leaves only the
+an **animal image** translated into body cues with optional pattern-specific
+single-burst holds, or **eyes through concealment** (a veil or mask that leaves only the
 eyes to carry the tactic).
 
 ---
@@ -263,6 +263,9 @@ dialogue-to-shot mapping in existing shot/scene evidence.
 - **Burst control is optional.** For a supplied lunge, a hold before and after
   the stop can clarify the movement. Keep supplied wardrobe and timing;
   return any conflict rather than adding holds across locked action.
+  There is no universal burst cap: body speed, amplitude, interruptions and
+  recovery follow source intent and plausibility. Multiple bursts need not
+  become slow motion or isolated holds. Speech does not set an energy ceiling.
 - **Emotion arcs need ordered triggers and consequences.** Use multiple beats;
   timestamps are optional unless requested or needed for verified audio alignment.
 - **Evidence limits.** A prompt-only repair predicts a clearer cue; it does

@@ -82,13 +82,13 @@
     {
       "id": 7,
       "prompt": "I want a 0.3-second blink in the middle of my Seedance clip: he is standing, then suddenly he is already on his knees, and the audience never sees him walk. Write it into one prompt.",
-      "expected_output": "An explanation that a cut this short is an assembly-only blink cut, with two separate clip prompts and an assembly plan.",
+      "expected_output": "A requested 0.3-second blink retained as the target, with uncertain one-prompt timing disclosed and assembly offered as an optional precision remedy rather than a provider restriction.",
       "files": [],
       "expectations": [
-        "It explains that the cut is too short for one clip and plans it as an assembly blink cut.",
-        "It gives two separate clip prompts, one before and one at the end state, each at a natural length.",
-        "Neither prompt shows or asks the model to skip the walk.",
-        "The assembly plan names the gap length in frames and what fills it."
+        "It preserves the 0.3-second target and does not claim a guaranteed sub-0.8-second failure.",
+        "It explains that one-prompt timing cannot be guaranteed and asks before replacing the requested workflow with assembly.",
+        "Any proposed source prompts show the before and end states without showing the omitted walk.",
+        "An optional assembly plan retains the requested gap duration and asks for delivery frame rate before converting it to frames."
       ]
     },
     {
@@ -106,10 +106,10 @@
     {
       "id": 9,
       "prompt": "A knight walks through a stone archway in one locked-off Seedance 2.5 shot. His dusty travel cloak should turn into polished ceremonial armour, but only on the parts of his body that have passed the arch, so the change sweeps across him as he walks. Write the timing.",
-      "expected_output": "A progressive-change block with a slowed crossing of about 1.5 s, timed stages by body part, an exclusion of glow and flash effects, and unbroken walking motion, generated as reference-to-video.",
+      "expected_output": "A progressive-change block with timed body-part stages following the walk, unbroken motion and no unwanted glow or flash; any unsupplied duration is provisional, not a forced slow crossing.",
       "files": [],
       "expectations": [
-        "The walk through the arch is slowed so the crossing lasts about 1.5 s.",
+        "The walk and stride are preserved; if timing is unspecified, any proposed window is labeled provisional rather than requiring a 1.5-second crossing or 0.4-second intervals.",
         "The change is written as timed stages by body part, starting with the leading hand and foot and ending fully changed, each stage with its own timestamp.",
         "The block states the change appears only on parts past the arch and rules out glow, flash, sparkle, dissolve or particle effects.",
         "The block states that his position, stride and direction continue unbroken.",
@@ -119,13 +119,49 @@
     {
       "id": 10,
       "prompt": "Write a Chaotic montage pacing block for an 8-second energy-drink clip: twelve shots of skaters, sparks, a crowd and a can, each about half a second, all in one Seedance prompt.",
-      "expected_output": "A Chaotic block that keeps each in-clip shot at about a second or more, explains that shots under about 0.8 s merge, and moves the faster strobe into an assembly cut from separately generated clips.",
+      "expected_output": "A Chaotic plan preserving twelve half-second shots as the target, flagging the remaining two seconds of the eight-second budget as unresolved, and offering assembly without imposing a shot minimum or silently replacing the one-prompt request.",
       "files": [],
       "expectations": [
-        "The output explains that shots shorter than about 0.8 s are merged or dropped inside one clip.",
-        "The in-prompt cut list has fewer shots, each about one second or longer, with consecutive, non-overlapping ranges.",
-        "The half-second strobe is planned as an assembly cut from separately generated clips.",
+        "The output treats about 0.8 s as a provisional caution, not a provider limit or guaranteed merge threshold.",
+        "The output retains twelve half-second shots in order and asks how the remaining two seconds should be allocated, rather than stretching, dropping or inventing shots.",
+        "Assembly from natural-length source clips is an optional precision remedy; a locked one-prompt requirement is returned as a conflict if exact timing is required.",
         "No shot puts readable text or the can's label art into generated video as an exact graphic."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Write progressive-change timing for a dancer crossing a stripe from 2.0 to 2.6 seconds in one continuous shot. The 0.6-second fast stride and camera orbit, rise and downward tilt are locked and coordinated to keep her centered. Only body regions past the stripe change from matte cloth to reflective cloth. Do not slow her or add a cut.",
+      "expected_output": "A progressive-change block within the locked 0.6-second crossing that preserves the fast stride and all three coherent camera components, with actual readability left for playback verification.",
+      "files": [],
+      "expectations": [
+        "Retains the 2.0-2.6-second window and unbroken fast stride without imposing a 1.5-second crossing or fixed 0.4-second intervals.",
+        "Stages the leading, intermediate and trailing regions inside that window, changing only regions past the stripe.",
+        "Retains the coordinated orbit, rise and downward tilt rather than applying a two-move cap.",
+        "Does not claim a successful take without playback or add an unrequested cut."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Review this locked progressive-change timing: the first region crosses at 2.0 seconds, five distinct stages must be exactly 0.4 seconds apart, and the fifth stage must finish at 2.6 seconds. Keep all timings. The camera is also locked on a fixed tripod and must simultaneously orbit the subject. Do not generate.",
+      "expected_output": "An unresolved timing and camera conflict returned to the caller, without silently changing the requested intervals, end time or camera locks.",
+      "files": [],
+      "expectations": [
+        "Explains that five stages separated by four 0.4-second intervals finish at 3.6 seconds, not 2.6 seconds.",
+        "Explains that a physically fixed tripod cannot simultaneously orbit the subject.",
+        "Asks which locks may change and does not manufacture a compliant prompt.",
+        "Does not confuse explicitly locked intervals with optional preset guidance or claim provider failure."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "A reviewer says my 0.6-second progressive crossing and twelve half-second montage shots must fail because of the 1.5-second and 0.8-second rules. No draft or playback is available. Keep all requested timing. If a future take actually merges the shots or hides the progression, what should we do?",
+      "expected_output": "Timing and readability remain unresolved without playback, not failed by heuristic. Preserve the requested timing and propose evidence-led optional remedies if a take demonstrates failure.",
+      "files": [],
+      "expectations": [
+        "Rejects treating 1.5 seconds, 0.4-second intervals or 0.8 seconds as provider limits or guaranteed failure thresholds.",
+        "Preserves the requested crossing and montage timing without asserting that the unseen output succeeds.",
+        "Requires timestamped actual playback evidence to establish merged shots or unreadable progression.",
+        "Offers assembly preserving final cut timing or, only with authorization, slower progression or wider intervals; returns conflicts with locks before changing them."
       ]
     }
   ]

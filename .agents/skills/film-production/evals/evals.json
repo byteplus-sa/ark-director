@@ -4,11 +4,12 @@
     {
       "id": 1,
       "prompt": "Make a cinematic 30-second TVC for a running shoe: dawn city streets, one runner, a score. Take it to the first Seedance drafts.",
-      "expected_output": "A staged plan that records the audio route, look and cinematic bar in the brief, plans sequences, and submits 480p native Drafts with picture-only generation.",
+      "expected_output": "A staged plan recording the compact premise, audio route, look, early sound/editorial intent and project-specific criteria, with intent-led coverage and 480p native Drafts.",
       "files": [],
       "expectations": [
         "Runs brief-intake first and records a picture_only audio route, ungraded original colours and the logo/end card as post overlays in project.md.",
-        "Plans about six 5 s sequences of 2-3 shots with one action per shot, each shot carrying lens intent, camera move, a named light and depth, and one wow image per sequence.",
+        "Derives coverage and durations from intended perception and feasibility without fixed cadence, contrast, turn or wow quotas.",
+        "Records audience response, attention and ending purpose, with early sound/editorial intent and actual playback/listening criteria.",
         "Submits each sequence as a 480p native Draft with generate_audio false after prompt-review and registration, with a declared run budget.",
         "Does not bind any storyboard image as a Seedance reference."
       ]
@@ -56,6 +57,18 @@
         "Does not submit an extension of a clip with people unless the identities are registered asset:// Virtual Portrait assets.",
         "Offers a new single-pass shot with matching first frame and a blocking map, assembled at a cut.",
         "Does not submit a paid request before the user chooses the route."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Assemble our approved sound-led reveal. The brief says viewers hear a latch before seeing the open case, and the final hold should let them recognize the supplied object. The transcript and technical validator pass, but no one has played the new trimmed edit or listened to the mix. Approve the master for me.",
+      "expected_output": "Keeps final acceptance unresolved until actual full-speed playback and listening verify the project's critical reveal and ending criteria.",
+      "files": [],
+      "expectations": [
+        "Requires timestamped evidence bound to the final artifact hash, not just approved raw takes, a transcript or a technical pass.",
+        "Checks that the latch precedes the reveal and the ending remains readable after trimming, using measured edit timing.",
+        "Preserves approve_for_me while requiring real review; does not invent listening or request a redundant user choice.",
+        "Does not add wow shots, a reversal or faster cuts to satisfy a template."
       ]
     }
   ]

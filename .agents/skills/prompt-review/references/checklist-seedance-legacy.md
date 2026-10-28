@@ -63,7 +63,8 @@ Source skill: `seedance-prompt-20`
 12a. **Shot plan carried (`shot.plan_bound`, `shot.variety`, `shot.axis_carry`).**
     The Seedance 2.5 shot-plan items (`shot.plan_bound`, `shot.variety`, `shot.axis_carry` in [the 2.5 checklist](checklist-seedance-25.md#shot-plan-and-structure)) apply to a 2.0 prompt: each shot line carries
     its size, angle, camera move (or a recorded static reason) and a declared
-    light source with its key side, and neighboring shots differ.
+    light source with its key side. Intentional repeated framing, equal
+    durations and sustained holds are valid; no contrast, turn or wow quota.
 
 13. **Per-shot references repeated.** Every shot repeats applicable `@Image N`,
     `@Video N`, `@Audio N` references inline.
@@ -81,10 +82,13 @@ Source skill: `seedance-prompt-20`
 17. **Action detail.** Body-part level detail (hands, legs, head, shoulders, back)
     with range, speed, force.
 
-18. **Motion preference.** The performer's body prefers slow, gentle,
-    continuous motion and avoids high-burst, large-dynamic actions unless the
-    brief calls for them. Camera and cut energy follow the shot plan, not this
-    item.
+18. **Intent-led energy.** Body speed, amplitude, interruptions and recovery
+    follow approved intent and plausible action. No slow-body default or
+    universal burst cap applies. Optional single-burst holds serve a selected
+    pattern or demonstrated failure; preserve locked action and timing.
+    Assess actor energy, camera energy and edit rhythm separately. Spoken
+    dialogue permits kinetic coverage when required delivery and performance
+    retain readability at the planned framing and speed.
 
 19. **Emotion externalization.** Emotions are externalized as physical details,
     never bare labels.
@@ -93,8 +97,9 @@ Source skill: `seedance-prompt-20`
     `{curly braces}` or quotes for lip-sync, with speaker labels for several
     speakers. Use measured delivery or a native-language-informed read with
     pauses, onset and tail. Words / 2.2 is an English planning estimate, not a
-    universal rejection rule. Initially allow 0.5-1.5 s onset and at least
-    0.4 s tail, then verify actual delivery; without evidence, fit is provisional.
+    universal rejection rule. Onset of 0.5-1.5 s and about 0.4 s tail are
+    provisional margins, not minimums; verify actual delivery. Without
+    evidence, fit is provisional; numeric timing alone cannot establish failure.
     Preserve approved text; propose retiming or splitting before an authorized
     wording change.
 

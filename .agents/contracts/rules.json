@@ -554,7 +554,7 @@
         "narrative_video"
       ],
       "owner_path": ".agents/skills/seedance-prompt-25/references/shot-staging.md",
-      "summary": "Each spoken line fits its shot using measured delivery or a native-language-informed read, including pauses and a 0.5-1.5 s late start; the last line ends at least 0.4 s before the clip end with at most two state changes in the final 3 s. About 2.2 words per second is an English planning estimate, not a universal gate; without delivery evidence, timing is provisional. Preserve requested language and locked words; propose retiming or splitting before an authorized wording revision.",
+      "summary": "Each spoken line fits its shot using measured delivery or a native-language-informed read, including pauses, onset and tail. About 2.2 words per second is an English planning estimate; 0.5-1.5 s onset and about 0.4 s tail are provisional margins, not universal minimums or failure thresholds. Verify actual delivery. Two state changes in the final 3 s is a provisional density caution, not an artistic gate: preserve the approved ending and required readability. Without delivery evidence, timing remains provisional; demonstrated duration conflicts still require resolution. Preserve requested language and locked words; propose retiming or splitting before an authorized wording revision.",
       "exceptions": []
     },
     {
