@@ -29,7 +29,7 @@ them.
 ## Inputs and outputs
 
 Input: a market or audience, a premise or formula, the episode count, and any
-locked dialogue, cast, budget or approval mode. When a market writer skill
+locked dialogue, cast or approval mode. When a market writer skill
 exists for the audience, obtain a locked episode brief from it first. Otherwise
 draft the brief with the fields in
 [episode structure](references/episode-structure.md).
@@ -47,7 +47,7 @@ and an optional full-episode showreel.
    characters, one or two locations, threshold props, and exact dialogue per
    scene within the language-aware timing budget in
    [episode structure](references/episode-structure.md). Record
-   `approval_mode`, format, run budget, the native-dialogue audio route and an
+   `approval_mode`, format, the native-dialogue audio route and an
    ungraded look in `project.md`, run `brief-intake` with a fast proposal, then
    run `studio_project.py init <project> --aspect 9:16 --resolution 1080p` (see
    the [production policy](../../contracts/production-policy.md); pre-Studio
@@ -102,7 +102,7 @@ and a single integrating manager.
 - Every spoken line is checked word by word against the locked dialogue with
   speech-to-text before a take can pass. A model's own summary of what was
   said is not sufficient.
-- Retakes fix hard-gate failures only, within the declared budget, as a new
+- Retakes fix hard-gate failures only, as a new
   Draft. Dialogue errors are patched word by word, never re-dubbed whole.
   Record residual defects instead of silently promoting a flawed take.
 - Provider success is `review`, never approval. Never resubmit an ambiguous
@@ -113,7 +113,7 @@ and a single integrating manager.
 | Need | Reference |
 | --- | --- |
 | Beat timing, hooks, reveals, cliffhangers, cards, brief fields | [Episode structure](references/episode-structure.md) |
-| Canon appeal, prompt clauses, dialogue timing, draft-promote, QA gates, word-scoped fixes, budget, assembly | [Production recipe](references/production-recipe.md) |
+| Canon appeal, prompt clauses, dialogue timing, draft-promote, QA gates, word-scoped fixes, assembly | [Production recipe](references/production-recipe.md) |
 | Several episodes in parallel, checkpoints, portfolio, showreel | [Batch production](references/batch-production.md) |
 
 Workspace contracts: [production policy](../../contracts/production-policy.md),

@@ -7,7 +7,7 @@ description: >-
   text), maps up to five assets to slots, and routes each segment by what it
   shows: live-action footage becomes kept, recast or generated shots; posed
   cutouts, cards and graphics become HyperFrames layers; exact type stays
-  deterministic. Scales shots to the reference, sets a credit budget and
+  deterministic. Scales shots to the reference and
   tracks per-segment refinements. Use for "make this edit with my product"
   in any format: fashion lookbooks, product launches, food, travel montages,
   talking-head explainers, music-led hero and aura-farming edits. Planning
@@ -77,8 +77,7 @@ less and nothing else needs to be kept, recast or swap is simpler.
 - **People**: for each person asset, whether it is an invented character, the
   user, or another real person, with the consent record for real people.
 - **Instructions** (optional): priorities such as a hero product shot, an
-  element to keep unchanged, platform, length, new script lines, version count
-  and credit cap.
+  element to keep unchanged, platform, length, new script lines and version count.
 
 ## Output contract
 
@@ -95,7 +94,7 @@ A **Rebuild Plan** returned to the caller:
    need, each with the segments it serves and its take duration.
 5. Audio route: keep, replace, dialogue or silent, per part, with the rights
    and consent basis.
-6. Generation windows, draft resolution, version count and credit estimate.
+6. Generation windows, draft resolution, version count and cost estimates when known.
 7. Refinement ledger with hashes, ready for targeted fixes.
 8. Handoff gates: every generation-bound prompt is a draft until the caller
    runs `prompt-review`, freezes the prompt snapshot and registers the request
@@ -135,9 +134,9 @@ A **Rebuild Plan** returned to the caller:
    ([segment routing](references/segment-routing.md)). Then cluster the
    footage segments into **setups**: one setup per distinct subject, location,
    shot size and angle, and action in the reference. The setup count follows
-   the reference, from one long take to dozens of setups in a long fast edit;
-   when it exceeds the credit budget, merge the closest setups and record the
-   merge. Each setup is generated once and cut into its appearances at the
+   the reference, from one long take to dozens of setups in a long fast edit.
+   Do not merge distinct setups to fit an invented spending limit.
+   Each setup is generated once and cut into its appearances at the
    EDL times; its take duration is the longest continuous use plus handles,
    never below the live minimum and split or chained above the live maximum.
    The EDL stays the cut authority.
@@ -152,12 +151,11 @@ A **Rebuild Plan** returned to the caller:
    A segment that needs its own sync sound (a meme reaction, a pour, a door)
    gets an explicit choice of native or post sound rather than a silent
    default.
-8. **Budget.** Layers cost no credits. Generated shots draft at 480p first;
-   state the estimated credits per shot and wave, promote only the shots that
-   made the cut to the delivery resolution under the project approval mode,
-   and stop at any user cap. Re-check each promoted shot, because the final
+8. **Draft and select.** Generated shots draft at 480p first.
+   Promote only the shots that made the cut to the delivery resolution under
+   the project approval mode. Re-check each promoted shot, because the final
    render is a new picture, not an upscale of the draft. Estimated and
-   confirmed costs stay separate.
+   confirmed costs stay separate when known; missing estimates do not block.
 9. **Hand off** the plan with its gates (output item 8). After takes exist,
    run the assembly check below and keep the refinement ledger current.
 
@@ -203,8 +201,8 @@ A **Rebuild Plan** returned to the caller:
 7. **Refine by segment.** A correction invalidates only the segments it
    touches and their dependents. Unchanged takes keep their hashes and are not
    resubmitted.
-8. **One spend authority.** Show the estimated cost before each generation
-   wave and stop at the user's cap. Never submit the same paid segment twice.
+8. **One submission owner.** Never submit the same paid segment twice.
+   Keep task IDs and reconcile ambiguous submissions before retrying.
 9. **Deliver source with the render.** A motion-layout rebuild ships the
    HyperFrames project beside the render so segments stay editable; generated
    takes are flat clips and are labeled as such.

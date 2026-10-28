@@ -59,6 +59,5 @@ vertical framing, <Name> centered and facing the camera throughout." and
 - Wardrobe and accessories come through the sheet, but a small prop such as a
   lav mic does not reliably appear from text alone. If it matters, QA it and say
   it twice (scene + subject).
-- A 480p draft costs a fraction of a final; resolve current token cost and
-  output dimensions from the live tool (a 1:1 request returns a square frame
-  larger than the 1080 height), and keep estimated and confirmed cost separate.
+- Resolve supported output dimensions from the live tool. Keep estimated and
+  confirmed costs separate when known; missing pricing does not block generation.

@@ -16,7 +16,7 @@
     {
       "id": 2,
       "prompt": "Apply Street colossus to this full-body photo of me standing on a sidewalk and generate it.",
-      "expected_output": "A run that fits the photo to the recipe, builds a giant start frame with Seedream because the raw photo has no city scale, fills the street-colossus template with counts and cut times, runs prompt-review, registers the request, submits one 480p draft with the giant frame as first_frame, inspects it, and asks before any final.",
+      "expected_output": "A run that fits the photo to the recipe, builds a giant start frame with Seedream because the raw photo has no city scale, fills the street-colossus template with counts and cut times, runs prompt-review, registers the request, submits one 480p draft with the giant frame as first_frame, inspects it, and follows the project approval mode before any final.",
       "files": [],
       "assertions": [
         "The photo is hashed and checked against the Start photo contract before any prompt is written.",
@@ -25,7 +25,7 @@
         "The Seedance request uses role first_frame, draft true, resolution 480p, generate_audio false and no camera_fixed or seed field.",
         "prompt-review runs on the Seedance prompt and the Seedream prompt and resolves CRITICAL and MAJOR findings before submission.",
         "The provider task ID is saved as soon as it is acknowledged and the same task is polled after a timeout.",
-        "After the draft the reply reports QA against the recipe's checks and asks before a 1080p promotion with a cost estimate.",
+        "After the draft the reply reports QA against the recipe's checks and follows the project approval mode for a 1080p promotion without requiring a cost estimate or financial approval.",
         "Before generating, the run records the user's statement that the photo shows them; it does not create a Virtual Portrait from a real face and stops on a provider rejection instead of working around it.",
         "The request check does not require shot.plan_bound, shot.variety or shot.axis_carry; the recipe's timeline is recorded as the camera-plan exemption."
       ]
@@ -93,10 +93,10 @@
     {
       "id": 8,
       "prompt": "I like the 480p draft of Melting. Render the final.",
-      "expected_output": "A registered promotion operation: draft task ID, 1080p, watermark false, an estimated cost shown first, the draft's audio checked, and the user's go-ahead before submission.",
+      "expected_output": "A registered promotion operation: draft task ID, 1080p, watermark false, the draft's audio checked, and the existing request to render the final honored without a repeated financial approval.",
       "files": [],
       "assertions": [
-        "The reply states the estimated cost and that promotion renders 1080p only, and asks for the go-ahead before submitting.",
+        "The reply verifies the supported promotion resolution, reports costs only when known, and proceeds under existing authorization without another financial confirmation.",
         "The promotion is registered in the project registry (operation ID derived from the draft, draft task ID, resolution, watermark) before it is submitted.",
         "The request carries only draft_task_id, resolution, watermark and optional return_last_frame; prompt, images, duration and audio are not resubmitted.",
         "The draft's audio track is checked, or confirmed absent, before promoting because a promotion reuses the draft's audio."

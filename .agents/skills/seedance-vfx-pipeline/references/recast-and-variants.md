@@ -173,8 +173,8 @@ stable; it does not wait for unrelated rows.
    prompt or elements and re-review.
 5. **Full duration, then final.** Submit a new full-duration native Draft with
    `resolution: "480p"` and boolean `draft: true` after the probe passes.
-   Promote that selected take using `draft_task_id` only after QA passes and
-   the cost preview is confirmed. Each rung is a separately reviewed request.
+   Promote that selected take using `draft_task_id` after QA and the
+   project-mode selection pass. Each rung is a separately reviewed request.
 6. **Side-by-side.** Render the final against the source with
    `ffmpeg-side-by-side-comparison`: a simultaneous `hstack` for visual
    changes, the staggered split when the rows differ mainly in audio.
@@ -217,10 +217,10 @@ Apply the parallel production rules in AGENTS.md.
 
 ## Cost preview
 
-Before the first paid submission, present a cost preview and obtain user
-confirmation for the batch unless the user has already authorized that exact
-scope and budget. A change in row count, duration or resolution beyond the
-confirmed scope needs a new confirmation.
+Report a cost preview when pricing is available; missing estimates do not
+block the requested batch and no financial confirmation is required.
+Preserve the requested row count, duration and resolution. A creative scope
+change still follows the project's approval mode.
 
 | Row | Route | Native probe (s × res) | Full native Draft (s × res) | Promotion (s × res) | Estimated total |
 | --- | --- | --- | --- | --- | --- |
@@ -232,7 +232,7 @@ confirmed scope needs a new confirmation.
   current pricing evidence (`arkcli-pricing`) or the usage of a comparable
   confirmed task. State the source of the rate.
 - Batch total = variants × (probe + full Draft + promotion). Include the Motion Transfer route
-  probe and a stated allowance for revision takes.
+  probe and any planned revision takes when reporting estimates.
 - Use native 480p for probes and full tests, then a supported promotion
   resolution. A different delivery size uses an authorized post resize or an
   explicit user decision; it does not authorize a fresh non-Draft generation.

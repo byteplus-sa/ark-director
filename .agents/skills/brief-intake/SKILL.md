@@ -34,7 +34,7 @@ Read the supplied brief and existing confirmed decisions first. Extract:
 | Intended reaction | What should the viewer feel, understand, remember, or do? |
 | Central visual idea | What specific event, contrast, image, or recurring action carries that reaction? |
 | Story/product truth | Which supplied facts, characters, relationships, and claims must remain accurate? |
-| Constraints | Runtime, format, available references, budget posture, delivery needs, forbidden changes |
+| Constraints | Runtime, format, available references, delivery needs, forbidden changes |
 | Tone/genre references | What useful quality is being borrowed, and which convention should be avoided? |
 | Confirmed decisions | Which axes and identities are already accepted? |
 | Where the feeling lives | Which channel carries the inner state (performance, sound, light, framing, edit) rather than literal effects? |

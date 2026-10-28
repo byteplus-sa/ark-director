@@ -5,8 +5,8 @@ description: >-
   clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and
   grab and more), let the user pick one, inspect their photo or clip, write that
   effect's Seedance 2.5 prompt from its recipe, run prompt-review, submit a 480p
-  draft through ark-mcp, save and QA the take, then ask before any higher
-  resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp,
+  draft through ark-mcp, save and QA the take, then follow the project approval
+  mode for a higher resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp,
   seedance-restyle (video-to-video effects), the Studio project and the post tools
   named in each recipe. Use when the user wants a named visual effect applied to
   their own photo, product or clip, or asks what effects are available. Not for
@@ -194,8 +194,9 @@ states what is missing.
    recipe's **QA** list, and write down what passed and failed.
 10. **Decide.** Show the draft and the QA result. Offer: accept, revise the prompt
     (one named change, new review, new draft), or promote to a final with the
-    draft task ID. Promotion to a final needs the user's go-ahead, an
-    estimated cost, and its own registered operation (see the generation flow). Apply the recipe's **Post** steps (overlay text, split-screen
+    draft task ID. Promotion follows the project approval mode and needs its
+    own registered operation, not a separate financial approval or cost estimate
+    (see the generation flow). Apply the recipe's **Post** steps (overlay text, split-screen
     stack, fisheye, ambience bed) only after the picture is accepted.
 
 A project folder is required for any submission: `projects/<name>/` with
@@ -250,7 +251,7 @@ Provider rules (details and wording in
 4. **Counts are explicit** at every timestamp, copies share one face and one
    outfit, and the reported count is the one found on a full-size frame.
 5. **Always a draft first.** Explicit `resolution: "480p"` and boolean
-   `draft: true`, inspect, then ask before the final. New Seedance 2.5
+   `draft: true`, inspect, then select under the project approval mode before the final. New Seedance 2.5
    generations have no skip-draft override.
    Never submit the same paid generation twice or through two transports; an
    ambiguous timeout is reconciled, not retried.

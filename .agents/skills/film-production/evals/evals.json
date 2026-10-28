@@ -9,7 +9,7 @@
       "expectations": [
         "Runs brief-intake first and records a picture_only audio route, ungraded original colours and the logo/end card as post overlays in project.md.",
         "Plans about six 5 s sequences of 2-3 shots with one action per shot, each shot carrying lens intent, camera move, a named light and depth, and one wow image per sequence.",
-        "Submits each sequence as a 480p native Draft with generate_audio false after prompt-review and registration, with a declared run budget.",
+        "Submits each sequence as a 480p native Draft with generate_audio false after prompt-review and registration, without requiring financial setup or a cost estimate.",
         "Does not bind any storyboard image as a Seedance reference."
       ]
     },

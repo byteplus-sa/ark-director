@@ -1,5 +1,10 @@
 # Production policy
 
+Projects and generation do not require financial setup or a budget. Do not
+invent spending caps or require cost estimates or financial approval before
+proceeding. Costs are informational when available; preserve user instructions,
+rights, review, native-draft and durable-operation requirements.
+
 ## Stage evidence and authorization
 
 Draft brief and scene breakdown can identify assets before canon exists. Before dependent production generation, require the appropriate approved recurring/critical elements and declared reference roles. Canon may be created by static sheet generation, deterministic HTML-entrypoint rendering, **or** by acquiring and approving real brand/product/logo assets; prompt-only authoring may deliver a draft without generating or downloading assets. When the brief borrows visual or motion grammar from a cited brand ad or other footage, obtain watchable media first (a `seed_understand`-usable public HTTPS URL, or a local download plus upload when that link is unusable); do not treat scripts or article text as the reference.
@@ -157,7 +162,7 @@ Provider success sets `review`. In `approve_for_me`, inspect every candidate
 with modality-appropriate evidence, reject hard-gate failures, rank passing
 candidates against recorded criteria, and save a hash-bound review and agent
 decision before a validated writer sets `selected_variant` and `approved`. If
-none passes or inspection is unavailable, repair within the run budget or block
+none passes or inspection is unavailable, make a targeted repair or block
 the stage. In `ask_for_approval`, record `recommended_variant` and review
 evidence, then wait for an explicit user choice before setting
 `selected_variant` or `approved`. A recommendation alone never approves. A
@@ -264,7 +269,7 @@ review is `approved` or whose expected output has a passing variant-selection
 decision (`seedance.draft_promotion_source`). For multi-shot projects, review
 the draft assembly and record the picture/audio decisions before generating
 final takes. Preserve all draft files, prompt snapshots, references, task IDs
-and decisions. Generate final takes only within the authorized scope and budget
+and decisions. Generate final takes only within the requested scope
 at the recorded delivery target; do not assume 1080p is always required. A
 requested 480p delivery can use reviewed 480p takes after delivery QA.
 

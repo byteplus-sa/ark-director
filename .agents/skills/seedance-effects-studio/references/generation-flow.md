@@ -179,11 +179,11 @@ forbade them.
   with `draft_task_id` (the Draft task ID,
   at most 7 days old) and only `resolution`, `watermark`, `return_last_frame`.
   Prompt, images, duration and audio come from the draft. Promotion renders
-  1080p in the documented path; revalidate these constraints and current cost.
+  1080p in the documented path; revalidate these constraints.
   Resolve a delivery target the promotion path cannot provide with an authorized
   post-processing route or an explicit user decision; new Seedance 2.5 generations
   have no skip-draft override.
-  Follow existing generation authorization, project approval mode and budget;
+  Follow existing generation authorization and project approval mode;
   request authorization only when the final operation exceeds that scope. A promotion is a
   paid operation and is registered before it is submitted: operation ID
   `<draft operation>-promote`, the draft's prompt snapshot and references, params

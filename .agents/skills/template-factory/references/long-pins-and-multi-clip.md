@@ -81,7 +81,7 @@ whose sound is score-led or ambient, generate picture with
 
 Long generated music beds are more exposed to provider output audits. If a bed
 is rejected, diagnose before revising and prefer the native-audio edit over
-repeated submissions. Budget spare samples, and measure the delivered bed's
+repeated submissions. Measure the delivered bed's
 tempo and section timing; pad or splice in assembly rather than trusting the
 prompt's timing.
 

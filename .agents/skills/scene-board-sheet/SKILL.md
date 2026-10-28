@@ -30,10 +30,10 @@ edit, never as the final panel.
 | The shot plan this board reads | `seedance-shot-design` |
 | Exact static graphics (the sheet is a deterministic render) | `html-graphic-render` |
 | Blocking geometry for Seedance | `tig-blocking-map` |
-| Stage order, approval modes, Studio and spending gates | `film-production` and the production policy |
+| Stage order, approval modes and Studio | `film-production` and the production policy |
 
 These are prose pointers for the calling agent. This skill reads files and writes
-files under the scene folder; the caller owns tools, spending and approval.
+files under the scene folder; the caller owns generation tools and approval.
 
 ## Boundary rule
 
@@ -59,7 +59,7 @@ The level is chosen per scene and recorded with a reason. **L2 is the default.**
 | L2 | Key shots get start, peak and end panels; other shots get one |
 | L3 | Key shots get sub-beat panels (anticipation, contact, consequence, reaction, or the shot's `sub_beats`); other shots get one |
 
-Choose L1 for quiet dialogue, montage, product beauty, showcase and budget-limited
+Choose L1 for quiet dialogue, montage, product beauty, showcase and concise staging
 passes; L2 for most narrative, ad, micro-drama and music-video scenes; L3 for
 action, fights, chases, state-change reveals and complex blocking. A shot may
 override the scene level with `--override SHOT=LEVEL=REASON`; an override forces the
@@ -183,7 +183,7 @@ Fix failed panels, not the board.
    the full frame and warns, and a global change usually drifts, so prefer a box or
    regeneration). Put the box in the request params as the object printed in
    `bbox_request_format`, not as the comma string. One failed dimension per edit. An edit is a paid call: state the
-   count and cost first and register the operation before submitting. If the tool
+   count, report costs when known, and register the operation before submitting. If the tool
    returns an explicit validation error before it queues anything, no provider task
    exists: move the registered operation (in `submitting`) to `terminal` through
    `operation_store.transition_operation` with a provider status naming the

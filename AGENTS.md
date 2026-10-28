@@ -24,6 +24,12 @@ Ask for missing information when it materially affects the intended result.
 Continue reversible work whose requirements are already clear. Do not repeat an
 approval request when existing user instructions authorize the same action.
 
+Projects and generation do not require a budget, spending cap, cost estimate,
+or financial approval step. Do not invent monetary or generated-seconds
+ceilings. Record costs when known without blocking on missing estimates.
+Continue to respect explicit user instructions, provider limits, rights,
+creative approvals, and duplicate-submission protection.
+
 ## Operational contracts
 
 Load only the contract relevant to the current stage:

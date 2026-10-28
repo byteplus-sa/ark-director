@@ -55,7 +55,7 @@ specialist runs it, and which production defaults make the result better.
    tasks, and decision gates. Recheck the effective approval mode before each
    decision.
 6. State the current stage, the next safe objective, required specialist
-   skills, and any user decision needed before spending credits.
+   skills, and any unresolved creative or rights decision.
 
 Read [stage contracts](references/stage-contracts.md) for entry evidence,
 required outputs and exit conditions, and
@@ -171,20 +171,20 @@ override. At shot generation, inspect each take against its plan: a missing
 planned cut, move or light change is a soft defect to record, and a missing
 move or light on the turn shot is a hard-gate failure.
 
-## Approval and spending gates
+## Approval gates
 
 Approval modes, decision evidence and lock rules are defined once in the
 production policy. The orchestration-specific rules are:
 
-- Declare a run budget (generated seconds or currency) before the first paid
-  submission, and stop and report before exceeding it. Promote only selected
-  drafts.
+- Start and continue generation without a budget or cost-estimate prerequisite.
+  Promote only selected drafts.
 - A tie between passing candidates uses stable operation ID and
   variation-index order. Do not promote the least-bad output merely to advance.
-- Rights, real-person likeness or voice consent, new spending beyond the
-  declared budget, external delivery and publishing need their own scope in
-  either mode. An approval to generate never approves its result.
-- Record estimated and confirmed cost separately.
+- Rights, real-person likeness or voice consent, external delivery and
+  publishing need their own scope in either mode. An approval to generate
+  never approves its result.
+- Record estimated and confirmed cost separately when known; missing estimates
+  do not block production.
 
 ## Handle revisions
 

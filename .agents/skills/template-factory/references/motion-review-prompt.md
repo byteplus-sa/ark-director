@@ -8,7 +8,7 @@ with the checklist, the local pin as `source`, and the local take as `take`.
 Prefer native video/image tools and timestamped frame sequences for both.
 When native perception is insufficient, use an available visual-understanding
 tool such as `seed_understand` with the same comparison contract, subject to
-the skill's privacy and cost checks; save the request and tool results.
+the skill's privacy and capability checks; save the request and tool results.
 Record both media hashes, inspected ranges, frame paths, actual cut times and
 uncertainty in `motion-review.md`. Native comparison needs no cloud LLM or upload.
 Set `mode: comparison`.
