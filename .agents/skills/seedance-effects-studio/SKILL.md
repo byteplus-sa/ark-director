@@ -4,9 +4,10 @@ description: >-
   Orchestrator. Offer a menu of 45 named video effects (street colossus, incline,
   clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and
   grab and more), let the user pick one, inspect their photo or clip, write that
-  effect's Seedance 2.5 prompt from its recipe, run prompt-review, submit a 480p
-  draft through ark-mcp, save and QA the take, then ask before any higher
-  resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp,
+  effect's Seedance 2.5 prompt from its recipe, apply mode-appropriate preflight,
+  submit through ark-mcp, and inspect and select the take under approval_mode.
+  Both review modes retain native Draft-first generation; strict adds detailed
+  review. Sequences seedance-prompt-25, optional prompt-review, ark-mcp,
   seedance-restyle (video-to-video effects), the Studio project and the post tools
   named in each recipe. Use when the user wants a named visual effect applied to
   their own photo, product or clip, or asks what effects are available. Not for
@@ -17,7 +18,7 @@ description: >-
 # Seedance Effects Studio
 
 **Declared orchestrator.** This skill owns the sequence pick effect → intake →
-slot fill → prompt → review → freeze → draft → QA → decision. It is exempt from
+slot fill → prompt → preflight → freeze → generate → sanity → decision. It is exempt from
 the leaf-skill rule that a skill never loads another; the specialists it loads
 stay independent and usable alone. It never calls the Ark REST API: submission
 goes through `ark-mcp`.
@@ -139,6 +140,12 @@ Recipes: [effects-product-and-spectacle.md](references/effects-product-and-spect
 Run the stages in order. A stage that cannot be satisfied stops the run and
 states what is missing.
 
+Read independent `review_mode` and `approval_mode` in `project.md`. Default
+uses minimal inline preflight and actual output sanity, one image unless a
+count is requested, and native Draft-first video. Strict adds the detailed
+checklist. Both modes require selection before promotion. Neither mode grants rights,
+extra budget or permission to replace user locks.
+
 1. **Pick.** Resolve one effect id. One effect per run; a second effect is a new
    run. Read only that effect's section from its recipe file.
 2. **Intake.** Collect the start asset the recipe asks for (photo, product photo,
@@ -173,13 +180,15 @@ states what is missing.
    recipe's **Route** and **Parameters**.
 6. **Hash and review.** Save the prompt beside its intended output, resolve
    current capability evidence, and compute the request hash with
-   `prepare_request.py` without `--write` or `--register`. Run `prompt-review`
+   `prepare_request.py` without `--write` or `--register`. Default checks intent,
+   bindings, approvals, rights and budget inline without a checklist report.
+   In strict mode or for explicit review, run `prompt-review`
    bound to that hash (Seedance 2.5 generate; plus Seedream for a generated start
    frame). Review inline by default; use a sub-agent only when the user
    explicitly requests sub-agent prompt review for the project or specific
    generation. Resolve CRITICAL and MAJOR findings; a changed prompt byte changes the
    hash and needs a new review.
-7. **Freeze and register.** Re-run `prepare_request.py` with the review and
+7. **Freeze and register.** Re-run `prepare_request.py` with any required review and
    capability files and `--write --register` so the prepared operation is in the
    project `task_ids.json` before any submission. Read
    [generation flow](references/generation-flow.md) for the exact calls.
@@ -190,12 +199,14 @@ states what is missing.
    provider task ID as soon as it is acknowledged. Poll the same task; never
    resubmit after a timeout.
 9. **Persist and QA.** Save the video locally, record bytes, SHA-256 and actual
-   media properties, inspect it by playback or frame sampling against the
-   recipe's **QA** list, and write down what passed and failed.
-10. **Decide.** Show the draft and the QA result. Offer: accept, revise the prompt
-    (one named change, new review, new draft), or promote to a final with the
-    draft task ID. Promotion to a final needs the user's go-ahead, an
-    estimated cost, and its own registered operation (see the generation flow). Apply the recipe's **Post** steps (overlay text, split-screen
+   media properties, inspect temporal playback and actual audio when present.
+   Default keeps short truthful sanity records; strict applies the full recipe
+   **QA** list. Frame sampling supports, never replaces, temporal inspection.
+10. **Decide.** Record the selection under `approval_mode`: an agent may approve
+    a passing take in `approve_for_me`; `ask_for_approval` waits for the user's
+    choice. Retain user locks. For a draft, promotion needs an estimated cost,
+    authorized budget and its own registered operation (see the generation
+    flow), not a redundant permission request within existing scope. Apply the recipe's **Post** steps (overlay text, split-screen
     stack, fisheye, ambience bed) only after the picture is accepted.
 
 A project folder is required for any submission: `projects/<name>/` with
@@ -250,7 +261,7 @@ Provider rules (details and wording in
 4. **Counts are explicit** at every timestamp, copies share one face and one
    outfit, and the reported count is the one found on a full-size frame.
 5. **Always a draft first.** Explicit `resolution: "480p"` and boolean
-   `draft: true`, inspect, then ask before the final. New Seedance 2.5
+   `draft: true`, inspect, then select under the project approval mode before the final. New Seedance 2.5
    generations have no skip-draft override.
    Never submit the same paid generation twice or through two transports; an
    ambiguous timeout is reconciled, not retried.
@@ -266,8 +277,8 @@ Provider rules (details and wording in
 9. **The recipe is the shot plan.** Each recipe carries an explicit per-shot
    camera plan (timeline, camera move, cuts). Record that as the exemption from
    the `shot.plan_bound`, `shot.variety` and `shot.axis_carry` rules in the shot
-   manifest, omit those required rules in the request check, and let the reviewer
-   record them as `not_applicable` with the exemption as the reason.
+   manifest and omit those required rules in the request check. In a detailed
+   review, record them as `not_applicable` with the exemption as the reason.
 
 ## Reference loading
 

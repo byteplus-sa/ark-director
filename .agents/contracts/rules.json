@@ -165,7 +165,17 @@
         "preflight"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "All applicable checks have complete request-bound evidence.",
+      "summary": "Strict or explicitly required reviews have complete request-bound evidence; any supplied report must be valid even in default mode.",
+      "exceptions": []
+    },
+    {
+      "id": "review.current_mode",
+      "severity": "error",
+      "applies_to": [
+        "preflight"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "Project review_mode is default or strict, independent of approval_mode; absent defaults for new actions and invalid values fail closed.",
       "exceptions": []
     },
     {

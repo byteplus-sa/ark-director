@@ -17,10 +17,10 @@ from validate_request import (
     parse_frontmatter,
     prepared_evidence_findings,
     project_mode_findings,
+    request_review_findings,
     schema_findings,
     studio_project,
     validate_request,
-    validate_review,
 )
 
 TRANSITIONS = {
@@ -104,9 +104,9 @@ def require_current_approval_contract(root: Path, record: dict[str, Any]) -> Non
             metadata = parse_frontmatter(content) if content.startswith("---") else {}
         except (OSError, UnicodeError, ValueError, TypeError, YAMLError) as error:
             raise ValueError(f"Cannot verify legacy project mode: {error}") from error
-        if "approval_mode" in metadata:
+        if any(field in metadata for field in ("approval_mode", "review_mode")):
             raise ValueError(
-                "Explicit approval mode requires a version-2 generation request"
+                "Explicit approval or review mode requires a version-2 generation request"
             )
     path = root / "showcase.json"
     if path.is_symlink():
@@ -163,7 +163,7 @@ def prepare_operation(
     root: Path,
     request: dict[str, Any],
     capabilities: dict[str, Any],
-    review: dict[str, Any],
+    review: dict[str, Any] | None,
     required_rule_ids: list[str],
     allow_board_references: bool = False,
     *,
@@ -177,15 +177,22 @@ def prepare_operation(
         existing_submission=existing_submission,
     )
     findings.extend(
-        validate_review(review, request.get("request_sha256", ""), required_rule_ids)
+        request_review_findings(
+            root, review, request.get("request_sha256", ""), required_rule_ids
+        )
     )
     if findings:
         raise ValueError("; ".join(finding.message for finding in findings))
     with selection_lock(root), registry_lock(root) as path:
-        require_current_approval_contract(root, request)
         mode_findings = project_mode_findings(root, request)
+        mode_findings.extend(
+            request_review_findings(
+                root, review, request.get("request_sha256", ""), required_rule_ids
+            )
+        )
         if mode_findings:
             raise ValueError("; ".join(finding.message for finding in mode_findings))
+        require_current_approval_contract(root, request)
         registry = read_registry(path)
         if any(
             record["operation_id"] == request["operation_id"]
@@ -203,7 +210,7 @@ def adopt_submitted_operation(
     root: Path,
     request: dict[str, Any],
     capabilities: dict[str, Any],
-    review: dict[str, Any],
+    review: dict[str, Any] | None,
     required_rule_ids: list[str],
     provider_task_id: str,
     provider_status: str,

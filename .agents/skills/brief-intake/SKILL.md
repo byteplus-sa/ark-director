@@ -172,6 +172,15 @@ remaining decision. Explain what each interpretation would make the viewer feel.
 
 ## 5. Confirm and persist the right scope
 
+For new projects, record `review_mode: default` independently of
+`approval_mode: approve_for_me`. Review mode is `default` or `strict`; absent
+means default for new actions, invalid values block production. Default means
+minimal inline preflight and actual output sanity, not a full prompt-review
+checklist or mandatory report. Plan one image unless a count is requested and
+native 480p Draft-first Seedance 2.5 video in both review modes.
+Strict retains the detailed workflow. Neither review mode grants approval or
+changes existing user locks, rights, consent or spending scope.
+
 Present the proposed direction with reasons, then identify decisions actually
 requiring acceptance: a new concept, a changed lock, or an impactful assumption.
 For project work, read `approval_mode` from `project.md`. In `approve_for_me`,
@@ -186,6 +195,8 @@ Neither mode can infer rights or real-person likeness/voice consent.
 When project-file updates are in scope, record in `project.md`:
 
 ```yaml
+review_mode: default
+approval_mode: approve_for_me
 creative_intent:
   audience: first-time visitors
   reaction: feel welcome
