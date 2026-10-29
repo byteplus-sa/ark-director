@@ -70,6 +70,14 @@ policy. Source metadata: `rule-provenance.json`.
    contain observable action and relevant intent. Static turnarounds, location
    plates, UI/product sheets, music beds, SFX, and ambience are not_applicable;
    evaluate their composition, consistency, or sonic event instead.
+   For new or materially revised moving-image work, verify the supplied
+   audience response, attention carrier and ending purpose, with early
+   sound/editorial intent and project-specific criteria. Material gaps stay
+   incomplete; settled edits inherit intent without mandatory alternatives.
+   Stillness, equal timing and repetition can serve that intent. Do not flag
+   burst counts, kinetic speech or missing contrast/turn/wow/cadence quotas.
+   Required readability and source fidelity remain review obligations; prompt
+   checks do not replace actual take and final-edit playback/listening.
 
 4. **Watermark.** Apply only where the selected tool supports the parameter.
    If the request specifies watermark behavior, it defaults to `false`

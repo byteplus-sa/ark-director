@@ -1,0 +1,4 @@
+interface:
+  display_name: "Acting Direction"
+  short_description: "Direct intentions, listening and performance beats"
+  default_prompt: "Use $acting-direction to derive a source-grounded performance plan for this scene. Preserve locked words, outcome and restraint, then hand readable beats to shot design and the model-specific encoder."

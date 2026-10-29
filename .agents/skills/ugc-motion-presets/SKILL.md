@@ -70,7 +70,7 @@ Every recipe in the three recipe files provides:
 | Camera block | Named technique — fills the Camera slot |
 | Audio | Native audio direction |
 | Duration | Integer seconds, 4–30 single-pass |
-| Flags | Constraint warnings that must survive into the final prompt |
+| Flags | Provider constraints, QA cautions or creative heuristics, labeled by kind in the output notes |
 | Persuasion hint | Optional one-line hook idea; angle/CTA stay with `ugc-ad-modes` |
 
 ## Composition rules
@@ -86,7 +86,9 @@ Every recipe in the three recipe files provides:
   workspace element policy — canonical props get locked references, incidental
   generics may be described.
 - Keep every Flag visible in the composed prompt or the pre-submission notes;
-  flags encode real provider constraints, not style advice.
+  distinguish provider constraints from QA cautions and creative heuristics.
+  Creative heuristics yield to source intent; do not turn a preset's moderate
+  speed, burst caution or hold into a provider limit or universal energy cap.
 - Duration, resolution, ratio, and watermark are generation parameters — they
   stay in the API call, never in the prompt text.
 - Acting intensity is expressed through observable physical cues, never degree
@@ -130,7 +132,8 @@ Defaults for UGC placement, stated as defaults rather than rules:
 3. Motion direction is timestamped, cue-level, and physically observable; no
    degree adjectives carry intensity.
 4. Reference roles match the recipe and the user's supplied media.
-5. All recipe flags survive into the output.
+5. All recipe flags survive into the output with their kind distinguished;
+   creative cautions do not override source intent or justify invented API limits.
 6. 9:16 and sound-off defaults are respected or explicitly overridden.
 7. Claims, CTA, and testimony requests were routed to `ugc-ad-modes`, not
    answered here.

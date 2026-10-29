@@ -162,13 +162,15 @@ cut instead of leaving it implicit — a single tracking shot reads flat.
 - End the sequence with a terminal hold so the final frames are directed, not
   implied: `the push-in holds tight on the face-off for the remaining five
   seconds while both figures stay still`.
-- Keep each cut to one primary move; more than two simultaneous moves per shot
-  becomes unstable.
+- One primary move and one secondary is a planning heuristic; preserve
+  explicitly requested coherent choreography and resolve incompatible paths
+  rather than dropping moves by count.
 - Give every shot one action with its intent (`the pursuing mannequin lunges to
   close the gap`), a lens intent (`wide 24mm-equivalent depth`, `long-lens
   compression`) and the side of the single soft studio light (`key from
-  frame-left`). Shots shorter than about 0.8 s merge into their neighbour, so
-  keep each cut at least about 1 s and leave faster intercuts to the edit.
+  frame-left`). About 0.8 s per shot is a provisional caution, not a provider
+  limit or guaranteed merge threshold. Preserve requested timing; offer assembly
+  for precision or demonstrated failure and return conflicts with locked workflows.
 
 ## Spatial and architectural lock
 

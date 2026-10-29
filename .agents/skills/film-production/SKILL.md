@@ -76,6 +76,10 @@ between modalities.
 | Brief intake, directorial defaults, audio route, look intent | `brief-intake` |
 | Brand-ad / reference-video inspiration | `template-factory` for native-first reverse-engineering; native/local inspection and timing evidence for lighter analysis, with available MCP understanding tools when capabilities are insufficient |
 | Vertical episodic micro-drama | `micro-drama` (with a market writer such as `filipino-micro-drama`) |
+| Scene writing or structural feedback | `scene-craft`; selected framework, preserving supplied writing |
+| Character intentions, listening and performance beats | `acting-direction`; required for new or revised character-performance scenes |
+| Seedance performance cue encoding | `seedance-acting-console`; consume the performance plan |
+| Staged screen fights | `seedance-fight-choreography`; optional actor/prop state and readable exchanges |
 | Camera, cuts and timing locked from a 3D blockout | `blender-to-seedance` |
 | Character identity asset | `seedream-character-sheet` |
 | Character sheet cleanup | `seedream-character-sheet-cleanup` |
@@ -86,7 +90,7 @@ between modalities.
 | General image generation or edit | `seedream-prompt` or `seedream-edit` |
 | Storyboard for planning and review | `seedream-storyboard` |
 | Scene board record, annotated sheet, animatic and panel repair planning | `scene-board-sheet` |
-| Scene geography and crowd blocking | `tig-blocking-map` |
+| Scene geography and crowd blocking | `blocking-map` |
 | Score, ambience, SFX or dialogue audio | `seed-audio-prompt` |
 | Narrative audio commercial | `seed-audio-commercial` |
 | Per-shot coverage, camera, lens intent and light for a scene | `seedance-shot-design` |
@@ -120,9 +124,9 @@ paid video submission and again at assembly. In short:
    Ambience-only, score-driven and wordless pieces generate picture with
    `generate_audio: false` and build the bed in post, because a "no music" line
    does not reliably hold.
-3. **Cinematic sequences for ads and TVCs.** About six 5 s sequences of 2–3
-   shots for a 30 s spot, one action per shot, each shot with lens, camera move,
-   motivated light and depth, and one wow image per sequence.
+3. **Intent-led coverage for ads and TVCs.** Duration and coverage serve
+   intended perception. Short sequences, repeated framing, equal durations,
+   sustained holds, contrast and wow images are choices, not quotas.
 4. **Storyboards plan; they are never bound** as Seedance references. Bind
    element references and write staging in the prompt.
 5. **People in video inputs** (extension, video-to-video) need `asset://`
@@ -167,8 +171,28 @@ At the brief/development stage, run `brief-intake` before writing the brief's
 required output. It proposes directing defaults derived from the idea, and the
 brief must also record the audio route, the look intent (ungraded original
 colours unless a look is requested), the on-screen copy that will be added in
-post, and, for ads and TVCs, the cinematic sequence bar. Persist the
+post. Resolve the compact premise: intended audience response, what carries
+attention and why the ending matters. Offer alternatives only when direction
+is unresolved or requested, preserving settled work. Record early sound and
+editorial intent (reveal, withhold, emphasize or sustain), and a small set of
+project-specific artistic criteria for actual take and final-edit playback/
+listening. Final cues follow the measured edit; no final audio asset is needed
+at intake. Persist the
 mode-authorized confirmed set as a `locked` block in `project.md`.
+
+At scene breakdown, apply the
+[performance contract](../../contracts/performance-direction.md). Run
+`acting-direction` before coverage decisions for new or revised character
+performances and store `## Performance plan` in the scene. Coordinate
+`seedance-fight-choreography` when fighting is in scope. Reconcile readability
+with shot design, then use `seedance-acting-console` to encode selected beats.
+Require applicable `acting.plan_bound` and `fight.readable_exchange` checks
+through `--required-rule` in both review modes. Default uses focused evidence,
+not unrelated full checklists.
+Actual playback/listening must establish critical performance beats before
+take selection or promotion; a correct transcript is insufficient. At assembly,
+verify that trims retain registration, response and intended performance state.
+Preserve quiet holds and exact dialogue; no motion quota overrides the plan.
 
 At the scene breakdown stage, run `seedance-shot-design` for every narrative,
 ad, micro-drama, music-video or showcase scene before any shot prompt is
@@ -177,9 +201,13 @@ plan stays `draft` until the scene's locations are approved, then is
 revalidated before shot generation. An exempt scene records its
 `static_reason`. The plan carries the project's confirmed camera, lens,
 lighting, pacing and energy axes into the shot lines or records a scene
-override. At shot generation, inspect each take against its plan: a missing
-planned cut, move or light change is a soft defect to record, and a missing
-move or light on the turn shot is a hard-gate failure.
+override. At shot generation, inspect each take against its plan: record
+missing cuts, moves or light changes as defects; block only when a lock or
+declared critical criterion fails, not merely because a shot has a turn label.
+Body speed, amplitude, interruptions and recovery follow source intent and
+plausibility with no universal burst cap. Speech allows kinetic coverage when
+required delivery and performance remain readable; assess actor energy,
+camera energy and edit rhythm separately.
 
 ## Approval and spending gates
 

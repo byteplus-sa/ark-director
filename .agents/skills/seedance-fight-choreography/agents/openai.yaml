@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Fight Choreography"
+  short_description: "Plan readable fictional screen action and continuity"
+  default_prompt: "Use $seedance-fight-choreography for a prompt-only screen choreography plan. Preserve my narrative, performance, medium, dialogue and shot locks; keep style selection explicit, track actor and prop states, and return readable action/reaction beats with continuity checks. Do not invoke tools, subagents or generation."

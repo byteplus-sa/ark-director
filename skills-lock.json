@@ -1,6 +1,20 @@
 {
   "version": 1,
   "skills": {
+    "acting-direction": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/acting-direction/SKILL.md",
+      "sourceNotes": "Adopted from byteplus-sa/seed-cinema-studio PR #7, merged e302ab982bc6714597983733d371e6bbbff0248c (approved head 99c92cd5371ccd43e75d0a508aeb8a488e554a8e). Local prompt-only adaptation of workspace acting analysis and higgsfield-acting-skill.skill, which attributes shared-direction to Tigran. No external archive hash or license grant is asserted; no downloaded source library is bundled.",
+      "computedHash": "fbd8899b65b8b5769a0a0cfd4401ce12bbd25d4eaa2b5b2869f9b05178638530"
+    },
+    "seedance-fight-choreography": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seedance-fight-choreography/SKILL.md",
+      "sourceNotes": "Adopted from byteplus-sa/seed-cinema-studio PR #7, merged e302ab982bc6714597983733d371e6bbbff0248c (approved head 99c92cd5371ccd43e75d0a508aeb8a488e554a8e). Independently authored prompt-only screen direction informed by higgsfield-fight-scene.skill v2.4; no external archive hash or license grant asserted. Source libraries and real-world combat instruction excluded; see references/source-notes.md.",
+      "computedHash": "a9f1719a3907359938c727308bfb87adf8ca77ca7950df5fb40ade0d16dc48c0"
+    },
     "audio-dubbing": {
       "source": "./local",
       "sourceType": "local",
@@ -71,7 +85,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/brief-intake/SKILL.md",
-      "computedHash": "925e5931b654b85c13c45a64e150b79af26f7a7a443fc52e99098843ec683986"
+      "computedHash": "598ca48b637ec68136cafb69b09279c3f57b4d4a3c14c65f4641f8acc52fa901"
     },
     "color-grade-palettes": {
       "source": "./local",
@@ -101,7 +115,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/film-production/SKILL.md",
-      "computedHash": "30bd449f368b154a00102fc4542129d836d71b86250654f0e44ccc61d37871cc"
+      "computedHash": "5d3173fda6d00b83ab8e1300e765a925c345773e7fc63df015363927d27e835f"
     },
     "html-graphic-render": {
       "source": "./local",
@@ -131,7 +145,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/prompt-review/SKILL.md",
-      "computedHash": "86e5f281a1696e5b1e93bb974bf334c0d00892975e683139e088b3ae967b1a44"
+      "computedHash": "b8edb84d2a552c2f4130f5bc3e82e3f636f87d8d0712b16c957edf7ad62983cb"
     },
     "seed-audio-commercial": {
       "source": "./local",
@@ -149,25 +163,25 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-acting-console/SKILL.md",
-      "computedHash": "669ad9b6e21d2d1925afdc7b22bdf1fc413561709527a8b765dfc09a14c3d3f3"
+      "computedHash": "c578c25706680e88f0da8fa9892d42be52152c6e3940c144e2385247fad6a4af"
     },
     "seedance-animation-styles": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-animation-styles/SKILL.md",
-      "computedHash": "3402ddbcf71e85284f245b47810424fbf054b6f31540a12f55ad2e01bad11d24"
+      "computedHash": "fdcc096b02fe4c086f9c46684432b8d60b6c75225978ee46b29cc0e701b3e0f8"
     },
     "seedance-camera-presets": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
-      "computedHash": "71bda1090262aa3dc2e709ec788f278f7e3f2a413931054a74a13c78756ede1e"
+      "computedHash": "0a8b290f0774e230ae909f151a77671a9d83abb5988f500041957c6ece4d2e7c"
     },
     "seedance-shot-design": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-shot-design/SKILL.md",
-      "computedHash": "fbb12a793da537f7054685c1f539b2a8ede24c503c29995dbcbd0bbd406946d2"
+      "computedHash": "14ce62ea2bac716d7d79f99c84b5d43d7303001ab76dc7045f1bd3565e6a498c"
     },
     "seedance-frame-break": {
       "source": "./local",
@@ -179,13 +193,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-graybox-world/SKILL.md",
-      "computedHash": "7d6a9e288c58815a46b7928ae14259a0c9906bd9a2be0a9fdcb981164bcd50bb"
+      "computedHash": "398813a56939818755ea0e1b5861d22db2db3d5e75432d30a6b3439b3d629c9d"
     },
     "seedance-lens-presets": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lens-presets/SKILL.md",
-      "computedHash": "f317ef1587403ca07cc2908e30dd11627d1f4d6d83b12e45ff5c9ecc6831052a"
+      "computedHash": "c8dcc078ee838d6c69eb7edb4db4d8b9bc0dd7368e0c35767a9928d4450e8fc8"
     },
     "seedance-lighting-presets": {
       "source": "./local",
@@ -197,31 +211,31 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-design/SKILL.md",
-      "computedHash": "443d009e9c57008ab0f0325dca02e4713873f68761fa202243268cb2ed1f7d9a"
+      "computedHash": "f3d28b6bcb0109a6f920fd6dd6923ce6827e33d39c207c24a0ad00db9fc7a081"
     },
     "seedance-music-video": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-music-video/SKILL.md",
-      "computedHash": "1ed56c8e079a04b041db1f1b649105780abee3acbe04f9cee3b488db6da48a01"
+      "computedHash": "f579b93bb62c28ba8f7f817cc01f2ac55337949a196a8c63aeb7d32b29eabf2d"
     },
     "seedance-pacing-presets": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-pacing-presets/SKILL.md",
-      "computedHash": "9da436217be2567460fe1f67cf3ada84c2443db188691d852e46ec7601f9be5e"
+      "computedHash": "b7d5374a2e04a693d4c3584fe7581efb9d206b8334414cd2c80e002b962cce69"
     },
     "seedance-prompt-20": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-20/SKILL.md",
-      "computedHash": "3cd2b561d7f011fbb8acf337a4523eaa322e11d114675137f0f92fc4655da83c"
+      "computedHash": "a1243e79f4ab8aee6b5c2c8a797a138476ad5bc42b42520ad871e1cb137f36ac"
     },
     "seedance-prompt-25": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25/SKILL.md",
-      "computedHash": "69a6bbe44cead149e360c17aacccb7a35ecb965aebe14d7ab3628683c5cc0480"
+      "computedHash": "b2ec5b6d62b90c9de8c4fded0f359e1f27565ad3d055c2e608cfb5f09c7fa4f3"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",
@@ -245,7 +259,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-vfx-prompt/SKILL.md",
-      "computedHash": "ab4a1ea0839690db3bd343e72ade1358538d9dd94a94029934397d5192be87ac"
+      "computedHash": "15d918821e9f5352a5cab21a5705ea3b54d2a807cb5b3aa46fa0d52ae5deee5a"
     },
     "seedream-character-sheet": {
       "source": "./local",
@@ -299,7 +313,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/scene-board-sheet/SKILL.md",
-      "computedHash": "f5ed160585c9e6b4bba9b75d2264da5ac5f5c4327e171f638c098fa38ee86d0f"
+      "computedHash": "0a1d49422ed4313f5ca7bbb2b43d0fe12306911a84f457afb9fe741dfc3f7b29"
     },
     "showcase-html": {
       "source": "./local",
@@ -313,23 +327,23 @@
       "skillPath": ".agents/skills/template-factory/SKILL.md",
       "computedHash": "9857ec46d0de603810bf2374d798ddbd88e60fac1f3f8a5fe4a465cfb72e121e"
     },
-    "tig-blocking-map": {
+    "blocking-map": {
       "source": "./local",
       "sourceType": "local",
-      "skillPath": ".agents/skills/tig-blocking-map/SKILL.md",
-      "computedHash": "45ca5670cf042c036a73e16ab0cac33e868e157bd9141ec213a0d929f507c858"
+      "skillPath": ".agents/skills/blocking-map/SKILL.md",
+      "computedHash": "fdc4bc5dfecb8b3febd1572ce2a86bcb84257e9e68d02e1c1a9c72488a953600"
     },
-    "tig-scene-engine": {
+    "scene-craft": {
       "source": "./local",
       "sourceType": "local",
-      "skillPath": ".agents/skills/tig-scene-engine/SKILL.md",
-      "computedHash": "08a717776a6174e98460c62288f829ac95757991ccafef748fb1af794028a252"
+      "skillPath": ".agents/skills/scene-craft/SKILL.md",
+      "computedHash": "50f3dbcadddde3ee0c18111e3dcf4b6e9e0bf55481c2e2a4411f1b6e72fb9edb"
     },
     "ugc-ad-modes": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ugc-ad-modes/SKILL.md",
-      "computedHash": "1e2b8378ac70725282c6ab1a8ed8025bc4735ff043842ae9ebbdacf21bb4dbe5"
+      "computedHash": "5f088328bbc2a1b22b6d0be29cbe92c52b8fdb87b2cd98676f87d368cf2ea543"
     },
     "general-video": {
       "source": "heygen-com/hyperframes",
@@ -395,7 +409,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ugc-motion-presets/SKILL.md",
-      "computedHash": "086cf2dfff8aee674a97404f1599d77cf47aaf30794ae0743209e16ad9c9df10"
+      "computedHash": "96c741c6735b34fe65a2ba83559037f5e7a7797299bc8ab86b04c4cd756cb721"
     },
     "seedance-ai-avatar": {
       "source": "./local",
@@ -437,7 +451,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/micro-drama/SKILL.md",
-      "computedHash": "250b5ecb5657506ee73824f89e7151b1860340775e29a7e22d5ceb1a179d6c0a"
+      "computedHash": "33935e83f9b1797a79c6c8fe49771f454e5bc4ca198e58a4b95b5fb1b29788fd"
     },
     "filipino-micro-drama": {
       "source": "./local",

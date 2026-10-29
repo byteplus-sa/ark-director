@@ -145,8 +145,8 @@ additions — safe to use, but not in the official vocabulary list.
 <clockwise/counterclockwise> so the horizon stays visibly diagonal, framing
 <shot size>.` State a mild or pronounced cant when relevant. A held cant is an
 orientation, not a rolling camera move; describe a changing roll separately and
-count it toward the move limit. It may accompany one compatible move, such as
-a slow dolly in. These additions are prompt-authoring heuristics, not verified
+check its compatibility with the full coherent path, not a numeric move limit.
+It may accompany compatible movement, such as a slow dolly in. These additions are prompt-authoring heuristics, not verified
 model controls or guarantees of simulated optics.
 
 ### Framing templates
@@ -164,11 +164,11 @@ before relying on one.
 |---|---|
 | Single | `Single shot of <subject>, <shot size>, <angle>, with <subject> alone in the frame.` |
 | Dirty single / over-the-shoulder | `Over-the-shoulder shot from behind <foreground character>: their shoulder and the back of their head sit soft and dark at frame-<left/right>, while <subject> is sharp and facing the camera, <shot size>.` |
-| Over-the-hip | `Over-the-hip shot: the hip and hand of <standing character> sit soft in the frame-<left/right> foreground, while <lower character> is sharp in the middle distance, <shot size>, <angle>.` Use only when the two characters are at different heights. |
+| Over-the-hip | `Over-the-hip shot: the hip and hand of <foreground character> sit soft in the frame-<left/right> foreground, while <featured character> is sharp in the middle distance, <shot size>, <angle>.` Preserve approved blocking; neither a height difference nor a power imbalance is required. |
 | Two-shot | `Two-shot: <A> frame-left and <B> frame-right, both fully in frame and in focus, <shot size>, <angle>.` |
 | Three-shot | `Three-shot: <A> frame-left, <B> in the center and <C> frame-right, all in focus, <shot size>.` |
 | Group shot | `Group shot of <group> arranged <layout>, with <front subject> nearest the camera, <shot size>.` |
-| Point of view | `Point-of-view shot, first-person view from <character>'s eyes: the frame shows <what they see> and <the hands or limbs they would see>, <shot size>.` For an object, `Point-of-view shot from <object> as it <moves>`. Cover it with a shot of the looker before it and the reaction after it. |
+| Point of view | `Point-of-view shot, first-person view from <character>'s eyes: the frame shows <what they see> and <the hands or limbs they would see>, <shot size>.` For an object, `Point-of-view shot from <object> as it <moves>`. Clarify the viewpoint; look/reaction shots are optional, not extra coverage to add automatically. |
 | Insert | `Insert shot: <detail> fills the frame, <shot size>, <held or one named move>.` Add a face only when the beat needs it. |
 
 ### Composing framing with a move
@@ -199,7 +199,7 @@ required; everything else is optional.
 | `angle` | From the angle vocabulary | Optional; e.g. `low angle`. |
 | `framing` | From the framing templates | Optional; one per shot. Name each featured subject and its screen side. |
 | `timestamp` | Optional `At Ns` moment for a transition or beat | Use only for critical handoffs or transitions. A time budget, not frame-accurate. |
-| `stack` | Number of simultaneous moves in one shot | **At most 2 per shot.** Default to one move. Add one secondary move (e.g. `dolly in` + `tilt up`) only when the shot requires it and the motions remain compatible; more than 2 risks instability. A clip that cuts has one Camera block per shot, so the clip as a whole may carry more moves. |
+| `stack` | Number of simultaneous moves in one shot | Default to one move, with one compatible secondary when useful (e.g. `dolly in` + `tilt up`). This two-move heuristic is not a provider limit: preserve explicitly requested coherent choreography with clear paths, timing and start/end states. A clip that cuts has one Camera block per shot. |
 | `speed` | Pace of the move | Optional; use directional words (`slow`, `fast`, `rapid`, `leisurely`) rather than numeric fps. |
 
 ## Output grammar
@@ -260,17 +260,18 @@ starts and ends, its speed, its timing, and the hold after it.
 - **Timestamps are a time budget.** `At Ns` allocates time to a beat; it is not
   a frame-accurate edit point, and actions may land slightly before or after
   the boundary.
-- **At most 1-2 moves per shot.** A shot with more simultaneous moves becomes
-  unstable and cuts erratically. `stack` defaults to 1; allow 2 only when the
-  second move is a natural continuation (e.g. `dolly in, then tilt up`). In a
-  clip that cuts, write one Camera block per shot so each cut can carry its own
-  move.
+- **Coherent moves per shot.** Default to one or two compatible moves as a
+  planning heuristic. Preserve explicitly requested coherent choreography;
+  check paths, timing and readability rather than rejecting by count alone.
+  Return conflicting simultaneous directions for clarification instead of
+  silently deleting a requested move. In a clip that cuts, write one Camera
+  block per shot.
 - **A locked-off shot is a recorded choice.** State the static camera in the
   Camera block and record its `static_reason` in the shot plan (the
   shot-design skill owns the allowed values). The Seedance 2.5 MCP tool exposes no `camera_fixed`
   field (checked 2026-10-06; the legacy `seedance-prompt-20` skill documents it
-  for the 2.0 REST API), so the prompt carries the lock. A hold lands best after
-  motion.
+  for the 2.0 REST API), so the prompt carries the lock. A hold may stand alone
+  or follow motion according to the intended beat.
 - **One-take needs explicit order.** A one-take shot must list the subjects,
   spaces, and events the camera passes through **in order**; an unordered list
   lets the model cut or reorder the passage.
@@ -293,7 +294,8 @@ Before a Camera block is submitted as part of a Seedance 2.5 prompt, verify:
 1. The `move` is from the preset bank, or follows the Cinematography-Term +
    Subject + Visual Change + Foreground/Background + Direction recipe for
    uncommon terms.
-2. `stack` is 2 or fewer simultaneous moves per shot.
+2. Moves are compatible and readable, including explicitly requested coherent
+   choreography beyond the two-move heuristic; unresolved conflicts are returned.
 3. The Camera block names the subject the camera follows whenever a subject
    exists, and states where the move starts and ends with an active verb and a
    speed.

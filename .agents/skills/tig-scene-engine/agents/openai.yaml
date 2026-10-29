@@ -1,4 +1,0 @@
-interface:
-  display_name: "TIG Scene Engine"
-  short_description: "Help with TIG Scene Engine tasks"
-  default_prompt: "Use $tig-scene-engine to handle this tig scene engine task."

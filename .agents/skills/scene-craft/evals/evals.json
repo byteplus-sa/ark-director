@@ -1,0 +1,92 @@
+{
+  "skill_name": "scene-craft",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Use the five-element engine to audit this excerpt only: Mina must hand in the signed form before closing. A glass door separates her from the clerk. The clerk turns the key; Mina hurries forward. The excerpt ends here. We do not know where she stood or whether the clerk saw her. Preserve these facts.",
+      "expected_output": "Separate established deadline and barrier from missing position, visibility and resolution; offer only a bounded hypothetical staging repair.",
+      "files": [],
+      "expectations": [
+        "Cites the supplied beats for established claims.",
+        "Does not invent Mina holding the key, an unlocked exit or clerk motivation.",
+        "Marks position and visibility as missing rather than proving an impossible tactic.",
+        "Does not fail the resolved-sequence reversal test on the unfinished excerpt.",
+        "Any new staging beat is explicitly hypothetical and its causal effect explained."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Arun says exactly \"Please look at the form.\" He wants a clerk to read it, and the line feels expository. Keep the words and do not add backstory. Suggest the smallest repair in screenplay format.",
+      "expected_output": "Preserve dialogue and repair the interaction with a clearly hypothetical action or response beat.",
+      "files": [],
+      "expectations": [
+        "Keeps the exact line and introduces no new motive or backstory.",
+        "States which action or response is proposed rather than present in the source.",
+        "Explains how the beat makes the request or next tactic legible.",
+        "Uses screenplay format for rewritten beats.",
+        "Does not force a reversal or audience value shift unsupported by the supplied scope."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Use the five-element engine to audit this full resolved sequence: Jo tries the east archive door, discovers it locked, then tries it again identically, learns nothing, and leaves defeated. Her goal was to collect the only signed original before a deadline. Nobody else appears and there is no reveal. Audit the weakest causal links without adding a villain.",
+      "expected_output": "Flag the information-free repetition and absent reversal in the supplied resolved sequence; separate these defects from hypothetical repairs.",
+      "files": [],
+      "expectations": [
+        "Grounds tactic criticism in the identical retry and lack of new information.",
+        "Applies the resolved-sequence reversal rule because the supplied jeopardy has resolved.",
+        "Does not invent hidden agency, a villain or an audience revaluation.",
+        "Keeps the goal fixed and proposes a minimal causal repair as hypothetical.",
+        "Preserves the bespoke distinction between a plot outcome and a reversal that changes the audience verdict."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Use the five-element engine: in an excerpt, a courier picks the blue box, which he has been told contains the document. Later pages reveal the label was swapped. Audit whether picking blue was stupid. You do not have the later reveal scene or sequence ending.",
+      "expected_output": "Evaluate the tactic using knowledge available at selection, and mark later agency/reversal/value judgments incomplete.",
+      "files": [],
+      "expectations": [
+        "Treats picking blue as a plausible tactic given the supplied label knowledge.",
+        "Separates later truth from what the courier could know at the beat.",
+        "Does not infer who swapped labels or why.",
+        "Does not certify a reversal or audience value shift without the reveal evidence.",
+        "Distinguishes established information from inference and missing context."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "This audited 40-second sequence works on the page: Lena searches three drawers for a key, the third is locked, her brother walks in holding it. Turn it into Seedance clips. Can we just generate the first 15 seconds and extend it?",
+      "expected_output": "A shot breakdown preserving approved beats, with extension dependent on live capability and authorized likeness checks; new-generation continuation is a supported alternative, not a universal requirement.",
+      "files": [],
+      "expectations": [
+        "Keeps the search, locked drawer, brother holding the key and Lena's reaction visible without inventing hidden agency or a value shift unsupported by the supplied scene.",
+        "Returns extension and likeness eligibility to the caller for current checks rather than claiming universal rejection or acceptance. If new generations are needed, proposes blocking-map text geometry and approved elements to carry the prior end state.",
+        "Derives coverage and reaction timing from the approved scene, allowing multiple beats in a held shot and no fixed shots-per-generation cadence.",
+        "Does not change the audited beats or invent new motives while converting to shots."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Audit an approved observational scene against its intended rhythm, not the five-element engine: a woman folds laundry in one silent 40-second held shot. There is deliberately no obstacle, reveal or changed audience verdict. Preserve the shot and ending.",
+      "expected_output": "Names the selected observational framework and assesses the supplied intention without inventing engine defects or mandatory cuts.",
+      "files": [],
+      "expectations": [
+        "States the selected framework explicitly and treats the five-element engine as unselected, not a universal gate.",
+        "Does not fail the scene for lacking a goal, obstacle, reversal or value shift.",
+        "Preserves the silent held shot and approved ending without imposing one beat per shot.",
+        "Keeps missing playback evidence unresolved rather than claiming that the intended rhythm has been verified."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Is my scene working? I have not picked a structural framework and have not supplied the pages yet.",
+      "expected_output": "Asks for the scene and intended framework or proposes the five-element engine for confirmation without auditing absent evidence.",
+      "files": [],
+      "expectations": [
+        "Does not silently select the engine as a universal definition of a working scene.",
+        "Requests the missing pages and intended criteria before a structural verdict.",
+        "Does not fabricate beats, defects or approval."
+      ]
+    }
+  ]
+}

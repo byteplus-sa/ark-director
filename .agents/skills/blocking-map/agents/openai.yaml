@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blocking Map"
+  short_description: "Help with Blocking Map tasks"
+  default_prompt: "Use $blocking-map to handle this blocking map task."

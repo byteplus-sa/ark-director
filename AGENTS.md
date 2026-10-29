@@ -39,6 +39,7 @@ Load only the contract relevant to the current stage:
 | Requested dialogue synchronization and assembly | [Audio-video alignment](.agents/contracts/audio-video-alignment.md) |
 | Video-to-video identity references, muted source and post audio | [Video-to-video inputs](.agents/contracts/video-to-video-inputs.md) |
 | Shot plan, camera, lens, lighting, acting and other axes | [Directorial axes](.agents/contracts/seedance-reference.md) |
+| Acting plans, choreography, prompt handoff and take acceptance | [Performance direction](.agents/contracts/performance-direction.md) |
 | Vendored Blender adapter/setup | [Blender setup](.agents/contracts/blender-mcp-setup.md) |
 
 Stable validation rule IDs live in `.agents/contracts/rules.json`. Request,
@@ -173,6 +174,33 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 
 ## Production invariants
 
+- For new or materially revised moving-image work, resolve a compact creative
+  premise: intended audience response, what carries attention, and why the
+  ending matters. Preserve a settled idea; offer alternatives only when direction
+  is unresolved or requested. Record early sound and editorial intent, including
+  purposeful silence, and project-specific artistic acceptance criteria in the
+  existing brief and scene records. Verify those criteria with timestamped
+  actual playback/listening of takes and the final edit; unavailable perception
+  remains unresolved. See the production policy, not a new runtime gate.
+- Body speed, amplitude, interruptions and recovery follow source intent and
+  plausible action. Speech is not an energy ceiling: assess actor energy,
+  camera energy and edit rhythm separately for readability. Coverage, equal
+  durations, repeated framing, sustained holds, contrast and a memorable
+  `wow` image are choices, not quotas. No universal burst cap, mandatory turn
+  or fixed shots-per-generation cadence overrides the approved scene.
+- For new or materially revised character-performance scenes, run
+  `acting-direction` before shot design and store `## Performance plan` in
+  the scene. `seedance-acting-console` encodes its relevant beats;
+  `seedance-fight-choreography` adds readable exchanges only for staged fights.
+  Both production orchestrators follow the performance contract and require
+  applicable `acting.plan_bound` and `fight.readable_exchange` checks through
+  the existing required-rule interface. Inspect actual playback/listening for
+  critical responses and delivery before selection, promotion and final edit
+  acceptance. A correct transcript or camera move does not prove acting.
+- `scene-craft` uses the selected framework; the five-element engine is opt-in.
+  Preserve quiet holds, deliberate non-response, exact dialogue, medium and
+  model. Source-preserving edits inherit acting unless it is in `may_change`;
+  static assets do not acquire performance plans or motion quotas.
 - Draft breakdown may precede canon. Dependent production generation requires
   the relevant approved recurring, branded or story-critical elements.
 - Identify all visible props; only threshold-qualified props require separate

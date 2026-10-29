@@ -161,7 +161,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **78 skills** across 15 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **83 skills** across 15 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -170,7 +170,7 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 | **film-production** | Orchestrates multi-scene, multi-modality production one stage at a time while keeping one HyperFrames Studio project synchronized for review and handoff. |
 | **seedance-effects-studio** | Select a named effect recipe for the current source, preserve observed identity and wardrobe, and validate supported generation in the owning project's workflow. |
 | **template-factory** | Build timed reference-video recipes with native/local analysis first and available MCP understanding, ASR or separation tools when needed, then orchestrate requested generation and Studio review. |
-| **micro-drama** | Produce vertical micro-drama episodes end to end for any market: hook, reveal and cliffhanger clips from element references (storyboards are planning-only), mode-appropriate generation and review, dialogue-accuracy QA with word-scoped fixes, ungraded loudness-matched delivery and a full-episode showreel. |
+| **micro-drama** | Produce source-led vertical micro-drama episodes with an optional hook/reveal/cliffhanger template, element references, draft-first generation, dialogue QA, ungraded loudness-matched delivery and an optional showreel. |
 | **filipino-micro-drama** | Opt-in Filipino-market micro-drama stories and episode briefs with genre formulas and cultural context, preserving approved words and requested language, register, code-switching and subtitle choices. Story material only. |
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Detailed hash-bound prompt reviews for strict review_mode or explicit requests; routine default-mode preflight skips full checklist reports. |
@@ -199,7 +199,7 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 | **seedance-lens-presets** | Translates a lens, focal length, aperture, focus or sensor request into a canonical visible-result phrase for Seedance prompts or Seedream style, and routes unreliable focus pulls and tape looks to post. |
 | **seedance-lighting-presets** | Translates a named lighting setup (rim light, backlight, golden hour, night and moonlight, soft/hard light, three-point, Rembrandt, practicals, silhouette, contre-jour) into a Seedream `Lighting:` recipe and a matching Seedance phrase, and words timed light cues inside a shot. |
 | **seedance-pacing-presets** | Compose prompt-only rhythm, speed ramps, time-lapse, freeze frame, progressive part-by-part changes and named picture/audio transitions, including match cuts, dissolves, wipes and J/L cuts. |
-| **seedance-acting-console** | Turn playable motives and tactics into observable acting cues appropriate to framing, visibility and intensity. |
+| **seedance-acting-console** | Encode supplied performance plans as concise Seedance intent, trigger and response cues; preserve framing, restraint and dialogue locks. |
 | **seedance-animation-styles** | Writes Seedance animation prompts for claymation, needle felt, wood puppets, toy miniatures, vintage rubber hose, painterly 2D, cubist ink, stylized 3D, silicone creatures, wax crayon, and custom animation media. Preserves handcrafted texture and material-specific motion. |
 | **seedance-motion-design** | Write Seedance 2.5 motion-design prompts while routing exact typography and UI to deterministic post graphics and synthesized visual layers to Seedream. |
 | **seedance-music-video** | Develop track-informed music-video treatments with intentional escalation, restraint, repetition or counterpoint and optional evidence-based synchronization. |
@@ -260,8 +260,10 @@ The workspace ships with **78 skills** across 15 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **tig-scene-engine** | Writes and audits screenplay scenes and sequences using a five-element dramatic engine — Goal, Obstacle, Tactic, Reversal, Value Shift — with custom definitions. Use to write new scenes, draft options, develop sequences, or audit/test/diagnose existing scenes for structural strength. Default scene-craft skill for any genre. |
-| **tig-blocking-map** | Project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). |
+| **acting-direction** | Plan character intentions, listening and performance beats before shot design; prompt-only direction, with no generation or take approval. |
+| **seedance-fight-choreography** | Plan optional fictional screen-fight beats with stable participants, readable reactions and prop continuity; preserve selected style and outcome locks. |
+| **scene-craft** | Write and audit scenes using a selected craft framework; the five-element engine is optional, preserving supplied scripts, quiet holds and alternative structures. |
+| **blocking-map** | Project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic — a "staging reference" (blocking map). |
 
 ### UGC & Advertising
 
@@ -327,7 +329,7 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 
 | Source | Type | Examples |
 |---|---|---|
-| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `micro-drama`, `filipino-micro-drama`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `tig-*`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `ark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
+| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `micro-drama`, `filipino-micro-drama`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `scene-craft`, `blocking-map`, `acting-direction`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `ark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
 | **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes`, `hyperframes-*` and `general-video` (10 skills; `hyperframes-studio` is the Studio conventions skill) — other workflow skills are not vendored and are never installed on demand; the upstream `media-use` skill is intentionally not installed |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |
@@ -339,6 +341,30 @@ Orchestration" rule: one capability per skill, prose-only "compose with X"
 sibling hints, and explicitly-marked orchestrators.
 
 ---
+
+### Cinema Craft Adoption
+
+The craft integration comes from
+[Seed Cinema Studio PR #7](https://github.com/byteplus-sa/seed-cinema-studio/pull/7),
+merged as `e302ab982bc6714597983733d371e6bbbff0248c`, with content identical to
+approved head `99c92cd5371ccd43e75d0a508aeb8a488e554a8e`.
+It adds `acting-direction` and optional `seedance-fight-choreography`, renames
+the former TIG scene/blocking entrypoints to `scene-craft` and `blocking-map`,
+and adapts the acting console, conditional anamorphic reference, shot design,
+prompt review and production handoffs. V3's optional motion ratios also adopt
+the source's pre-PR7 performance-preserving baseline.
+
+Ark retains its UGC, motion, Blender, VFX and other production capabilities.
+No Cinema unit/editorial runtime, third-party source digest library, or
+unmerged review-mode policy is imported. Existing review/registration APIs
+enforce the declared applicable checks; they do not automatically classify
+acting quality. Plans bind source evidence, preserve exact dialogue, model,
+medium and quiet holds, and require actual playback/listening acceptance.
+Every new Seedance 2.5 generation still uses native `480p` with `draft: true`.
+
+The acting console retains Ark's measured Spanish-delivery eval as ID12;
+Cinema's colliding source-plan handoff eval is ID17. Skill eval definitions
+and synthetic registration tests are not evidence of improved generated media.
 
 ## Conventions
 

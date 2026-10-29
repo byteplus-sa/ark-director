@@ -32,20 +32,20 @@ flattest default.
 
 ## Building a spot from sequences
 
-Flat video has recurring causes: a single camera setup for the whole clip, no
-camera-move statement, soft verbs ("enjoys", "walks around") instead of
-dynamic ones, and presets added without a plan. Build longer pieces from short
-sequences instead of one long pass:
+Coverage and duration follow what the audience must perceive. A single setup,
+equal durations or repeated holds are not evidence of flatness.
 
-- A 30 s spot is about six 5 s sequences of 2-3 shots each, generated as
-  separate clips and assembled. A single 30 s pass with nine or more beats
-  reads as stock footage.
-- Each shot carries one action, a lens intent, a camera move, a motivated
-  light and at least two depth layers (foreground frame, subject, background).
-- Each sequence has one image worth stopping on: a reveal, a silhouette against
-  a practical, a low angle through foreground detail.
-- Shots under about 0.8 s merge; blink cuts, intercuts and vision flashes are
-  cut in assembly from separately generated sides.
+- Short multi-shot sequences are an optional pattern; there is no fixed
+  shots-per-generation cadence, mandatory turn or `wow` image count.
+- Each shot carries its coherent action, lens intent, movement or stillness
+  and motivated light. Use depth layers only where useful.
+- A memorable still may help, but cannot replace an effective sequence.
+  Split overloaded requests for feasibility while preserving source intent;
+  generation boundaries need not become editorial cuts.
+- About 0.8 s per shot and about 7 shots per clip are provisional cautions,
+  not provider limits or guaranteed failure thresholds. Preserve requested timing;
+  offer assembly for precision or demonstrated failure, and return conflicts
+  with locked timing or workflows rather than silently replacing them.
 
 Presets refine timing and holds; they do not create energy on their own.
 
@@ -73,12 +73,14 @@ Rules:
 1. Open each shot line with the camera facts, then the action, then the light.
    Camera moves use the vocabulary in
    [Camera language](audio-performance-camera.md#camera-language).
-2. One primary camera move per shot, plus at most one secondary move. The clip
-   as a whole is limited by its shot count (about 7 shots at most, none shorter
-   than about 0.8 s), not by a move count.
+2. One primary camera move plus at most one secondary is a planning heuristic.
+   Preserve explicitly requested coherent choreography with clear paths,
+   timing and start/end states; return competing directions rather than
+   dropping a move by count. Check the clip's total duration and required
+   readability without enforcing a numeric shot ceiling.
 3. Name the scene's light sources once, then give each shot a source and a key
-   side. A cut changes which side of a source the camera sees, or a stated event
-   adds a source; it never introduces a source the scene did not declare.
+   side. A cut may retain or change the viewed side of a source; only a stated
+   event adds a source. Never introduce an undeclared source for variety.
 4. Describe an action once, in the shot where it happens. Do not repeat it in the
    shared opening.
 5. A cut resets relationships. Restate the invariants that matter in each shot:
@@ -106,24 +108,27 @@ from the plan or the user's request.
 ## Dialogue inside shots
 
 Place a spoken line inside the shot that frames the speaker, and budget it
-(`dialogue.speech_budget`). Typical timing:
+(`dialogue.speech_budget`). Planning and verification:
 
-- Speech starts 0.5-1.5 s after the shot or cue begins, later after long
-  pre-line action, so a line should not follow a busy action beat.
+- Onset depends on the requested delivery and pre-line action. An initial
+  0.5-1.5 s onset allowance and about 0.4 s of tail are provisional planning
+  margins, not minimums; measured delivery and intended timing take precedence.
 - About 2.2 words per second is an English planning estimate, not a universal
   gate. Budget measured delivery or a native-language-informed read, including
   pauses, onset and tail; without delivery evidence, timing is provisional.
-- Speech tends to fill to the clip end. End the last line at least 0.4 s before
-  the end, and keep the final 3 s to at most two state changes (for example a
-  line and a reaction, not a line, a turn and an exit).
+- Closing density follows the approved ending and required readability. Two
+  state changes in the final 3 s is a provisional caution, not an artistic gate;
+  preserve a requested line, turn and exit when all remain readable.
 - Opening hook words are short and transcribe cleanly; a mumbled first word
   costs the hook.
 - Trimming the clip head in assembly does not lengthen the tail; fix timing in
   the prompt, before the draft. Preserve requested language and locked words;
   propose a longer shot or split before an authorized wording revision.
 
-Vary size and angle between speakers, and keep moves slow while a line is
-spoken so lips and eyes stay readable. A market dialogue leaf (for example
+Choose actor energy, camera energy and edit rhythm independently from the
+intended interaction. Spoken dialogue permits kinetic coverage; assess
+readability of required delivery, lips when relevant, and performance at the
+planned framing and speed rather than imposing quiet moves. A market dialogue leaf (for example
 `seedance-prompt-25-filipino`) can supplement delivery direction when explicitly
 selected for the requested market; its presence never selects the language mix.
 
@@ -172,7 +177,7 @@ Before submitting a cutting clip, confirm:
 
 1. Every shot line carries size, angle, a move or a recorded static hold, and a
    light fact from a declared source, matching the shot plan.
-2. The shot count and lengths fit the duration and the shot ceiling; a single shot
+2. The shot count and lengths fit the duration and required readability; a single shot
    across a long clip is a recorded one-take or hold choice.
 3. Every spoken line fits inside its shot with the speech budget above.
 4. No shot stacks competing moves.

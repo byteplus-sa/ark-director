@@ -94,7 +94,7 @@ Source skill: `seedream-storyboard`
 1. **One frozen, decisive moment per panel.** Not a collage or multi-panel grid.
 
 2. **Dynamic panel count.** When an upstream analysis (`seed_understand`,
-   `tig-scene-engine`, `film-production`, or a script/beat sheet) has identified
+   `scene-craft`, `film-production`, or a script/beat sheet) has identified
    N scenes/shots, the board defaults to one panel per identified scene/shot —
    not a fixed budget. A user-specified smaller count is honored only when
    explicit, with omitted shots recorded as motion notes.

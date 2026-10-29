@@ -155,6 +155,18 @@
         "Describes the tube and refills positively as plain with nothing printed unless a product reference is supplied.",
         "Keeps 'LINK IN BIO' out of the generated video and routes it to a finishing layer; adds no AI-generated label to the clip."
       ]
+    },
+    {
+      "id": 14,
+      "prompt": "A 30-second polished product showcase of a ceramic bowl filling with water in one sustained held frame. Keep the approved bowl shape and steady window light. No speech, no new claims, no alternatives. The ending lets viewers see the full bowl; plan the quiet water sound in post.",
+      "expected_output": "A source-bound held showcase with early picture-and-sound intent and no forced ad cadence.",
+      "files": [],
+      "expectations": [
+        "Preserves the single frame and light without adding contrast, turns, wow images or a six-sequence recipe.",
+        "Keeps product identity and claim boundaries, with picture-only generation and sound in post.",
+        "Records project-specific full-speed playback/listening criteria for the fill, water sound and readable ending; final cues follow the measured edit.",
+        "Does not add concept alternatives to settled work."
+      ]
     }
   ]
 }

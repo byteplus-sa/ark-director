@@ -51,9 +51,25 @@ inspect actual artifacts and report stochastic variation and generation costs.
 ## Case design
 
 For shot planning, `tests/fixtures/creative_quality_shot_design_cases.json` holds
-matched briefs (family drama, restrained brand, kinetic chase, dialogue argument
-and a locked selfie frame) scored on intent, camera and light, variety and
-preservation; run it through the same `pack` and `summarize` commands.
+matched briefs including energetic dialogue, repeated equal holds, multiple
+bursts, wordless product work, locked selfie framing, sound-led reveals,
+unresolved premises, preservation-only edits and missing playback evidence.
+Run them through the same `pack` and `summarize` commands. Coverage is judged
+against intent and readability, not contrast, turn, hold, wow or cadence quotas.
+Actor energy, camera energy and edit rhythm are separate; more motion is not
+the hidden scoring criterion.
+
+For the approved repair comparison, keep current main, adoption and reconciled
+defaults as separate conditions with pinned revisions. Use matched briefs,
+exact dialogue, canon, medium, duration, model/settings and budget. Compare
+independently written prompts blind first; do not fabricate writer or judge
+results from expected assertions. Later media comparisons require separate
+spend authorization and repeated takes. Judge a small set of project-specific
+audience-response, attention, ending, performance and sound criteria with
+artifact hashes and timestamped full-speed playback/listening of actual takes
+and the final edit. Missing inspection remains unresolved; retain ties,
+neither-acceptable results and reviewer disagreements. Offline instruction
+walkthroughs and green tests are not evidence of better generated videos.
 
 Include short briefs, awkward constraints and unconventional choices:
 soft shadowless product photography, a quiet repeated chorus, a masked wide-shot

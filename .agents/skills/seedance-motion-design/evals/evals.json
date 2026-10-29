@@ -17,12 +17,12 @@
     {
       "id": 2,
       "prompt": "Write a 12-second hypermotion product ad prompt for a perfume bottle: macro orbit, glints on the glass, a splash of liquid, then the bottle lands on a plinth. Make it feel premium and cinematic.",
-      "expected_output": "A footage-led prompt with per-shot size, angle, camera move with start and end, lens intent and a named light source with key side, shots of at least about 0.8 s, and no default grade.",
+      "expected_output": "A footage-led prompt with per-shot size, angle, camera move with start and end, lens intent and a named light source with key side, intent-led readable timing, and no default grade.",
       "files": [],
       "expectations": [
         "Each generated shot states a shot size or angle, a camera move with a start and an end, a lens intent as a visible result, and a named light source with its key side.",
         "The bottle's shape is described positively by its visible form rather than by excluding unwanted shapes.",
-        "No shot inside the clip is shorter than about 0.8 s.",
+        "Treats about 0.8 s as a provisional caution, preserves requested timing and offers assembly for precision or demonstrated failure without overriding locks.",
         "No grade, grain or film look is added unless requested, and any label or logo on the bottle is reserved for an approved asset or post.",
         "The prompt names the moment the message lands and the final resting state on the plinth."
       ]

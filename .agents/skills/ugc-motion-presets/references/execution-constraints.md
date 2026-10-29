@@ -110,7 +110,10 @@ Two supported paths:
   boundary, and end state; never demand impossible movement frequencies.
 - **Keyframe chains (multi-shot).** First and last images must share an aspect
   ratio; ordered multi-keyframe images are preferred over grids.
-- **High-burst caution.** Explosions, splashes, and jumps use described,
-  moderate dynamics — avoid unbounded debris and fragments around the subject.
+- **High-burst caution (creative heuristic, not a provider limit).** Describe
+  speed, amplitude, contact, debris paths and recovery from source intent.
+  Preserve requested energetic explosions, splashes and jumps; assess
+  plausibility and required readability. Moderate dynamics or reduced debris
+  are optional repairs for demonstrated failures, not a universal energy cap.
 - **Generation parameters stay in the API.** Duration, resolution, ratio, and
   watermark never go in the prompt text.

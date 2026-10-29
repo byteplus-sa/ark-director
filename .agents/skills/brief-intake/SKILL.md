@@ -83,10 +83,14 @@ State the creative spine in one sentence: **For [audience/context], show
 [specific idea] so the viewer [intended reaction].** This is an aid to reasoning,
 not mandatory output syntax. A static asset can use a visual contrast rather
 than a narrative event; a sound-only brief can use a sonic idea.
+For new or materially revised moving-image work, complete the compact premise:
+intended audience response, what carries attention, and why the ending matters.
+An ending may sustain a question or observation; no reversal or stylistic arc
+is mandatory. Use supplied answers, and resolve only material gaps.
 
 ## 2. Settle the production-critical defaults early
 
-Three choices change how footage is generated, so record them in the first
+These choices change how footage is generated, so record them in the first
 proposal for any moving-image brief instead of discovering them at assembly.
 Each is a proposal with a reason until confirmed. When the brief already
 settles one (a "silent" spot is `silent`), record it in one line without a
@@ -104,11 +108,18 @@ question; static images and sound-only briefs skip the ones that do not apply.
   halation or vignette. Record a grade or a capture-format look (camcorder,
   film stock) only when the brief asks for one, and treat it as a post
   treatment rather than a prompt word.
-- **Cinematic bar for ads and TVCs.** Unless the format is static by design
-  (selfie UGC, talking head), propose a sequence structure: about six 5 s
-  sequences of 2–3 shots for a 30 s spot, one action per shot, each shot with a
-  camera move, a motivated light and depth, and one standout "wow" image per
-  sequence. A single pass carrying many beats reads as stock footage.
+- **Coverage intent.** For ads and TVCs as for other moving images, derive
+  duration and coverage from what must be perceived. Short multi-shot sequences,
+  equal durations, repeated framing, sustained holds, contrast and a `wow`
+  image are choices, not quotas. Separate generation feasibility from cadence.
+- **Sound and editorial intent.** Name a few picture-and-sound relationships:
+  what reveals, withholds or emphasizes the idea, including purposeful silence.
+  Plan this before generation without requiring final audio assets early.
+  Final cues follow the measured edit and actual listening.
+- **Acceptance.** Record a small set of project-specific artistic criteria,
+  identifying critical evidence for takes and the final edit. Require
+  timestamped actual playback/listening before selection, promotion and final
+  acceptance; technical success or a transcript alone cannot establish impact.
 
 Also list the on-screen copy as post overlays: generated footage stays
 text-free, and no "AI-generated" or "fictional" label is added unless the user,
@@ -122,8 +133,9 @@ platform or brief requires it.
   (restrained, standard or kinetic), the audio route and the look, because
   those carry the reaction and decide how footage is generated. Do not
   produce alternatives or a questionnaire merely because a project is new.
-- **Exploration:** when the user asks for directions, alternatives, or help
-  choosing a concept, offer two materially different treatments. Distinguish
+- **Exploration:** only when direction is unresolved or the user requests
+  alternatives, offer materially different treatments or a focused question.
+  Two treatments are a useful option, not a required exploration exercise. Distinguish
   them by central idea, viewpoint, or emotional strategy, not a lens or palette
   swap. Each names its idea, key visible/sonic moment, rationale, and tradeoff.
   Do not generate either or treat a recommendation as selection.
@@ -147,14 +159,14 @@ a format that is static by design), not a neutral default.
 
 | Axis | Derivation | Composition hint for a calling agent |
 | --- | --- | --- |
-| Structure | Narrative development needs an event and progression; one-off static assets do not | `tig-scene-engine` |
-| Acting | Specify an observable reaction/tactic only if a performer matters; match detail to framing | `seedance-acting-console` |
-| Camera | Choose viewpoint, framing, and the movement that reveals the central idea; vary size and angle across a scene | `seedance-shot-design`, then `seedance-camera-presets` |
+| Structure | Narrative development needs an event and progression; one-off static assets do not | `scene-craft` |
+| Acting | Derive source-bound intentions and listener tasks only if a performer matters; preserve stillness and match evidence to framing | `acting-direction` for planning; `seedance-acting-console` for encoding |
+| Camera | Choose viewpoint, framing, movement or stillness that reveals the central idea; repetition is valid | `seedance-shot-design`, then `seedance-camera-presets` |
 | Lens | Describe perspective, separation, and context; add optical terms only when useful | `seedance-lens-presets` |
-| Lighting | Motivate a source and its direction, and let it change meaning across the scene | `seedance-shot-design`, then `seedance-lighting-presets` |
+| Lighting | Motivate a source and its direction; stable light or change follows intent | `seedance-shot-design`, then `seedance-lighting-presets` |
 | Grade | Default ungraded original colours; propose a grade or look only when requested or when reference fidelity needs it, as a post treatment | `color-grade-palettes` |
 | Pacing | Give the action enough time; stillness, repetition, contrast, and escalation are choices | `seedance-pacing-presets` |
-| Staging | Define geography only when action or relationships depend on it | `tig-blocking-map` |
+| Staging | Define geography only when action or relationships depend on it | `blocking-map` |
 | Medium | Preserve requested medium; propose only when the idea benefits from that choice | `seedance-animation-styles` |
 | Audio | Record the audio route (native, picture only, lip-sync audio, silent); separate lip-sync audio remains opt-in | `seed-audio-prompt` / `seed-audio-commercial` |
 
@@ -250,7 +262,9 @@ These are hypothetical teaching cases, not measured generation outcomes.
 Before returning, check that the proposal serves the stated reaction, names a
 specific idea, says where the feeling lives, respects constraints, accepted
 choices and any source bible, records the audio route and look for moving
-images, and omits irrelevant axes. Two treatments appear only when exploration is wanted, and differ in
-mechanism. Unknowns remain labeled; recommendations remain unapproved until a
+images, and omits irrelevant axes. The compact premise, early sound/editorial
+intent and project-specific criteria are complete for new moving-image work.
+Alternatives appear only when direction is unresolved or requested and differ
+in mechanism. Unknowns remain labeled; recommendations remain unapproved until a
 mode-authorized decision is recorded. Evaluate the reasoning and usefulness,
 not exact headings.

@@ -90,7 +90,7 @@
         "The generated footage carries no readable sign text; the shop name is reserved for a post layer and the sign is described as a plain surface.",
         "The camcorder look is assigned to post rather than written as a prompt word, and no grade or grain is added by default.",
         "The medium is named before the story action and two to four clay craft cues appear.",
-        "No shot inside the clip is shorter than about 0.8 s."
+        "Treats about 0.8 s as a provisional caution, preserves requested timing and offers assembly for precision or demonstrated failure without overriding locks."
       ]
     }
   ]
