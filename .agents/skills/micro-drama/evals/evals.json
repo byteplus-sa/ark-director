@@ -7,7 +7,7 @@
       "expected_output": "A per-episode brief and production plan using the three-scene structure, with parallel ownership and no financial setup prerequisite.",
       "files": [],
       "expectations": [
-        "Uses three scene clips of about 15/20/15 s with a hook in the first 3 s and a close-up cliffhanger.",
+        "Offers the three-scene hook/turn/cliffhanger template as a proposal, adapting duration and coverage to approved intent rather than mandatory timing or contrast quotas.",
         "Assigns one production agent per episode with exclusive project ownership and a shared playbook.",
         "Starts the requested episodes without asking for a monetary limit or inventing a generated-seconds ceiling.",
         "Keeps generated footage text-free and adds cards and subtitles in post.",
@@ -65,12 +65,12 @@
     {
       "id": 6,
       "prompt": "The episode's 15 s hook scene has six lines totalling 48 words, and the last line ends at 14.8 s. Write the clip prompt.",
-      "expected_output": "Flags the insufficient tail and checks the dialogue duration in its requested language and register before proposing timing or wording changes.",
+      "expected_output": "Checks the dialogue duration and timing basis in its requested language and register; the 0.2 s tail and word count alone do not establish failure.",
       "files": [],
       "expectations": [
         "Uses a timed read in the requested language and register with onset and pauses, not a universal words-per-second rule.",
-        "Ends the last line at least 0.4 s before the clip end and avoids three state changes in the last 3 s.",
-        "Keeps the trimmed wording as a draft for the writer or user to accept rather than silently changing locked lines."
+        "Treats onset, tail and closing-density numbers as provisional cautions; preserves a readable approved ending rather than enforcing a minimum tail or maximum state-change count.",
+        "Proposes retiming or splitting only for an established conflict; does not silently change locked lines or claim unheard delivery is measured."
       ]
     },
     {
@@ -83,6 +83,55 @@
         "Records Spanish as the requested subtitle language and obtains approved translations.",
         "Times the Japanese dialogue without relying on whitespace word counts.",
         "Preserves locked wording and asks before any shortening."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Continue the approved episode. Scene 2 is three equal held shots of a standoff; no one changes tactic and no turn is written. Scene 3 has excited overlapping action and the locked line 'Give it back.' Keep that structure. No final playback or listening is available yet.",
+      "expected_output": "Preserves the held standoff, energetic spoken scene and exact words without inventing a turn or approving uninspected output.",
+      "files": [],
+      "expectations": [
+        "Keeps equal durations and repeated holds without inserting contrast or a turn.",
+        "Allows kinetic spoken performance while checking required readability and physical continuity.",
+        "Carries the settled audience response, attention and ending purpose with early sound/editorial intent and project-specific criteria.",
+        "Requires actual take and final-edit playback/listening with timestamps before selection or promotion.",
+        "Preserves native Draft, inline prompt review by default and the project's independent approval mode."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Keep this approved 6 s ending: {Go now.} begins at 3.1 s and ends at 3.6 s, the listener turns at 4 s, exits by 5.7 s, and the door clicks at 5.85 s. The supplied timed read has a 0.1 s onset and 0.2 s tail; no generated take exists. Compile the ending without reducing its three state changes.",
+      "expected_output": "Preserves exact words, short measured read margins and the line-turn-exit sequence; generated-take readability remains unresolved.",
+      "files": [],
+      "expectations": [
+        "Does not lengthen onset or tail merely to meet 0.5-1.5 s or 0.4 s planning numbers.",
+        "Does not drop an action to enforce two state changes in the final 3 s.",
+        "Distinguishes supplied timed-read evidence from unavailable actual-take playback and requires timestamped listening and motion inspection before acceptance.",
+        "Preserves source locks, native Draft and independent review and approval requirements."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "The locked 5 s shot must contain the supplied exact line at its measured 5.4 s delivery, starting at 0.2 s. Do not speed it up or change the words. Can we approve the prompt as fitting?",
+      "expected_output": "Returns the measured duration conflict: the line ends at 5.6 s, beyond the 5 s shot, and asks which timing lock may change.",
+      "files": [],
+      "expectations": [
+        "Computes the 0.6 s overrun from measured delivery rather than a generic word rate or tail allowance.",
+        "Does not approve the demonstrated fit conflict or silently shorten, accelerate or rewrite the line.",
+        "Proposes an authorized longer shot or split while preserving words and the requested delivery.",
+        "Keeps dialogue.speech_budget and its existing severity; provisional numeric margins do not waive actual feasibility."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "A review says my 0.2 s onset, 0.1 s tail and line-turn-exit ending must fail. There is no timed read or playback. Keep the words and choreography. If the eventual take truncates the final word, what happens?",
+      "expected_output": "Marks fit and readability unresolved without evidence, rejects a numeric-only failure, and describes a source-preserving response to actual truncation.",
+      "files": [],
+      "expectations": [
+        "Treats onset and tail numbers as provisional margins and closing density as not an artistic gate.",
+        "Requests a timed read and actual timestamped playback/listening; absence of evidence proves neither success nor failure.",
+        "A missing locked word remains a hard failure requiring repair and re-review before acceptance.",
+        "Proposes retiming, splitting or a scoped repair only with authorization for affected locks; changed prompts need a new native Draft."
       ]
     }
   ]

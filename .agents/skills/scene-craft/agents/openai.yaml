@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scene Craft"
+  short_description: "Help with Scene Craft tasks"
+  default_prompt: "Use $scene-craft to handle this scene craft task."

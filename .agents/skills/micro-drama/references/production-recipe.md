@@ -3,6 +3,11 @@
 Read [the entrypoint](../SKILL.md). Use this reference from canon through
 delivery. These are working practices, not provider guarantees.
 
+Default review mode uses minimal inline preflight and short actual output
+sanity records, without full checklist reports. Strict review uses the detailed
+gates below. Identity, locked dialogue, rights, generation consent, honest listening and
+hash-bound selections remain required in either mode.
+
 ## Canon
 
 - Character sheets: three-panel identity sheets on a neutral background with
@@ -19,7 +24,8 @@ delivery. These are working practices, not provider guarantees.
   envelope or a mark on the skin get a sheet. Describe every other recurring
   object positively as plain ("plain cream envelope, smooth unmarked paper"),
   because generic jars, cases, folders and labels grow invented lettering.
-- Three Seedream samples per element; select after looking at every image.
+- One Seedream image per element by default, three in strict mode, or the
+  requested count; select only after looking at the actual image.
 
 ## Storyboards
 
@@ -34,9 +40,11 @@ plan already carries the staging.
 ## Clip prompt
 
 Build with `seedance-prompt-25` from the scene's shot plan: each internal shot
-keeps its planned size, angle, camera move and light direction, and the hook,
-turn and cliffhanger each get the plan's most distinct shot. A close-up
-cliffhanger can hold still as a recorded `contrast_hold` after motion. Bind
+keeps its planned size, angle, camera move or hold and light direction.
+Make supplied hook, turn or cliffhanger beats readable without requiring
+distinct coverage, a turn marker or contrasting duration. A held ending can
+use `performance_hold` without preceding motion; `contrast_hold` describes
+the optional hold-after-motion pattern. Bind
 only element references (character sheets, location plates, threshold props).
 
 State:
@@ -65,26 +73,31 @@ pre-line action. Budget from the current dialogue, not a universal word rate:
   language, register and timing basis; estimates remain provisional until the
   draft is heard.
 - Allow each shot enough time for its line, onset, pauses and action beats.
-  End the last line at least 0.4 s before the clip's end and verify actual
-  onset and tail in the draft. Do not shorten locked dialogue without approval.
-- Avoid three state changes (a line, a move, a reveal) inside the last 3 s.
+  Onset of 0.5-1.5 s and about 0.4 s tail are provisional margins, not minimums;
+  verify actual onset and tail in the draft. Do not shorten locked dialogue
+  without approval.
+- Two state changes in the final 3 s is a provisional caution, not an artistic
+  gate. Preserve the approved ending's actions and assess required readability.
 - Choose hook words that speech-to-text transcribes cleanly; a garbled first
   word costs the hook.
-- Trimming a clip's head does not lengthen the tail after the last word. Fix a
-  short tail with a retake that shortens pre-line action, a freeze-hold, or a
-  recorded waiver.
+- Trimming a clip's head does not lengthen the tail after the last word.
+  For a demonstrated delivery failure, propose a retake or post repair within
+  source locks; ask before changing locked action, timing or wording.
 
-## Draft, review, promote
+## Native draft workflow
+
+Both review modes submit each new clip as a native 480p Draft after registration
+and mode-appropriate preflight, then inspect its actual output before promotion.
 
 1. Submit each clip as a 480p native Draft (`draft: true`) with its frozen,
-   reviewed request. Draft the three clips of an episode in parallel.
+   reviewed request. Draft independent planned clips in parallel.
 2. QA the Draft with the gates below and record a selection.
 3. Promote the selected Draft with its `draft_task_id` to 1080p. The promotion
    reuses every input; a prompt fix needs a new Draft.
 4. Run every gate again on the final. The final soundtrack is not identical to
    the Draft's, so the dialogue gate is repeated.
 
-## QA gates per take
+## Strict QA gates per take
 
 | Gate | Evidence |
 | --- | --- |
@@ -96,14 +109,19 @@ pre-line action. Budget from the current dialogue, not a universal word rate:
 
 Hard-gate failures: identity swap, wrong speaker, missing or wrong word in a
 locked line, baked-in text, broken anatomy, impossible motion, wrong location,
-and a missing planned move or light on the shot flagged as the turn. Soft
-defects (small continuity slips, softness, a missing planned cut or move on
-another shot) are recorded, not retaken.
+or a violated lock or declared critical artistic criterion. A turn label does
+not make a missing camera move or light change a hard failure. Soft defects
+(small continuity slips, softness, noncritical coverage differences) are
+recorded, not retaken. Body speed, amplitude, interruptions and recovery follow
+source intent and plausibility, not a universal burst cap. Assess actor,
+camera and edit energy separately; speech does not exclude kinetic coverage.
+Actual full-speed playback/listening must verify required performance and
+delivery, not merely transcript accuracy. Missing inspection stays unresolved.
 
 ## Retakes and repairs
 
 - Retake a clip for a hard-gate failure with one targeted prompt change as a
-  new Draft. Inspect each result and diagnose repeated failures before retrying.
+  new native Draft. Inspect each result and diagnose repeated failures before retrying.
 - Prefer a deterministic post repair when it is invisible: crop or delogo for a
   leaked corner mark, a centre punch-in for black side bars, or removing a
   defective shot from inside a multi-shot clip and dissolving across the gap
@@ -124,7 +142,12 @@ another shot) are recorded, not retaken.
 
 - Order: cold open (the first line of scene 1), title card, the rest of the
   scenes with 6-frame dissolves, a 12-frame dissolve into the to-be-continued
-  card.
+  card is an optional template, not a mandatory cadence. Preserve approved
+  writing and select joins for what the edit reveals, withholds and emphasizes.
+- Carry early sound/editorial intent and project-specific audience-response,
+  attention and ending criteria. Review actual takes and the final edit with
+  artifact hashes and timestamps; final cues follow the measured cut and
+  actual listening, and failed critical criteria block acceptance.
 - No grade unless the brief records a look: keep the original Seedance colours. Decode HEVC finals as
   limited-range BT.709 and tag the output BT.709.
 - Render each clip to an exact-length lossless intermediate in whole frames

@@ -172,9 +172,11 @@ frame; give each moving shot an active verb, a speed, a start and an end.
 Footage-led modes (hypermotion product, flythrough, motion-on-footage B-roll)
 are ad shots: each generated shot carries a size, angle, camera move, lens
 intent and a named light source with its key side, from the shot-design
-skill's plan when one is recorded. Keep every shot inside one clip at about
-0.8 s or longer; faster cuts are made in assembly. A 30 s piece is several
-short clips cut together, not one pass with many beats.
+skill's plan when one is recorded. About 0.8 s per shot is a provisional caution,
+not a provider limit or guaranteed merge threshold. Preserve requested timing;
+offer assembly for precision or demonstrated failure and return conflicts with
+locked workflows. Choose generation groupings for supported duration and
+required readability, not a fixed clip count.
 
 ### 6. Compress reality, don't fake it
 
@@ -399,8 +401,8 @@ Before returning the prompt (and before any generation task), verify:
    family), and meaningful speed contrast are written for 4–30s, not copied
    from micro-UI durations.
 6. **Shots are directed.** Each generated shot states its camera move (or
-   locked-off reason) and a named light source; no in-clip shot is shorter
-   than about 0.8 s; no grade or post look is asked of the prompt.
+   locked-off reason) and a named light source; timing serves required
+   readability without a numeric floor; no grade or post look is asked of the prompt.
 7. **Reality compressed, not faked.** The demo shows a plausible workflow;
    impossible fluidity is avoided.
 8. **Reference discipline.** `@Image N` indices are stable, roles are stated,

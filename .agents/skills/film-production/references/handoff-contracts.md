@@ -1,6 +1,6 @@
 # Cross-Modality Handoff Contracts
 
-Before each handoff, recheck `project.md` approval mode and the source decision,
+Before each handoff, recheck independent `project.md` approval and review modes and the source decision,
 review, artifact, and upstream hashes. Run `studio_project.py sync`, then
 complete the source stage with `studio_project.py stage <project> complete
 <stage-id>` and start the destination stage. These steps apply in
@@ -17,6 +17,13 @@ tokens. If an element is not approved, keep the dependent board in `draft` or
 `review` and make video handoff ineligible.
 
 ## Storyboard to video
+
+For character-performance shots, also pass the source-bound performance plan,
+its current file hash, beat IDs, listener tasks, triggers, readability needs
+and critical criteria to shot design and `seedance-acting-console`. Staged
+fights pass actor, prop and exchange states from `seedance-fight-choreography`.
+Review applicable `acting.plan_bound` and `fight.readable_exchange` checks under
+[Performance direction](../../../contracts/performance-direction.md).
 
 Pass the board's staging as text, never as an image. Elements are the identity
 sources and the only images bound for identity; a storyboard grid, contact
@@ -45,6 +52,16 @@ handoff when the user has not requested lip-synced audio.
 
 ## Shot to assembly
 
+Carry the brief's audience response, attention carrier, ending purpose and
+early sound/editorial intent, with project-specific artistic criteria. Final
+cue placement follows the measured cut and actual listening, not a generic bed.
+Review the final edit afresh with artifact hashes and timestamps; a technical
+pass or a good raw take cannot establish the edit's effect.
+
+Pass actual timecoded playback/listening evidence for critical performance
+beats, not just transcript accuracy. Verify that trims and cuts retain the
+intended registration, response, delivery and fight continuity where applicable.
+
 Accept only mode-authorized approved takes. Pass local paths, hashes, actual
 video-stream duration, resolution, frame rate, colour range and transfer,
 audio properties and route (native, or picture only awaiting a post bed),
@@ -53,6 +70,9 @@ intended order, trim points, transition notes, and known defects. Do not treat
 unless the brief records a look.
 
 ## Draft to final generation
+
+This handoff applies to new Seedance 2.5 generations in both review modes.
+Review depth does not waive native Draft or selection before promotion.
 
 Pass the selected 480p draft paths and hashes, its provider task ID, passing
 review and selection records, exact prompt snapshot, ordered approved reference
@@ -70,13 +90,14 @@ without dropping `draft`.
   fresh generations that may change picture, timing and audio. This is not a
   fallback for new 2.5 requests.
 
-Either way, register and review the final request as a new operation, then
+Either way, register and preflight the final request as a new operation (a
+hash-bound prompt report is required in strict mode or for explicit rules), then
 inspect its output again (playback, speech-to-text, listening) and select it
 before updating placed takes.
 
 ## Dependency invalidation
 
-When a selected element, audio file, storyboard anchor, shot plan, confirmed project axis, or exact prompt changes,
+When a selected element, audio file, storyboard anchor, performance plan, choreography ledger, shot plan, confirmed project axis, or exact prompt changes,
 identify every dependent artifact. Return affected downstream artifacts to
 `review`; preserve their files, prompts, task IDs, hashes, and rejection history.
 Run `studio_project.py sync` and `stage <project> reopen <stage-id>` in the same

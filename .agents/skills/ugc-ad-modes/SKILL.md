@@ -76,7 +76,14 @@ placement. A product-only request does not need to become presenter-led UGC.
 For hybrids, state the dominant texture and the purposeful secondary influence.
 Honor user-requested silence, framing, and visual treatment over conventions.
 
-When exploration is requested, offer three materially different angles unless
+For new or materially revised work, resolve the intended audience response,
+what carries attention and why the ending matters. Use supplied facts and
+settled direction; ask only about material gaps. Record early sound/editorial
+intent and project-specific criteria for actual playback/listening of takes
+and the final edit. Final cues follow the measured cut, not a generic sound bed.
+
+When direction is unresolved or exploration is requested, offer distinct angles
+or a focused question. For requested exploration, offer three angles unless
 the user requests another count. A settled single-prompt or scoped revision does
 not need extra alternatives.
 
@@ -140,10 +147,11 @@ Ad formats hit the same few Seedance failure modes; apply these to every mode
 
 - **Speech budget and tail.** About 2.2 words/s is an English planning estimate,
   not a universal gate. Use measured delivery or a native-language-informed read
-  with pauses, onset (initially 0.5-1.5 s) and final tail (initially at least
-  0.4 s); verify the actual take. Without evidence, timing is provisional.
+  with pauses, onset and final tail. The 0.5-1.5 s onset and about 0.4 s tail
+  are provisional margins, not minimums; verify the actual take.
   Preserve language and locked copy; propose retiming or splitting before
-  authorized rewrites. Keep the last 3 s to one or two state changes.
+  authorized rewrites. Two state changes in the final 3 s is a provisional
+  caution, not an artistic gate; preserve the approved ending and required readability.
   Trimming the head later does not lengthen the tail.
 - **Counted items.** When the demo counts items (three pods, two lids), name
   each by size and position, keep every counted item in open view from the first
@@ -158,10 +166,18 @@ Ad formats hit the same few Seedance failure modes; apply these to every mode
   presenter's own side. Write "her right hand, frame-left" on every handling
   beat, including selfie and mirror framing.
 - **Shot plans for polished modes.** In `product-showcase`, `tv-spot`,
-  `wild-card` and `virtual-try-on`, give each shot one action with its intent,
-  a size, lens intent, camera move and a named light source. Shots shorter than
-  about 0.8 s merge; build a 30 s spot from about six 5 s generations of two or
-  three shots each rather than one nine-beat pass.
+  `wild-card` and `virtual-try-on`, give each shot coherent action with its intent,
+  a size, lens intent, camera move or hold and a named light source. Choose
+  duration and coverage for perception, not fixed cadence, contrast, turn or
+  wow quotas. Equal durations, repeated framing and sustained holds are valid.
+  About 0.8 s per shot is a provisional caution, not a provider limit or guaranteed
+  merge threshold. Preserve requested timing; offer assembly for precision or
+  demonstrated failure and return conflicts with locked workflows.
+- **Performance energy.** Body speed, amplitude, interruptions and recovery
+  follow source intent and plausibility with no universal burst cap. Speech
+  does not exclude kinetic performance or camera work; assess actor energy,
+  camera energy and edit rhythm separately for required readability. Preserve
+  static-by-design UGC framing, exact words and approved product canon.
 
 Read [worked repairs](references/worked-repairs.md) for a phone-shot demo that
 breaks each of these and its repaired prompt.

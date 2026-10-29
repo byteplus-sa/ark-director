@@ -6,11 +6,18 @@ take needs a fix. These defaults are working practice, not provider guarantees. 
 Exact tool parameters live in the `ark-mcp` Seedance reference; this file says
 when to use them.
 
-## 1. Draft first, then promote
+## 1. Review depth and generation target
 
-Plan every new Seedance 2.5 shot as a 480p Draft followed by a promotion.
+Read `review_mode` from `project.md` independently of approval mode. Default
+uses minimal inline preflight and actual output sanity, no full checklist
+reports, and one image unless a count is requested. Every new Seedance 2.5
+generation uses native Draft in both modes. Do not invent an inspection or approval.
 
-1. Freeze and review the full request (prompt, ordered references, duration,
+### Native draft workflow
+
+Both modes plan Seedance 2.5 as a 480p Draft followed by a promotion.
+
+1. Freeze and preflight the full request (prompt, ordered references, duration,
    ratio, `generate_audio`, task type) and submit it with boolean `draft: true`
    and explicit `resolution: "480p"` in every review mode, including edits,
    extensions, probes and variants. Resolve conflicting capability evidence or
@@ -28,7 +35,7 @@ Plan every new Seedance 2.5 shot as a 480p Draft followed by a promotion.
 
 Other models without native Draft use ordinary 480p tests; their finals are
 new paid requests that may change picture, timing or audio and need their own
-registration and review. This is not a plain-480p fallback for 2.5. New 2.5
+registration and mode-appropriate preflight. This is not a plain-480p fallback for 2.5. New 2.5
 generations have no skip-draft override. When a fix requires a prompt
 change, write a new Draft rather than promoting the old one.
 
@@ -49,23 +56,25 @@ must stay ambient or score-led; generate the picture silent and build the bed
 in post. Say in the brief that post beds are laid to the cut and are not
 frame-synced to on-screen action unless SFX are placed by timestamp.
 
-## 3. Cinematic structure for ads and TVCs
+## 3. Intent-led structure for ads and TVCs
 
-A single long pass carrying nine or more beats reads as stock footage. For a
-cinematic spot:
+Coverage and duration serve what the audience must perceive, not a recipe:
 
-- Build a 30 s spot as about **six sequences of about 5 s**, each with **2–3
-  shots** and **one action per shot**.
-- Give every shot a lens intent, a camera move, a motivated named light source
-  and depth layers (foreground, subject, background), carried from the
+- Short multi-shot sequences are an optional pattern. Split overloaded requests
+  for feasibility without forcing a fixed editorial cadence.
+- Give every shot a lens intent, movement or stillness, a motivated named light
+  source and useful depth relationships, carried from the
   `seedance-shot-design` plan.
-- Give every sequence **one "wow" image**: the frame that would sell the spot
-  as a still.
-- Use dynamic verbs over soft mood words, and state the camera move for every
-  shot. A static shot carries its recorded reason.
-- Keep every planned shot at least about 0.8 s; Seedance merges shorter shots.
-  Blink cuts, intercuts and vision flashes are built in the edit, not the
-  prompt.
+- A `wow` image is optional; a strong still cannot replace an effective sequence.
+  Equal durations, repeated framing and sustained holds are valid when
+  intentional. No contrast or turn quota applies.
+- Describe the intended energy concretely, including stillness. Body speed,
+  amplitude, interruptions and recovery follow source intent and plausibility,
+  without a universal burst cap. Speech is not an energy ceiling; verify
+  required readability with actor, camera and edit energy considered separately.
+- About 0.8 s per shot is a provisional caution, not a provider limit or
+  guaranteed merge threshold. Preserve requested timing; offer assembly for
+  precision or demonstrated failure and return conflicts with locked workflows.
 - Set ratio as a request parameter, never as a sentence in the prompt. 21:9 is
   an accepted Seedance 2.5 ratio for a scope look.
 
@@ -101,7 +110,14 @@ brief requires it.
 
 ## 7. Assembly defaults
 
-Default assembly does **conform, trim, crop, overlays, end card and mix only**.
+Plan sound and editorial intent at the brief and breakdown, before generation:
+what picture and sound reveal, withhold or emphasize, including silence.
+Final assets may wait for picture lock; final cues follow the measured edit.
+Assembly includes a creative review as well as conform, trim, crop, overlays,
+end card and mix. Judge the brief's project-specific audience response,
+attention carrier and ending purpose in actual full-speed playback/listening.
+Record artifact hashes, timestamps and critical criteria for takes and the
+final edit. Missing perception or a failed critical criterion blocks acceptance.
 
 - **No grade unless the brief records a look.** Keep the original model colours
   that matched the approved drafts. Add a grade, grain, halation, vignette or a
@@ -120,18 +136,25 @@ Default assembly does **conform, trim, crop, overlays, end card and mix only**.
 - Normalize to the delivery loudness target from the alignment contract, then
   place the result in Studio and render it there.
 
-## 8. Review and fix loop
+## 8. Output sanity and strict review
 
-Run these checks before a take passes, and use the narrowest fix.
+In default mode inspect the actual output for brief fitness, locked words and
+identities, obvious defects and correct media properties; keep a short truthful
+record for selection and final locks. Do not automatically produce the full
+checklist report below. Use detailed checks for strict review or to investigate
+an observed defect, and use the narrowest fix. Listening claims always require
+actual audio perception, not merely a transcript.
 
 - **Words:** `speech_to_text` on the local file is the authority for spoken
   words. A model summary is not evidence. Accent and pronunciation verdicts need
   a native listener; `seed_audio_understand` cannot judge accent and can
   mislabel music.
-- **Speech timing:** lines land 0.5–1.5 s late and later after long pre-line
-  action, and speech fills to the clip end. Trimming a clip's head does not
-  lengthen the tail after the last word; fix a short tail with a retake that
-  shortens pre-line action, a freeze-hold, or a recorded waiver.
+- **Speech timing:** onset of 0.5-1.5 s and about 0.4 s of tail are provisional
+  planning margins, not minimums. Measure the requested delivery, pauses and
+  actual take; preserve readable intended timing and closing density. Trimming
+  a clip's head does not lengthen its tail. For a demonstrated delivery failure,
+  propose a retake or post repair within source locks; obtain authorization
+  before changing locked words, action or timing.
 - **Word-scoped audio fixes:** patch only the wrong word windows; never re-dub a
   whole track. Transcribe with word times, splice pitch- and loudness-matched
   replacements with short fades, and prove that samples outside each window are

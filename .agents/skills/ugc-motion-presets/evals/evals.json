@@ -116,6 +116,29 @@
         "The locked camera is stated in the prompt and recorded as format_static_by_design.",
         "No on-screen text, caption or label is placed in the prompt."
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "Use Pool Jump, preserving a fast committed leap and a large splash. The phone leaves frame before the jump; the camera stays locked wide. Do not soften the action to moderate dynamics. Prompt only.",
+      "expected_output": "A Pool Jump block preserving the requested energy, phone exit and camera lock, with explicit splash trajectory, recovery and readability QA.",
+      "files": [],
+      "expectations": [
+        "Retains the fast leap and large splash without imposing a universal moderate-speed or burst cap.",
+        "Labels the high-burst caution as a creative heuristic rather than a provider limit.",
+        "Preserves phone exit, spatial continuity and recovery, and requires actual-take plausibility and readability checks.",
+        "Keeps the locked camera and makes no generation or verified-quality claim."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "The Pool Jump draft hid the subject's surfacing behind spray. I authorize reducing splash amplitude only; keep leap speed, surfacing time, camera and phone exit unchanged. Give a prompt-only repair.",
+      "expected_output": "A targeted reduction of splash amplitude for the demonstrated readability failure, preserving all other locks.",
+      "files": [],
+      "expectations": [
+        "Uses the moderate-dynamics remedy only within the authorized splash-amplitude delta.",
+        "Does not slow the leap, retime surfacing, change the camera or move the phone exit.",
+        "Requires a new take to verify surfacing readability and does not claim the repair has already succeeded."
+      ]
     }
   ]
 }

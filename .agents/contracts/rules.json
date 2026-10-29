@@ -72,6 +72,28 @@
       "exceptions": []
     },
     {
+      "id": "acting.plan_bound",
+      "severity": "error",
+      "applies_to": ["narrative_video"],
+      "owner_path": ".agents/contracts/performance-direction.md",
+      "summary": "Character-performance prompts carry source-bound intentions, triggers, registration, listening and readable consequences from the performance plan or equivalent isolated-prompt input.",
+      "exceptions": [
+        "Static assets, empty plates and non-performance work record not_applicable.",
+        "Preservation-only edits inherit performance and use the edit-preservation checks."
+      ]
+    },
+    {
+      "id": "fight.readable_exchange",
+      "severity": "error",
+      "applies_to": ["narrative_video"],
+      "owner_path": ".agents/contracts/performance-direction.md",
+      "summary": "Staged-fight prompts preserve actor and prop identity through readable action, apparent contact or avoidance, reaction and settled state within the shot's framing and timing.",
+      "exceptions": [
+        "Non-fight work records not_applicable.",
+        "Preservation-only edits retain the source exchange and use the edit-preservation checks."
+      ]
+    },
+    {
       "id": "shot.plan_bound",
       "severity": "error",
       "applies_to": [
@@ -90,9 +112,9 @@
         "narrative_video"
       ],
       "owner_path": ".agents/skills/seedance-shot-design/SKILL.md",
-      "summary": "Adjacent shots in a cutting clip differ in at least two of size family, angle class, camera move and key side; each scene has a non-eye-level angle, a motivated move at its energy level and uneven shot lengths, or a recorded reason.",
+      "summary": "Coverage serves the confirmed script, medium and performance plan. Neighbor contrast, angle range, motion ratios and uneven timing are optional craft aids; preserve intentional stillness and record its rationale rather than imposing quotas or an invented turn.",
       "exceptions": [
-        "A single continuous take records its camera path and light progression instead of neighbor contrast.",
+        "A continuous take records its motivated camera path or held framing and declared light instead of neighbor contrast.",
         "A shot plan derived from another skill's camera plan treats these checks as advisory."
       ]
     },
@@ -165,7 +187,17 @@
         "preflight"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "All applicable checks have complete request-bound evidence.",
+      "summary": "Strict or explicitly required reviews have complete request-bound evidence; any supplied report must be valid even in default mode.",
+      "exceptions": []
+    },
+    {
+      "id": "review.current_mode",
+      "severity": "error",
+      "applies_to": [
+        "preflight"
+      ],
+      "owner_path": ".agents/contracts/production-policy.md",
+      "summary": "Project review_mode is default or strict, independent of approval_mode; absent defaults for new actions and invalid values fail closed.",
       "exceptions": []
     },
     {
@@ -532,7 +564,7 @@
         "narrative_video"
       ],
       "owner_path": ".agents/skills/seedance-prompt-25/references/shot-staging.md",
-      "summary": "Each spoken line fits its shot using measured delivery or a native-language-informed read, including pauses and a 0.5-1.5 s late start; the last line ends at least 0.4 s before the clip end with at most two state changes in the final 3 s. About 2.2 words per second is an English planning estimate, not a universal gate; without delivery evidence, timing is provisional. Preserve requested language and locked words; propose retiming or splitting before an authorized wording revision.",
+      "summary": "Each spoken line fits its shot using measured delivery or a native-language-informed read, including pauses, onset and tail. About 2.2 words per second is an English planning estimate; 0.5-1.5 s onset and about 0.4 s tail are provisional margins, not universal minimums or failure thresholds. Verify actual delivery. Two state changes in the final 3 s is a provisional density caution, not an artistic gate: preserve the approved ending and required readability. Without delivery evidence, timing remains provisional; demonstrated duration conflicts still require resolution. Preserve requested language and locked words; propose retiming or splitting before an authorized wording revision.",
       "exceptions": []
     },
     {

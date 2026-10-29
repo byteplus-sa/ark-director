@@ -45,6 +45,7 @@ Load only the contract relevant to the current stage:
 | Requested dialogue synchronization and assembly | [Audio-video alignment](.agents/contracts/audio-video-alignment.md) |
 | Video-to-video identity references, muted source and post audio | [Video-to-video inputs](.agents/contracts/video-to-video-inputs.md) |
 | Shot plan, camera, lens, lighting, acting and other axes | [Directorial axes](.agents/contracts/seedance-reference.md) |
+| Acting plans, choreography, prompt handoff and take acceptance | [Performance direction](.agents/contracts/performance-direction.md) |
 | Vendored Blender adapter/setup | [Blender setup](.agents/contracts/blender-mcp-setup.md) |
 
 Stable validation rule IDs live in `.agents/contracts/rules.json`. Request,
@@ -179,6 +180,33 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 
 ## Production invariants
 
+- For new or materially revised moving-image work, resolve a compact creative
+  premise: intended audience response, what carries attention, and why the
+  ending matters. Preserve a settled idea; offer alternatives only when direction
+  is unresolved or requested. Record early sound and editorial intent, including
+  purposeful silence, and project-specific artistic acceptance criteria in the
+  existing brief and scene records. Verify those criteria with timestamped
+  actual playback/listening of takes and the final edit; unavailable perception
+  remains unresolved. See the production policy, not a new runtime gate.
+- Body speed, amplitude, interruptions and recovery follow source intent and
+  plausible action. Speech is not an energy ceiling: assess actor energy,
+  camera energy and edit rhythm separately for readability. Coverage, equal
+  durations, repeated framing, sustained holds, contrast and a memorable
+  `wow` image are choices, not quotas. No universal burst cap, mandatory turn
+  or fixed shots-per-generation cadence overrides the approved scene.
+- For new or materially revised character-performance scenes, run
+  `acting-direction` before shot design and store `## Performance plan` in
+  the scene. `seedance-acting-console` encodes its relevant beats;
+  `seedance-fight-choreography` adds readable exchanges only for staged fights.
+  Both production orchestrators follow the performance contract and require
+  applicable `acting.plan_bound` and `fight.readable_exchange` checks through
+  the existing required-rule interface. Inspect actual playback/listening for
+  critical responses and delivery before selection, promotion and final edit
+  acceptance. A correct transcript or camera move does not prove acting.
+- `scene-craft` uses the selected framework; the five-element engine is opt-in.
+  Preserve quiet holds, deliberate non-response, exact dialogue, medium and
+  model. Source-preserving edits inherit acting unless it is in `may_change`;
+  static assets do not acquire performance plans or motion quotas.
 - Draft breakdown may precede canon. Dependent production generation requires
   the relevant approved recurring, branded or story-critical elements.
 - Identify all visible props; only threshold-qualified props require separate
@@ -204,7 +232,13 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   [Routing](.agents/contracts/routing.md).
 - Elements define identity and are the only bound video references; storyboards
   are planning and review artifacts whose staging is written into prompt text.
-  Control-only diagrams stay analysis-only by default. New projects set `approval_mode: approve_for_me` in `project.md`;
+  Control-only diagrams stay analysis-only by default. New projects set
+  `review_mode: default` independently of `approval_mode: approve_for_me` in
+  `project.md`. Review mode controls review depth, not who approves:
+  `default` uses minimal inline preflight and actual output sanity;
+  `strict` retains detailed checklist reports. An absent review mode means
+  default for new actions only; invalid values fail closed. Preserve historical
+  hashes, decisions and user locks. For approval mode,
   `ask_for_approval` is the alternative. A legacy project without the field uses
   the default for new decisions only. In `approve_for_me`, an agent may select
   and approve a passing candidate after modality-appropriate inspection and a
@@ -234,10 +268,16 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   post with FFmpeg or HyperFrames.
 - Preserve exact canonical descriptors where applicable. Prefer positive,
   observable direction; necessary edit-scope exclusions are allowed.
-- Run prompt-review for every generation-bound prompt, inline by default. Use
+- In default review mode, check intent, capabilities, hashes, bindings, canonical
+  approvals, rights and generation consent inline without loading the full prompt-review
+  checklist or producing a mandatory report. In strict mode or on explicit
+  prompt-review request, run prompt-review for generation-bound prompts. Use
   a sub-agent only when the user explicitly requests sub-agent prompt review for
   the project or specific generation. Resolve CRITICAL/MAJOR findings. Missing
-  reviewer output is incomplete. Documentation/manifest-only edits, acquired
+  required reviewer output is incomplete. Explicit `--required-rule` values
+  require real matching review evidence in either mode; a provided failing,
+  incomplete or stale report is never ignored. Never fabricate a passing record.
+  Documentation/manifest-only edits, acquired
   brand/product assets (`generation: none`), and deterministic
   static renders (`generation: deterministic_html`) do not trigger paid
   generation or prompt-review; changed worked examples are reviewed offline.
@@ -273,7 +313,8 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   `studio_project.py stage <project> complete <stage-id>`, which requires a
   valid `project.md` for `brief-development`; a Studio project with no blocking
   `status` issue from `scene-breakdown` on; a placed take for every shot and a
-  passing `check` for `shot-generation`, `assembly-review` and `delivery`; no
+  passing `check` at `delivery` in default review mode, or at
+  `shot-generation`, `assembly-review` and `delivery` in strict mode; no
   pending selection for `assembly-review` and `delivery`; and for `delivery` a
   newest `render` record at a delivery-level quality (`standard` or higher) that
   matches the current files and placed takes. `render` is the only authority for
@@ -297,7 +338,8 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
   and final local master locks. Preserve other variants and prior history unless
   explicitly changed. Rights and real-person consent remain separate from a
   creative selection; neither mode grants them by inference.
-- Default generative-image selection sets contain three stochastic samples with
+- Default review mode generates one image unless the user requests a count.
+  Strict generative-image selection sets contain three stochastic samples with
   identical prompt, references and effective parameters except supported seed
   variation. Deterministic renders produce one exact version per specification.
   Explicit requested count or creative alternatives override the generative
@@ -335,7 +377,7 @@ repository maintenance unless explicitly scoped.
 
 | Location | Contents |
 | --- | --- |
-| `projects/<project>/project.md` | Brief, `approval_mode`, proposed/confirmed axes, project state |
+| `projects/<project>/project.md` | Brief, independent `review_mode` and `approval_mode`, proposed/confirmed axes, project state |
 | `projects/<project>/studio/` | HyperFrames Studio project: `index.html`, `hyperframes.json`, `compositions/`, `assets/`, `STORYBOARD.md`, `stages.json`, `renders/`, `provenance.json` |
 | `projects/<project>/showcase.json` and `index.html` | Canvas manifest and review surface of a pre-Studio canvas project |
 | `projects/<project>/review/` | Optional plain static HTML + CSS visual aids (for example `elements.html`); never a gate, never served |

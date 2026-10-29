@@ -312,15 +312,15 @@ The beat grid gives the timing; emotion and story decide what lands on it.
 Timestamps are a **time budget, not frame-accurate** — direct the beats in the
 prompt, then snap the final cut to the audio master in post.
 
-**Cut density has a floor inside one generation.** Seedance merges shots
-shorter than about 0.8 s, so a kick-and-snare staccato, blink cuts, intercuts
-and vision flashes are built in the edit from separately generated clips, not
-requested inside one prompt. Inside a generation keep each shot at least about
-1 s with one action. A flat clip usually has one setup and no stated camera
-move; the cinematic bar is a 30 s section built from about six 5 s generations
-of two or three shots each, every shot with a lens intent, a camera move, a
-motivated named light source, depth layers and one striking image. A single
-30 s pass with nine or more beats tends to read as stock footage.
+**Cut density follows the song and required readability.** About 0.8 s per shot
+is a provisional caution, not a provider limit or guaranteed merge threshold.
+Preserve requested timing; offer assembly for precise beat cuts or demonstrated
+failure, returning conflicts with locked workflows rather than silently
+replacing them. Choose feasible generation groupings from the
+song map and intended perception, not a fixed shots-per-generation cadence.
+Single setups, equal durations, repeated framing and sustained holds can serve
+the music. State lens intent, motivated light and the move or hold; contrast,
+depth layers and a striking image are optional, not coverage quotas.
 
 In-prompt, name each audio event, the visual event it triggers, and their
 relationship (simultaneous, leads, or trails):
@@ -379,6 +379,11 @@ For acting, use observable cues, not mood words alone — see
 `one continuous unbroken shot, no cuts` and list the spaces and events the
 camera passes through in order.
 
+Body speed, amplitude, interruptions and recovery follow the performance and
+plausible contact/balance, without a universal burst cap. Spoken or sung lines
+do not prohibit kinetic coverage: judge actor energy, camera energy and edit
+rhythm separately against required delivery and mouth readability.
+
 ### 7. Compose with the six-part formula
 
 Assemble the treatment into the `seedance-prompt-25` formula:
@@ -412,7 +417,9 @@ vocabulary, and this skill owns when cuts land on the song. Plan what each shot
 is (size, angle, move, light source and key side) with `seedance-shot-design`
 inside those cuts, usually at kinetic energy; when the user names a specific
 axis, compose it with its owning preset skill. Keep exactly one grade per clip,
-one dominant lighting direction per shot and at most two camera moves per shot.
+one dominant lighting direction per shot. One primary camera move and one
+secondary is a planning heuristic; preserve explicitly requested coherent choreography
+and resolve incompatible paths instead of dropping moves by count.
 Do not stack a second grade or camera treatment on top of a genre recipe.
 
 ## Rights and safety
@@ -461,6 +468,6 @@ Before returning the prompt, verify:
    explicit continuous one-take.
 10. The genre lock is a single recipe, not a mixture.
 11. The style seal is compact and does not contradict the format or genre.
-12. No shot inside one generation is shorter than about 0.8 s; faster cuts,
-    lyrics and any on-screen text are assigned to the edit.
+12. Shot timing preserves the song map without a numeric floor. Assembly may
+    supply precise cuts; lyrics and any on-screen text remain edit layers.
 13. The response contains the prompt, not an unrelated production workflow.

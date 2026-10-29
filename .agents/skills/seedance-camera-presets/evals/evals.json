@@ -23,7 +23,7 @@
         "The output specifies which subject's size must be preserved (Marcus or @marcus).",
         "The output states whether the background moves closer or farther (compresses).",
         "The output pairs any numeric lens value (e.g. '50mm') with a visible result such as shallow depth of field or bokeh, never a bare number (per the skill's advisory rule).",
-        "The output keeps simultaneous moves at or below 2."
+        "The output preserves the coherent dolly and counter-zoom without adding unrelated movement or imposing a numeric move cap."
       ]
     },
     {
@@ -36,7 +36,7 @@
         "The output states the camera direction (rapidly to the left).",
         "The output names the foreground occluding element that fills the frame (bookshelf).",
         "The output specifies the continuation (continue moving left at a similar speed in the next scene).",
-        "The output keeps simultaneous moves at or below 2."
+        "The output preserves the requested coherent whip-pan path and continuation without adding unrelated movement."
       ]
     },
     {
@@ -49,7 +49,7 @@
         "The output describes the flight path through named spaces (towers, plaza, cathedral).",
         "The output specifies the speed (fast) of the flight.",
         "The output specifies turns or direction changes (bank right, climb).",
-        "The output keeps simultaneous moves at or below 2."
+        "The output preserves the full coherent dive, bank and climb in order rather than deleting a component to satisfy a move count."
       ]
     },
     {
@@ -62,7 +62,7 @@
         "The output names the subject the camera follows (the courier).",
         "The output lists the spaces the camera passes through in order (lobby, reception desk, elevator, 12th floor corridor).",
         "The output orders the events (enters, passes, rides up, arrives) rather than presenting them unordered.",
-        "The output keeps simultaneous moves at or below 2."
+        "The output preserves the coherent continuous path through all requested spaces rather than truncating it to satisfy a move count."
       ]
     },
     {
@@ -75,7 +75,7 @@
         "The output uses close-up or near-subject framing from the Intimate Observer block.",
         "The output keeps the camera near the subject with gentle or handheld movement.",
         "The output does not combine a second camera style in the same prompt.",
-        "The output keeps simultaneous camera moves at or below 2."
+        "The output keeps the requested intimate treatment coherent and readable without adding unrelated movement."
       ]
     },
     {
@@ -94,10 +94,10 @@
     {
       "id": 8,
       "prompt": "Write the Camera blocks for a 12-second Seedance 2.5 clip with three shots: a slow crane down on a kitchen, a slow push-in on a door handle, and a static low-angle close-up. Keep to the camera move rules.",
-      "expected_output": "Three Camera blocks, each with at most two moves for that shot, including a crane-down, a push-in and a static hold, each stating subject, start and end.",
+      "expected_output": "Three Camera blocks preserving the requested crane-down, push-in and static hold, each stating subject, start and end, without imposing a numeric move cap.",
       "files": [],
       "expectations": [
-        "Each shot has its own Camera block with one primary move and at most one secondary move.",
+        "Each shot has its own Camera block preserving its requested coherent movement or hold.",
         "The clip as a whole is not capped at two moves because the moves belong to different shots.",
         "Every move names the subject it follows and where it starts and ends.",
         "The static hold is stated as a deliberate hold, not left as a missing camera line."
@@ -117,13 +117,13 @@
     {
       "id": 10,
       "prompt": "Write held (no camera move) Camera blocks for a three-shot of Ana, Bo and Cy at a bus stop, then a point-of-view shot from Ana's eyes of a letter in her hands.",
-      "expected_output": "A three-shot block naming left-to-right order and a point-of-view block from Ana's eyes showing her hands and the letter, each ending with a static hold, with advice to cover the POV with a looker and a reaction shot.",
+      "expected_output": "Only the two requested held blocks: a three-shot naming left-to-right order and a point-of-view from Ana's eyes showing her hands and the letter. Viewpoint is explicit without extra looker or reaction shots.",
       "files": [],
       "expectations": [
         "The three-shot names Ana, Bo and Cy in left-to-right order, all in focus, with a shot size.",
         "The point-of-view block is first-person from Ana's eyes, shows the letter, and shows only the hands or limbs Ana would see of herself.",
         "Each block states an explicit static hold rather than leaving the move out.",
-        "The output says the point-of-view shot should sit beside a shot of Ana looking and a reaction shot, or records why it stands alone."
+        "The output names Ana as the POV owner without adding looker or reaction shots; extra coverage is optional only if the viewpoint remains unclear."
       ]
     },
     {
@@ -136,7 +136,7 @@
         "The move names the chef or the dish and states where it starts and where it ends.",
         "The block gives a shot size and an angle.",
         "The output explains that a clip without a camera statement tends to return a neutral held frame.",
-        "The block has no more than two simultaneous moves."
+        "The block keeps its proposed path coherent and readable; simplification is an optional remedy, not a numeric move cap."
       ]
     },
     {
@@ -149,6 +149,39 @@
         "It recommends generating with ordinary focus and adding the defocus in post, or staging the attention shift with a move or a cut to an insert of the gun.",
         "It names the lens preset skill as the owner of rack focus wording rather than writing a rack focus template here.",
         "Any Camera block it gives names the subject, a start and an end."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Word a held over-the-hip shot of two equal-height adults standing on the same floor. The foreground hip is frame-left; the featured person is in the middle distance. Neither dominates. Keep the blocking and do not add shots.",
+      "expected_output": "One held OTH block preserving the equal-height relationship and neutral power balance.",
+      "files": [],
+      "expectations": [
+        "Names the soft foreground hip and sharp featured person without making either sit, kneel or change height.",
+        "Does not replace OTH with OTS solely because the people are equal-height.",
+        "Keeps one held shot without inventing dominance or extra coverage."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Preserve this continuous camera choreography around a stationary sculpture: orbit clockwise while rising and tilting down to keep the sculpture centered, from a low wide view to an overhead view. All three components are intentional and simultaneous.",
+      "expected_output": "A coherent orbit, rise and tilt path with clear subject, start/end states and readability checks; the two-move heuristic does not erase a component.",
+      "files": [],
+      "expectations": [
+        "Retains the orbit, rise and downward tilt as one coordinated path with the sculpture centered.",
+        "Does not reject three moves as a provider limit or silently remove one.",
+        "States that coherence and required readability must be checked in the actual take, without claiming generation success."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "For the same interval, keep the camera physically locked on a tripod and have it orbit around the actor. Both instructions are locked. Word the Camera block without changing either.",
+      "expected_output": "An unresolved conflict returned to the caller, not an invented simultaneous camera path.",
+      "files": [],
+      "expectations": [
+        "Explains that a physically locked tripod cannot simultaneously orbit the actor.",
+        "Asks which lock may change instead of deleting one silently.",
+        "Does not treat the count of two moves as proof of coherence."
       ]
     }
   ]

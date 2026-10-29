@@ -8,7 +8,7 @@ description: >-
   replacement, audio editing), forward and backward video extension, keyframe
   sequences, coarse and fine blockout references, one-click video, seamless
   transitions, audio bracket syntax, dialogue language reinforcement, emotional
-  direction, camera language, and draft-first request packaging. Use this
+  direction, camera language, and review-mode-aware request packaging. Use this
   skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene
   staging, video editing, extension, and corrections to generated motion or
   continuity. For legacy Seedance 2.0 prompts, 4K output through 2.0, or the
@@ -32,14 +32,25 @@ space, so sound direction in the prompt shapes the final result.
 Input: a video brief, resolved model/operation, duration policy, ordered input
 roles, approved relevant Elements, and any current motion/blockout manifest
 selected for intentional conditioning.
+For new or revised character performances, consume the caller's performance
+plan and encoded beat cues; for staged fights, also consume the choreography
+ledger. Missing intentions, listener tasks, critical triggers or end states
+remain unresolved rather than being replaced by emotion adjectives.
 
 Output: a six-part prompt, reference bindings, applicable mode parameters,
 explicit appearance and motion authorities, and observable acceptance criteria
 for each critical action beat.
+Preserve the caller's compact premise, early sound/editorial intent and
+project-specific criteria. Missing material intent remains a handoff question;
+settled single-prompt edits do not acquire an alternatives exercise.
+Body speed, amplitude, interruptions and recovery follow source intent and
+plausibility, with no universal burst cap. Speech is not a kinetic exclusion;
+actor energy, camera energy and edit rhythm must preserve required readability.
+Coverage and duration serve perception, not contrast, turn, hold or `wow` quotas.
 
 ## Procedure and reference loading
 
-Use reference-inputs for R2V; video-editing for edits; video-extension for
+Use scene-action for new action; reference-inputs for R2V; video-editing for edits; video-extension for
 extensions; keyframes-storyboards-blockouts for keyframes, boards and validated
 blockout manifests; shot-staging for any clip that cuts or carries dialogue.
 Add audio-performance-camera only for applicable dialogue, sound, acting, UI, or
@@ -70,14 +81,16 @@ mentioned in prose are relative to this skill directory unless a link says other
 
 ## Submission boundary and failure behavior
 
-The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
+The caller owns production authorization and the exact request preflight.
+Default review mode requires minimal inline checks and actual output sanity,
+not a full checklist or prompt-review report. Strict mode or explicit review
+requirements need complete hash-bound evidence. The caller reviews inline and
 uses a sub-agent only when the user explicitly requests sub-agent prompt review
 for the project or specific generation. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
 or technical success does not establish user approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+the requested count (one image by default, three in strict mode), and the requested delta.
 
 ## Evidence and creative advice
 
@@ -264,7 +277,9 @@ checks, so the reasons live here and the checks live there.
 
 ## Preflight review
 
-Before handing the package to review, confirm:
+Default mode checks the package inline for intent, capabilities, current hashes,
+bindings, approvals, rights and generation consent without a checklist report. For strict
+or explicitly requested detailed review, confirm:
 
 1. Subject and primary action are clear, and the action is at body-part level
    with an observable end state for every critical beat.
@@ -272,7 +287,11 @@ Before handing the package to review, confirm:
    references are selected by scene.
 3. Every shot or stage carries its planned size, angle, move and named light,
    or a recorded static reason; shot count and lengths fit the duration.
-4. Emotions and cinematography terms are paired with visible or audible cues.
+4. Performance intentions, triggers, registration and listener responses reach
+   the prompt with framing-readable consequences (`acting.plan_bound`).
+   Staged fights retain actor/prop state and readable action, apparent contact
+   or avoidance, and reaction chains (`fight.readable_exchange`). Stillness and
+   deliberate non-response remain valid; mood labels alone are insufficient.
 5. The hygiene items above hold: positive wording, counts, frame-side hands,
    text-free frames, no parameters in the text.
 6. Spoken lines fit the speech budget; the audio route matches the piece.
@@ -292,7 +311,7 @@ Before handing the package to review, confirm:
 - Multi-reference goal is to select and combine correct materials, **not** to make every material appear at once.
 - For subtitles, formulas, signs, product specs, or frame-level timing that must be completely accurate, keep the footage text-free and add the exact layer in post.
 - Mismatched first/last-frame ratios may stretch the last frame (auto-lock rules above).
-- Shots shorter than about 0.8 s merge; blink cuts, intercuts and vision flashes are assembly cuts.
+- About 0.8 s per shot is a provisional caution, not a provider limit or guaranteed merge threshold. Preserve requested timing; offer assembly for precision or demonstrated failure and return conflicts with locked workflows.
 - A rack focus that leaves the subject soft mostly fails; the model keeps the face sharp. Add that defocus in post.
 - For one-click video, specify image order and character mapping explicitly if they matter.
 - Seamless transitions aim for visual/audio continuity; they do not guarantee pixel-identical preservation.

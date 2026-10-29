@@ -137,11 +137,13 @@ only identity, environment, and runtime:
   <subject>" guard.
 - New script in `{}` with delivery style; lips sync the NEW words; emotion is
   externalised as posture/gesture/jaw/eyes, not bare labels.
-- Camera: ≤ 2 moves in one take, each dual-anchored (semantic + "At about
+- Camera: each move is dual-anchored (semantic + "At about
   0:NN"), orbit expanded with direction and foreground/background parallax.
 
-Keep the camera block to two moves — three or more reads as unstable in one
-continuous take.
+One primary move and one secondary is a planning heuristic; preserve explicitly
+requested coherent choreography with compatible paths and start/end states.
+Resolve conflicting locks rather than dropping moves by count; source camera
+remains unchanged unless the edit scope authorizes re-staging it.
 
 ### Routing vs `audio-dubbing`
 

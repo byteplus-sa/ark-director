@@ -1,0 +1,68 @@
+{
+  "skill_name": "blocking-map",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Here is a still of three people around a table: a woman in the centre facing us, a man on the left with his back to the camera, and a child on the right cropped at the chest by the frame edge. Make me the blocking map for this frame, project MARBLE, scene 4, version 1.",
+      "expected_output": "Step 1 only: the diagram-generation prompt with the composition-only guard, one muted outline figure per person, the cropped child kept cropped, the @staging_ and @loc_ tags and a one-line color key.",
+      "files": [],
+      "expectations": [
+        "Delivers the diagram-generation prompt, the tags and the color key, and does not move on to the step 2 connector block until asked.",
+        "The prompt opens by binding the source as @Image 1 for composition only and forbids copying its photographic look, adding anything not in the image, and completing cropped bodies.",
+        "Figures are thin muted-color outlines with no fills, no text, no letters and no labels, one distinct muted hue per figure.",
+        "The child is described as cropped at the chest and forbidden from completion; the man is described with his back to the camera.",
+        "Tags follow the pattern @staging_MARBLE_s04_v1 (or an equivalent project, scene and version form) and @loc_MARBLE_<name>_s04_v1, with the project name in capitals.",
+        "The color key is one line mapping each color to a person in the source frame."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The map is approved. Now write the connector block for the video prompt. BLUE is Elena, ORANGE is Omar, and I want the video to look nothing like a flat vector diagram or a grid, so say that in the prompt.",
+      "expected_output": "A positive-form connector block that names no graphic style, with a letter legend bound by color, a render rule and a locks paragraph, and an explanation of why the requested negation is left out.",
+      "files": [],
+      "expectations": [
+        "The connector contains a letter legend binding @A and @B to the BLUE and ORANGE figures with each character's tag, start position and facing.",
+        "The connector does not use the words flat, vector, schematic, grid, diagram or illustration, not even as negations, and explains that negation primes the style.",
+        "States that style, light, color grade, faces, wardrobe, environment and props follow the approved medium and look with the selected location and character references, never the staging map.",
+        "Includes the RENDER RULE and the final LOCKS paragraph so the user pastes a single block.",
+        "Treats the staging image as optional conditioning, attached last and only when explicitly selected and supported; otherwise the positions are given as plain text geometry."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Put the letters A, B and C and character names directly on the staging drawing so the video model can read them, and make the figures solid filled color blocks so they are easy to see.",
+      "expected_output": "Declines both changes with the skill's reasons: letters live in prompt-space and colors in image-space, and fills cause style and wardrobe bleed.",
+      "files": [],
+      "expectations": [
+        "Refuses to render letters, names or labels on the drawing and explains that letters exist only in the connector text, bound to figures through color.",
+        "Refuses solid fills and keeps thin muted outlines, explaining color-to-wardrobe and style bleed.",
+        "Keeps one maximally distinct muted hue per figure so identity stays readable, and does not trade signal for stealth by making lines near-invisible.",
+        "Keeps the control drawing authoring-only by default."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The generated video shows the outline colors in Elena's coat and a faint grid in the background. Fix the map for the retake.",
+      "expected_output": "Diagnoses the bleed at the right layer, bumps the version tag and gives the corrected inputs.",
+      "files": [],
+      "expectations": [
+        "Identifies this as style bleed and color-to-wardrobe bleed and fixes it at the layer that fed it: image, text or structure.",
+        "Checks the video prompt for graphic vocabulary or negations, and reattaches the staging reference last or drops it for that shot as a last resort.",
+        "Bumps the version suffix on the staging tag (for example _v2) and references only the active version per shot.",
+        "Runs the QA checklist against the approved medium and look, checking for unintended map edges, staging colors, grid artifacts and labels without requiring photorealism."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Our approved scene is hand-drawn animation with ink contours. The staging map is explicitly selected for a supported reference mode. Write the connector for two characters in the approved painted station and the video QA checklist. Preserve that medium.",
+      "expected_output": "A geometry-only connector inheriting the approved animation medium and a QA checklist that separates intended ink contours from unwanted map leakage.",
+      "files": [],
+      "expectations": [
+        "Preserves the approved animated medium and character/location references without photoreal or live-action requirements.",
+        "Uses the staging reference only for geometry and binds it last under explicit selection and live capability checks.",
+        "Does not reject approved ink contours as a defect merely because they are drawn.",
+        "Checks for unintended map colors, grid artifacts and labels, not for absence of the approved style."
+      ]
+    }
+  ]
+}

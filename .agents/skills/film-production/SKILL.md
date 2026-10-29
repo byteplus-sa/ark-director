@@ -25,8 +25,11 @@ specialist runs it, and which production defaults make the result better.
   in step with the manifests through `studio_project.py` for every stage
   review and handoff. A project with a `showcase.json` is a pre-Studio canvas
   project and keeps its canvas checkpoint instead.
-- Delegate modality work to the narrowest applicable specialist skill. Run
-  prompt review inline unless the user explicitly asks for a sub-agent review.
+- Delegate modality work to the narrowest applicable specialist skill. Read
+  `review_mode` independently of `approval_mode`: default uses minimal inline
+  preflight and actual output sanity, without full checklists or mandatory
+  prompt-review reports. Strict or explicitly requested prompt review runs
+  inline unless the user explicitly asks for a sub-agent review.
 - Prefer a deterministic workflow when the next action is known. Use agentic
   judgment for creative choices, contradiction resolution, and review.
 - Provider success is `review`, never approval. A poll timeout resumes the
@@ -42,7 +45,8 @@ specialist runs it, and which production defaults make the result better.
    `studio/stages.json` (`showcase.json` for a pre-Studio canvas project),
    relevant element, scene and shot manifests, prompt snapshots, and the latest
    review decisions. Manifests and the registry win over `handoff.md`. A new
-   Studio project starts with `approval_mode: approve_for_me` in `project.md`,
+   Studio project starts with `review_mode: default` and
+   `approval_mode: approve_for_me` in `project.md`,
    `studio_project.py init <project>`, then
    `studio_project.py stage <project> start brief-development`.
 3. **Never hand-write Studio state** (`stages.json`, `provenance.json`,
@@ -53,7 +57,8 @@ specialist runs it, and which production defaults make the result better.
    not from filenames.
 5. Identify contradictions, missing inputs, stale dependencies, pending provider
    tasks, and decision gates. Recheck the effective approval mode before each
-   decision.
+   decision, and the review mode before each new action. An absent review mode
+   defaults for new actions only; invalid values block, never relax the gate.
 6. State the current stage, the next safe objective, required specialist
    skills, and any unresolved creative or rights decision.
 
@@ -71,6 +76,10 @@ between modalities.
 | Brief intake, directorial defaults, audio route, look intent | `brief-intake` |
 | Brand-ad / reference-video inspiration | `template-factory` for native-first reverse-engineering; native/local inspection and timing evidence for lighter analysis, with available MCP understanding tools when capabilities are insufficient |
 | Vertical episodic micro-drama | `micro-drama` (with a market writer such as `filipino-micro-drama`) |
+| Scene writing or structural feedback | `scene-craft`; selected framework, preserving supplied writing |
+| Character intentions, listening and performance beats | `acting-direction`; required for new or revised character-performance scenes |
+| Seedance performance cue encoding | `seedance-acting-console`; consume the performance plan |
+| Staged screen fights | `seedance-fight-choreography`; optional actor/prop state and readable exchanges |
 | Camera, cuts and timing locked from a 3D blockout | `blender-to-seedance` |
 | Character identity asset | `seedream-character-sheet` |
 | Character sheet cleanup | `seedream-character-sheet-cleanup` |
@@ -81,7 +90,7 @@ between modalities.
 | General image generation or edit | `seedream-prompt` or `seedream-edit` |
 | Storyboard for planning and review | `seedream-storyboard` |
 | Scene board record, annotated sheet, animatic and panel repair planning | `scene-board-sheet` |
-| Scene geography and crowd blocking | `tig-blocking-map` |
+| Scene geography and crowd blocking | `blocking-map` |
 | Score, ambience, SFX or dialogue audio | `seed-audio-prompt` |
 | Narrative audio commercial | `seed-audio-commercial` |
 | Per-shot coverage, camera, lens intent and light for a scene | `seedance-shot-design` |
@@ -106,16 +115,18 @@ department workflow.
 Read [production defaults](references/production-defaults.md) before the first
 paid video submission and again at assembly. In short:
 
-1. **Draft first.** Every new Seedance 2.5 shot is a 480p Draft, reviewed and
-   selected, then promoted to the delivery target. Edit inputs only before the
-   Draft; re-check audio on the final.
+1. **Native Draft in both review modes.** Generate one image by default unless
+   the user specifies a count; strict uses three-image sets. Every new
+   Seedance 2.5 video uses boolean `draft: true` and `resolution: "480p"`.
+   Select before promotion and
+   re-check final audio; edit inputs only before a native Draft.
 2. **Audio route from the brief.** Native dialogue keeps native audio.
    Ambience-only, score-driven and wordless pieces generate picture with
    `generate_audio: false` and build the bed in post, because a "no music" line
    does not reliably hold.
-3. **Cinematic sequences for ads and TVCs.** About six 5 s sequences of 2–3
-   shots for a 30 s spot, one action per shot, each shot with lens, camera move,
-   motivated light and depth, and one wow image per sequence.
+3. **Intent-led coverage for ads and TVCs.** Duration and coverage serve
+   intended perception. Short sequences, repeated framing, equal durations,
+   sustained holds, contrast and wow images are choices, not quotas.
 4. **Storyboards plan; they are never bound** as Seedance references. Bind
    element references and write staging in the prompt.
 5. **People in video inputs** (extension, video-to-video) need `asset://`
@@ -141,6 +152,9 @@ For the active stage:
 5. Inspect every actual output: images visibly, video temporally, audio by
    listening plus speech-to-text where words matter. Reject hard-gate failures
    and rank passing candidates against the brief's recorded criteria.
+   Default mode retains short actual candidate/final sanity records needed by
+   decision writers, not repeated checklist reports. Never fabricate listening,
+   playback or approval; supplied failing or stale review evidence blocks.
 6. Record the decision under the project's approval mode: an agent decision in
    `approve_for_me`, or a recommendation and the user's chat answer in
    `ask_for_approval`. Choose takes with `studio_project.py candidates`, a swap
@@ -157,8 +171,28 @@ At the brief/development stage, run `brief-intake` before writing the brief's
 required output. It proposes directing defaults derived from the idea, and the
 brief must also record the audio route, the look intent (ungraded original
 colours unless a look is requested), the on-screen copy that will be added in
-post, and, for ads and TVCs, the cinematic sequence bar. Persist the
+post. Resolve the compact premise: intended audience response, what carries
+attention and why the ending matters. Offer alternatives only when direction
+is unresolved or requested, preserving settled work. Record early sound and
+editorial intent (reveal, withhold, emphasize or sustain), and a small set of
+project-specific artistic criteria for actual take and final-edit playback/
+listening. Final cues follow the measured edit; no final audio asset is needed
+at intake. Persist the
 mode-authorized confirmed set as a `locked` block in `project.md`.
+
+At scene breakdown, apply the
+[performance contract](../../contracts/performance-direction.md). Run
+`acting-direction` before coverage decisions for new or revised character
+performances and store `## Performance plan` in the scene. Coordinate
+`seedance-fight-choreography` when fighting is in scope. Reconcile readability
+with shot design, then use `seedance-acting-console` to encode selected beats.
+Require applicable `acting.plan_bound` and `fight.readable_exchange` checks
+through `--required-rule` in both review modes. Default uses focused evidence,
+not unrelated full checklists.
+Actual playback/listening must establish critical performance beats before
+take selection or promotion; a correct transcript is insufficient. At assembly,
+verify that trims retain registration, response and intended performance state.
+Preserve quiet holds and exact dialogue; no motion quota overrides the plan.
 
 At the scene breakdown stage, run `seedance-shot-design` for every narrative,
 ad, micro-drama, music-video or showcase scene before any shot prompt is
@@ -167,9 +201,13 @@ plan stays `draft` until the scene's locations are approved, then is
 revalidated before shot generation. An exempt scene records its
 `static_reason`. The plan carries the project's confirmed camera, lens,
 lighting, pacing and energy axes into the shot lines or records a scene
-override. At shot generation, inspect each take against its plan: a missing
-planned cut, move or light change is a soft defect to record, and a missing
-move or light on the turn shot is a hard-gate failure.
+override. At shot generation, inspect each take against its plan: record
+missing cuts, moves or light changes as defects; block only when a lock or
+declared critical criterion fails, not merely because a shot has a turn label.
+Body speed, amplitude, interruptions and recovery follow source intent and
+plausibility with no universal burst cap. Speech allows kinetic coverage when
+required delivery and performance remain readable; assess actor energy,
+camera energy and edit rhythm separately.
 
 ## Approval gates
 

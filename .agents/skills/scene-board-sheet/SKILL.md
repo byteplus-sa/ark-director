@@ -29,7 +29,7 @@ edit, never as the final panel.
 | Panel prompts, panel generation, Seedream image edits | `seedream-storyboard`, `seedream-edit` |
 | The shot plan this board reads | `seedance-shot-design` |
 | Exact static graphics (the sheet is a deterministic render) | `html-graphic-render` |
-| Blocking geometry for Seedance | `tig-blocking-map` |
+| Blocking geometry for Seedance | `blocking-map` |
 | Stage order, approval modes and Studio | `film-production` and the production policy |
 
 These are prose pointers for the calling agent. This skill reads files and writes
@@ -152,7 +152,7 @@ After each panel passes review, look at the scene as a sequence:
 | C3 Eyelines | Looks match across adjacent panels |
 | C4 Light continuity | One declared source set; key sides follow the plan |
 | C5 State continuity | Props, wardrobe and damage carry correctly |
-| C6 Rhythm | Animatic timing matches the energy level; the turn shot differs in length |
+| C6 Rhythm | Animatic timing follows the approved shot plan and required readability; equal durations and sustained holds are valid, and no turn or unequal timing is required |
 | C7 Variety | The shot plan's variety rules still pass when seen as images |
 | C8 Hygiene | No numbers, labels, borders or sketch texture in anything that goes to video |
 

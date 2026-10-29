@@ -86,13 +86,15 @@ class PromptContractResourceTests(unittest.TestCase):
         paths = [
             ROOT / 'AGENTS.md',
             ROOT / '.agents/contracts/production-policy.md',
+            ROOT / '.agents/contracts/performance-direction.md',
         ]
         for name in ('film-production', 'micro-drama', 'byteplus-katana',
                      'seedance-vfx-pipeline', 'seedance-vfx-prompt',
                      'seedance-effects-studio', 'scene-board-sheet',
                      'seedream-storyboard', 'brief-intake',
                      'seed-audio-commercial', 'seed-audio-prompt',
-                     'seedance-ai-avatar', 'template-factory'):
+                     'seedance-ai-avatar', 'template-factory',
+                     'prompt-review', 'ark-mcp', 'seedance-prompt-25'):
             paths.extend((ROOT / '.agents/skills' / name).rglob('*.md'))
             paths.extend((ROOT / '.agents/skills' / name).rglob('evals.json'))
         financial_gate = re.compile(
@@ -103,7 +105,9 @@ class PromptContractResourceTests(unittest.TestCase):
             r'|\bestimate exceeds the cap\b'
             r'|\bprivacy and cost checks\b|\bbudget spare\b'
             r'|\bresolve current token cost\b'
-            r'|\bSet `DAILY_BUDGET_USD`',
+            r'|\bSet `DAILY_BUDGET_USD`'
+            r'|\bright[s]?(?: and|,) budget\b|\brevision within budget\b'
+            r'|\boutput and budget\b',
             re.IGNORECASE,
         )
         for path in paths:

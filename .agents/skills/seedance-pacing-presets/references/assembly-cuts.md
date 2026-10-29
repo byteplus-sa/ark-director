@@ -1,11 +1,14 @@
 # Assembly-only cuts
 
-Some cuts are too short or too structural for one Seedance clip. A shot under
-about 0.8 s is merged or dropped by the model, and a single prompt cannot make the picture skip an
-action it describes. These presets therefore live in the edit: each side is
-generated as its own clip at a natural length, and the cut is made in
-assembly (FFmpeg or HyperFrames Studio). This reference plans the cut and
-writes the per-clip prompt lines; it does not run generation or edit media.
+Short or structurally complex cuts may merge or drop inside one Seedance clip.
+About 0.8 s is a provisional planning caution, not a provider limit or a
+guaranteed failure threshold. Assembly is an optional remedy for precise timing
+or demonstrated failure: each side is generated at a natural length, then cut
+in FFmpeg or HyperFrames Studio. Preserve requested timing and skipped action;
+do not silently lengthen the edit or show the missing action. Return any conflict
+between required precision and a locked one-prompt workflow to the caller.
+This reference plans a selected assembly treatment and writes per-clip prompt
+lines; it does not run generation or edit media.
 
 ## Presets
 

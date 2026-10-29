@@ -76,7 +76,7 @@ mode selection and caller responsibilities.
   Resolve capability or transport conflicts before submission,
   never by dropping `draft` on 2.5.
 - Keep resolution in request parameters, separate from prompt text and Studio
-  canvas dimensions. Final requests and outputs need fresh request review and QA
+  canvas dimensions. Final requests and outputs need fresh mode-appropriate preflight and QA
   under the workspace production policy.
 - Video generation is billed per successful task completion; a 1080p final costs
   substantially more than the 480p draft; estimate it from the pricing page.
@@ -123,6 +123,8 @@ the chosen mode, ordered reference roles, paths, hashes, selected variants, and
 approval states in the shot manifest before submission.
 
 ## Draft mode
+
+This section applies to new Seedance 2.5 generations in both review modes.
 
 The Seedance 2.5 tool documents a two-step draft (`draft`, `draft_task_id`;
 checked 2026-10-17). Confirm the current tool schema before relying on it.

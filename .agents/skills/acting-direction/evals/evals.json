@@ -1,0 +1,97 @@
+{
+  "skill_name": "acting-direction",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Direct this fictional silent scene: A and B fold a tablecloth. B wants A to stay; A picks up a bag but must leave at the end. Keep the held medium two-shot and no tears.",
+      "expected_output": "A performance plan linking the bag trigger to B's attempt to delay and A's response, preserving the exit.",
+      "files": [],
+      "expectations": [
+        "Separates personal goals and avoids inventing shared agreement.",
+        "Gives the silent listener a task and preserves the physical channel.",
+        "Preserves no tears, silence, held two-shot and A's departure.",
+        "Does not generate media or claim verified improvement."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Use the shared-direction method. Two adult siblings both try to make a goodbye painless; one protects the other's feelings and the other tries not to show doubt. They stack plates until the goodbye. The words and departure are locked.",
+      "expected_output": "A shared-direction plan with distinct motives, goals and tactics tied to the same activity, without inventing a break.",
+      "files": [],
+      "expectations": [
+        "Names shared-direction as the selected method.",
+        "Distinguishes each person's motive, goal and physical channel.",
+        "Does not require loss of control, a mirrored moral pair or changed dialogue.",
+        "Provides critical readable performance criteria."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Why is this performance flat? I only have the submitted prompt: 'She is sad, eyes wet, trembling lips.' No script or video is available.",
+      "expected_output": "A scoped prompt diagnosis of missing intention and context, not an invented observation of the take.",
+      "files": [],
+      "expectations": [
+        "Distinguishes direction gaps from unverified model or editing failure.",
+        "Does not claim it inspected eyes, delivery or motion.",
+        "Requests the relevant scene context and actual take for a media diagnosis.",
+        "Does not solve the problem by adding more gestures."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "This is an observational scene: an adult waits silently for a kettle in a locked rear wide shot, no emotional turn. Direct the acting without inventing a conflict.",
+      "expected_output": "A sustained-attention performance with readable posture or activity and no compulsory turn.",
+      "files": [],
+      "expectations": [
+        "Preserves observational form and absence of emotional turn.",
+        "Does not require face visibility, a reaction close-up or tactic switch.",
+        "Does not make missing five-element engine beats defects."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Only relight this approved clip. Keep every action, expression, pause, voice and edit unchanged. Should we add a new performance plan to improve the acting?",
+      "expected_output": "Preservation-only routing without new acting direction or unauthorized improvements.",
+      "files": [],
+      "expectations": [
+        "Retains source performance and advises preservation review.",
+        "Does not invent intentions, new cues or a new ending.",
+        "Does not submit a generation."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Direct a bedside scene. A speaks to an unconscious adult B while C listens. No waking or movement by B, no new dialogue. C does not yet know the news A is about to reveal.",
+      "expected_output": "Source-grounded tasks for A and C and a non-responsive disposition for B, preserving the knowledge sequence.",
+      "files": [],
+      "expectations": [
+        "Does not assign conscious listening or physical response to B.",
+        "C registers the news only after its trigger.",
+        "Does not invent approved exact words or a medical backstory.",
+        "Flags missing exact dialogue without blocking clear physical planning."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Design more expressive acting by changing the locked Spanish line to English and adding a tearful confession. The production brief still locks Spanish words, a restrained delivery and an unresolved ending; this is only a cue-repair task.",
+      "expected_output": "Flags conflicting scope and keeps authorized locks while proposing a bounded cue repair.",
+      "files": [],
+      "expectations": [
+        "Does not treat cue repair as permission to rewrite dialogue, language or outcome.",
+        "Asks for authorization if a broader revision is intended.",
+        "Offers a readable intention-based repair within restraint."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The raw take shows B register A's bag and respond, but our assembly trims directly from the bag to the next scene. Can a video character sheet fix the missing response?",
+      "expected_output": "Identifies the stated edit omission, proposes checking/restoring the response within approved timing, and does not claim a reference can repair it.",
+      "files": [],
+      "expectations": [
+        "Treats the user's description as evidence, not self-inspected playback.",
+        "Does not recommend regeneration or video references as the first repair.",
+        "Does not automatically edit the timeline or alter locked timing."
+      ]
+    }
+  ]
+}

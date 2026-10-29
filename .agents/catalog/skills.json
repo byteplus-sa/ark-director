@@ -1,6 +1,24 @@
 {
   "schema_version": 1,
   "skills": {
+    "acting-direction": {
+      "kind": "leaf",
+      "description": "Direct character objectives, tactics, listening and performance beats. Use for scene acting, dialogue delivery or flat performances. Not for generation or model-specific cue encoding.",
+      "readme_summary": "Plan character intentions, listening and performance beats before shot design; prompt-only direction, with no generation or take approval.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": "Adopted from byteplus-sa/seed-cinema-studio PR #7, merged e302ab982bc6714597983733d371e6bbbff0248c (approved head 99c92cd5371ccd43e75d0a508aeb8a488e554a8e); Ark runtime and policy remain authoritative."
+    },
+    "seedance-fight-choreography": {
+      "kind": "leaf",
+      "description": "Plan fictional screen fights with readable action and continuity. Use for fight choreography, brawls or staged combat prompts. Not for real-world combat instruction or generation.",
+      "readme_summary": "Plan optional fictional screen-fight beats with stable participants, readable reactions and prop continuity; preserve selected style and outcome locks.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": "Adopted from byteplus-sa/seed-cinema-studio PR #7, merged e302ab982bc6714597983733d371e6bbbff0248c (approved head 99c92cd5371ccd43e75d0a508aeb8a488e554a8e); no source digest library or Cinema runtime imported."
+    },
     "audio-dubbing": {
       "kind": "tooling",
       "description": "Dubs video or audio from one language to another using Seed Audio 1.0 voice cloning (TA2A). Takes a source audio/video file and a target-language script, clones all speaker voices from the original, preserves timing and pauses, and overlays the new audio onto the original video. Use this skill whenever the user asks to dub audio/video, translate audio with voice cloning, create a language dub, replace dialogue in a video with another language while keeping the same voices, do voice-over localization, or produce a multi-language version of a video using the original actors' voices. Also trigger when the user mentions dubbing, voice cloning for translation, audio localization, or replacing spoken dialogue in a clip. Works with any language pair supported by Seed Audio cross-lingual synthesis.",
@@ -192,8 +210,8 @@
     },
     "prompt-review": {
       "kind": "orchestrator",
-      "description": "Review BytePlus Seedance, Seedream, and Seed Audio prompts inline by default, with sub-agent review only when the user explicitly requests it for a project or specific generation. Use explicit model, operation, change contract, and request hash. Return rule findings and complete or incomplete status; fix and re-review changed prompts before generation. Use for video, VFX, Filipino dialogue, image/character/location/prop/UI/card/storyboard prompts, music, SFX, or ambience. Trigger when asked to review, QA, validate, or lint prompts, or before submitting newly authored generation prompts. Exclude manifest-only edits, generated-media review, and frozen snapshots unless re-review is explicitly requested.",
-      "readme_summary": "Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation.",
+      "description": "Review BytePlus prompts with hash-bound checklist evidence when explicitly requested or review_mode is strict. Skip routine default-mode preflight and generated-media review.",
+      "readme_summary": "Detailed hash-bound prompt reviews for strict review_mode or explicit requests; routine default-mode preflight skips full checklist reports.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -219,8 +237,8 @@
     },
     "seedance-acting-console": {
       "kind": "leaf",
-      "description": "Turn a directing directive into a production-grade Seedance acting block. Two layers: (1) Scene-level acting analysis \u2014 read the whole scene, find the shared direction, each character's motive, goal, obstacle, and tactic with eye-work as purposeful action. (2) Cue encoding \u2014 map the tactic's visible footprint to directly observable physical cues at three intensity levels using a six-emotion bank. Use this skill when directing the performance, acting, emotional intensity, mood of the scene, facial expression, delivering a line, or when a character reads dead, glassy, flat, or over-acted. Composes with seedance-prompt-25 and optionally with seed-audio-prompt for dialogue reinforcement. Never calls generation tools itself.",
-      "readme_summary": "Turn playable motives and tactics into observable acting cues appropriate to framing, visibility and intensity.",
+      "description": "Encode supplied performance intent as Seedance cues. Use for acting blocks, delivery or cue repairs. Not for whole-scene analysis or generation.",
+      "readme_summary": "Encode supplied performance plans as concise Seedance intent, trigger and response cues; preserve framing, restraint and dialogue locks.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -327,8 +345,8 @@
     },
     "seedance-prompt-25": {
       "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, per-shot camera, lens and light lines, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing and dialogue timing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, camera language, and draft-first request packaging. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, 4K output through 2.0, or the Fast/Mini speed variants, use seedance-prompt-20; whitelist-only 2.5 Premium (4K) uses this skill.",
-      "readme_summary": "Write production-grade Seedance 2.5 video prompts with the six-part formula, per-shot camera, lens and light, multimodal referencing, 4-30 s scene staging, dialogue timing, video editing and extension, keyframes, blockouts and draft-first request packaging.",
+      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, per-shot camera, lens and light lines, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing and dialogue timing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, camera language, and review-mode-aware request packaging. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, 4K output through 2.0, or the Fast/Mini speed variants, use seedance-prompt-20; whitelist-only 2.5 Premium (4K) uses this skill.",
+      "readme_summary": "Write production-grade Seedance 2.5 video prompts with the six-part formula, per-shot camera, lens and light, multimodal references, 4-30 s scene staging, dialogue timing, video editing and extension, keyframes, blockouts and review-mode-aware request packaging.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -478,7 +496,7 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
-    "tig-blocking-map": {
+    "blocking-map": {
       "kind": "leaf",
       "description": "Project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic \u2014 a \"staging reference\" (blocking map). Use WHENEVER a user attaches a frame/still and asks for a blocking map / staging reference, whenever a video prompt needs precise multi-character staging (who is where, facing which way), whenever characters jump seats or swap places between shot sizes, when a clip with people must continue but Seedance cannot extend it, or when these terms clearly refer to cinematic staging. Do not trigger for generic software diagrams, architecture, charts, or maps. Figures are ALWAYS bound to letters A, B, C, D... in PROMPT TEXT ONLY \u2014 no letters are drawn on the map. The map is GEOMETRY ONLY \u2014 it must never bleed style, colors, wardrobe, or location into the shot.",
       "readme_summary": "Project-agnostic method for giving Seedance character DISPOSITION via a color-coded outline schematic \u2014 a \"staging reference\" (blocking map).",
@@ -487,10 +505,10 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
-    "tig-scene-engine": {
+    "scene-craft": {
       "kind": "leaf",
-      "description": "Write and audit screenplay scenes and sequences using a five-element dramatic engine \u2014 Goal, Obstacle, Tactic, Reversal, Value Shift \u2014 with very specific custom definitions (see the body; these are NOT textbook definitions and must be applied exactly as written). Use whenever the user wants to write a new scene, draft scene options, develop a sequence, OR audit/test/diagnose an existing scene, sequence, outline, or full script for structural strength. Trigger on phrases like \"write this scene,\" \"give me an option for,\" \"audit my scene,\" \"test this against goal/obstacle/tactic/reversal/value shift,\" \"is this scene working,\" \"what's weak here,\" \"check my sequence,\" or when a screenplay/scene is pasted or a .docx/.pdf/Fountain/FD script is given for structural feedback. Also use proactively when the user is working on dramatic structure. Default to this skill for any scene-craft work rather than improvising generic story advice.",
-      "readme_summary": "Writes and audits screenplay scenes and sequences using a five-element dramatic engine \u2014 Goal, Obstacle, Tactic, Reversal, Value Shift \u2014 with custom definitions. Use to write new scenes, draft options, develop sequences, or audit/test/diagnose existing scenes for structural strength. Default scene-craft skill for any genre.",
+      "description": "Write and audit screenplay scenes using an explicitly selected craft framework. Use for scene drafts or structural feedback; the bespoke five-element engine is an option, not a universal defect gate.",
+      "readme_summary": "Write and audit scenes using a selected craft framework; the five-element engine is optional, preserving supplied scripts, quiet holds and alternative structures.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -660,8 +678,8 @@
     },
     "micro-drama": {
       "kind": "orchestrator",
-      "description": "Produce vertical short-form micro-drama episodes end to end for any market: a hook in the first seconds, a mid-episode reveal or confrontation, and a close-up cliffhanger, delivered as 9:16 episodes with a to-be-continued card. Orchestrates a market story writer when one exists (for example filipino-micro-drama), then appealing canon sheets, planning-only storyboards, draft-first Seedance 2.5 scene clips with native dialogue bound to element references, speech-to-text dialogue QA with word-scoped fixes, ungraded assembly, loudness-matched delivery, and an optional full-episode showreel, all in a HyperFrames Studio project. Use for micro-dramas, vertical dramas, ReelShort/DramaBox-style series, TikTok drama episodes, or batches of several independent episodes produced in parallel. Do not use for a single prompt, a non-episodic ad, a music video, or long-form film; use film-production for general multi-scene work.",
-      "readme_summary": "Produce vertical micro-drama episodes end to end for any market: hook, reveal and cliffhanger clips from element references (storyboards are planning-only), draft-first generation, dialogue-accuracy QA with word-scoped fixes, ungraded loudness-matched delivery and a full-episode showreel.",
+      "description": "Produce vertical short-form micro-drama episodes end to end for any market: source-led 9:16 episodes, with an optional hook, reveal and cliffhanger template and optional to-be-continued card. Orchestrates a market story writer when one exists (for example filipino-micro-drama), then appealing canon sheets, planning-only storyboards, review-mode-aware Seedance 2.5 scene clips with native dialogue bound to element references, speech-to-text dialogue QA with word-scoped fixes, ungraded assembly, loudness-matched delivery, and an optional full-episode showreel, all in a HyperFrames Studio project. Use for micro-dramas, vertical dramas, ReelShort/DramaBox-style series, TikTok drama episodes, or batches of several independent episodes produced in parallel. Do not use for a single prompt, a non-episodic ad, a music video, or long-form film; use film-production for general multi-scene work.",
+      "readme_summary": "Produce source-led vertical micro-drama episodes with an optional hook/reveal/cliffhanger template, element references, draft-first generation, dialogue QA, ungraded loudness-matched delivery and an optional showreel.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -678,7 +696,7 @@
     },
     "seedance-effects-studio": {
       "kind": "orchestrator",
-      "description": "Orchestrator. Offer a menu of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and grab and more), let the user pick one, inspect their photo or clip, write that effect's Seedance 2.5 prompt from its recipe, run prompt-review, submit a 480p draft through ark-mcp, save and QA the take, then follow the project approval mode for a higher resolution final. Sequences seedance-prompt-25, prompt-review, ark-mcp, seedance-restyle (video-to-video effects), the Studio project and the post tools named in each recipe. Use when the user wants a named visual effect applied to their own photo, product or clip, or asks what effects are available. Not for free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the menu (seedance-restyle), or multi-scene films (film-production).",
+      "description": "Orchestrator. Offer a menu of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and grab and more), let the user pick one, inspect their photo or clip, write that effect's Seedance 2.5 prompt from its recipe, apply mode-appropriate preflight, submit through ark-mcp, and inspect and select the take under approval_mode. Both review modes retain native Draft-first generation; strict adds detailed review. Sequences seedance-prompt-25, optional prompt-review, ark-mcp, seedance-restyle (video-to-video effects), the Studio project and the post tools named in each recipe. Use when the user wants a named visual effect applied to their own photo, product or clip, or asks what effects are available. Not for free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the menu (seedance-restyle), or multi-scene films (film-production).",
       "readme_summary": "Select a named effect recipe for the current source, preserve observed identity and wardrobe, and validate supported generation in the owning project's workflow.",
       "dependencies": [],
       "source_revision": "workspace",

@@ -1,4 +1,4 @@
 interface:
   display_name: "Seedance Acting Console"
-  short_description: "Help with Seedance acting, emotion, and performance tasks"
-  default_prompt: "Use $seedance-acting-console to handle this acting, emotion, or performance direction task."
+  short_description: "Encode supplied performance intent as shot-ready Seedance cues"
+  default_prompt: "Use $seedance-acting-console to encode the supplied performance plan or isolated intention as concise intent/trigger/response cues. Preserve beat IDs, listener tasks and source locks. Treat mood-only input as a provisional cue study, keep the emotion bank optional, and return missing direction or requested audio work to the caller without invoking siblings or generating media."

@@ -11,9 +11,16 @@ mode selection and caller responsibilities.
 Evaluate every individual panel. For multi-panel separate-images boards, also
 evaluate the ordered contact sheet. For multi-panel single-image grid boards,
 evaluate the whole grid image for both per-panel quality and cross-panel flow.
-For a one-panel board, compare its three variants side by side; a comparison
-sheet is a review artifact, not another storyboard panel and never a video
-input.
+For a one-panel board, inspect its actual output; default review mode generates
+one variant unless the user requests a count, while strict uses three. Compare
+multiple variants only when they exist. A comparison sheet is a review artifact,
+not another storyboard panel and never a video input. Three-panel layouts are
+not three stochastic variants.
+
+Default review mode records short, truthful output sanity against the brief,
+canon and continuity, not the full checklist report below. The detailed
+dimensions below apply to strict or explicitly requested review. Neither mode
+can approve an uninspected, failing or stale result.
 
 | Dimension | Review question |
 |---|---|
@@ -58,7 +65,15 @@ differences, known continuity or anatomy issues, and a recommendation.
 
 For project selection, follow the project's `approval_mode` per the
 [Production policy](../../../contracts/production-policy.md): against the recorded beat, canon, and continuity criteria, save the hash-bound review and either the validated agent decision or a recommendation awaiting the user's choice. If no panel passes or inspection is
-unavailable, leave selection unresolved. After a mode-authorized choice:
+unavailable, leave selection unresolved.
+
+`approve_for_me` permits the agent to select a passing candidate without a new
+user confirmation; `ask_for_approval` waits for the user's explicit choice.
+Review mode changes evidence depth, never approval authority. Keep explicit
+user locks and historical records. The writer still requires a short actual
+candidate sanity record in default mode; never fabricate passing evidence.
+
+After a mode-authorized choice:
 
 - set `selected_variant` to the chosen file;
 - mark the chosen output `approved` only through the validated decision writer;

@@ -17,20 +17,27 @@ each take, without deleting prior frames, variants or decisions. Exact
 generation prompts stay in their immutable snapshot files, referenced from the
 manifests.
 
-Read `approval_mode` from `project.md` at start/resume and before each stage
-decision; the production policy defines both modes. Record the effective mode,
+Read independent `approval_mode` and `review_mode` from `project.md` at
+start/resume and before new actions; the production policy defines their values.
+Default review mode uses inline preflight and short actual candidate/final
+sanity records, not mandatory full checklist reports. Strict retains detailed
+reviews. Explicit required rules and any supplied report remain binding.
+Record the effective approval mode,
 decision actor, reason, review outcome, current selection or stage lock, and
 unresolved gaps in the relevant manifest. `status` checks takes and Studio
 assets only; it does not read review, decision or scene files, so re-run
-prompt-review or reopen the stage when those files change.
+mode-appropriate preflight or reopen the stage when those files change.
 
 Every stage exit additionally requires:
 
 1. `studio_project.py stage <project> complete <stage-id>` passes. Its
    per-stage requirements (valid `project.md`, clean `status`, placed takes and
-   a passing `check`, no pending selection, `picture`/`audio`/`final_master`
+   a passing `check` at delivery in default mode or all three frame stages in
+   strict mode, no pending selection, `picture`/`audio`/`final_master`
    locks, a current delivery-level `render`) are the stage-exit table in the
-   production policy. Only `storyboard-visual-plan` and `audio-preparation` may
+   production policy. An unrun check records `check_ran: false` and
+   `check_ok: false`; lightweight gates remain in both modes. Only
+   `storyboard-visual-plan` and `audio-preparation` may
    be skipped with `--reason`;
 2. the stage's inputs, outputs, prompts, bindings, review evidence and
    mode-authorized decisions or pending recommendations are in the manifests;
@@ -52,7 +59,7 @@ not replace this checkpoint.
 
 Entry: user intent or an existing `project.md`.
 
-Required output: `approval_mode`, audience, format, runtime, aspect ratio,
+Required output: `approval_mode`, `review_mode`, audience, format, runtime, aspect ratio,
 delivery resolution, story objective, tone, creative constraints, known rights
 constraints and unresolved questions recorded in `project.md`.
 Confirmed directorial defaults (structure, energy level, camera and light
@@ -66,8 +73,15 @@ brief also records:
   capture-format look is requested, in which case it is a post treatment;
 - the **on-screen copy** (titles, captions, CTA, end card) that post will add,
   and any label the user or platform requires;
-- for ads and TVCs, the **cinematic bar**: sequence count and length, one action
-  per shot, and the wow image each sequence must deliver.
+- the **compact premise**: intended audience response, what carries attention,
+  and why the ending matters; alternatives only when direction is unresolved
+  or requested, with no mandatory arc;
+- **early sound and editorial intent**: what picture and sound reveal, withhold
+  or emphasize, including intentional silence, before generation;
+- **project-specific artistic criteria**: a small relevant set with critical
+  evidence identified for actual take and final-edit playback/listening.
+  Coverage and duration serve these criteria; no contrast, hold, turn, wow or
+  fixed cadence quota applies.
 
 The brief is the `brief-development` stage source; `stage complete` checks that
 `project.md` is a valid record.
@@ -98,13 +112,22 @@ assist; local-only tools are not required.
 
 Required output: scene list, cast, locations, props, dialogue, sound needs,
 continuity states, delivery assumptions, and scene-level acceptance criteria.
+For character-performance scenes, require `## Performance plan` from
+`acting-direction` with source evidence, intentions and a
+trigger/registration/response ledger under
+[Performance direction](../../../contracts/performance-direction.md).
+For staged fights, include the `seedance-fight-choreography` state and exchange
+ledger. Reconcile their readability needs with shot design.
 For every narrative, ad, micro-drama, music-video or showcase scene it also
 requires a shot plan from `seedance-shot-design` in the scene file's
 `## Shot plan` section: per shot, duration, size, angle, camera move, lens
 intent and a named light source with key side, the energy level, and where each
-confirmed project axis appears. Ads and TVCs group shots into sequences of
-about 5 s with 2–3 shots each; no planned shot is shorter than about 0.8 s, and
-faster cuts, flashes or intercuts are marked as edit work. A long action with
+confirmed project axis appears. Derive coverage and lengths from intended
+perception, preserving equal timing, repetition and sustained holds when useful.
+Short multi-shot sequences are optional. About 0.8 s per shot is a provisional
+caution, not a provider limit or guaranteed merge threshold. Preserve requested timing;
+offer assembly for precision or demonstrated failure, returning conflicts with
+locked workflows rather than silently replacing them. A long action with
 people that would need extension is planned as short single passes held by a
 blocking map unless `asset://` Virtual Portrait identities are available. The plan is `draft` until the scene's locations
 are approved in Stage 3 and is revalidated before Stage 6. A scene that is exempt
@@ -206,14 +229,22 @@ directly to shot generation. Seedance's native audio handles dialogue by
 default. A music track that the cut must follow (music video, beat-led spot)
 may be prepared here so shot durations can be planned to it. Score and ambience
 for a picture-only project are otherwise built after picture lock, at
-assembly, to the cut's measured length.
+assembly, to the cut's measured length. This does not postpone sound or editorial
+intent: carry the brief's picture-and-sound relationships through the breakdown.
+Final assets need not exist early; final cues require measured timing and listening.
 
 ## 6. Shot generation
 
+Applicable new or revised character performances need the current performance
+plan and its `seedance-acting-console` encoding, with `acting.plan_bound` and
+applicable `fight.readable_exchange` checks. Missing material evidence leaves
+review incomplete. Preservation-only edits retain source acting.
+
 Entry: shot objective, the scene's revalidated shot plan (or recorded exemption), selected
 video mode, approved inputs, reference roles, prompt snapshot target, duration,
-and any requested audio (if Stage 5 was completed) exist. Before submission the `prompt-review` gate has passed for
-every prompt being submitted. Review inline by default; use a sub-agent only
+and any requested audio (if Stage 5 was completed) exist. Before submission,
+minimal inline preflight passes in default mode; strict mode requires the
+`prompt-review` gate for every prompt. Review inline; use a sub-agent only
 when the user explicitly requests sub-agent prompt review for the project or
 specific generation. The ordered `references:` array is verified 1:1
 against `shot.md` (same files, same order, same `@Image N` / `@Video N` /
@@ -226,16 +257,18 @@ Initialize Studio at the delivery target, not the draft resolution. New Seedance
 2.5 generations have no skip-draft override. Other models without native Draft
 use ordinary 480p tests.
 
-Required output: task registry entry, local media, exact prompt snapshot,
+Required output in either mode: task registry entry, local media, exact prompt snapshot,
 provider metadata, actual media properties, cost fields, SHA-256, semantic QA
-including a comparison of the take against its shot plan, frame samples with
+including actual output sanity against the brief and shot plan, and `review`
+status. Strict detailed QA additionally records frame samples with
 top-left corner crops for leaked text, a speech-to-text diff for every locked
-line, and `review` status. Resolution is raised only after the current pass is
+line. When using drafts, resolution is raised only after the current pass is
 approved (final-candidate gate); a native Draft is promoted by its
 `draft_task_id` without changing its inputs. For multi-shot productions, review the draft
 assembly and record picture/audio decisions before generating final takes.
-Each final request is separately registered and reviewed against its complete
-request hash; each final output needs fresh playback, audio and creative QA and
+Each final request is separately registered and preflighted against its complete
+request hash, with a report when strict or explicitly required; each final output
+needs fresh playback, audio and creative QA and
 a mode-authorized selection before it replaces the draft in Studio. A plain
 480p output requested without `draft: true` cannot be promoted.
 The `shot-generation` stage records every take, exact prompt, ordered element
@@ -247,7 +280,10 @@ project instead lists them in one `kind: "takes"` group using
 `groups[].takes[].media` objects (`{ "type": "video", "src": "…" }`); follow
 `showcase-html` production-canvas and schema.
 
-Exit: a passing take has a hash-bound, mode-authorized selection. In
+Exit: a passing take has a hash-bound, mode-authorized selection. Playback and
+listening must demonstrate its declared critical performance beats, listener
+responses and applicable fight continuity. Record beat IDs and timestamps;
+unavailable inspection remains unresolved. In
 `ask_for_approval`, the recommendation remains pending until the user chooses.
 If no take passes, make a targeted correction or leave the
 shot blocked.
@@ -256,9 +292,17 @@ shot blocked.
 
 Entry: approved takes and any requested audio assets exist.
 
+Inspect the actual edit against accepted performance beats. Trims must retain
+critical registration, response, exact dialogue and continuity; an accepted
+raw take does not establish acceptance of the cut.
+Review what the edit reveals, withholds and emphasizes against the brief's
+project-specific artistic criteria. Use full-speed playback and actual
+listening with artifact hashes and timestamps, not only technical checks or
+transcripts. Missing perception and failed critical criteria remain blocking.
+
 Required output: ordered edit, review render, transition and continuity review,
 audio presence check, technical decode QA, and outstanding notes. Assembly
-defaults to conform, trim, crop, overlays, end card and mix with no grade, from
+includes the creative pass plus conform, trim, crop, overlays, end card and mix with no grade, from
 exact-length intermediates encoded once; post beds for picture-only projects
 are built here to the measured cut. Audio defects are fixed word by word, and
 re-voicing keeps the source soundtrack (see

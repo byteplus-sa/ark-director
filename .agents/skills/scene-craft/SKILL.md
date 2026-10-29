@@ -1,28 +1,35 @@
 ---
-name: tig-scene-engine
-description: >
-  Write and audit screenplay scenes and sequences using a five-element dramatic engine —
-  Goal, Obstacle, Tactic, Reversal, Value Shift — with very specific custom definitions
-  (see the body; these are NOT textbook definitions and must be applied exactly as written).
-  Use whenever the user wants to write a new scene, draft scene options, develop a sequence,
-  OR audit/test/diagnose an existing scene, sequence, outline, or full script for structural
-  strength. Trigger on phrases like "write this scene," "give me an option for," "audit my
-  scene," "test this against goal/obstacle/tactic/reversal/value shift," "is this scene
-  working," "what's weak here," "check my sequence," or when a screenplay/scene is pasted or a
-  .docx/.pdf/Fountain/FD script is given for structural feedback. Also use proactively when the
-  user is working on dramatic structure. Default to this
-  skill for any scene-craft work rather than improvising generic story advice.
+name: scene-craft
+description: Write and audit screenplay scenes using an explicitly selected craft framework. Use for scene drafts or structural feedback; the bespoke five-element engine is an option, not a universal defect gate.
 ---
 
-# Scene Engine
+# Scene Craft
 
-A skill for writing and auditing scenes/sequences against a precise five-element engine.
+A skill for writing and auditing scenes/sequences with an explicit framework.
+The five-element method below is also present in the user-supplied Higgsfield
+prompt-engine skill. Retain it here as one selected framework instead of
+creating a duplicate prompt-engine entrypoint. Scene craft is not the
+Seedance prompt grammar, and this leaf does not invoke sibling skills or
+submit media tasks.
 
-**These definitions are bespoke. Do not substitute textbook craft definitions. Apply exactly as written below.** When in doubt, re-read the relevant element's definition before judging or writing.
+## Framework selection
+
+Name the **selected framework** before writing or auditing. Use the framework
+confirmed in the request or brief. If none is selected, ask which criteria to
+use, offering this five-element engine as an option rather than silently making
+it the standard for every story. A supplied script and its approved intentions,
+including observational, episodic, non-causal or wordless forms, remain authoritative.
+
+The five definitions, chain checks and failure labels below apply **only when
+this engine is selected**. Preserve their bespoke meanings in that mode; do not
+substitute textbook definitions. With another selected framework, use its stated
+criteria and retain the evidence, uncertainty and lock-preservation rules here.
+Missing engine elements are not universal defects or production approval gates.
+Changing locked pages requires a separate authorized revision.
 
 ---
 
-## The Five-Element Engine (this skill's definitions — authoritative)
+## The Five-Element Engine (authoritative within the selected engine)
 
 ### 1. Goal
 The single, unchanging thing the hero is fighting for: to fix what has already been established and reach, as fast as possible, the result that resolves it. "Already established" means *anything* set up earlier — deep backstory, a few scenes ago, or one minute ago (the stink from the previous scene counts as "the past" this scene fixes).
@@ -73,7 +80,7 @@ THE CORE RULE: **A reversal with no value shift is inert.** A structural turn is
 
 ---
 
-## The full causal chain (use this as the spine for everything)
+## The full causal chain (when the engine is selected)
 
 > **Goal** (fixed engine; every scene a causal link toward it)
 > → **Obstacle** (a strong circumstance that *jeopardizes* a stage or the whole goal; name what's at risk + scale)
@@ -103,8 +110,8 @@ Decide which mode the request calls for. If unclear, ask one short question.
 
 ## Evidence-grounded audit contract
 
-Preserve the five bespoke definitions above exactly. Apply them to evidence,
-not an invented version of the screenplay. For every claimed causal link,
+When the engine is selected, preserve the five bespoke definitions above exactly.
+Apply the selected criteria to evidence, not an invented version of the screenplay. For every claimed causal link,
 identify a line, beat, stage direction, or supplied context that supports it.
 
 | Evidence state | Meaning | How to report |
@@ -146,7 +153,9 @@ minimal repair and uncertainty handling without replacing the five definitions.
 
 ## AUDIT mode — procedure
 
-Work the chain in order. For the scene (and, for reversal/value-shift, the enclosing sequence):
+For the selected engine, work the chain in order. For another framework,
+substitute its confirmed criteria without requiring engine labels. For the
+scene (and, for reversal/value-shift, the enclosing sequence):
 
 1. **Goal** — State the scene goal and its supporting beat. Is it a causal link toward the established story goal? Apply the removal test only to the supplied causal context. If the story goal is missing, mark that judgment incomplete and ask for it while reviewing the local chain.
 2. **Obstacle** — Name the strong circumstance and **exactly what it jeopardizes** and at **what scale** (stage / whole goal). If nothing is genuinely at risk → flag slack.
@@ -160,6 +169,7 @@ Use this structure:
 
 ```
 SCENE/SEQUENCE: <one-line identification and supplied scope>
+SELECTED FRAMEWORK: <confirmed framework and criteria; adapt CHAIN CHECK for other frameworks>
 LOCKS: <established facts and user constraints>
 EVIDENCE: <beat/line citations with established / inferred / missing status>
 
@@ -170,7 +180,7 @@ CHAIN CHECK
 • Reversal — <form + present? ≥1 in sequence? verdict>
 • Value Shift — <before-verdict → after-verdict per reversal; or "INERT"; trajectory note>
 
-WEAKEST POINT: <the single supported defect or missing causal link>
+WEAKEST POINT: <supported weakness under the selected criteria, missing evidence, or none>
 UNCERTAINTY: <what cannot be judged from the supplied material>
 
 WHAT IF…
@@ -190,8 +200,8 @@ Any rewritten lines or beats in a "What if" must be delivered in **Final Draft s
 
 ## WRITE / CO-WRITE mode — procedure
 
-Before writing, distinguish supplied facts from proposed beats. Name all five
-for the planned scene/sequence; missing foundations remain questions or explicit
+Before writing, distinguish supplied facts from proposed beats. For the selected
+engine, name all five for the planned scene/sequence; missing foundations remain questions or explicit
 hypothetical choices rather than invented user-approved canon:
 - the scene **Goal** as a causal link toward the story goal,
 - the **Obstacle** and exactly what it jeopardizes (+ scale),
@@ -199,7 +209,9 @@ hypothetical choices rather than invented user-approved canon:
 - at least one **Reversal** in the sequence (name its form),
 - the **Value Shift** each reversal produces in the audience (before-verdict → after-verdict).
 
-If the user hasn't given the story goal or genre/theme yet, ask briefly — you need the story goal to keep scenes as causal links, and genre/theme to pitch the right register (this is built for psychological drama / thriller by default, but confirm).
+If the selected framework needs a story goal or genre/theme that is missing,
+ask briefly. Do not assume psychological drama or thriller, or invent a goal
+for a form that does not require one.
 
 Write in **Final Draft screenplay format.** After delivering pages, optionally give a one-line note on which reversal lands and what value shift it creates, so the user can see the engine working.
 
@@ -239,27 +251,33 @@ Short notice is the only kind you give.
 
 ## From scene to video (composition hints)
 
-When an approved scene goes to Seedance, the engine maps onto shots; these are
+When an approved scene goes to Seedance, translate its beats into coverage; these are
 prose hints for the calling workflow, not steps this skill runs:
 
-- **One engine beat, one shot.** Each tactic, its returned information, the
-  reversal and the reaction that carries the value shift becomes a visible
-  action with its intent. Two or three shots per ~5 s generation, each with its
-  own size, lens intent, camera move and named light source; the reaction that
-  lands the value shift gets a close shot held at least ~1 s, since shots under
-  ~0.8 s merge.
-- **Dialogue budget.** About 2.2 spoken words per second; lines land 0.5–1.5 s
-  late, so end the last line at least 0.4 s before the clip ends.
-- **No extension with people.** Seedance rejects extending or editing a clip
-  that shows a realistic person unless each person is an `asset://` asset. A
-  scene longer than one clip continues as new generations: stage each from the
-  previous clip's last frame with `tig-blocking-map` text geometry and the same
-  element references, cutting on an engine beat so the seam is a deliberate cut.
+- **Coverage follows the approved scene.** A held shot can carry several beats;
+  one beat can span several shots. Preserve approved timing, quiet holds,
+  wordless passages and framing. Make action and intent readable without
+  imposing one beat per shot, a fixed shots-per-generation cadence, or a
+  mandatory reaction close-up. Split generation at verified model limits
+  without turning every technical boundary into an editorial cut.
+- **Performance handoff.** Pass source beat/line locators, character knowledge,
+  intentions, locked words and end state to the caller for `acting-direction`.
+  It derives performance tactics, triggers and listening; shot design tests
+  readability, and `seedance-acting-console` encodes the result. An audience
+  value shift is not an emotion the character must perform.
+- **Dialogue budget.** Derive timing from the actual words, speaker, pauses
+  and delivery; verify with playback and listening. Keep room for the final
+  word and intended tail rather than using a universal speech rate.
+- **Continuation capability.** The caller checks current model controls and
+  authorized likeness routes before editing or extending footage. This craft
+  skill does not establish a provider restriction. When a new generation is
+  required, carry the prior end state as text geometry through `blocking-map`
+  and approved elements, placing cuts according to approved coverage.
 
 ## Reminders
 
 - The five definitions above are this skill's own, not the textbook's. Re-read before judging.
 - The engine is genre-agnostic. Confirm genre, theme and idea with the user when writing.
 - Audit is in-chat prose; rewrites within it are in FD format.
-- The single most common real failure to hunt for: **a reversal that turns the plot but does not move the audience's verdict — it is inert.** Surface it first.
-- When an audited scene becomes a storyboard or video, compose with `tig-blocking-map` for staging and `seedance-prompt-25` for the video prompt (see From scene to video).
+- Under the selected engine, prioritize **a reversal that turns the plot but does not move the audience's verdict**. Do not apply that failure label to another framework.
+- When an audited scene becomes a storyboard or video, compose with `blocking-map` for staging and `seedance-prompt-25` for the video prompt (see From scene to video).

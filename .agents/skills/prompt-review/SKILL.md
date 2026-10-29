@@ -1,20 +1,22 @@
 ---
 name: prompt-review
-description: >-
-  Review BytePlus Seedance, Seedream, and Seed Audio prompts inline by default,
-  with sub-agent review only when the user explicitly requests it for a project
-  or specific generation. Use explicit model, operation, change contract, and
-  request hash. Return rule findings and complete or incomplete status; fix and re-review
-  changed prompts before generation. Use for video, VFX, Filipino dialogue,
-  image/character/location/prop/UI/card/storyboard prompts, music, SFX, or ambience.
-  Trigger when asked to review, QA, validate, or lint prompts, or before submitting
-  newly authored generation prompts. Exclude manifest-only edits, generated-media
-  review, and frozen snapshots unless re-review is explicitly requested.
+description: Review BytePlus prompts with hash-bound checklist evidence when explicitly requested or review_mode is strict. Skip routine default-mode preflight and generated-media review.
 ---
 
 # Prompt Review
 
-A quality gate for prompts. The main agent writes and reviews prompts against the
+A detailed quality gate for strict mode or explicit prompt-review requests.
+Read `review_mode` independently of `approval_mode` in `project.md`; absent means
+`default` for new actions, and invalid values block the action. In default mode,
+do not load checklist references or create a report merely because a prompt
+was authored, revised or is about to be submitted. The caller performs minimal
+inline intent, capability, hash, binding, approval, rights and generation consent preflight,
+then sanity-checks the actual output. Explicit required rules still require
+real matching evidence in any mode. A provided failing, stale or incomplete
+report cannot be ignored; never fabricate a pass.
+
+The detailed workflow below applies only after that trigger. The main agent
+writes and reviews prompts against the
 repo's skill best practices, then fixes any issues found. Sub-agent prompt review
 is optional and requires an explicit user request for the project or specific
 generation. A general prompt-review request or parallel-production policy does
@@ -36,12 +38,14 @@ Main agent writes/updates prompts
 
 ## When to trigger
 
-- After writing or updating any prompt for a BytePlus generative model.
-- Before submitting a generation task (Seedance, Seed Audio, Seedream).
+- In strict review mode, after writing or updating a BytePlus prompt and before
+  submitting it (Seedance, Seed Audio, Seedream).
 - When the user asks to review, check, QA, validate, or lint prompts.
-- After revising a prompt based on generated output feedback.
+- When explicit required-rule evidence is needed, review those actual rules.
+- In strict mode, after revising a prompt based on generated output feedback.
 
 Do not trigger for:
+- Routine generation in default review mode, including ordinary prompt revisions.
 - Media review (project work reviews in Studio, or the pre-Studio `showcase-html`
   canvas; ad-hoc files may use `showcase-html --quick`).
 - Manifest or scene definition edits (those are production metadata, not prompts).
@@ -67,6 +71,17 @@ override. The request hash covers
 the semantic submitted request, not just its prompt. Missing review input or request
 evidence leaves a production review `incomplete`; request it from the caller.
 Filename/content inference is a draft-only fallback with an explicit warning.
+
+For character performances, collect the plan or equivalent inline input and
+follow [Performance direction](../../contracts/performance-direction.md):
+`acting.plan_bound`, plus `fight.readable_exchange` for staged fights. Missing
+material input is incomplete; the contract defines exemptions and severity.
+
+For moving-image work, check compact premise, early sound/editorial intent and
+project-specific criteria under [Production policy](../../contracts/production-policy.md).
+Return material gaps without reopening settled edits. Review source fidelity and
+readability, not burst, coverage or cadence quotas. Speech is not an energy ceiling;
+actual take/final-edit playback and listening remain separate from prompt approval.
 
 For the same request, use generation rules for generate, 2.5 edit rules for a
 2.5 edit, legacy VFX rules for a supported 2.0 edit, and extension rules for
@@ -149,7 +164,7 @@ For each prompt:
 
 Review inline by default. Use a sub-agent only when the user explicitly asks for
 prompt review with a sub-agent for this project or specific generation. Both
-review modes use the same inputs, checklists, findings format, and hash-bound
+review execution methods use the same inputs, checklists, findings format, and hash-bound
 review record. The reviewer uses:
 - The full text and explicit review input for each prompt being reviewed.
 - The request hash, change contract, reference evidence, and applicable rule IDs.
@@ -163,8 +178,6 @@ review record. The reviewer uses:
 - Respect the host's available concurrency limit, with at most 5 sub-agents.
 
 **Delegation mechanisms (host-agnostic):**
-
-Only within the explicitly requested scope, use a mechanism the host provides:
 
 - **OpenCode CLI (non-interactive):**
   `opencode run -m <review-model> "<worker prompt>"`
@@ -201,6 +214,8 @@ request_sha256: <canonical request hash>
 required_rule_ids: <IDs supplied by caller>
 reference_evidence: <ordered paths, hashes, roles, and approvals>
 shot_plan: <scene shot plan, or the recorded static_reason / exemption>
+performance_plan: <current source path/hash, beat IDs, intentions, triggers, listener tasks and critical criteria; or applicability reason>
+fight_plan: <participant/prop state and exchange ledger when applicable>
 project_axes: <confirmed camera, lens, lighting, pacing and energy axes with sources, and any scene override>
 
 ## Change contract (may change / must preserve)
@@ -298,7 +313,7 @@ If the retry is still unusable, run the review inline against the same
 checklists. If evidence is still missing, retain incomplete status and block
 submission; never treat an empty sub-agent result as passed.
 
-For findings from either review mode:
+For findings from either execution method:
 
 1. **Read all findings** for each prompt.
 2. **Triage by severity:**
@@ -372,12 +387,11 @@ When reviewing multiple prompts (e.g., all prompts for a scene's shots):
 4. Collect all findings, deduplicate, and apply fixes.
 5. Re-review only the prompts that had CRITICAL or MAJOR fixes applied.
 
-This is efficient because:
-- Same-type prompts share the same checklist, loaded once per group.
-- Explicitly requested delegated batches can run in parallel.
-- The main agent only re-reviews prompts that actually changed.
-
 ## Universal directing principles
+
+Always record applicable `acting.plan_bound` and `fight.readable_exchange`
+checks even when the caller omitted them. These are semantic checks under the
+performance contract, not an automated acting-quality classifier.
 
 The workspace policy owner is the tracked production contract, with stable
 rule IDs in `../../contracts/rules.json`. The bundled checklist provides
@@ -438,8 +452,6 @@ draft breakdown; dependent production submission requires their evidence:
 | Costume variants | If a character wears a different outfit in different scenes, is a full-outfit variant a derivative character sheet linked to its parent hash, and is a scene-only wearable a separate prop sheet? |
 
 ### Reporting element findings
-
-The reviewer reports element completeness findings in a separate section:
 
 ```text
 ### Element Completeness Review

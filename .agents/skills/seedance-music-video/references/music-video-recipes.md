@@ -8,10 +8,13 @@ prompt.
 
 Only the **prompt opening** and **style seal** are drop-in sentences. The
 "Camera grammar" and "Motion & edit rhythm" fields are a vocabulary for
-selecting cues — pick at most two camera moves per shot and fold them into the
-Camera/Cut slot; do not paste the whole field. "Motion & edit rhythm" describes
-the finished edit: cuts faster than about 0.8 s (staccato kick/snare cuts,
-strobe flashes between setups) are made in assembly between generations.
+selecting cues; fold selected moves into the Camera/Cut slot, not the whole
+field. One primary move and one secondary is a planning heuristic; preserve
+explicitly requested coherent choreography and resolve incompatible paths.
+"Motion & edit rhythm" describes the finished edit. About 0.8 s per shot is
+a provisional caution, not a provider limit or guaranteed merge threshold.
+Preserve requested timing; offer assembly for precision or demonstrated failure,
+and return conflicts with locked workflows rather than silently replacing them.
 
 ## Hip-hop / trap
 
