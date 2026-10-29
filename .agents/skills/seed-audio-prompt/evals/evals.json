@@ -1,0 +1,88 @@
+{
+  "skill_name": "seed-audio-prompt",
+  "evals": [
+    {
+      "id": 101,
+      "prompt": "Refine this dry voice prompt. The narrator uses the second of two supplied references, Audio 2. Read exactly: \"Wait, wait... I'm here. Nos vemos.\" Keep two seconds of silence after the complete line. No music, ambience, or effects. Deliver 48 kHz WAV. Sound reassuring.",
+      "expected_output": "One prompt package preserving the exact mixed-language line, second reference, dry scope, relative silence and requested encoding.",
+      "files": [],
+      "assertions": [
+        "Preserves the complete line verbatim once without changing its language.",
+        "Keeps @Audio2 and any corresponding speaker tag at index 2.",
+        "Adds no invented age, gender, accent, register, timbre or sound layer.",
+        "Preserves the trailing two-second silence without adding absolute intervals.",
+        "Keeps 48 kHz WAV in delivery settings rather than spoken content."
+      ]
+    },
+    {
+      "id": 102,
+      "prompt": "Convert this to a sound prompt: 18-second scene. Replace the narrator's line \"We used to wait.\" with \"The day starts here.\" Show the title \"OPEN YOUR WORLD\". Then a glass door slides shut. Slow camera orbit, 35mm lens, 4K. No music. Keep the final three seconds silent.",
+      "expected_output": "An event-ordered prompt with only the final dialogue, the supported door sound, total length and relative ending silence.",
+      "files": [],
+      "assertions": [
+        "Uses only the replacement line as dialogue and does not speak the title.",
+        "Places the door after the line without inventing an extra action or narrator identity.",
+        "Preserves total duration, no music and final silence without new segment boundaries.",
+        "Removes camera and rendering controls without inventing a camera sound."
+      ]
+    },
+    {
+      "id": 103,
+      "prompt": "In exactly 1 second, slowly read \"Every morning we take the long road through the valley, and today we will finally reach the place we have been dreaming about.\" Then leave two seconds of silence, all inside the same 1-second clip. Do not change any words.",
+      "expected_output": "A concrete timing-conflict explanation and proposed resolution, with an unchanged script in a pending draft.",
+      "files": [],
+      "assertions": [
+        "Explains both speech capacity and the silence exceeding total duration.",
+        "Preserves all original words and the slow delivery.",
+        "Proposes a concrete duration estimate and asks before extending the clip.",
+        "Labels the draft as awaiting confirmation and retains the trailing silence."
+      ]
+    },
+    {
+      "id": 104,
+      "prompt": "Optimize dialogue for Mara and Ivo. Two voice clips are supplied, but I have not decided which clip belongs to whom. Mara says \"Stay.\" Ivo says \"I'm listening.\" Do not assign voices yourself.",
+      "expected_output": "One consolidated binding question with exact lines preserved and any draft clearly pending.",
+      "files": [],
+      "assertions": [
+        "Asks for the speaker-to-reference mapping instead of guessing.",
+        "Preserves both lines, speaker ownership and order.",
+        "Does not fabricate reference identity or claim to have heard the clips."
+      ]
+    },
+    {
+      "id": 105,
+      "prompt": "Write only a prompt for a 20-second instrumental bed: low cello throughout, a rising pulse, then a quiet ending. No voices or environmental effects. No segment timestamps. Do not generate anything.",
+      "expected_output": "A speech-free composition with the requested music roles and ending, leaving destination capability verification to the caller.",
+      "files": [],
+      "assertions": [
+        "Does not invent dialogue, humming, effects, or extra instruments.",
+        "Preserves the 20-second total, cello, pulse and quiet ending without intervals.",
+        "Does not assume restrictions or limits from a different model edition.",
+        "Does not submit a request or claim a generated result."
+      ]
+    },
+    {
+      "id": 106,
+      "prompt": "Design a 12-second timeline. From 0 to 3 seconds, only rain. Put \"Come inside.\" in a later voice window at a natural pace. End with two seconds of silence. No music.",
+      "expected_output": "An explicitly authorized timeline with preserved rain, realistic speech placement, final silence and no spoken controls.",
+      "files": [],
+      "assertions": [
+        "Preserves the existing 0-3-second rain window and 12-second total.",
+        "Allocates a later reasonable speech window and the final two seconds of silence.",
+        "Keeps timestamps outside the quoted dialogue and includes no music.",
+        "Does not guarantee exact generated synchronization."
+      ]
+    },
+    {
+      "id": 107,
+      "prompt": "I supplied one existing recording. I need separate host-speech and guitar files, excluding the fan. Preserve the original performance. Can a new T2A scene prompt do that? I have no transcript.",
+      "expected_output": "Explain extraction versus generation and the selected interface boundary without inventing a transcript, script or extraction support.",
+      "files": [],
+      "assertions": [
+        "Distinguishes extraction of existing components from new T2A generation.",
+        "Does not require newly written dialogue or claim that named prompt layers produce separate files.",
+        "Preserves source performance and requested targets while leaving execution to a supported workflow."
+      ]
+    }
+  ]
+}

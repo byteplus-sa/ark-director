@@ -445,11 +445,10 @@
         "preflight"
       ],
       "owner_path": ".agents/skills/seedance-prompt-25/references/parameter-reference.md",
-      "summary": "A Seedance 2.5 draft is a draft-mode 480p request, and its final is promoted by draft_task_id carrying only output settings; prompt, references, duration, ratio and audio change only before the draft, and the final's audio is checked again.",
+      "summary": "Every new Seedance 2.5 generation, including Premium, edits, extensions, probes and variants, requires explicit resolution 480p and boolean draft true in every review mode. Resolve schema or transport conflicts without a plain-480p fallback. Its final is promoted by draft_task_id carrying only output settings; prompt, references, duration, ratio and audio change only before the draft, and the final's audio is checked again.",
       "exceptions": [
-        "An operation without native Draft support records capability evidence and runs the final as a new reviewed request.",
-        "An explicit user instruction to skip the draft.",
-        "Default review_mode generates directly at the final target unless a draft is requested or concretely justified."
+        "Other video models without native Draft support use ordinary 480p tests and run the final as a new reviewed request.",
+        "Adopting an already submitted job preserves its historical parameters and request hash."
       ]
     },
     {
@@ -459,7 +458,7 @@
         "preflight"
       ],
       "owner_path": ".agents/contracts/production-policy.md",
-      "summary": "A request carrying draft_task_id names a registered 480p Seedance 2.5 draft of the same model and prompt, approved in the registry or by a passing variant-selection decision for its expected output.",
+      "summary": "A request carrying draft_task_id names a registered 480p Seedance 2.5 draft of the same model and prompt, approved in the registry or by a passing variant-selection decision for its expected output. Promotion parameters contain only supported output settings; any recorded references retain the draft's ordered content hashes, roles and bindings. Creative changes require a new native Draft.",
       "exceptions": []
     },
     {

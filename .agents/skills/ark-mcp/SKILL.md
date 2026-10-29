@@ -107,7 +107,8 @@ native task support.
        "arguments": {
          "input": {
            "prompt": "...",
-           "resolution": "1080p",
+           "draft": true,
+           "resolution": "480p",
            "ratio": "16:9",
            "duration": 10,
            "generate_audio": true,
@@ -268,11 +269,11 @@ actual properties. Media QA steps live in
    live schema carries the fields you plan to send. Do not send fields the
    live tool lacks; for example, the Seedance create tools may expose no
    `camera_fixed` or `seed`.
-2. **Use the mode-appropriate target.** Default mode generates directly at the
-   requested final target, with one image unless a count is requested. Strict
-   mode retains three-image sets and draft-first video. For strict or
-   requested/justified drafts, submit `draft: true` (480p) when supported,
-   inspect and select, then promote with `draft_task_id`. Details and constraints in
+2. **Preserve native Draft.** Default uses one image unless a count is requested;
+   strict uses three-image sets. In both modes, new Seedance 2.5 video uses
+   boolean `draft: true` and explicit `resolution: "480p"`. Resolve conflicting
+   capabilities before submission. Inspect and select, then promote with
+   `draft_task_id`. Details and constraints in
    [Seedance creation](references/seedance.md).
 3. **Poll at the advertised interval** (`recommended_poll_after_ms`,
    `poll_after_ms`) and relay `queue.hint`; ModelArk publishes no queue

@@ -312,13 +312,17 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
     adopting = bool(args.adopt_provider_task_id)
     findings = schema_findings(request, "generation-request.schema.json")
     if not findings:
-        findings = prepared_evidence_findings(root, request, adopting)
+        findings = prepared_evidence_findings(
+            root, request, adopting, existing_submission=adopting
+        )
     result: dict[str, Any] = {"request_sha256": request["request_sha256"]}
     review = capabilities = None
     if args.register and not findings:
         review = load_json(root, args.review) if args.review is not None else None
         capabilities = load_json(root, args.capabilities)
-        findings = validate_request(root, request, capabilities, adopting)
+        findings = validate_request(
+            root, request, capabilities, adopting, existing_submission=adopting
+        )
         if args.review is not None and review is None:
             findings.extend(schema_findings(review, "review-result.schema.json"))
         findings.extend(

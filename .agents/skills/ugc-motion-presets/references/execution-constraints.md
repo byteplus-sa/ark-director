@@ -11,7 +11,7 @@ never appear in prompt text.
 | Parameter | Value and notes |
 |---|---|
 | `duration` | Integer seconds, 4–30; `-1` for auto. Integer only — no sub-second values. |
-| `resolution` | `480p`, `720p`, `1080p`. Default to explicit 480p for generation drafts; after passing review and selection, use the recorded UGC delivery target for finals. Honor explicit user overrides and verified operation constraints. For a 4K request follow the 4K routing in [routing.md](../../../contracts/routing.md). |
+| `resolution` | `480p`, `720p`, `1080p`. Every new 2.5 generation uses explicit `"480p"` with boolean `draft: true` in every review mode; after passing review and selection, promote to a supported delivery target. Resolve capability or transport conflicts without plain-480p fallback. New 2.5 generations have no skip-draft override. For a 4K request follow the 4K routing in [routing.md](../../../contracts/routing.md). |
 | `ratio` | `9:16` default for UGC unless the request says otherwise. Locked to the first image on first/last-frame tasks and auto-derived from the source on edit tasks — never set it there. |
 | Locked camera | Locked-off selfie/posing and spectacle demos state the lock in the prompt and record `format_static_by_design`; the Seedance 2.5 tool exposes no `camera_fixed` field. |
 | `generate_audio` | Enables the native audio track the recipes describe. It can leak music, chants or stray speech despite an "ambience only" line; check the track, and for an ambience-only result set `false` and add a Seed Audio bed in post (not frame-synced). |

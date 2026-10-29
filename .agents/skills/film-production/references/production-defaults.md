@@ -10,19 +10,18 @@ when to use them.
 
 Read `review_mode` from `project.md` independently of approval mode. Default
 uses minimal inline preflight and actual output sanity, no full checklist
-reports, one image unless a count is requested, and video directly at the final
-target. A requested draft or a concrete cost/uncertainty reason within budget
-can justify drafting. Do not invent an inspection or approval.
+reports, and one image unless a count is requested. Every new Seedance 2.5
+generation uses native Draft in both modes. Do not invent an inspection or approval.
 
-### Strict or justified draft workflow
+### Native draft workflow
 
-Strict mode plans Seedance 2.5 as a 480p Draft followed by a promotion. When a
-draft is used in either mode, retain these selection and promotion safeguards.
+Both modes plan Seedance 2.5 as a 480p Draft followed by a promotion.
 
 1. Freeze and preflight the full request (prompt, ordered references, duration,
-   ratio, `generate_audio`, task type) and submit it with `draft: true` when
-   the live schema exposes Draft mode. Strict mode requires a hash-bound
-   prompt review. **Edit inputs only before the Draft.**
+   ratio, `generate_audio`, task type) and submit it with boolean `draft: true`
+   and explicit `resolution: "480p"` in every review mode, including edits,
+   extensions, probes and variants. Resolve conflicting capability evidence or
+   transport first; never drop `draft`. **Edit inputs only before the Draft.**
 2. Inspect the Draft's playback, motion, continuity, shot plan and audio, and
    record a passing selection under the project's approval mode. For
    multi-shot work, review the draft assembly too.
@@ -34,10 +33,11 @@ draft is used in either mode, retain these selection and promotion safeguards.
    soundtrack is not byte-identical to the Draft's, and words or timing can
    move.
 
-A plain 480p request without `draft: true` cannot be promoted; its final is a
-new paid request that may change picture, timing or audio, and it needs its
-own registration and mode-appropriate preflight. When a fix requires a prompt change, write a new
-Draft rather than promoting the old one.
+Other models without native Draft use ordinary 480p tests; their finals are
+new paid requests that may change picture, timing or audio and need their own
+registration and mode-appropriate preflight. This is not a plain-480p fallback for 2.5. New 2.5
+generations have no skip-draft override. When a fix requires a prompt
+change, write a new Draft rather than promoting the old one.
 
 ## 2. Choose the audio route at the brief
 

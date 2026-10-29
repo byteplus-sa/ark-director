@@ -51,9 +51,9 @@ separate from capability support (see [evidence status](evidence-status.md)).
 - **Video-to-video.** Restyle, edit and extend inputs that show a realistic
   person, generated or real, are rejected with `PrivacyInformation` unless each
   person is bound as an `asset://` Virtual Portrait or authorized asset.
-  Verify current asset and operation support. Do not use edit-route `draft`
-  without explicit capability support; use supported resolution parameters for
-  an authorized current-input test.
+  Verify current asset and operation support. Every new 2.5 test, including an
+  edit, uses `resolution: "480p"` and boolean `draft: true`. Resolve capability
+  or transport conflicts before submission, never by dropping `draft`.
 - **Lettering review.** Check generated surfaces for unwanted lettering; exact
   readable overlays remain a post-production requirement.
 - **Count review.** Preserve requested counts at every timestamp and count on
@@ -66,15 +66,15 @@ separate from capability support (see [evidence status](evidence-status.md)).
 Default review mode freezes the prompt, resolves current capabilities, checks
 intent, hashes, bindings, canonical approvals, rights and budget inline, and
 registers with `prepare_request.py --write --register --capabilities ...`.
-Use the requested final resolution without `draft=true`; omit `--review` and
+Use native `resolution: "480p"` and boolean `draft: true`; omit `--review` and
 checklist-rule flags unless explicitly needed. No full checklist report or
 fake passing review is created. Inspect the actual output and retain short
 candidate/final sanity records for the existing decision writer.
 
 ### Strict or explicitly requested detailed review
 
-The following checklist and draft example apply to strict review, not routine
-default production. Explicit `--required-rule` values require genuine matching
+The following detailed checklist applies to strict review; the native Draft
+parameters apply in both modes. Explicit `--required-rule` values require genuine matching
 review evidence in either mode; a supplied failing or stale report always blocks.
 Review is bound to the request hash, so the order is hash first.
 
@@ -137,8 +137,8 @@ alternatives. Only an approved start frame may be passed to Seedance.
 
 ## Submit a draft
 
-This path is for strict or requested/justified drafts only. Default submits the
-requested final target directly, without `draft: true`. The state transitions,
+This path applies in both review modes. New Seedance 2.5 generations require
+native Draft before selected promotion. The state transitions,
 provider-ID persistence, polling and reconciliation below apply in either mode.
 
 Move the operation to `submitting` before the call
@@ -194,14 +194,15 @@ forbade them.
   mode-appropriate preflight, and use a new operation ID at the appropriate target.
 - **Promote:** first verify current native Draft/promotion support in the live
   tool/model/operation. A 480p output alone is insufficient. If unavailable,
-  submit a separately registered and reviewed new generation at the delivery
-  target with the selected prompt and approved inputs, then inspect and select
-  its output again. For a supported native promotion, `seedance_2_5_create_task`
+  resolve the capability or transport conflict before submitting; never silently
+  replace native Draft with a plain generation. For a supported native promotion, `seedance_2_5_create_task`
   with `draft_task_id` (the Draft task ID,
   at most 7 days old) and only `resolution`, `watermark`, `return_last_frame`.
   Prompt, images, duration and audio come from the draft. Promotion renders
   1080p in the documented path; revalidate these constraints and current cost.
-  Use a new generation for a delivery target the promotion path cannot provide.
+  Resolve a delivery target the promotion path cannot provide with an authorized
+  post-processing route or an explicit user decision; new Seedance 2.5 generations
+  have no skip-draft override.
   Follow existing generation authorization, project approval mode and budget;
   request authorization only when the final operation exceeds that scope. A promotion is a
   paid operation and is registered before it is submitted: operation ID

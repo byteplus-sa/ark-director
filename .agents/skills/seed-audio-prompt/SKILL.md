@@ -14,6 +14,25 @@ Input: audio purpose, exact dialogue where present, sound layers, output configu
 
 Output: a complete T2A or TA2A soundscape prompt and explicit ordered bindings.
 
+## Preservation before composition
+
+Read [Preservation and Timing](references/preservation-and-timing.md) first.
+It governs refinements and takes precedence over optional artistic templates:
+preserve exact vocalized text, reference roles, timing authority, exclusions,
+and delivery requirements. Invent dialogue or identity traits only within
+explicit writing authorization. A total duration is not permission to assign
+segment timestamps. Preserve mixed-language lines without translation.
+
+For storyboards and visual scripts, also read
+[Visual Conversion](references/visual-conversion.md). Screen text is not
+automatically speech, and camera motion does not imply a sound effect.
+
+Return one concise prompt package with ordered bindings and requested settings.
+For a blocking conflict, explain it, propose a resolution, and ask before
+changing protected content; label any suggested draft "Awaiting confirmation".
+Prompt refinement does not generate, transcribe, or inspect media. Output
+verification and supported-operation execution belong to the caller.
+
 ## Procedure and reference loading
 
 Read references-and-modes plus soundscape-arrangement. Add dialogue-and-voices only for speaking/singing characters. Music, ambience, and SFX beds do not require dialogue or narrative obstacles. Timestamp control is optional when timing is not requested.
@@ -69,7 +88,7 @@ For full-soundscape generation, cover the five ingredients recommended by the pr
 1. The environment: location, weather, context, and acoustic space
 2. Background music and sound effects
 3. Character actions or appearance when they affect the performance
-4. Each character's voice: age, gender, accent, emotion, tone, speed, and timbre as relevant
+4. Supplied character voice traits and current delivery; design new identity traits only when authorized
 5. The exact dialogue
 
 Arrange those ingredients as one chronological audio scene, not as unrelated inventories. A typical prompt follows this order:

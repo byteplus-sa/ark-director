@@ -71,10 +71,10 @@ mode selection and caller responsibilities.
 - Multi-round extensions up to 180s (beta).
 
 ### Cost ladder
-- In default review mode generate directly at the requested final target.
-  Strict mode defaults to draft first, then promote the selected draft (see
-  [Draft mode](#draft-mode)). A requested draft or concrete cost/uncertainty
-  justification can also use that route. Record verified operation constraints.
+- Draft first, then promote the selected draft (see [Draft mode](#draft-mode)).
+  New Seedance 2.5 generations have no skip-draft override.
+  Resolve capability or transport conflicts before submission,
+  never by dropping `draft` on 2.5.
 - Keep resolution in request parameters, separate from prompt text and Studio
   canvas dimensions. Final requests and outputs need fresh mode-appropriate preflight and QA
   under the workspace production policy.
@@ -124,8 +124,7 @@ approval states in the shot manifest before submission.
 
 ## Draft mode
 
-Use this section only for strict or requested/justified draft workflows, not as
-an automatic extra generation in default review mode.
+This section applies to new Seedance 2.5 generations in both review modes.
 
 The Seedance 2.5 tool documents a two-step draft (`draft`, `draft_task_id`;
 checked 2026-10-17). Confirm the current tool schema before relying on it.
@@ -144,9 +143,14 @@ checked 2026-10-17). Confirm the current tool schema before relying on it.
 4. **Re-check the final.** Picture and soundtrack are not byte-identical to the
    draft; inspect playback, dialogue words and audio again before placing it.
 
-Without native draft support (another model or operation), a 480p request is
-an ordinary paid generation, and the final is a new reviewed request that may
-change picture, timing or audio.
+Every new 2.5 generation uses boolean `draft: true` and `resolution: "480p"`
+in every review mode, including edits, extensions, probes and variants. If the
+connected tool schema conflicts, resolve the capability evidence, model binding
+or transport; never silently substitute a plain 480p generation.
+
+For other models without native Draft support, use an ordinary 480p paid test
+without an invented `draft` parameter. Its final is a new reviewed request that
+may change picture, timing or audio.
 
 ## Guide disclaimer
 

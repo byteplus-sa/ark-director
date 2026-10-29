@@ -80,11 +80,10 @@ pre-line action. Budget from the current dialogue, not a universal word rate:
   short tail with a retake that shortens pre-line action, a freeze-hold, or a
   recorded waiver.
 
-## Strict or requested/justified draft workflow
+## Native draft workflow
 
-Default mode submits each clip directly at the final target after registration
-and inline preflight, then inspects its actual output. Use the sequence below
-only for strict mode or a requested/concretely justified draft within budget.
+Both review modes submit each new clip as a native 480p Draft after registration
+and mode-appropriate preflight, then inspect its actual output before promotion.
 
 1. Submit each clip as a 480p native Draft (`draft: true`) with its frozen,
    reviewed request. Draft the three clips of an episode in parallel.
@@ -113,7 +112,7 @@ another shot) are recorded, not retaken.
 ## Retakes and repairs
 
 - One corrective retake per clip, only for a hard-gate failure, with one
-  targeted prompt change, at the mode-appropriate target.
+  targeted prompt change, as a new native Draft.
 - Prefer a deterministic post repair when it is invisible: crop or delogo for a
   leaked corner mark, a centre punch-in for black side bars, or removing a
   defective shot from inside a multi-shot clip and dissolving across the gap

@@ -20,12 +20,11 @@ review_mode. Legacy projects with neither retain their original hash behavior.
 
 - **Default:** minimal inline preflight and actual output sanity, without a
   mandatory prompt-review skill, full checklist or checklist report. Generate
-  one image unless the user specifies a count. Generate video at the requested
-  final target directly; use a draft only when requested or when a concrete
-  cost or uncertainty reason justifies it within the authorized budget.
+  one image unless the user specifies a count. Native Draft remains required
+  for every new Seedance 2.5 generation, independently of review depth.
 - **Strict:** retain the detailed prompt-review/checklist workflow, three-image
-  selection sets and 480p draft-first video, subject to explicit user overrides
-  and verified capabilities. Detailed review instructions below apply to
+  selection sets and 480p draft-first video with verified capabilities.
+  New Seedance 2.5 generations have no skip-draft override. Detailed review instructions below apply to
   strict mode or an explicitly requested review, not automatically to default.
 
 Both modes preserve capability validation, hashes, containment, canonical
@@ -220,7 +219,7 @@ Narrative shots need events, intent, blocking and observable end states. Static 
 
 Narrative, ad, micro-drama, music-video and showcase shots also need a recorded shot plan before prompt authoring: for each shot, duration, size, angle, camera move, lens intent, and a named light source with its key side, produced by `seedance-shot-design` and stored with the scene. A static camera or an unchanging light needs a recorded `static_reason`. Exemptions are recorded, never assumed: a user lock, a static-by-design format (the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets with a locked camera block, talking-head, avatar and news takes, frame-break), an explicit per-shot camera plan from another skill (a pin plan; a music-video genre lock is vocabulary, not an exemption), a plate for cutdown, a source-preserving edit, an extension continuation, or no video shot at all. A confirmed (`agent_confirmed` or `user_confirmed`) camera, lens, lighting, pacing or energy axis recorded in `directorial_axes` or the `locked` block must reach the shot prompts, or the scene records an override with its reason; `proposed` and `defaulted` axes may be revised freely. A user-confirmed lock is never replaced by the plan.
 
-Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. In strict mode a 480p draft is the default way to check shot structure before final-resolution generation; default mode inspects the directly generated final target. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.
+Inspect each take against its plan. A planned cut, camera move or light change that is missing is a soft defect to record; a missing move or light on the shot flagged as the turn is a hard-gate failure. Both review modes inspect the native 480p Draft before selected promotion and inspect the final again. A project whose scene breakdown is already complete plans only new or revised shots, proposes a migration preview for older scenes, and never invents a plan for takes that already exist.
 
 Choose the static-graphics route by fidelity requirement. Exact copy,
 typography, logos, screen/UI layouts, title cards, posters, product lineups,
@@ -281,23 +280,23 @@ Provider moderation errors remain moderation_rejected with original error eviden
 
 ## Generation and review defaults
 
-**Default mode goes directly to the final target.** Do not generate an
-automatic draft or comparison set. Record a requested or justified draft's
-reason; when a draft is used, the selection and promotion safeguards below
-still apply.
-
-**Strict Seedance 2.5 is 480p draft-first.** Set `resolution: "480p"` explicitly for
-initial video generations and revised drafts, including edits, extensions and
-independent variants when the selected live operation supports it. Keep the
+**Seedance 2.5 is native draft-first in every review mode.** Set both
+`resolution: "480p"` and boolean `draft: true` for every new generation,
+including revised drafts, edits, extensions, probes and independent variants.
+Plain 480p is never a fallback for 2.5 or 2.5 Premium. If the connected schema
+conflicts, resolve the capability evidence, model binding or transport before
+submission; do not drop `draft`. Keep the
 intended aspect, natural duration, approved inputs and requested audio behavior.
 Record draft resolution and the separate delivery target in the owning project
 and shot manifests; Studio canvas dimensions follow the delivery target.
 Initialize Studio with `init --resolution <delivery-target>` before syncing
 480p shots when the target differs; do not let draft resolution define the
 delivery canvas by accident.
-An explicit user instruction overrides the default. If an operation cannot
+New Seedance 2.5 generations have no skip-draft override, including explicit
+user requests or delivery targets. Other video models without native Draft use an
+ordinary 480p test with no invented `draft` parameter. If such a model cannot
 produce 480p, record current capability evidence and the reason for the lowest
-suitable supported resolution; do not switch models solely to force a draft.
+suitable supported resolution. Do not switch models solely to avoid native Draft.
 
 Inspect draft playback and audio, motion, continuity and the shot plan. Record a
 passing, hash-bound draft selection under the project's approval mode before
@@ -311,10 +310,11 @@ and decisions. Generate final takes only within the authorized scope and budget
 at the recorded delivery target; do not assume 1080p is always required. A
 requested 480p delivery can use reviewed 480p takes after delivery QA.
 
-A 480p output is not automatically a provider-native Draft task. Use native
-Draft/promotion only after verifying the current tool/model/operation supports
-it and its constraints. Otherwise final-resolution generation is a new paid
-request using the selected prompt and approved inputs; it can change the
+A 480p output is not automatically a provider-native Draft task: the request
+must carry boolean `draft: true`. Verify native promotion constraints before
+use; a conflicting 2.5 schema blocks submission until capability or transport
+is resolved. For other models without native Draft, final-resolution generation
+is a new paid request using the selected prompt and approved inputs; it can change the
 picture, timing or audio. Every final request has its own prepared registry
 entry and mode-appropriate preflight (a complete hash-bound request review in
 strict mode or when explicitly required), including changed parameters and
@@ -348,4 +348,6 @@ not create a passing record or change output `review_status`.
 
 In strict mode, for a generation-bound narrative, ad, micro-drama, music-video or showcase shot with no recorded exemption, pass `shot.plan_bound`, `shot.variety` and `shot.axis_carry`; for an exempt shot, omit them and let the reviewer record `not_applicable` with the exemption as the reason. Default mode checks relevant shot intent inline, without automatically adding checklist-rule flags. When a required shot rule has nothing to check (no confirmed axis, a one-take), the reviewer records `pass` with that actual evidence, because a required rule cannot be `not_applicable`. The validator is read-only and never submits a provider task. Capability evidence uses capability-evidence.schema.json and self-contained parameter schemas; external schema URLs are rejected.
 
-The operation_store.py helper exposes prepare_operation(root, request, capabilities, review, required_rule_ids, allow_board_references=False) and transition_operation(root, operation_id, expected_status, new_status, provider_task_id, provider_status, allow_board_references=False). `review=None` is accepted only in default mode with no required rules; no synthetic report is persisted. Only adoption of an already submitted job sets allow_board_references, because that job exists and cannot be withdrawn; it trusts the caller's provider task ID like the rest of adoption. Prepare only after the immutable snapshot exists. Validation occurs before registry writes. A file lock, unique operation/asset identities, expected state and atomic replace prevent duplicate local preparation and stale transitions. This does not promise provider idempotency. Legacy or invalid registries are preserved and require a migration preview.
+`review=None` is accepted only in default mode with no required rules; no synthetic report is persisted.
+
+The operation_store.py helper exposes prepare_operation(root, request, capabilities, review, required_rule_ids, allow_board_references=False, *, existing_submission=False) and transition_operation(root, operation_id, expected_status, new_status, provider_task_id, provider_status, allow_board_references=False, *, existing_submission=False). Only adoption of an already submitted job sets allow_board_references and existing_submission, because that job exists and cannot be withdrawn; it trusts the caller's provider task ID like the rest of adoption. The existing_submission flag preserves historical parameters and hashes, not authorization for a new generation. New preparation, registration and transitions to submitting enforce native draft-first (`seedance.draft_promotion`); a passing prompt review alone cannot waive it. Prepare only after the immutable snapshot exists. Validation occurs before registry writes. A file lock, unique operation/asset identities, expected state and atomic replace prevent duplicate local preparation and stale transitions. This does not promise provider idempotency. Legacy or invalid registries are preserved and require a migration preview.

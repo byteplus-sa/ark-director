@@ -234,7 +234,8 @@ Silent output. Sound is added in post.
 ```
 
 Parameters: `omni_reference_task_type: edit`, `generate_audio: false`,
-`resolution: 480p`, `watermark: false`; `ratio` and `duration` omitted.
+`resolution: "480p"`, boolean `draft: true`, `watermark: false`;
+`ratio` and `duration` omitted.
 
 Review target, not a claimed result: all requested surfaces take the clay
 medium while source place, geometry, performance and timing remain intact.

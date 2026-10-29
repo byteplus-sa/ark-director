@@ -92,9 +92,9 @@ ai-director/
 New `project.md` frontmatter uses independent `review_mode: default` and
 `approval_mode: approve_for_me`. Default review is minimal inline preflight and
 actual output sanity: no mandatory prompt-review checklist report, one image
-unless a count is requested, and video directly at its final target. Set
-`review_mode: strict` for detailed reviews, three-image sets and draft-first
-video. Missing review mode defaults for new actions; invalid values block.
+unless a count is requested. Native 480p Draft-first Seedance 2.5 video remains
+required in both modes. Set `review_mode: strict` for detailed reviews and
+three-image sets. Missing review mode defaults for new actions; invalid values block.
 Review depth never changes who may approve, rights, budget or user locks.
 Existing candidate/final lock writers still require short, truthful sanity
 records from actual inspection.
@@ -103,7 +103,7 @@ records from actual inspection.
 2. **Reference preflight** — classify each asset (visible identity, environment, motion reference, control-only). The ordered reference array submitted must match the `references:` list in `shot.md` exactly.
 3. **Spatial & temporal preflight** — record start, travel axis, subject order, boundary behavior, end state for movement-heavy scenes.
 4. **Audio for dialogue (optional)** — when the user requests lip-synced dialogue, generate the Seed Audio track first, then use it as `reference_audio` to Seedance.
-5. **Generate** — use the final target directly in default mode; a prototype is strict-mode, requested, or concretely justified within budget.
+5. **Generate** — use native 480p Draft-first Seedance 2.5 in both review modes, then select before promotion.
 6. **Creative review** — preserve approved decisions; write the single requested delta plus acceptance criteria for the next take.
 7. **Final candidate** — when using drafts, increase resolution only after creative behavior is approved.
 8. **Technical & semantic QA** — inspect actual streams, decode integrity, contact sheets, key transitions, audio.
@@ -115,6 +115,15 @@ records from actual inspection.
 ## Production rules
 
 Draft breakdown identifies required canon. Approve recurring, branded, or story-critical references before dependent generation. Static sheets use visible-design checks; narrative shots use action and intent. Exact typography, UI, posters, prices, CTAs, logos, and product layouts use a deterministic HTML entrypoint with local CSS/SVG dependencies; Seedream remains the route for synthesized photography and illustration. Hybrid graphics select the image layer first and finish exact copy/layout deterministically.
+
+Every new Seedance 2.5 generation starts with `resolution: "480p"` and boolean
+`draft: true` in every review mode, including edits, extensions, probes and
+variants. Resolve tool-schema or transport conflicts before submitting; never
+silently substitute plain 480p. Other video models without native Draft use an
+ordinary 480p test. New Seedance 2.5 generations have no skip-draft override.
+Review and select the draft before a separately reviewed, registered and
+authorized promotion; inspect the final again. Existing submitted tasks and
+their historical request hashes remain unchanged.
 
 Only explicit user choice selects or approves an asset. Freeze exact requests before submission, retain provider IDs, and reconcile unknown acceptance rather than retrying automatically. Default generative-image selection sets retain three equivalent stochastic samples; deterministic graphics produce one exact render per version.
 

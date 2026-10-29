@@ -226,13 +226,13 @@ when the user explicitly requests sub-agent prompt review for the project or
 specific generation. The ordered `references:` array is verified 1:1
 against `shot.md` (same files, same order, same `@Image N` / `@Video N` /
 `@Audio N` bindings); the request's `generate_audio` matches the brief's audio
-route; no storyboard image is bound. Default generates at the final target
-directly unless a draft is requested or concretely justified. A strict or
-otherwise chosen Seedance 2.5 draft pass uses
-`resolution: "480p"` as a native Draft when the live schema supports it.
-Initialize Studio at the delivery target, not the draft resolution. Record any
-explicit user override or verified operation constraint under the production
-policy.
+route; no storyboard image is bound; and every new Seedance 2.5 request uses
+`resolution: "480p"` and boolean `draft: true` in every review mode, including
+edits, extensions, probes and variants. Resolve capability or transport
+conflicts before submission; never fall back to plain 480p.
+Initialize Studio at the delivery target, not the draft resolution. New Seedance
+2.5 generations have no skip-draft override. Other models without native Draft
+use ordinary 480p tests.
 
 Required output in either mode: task registry entry, local media, exact prompt snapshot,
 provider metadata, actual media properties, cost fields, SHA-256, semantic QA

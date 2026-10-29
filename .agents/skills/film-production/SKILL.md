@@ -111,10 +111,10 @@ department workflow.
 Read [production defaults](references/production-defaults.md) before the first
 paid video submission and again at assembly. In short:
 
-1. **Final target directly in default mode.** Generate one image unless the user
-   specifies a count, and video at its final target. Use a draft only when
-   requested or justified within budget. Strict mode retains three-image sets
-   and 480p draft-first video. When drafting, select before promotion and
+1. **Native Draft in both review modes.** Generate one image by default unless
+   the user specifies a count; strict uses three-image sets. Every new
+   Seedance 2.5 video uses boolean `draft: true` and `resolution: "480p"`.
+   Select before promotion and
    re-check final audio; edit inputs only before a native Draft.
 2. **Audio route from the brief.** Native dialogue keeps native audio.
    Ambience-only, score-driven and wordless pieces generate picture with

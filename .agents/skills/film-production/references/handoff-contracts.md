@@ -54,22 +54,24 @@ unless the brief records a look.
 
 ## Draft to final generation
 
-This handoff applies only when using drafts: strict mode, a requested draft, or
-a concrete cost/uncertainty justification. Default mode otherwise generates at
-the final target directly and proceeds to output sanity and selection.
+This handoff applies to new Seedance 2.5 generations in both review modes.
+Review depth does not waive native Draft or selection before promotion.
 
 Pass the selected 480p draft paths and hashes, its provider task ID, passing
 review and selection records, exact prompt snapshot, ordered approved reference
 hashes, requested audio behavior and delivery resolution. For multi-shot work,
-include the reviewed draft assembly and picture/audio decisions. Record any
-user override or verified operation constraint.
+include the reviewed draft assembly and picture/audio decisions. New 2.5
+requests use boolean `draft: true` and `resolution: "480p"` in every review
+mode, with no skip-draft override. Resolve capability or transport conflicts
+without dropping `draft`.
 
 - A native Draft (`draft: true`) is promoted by its `draft_task_id` with only
   the output settings (`resolution`, `watermark`, optional chaining fields);
   the provider reuses its prompt, references, seed, duration and audio. Any
   input change means a new Draft, not a promotion.
-- A plain 480p request is not promotable; its final is a fresh generation that
-  may change picture, timing and audio.
+- Other models without native Draft use ordinary 480p tests; their finals are
+  fresh generations that may change picture, timing and audio. This is not a
+  fallback for new 2.5 requests.
 
 Either way, register and preflight the final request as a new operation (a
 hash-bound prompt report is required in strict mode or for explicit rules), then

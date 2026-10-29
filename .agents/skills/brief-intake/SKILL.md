@@ -177,7 +177,7 @@ For new projects, record `review_mode: default` independently of
 means default for new actions, invalid values block production. Default means
 minimal inline preflight and actual output sanity, not a full prompt-review
 checklist or mandatory report. Plan one image unless a count is requested and
-video directly at the final target unless a draft is requested or justified.
+native 480p Draft-first Seedance 2.5 video in both review modes.
 Strict retains the detailed workflow. Neither review mode grants approval or
 changes existing user locks, rights, consent or spending scope.
 

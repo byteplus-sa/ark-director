@@ -166,8 +166,16 @@ def prepare_operation(
     review: dict[str, Any] | None,
     required_rule_ids: list[str],
     allow_board_references: bool = False,
+    *,
+    existing_submission: bool = False,
 ) -> None:
-    findings = validate_request(root, request, capabilities, allow_board_references)
+    findings = validate_request(
+        root,
+        request,
+        capabilities,
+        allow_board_references,
+        existing_submission=existing_submission,
+    )
     findings.extend(
         request_review_findings(
             root, review, request.get("request_sha256", ""), required_rule_ids
@@ -219,6 +227,7 @@ def adopt_submitted_operation(
         review,
         required_rule_ids,
         allow_board_references=True,
+        existing_submission=True,
     )
     operation_id = request["operation_id"]
     try:
@@ -228,6 +237,7 @@ def adopt_submitted_operation(
             "prepared",
             "submitting",
             allow_board_references=True,
+            existing_submission=True,
         )
         transition_operation(
             root,
@@ -262,6 +272,8 @@ def transition_operation(
     provider_task_id: str | None = None,
     provider_status: str | None = None,
     allow_board_references: bool = False,
+    *,
+    existing_submission: bool = False,
 ) -> None:
     if new_status not in TRANSITIONS.get(expected_status, set()):
         raise ValueError(
@@ -281,7 +293,10 @@ def transition_operation(
             raise ValueError("Operation missing or stale expected state")
         if new_status == "submitting":
             evidence_findings = prepared_evidence_findings(
-                root, record, allow_board_references
+                root,
+                record,
+                allow_board_references,
+                existing_submission=existing_submission,
             )
             if evidence_findings:
                 raise ValueError(

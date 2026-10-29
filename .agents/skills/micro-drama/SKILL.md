@@ -75,10 +75,9 @@ and an optional full-episode showreel.
    prompt, dialogue-timing and QA rules in the
    [production recipe](references/production-recipe.md). Default review mode uses
    minimal inline preflight without a full checklist or prompt-review report.
-   Register the operations, submit the three clips in parallel at the final
-   target, then inspect the actual outputs. Strict mode runs `prompt-review`
-   and uses 480p native Drafts before selected promotion and fresh final QA.
-   Requested or concretely justified drafts may use that route in default mode.
+   Register the operations and submit the three clips in parallel as 480p
+   native Drafts in both review modes, then inspect the actual outputs before
+   selected promotion and fresh final QA. Strict mode runs `prompt-review`.
 7. **Assembly.** In Studio, place the cold open first, then the title card, the
    three clips with short dissolves, and the to-be-continued card, in original
    colours with no grade. Fix wrong words with word-scoped audio patches. Add a
@@ -106,8 +105,8 @@ and a single integrating manager.
 - Every spoken line is checked word by word against the locked dialogue with
   speech-to-text before a take can pass. A model's own summary of what was
   said is not sufficient.
-- Retakes fix hard-gate failures only, within the declared budget, at the
-  mode-appropriate target. Dialogue errors are patched word by word, never re-dubbed whole.
+- Retakes fix hard-gate failures only, within the declared budget, as a new
+  native Draft. Dialogue errors are patched word by word, never re-dubbed whole.
   Record residual defects instead of silently promoting a flawed take.
 - Provider success is `review`, never approval. Never resubmit an ambiguous
   paid operation; reconcile it from the task registry.

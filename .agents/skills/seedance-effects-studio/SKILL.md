@@ -6,8 +6,8 @@ description: >-
   grab and more), let the user pick one, inspect their photo or clip, write that
   effect's Seedance 2.5 prompt from its recipe, apply mode-appropriate preflight,
   submit through ark-mcp, and inspect and select the take under approval_mode.
-  Default goes directly to the final target; strict retains detailed review and
-  draft-first generation. Sequences seedance-prompt-25, optional prompt-review, ark-mcp,
+  Both review modes retain native Draft-first generation; strict adds detailed
+  review. Sequences seedance-prompt-25, optional prompt-review, ark-mcp,
   seedance-restyle (video-to-video effects), the Studio project and the post tools
   named in each recipe. Use when the user wants a named visual effect applied to
   their own photo, product or clip, or asks what effects are available. Not for
@@ -142,9 +142,8 @@ states what is missing.
 
 Read independent `review_mode` and `approval_mode` in `project.md`. Default
 uses minimal inline preflight and actual output sanity, one image unless a
-count is requested, and video directly at the final target. Strict retains the
-detailed checklist and draft workflow. Drafts in default mode need a user
-request or concrete cost/uncertainty justification. Neither mode grants rights,
+count is requested, and native Draft-first video. Strict adds the detailed
+checklist. Both modes require selection before promotion. Neither mode grants rights,
 extra budget or permission to replace user locks.
 
 1. **Pick.** Resolve one effect id. One effect per run; a second effect is a new
@@ -193,9 +192,10 @@ extra budget or permission to replace user locks.
    capability files and `--write --register` so the prepared operation is in the
    project `task_ids.json` before any submission. Read
    [generation flow](references/generation-flow.md) for the exact calls.
-8. **Generate.** Default submits at the final target through `ark-mcp`. Strict
-   or requested/justified drafts use 480p (`draft: true` only when the current
-   operation supports it, otherwise supported resolution settings). Save the
+8. **Draft.** Submit one native Draft with `resolution: "480p"` and boolean
+   `draft: true` in every review mode, including video-to-video edits. Resolve
+   capability or transport conflicts before submission; never fall back to
+   plain 480p. Save the
    provider task ID as soon as it is acknowledged. Poll the same task; never
    resubmit after a timeout.
 9. **Persist and QA.** Save the video locally, record bytes, SHA-256 and actual
@@ -239,7 +239,8 @@ Provider rules (details and wording in
 - Review generated audio against the requested sound design on the current take.
 - Video inputs (edit, restyle, extend) are rejected when they show a realistic
   person, generated or real, unless each person is bound as an `asset://`
-  Virtual Portrait or authorized asset. Do not use edit-route draft mode without explicit current capability support.
+  Virtual Portrait or authorized asset. Resolve any edit-route native Draft
+  capability or transport conflict before submission; do not drop `draft`.
 - Check lettering, counts and cut timing against the brief on current outputs.
   Keep requested counts explicit; revise only from current-input evidence.
   Use the recipe's post steps for exact overlays, cuts and cadence.
@@ -259,8 +260,9 @@ Provider rules (details and wording in
    is not frame-synced.
 4. **Counts are explicit** at every timestamp, copies share one face and one
    outfit, and the reported count is the one found on a full-size frame.
-5. **Respect review depth and approval authority.** Default goes to the final
-   target; strict or requested/justified drafts need selection before promotion.
+5. **Always a draft first.** Explicit `resolution: "480p"` and boolean
+   `draft: true`, inspect, then select under the project approval mode before the final. New Seedance 2.5
+   generations have no skip-draft override.
    Never submit the same paid generation twice or through two transports; an
    ambiguous timeout is reconciled, not retried.
 6. **Identity references are labelled.** A reference image gets "use only for the
