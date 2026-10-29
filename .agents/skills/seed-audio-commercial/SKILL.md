@@ -320,7 +320,7 @@ recorded change contract, or use the provider's support/appeal path when the
 reason is unclear. Preserve the user's requested language unless a translation
 is explicitly requested or agreed. Rephrasing to disguise content or bypass a
 filter is not a remediation strategy. A new authorized attempt gets a new
-operation record, reviewed prompt snapshot, and cost estimate; no wording
+operation record and reviewed prompt snapshot; report costs when known. No wording
 promises a guaranteed pass.
 
 ## Cost management (generation stage)
@@ -343,7 +343,6 @@ promises a guaranteed pass.
 - Each content-safety rejection still bills for the generation attempt (the
   audio is generated before the audit rejects it). Validate multilingual
   prompts carefully before submitting.
-- Set `DAILY_BUDGET_USD` on the MCP server to enforce a hard daily limit.
 
 Verification of words, accent and timing follows the verification section of
 `seed-audio-prompt` when that skill is available: an ASR transcript is the

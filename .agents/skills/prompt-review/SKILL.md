@@ -10,7 +10,7 @@ Read `review_mode` independently of `approval_mode` in `project.md`; absent mean
 `default` for new actions, and invalid values block the action. In default mode,
 do not load checklist references or create a report merely because a prompt
 was authored, revised or is about to be submitted. The caller performs minimal
-inline intent, capability, hash, binding, approval, rights and budget preflight,
+inline intent, capability, hash, binding, approval, rights and generation consent preflight,
 then sanity-checks the actual output. Explicit required rules still require
 real matching evidence in any mode. A provided failing, stale or incomplete
 report cannot be ignored; never fabricate a pass.

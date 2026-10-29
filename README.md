@@ -95,7 +95,7 @@ actual output sanity: no mandatory prompt-review checklist report, one image
 unless a count is requested. Native 480p Draft-first Seedance 2.5 video remains
 required in both modes. Set `review_mode: strict` for detailed reviews and
 three-image sets. Missing review mode defaults for new actions; invalid values block.
-Review depth never changes who may approve, rights, budget or user locks.
+Review depth never changes who may approve, rights, generation consent or user locks.
 Existing candidate/final lock writers still require short, truthful sanity
 records from actual inspection.
 
@@ -213,7 +213,7 @@ The workspace ships with **83 skills** across 15 categories. Independent skills 
 | **seedance-vfx-prompt** | Write Seedance 2.5 video-to-video edit prompts for background replacement, object integration, relighting, weather and timed effects, with a may-change/must-preserve contract. |
 | **seedance-vfx-pipeline** | Run a complete Seedance video-to-video VFX, Object Swap, Motion Transfer or Restyle shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project manifests and Studio project. |
 | **seedance-motion-recast** | Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, Virtual Portrait identities, a muted source with post audio and a 480p probe ladder. |
-| **byteplus-katana** | Plans a reference edit rebuilt with your own characters, products or clothing: measured edit list with a cut driver per segment (beat, speech, action or none), routing by what each segment shows (layers, kept, recast, generated or dialogue footage), setups scaled to the reference, a code-built type layer, a credit budget and per-segment refinement. |
+| **byteplus-katana** | Plans a reference edit rebuilt with your own characters, products or clothing: measured edit list with a cut driver per segment (beat, speech, action or none), routing by what each segment shows (layers, kept, recast, generated or dialogue footage), setups scaled to the reference, a code-built type layer and per-segment refinement. |
 | **seedance-object-swap** | Write Seedance 2.5 Object Swap prompts that replace one character, outfit, product, prop, object or location in existing footage and keep the rest of the shot, with the five-part swap contract, Virtual Portrait characters, a muted source with post audio and swap QA. |
 | **seedance-restyle** | Write Seedance 2.5 Restyle prompts that redraw a whole clip in one of 24 visual styles or a custom style reference while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, an environment-image recipe that keeps the same place and restyles the background too, a muted source with post audio and a 480p probe ladder. |
 | **seedance-virtual-portrait** | Prepares authorized face and voice references for Seedance Advanced Creation Rights, reuses completed onboarding and active assets without repeating verification, binds asset:// references, and resolves Seedance privacy and guardrail flags on real-person inputs through the registered asset route. |

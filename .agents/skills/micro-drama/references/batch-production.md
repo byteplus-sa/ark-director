@@ -9,7 +9,7 @@ episodes or dramas at once.
   own `projects/<slug>/`.
 - The manager owns the shared playbook, the story briefs, integration, the
   portfolio page, the showreel and all user communication.
-- Give every agent the same written playbook: format, budget cap, stage
+- Give every agent the same written playbook: format, stage
   sequence, QA gates, boundaries and final report format. Put it in the
   session scratchpad and pass its path; do not paste it into the project.
 

@@ -5,7 +5,7 @@ delivery. These are working practices, not provider guarantees.
 
 Default review mode uses minimal inline preflight and short actual output
 sanity records, without full checklist reports. Strict review uses the detailed
-gates below. Identity, locked dialogue, rights, budget, honest listening and
+gates below. Identity, locked dialogue, rights, generation consent, honest listening and
 hash-bound selections remain required in either mode.
 
 ## Canon
@@ -120,8 +120,8 @@ delivery, not merely transcript accuracy. Missing inspection stays unresolved.
 
 ## Retakes and repairs
 
-- One corrective retake per clip, only for a hard-gate failure, with one
-  targeted prompt change, as a new native Draft.
+- Retake a clip for a hard-gate failure with one targeted prompt change as a
+  new native Draft. Inspect each result and diagnose repeated failures before retrying.
 - Prefer a deterministic post repair when it is invisible: crop or delogo for a
   leaked corner mark, a centre punch-in for black side bars, or removing a
   defective shot from inside a multi-shot clip and dissolving across the gap
@@ -137,14 +137,6 @@ delivery, not merely transcript accuracy. Missing inspection stays unresolved.
   mux it over the untouched picture. Never send dialogue alone: the score,
   room tone and effects must survive.
 - Record every repair beside the clip with its source hash and command.
-
-## Budget
-
-Seedance cost scales with generated seconds and resolution. Check live pricing
-before committing; a 480p Draft costs a fraction of its 1080p promotion.
-Declare a per-episode cap in
-generated seconds (for example 90 s at final resolution plus the drafts) and
-stop and report before exceeding it. Seedream stills are minor by comparison.
 
 ## Assembly
 

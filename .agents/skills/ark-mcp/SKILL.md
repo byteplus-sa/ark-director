@@ -251,7 +251,7 @@ in `project.md`. Default mode uses minimal inline preflight and actual output
 sanity, not a full checklist or mandatory prompt-review report. Strict or
 explicit rule requirements need genuine matching review evidence. Both modes
 register before submission and retain capability, hash, reference approval,
-rights, budget and reconciliation checks. A supplied failing/stale report is
+rights, generation consent and reconciliation checks. A supplied failing/stale report is
 never ignored; an absent report never becomes a fabricated passing record.
 
 While a take is under review, record it under `outputs` or

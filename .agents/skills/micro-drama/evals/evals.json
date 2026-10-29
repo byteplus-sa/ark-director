@@ -4,15 +4,15 @@
     {
       "id": 1,
       "prompt": "Make three vertical micro-drama episodes for the US market, 1080p, fully produced.",
-      "expected_output": "A per-episode brief and production plan using the three-scene structure, with parallel ownership and a budget cap.",
+      "expected_output": "A per-episode brief and production plan using the three-scene structure, with parallel ownership and no financial setup prerequisite.",
       "files": [],
       "expectations": [
         "Offers the three-scene hook/turn/cliffhanger template as a proposal, adapting duration and coverage to approved intent rather than mandatory timing or contrast quotas.",
         "Assigns one production agent per episode with exclusive project ownership and a shared playbook.",
-        "Declares a per-episode generated-seconds budget before any paid submission.",
+        "Starts the requested episodes without asking for a monetary limit or inventing a generated-seconds ceiling.",
         "Keeps generated footage text-free and adds cards and subtitles in post.",
         "Does not invent a market writer skill; drafts the brief fields itself when none exists.",
-        "Plans each clip as a 480p Draft that is reviewed before promotion to 1080p, and counts drafts in the budget."
+        "Plans each clip as a 480p Draft that is reviewed before promotion to 1080p, recording costs when known without blocking on missing estimates."
       ]
     },
     {

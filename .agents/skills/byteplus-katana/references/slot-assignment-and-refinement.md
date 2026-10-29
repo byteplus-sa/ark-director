@@ -62,7 +62,7 @@ that do not depend on the changed slot.
 | New music | All footage; re-time cuts if the beat grid differs |
 
 Default one version. A requested count, or three for a draft comparison, is
-recorded with the credit cap before any generation.
+recorded before generation.
 
 ## Refinement ledger
 
@@ -92,11 +92,11 @@ One row per segment:
 5. Re-run the assembly check on the full edit after the new takes land, since a
    retimed neighbour can break a cut elsewhere.
 
-### Spend control
+### Cost reporting
 
-Before each wave: list segments to regenerate, estimated cost each and total.
-Stop at the user's cap and ask. Keep confirmed cost separate from the estimate
-once the provider reports it.
+List the segments to regenerate and report estimated costs when known.
+Missing estimates do not block a wave. Keep confirmed costs separate from
+estimates once the provider reports them.
 
 ## Moderation and rejections
 

@@ -19,22 +19,22 @@
     {
       "id": 2,
       "prompt": "Scene-05 is a rooftop fight: three physical exchanges, a fall, and a reveal that depends on a prop breaking. Plan the storyboard level and panels.",
-      "expected_output": "A board at L3 with a recorded reason, sub-beat panels on the key shots, state changes carried in the plan, and a cost statement before generation.",
+      "expected_output": "A board at L3 with a recorded reason, sub-beat panels on the key shots, state changes carried in the plan, and optional cost reporting.",
       "files": [],
       "assertions": [
         "The scene is set to L3 and the reason names the action, the fall or the prop change.",
         "Key shots use sub-beats (anticipation, contact, consequence, reaction or the shot's own named beats) and non-key shots get one panel.",
         "The prop break is carried as a state change so the board marks that shot key.",
-        "The agent states the panel count and the cost before any generation and does not generate yet."
+        "The agent states the panel count and reports costs only when known; planning does not trigger generation."
       ]
     },
     {
       "id": 3,
-      "prompt": "A quiet two-person dialogue scene with six held shots and a small budget. Plan its storyboard.",
-      "expected_output": "A board with a recorded level and reason that suits a quiet, held, budget-limited scene, and no more panels than that level needs.",
+      "prompt": "A quiet two-person dialogue scene with six held shots. Plan a concise storyboard.",
+      "expected_output": "A board with a recorded level and reason that suits a quiet, held scene, and no more panels than that level needs.",
       "files": [],
       "assertions": [
-        "The level is L1 with a recorded reason that cites the quiet held shots or the budget.",
+        "The level is L1 with a recorded reason that cites the quiet held shots and concise staging request.",
         "The board has one panel per shot, six in total.",
         "The answer notes a single shot can later be raised with a recorded override."
       ]
@@ -102,13 +102,13 @@
     {
       "id": 9,
       "prompt": "Panel s02_sh010_p030 shows three jars instead of four. Prepare the edit request so it can be registered and submitted with Seedream image editing.",
-      "expected_output": "An approved edit source (candidate review plus edit-source decision and manifest), a bounding box, a frozen edit prompt, and a registered request, with the cost stated before submission.",
+      "expected_output": "An approved edit source (candidate review plus edit-source decision and manifest), a bounding box, a frozen edit prompt, and a registered request, with costs reported when known.",
       "files": [],
       "assertions": [
         "The agent inspects the panel and writes a candidate review whose limitation says it is approved only as the edit source, then runs edit-source and uses its ref output.",
         "The request carries a bounding box (a local one, or the full frame for a global change), because the edit tool needs a point or a bounding box.",
         "The edit prompt names one failed dimension and acceptance criteria and is frozen and registered before submission.",
-        "The agent states the image count and cost before submitting and does not mark the original panel approved."
+        "The agent states the image count, does not block on missing cost estimates, and does not mark the original panel approved."
       ]
     },
     {

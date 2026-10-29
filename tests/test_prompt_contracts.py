@@ -82,6 +82,39 @@ class PromptContractResourceTests(unittest.TestCase):
                 self.assertNotIn('contains_text', case['expected_decisions'])
                 self.assertNotIn('observed_decisions', case)
 
+    def test_production_guidance_has_no_financial_prerequisite(self):
+        paths = [
+            ROOT / 'AGENTS.md',
+            ROOT / '.agents/contracts/production-policy.md',
+            ROOT / '.agents/contracts/performance-direction.md',
+        ]
+        for name in ('film-production', 'micro-drama', 'byteplus-katana',
+                     'seedance-vfx-pipeline', 'seedance-vfx-prompt',
+                     'seedance-effects-studio', 'scene-board-sheet',
+                     'seedream-storyboard', 'brief-intake',
+                     'seed-audio-commercial', 'seed-audio-prompt',
+                     'seedance-ai-avatar', 'template-factory',
+                     'prompt-review', 'ark-mcp', 'seedance-prompt-25'):
+            paths.extend((ROOT / '.agents/skills' / name).rglob('*.md'))
+            paths.extend((ROOT / '.agents/skills' / name).rglob('evals.json'))
+        financial_gate = re.compile(
+            r'\brun budget\b|\bdeclared budget\b|\bbudget cap\b|\bcredit cap\b'
+            r'|\bcredit budget\b|\bspend authority\b|\bstop at.*\bcap\b'
+            r'|\bcost preview is confirmed\b|\b90 s at final resolution\b'
+            r'|\bbudget posture\b|\bcapability and cost are resolved\b'
+            r'|\bestimate exceeds the cap\b'
+            r'|\bprivacy and cost checks\b|\bbudget spare\b'
+            r'|\bresolve current token cost\b'
+            r'|\bSet `DAILY_BUDGET_USD`'
+            r'|\bright[s]?(?: and|,) budget\b|\brevision within budget\b'
+            r'|\boutput and budget\b',
+            re.IGNORECASE,
+        )
+        for path in paths:
+            with self.subTest(path=path.relative_to(ROOT)):
+                text = ' '.join(path.read_text().split())
+                self.assertIsNone(financial_gate.search(text))
+
 
 if __name__ == '__main__':
     unittest.main()

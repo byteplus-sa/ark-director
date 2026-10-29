@@ -144,7 +144,7 @@ Read independent `review_mode` and `approval_mode` in `project.md`. Default
 uses minimal inline preflight and actual output sanity, one image unless a
 count is requested, and native Draft-first video. Strict adds the detailed
 checklist. Both modes require selection before promotion. Neither mode grants rights,
-extra budget or permission to replace user locks.
+extra generation scope or permission to replace user locks.
 
 1. **Pick.** Resolve one effect id. One effect per run; a second effect is a new
    run. Read only that effect's section from its recipe file.
@@ -181,7 +181,7 @@ extra budget or permission to replace user locks.
 6. **Hash and review.** Save the prompt beside its intended output, resolve
    current capability evidence, and compute the request hash with
    `prepare_request.py` without `--write` or `--register`. Default checks intent,
-   bindings, approvals, rights and budget inline without a checklist report.
+   bindings, approvals, rights and generation consent inline without a checklist report.
    In strict mode or for explicit review, run `prompt-review`
    bound to that hash (Seedance 2.5 generate; plus Seedream for a generated start
    frame). Review inline by default; use a sub-agent only when the user
@@ -204,8 +204,8 @@ extra budget or permission to replace user locks.
    **QA** list. Frame sampling supports, never replaces, temporal inspection.
 10. **Decide.** Record the selection under `approval_mode`: an agent may approve
     a passing take in `approve_for_me`; `ask_for_approval` waits for the user's
-    choice. Retain user locks. For a draft, promotion needs an estimated cost,
-    authorized budget and its own registered operation (see the generation
+    choice. Retain user locks. Promotion needs its own registered operation,
+    not a financial approval or cost estimate (see the generation
     flow), not a redundant permission request within existing scope. Apply the recipe's **Post** steps (overlay text, split-screen
     stack, fisheye, ambience bed) only after the picture is accepted.
 

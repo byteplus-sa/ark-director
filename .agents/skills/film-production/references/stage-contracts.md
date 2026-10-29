@@ -61,7 +61,7 @@ Entry: user intent or an existing `project.md`.
 
 Required output: `approval_mode`, `review_mode`, audience, format, runtime, aspect ratio,
 delivery resolution, story objective, tone, creative constraints, known rights
-constraints, run budget, and unresolved questions recorded in `project.md`.
+constraints and unresolved questions recorded in `project.md`.
 Confirmed directorial defaults (structure, energy level, camera and light
 stance, lens, grade, pacing, acting, staging, medium, audio) from
 `brief-intake` persisted as a `locked` block in `project.md` frontmatter. The
@@ -285,7 +285,7 @@ listening must demonstrate its declared critical performance beats, listener
 responses and applicable fight continuity. Record beat IDs and timestamps;
 unavailable inspection remains unresolved. In
 `ask_for_approval`, the recommendation remains pending until the user chooses.
-If no take passes, make a bounded correction within the run budget or leave the
+If no take passes, make a targeted correction or leave the
 shot blocked.
 
 ## 7. Assembly and review

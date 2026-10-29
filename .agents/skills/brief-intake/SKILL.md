@@ -34,7 +34,7 @@ Read the supplied brief and existing confirmed decisions first. Extract:
 | Intended reaction | What should the viewer feel, understand, remember, or do? |
 | Central visual idea | What specific event, contrast, image, or recurring action carries that reaction? |
 | Story/product truth | Which supplied facts, characters, relationships, and claims must remain accurate? |
-| Constraints | Runtime, format, available references, budget posture, delivery needs, forbidden changes |
+| Constraints | Runtime, format, available references, delivery needs, forbidden changes |
 | Tone/genre references | What useful quality is being borrowed, and which convention should be avoided? |
 | Confirmed decisions | Which axes and identities are already accepted? |
 | Where the feeling lives | Which channel carries the inner state (performance, sound, light, framing, edit) rather than literal effects? |
@@ -191,7 +191,7 @@ minimal inline preflight and actual output sanity, not a full prompt-review
 checklist or mandatory report. Plan one image unless a count is requested and
 native 480p Draft-first Seedance 2.5 video in both review modes.
 Strict retains the detailed workflow. Neither review mode grants approval or
-changes existing user locks, rights, consent or spending scope.
+changes existing user locks, rights, consent or requested scope.
 
 Present the proposed direction with reasons, then identify decisions actually
 requiring acceptance: a new concept, a changed lock, or an impactful assumption.

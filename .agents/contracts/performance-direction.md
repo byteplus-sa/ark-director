@@ -109,7 +109,7 @@ Missing a declared critical response, speaking assignment or required
 interaction is a hard failure. Record less material differences against the
 brief; do not require a particular blink, mandatory tears or literal cue count
 when an equivalent performance achieves the intent. No passing take means a
-bounded revision within budget or a blocked stage, not the least-bad selection.
+bounded revision within the requested scope or a blocked stage, not the least-bad selection.
 Unavailable playback/listening stays unresolved. Final outputs need fresh
 review. Recheck the actual edit so trimming does not remove the accepted beat.
 Review what the edit and sound reveal, withhold and emphasize at full speed,

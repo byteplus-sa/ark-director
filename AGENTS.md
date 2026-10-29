@@ -24,6 +24,12 @@ Ask for missing information when it materially affects the intended result.
 Continue reversible work whose requirements are already clear. Do not repeat an
 approval request when existing user instructions authorize the same action.
 
+Projects and generation do not require a budget, spending cap, cost estimate,
+or financial approval step. Do not invent monetary or generated-seconds
+ceilings. Record costs when known without blocking on missing estimates.
+Continue to respect explicit user instructions, provider limits, rights,
+creative approvals, and duplicate-submission protection.
+
 ## Operational contracts
 
 Load only the contract relevant to the current stage:
@@ -263,7 +269,7 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 - Preserve exact canonical descriptors where applicable. Prefer positive,
   observable direction; necessary edit-scope exclusions are allowed.
 - In default review mode, check intent, capabilities, hashes, bindings, canonical
-  approvals, rights and budget inline without loading the full prompt-review
+  approvals, rights and generation consent inline without loading the full prompt-review
   checklist or producing a mandatory report. In strict mode or on explicit
   prompt-review request, run prompt-review for generation-bound prompts. Use
   a sub-agent only when the user explicitly requests sub-agent prompt review for

@@ -88,7 +88,7 @@
       "assertions": [
         "Generates picture with generate_audio false instead of relying on a negative 'no speech' line in native audio.",
         "Maps the verified sound grammar (arc, accents, silences) to a Seed Audio post bed, without copying the source recording or melody.",
-        "Budgets spare music samples and measures the bed's timing, padding or splicing it to the cut in assembly.",
+        "Diagnoses rejected music samples before retrying and measures the bed's timing, padding or splicing it to the cut in assembly.",
         "Assembles in the takes' original colours from exact-length intermediates."
       ]
     },
@@ -144,13 +144,13 @@
     },
     {
       "id": 12,
-      "prompt": "Analyze a narrated product demonstration. The host sees images but cannot hear audio. Available MCP tools include seed_audio_understand, speech_to_text and stem separation. No local ASR is installed; cloud analysis is permitted within the approved budget.",
+      "prompt": "Analyze a narrated product demonstration. The host sees images but cannot hear audio. Available MCP tools include seed_audio_understand, speech_to_text and stem separation. No local ASR is installed; cloud analysis is permitted without financial setup.",
       "expected_output": "Native visual analysis plus capability-checked MCP audio analysis and optional MCP transcription/separation, without demanding local ASR.",
       "files": [],
       "assertions": [
         "Uses seed_audio_understand to fill the auditory capability gap rather than declaring audio unresolved solely because the host cannot hear.",
         "Uses available MCP ASR or separation only where needed and does not require local installation.",
-        "Follows tool authentication, input upload, budget and persistence contracts without fabricating task IDs.",
+        "Follows tool authentication, input upload and persistence contracts without fabricating task IDs or requiring financial setup.",
         "Records schema v1.1 tool provenance, audio hash, listening evidence and full-soundtrack coverage.",
         "Does not mislabel a transcript or separated stem as native listening and does not generate new media for an analysis-only request."
       ]

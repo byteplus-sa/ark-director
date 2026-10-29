@@ -10,7 +10,7 @@
         "Runs brief-intake first and records a picture_only audio route, ungraded original colours and the logo/end card as post overlays in project.md.",
         "Derives coverage and durations from intended perception and feasibility without fixed cadence, contrast, turn or wow quotas.",
         "Records audience response, attention and ending purpose, with early sound/editorial intent and actual playback/listening criteria.",
-        "Submits each sequence as a 480p native Draft with generate_audio false after prompt-review and registration, with a declared run budget.",
+        "Submits each sequence as a 480p native Draft with generate_audio false after mode-appropriate preflight, applicable performance evidence and registration, without requiring financial setup or a cost estimate.",
         "Does not bind any storyboard image as a Seedance reference."
       ]
     },

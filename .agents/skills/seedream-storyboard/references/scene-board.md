@@ -29,14 +29,14 @@ Every scene has one level, recorded with a reason. **L2 is the default.**
 
 | Level | Panels | Choose when |
 | --- | --- | --- |
-| L1 | One decisive panel per shot, key shots included | Quiet dialogue, montage, product beauty, showcase, text-led cards, a budget-limited pass |
+| L1 | One decisive panel per shot, key shots included | Quiet dialogue, montage, product beauty, showcase, text-led cards, a concise staging pass |
 | L2 | Key shots get start, peak and end panels; other shots get one | Most narrative, ad, micro-drama and music-video scenes |
 | L3 | Key shots get sub-beat panels (anticipation, contact, consequence, reaction); other shots get one | Action, fights, chases, reveals that hinge on a state change, complex blocking, a scene whose turn is a physical event |
 
 Choose a higher level only when the extra panels will change a decision about
 staging, continuity or timing. A single shot may depart from the scene level with
 a recorded reason (for example an insert that needs beats). State the panel count
-and the generation cost before generating: an L2 key shot is three panels, and the
+before generating; report cost when known. An L2 key shot is three panels, and the
 workspace default of three samples applies per panel unless a staging-only pass
 asks for one.
 
@@ -94,8 +94,8 @@ Rules:
 - **Siblings are untouched**: their files, hashes and approvals do not change. Only
   the sheet page, the overview and the animatic segment that use the repaired panel
   go stale.
-- **Cost**: an edit is a paid call. State the count and estimated cost before the
-  first edit of a repair pass and respect the run budget. Use the lowest supported
+- **Cost reporting**: an edit is a paid call. Record the count and cost when
+  known without requiring an estimate to start a repair. Use the lowest supported
   resolution for sketch drafts.
 
 ## What to expect from edits

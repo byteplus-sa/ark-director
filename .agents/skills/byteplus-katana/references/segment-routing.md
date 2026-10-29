@@ -76,9 +76,8 @@ is drafted.
    never below the live minimum. A use longer than the live maximum is split
    at a hidden boundary (a whip, an occlusion, a cut in the reference) or
    chained.
-4. When the setup count times the estimate exceeds the cap, merge the closest
-   setups (same subject and light, nearby angles), record the merge and its
-   cost saving, and show the user which reference shots now share a take.
+4. Preserve distinct setups required by the reference. Reuse a take across
+   matching appearances without silently merging different shots.
 
 ## Layer preparation
 
@@ -103,8 +102,8 @@ is drafted.
    retime by trimming or clone-padding rather than regenerating.
 4. A window never crosses a layered or kept segment.
 5. Record per window: member segment IDs, setup IDs, requested duration,
-   resolution (480p draft first), estimated cost and assigned assets in
-   binding order.
+   resolution (480p draft first) and assigned assets in binding order.
+   Cost estimates are optional.
 6. Each window's prompt is a draft for the caller's `prompt-review`, frozen
    snapshot and registry entry; this skill never submits it.
 

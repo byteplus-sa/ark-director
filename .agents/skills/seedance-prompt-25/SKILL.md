@@ -278,7 +278,7 @@ checks, so the reasons live here and the checks live there.
 ## Preflight review
 
 Default mode checks the package inline for intent, capabilities, current hashes,
-bindings, approvals, rights and budget without a checklist report. For strict
+bindings, approvals, rights and generation consent without a checklist report. For strict
 or explicitly requested detailed review, confirm:
 
 1. Subject and primary action are clear, and the action is at body-part level

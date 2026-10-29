@@ -1,5 +1,15 @@
 # Production policy
 
+Projects and generation do not require financial setup or a budget. Do not
+invent spending caps or require cost estimates or financial approval before
+proceeding. Costs are informational when available; preserve user instructions,
+rights, review, native-draft and durable-operation requirements.
+
+Removing financial prerequisites does not authorize generation. Obtain explicit
+generation consent for the requested scope and preserve existing authorization;
+do not repeat consent requests for already authorized actions. Planning and
+prompt-only work remain non-generating in both review and approval modes.
+
 ## Stage evidence and authorization
 
 New projects record two independent YAML fields in `project.md`:
@@ -28,7 +38,7 @@ review_mode. Legacy projects with neither retain their original hash behavior.
   strict mode or an explicitly requested review, not automatically to default.
 
 Both modes preserve capability validation, hashes, containment, canonical
-approvals, identity locks, rights and consent, budget, registry identity,
+approvals, identity locks, rights and generation consent, registry identity,
 idempotency and ambiguous-submission reconciliation. Inspect the actual output
 for fitness to the brief and obvious defects; no provider success, silence,
 or recommendation counts as approval. Existing candidate and final-lock writers
@@ -199,7 +209,7 @@ Provider success sets `review`. In `approve_for_me`, inspect every candidate
 with modality-appropriate evidence, reject hard-gate failures, rank passing
 candidates against recorded criteria, and save a hash-bound review and agent
 decision before a validated writer sets `selected_variant` and `approved`. If
-none passes or inspection is unavailable, repair within the run budget or block
+none passes or inspection is unavailable, make a targeted repair or block
 the stage. In `ask_for_approval`, record `recommended_variant` and review
 evidence, then wait for an explicit user choice before setting
 `selected_variant` or `approved`. A recommendation alone never approves. A
@@ -296,7 +306,7 @@ An explicitly selected supported conditioning input is a promoted composition or
 
 ## Request preflight and review
 
-Before submitting a **generation-bound** request, freeze the exact prompt beside its intended asset, compute hashes, verify ordered bindings/roles, check reference approval and current hashes, and resolve current model/mode capabilities. Check intent, rights and budget inline. Default mode stops at this minimal preflight; do not load a full checklist or manufacture a report. Strict mode and explicit review requests run prompt-review inline. Sub-agent prompt review requires an explicit user request; general parallel-production guidance and approve_for_me do not authorize it. Both inline and delegated detailed reviews require genuine hash-bound evidence and resolved CRITICAL/MAJOR findings. Editing a manifest or documentation alone does not trigger generation review. A changed worked example is reviewed offline without buying media.
+Before submitting a **generation-bound** request, freeze the exact prompt beside its intended asset, compute hashes, verify ordered bindings/roles, check reference approval and current hashes, and resolve current model/mode capabilities. Check intent, rights and generation consent inline. Default mode stops at this minimal preflight; do not load a full checklist or manufacture a report. Strict mode and explicit review requests run prompt-review inline. Sub-agent prompt review requires an explicit user request; general parallel-production guidance and approve_for_me do not authorize it. Both inline and delegated detailed reviews require genuine hash-bound evidence and resolved CRITICAL/MAJOR findings. Editing a manifest or documentation alone does not trigger generation review. A changed worked example is reviewed offline without buying media.
 
 Acquired brand, logo, packshot, or other `generation: none` elements do not run prompt-review or stochastic image sets in either review mode. They still require local persistence, content SHA-256, manifest entry, visible inspection, and mode-authorized `selected_variant` / `approved` before dependent production use. See [element-identification.md](element-identification.md).
 
@@ -357,7 +367,7 @@ review is `approved` or whose expected output has a passing variant-selection
 decision (`seedance.draft_promotion_source`). For multi-shot projects, review
 the draft assembly and record the picture/audio decisions before generating
 final takes. Preserve all draft files, prompt snapshots, references, task IDs
-and decisions. Generate final takes only within the authorized scope and budget
+and decisions. Generate final takes only within the requested scope
 at the recorded delivery target; do not assume 1080p is always required. A
 requested 480p delivery can use reviewed 480p takes after delivery QA.
 
