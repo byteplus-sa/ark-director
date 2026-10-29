@@ -119,6 +119,33 @@ class PrepareRequestTests(unittest.TestCase):
             code = MODULE.main(argv)
         return code, json.loads(output.getvalue())
 
+    def test_write_only_empty_review_path_preserves_project_files(self) -> None:
+        for existing in (False, True):
+            with self.subTest(existing=existing):
+                if existing:
+                    code, result = self.run_cli(self.argv("--write"))
+                    self.assertEqual(code, 0, result)
+                    (self.root / self.prompt).write_text(
+                        "@Image 1 pauses beside @Video 1 and @Image 2.\n"
+                    )
+                before = {
+                    path.relative_to(self.root): path.read_bytes()
+                    for path in self.root.rglob("*") if path.is_file()
+                }
+                extra = ["--replace-unregistered"] if existing else []
+                code, result = self.run_cli(
+                    self.argv("--write", "--review", "", *extra)
+                )
+                self.assertEqual(code, 1, result)
+                self.assertIn("input.readable", str(result))
+                self.assertEqual(
+                    {
+                        path.relative_to(self.root): path.read_bytes()
+                        for path in self.root.rglob("*") if path.is_file()
+                    },
+                    before,
+                )
+
     def write_review(self, request_hash: str) -> None:
         (self.root / "reviews").mkdir(exist_ok=True)
         (self.root / "reviews/review_s01_sh010_t01_v01.json").write_text(

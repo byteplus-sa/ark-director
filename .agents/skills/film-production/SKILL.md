@@ -25,8 +25,11 @@ specialist runs it, and which production defaults make the result better.
   in step with the manifests through `studio_project.py` for every stage
   review and handoff. A project with a `showcase.json` is a pre-Studio canvas
   project and keeps its canvas checkpoint instead.
-- Delegate modality work to the narrowest applicable specialist skill. Run
-  prompt review inline unless the user explicitly asks for a sub-agent review.
+- Delegate modality work to the narrowest applicable specialist skill. Read
+  `review_mode` independently of `approval_mode`: default uses minimal inline
+  preflight and actual output sanity, without full checklists or mandatory
+  prompt-review reports. Strict or explicitly requested prompt review runs
+  inline unless the user explicitly asks for a sub-agent review.
 - Prefer a deterministic workflow when the next action is known. Use agentic
   judgment for creative choices, contradiction resolution, and review.
 - Provider success is `review`, never approval. A poll timeout resumes the
@@ -42,7 +45,8 @@ specialist runs it, and which production defaults make the result better.
    `studio/stages.json` (`showcase.json` for a pre-Studio canvas project),
    relevant element, scene and shot manifests, prompt snapshots, and the latest
    review decisions. Manifests and the registry win over `handoff.md`. A new
-   Studio project starts with `approval_mode: approve_for_me` in `project.md`,
+   Studio project starts with `review_mode: default` and
+   `approval_mode: approve_for_me` in `project.md`,
    `studio_project.py init <project>`, then
    `studio_project.py stage <project> start brief-development`.
 3. **Never hand-write Studio state** (`stages.json`, `provenance.json`,
@@ -53,7 +57,8 @@ specialist runs it, and which production defaults make the result better.
    not from filenames.
 5. Identify contradictions, missing inputs, stale dependencies, pending provider
    tasks, and decision gates. Recheck the effective approval mode before each
-   decision.
+   decision, and the review mode before each new action. An absent review mode
+   defaults for new actions only; invalid values block, never relax the gate.
 6. State the current stage, the next safe objective, required specialist
    skills, and any user decision needed before spending credits.
 
@@ -110,9 +115,11 @@ department workflow.
 Read [production defaults](references/production-defaults.md) before the first
 paid video submission and again at assembly. In short:
 
-1. **Draft first.** Every new Seedance 2.5 shot is a 480p Draft, reviewed and
-   selected, then promoted to the delivery target. Edit inputs only before the
-   Draft; re-check audio on the final.
+1. **Native Draft in both review modes.** Generate one image by default unless
+   the user specifies a count; strict uses three-image sets. Every new
+   Seedance 2.5 video uses boolean `draft: true` and `resolution: "480p"`.
+   Select before promotion and
+   re-check final audio; edit inputs only before a native Draft.
 2. **Audio route from the brief.** Native dialogue keeps native audio.
    Ambience-only, score-driven and wordless pieces generate picture with
    `generate_audio: false` and build the bed in post, because a "no music" line
@@ -145,6 +152,9 @@ For the active stage:
 5. Inspect every actual output: images visibly, video temporally, audio by
    listening plus speech-to-text where words matter. Reject hard-gate failures
    and rank passing candidates against the brief's recorded criteria.
+   Default mode retains short actual candidate/final sanity records needed by
+   decision writers, not repeated checklist reports. Never fabricate listening,
+   playback or approval; supplied failing or stale review evidence blocks.
 6. Record the decision under the project's approval mode: an agent decision in
    `approve_for_me`, or a recommendation and the user's chat answer in
    `ask_for_approval`. Choose takes with `studio_project.py candidates`, a swap
@@ -176,7 +186,9 @@ At scene breakdown, apply the
 performances and store `## Performance plan` in the scene. Coordinate
 `seedance-fight-choreography` when fighting is in scope. Reconcile readability
 with shot design, then use `seedance-acting-console` to encode selected beats.
-Require applicable `acting.plan_bound` and `fight.readable_exchange` checks.
+Require applicable `acting.plan_bound` and `fight.readable_exchange` checks
+through `--required-rule` in both review modes. Default uses focused evidence,
+not unrelated full checklists.
 Actual playback/listening must establish critical performance beats before
 take selection or promotion; a correct transcript is insufficient. At assembly,
 verify that trims retain registration, response and intended performance state.

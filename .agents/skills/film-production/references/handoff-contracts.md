@@ -1,6 +1,6 @@
 # Cross-Modality Handoff Contracts
 
-Before each handoff, recheck `project.md` approval mode and the source decision,
+Before each handoff, recheck independent `project.md` approval and review modes and the source decision,
 review, artifact, and upstream hashes. Run `studio_project.py sync`, then
 complete the source stage with `studio_project.py stage <project> complete
 <stage-id>` and start the destination stage. These steps apply in
@@ -71,6 +71,9 @@ unless the brief records a look.
 
 ## Draft to final generation
 
+This handoff applies to new Seedance 2.5 generations in both review modes.
+Review depth does not waive native Draft or selection before promotion.
+
 Pass the selected 480p draft paths and hashes, its provider task ID, passing
 review and selection records, exact prompt snapshot, ordered approved reference
 hashes, requested audio behavior and delivery resolution. For multi-shot work,
@@ -87,7 +90,8 @@ without dropping `draft`.
   fresh generations that may change picture, timing and audio. This is not a
   fallback for new 2.5 requests.
 
-Either way, register and review the final request as a new operation, then
+Either way, register and preflight the final request as a new operation (a
+hash-bound prompt report is required in strict mode or for explicit rules), then
 inspect its output again (playback, speech-to-text, listening) and select it
 before updating placed takes.
 

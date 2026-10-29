@@ -33,13 +33,20 @@ mentioned in prose are relative to this skill directory unless a link says other
 ## Submission boundary and failure behavior
 
 The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
+mode-appropriate review. `review_mode: default` (also when absent) uses minimal
+inline preflight and actual output sanity, without a mandatory prompt-review
+checklist report. Strict or explicitly requested review needs genuine
+hash-bound evidence. Invalid modes block; a provided failing/stale report is
+never ignored. These mode rules take precedence over generic checklist or
+sampling instructions in this skill's references. The caller reviews inline and
 uses a sub-agent only when the user explicitly requests sub-agent prompt review
 for the project or specific generation. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
 or technical success does not establish approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+the requested delta and sample count: one image per grid or separate panel in
+default mode, three stochastic variants in strict mode unless the user specifies
+a count. Panel count and a three-panel sheet layout are not variant counts.
 
 ## Source authority
 
@@ -220,8 +227,18 @@ and continuity are accepted.
 
 ## Default response structure
 
+In default review mode, return the compact panel plan, exact prompts and
+references, actual generated files and short sanity/selection records when
+generation occurred, plus material unresolved issues. Do not fabricate variant
+records or output a mandatory checklist. Selection follows independent
+`approval_mode`: approve_for_me permits a validated agent choice after actual
+inspection, while ask_for_approval waits for the user. Preserve explicit user
+locks in either mode.
+
+For strict or explicitly requested detailed review:
+
 For a one-panel request, return a compact hero-beat decision, one `p010` panel
-plan, reference inventory, exact prompt, three variant records, video-handoff
+plan, reference inventory, exact prompt, actual variant records, video-handoff
 notes (staging text plus the element references to bind), review checklist,
 and selection needed. For a multi-panel plan
 or prompt package, return the panel delivery mode (single-image grid or

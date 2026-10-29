@@ -6,11 +6,18 @@ take needs a fix. These defaults are working practice, not provider guarantees. 
 Exact tool parameters live in the `ark-mcp` Seedance reference; this file says
 when to use them.
 
-## 1. Draft first, then promote
+## 1. Review depth and generation target
 
-Plan every new Seedance 2.5 shot as a 480p Draft followed by a promotion.
+Read `review_mode` from `project.md` independently of approval mode. Default
+uses minimal inline preflight and actual output sanity, no full checklist
+reports, and one image unless a count is requested. Every new Seedance 2.5
+generation uses native Draft in both modes. Do not invent an inspection or approval.
 
-1. Freeze and review the full request (prompt, ordered references, duration,
+### Native draft workflow
+
+Both modes plan Seedance 2.5 as a 480p Draft followed by a promotion.
+
+1. Freeze and preflight the full request (prompt, ordered references, duration,
    ratio, `generate_audio`, task type) and submit it with boolean `draft: true`
    and explicit `resolution: "480p"` in every review mode, including edits,
    extensions, probes and variants. Resolve conflicting capability evidence or
@@ -28,7 +35,7 @@ Plan every new Seedance 2.5 shot as a 480p Draft followed by a promotion.
 
 Other models without native Draft use ordinary 480p tests; their finals are
 new paid requests that may change picture, timing or audio and need their own
-registration and review. This is not a plain-480p fallback for 2.5. New 2.5
+registration and mode-appropriate preflight. This is not a plain-480p fallback for 2.5. New 2.5
 generations have no skip-draft override. When a fix requires a prompt
 change, write a new Draft rather than promoting the old one.
 
@@ -129,9 +136,14 @@ final edit. Missing perception or a failed critical criterion blocks acceptance.
 - Normalize to the delivery loudness target from the alignment contract, then
   place the result in Studio and render it there.
 
-## 8. Review and fix loop
+## 8. Output sanity and strict review
 
-Run these checks before a take passes, and use the narrowest fix.
+In default mode inspect the actual output for brief fitness, locked words and
+identities, obvious defects and correct media properties; keep a short truthful
+record for selection and final locks. Do not automatically produce the full
+checklist report below. Use detailed checks for strict review or to investigate
+an observed defect, and use the narrowest fix. Listening claims always require
+actual audio perception, not merely a transcript.
 
 - **Words:** `speech_to_text` on the local file is the authority for spoken
   words. A model summary is not evidence. Accent and pronunciation verdicts need

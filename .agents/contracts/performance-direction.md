@@ -54,6 +54,10 @@ historical projects or immutable prompt snapshots automatically.
 
 ## Prompt review
 
+Applicability is unchanged in both review modes (`default` and `strict`).
+Default mode requires a focused report for applicable acting/fight checks,
+not the full unrelated checklist. Neither approval mode waives these checks.
+
 Apply `acting.plan_bound` to applicable performance prompts and
 `fight.readable_exchange` to staged-fight prompts. The caller includes those
 IDs through the existing `--required-rule` review/registration interface.

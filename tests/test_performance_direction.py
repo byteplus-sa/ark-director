@@ -35,6 +35,13 @@ def prose(relative: str) -> str:
 
 
 class PerformanceIntegrationTests(unittest.TestCase):
+    def test_performance_applicability_is_independent_of_review_depth(self):
+        contract = prose(".agents/contracts/performance-direction.md")
+        self.assertIn("both review modes", contract)
+        self.assertIn("default", contract)
+        self.assertIn("strict", contract)
+        self.assertIn("--required-rule", contract)
+
     def test_metadata_adapters_and_relative_symlinks_use_current_names(self):
         catalog = json.loads(read(".agents/catalog/skills.json"))["skills"]
         lock = json.loads(read("skills-lock.json"))["skills"]
@@ -271,6 +278,46 @@ class PerformanceReviewGateTests(unittest.TestCase):
         operation_store.prepare_operation(
             self.root, self.request, self.caps, review, list(RULES),
         )
+
+    def test_applicable_checks_are_binding_in_all_review_and_approval_modes(self):
+        for review_mode in ("default", "strict"):
+            for approval_mode in ("approve_for_me", "ask_for_approval"):
+                with self.subTest(review=review_mode, approval=approval_mode):
+                    (self.root / "project.md").write_text(
+                        f"---\napproval_mode: {approval_mode}\n"
+                        f"review_mode: {review_mode}\n---\n"
+                    )
+                    self.request.update(
+                        approval_mode=approval_mode,
+                        project_sha256=hashlib.sha256(
+                            (self.root / "project.md").read_bytes()
+                        ).hexdigest(),
+                    )
+                    self.request["request_sha256"] = validation.compute_request_hash(
+                        (self.root / "prompt.md").read_bytes(), [],
+                        self.request["model"], "generate", self.request["params"],
+                        approval_mode=approval_mode,
+                        project_sha256=self.request["project_sha256"],
+                    )
+                    self.review["request_sha256"] = self.request["request_sha256"]
+                    reports = [None, dict(self.review, checks=[])]
+                    for status in ("fail", "not_applicable"):
+                        reports.append(dict(
+                            self.review,
+                            checks=[dict(check, status=status) for check in self.review["checks"]],
+                        ))
+                    for report in reports:
+                        with self.assertRaises(ValueError):
+                            self.prepare(report)
+                        self.assertFalse((self.root / "task_ids.json").exists())
+                    self.prepare(self.review)
+                    record = operation_store.read_registry(
+                        self.root / "task_ids.json"
+                    )["tasks"][0]
+                    self.assertEqual(record["approval_mode"], approval_mode)
+                    self.assertEqual(record["submission_status"], "prepared")
+                    self.assertEqual(record["review_status"], "not_started")
+                    (self.root / "task_ids.json").unlink()
 
     def test_required_performance_checks_pass_real_registration_without_submission(self):
         before = copy.deepcopy(self.request)

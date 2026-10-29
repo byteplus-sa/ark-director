@@ -7,7 +7,8 @@ before relying on a field.
 ## Project
 
 Every submission lives in `projects/<name>/` with `project.md` (frontmatter
-`approval_mode`, default `approve_for_me`), `task_ids.json` and, once a take
+independent `review_mode: default` and `approval_mode: approve_for_me`),
+`task_ids.json` and, once a take
 exists, the Studio project (`studio_project.py sync`). Use `uv run python` for
 the repo scripts. Local state follows the repo naming contract: prompt snapshot
 `prompt_<stem>.md` beside the output, `<stem>.mp4` for the take.
@@ -62,6 +63,19 @@ separate from capability support (see [evidence status](evidence-status.md)).
 
 ## Hash, review, register
 
+Default review mode freezes the prompt, resolves current capabilities, checks
+intent, hashes, bindings, canonical approvals, rights and budget inline, and
+registers with `prepare_request.py --write --register --capabilities ...`.
+Use native `resolution: "480p"` and boolean `draft: true`; omit `--review` and
+checklist-rule flags unless explicitly needed. No full checklist report or
+fake passing review is created. Inspect the actual output and retain short
+candidate/final sanity records for the existing decision writer.
+
+### Strict or explicitly requested detailed review
+
+The following detailed checklist applies to strict review; the native Draft
+parameters apply in both modes. Explicit `--required-rule` values require genuine matching
+review evidence in either mode; a supplied failing or stale report always blocks.
 Review is bound to the request hash, so the order is hash first.
 
 1. Write the prompt to its snapshot path and resolve capability evidence into
@@ -114,7 +128,7 @@ Review is bound to the request hash, so the order is hash first.
 ### Start frames are operations too
 
 A Seedream start frame (giant frame, destination image, water wall, palm-up
-frame) follows the same sequence: prompt snapshot, hash, review, registry entry
+frame) follows the same sequence: prompt snapshot, hash, mode-appropriate preflight, registry entry
 (`--model dola-seedream-5-0-pro-260628 --operation generate`, the user's photo
 as a `reference_image` bound as `@Image 1`), submission, local copy, hash, an
 inspection record and an approval decision. One sample is enough for a start
@@ -122,6 +136,10 @@ frame; record that choice and offer three samples when the user wants
 alternatives. Only an approved start frame may be passed to Seedance.
 
 ## Submit a draft
+
+This path applies in both review modes. New Seedance 2.5 generations require
+native Draft before selected promotion. The state transitions,
+provider-ID persistence, polling and reconciliation below apply in either mode.
 
 Move the operation to `submitting` before the call
 (`operation_store.transition_operation`), then:
@@ -161,7 +179,9 @@ ffmpeg -v error -i take.mp4 -vf "fps=2,scale=200:-1,tile=8x3" -frames:v 1 sheet.
 ffmpeg -v error -ss 3.6 -i take.mp4 -frames:v 1 count_check.png
 ```
 
-Check each QA item of the recipe against the sheet. Count people and copies on a
+Default mode uses actual playback and brief-focused sanity; strict mode checks
+each QA item of the recipe. Sheets support but do not replace temporal
+inspection or actual listening. Count people and copies on a
 full-size frame at the timestamp the recipe names. For a native-audio take,
 extract the track (`-vn -ac 1 -ar 16000`), upload it with `media_upload` and ask
 `seed_audio_understand` what is audible; treat the answer as a flag for a human
@@ -170,8 +190,8 @@ forbade them.
 
 ## Decide and promote
 
-- **Revise:** write Locked / Delta / Acceptance, change one thing, re-review,
-  new operation ID and a new draft.
+- **Revise:** write Locked / Delta / Acceptance, change one thing, run
+  mode-appropriate preflight, and use a new operation ID at the appropriate target.
 - **Promote:** first verify current native Draft/promotion support in the live
   tool/model/operation. A 480p output alone is insufficient. If unavailable,
   resolve the capability or transport conflict before submitting; never silently
@@ -190,7 +210,8 @@ forbade them.
   `draft_task_id`, `resolution`, `watermark`, so a timeout can be reconciled. Its
   prompt review may reuse the unchanged prompt findings, but its complete final
   request hash, parameters, references and current capability evidence need a
-  fresh request review; inspect and select the final output again. Check the
+  fresh mode-appropriate preflight (and a report in strict mode or when
+  explicitly required); inspect and select the final output again. Check the
   registry accepts the shape on first use.
   Check the draft's audio track first (the promotion reuses its audio setting),
   then check the final's track again: final audio is not byte-identical to the

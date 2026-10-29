@@ -7,6 +7,10 @@ use it with the prompt text for inline review, or pass it to a sub-agent only
 when the user explicitly requests sub-agent prompt review for the project or
 specific generation.
 
+Load this index only for strict review mode or an explicitly requested detailed
+review. Routine default-mode production uses minimal inline preflight and
+actual output sanity, not this checklist or a mandatory report.
+
 ## Table of contents
 
 | Prompt type | Checklist file |

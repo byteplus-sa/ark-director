@@ -3,6 +3,11 @@
 Read [the entrypoint](../SKILL.md). Use this reference from canon through
 delivery. These are working practices, not provider guarantees.
 
+Default review mode uses minimal inline preflight and short actual output
+sanity records, without full checklist reports. Strict review uses the detailed
+gates below. Identity, locked dialogue, rights, budget, honest listening and
+hash-bound selections remain required in either mode.
+
 ## Canon
 
 - Character sheets: three-panel identity sheets on a neutral background with
@@ -19,7 +24,8 @@ delivery. These are working practices, not provider guarantees.
   envelope or a mark on the skin get a sheet. Describe every other recurring
   object positively as plain ("plain cream envelope, smooth unmarked paper"),
   because generic jars, cases, folders and labels grow invented lettering.
-- Three Seedream samples per element; select after looking at every image.
+- One Seedream image per element by default, three in strict mode, or the
+  requested count; select only after looking at the actual image.
 
 ## Storyboards
 
@@ -78,7 +84,10 @@ pre-line action. Budget from the current dialogue, not a universal word rate:
   For a demonstrated delivery failure, propose a retake or post repair within
   source locks; ask before changing locked action, timing or wording.
 
-## Draft, review, promote
+## Native draft workflow
+
+Both review modes submit each new clip as a native 480p Draft after registration
+and mode-appropriate preflight, then inspect its actual output before promotion.
 
 1. Submit each clip as a 480p native Draft (`draft: true`) with its frozen,
    reviewed request. Draft independent planned clips in parallel.
@@ -88,7 +97,7 @@ pre-line action. Budget from the current dialogue, not a universal word rate:
 4. Run every gate again on the final. The final soundtrack is not identical to
    the Draft's, so the dialogue gate is repeated.
 
-## QA gates per take
+## Strict QA gates per take
 
 | Gate | Evidence |
 | --- | --- |
@@ -112,7 +121,7 @@ delivery, not merely transcript accuracy. Missing inspection stays unresolved.
 ## Retakes and repairs
 
 - One corrective retake per clip, only for a hard-gate failure, with one
-  targeted prompt change, as a new Draft.
+  targeted prompt change, as a new native Draft.
 - Prefer a deterministic post repair when it is invisible: crop or delogo for a
   leaked corner mark, a centre punch-in for black side bars, or removing a
   defective shot from inside a multi-shot clip and dissolving across the gap

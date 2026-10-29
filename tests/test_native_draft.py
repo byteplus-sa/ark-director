@@ -1,5 +1,6 @@
 import copy
 import json
+import re
 import subprocess
 import sys
 import unittest
@@ -92,6 +93,58 @@ class NativeDraftTests(unittest.TestCase):
                     "seedance.draft_promotion",
                     {finding.rule_id for finding in self.findings()},
                 )
+
+    def test_review_depth_never_waives_native_draft_or_required_evidence(self):
+        self.request["references"] = []
+        (self.root / "prompt.md").write_text("A ceramic cup turns on a shelf.\n")
+        self.request["prompt_sha256"] = self.fixture.hash("prompt.md")
+        (self.root / "studio").mkdir()
+        for review_mode in ("default", "strict"):
+            for approval_mode in ("approve_for_me", "ask_for_approval"):
+                with self.subTest(review=review_mode, approval=approval_mode):
+                    (self.root / "project.md").write_text(
+                        f"---\napproval_mode: {approval_mode}\n"
+                        f"review_mode: {review_mode}\n---\n"
+                    )
+                    self.request.update(
+                        schema_version=2,
+                        approval_mode=approval_mode,
+                        project_sha256=self.fixture.hash("project.md"),
+                    )
+                    self.request["params"] = {"resolution": "1080p"}
+                    self.fixture.rehash()
+                    with self.assertRaisesRegex(ValueError, "draft"):
+                        operation_store.prepare_operation(
+                            self.root, self.request, self.caps, self.review(), []
+                        )
+                    self.request["params"] = {"resolution": "480p", "draft": True}
+                    self.fixture.rehash()
+                    with self.assertRaisesRegex(ValueError, "review is required"):
+                        operation_store.prepare_operation(
+                            self.root, self.request, self.caps, None,
+                            ["seedance.draft_promotion"],
+                        )
+                    self.assertFalse((self.root / "task_ids.json").exists())
+                    self.assertEqual(self.findings(), [])
+
+    def test_review_guidance_does_not_offer_direct_final_video(self):
+        paths = [
+            preparation.ROOT / ".agents/contracts/production-policy.md",
+            preparation.ROOT / "README.md",
+        ]
+        for name in ("film-production", "micro-drama", "seedance-effects-studio",
+                     "seedance-prompt-25", "brief-intake", "ark-mcp"):
+            paths.append(preparation.ROOT / ".agents/skills" / name / "SKILL.md")
+        forbidden = re.compile(
+            r"video directly at (?:its|the) final target"
+            r"|default mode (?:otherwise )?generates at the final target"
+            r"|default (?:mode )?(?:goes|submits).*?final target"
+            r"|default mode inspects the directly generated final target",
+            re.IGNORECASE,
+        )
+        for path in paths:
+            with self.subTest(path=path):
+                self.assertIsNone(forbidden.search(" ".join(path.read_text().split())))
 
     def test_edits_extensions_variations_and_premium_require_native_draft(self):
         for model in (MODEL, "dreamina-seedance-2-5-premium-260915"):

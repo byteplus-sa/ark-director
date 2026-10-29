@@ -8,7 +8,7 @@ description: >-
   replacement, audio editing), forward and backward video extension, keyframe
   sequences, coarse and fine blockout references, one-click video, seamless
   transitions, audio bracket syntax, dialogue language reinforcement, emotional
-  direction, camera language, and draft-first request packaging. Use this
+  direction, camera language, and review-mode-aware request packaging. Use this
   skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene
   staging, video editing, extension, and corrections to generated motion or
   continuity. For legacy Seedance 2.0 prompts, 4K output through 2.0, or the
@@ -81,14 +81,16 @@ mentioned in prose are relative to this skill directory unless a link says other
 
 ## Submission boundary and failure behavior
 
-The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
+The caller owns production authorization and the exact request preflight.
+Default review mode requires minimal inline checks and actual output sanity,
+not a full checklist or prompt-review report. Strict mode or explicit review
+requirements need complete hash-bound evidence. The caller reviews inline and
 uses a sub-agent only when the user explicitly requests sub-agent prompt review
 for the project or specific generation. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
 or technical success does not establish user approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+the requested count (one image by default, three in strict mode), and the requested delta.
 
 ## Evidence and creative advice
 
@@ -275,7 +277,9 @@ checks, so the reasons live here and the checks live there.
 
 ## Preflight review
 
-Before handing the package to review, confirm:
+Default mode checks the package inline for intent, capabilities, current hashes,
+bindings, approvals, rights and budget without a checklist report. For strict
+or explicitly requested detailed review, confirm:
 
 1. Subject and primary action are clear, and the action is at body-part level
    with an observable end state for every critical beat.

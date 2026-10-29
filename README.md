@@ -89,13 +89,23 @@ ai-director/
 
 `ark-director` treats expensive media generation as a gated production workflow:
 
+New `project.md` frontmatter uses independent `review_mode: default` and
+`approval_mode: approve_for_me`. Default review is minimal inline preflight and
+actual output sanity: no mandatory prompt-review checklist report, one image
+unless a count is requested. Native 480p Draft-first Seedance 2.5 video remains
+required in both modes. Set `review_mode: strict` for detailed reviews and
+three-image sets. Missing review mode defaults for new actions; invalid values block.
+Review depth never changes who may approve, rights, budget or user locks.
+Existing candidate/final lock writers still require short, truthful sanity
+records from actual inspection.
+
 1. **Brief & creative locks** — record approved identities, environments, props, tone, resolution, duration, audio mode.
 2. **Reference preflight** — classify each asset (visible identity, environment, motion reference, control-only). The ordered reference array submitted must match the `references:` list in `shot.md` exactly.
 3. **Spatial & temporal preflight** — record start, travel axis, subject order, boundary behavior, end state for movement-heavy scenes.
 4. **Audio for dialogue (optional)** — when the user requests lip-synced dialogue, generate the Seed Audio track first, then use it as `reference_audio` to Seedance.
-5. **Low-cost prototype** — validate motion, geography, camera at the lowest suitable resolution.
+5. **Generate** — use native 480p Draft-first Seedance 2.5 in both review modes, then select before promotion.
 6. **Creative review** — preserve approved decisions; write the single requested delta plus acceptance criteria for the next take.
-7. **Final candidate** — increase resolution only after creative behavior is approved.
+7. **Final candidate** — when using drafts, increase resolution only after creative behavior is approved.
 8. **Technical & semantic QA** — inspect actual streams, decode integrity, contact sheets, key transitions, audio.
 
 **Generate per scene at its natural duration (4–30s), not per 30-second block.** Chain approved scenes via `return_last_frame` / `first_frame` + a shared reference bundle and assemble in post.
@@ -163,7 +173,7 @@ The workspace ships with **83 skills** across 15 categories. Independent skills 
 | **micro-drama** | Produce source-led vertical micro-drama episodes with an optional hook/reveal/cliffhanger template, element references, draft-first generation, dialogue QA, ungraded loudness-matched delivery and an optional showreel. |
 | **filipino-micro-drama** | Opt-in Filipino-market micro-drama stories and episode briefs with genre formulas and cultural context, preserving approved words and requested language, register, code-switching and subtitle choices. Story material only. |
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
-| **prompt-review** | Review and fix BytePlus Seedance, Seed Audio, and Seedream prompts against the repo's best practices inline by default; use a sub-agent only when explicitly requested for a project or specific generation. |
+| **prompt-review** | Detailed hash-bound prompt reviews for strict review_mode or explicit requests; routine default-mode preflight skips full checklist reports. |
 | **media-review** | Emergency OS-player fallback when the required HTML/browser review surface is unavailable. |
 | **update** | Updates the repository from its remote, resolves merge conflicts while preserving local work, and re-runs validation and catalog refresh. |
 | **blender-to-seedance** | End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. |
@@ -180,7 +190,7 @@ The workspace ships with **83 skills** across 15 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **seedance-prompt-25** | Write production-grade Seedance 2.5 video prompts with the six-part formula, per-shot camera, lens and light, multimodal referencing, 4-30 s scene staging, dialogue timing, video editing and extension, keyframes, blockouts and draft-first request packaging. |
+| **seedance-prompt-25** | Write production-grade Seedance 2.5 video prompts with the six-part formula, per-shot camera, lens and light, multimodal references, 4-30 s scene staging, dialogue timing, video editing and extension, keyframes, blockouts and review-mode-aware request packaging. |
 | **seedance-prompt-20** | Legacy Seedance 2.0 prompt skill. Use when you need 4K output (unsupported by 2.5), Fast/Mini speed variants, or lower cost per generation. Provides reference-role classification, subject definitions, spatial continuity, shot sequencing, and native audio direction. |
 | **seedance-prompt-25-filipino** | Opt-in Filipino dialogue support preserving approved words and requested language, register, code-switching and subtitle choices; separate accent notes, listening-based pronunciation review and opt-in separate lip-sync audio. |
 | **seedance-shot-design** | Plan per-shot coverage for Seedance scenes: shot count and jobs, size, framing, angle, camera move, lens intent and light per shot, with variety rules and an energy level. |
