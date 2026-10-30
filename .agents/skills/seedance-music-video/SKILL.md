@@ -15,7 +15,7 @@ description: >-
 Write ready-to-use Seedance 2.5 prompts for music videos. The music is the
 fixed brief: every visual decision is planned backward from the track's
 sections, beats, and energy. Make the format, the song map, the beat contract,
-and the genre lock visible in the prompt, not just the scene content.
+and the brief-derived treatment visible in the prompt, not just the scene content.
 
 
 ## Input and output contract
@@ -63,9 +63,18 @@ The recipes generalize these principles rather than copying published prompts.
 
 ## Format & genre bank
 
-Read `references/music-video-recipes.md` after identifying the user's format
-and genre. Use one genre recipe plus the matching format rule; do not paste the
-whole bank into a prompt.
+Read `references/music-video-recipes.md` when recipe examples would help the
+requested format or treatment. Recipes are optional ingredients, not genre
+requirements; custom direction is an equally valid starting point. Do not paste
+the whole bank into a prompt.
+
+Choose a bespoke treatment, a coherent hybrid, or deliberate section transitions
+within the brief. Scope palette, lighting, camera and rhythm changes to their
+intended sections; resolve incompatible simultaneous directions, not differences
+between genres. A bright rap video or kinetic acoustic performance needs no
+exception. Preserve source locks, exact audio, approved lyrics, identities and
+requested unchanged styling. For preservation-only edits, change only the
+authorized axis; do not invent staging, cuts or story facts.
 
 Formats: `performance`, `narrative`, `conceptual`, `lyric`, `visualizer`, `hybrid`.
 (Here and throughout, `visualizer` means a music / audio-reactive visualizer,
@@ -88,8 +97,8 @@ song map               each section → visual assignment, energy, and end state
 performance ratio      how much screen time is performer vs atmosphere per section
 beat contract          which audio events the cuts and camera land on
 audio treatment        picture-only (default), native audio, or audio-first master as timing authority
-genre lock             one recipe controlling palette, lighting, camera, and rhythm
-exclusions             only contradictions that would break the format or genre
+treatment              brief-derived palette, lighting, camera, rhythm and intended transitions
+exclusions             only contradictions with the brief, source locks or technical contract
 ```
 
 ## Prompting workflow
@@ -390,20 +399,20 @@ Assemble the treatment into the `seedance-prompt-25` formula:
 
 > **Subject + Action or Event + Scene and Environment + Visual Style + Camera Movement/Cut + Audio**
 
-Chain the Visual Style slot as lighting → lens → grade → look. Keep the genre
-lock in the Visual Style slot, the beat contract in the Camera/Cut and Audio
+Chain the Visual Style slot as lighting → lens → grade → look. Keep the treatment
+in the Visual Style slot, the beat contract in the Camera/Cut and Audio
 slots, and the sung lines in `{...}`. Do not describe the same action twice.
 
-### 8. End with a style seal
+### 8. Optional treatment summary
 
-Close with one compact sentence that reinforces the genre lock, the palette,
-the motion cadence, the beat contract, and the tone. The seal prevents the look
-from drifting across the section chain and during later shots.
+When useful, close with a compact summary of the intended treatment, continuity
+and section transitions. Omit it when it repeats the prompt or the user wants
+only a scoped change. A summary is optional and never an additional style lock.
 
 ## Partner-skill routing
 
 This skill owns the music-video layer: format, song map, beat contract, audio
-contract, and genre lock. Other axes belong to their owning preset skills — see
+contract, and brief-derived treatment. Other axes belong to their owning preset skills — see
 the workspace's canonical axis→skill table (including
 `seed-audio-prompt` / `seed-audio-commercial` for an original music or vocal
 master, and `seedream-storyboard` / `film-production` for storyboard and
@@ -412,15 +421,16 @@ never bind a board or grid as a Seedance reference, because panel numbers and
 its sketch look leak into the video. Bind performer, location and prop element
 references and write the staging in the prompt. Never let two skills fight:
 
-**Guardrail:** the genre lock supplies the default palette, lighting and camera
-vocabulary, and this skill owns when cuts land on the song. Plan what each shot
+**Guardrail:** the brief supplies palette, lighting and camera intent, and this
+skill owns when cuts land on the song. Plan what each shot
 is (size, angle, move, light source and key side) with `seedance-shot-design`
-inside those cuts, usually at kinetic energy; when the user names a specific
-axis, compose it with its owning preset skill. Keep exactly one grade per clip,
-one dominant lighting direction per shot. One primary camera move and one
+inside those cuts, at the requested energy; when the user names a specific
+axis, compose it with its owning preset skill. Scope grades and lighting to
+their intended intervals and preserve approved choices. One primary camera move and one
 secondary is a planning heuristic; preserve explicitly requested coherent choreography
 and resolve incompatible paths instead of dropping moves by count.
-Do not stack a second grade or camera treatment on top of a genre recipe.
+Compatible combinations and planned transitions are valid; reject only concrete
+conflicts with the brief, source locks, readability or verified capability.
 
 ## Rights and safety
 
@@ -439,7 +449,7 @@ Do not stack a second grade or camera treatment on top of a genre recipe.
   free of music, set `generate_audio: false` and add the bed in post.
 - Do not use exclusions as a substitute for positive audio and beat direction.
 - Exclude only likely contradictions: a real artist's face or voice, readable
-  logos, an unwanted second vocal, or a second genre's palette leaking in.
+  logos, an unwanted second vocal, or a palette change that violates a user lock.
 - Avoid direct imitation of living artists or directors; describe observable
   craft traits (one governing visual rule, structural bookends, contained
   staging).
@@ -466,8 +476,9 @@ Before returning the prompt, verify:
    with a post bed instead of a "no music" line.
 9. Each proposed generation uses a live-supported natural duration, or is an
    explicit continuous one-take.
-10. The genre lock is a single recipe, not a mixture.
-11. The style seal is compact and does not contradict the format or genre.
+10. The custom treatment, hybrid or section transitions are coherent and respect
+    the brief and source locks; recipe membership is not an acceptance condition.
+11. Any optional treatment summary preserves intended continuity and departures.
 12. Shot timing preserves the song map without a numeric floor. Assembly may
     supply precise cuts; lyrics and any on-screen text remain edit layers.
 13. The response contains the prompt, not an unrelated production workflow.

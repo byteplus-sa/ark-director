@@ -129,8 +129,8 @@
     },
     "color-grade-palettes": {
       "kind": "leaf",
-      "description": "Default to no grade: keep original Seedance colours in assembly. When a colour palette or film look is requested, map it to a canonical grade sentence for the Seedance 2.5 Visual Style slot or the Seedream Style: section, and/or a high-bit-depth-safe FFmpeg post look (limited-range BT.709 decode, dithered 8-bit output) applied to the untouched master. Use for colour grading, palette selection, look and grade choices, teal and orange, bleach bypass, film stocks, VHS or camcorder looks, LUT-style grades, and cinematic grades. Golden hour here means the warm grade palette; for golden-hour physical lighting (sun position and light), use seedance-lighting-presets.",
-      "readme_summary": "Defaults to no grade (original Seedance colours); when a palette or film look is requested, maps it to a canonical grade sentence for Seedance or Seedream and/or a high-bit-depth-safe FFmpeg post look on the untouched master.",
+      "description": "Compose palette sentences and post-look graphs. Use for requested grading or delegated art direction, including custom looks. Preserve ungraded conform and source locks. Not physical lighting.",
+      "readme_summary": "Compose requested or delegated custom looks as prompt palettes or high-bit-depth-safe post grades, preserving ungraded conform and source locks.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -584,7 +584,7 @@
       "dependencies": [],
       "source_revision": "v0.8.141",
       "upstream_hash": "9da7b7ac84c8d884b54125887ecca1a645a38337013082b96af2fdc0259c945a",
-      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local portability overlay: preserve approved non-Latin copy, require licensed script-covering fonts, use explicit number locales and language-aware narration timing; retain upstream design and provenance."
+      "overlay_notes": "Vendored from github:heygen-com/hyperframes tag v0.8.141 (commit 4a335aa6a1daf7bea766d9bbacc0cb6d43b1ad46); previously CLI 0.8.38. upstream_hash and the lock computedHash are the sha256 of the unmodified upstream SKILL.md. Local portability overlay: preserve approved non-Latin copy, require licensed script-covering fonts, use explicit number locales and language-aware narration timing; retain upstream design and provenance. Local creative-policy overlay in SKILL.md and house-style, video-composition, motion-principles, design-adherence, prompt-expansion and beat-direction references: brief-led aesthetics without palette, decoration, focal-point or motion quotas; preserve brand locks and runtime safeguards when re-vendoring."
     },
     "hyperframes-keyframes": {
       "kind": "vendored",

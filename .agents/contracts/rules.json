@@ -491,7 +491,7 @@
         "narrative_video"
       ],
       "owner_path": ".agents/skills/seedance-prompt-25/references/audio-performance-camera.md",
-      "summary": "An ambience-only, score-driven or speech-free clip is generated with generate_audio false (or keeps the provider master untouched) and gets its bed from Seed Audio in post; a negative audio line with native audio on is not the control.",
+      "summary": "Sound ownership follows the brief: requested native diegetic sound, including wordless action or ambience; an exact master or controlled post soundtrack; or purposeful silence with no added bed. Speech-free alone does not require picture-only. Preserve exact masters and approved native sound; use supported controls and verify unwanted audio, sync and master fidelity through playback and listening, again after promotion. Negative wording is not proof of compliance. Missing or conflicting ownership stays unresolved; preserve rights, consent and approvals.",
       "exceptions": [
         "A recorded, user-requested native-audio exception for a named take."
       ]
@@ -532,7 +532,7 @@
         "editing"
       ],
       "owner_path": ".agents/skills/seedance-prompt-25/references/scene-action.md",
-      "summary": "Counted items, clones, crowds and repeated props carry an exact count, each item named by size or position and in open view from the first frame, with the count and positions restated at every stage.",
+      "summary": "Track exact total identity separately from visible count for counted items, clones, crowds and repeated props. Account for hidden, off-screen, entering, exiting and occluded subjects and restate relevant positions after changes. Preserve locked reveal timing; first-frame visibility and repetition at every stage are not required when continuity is unambiguous. Contradictory totals, unexplained duplication and incompatible positions remain errors.",
       "exceptions": []
     },
     {

@@ -67,20 +67,31 @@ before relying on it.
 
 ## Choosing the audio route
 
-With `generate_audio: true` the model voices whatever the scene implies. In
-ambient-only clips, a line such as "no music, no spoken words" often does not
-hold: speech, chants and score leak in.
-(`audio.native_route`)
+Resolve sound ownership from the brief before choosing `generate_audio`
+(`audio.native_route`). Wordless does not mean picture-only. Native audio can
+add unwanted speech, chants or music; negative wording is not a guarantee.
 
-| Piece | Route |
+| Sound ownership | Route |
 |---|---|
-| Dialogue, lip-sync or diegetic action sound that must sync | Native audio (`generate_audio: true`) with bracketed dialogue and effects |
-| Ambience-only, score-driven, speech-free, or a bed that will be replaced | Picture only (`generate_audio: false`); build ambience or score with Seed Audio in post |
-| A provider master that already passed review | Keep it untouched; mix additions in post |
+| Requested native dialogue, lip-sync, diegetic action or ambience, including wordless scenes | Native audio (`generate_audio: true` where supported); specify wanted voices/effects, synchronization and exclusions |
+| Exact supplied master or controlled post soundtrack | Preserve the master unchanged; use picture-only generation where supported and place the approved master/bed in post |
+| Purposeful silence | Disable native audio where supported; otherwise arrange authorized removal in post and verify silence; do not add a bed |
+| Ownership unspecified or contradictory | Ask a focused question; keep the route unresolved rather than infer it from absent dialogue |
+
+For mixed ownership, name which layers are native and which are post. Preserve
+an approved provider master; additions require authorization. Separate lip-sync
+audio remains opt-in. Confirm live model/mode support for switches and reference
+roles; if the chosen route is unsupported, return the conflict before submission.
+Keep rights, consent and source approvals unchanged.
+
+Describe critical native contact sounds in `<>`, for example
+`<the latch clicks as the door closes>`. Exclude unwanted voices and score, then
+verify through playback and listening. If unwanted audio remains, reject the take
+or propose an authorized repair; do not silently discard requested native sound.
 
 Record that a post bed is not frame-synced, so hits that must land on an action
-are placed in assembly. Re-check audio on a promoted final: it is not
-byte-identical to the draft's soundtrack.
+are placed in assembly. Re-check audio on a promoted final: do not assume it is
+byte-identical to the draft's soundtrack. Exact masters must not be regenerated.
 
 ## Emotional direction
 

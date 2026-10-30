@@ -56,14 +56,14 @@
     {
       "id": 5,
       "prompt": "I want a lighting direction and quality for a rooftop scene. It is a night scene with neon signage, but the brief also mentions golden hour. Choose one coherent lighting direction and quality and write the Seedance visual-style phrase.",
-      "expected_output": "A single coherent lighting choice (night neon, not golden hour) with direction, quality, and gel color, expressed as one Seedance visual-style phrase.",
+      "expected_output": "Clarify whether night and golden hour describe the same interval, an ordered transition, or a warm gel look at night. Preserve locked time of day; after resolution, express compatible source-motivated lighting with direction, quality and color.",
       "files": [],
       "expectations": [
-        "The output picks exactly one dominant lighting direction and quality.",
-        "The output does not mix golden hour and night neon in the same phrase.",
-        "The output names a night-neon direction with a neon gel or cool color temperature.",
-        "The output names the light quality (soft or hard).",
-        "The output sits in the Visual Style slot using 'The visuals feature ... lighting'."
+        "The output asks for clarification rather than silently choosing which time-of-day instruction to discard.",
+        "The output flags contradictory physical daylight and night in the same interval, not compatible warm and cool sources.",
+        "An ordered transition is a bounded option with timing and endpoints, not an assumed rewrite of the requested single setup.",
+        "The resolved phrase names source direction, light quality and color without inventing approval.",
+        "The resolved phrase sits in the Visual Style slot using 'The visuals feature ... lighting'."
       ]
     },
     {

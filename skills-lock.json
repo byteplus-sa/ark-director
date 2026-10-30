@@ -85,13 +85,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/brief-intake/SKILL.md",
-      "computedHash": "8796ab9c886397a912cdc99d68ddd6efb56889c02692da7b0a97d726ce285aa5"
+      "computedHash": "f1e18325f6154e9550f24ce4d6f9216dda552b51347ccbeccc796e6e2fcb8f17"
     },
     "color-grade-palettes": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/color-grade-palettes/SKILL.md",
-      "computedHash": "98a937a46bc8094c2d4d16e91123b1cfe57bda9f320534ebfd5475cf930e265e"
+      "computedHash": "9472082f3cebef3b63716c9083f237c1e3fb449435f6d3d7ff4b68207b85852b"
     },
     "ffmpeg": {
       "source": "digitalsamba/claude-code-video-toolkit",
@@ -175,7 +175,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
-      "computedHash": "0a8b290f0774e230ae909f151a77671a9d83abb5988f500041957c6ece4d2e7c"
+      "computedHash": "3e1a56f6805e7b5287cd9a927e43efc12c5f939494f699f5d134ca0eb0db9c3e"
     },
     "seedance-shot-design": {
       "source": "./local",
@@ -199,13 +199,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lens-presets/SKILL.md",
-      "computedHash": "c8dcc078ee838d6c69eb7edb4db4d8b9bc0dd7368e0c35767a9928d4450e8fc8"
+      "computedHash": "badd75a415ad10f0ab66d6e33da0ecc16f5c09f2e162399b4265cb05b563a920"
     },
     "seedance-lighting-presets": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lighting-presets/SKILL.md",
-      "computedHash": "9a8eea7ad5253806760cf51fa4373143bc1fecec18a266531cf3be1fd60d00d9"
+      "computedHash": "65873b8d8b71bcc6f952319ecdc1b81ea122377e74fa7c70fb4e529e50e11911"
     },
     "seedance-motion-design": {
       "source": "./local",
@@ -217,7 +217,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-music-video/SKILL.md",
-      "computedHash": "f579b93bb62c28ba8f7f817cc01f2ac55337949a196a8c63aeb7d32b29eabf2d"
+      "computedHash": "fe13e0aad5fa47a7e9f4146ec6d37c95d6daf0fe7515ff412784ff779eff97cf"
     },
     "seedance-pacing-presets": {
       "source": "./local",
@@ -235,7 +235,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-prompt-25/SKILL.md",
-      "computedHash": "13f55e00ee59168eced52db310c8a749bc7063a84a3571da7f61abd0b310af75"
+      "computedHash": "d8a1b2524824375db10f64ac773dfba3c7accd26529c5b09f497df3e6a9bd937"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",

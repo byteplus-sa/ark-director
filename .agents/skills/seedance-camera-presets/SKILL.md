@@ -54,20 +54,26 @@ not verified model controls.
 
 ### Basic moves
 
-Use the canonical phrase directly. Each basic move maps to the official
+Adapt the phrase to the intended pace. Each basic move maps to the official
 Seedance vocabulary (`push in`, `pull out`, `pan`, `lateral move`, `follow
 shot`, `orbit`, `dolly out`, `tilt up`, `handheld shake`). Where a frame has
 several subjects, still state **which subject** the camera follows, **where**
 the movement begins, and **where** it ends.
 
+Choose speed from the action, audience effect and readable reveal, not the
+move name or genre. Preserve explicit slow, quiet, static and source-motion
+locks. With delegated camera direction, propose a custom path without requiring
+the user to name its technical components. These are authoring choices, not
+new provider parameters or guarantees of execution.
+
 | Preset | Canonical phrase template |
 |---|---|
-| Pan left | `Slowly pan to the left across <subject or scene>.` |
-| Pan right | `Slowly pan to the right across <subject or scene>.` |
+| Pan left | `Pan to the left across <subject or scene> at <speed>.` |
+| Pan right | `Pan to the right across <subject or scene> at <speed>.` |
 | Tilt up | `Tilt up from <subject or ground element> to <subject, ceiling, or skyline>.` |
 | Tilt down | `Tilt down from <subject or high element> to <subject, floor, or ground>.` |
-| Dolly in | `Slow dolly in toward <subject>, stopping at <shot size>.` |
-| Dolly out | `Slow dolly out from <subject>, pulling back to <shot size>.` |
+| Dolly in | `Dolly in toward <subject> at <speed>, ending at <shot size>.` |
+| Dolly out | `Dolly out from <subject> at <speed>, pulling back to <shot size>.` |
 | Optical zoom in | `Purely optical zoom in on <subject> from <starting shot size> to <ending shot size>; the camera stays in the same position on a locked-off tripod as the subject grows larger in frame.` |
 | Optical zoom out | `Purely optical zoom out from <subject> from <starting shot size> to <ending shot size>; the camera stays in the same position on a locked-off tripod as more of the scene enters the frame.` |
 | Dolly left / right | `Dolly laterally to the left/right, keeping <subject>'s <feature> framed.` |
@@ -109,10 +115,15 @@ recipe from `seedance-prompt-25`:
 
 ### Camera styles
 
-Camera styles describe the camera's personality for the whole clip — a
-paragraph-level treatment you can append to a prompt. Choose one style per
-prompt; do not combine styles. Within the chosen style, each shot of a clip that
-cuts still gets its own move, size and angle.
+Camera styles are optional ingredients, not a purity rule. Use one treatment,
+a compatible compound treatment, a custom path, or ordered style transitions
+according to intent. Within the same interval, directions must be compatible:
+orbiting while rising and tilting down can work together; a physically fixed
+tripod and a physical orbit cannot. Return conflicting locks for clarification.
+Across intervals, mark the handoff: controlled observation can become frantic
+handheld at a story event without imposing that change on every clip. Preserve
+an explicit single-style request, including its slow or quiet qualities.
+Each shot in a clip that cuts retains its own move, size and angle.
 
 | Style | Camera-treatment block |
 |---|---|
@@ -120,7 +131,7 @@ cuts still gets its own move, size and angle.
 | Classic Static | `Classic static camera: locked-off, tripod-mounted, composed frames with minimal movement; all motion happens within the frame as subjects move through it.` |
 | Silent Machine | `Silent machine camera: smooth, precise, mechanical gimbal moves that glide almost invisibly; neutral and unobtrusive, never drawing attention to itself.` |
 | One Take | `One-take camera: a single continuous unbroken shot with no cuts, following the action through every space and event from start to finish.` |
-| Epic Scale | `Epic-scale camera: vast wide establishing shots with slow sweeping aerial and crane reveals that dwarf the subject in a grand, spacious frame.` |
+| Epic Scale | `Epic-scale camera: vast wide establishing shots with sweeping aerial and crane reveals at <speed>, dwarfing the subject in a grand, spacious frame.` |
 | Intimate Observer | `Intimate observer camera: close-ups and gentle handheld moves that stay near the subject, quiet and personal, capturing small gestures and expressions.` |
 | Impossible Camera | `Impossible camera: surreal paths and extreme angles a physical camera cannot take, gliding through walls and over objects with weightless freedom.` |
 | Documentary Snap | `Documentary snap camera: observational and spontaneous, naturalistic handheld with reportage framing and a sense of real, unstaged life.` |
@@ -192,15 +203,15 @@ required; everything else is optional.
 
 | Parameter | Meaning | Rules |
 |---|---|---|
-| `move` | Named preset from the bank | Required; one preset. If `style` is also set, `move` may be "auto" or omitted. |
-| `style` | Camera style (10 above) | Optional; one per prompt. Sets the camera personality for the whole clip. |
+| `move` | Named preset or custom camera path | Name the move, compatible compound components or ordered phases; with `style`, `move` may be "auto" or omitted. |
+| `style` | Named or custom camera treatment | Optional; one treatment, compatible combination or ordered transitions with clear interval boundaries. Preserve explicit style locks. |
 | `subject` | What the camera follows, plus where the move starts and ends | State a named subject whenever one exists (`@gloria`, `Gloria`, `the courier`). For technique presets, state which subject the camera follows and where the movement begins and ends. |
 | `shot_size` | From the shot-size vocabulary | Optional; e.g. `medium close-up`. |
 | `angle` | From the angle vocabulary | Optional; e.g. `low angle`. |
 | `framing` | From the framing templates | Optional; one per shot. Name each featured subject and its screen side. |
 | `timestamp` | Optional `At Ns` moment for a transition or beat | Use only for critical handoffs or transitions. A time budget, not frame-accurate. |
 | `stack` | Number of simultaneous moves in one shot | Default to one move, with one compatible secondary when useful (e.g. `dolly in` + `tilt up`). This two-move heuristic is not a provider limit: preserve explicitly requested coherent choreography with clear paths, timing and start/end states. A clip that cuts has one Camera block per shot. |
-| `speed` | Pace of the move | Optional; use directional words (`slow`, `fast`, `rapid`, `leisurely`) rather than numeric fps. |
+| `speed` | Pace of the move | Derive from intent and preserve requested pace; use words such as `slow`, `fast`, `rapid`, `leisurely` rather than numeric fps. No universal slow or fast default. |
 
 ## Output grammar
 
@@ -217,7 +228,7 @@ Audio includes <audio>.
 **Camera-block template:**
 
 ```
-Use [At <N>s, ] <move 1> [then <move 2>], <shot size>, <angle>, <speed> [; <timestamped transition>].
+Use [At <N>s, ] <camera path with compatible components and ordered phases>, <shot size>, <angle>, <speed> [; <timestamped transition>].
 ```
 
 **Worked example (T2V, dolly-in preset):**
@@ -238,14 +249,14 @@ the color-grade skill or to post.
 
 ## Moves that read
 
-A clip with no camera statement tends to come back as a neutral, held frame,
-and hedged wording on every line reads as flat footage. Plain wording already
-produces a push-in or a fast move; the preset adds control: where the move
-starts and ends, its speed, its timing, and the hold after it.
+A clear camera statement describes the intended viewpoint and change. Missing
+direction is a possible repair hypothesis, not proof of why a take feels flat.
+Choose a move or hold from the brief; verify execution in actual playback.
 
 - State a move for every moving shot, with an active verb and a speed: the
   camera drives in fast, sweeps left, rises over, snaps to, glides behind.
-  Reserve `gentle` and `subtle` for a shot whose stillness is the point.
+  Gentle movement and sustained stillness are valid when they serve intent;
+  no mandatory acceleration, aggressive move or closing hold is implied.
 - Give a timed beat to the move only where it matters (`At 3s, crash-zoom in on
   <subject>`); otherwise the start and end states carry it.
 - In a clip that cuts, each shot carries its own Camera block. The shot plan
@@ -291,9 +302,9 @@ starts and ends, its speed, its timing, and the hold after it.
 
 Before a Camera block is submitted as part of a Seedance 2.5 prompt, verify:
 
-1. The `move` is from the preset bank, or follows the Cinematography-Term +
-   Subject + Visual Change + Foreground/Background + Direction recipe for
-   uncommon terms.
+1. The move is a named preset or a clear custom path, with compatible compound
+   components or ordered phases as needed. Describe uncommon terms through
+   their visible change; preset membership is not an acceptance gate.
 2. Moves are compatible and readable, including explicitly requested coherent
    choreography beyond the two-move heuristic; unresolved conflicts are returned.
 3. The Camera block names the subject the camera follows whenever a subject

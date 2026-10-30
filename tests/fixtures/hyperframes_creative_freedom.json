@@ -1,0 +1,81 @@
+{
+  "status": "not_run",
+  "skill_name": "hyperframes-creative",
+  "evals": [
+    {
+      "id": "sparse_title",
+      "prompt": "Direct a six-second title reading 'After the Rain'. One small centered line on a plain black frame, completely still. Propose the treatment only.",
+      "expectations": [
+        "Keeps the supplied words and a single centered focal point.",
+        "Preserves a plain black frame and complete stillness.",
+        "Does not add decorative layers, ambient loops or extra scenes."
+      ]
+    },
+    {
+      "id": "still_multiscene",
+      "prompt": "Expand this complete eight-second, two-scene brief into per-beat direction only. Scene 1, 0-4s: the exact title 'Before' centered on a plain #ffffff field. Hard cut at 4s. Scene 2, 4-8s: the exact title 'After' and one static hairline beneath it on the same field. Locked tokens: #111111 text and hairline, provided serif font. Both scenes remain completely still with no entrance or exit animation, added depth, atmosphere, labels or sound. Preserve timing and source content; no media.",
+      "expectations": [
+        "Keeps two scenes, the exact titles and supplied four-second holds with a hard cut.",
+        "Preserves the locked colors, supplied font and readability.",
+        "Accepts the complete sparse brief without compulsory enrichment or a minimum layer count.",
+        "Keeps the existing hairline static instead of adding secondary decorative motion.",
+        "Adds no atmosphere, micro-details, source claims, transitions or sound beyond the brief.",
+        "Describes deterministic, seekable held states without claiming a render or behavioral evaluation ran."
+      ]
+    },
+    {
+      "id": "maximalist",
+      "prompt": "Propose a fictional eight-second festival ident: maximalist collage, clashing colors and energetic graphic collisions, with the invented title 'Sideways'. No existing brand system.",
+      "expectations": [
+        "Commits to the requested dense and energetic treatment.",
+        "Allows multiple colors and compatible simultaneous graphic actions.",
+        "Keeps the supplied title readable and does not invent event facts."
+      ]
+    },
+    {
+      "id": "bright_technology",
+      "prompt": "Propose a bright white, playful technology-film treatment for an invented musical calculator. Avoid dark neon styling; keep the concept fictional.",
+      "expectations": [
+        "Keeps the bright white canvas without routing technology to dark.",
+        "Develops specific playful imagery rather than a compulsory panel layout.",
+        "Does not turn fictional concept details into real product claims."
+      ]
+    },
+    {
+      "id": "dark_food",
+      "prompt": "Propose a moody food-film frame: one pear emerging from black, no typography or decorative graphics. Let a held image carry the scene.",
+      "expectations": [
+        "Keeps the food scene dark rather than applying an industry palette.",
+        "Preserves the single-subject held image.",
+        "Does not add glows, layers or camera motion merely to fill space."
+      ]
+    },
+    {
+      "id": "brand_locked",
+      "prompt": "The approved spec locks background #ffffff, foreground #111111, accent #d04020 and the provided serif font. Keep those tokens unchanged while proposing a bold two-scene composition.",
+      "expectations": [
+        "Preserves the exact locked colors and font.",
+        "Finds visual freedom in layout, scale or in-scope motion.",
+        "Does not treat artistic permission as permission to replace brand tokens."
+      ]
+    },
+    {
+      "id": "missing_spec",
+      "prompt": "Restyle the approved film to match our design spec exactly. Neither the film nor the spec is attached.",
+      "expectations": [
+        "Identifies the missing source and spec.",
+        "Requests the necessary inputs rather than inventing approved tokens.",
+        "Does not claim to have inspected or verified unavailable material."
+      ]
+    },
+    {
+      "id": "palette_transition",
+      "prompt": "Propose two fictional scenes with a deliberate palette shift from warm orange intimacy to cold blue distance. No locked brand palette. Do not force a shared background or identical motion.",
+      "expectations": [
+        "Preserves the intentional warm-to-cold change.",
+        "Explains how framing or timing makes the transition coherent.",
+        "Does not impose a house-style palette, decoration count or motion quota."
+      ]
+    }
+  ]
+}

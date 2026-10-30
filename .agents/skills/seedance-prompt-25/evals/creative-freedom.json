@@ -1,0 +1,75 @@
+{
+  "skill_name": "seedance-prompt-25",
+  "evals": [
+    {
+      "id": 201,
+      "prompt": "Compile only, no generation. Three people total: two sit at a table; the third stays hidden behind the closed door until she opens it and enters. Preserve the reveal.",
+      "expected_output": "A continuous reveal with three identities and a visible count changing from two to three.",
+      "files": [],
+      "expectations": ["Does not expose the third person early.", "Does not create a fourth identity.", "Review accepts hidden subjects with unambiguous continuity."]
+    },
+    {
+      "id": 202,
+      "prompt": "Compile only. In one continuous shot she notices a fallen key, picks it up, unlocks the door and enters. Preserve this readable causal order.",
+      "expected_output": "One shot containing ordered actions rather than a mandatory shot per event.",
+      "files": [],
+      "expectations": ["Preserves all four actions and their order.", "Describes critical contact and outcome without exhaustive body mechanics.", "Flags actual timing infeasibility if present, not the event count alone."]
+    },
+    {
+      "id": 203,
+      "prompt": "Compile only. A person brushes rain off a sleeve once, naturally. Do not stylize the gesture.",
+      "expected_output": "A readable organic one-off action.",
+      "files": [],
+      "expectations": ["Does not invent a loop period.", "Does not require numeric amplitude or easing.", "Review does not flag missing incidental motion axes."]
+    },
+    {
+      "id": 204,
+      "prompt": "Compile only. Locked camera: she waits motionless in a doorway through the end. Nothing resolves; the light stays unchanged.",
+      "expected_output": "Deliberate stillness and sustained unresolved attention.",
+      "files": [],
+      "expectations": ["Does not add gestures or a reveal.", "Does not add camera motion or changing light.", "Review accepts an unchanged end state."]
+    },
+    {
+      "id": 205,
+      "prompt": "Compile only. Exactly three sealed bottles remain on the table. She takes one away, no replacements enter, and exactly three still remain on the table.",
+      "expected_output": "A focused clarification about the contradictory remaining count.",
+      "files": [],
+      "expectations": ["Identifies that two should remain under the stated action.", "Does not silently duplicate a bottle.", "Does not mistake contradiction handling for mandatory first-frame visibility."]
+    },
+    {
+      "id": 206,
+      "prompt": "Compile only. A wordless close-up of a latch closing. I want native latch clicks and room ambience, no speech or music. Verify route support before any future submission.",
+      "expected_output": "Requested native diegetic audio with synchronized contact sound and exclusions.",
+      "files": [],
+      "expectations": ["Does not switch to picture-only because dialogue is absent.", "Uses generate_audio true only where supported.", "Requires playback and listening for unwanted voices, score and synchronization."]
+    },
+    {
+      "id": 207,
+      "prompt": "Compile only. This clip must be completely silent, with no ambience or music bed.",
+      "expected_output": "Purposeful silence via supported audio disable or authorized post removal.",
+      "files": [],
+      "expectations": ["Adds no soundtrack or bed.", "Does not promise that negative prompting guarantees silence.", "Requires silence verification and surfaces unsupported controls."]
+    },
+    {
+      "id": 208,
+      "prompt": "Compile only. The licensed supplied soundtrack is the exact approved master. Keep it unchanged and assemble the generated picture to it in post.",
+      "expected_output": "Post-owned exact master, with picture-only generation where supported.",
+      "files": [],
+      "expectations": ["Does not regenerate or replace the master.", "Keeps rights and source approval checks.", "Does not claim a separate bed is automatically frame-synchronized."]
+    },
+    {
+      "id": 209,
+      "prompt": "Manual review only. Native latch clicks were requested, with no score. Listening to the draft reveals unwanted music under the required clicks. Can this pass, and can promotion be assumed identical?",
+      "expected_output": "Reject the noncompliant audio or request an authorized repair, with another listening check after promotion.",
+      "files": [],
+      "expectations": ["Does not pass solely because the prompt said no music.", "Does not automatically mute the required native clicks.", "Does not assume promoted audio is byte-identical."]
+    },
+    {
+      "id": 210,
+      "prompt": "Compile only. A wordless hallway scene has no specified sound owner. The destination says its audio-disable switch is unavailable. Choose a route without asking me.",
+      "expected_output": "State unresolved ownership and the capability conflict rather than infer silence or post ownership.",
+      "files": [],
+      "expectations": ["Does not equate wordless with picture-only.", "Does not invent an unavailable switch or authorization for removal.", "Leaves the blocking decision explicit without generating media."]
+    }
+  ]
+}

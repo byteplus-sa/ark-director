@@ -7,6 +7,14 @@ behavior. No downloaded template or external source library is redistributed.
 
 ## Resolve the shot, not a fixed package
 
+Requested direction or delegated creative authorship may include optical and
+texture proposals within scope. Label new choices as proposals, not source
+facts or user approvals; a lens-character-only request grants no wider scope.
+Source-preserving edits and technical conform change only `may_change` axes.
+Preserve approved continuity and deep focus, flare-free, practicals-only,
+grain-free and ungraded locks. Delegation supplies no rights, consent,
+generation approval or verified capabilities.
+
 1. Preserve medium, camera position, framing, focus, lighting, grade and
    delivery locks. Anamorphic is not automatically photorealistic or 2.39:1.
 2. State the shot's job and current geometry. For a new unlocked setup,
@@ -14,18 +22,20 @@ behavior. No downloaded template or external source library is redistributed.
    detail. Do not invent a focal length when the request asks only for lens
    character. A 24mm close face can exaggerate proportions at close distance;
    this is not a ban on wide lenses or people in establishing shots.
-3. If blur is requested, name the sharp subject/plane and the layers allowed
+3. For requested or delegated blur proposals, name the sharp subject/plane and the layers allowed
    to soften. Camera distance, background separation and aperture may be
    proposed for an unlocked setup, not imposed on established blocking.
    Neither "wide open" nor a focal number guarantees generated blur.
-4. If bokeh is requested and defocused highlights exist, describe **vertically
+4. For requested or delegated bokeh where defocused highlights exist, describe **vertically
    elongated oval highlights** in those named areas. An object in sharp focus
    does not become an oval simply because the lens is anamorphic.
-5. If a flare is requested, name its motivating source and a **horizontal
+5. For requested or delegated flare proposals, name the motivating source and a **horizontal
    streak**. If the scene has no suitable source, return the conflict or
-   propose adding one for approval. Do not silently add a lamp or sun.
+   propose adding one only within authorized lighting scope, subject to
+   existing approval requirements. Do not silently add a lamp or sun.
 6. Keep grain, film stock, halation, haze, weather and color grade separate.
-   Add them only when requested or approved. Daylight/tungsten stock vocabulary
+   Retain approved choices; add requested or delegated proposals only within
+   their authorized axes. Daylight/tungsten stock vocabulary
    is a look choice, not a required tail or an exposure control.
 7. Return one compact optical phrase, any unresolved conflicts, and output
    requirements separately. The caller resolves supported parameters.
@@ -52,7 +62,8 @@ behavior. No downloaded template or external source library is redistributed.
 
 ## Compact examples
 
-All examples are hypothetical. They establish requested looks, not results.
+All examples are hypothetical. They illustrate requested or delegated looks,
+not results or approvals.
 
 **Approved shallow-focus night setting with a practical in view:**
 
@@ -60,7 +71,9 @@ All examples are hypothetical. They establish requested looks, not results.
 > defocused background bulbs form vertical oval highlights. The visible
 > practical carries the requested restrained horizontal streak.
 
-Do not apply this sentence if the brief did not request blur and flare.
+Apply this sentence only when blur and flare are requested, already approved
+or proposed within delegated scope, with compatible focus and lighting locks.
+A lens-character-only request does not authorize either addition.
 
 **Locked deep-focus daylight courtyard, no flare:**
 

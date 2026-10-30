@@ -59,4 +59,14 @@ For applicable character-performance work, first follow
 and actual-take acceptance. Static camera choices do not exempt acting;
 source-preserving edits inherit it. Static assets need no performance plan.
 
-Read [seedance-reference.md](seedance-reference.md) when composing a generation-bound shot. Plan the shots first with `seedance-shot-design` (per-shot camera, lens intent and light, with a recorded reason for any static camera or constant light), then load only the preset skills the plan or the user's request needs for camera, lens, lighting, grade, acting, pacing, blocking or medium. Keep one grade per clip, one dominant lighting direction per shot and one or two camera moves per shot unless the explicitly requested choreography needs more.
+Read [seedance-reference.md](seedance-reference.md) when composing a generation-bound shot. Plan the shots first with `seedance-shot-design` (per-shot camera, lens intent and light, with a recorded reason for any static camera or constant light), then load only the installed skills needed for requested axes or in-scope delegated proposals.
+
+Compose compatible source-motivated lighting, camera paths and custom looks
+within the same interval; ordered palette, light or camera changes name their
+scope and endpoints. Preserve approved continuity and explicit locks.
+One or two camera moves is a simplicity heuristic, not a cap on requested or
+delegated choreography; a held camera remains valid. Clarify genuine
+simultaneous contradictions, not mere differences between scoped treatments.
+Source-preserving edits and conform change only authorized `may_change` axes,
+including any palette changes. Delegation supplies no rights, consent,
+generation approval or verified capabilities.

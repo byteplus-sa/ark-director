@@ -14,7 +14,7 @@ prompt because they never go inside it.
 ## Three-shot R2V sequence with dialogue
 
 One sequence of a longer spot, generated on its own and assembled with the
-others. It shows bindings, declared light sources, one action plus camera, lens
+others. It shows bindings, declared light sources, ordered action plus camera, lens
 intent and light per shot, a pinned count, a frame-side hand, a plain prop
 surface and a budgeted line.
 
@@ -65,8 +65,10 @@ Why it is built this way:
 
 ## Ambient-only one-take
 
-A picture-only request: the sound bed is built with Seed Audio in post because
-a "no music, no voices" line does not reliably hold with native audio on.
+This example explicitly assigns the sound bed to Seed Audio in post, so it uses
+picture-only generation. Ambient-only does not itself require this route:
+requested native ambience stays native where supported. A "no music, no voices"
+line is not a guarantee; either route needs listening verification.
 
 Request parameters: `duration: 8`, `ratio: "21:9"`, `draft: true`,
 `generate_audio: false`. Post: forest ambience bed from Seed Audio, recorded as
