@@ -37,11 +37,11 @@ Read the supplied brief and existing confirmed decisions first. Extract:
 | Constraints | Runtime, format, available references, delivery needs, forbidden changes |
 | Tone/genre references | What useful quality is being borrowed, and which convention should be avoided? |
 | Confirmed decisions | Which axes and identities are already accepted? |
-| Where the feeling lives | Which channel carries the inner state (performance, sound, light, framing, edit) rather than literal effects? |
+| Where the feeling lives | Which channels carry the intended feeling: performance, sound, light, framing, edit, literal effects or a combination? |
 | Source bible | Is there a source text, script, brand book or prior canon whose lines and details must survive every stage? |
 | Quality bar | Whose reaction is the bar: a named person, the user's own taste, or a past version of the user? |
 | Sound plan | Does anyone speak on camera, or is the sound ambience, score or silence? |
-| Look | Should the footage keep the model's original colours, or is a grade or capture-format look requested? |
+| Look | Is this preservation/conform, a requested look, or delegated art direction that can propose a custom palette, lens or capture-format look? |
 | On-screen copy | Which titles, captions, CTA, logo or end card does the piece carry, and is any label required? |
 
 When a tone or genre reference is a **concrete brand video ad or other footage**
@@ -63,17 +63,27 @@ result. With no usable brief, ask what is being made, for whom, and the intended
 reaction; develop reversible suggestions while runtime or format is pending.
 Label assumptions instead of inventing audience research or product facts.
 
+For delegated creative authorship, invent in-scope fictional staging, actions,
+imagery, performance intentions and visual metaphors that serve the brief.
+Label additions as creative proposals, not established source facts or user
+approvals. Preserve factual claims, supplied scripts, identities, source edits
+and explicit locks. A source-preserving task changes only its authorized
+`may_change` scope; creative delegation does not reopen protected material.
+Missing facts, rights or consent remain unresolved. Missing technical move or
+preset names need not block an otherwise clear creative brief.
+
 Three questions sharpen a dramatic brief without adding a questionnaire.
 Answer them from the brief when you can and ask only when the answer changes
 the result:
 
-- **Where does the feeling live?** Prefer suggestion over spectacle. Pain,
-  power or fear carried by the performance, a sound and the light usually
-  lands harder than a literal effect; keep one brief stylized image when the
-  idea needs a picture (a burned-texture hand instead of fire).
+- **Where does the feeling live?** Suggestion, spectacle, absurdity, intimacy
+  and counterpoint are equal tools. Choose their scale and frequency from
+  intent, without a ceiling on stylized imagery or a minimum spectacle quota.
+  Preserve quiet observation when requested; maximalism need not be reduced
+  to a single symbolic image. Fast, loud or saturated is not inherently better.
 - **Is there a counterpoint?** A location, prop or sound that plays against
-  the genre can state the world's rules without dialogue (a medical
-  exam held in a barn says this world has no clinics). Propose one only
+  the genre can suggest a fictional world's rules without dialogue (an exam
+  held in a barn may suggest improvised care, not prove there are no clinics). Propose one only
   when it serves the reaction.
 - **What is the bible?** When a source exists, list the lines, images and
   details that must survive, and recheck them at script, generation, edit and
@@ -96,18 +106,24 @@ Each is a proposal with a reason until confirmed. When the brief already
 settles one (a "silent" spot is `silent`), record it in one line without a
 question; static images and sound-only briefs skip the ones that do not apply.
 
-- **Audio route.** `native` when characters speak on camera and lip sync
-  matters; `picture_only` when the sound is ambience, score or a wordless arc,
-  so the video is generated silent and the bed is built in post; `lipsync_audio`
-  only when the user asks for a separate dialogue track; `silent` for a silent
-  deliverable. Prefer `picture_only` for ambience-only and score-driven pieces:
-  a "no music, no speech" line on native audio does not reliably hold, and
-  speech or score can leak in. Say that a post bed is laid to the cut rather than
-  frame-synced to action.
-- **Look.** Default to the model's original colours with no grade, grain,
-  halation or vignette. Record a grade or a capture-format look (camcorder,
-  film stock) only when the brief asks for one, and treat it as a post
-  treatment rather than a prompt word.
+- **Audio route.** Choose by sound ownership, not the presence of speech.
+  `native` serves on-camera dialogue and requested diegetic sound, including
+  wordless scenes; `picture_only` serves an exact master or controlled post
+  sound, with silent picture and the authorized bed added in post; `silent`
+  preserves purposeful silence. Separate lip-sync audio remains opt-in:
+  use `lipsync_audio` only for a requested separate dialogue track. Preserve
+  accepted routes. If sound ownership is unresolved, ask which route is wanted
+  rather than treating wordless as picture-only. Confirm supported controls;
+  native audio may add unwanted speech or music despite exclusions. A post
+  bed needs cue alignment to the measured cut, not a promise of frame sync.
+- **Look.** For delegated art direction, propose a custom palette, lens
+  character or capture-format look when it serves the idea; no preset name
+  is required. A neutral or ungraded look is equally valid. For technical
+  conform or source-preserving work, retain original colours and optics
+  without added grade, grain, halation or vignette unless that axis is
+  authorized to change. Preserve approved palettes and explicit ungraded
+  delivery. Record the proposed route: video texture/format treatments belong
+  in post; a generation-time colour or lens proposal must say what it changes.
 - **Coverage intent.** For ads and TVCs as for other moving images, derive
   duration and coverage from what must be perceived. Short multi-shot sequences,
   equal durations, repeated framing, sustained holds, contrast and a `wow`
@@ -162,9 +178,9 @@ a format that is static by design), not a neutral default.
 | Structure | Narrative development needs an event and progression; one-off static assets do not | `scene-craft` |
 | Acting | Derive source-bound intentions and listener tasks only if a performer matters; preserve stillness and match evidence to framing | `acting-direction` for planning; `seedance-acting-console` for encoding |
 | Camera | Choose viewpoint, framing, movement or stillness that reveals the central idea; repetition is valid | `seedance-shot-design`, then `seedance-camera-presets` |
-| Lens | Describe perspective, separation, and context; add optical terms only when useful | `seedance-lens-presets` |
+| Lens | In delegated art direction, propose custom perspective, separation and optical character; preserve source optics and lens locks in scoped edits | `seedance-lens-presets` |
 | Lighting | Motivate a source and its direction; stable light or change follows intent | `seedance-shot-design`, then `seedance-lighting-presets` |
-| Grade | Default ungraded original colours; propose a grade or look only when requested or when reference fidelity needs it, as a post treatment | `color-grade-palettes` |
+| Grade | Propose a custom look within delegated art direction; preserve approved palettes and ungraded conform/source edits; disclose prompt versus post route | `color-grade-palettes` |
 | Pacing | Give the action enough time; stillness, repetition, contrast, and escalation are choices | `seedance-pacing-presets` |
 | Staging | Define geography only when action or relationships depend on it | `blocking-map` |
 | Medium | Preserve requested medium; propose only when the idea benefits from that choice | `seedance-animation-styles` |
@@ -232,7 +248,7 @@ directorial_axes:
     source: proposed
   grade:
     value: ungraded, original model colours
-    rationale: the warm lamp already carries the tone; no post look requested
+    rationale: the warm lamp already carries this quiet treatment; a post look adds nothing here
     source: defaulted
   audio_mode:
     value: picture_only

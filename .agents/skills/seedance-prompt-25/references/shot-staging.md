@@ -15,9 +15,9 @@ mode selection and caller responsibilities.
 
 A clip that cuts is staged by **shot**: each shot is one camera setup with its
 own size, angle, move and light. A clip that never cuts is staged by **stage**
-(see [Scene staging](scene-action.md#scene-staging)): each stage is one state
-change inside a continuous take, and the camera path is stated for the whole
-take.
+(see [Scene staging](scene-action.md#scene-staging)). A shot or stage may carry
+readable ordered actions, reveals or a sustained state; it is not a single-event
+container. State the camera path or hold for the continuous take.
 
 | Clip | Stage by | The camera fact lives |
 |---|---|---|
@@ -51,14 +51,16 @@ Presets refine timing and holds; they do not create energy on their own.
 
 ## Per-shot template
 
-State the subjects, the scene and one grade once, then one line per shot.
+State the subjects, shared scene and brief-derived treatment once, then one
+line per shot. Scope look transitions to their intended shots or intervals;
+preserve locked palettes and unchanged looks.
 
 ```text
 <Subjects with reference bindings and the shared scene, stated once.>
-The visuals feature <one grade for the clip>.
+The visuals feature <brief-derived treatment, with any scoped look transitions>.
 
 Shot 1 (0-3 s): <size>, <angle>; <camera move with subject, start and end>.
-<Subject> <body-part-level action for this beat>. Light: <source, key side
+<Subject> <critical action, ordered events or sustained state>. Light: <source, key side
 relative to the lens, quality, colour temperature when it matters>.
 Shot 2 (3-6 s): <size>, <angle>; <camera move>. <Subject> <action>. Light:
 <source, key side, quality>.

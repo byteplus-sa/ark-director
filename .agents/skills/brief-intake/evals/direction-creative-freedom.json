@@ -1,0 +1,90 @@
+{
+  "status": "not_run",
+  "protocol": "Offline behavior-eval definitions, not model results. Compare old and new full skill contexts with the same prompts and model settings; review outputs blind for fidelity, specificity, range and coherence. Record outputs and evidence separately. Static schema checks do not establish creative quality.",
+  "cases": [
+    {
+      "id": "maximalist",
+      "skill": "brief-intake",
+      "prompt": "Develop a maximalist fictional short about a paper city unfolding into a theatre. Invent the staging and performance intentions. I want several spectacular transformations, not one symbolic insert. One treatment only; no generation.",
+      "expectations": ["Commits to multiple legible fictional transformations serving the theatre reveal, without a one-image ceiling.", "Labels invented staging as a creative proposal, not source fact or user approval.", "Does not require fast motion, loud sound or saturated colour merely because the brief is maximalist."]
+    },
+    {
+      "id": "quiet",
+      "skill": "brief-intake",
+      "prompt": "Invent a quiet observational film of a potter waiting for clay to settle. Keep a locked wide, natural colours, silence and an unresolved ending. No spectacle.",
+      "expectations": ["Preserves the wide, silence, natural colours and unresolved ending.", "May propose small fictional performance intentions without forcing a turn or spectacle.", "Does not add camera movement, a grade or extra coverage to meet a quality quota."]
+    },
+    {
+      "id": "source_edit",
+      "skill": "brief-intake",
+      "prompt": "Source-preserving edit: a mechanic reads 'Ready.' and closes a blue toolbox. Only change the toolbox to green; all action, words, identity, camera and look are locked. Be creative within that change.",
+      "expectations": ["Changes only the toolbox colour, preserving Ready. verbatim and the closing action.", "Does not invent backstory, performance intentions, effects or facts outside the edit scope.", "Keeps camera, identity and palette locks; creative delegation does not expand may_change."]
+    },
+    {
+      "id": "custom_look",
+      "skill": "color-grade-palettes",
+      "prompt": "Develop the look for a fictional salt-desert dream sequence. I delegate art direction; no palette name chosen. Propose one specific custom look without generating.",
+      "expectations": ["Proposes a descriptive custom palette with a visible purpose, without requiring a bank selection.", "Discloses prompt versus post route and keeps the proposal distinct from approval.", "Does not invent a real film stock or require saturation, grain or halation."]
+    },
+    {
+      "id": "conform",
+      "skill": "color-grade-palettes",
+      "prompt": "Technical conform only: join approved clips and retain original colours. Earlier I delegated the concept, but this delivery must be ungraded. No look change.",
+      "expectations": ["Adds no grade sentence, palette, grain, halation or vignette.", "Preserves the untouched masters and applicable colour decode, tagging and dither requirements.", "Does not treat earlier creative delegation as permission to override ungraded delivery."]
+    },
+    {
+      "id": "locked_palette",
+      "skill": "color-grade-palettes",
+      "prompt": "Our approved palette is 'dusty rose highlights, neutral grey shadows, low contrast, no grain'. Preserve it exactly across the next two scenes, even though the story gets more energetic.",
+      "expectations": ["Repeats the approved palette unchanged rather than mapping it to a named preset.", "Adds no grain, stronger contrast or saturation to mirror story energy.", "Does not substitute a new look or claim a rendered match without output evidence."]
+    },
+    {
+      "id": "style_transition",
+      "skill": "seedance-camera-presets",
+      "prompt": "One continuous shot: a measured Silent Machine approach toward a dancer, then at the dropped baton change to Raw Chaos handheld following her sprint. Keep that calm-to-frantic transition; no cuts.",
+      "expectations": ["Preserves both ordered styles and identifies the baton drop as the handoff.", "Keeps the early controlled movement and later fast handheld distinct rather than applying both throughout.", "Adds no cut, style-purity rejection or claim of verified execution."]
+    },
+    {
+      "id": "compound",
+      "skill": "seedance-camera-presets",
+      "prompt": "Use a continuous Epic Scale and Impossible Camera combination: rise while orbiting clockwise around a floating tower, tilting down to retain its roof, then pass through the roof into its central hall. Invent a coherent camera path; no cuts.",
+      "expectations": ["Combines compatible style qualities and retains the simultaneous rise, orbit and tilt followed by the passage.", "Names readable start/end states and a pace serving the reveal without requiring the user to supply technical names.", "Does not reject the path by style count or move count, or guarantee model execution."]
+    },
+    {
+      "id": "conflict",
+      "skill": "seedance-camera-presets",
+      "prompt": "For the same interval, physically lock the camera to a tripod position and orbit it around the same statue. Both are locked; do not change them or make them sequential.",
+      "expectations": ["Identifies the same-interval physical contradiction.", "Asks which lock may change and leaves the conflict unresolved.", "Does not silently drop a lock, invent a cut or claim that two components are necessarily compatible."]
+    },
+    {
+      "id": "slow_style",
+      "skill": "seedance-camera-presets",
+      "prompt": "Preserve Dreamy Flow: a slow dolly toward a sleeping performer, then a long static hold. No acceleration, cuts or new style.",
+      "expectations": ["Preserves the slow dolly, floating quality and static hold.", "Does not add frantic movement or a style transition in the name of creative freedom.", "Keeps the requested path and named subject without inventing new performance action."]
+    },
+    {
+      "id": "empty_brief",
+      "skill": "brief-intake",
+      "prompt": "No brief yet. Do not choose a subject, audience or story for me. What do you need?",
+      "expectations": ["Asks focused questions about content, audience and intended reaction.", "Does not infer delegated authorship from missing information.", "Invents no source facts, approvals or finished treatment."]
+    },
+    {
+      "id": "missing_evidence",
+      "skill": "seedance-camera-presets",
+      "prompt": "The take is unavailable. Our prompt says 'slow crane toward the window'. Tell me whether camera speed caused its flatness.",
+      "expectations": ["States that the cause is unverified without the take and intended effect.", "May offer a labeled hypothesis, not a diagnosis or guaranteed fast-move repair.", "Does not claim playback or require removing slow motion as a general rule."]
+    },
+    {
+      "id": "pace_by_intent",
+      "skill": "seedance-camera-presets",
+      "prompt": "Pan right to track a runner's sudden sprint past a row of columns, then dolly out to keep pace with the widening pursuit. Make the chase urgent.",
+      "expectations": ["Derives urgent pace from the chase, not slow pan/dolly templates.", "Preserves the ordered pan and dolly-out with a readable subject and handoff.", "Does not force an unrelated crash zoom or a minimum number of moves."]
+    },
+    {
+      "id": "lens_authorship",
+      "skill": "brief-intake",
+      "prompt": "I delegate the visual treatment for a fictional miniature railway dream. Propose lens character and perspective yourself; I do not know lens names. Keep the supplied train identity.",
+      "expectations": ["Proposes a concrete perspective or optical character tied to the miniature world.", "Does not block on a named lens preset or force numerical optics.", "Keeps the train identity and labels the custom lens choice as proposed, not approved."]
+    }
+  ]
+}

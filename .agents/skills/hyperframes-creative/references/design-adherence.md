@@ -15,5 +15,6 @@ Report violations as a checklist. Fix each one before serving.
 
 If no design spec exists (house-style-only path), verify:
 
-1. **Palette consistency** — the same bg, fg, and accent colors are used across all scenes. No per-scene color invention.
+1. **Treatment consistency** — colors follow the declared creative treatment, including any intentional scene-level palette transitions or multiple accents. Do not substitute an industry stereotype or uniform palette for the brief.
 2. **No lazy defaults** — check the composition against `house-style.md`'s "Lazy Defaults to Question" list. If any appear, they must be a deliberate choice for the content, not a default.
+3. **Hierarchy and intent** — judge readability and the intended audience effect. Stillness, a single focal point and sparse or dense frames can pass; decorative counts and motion variety are not acceptance gates.

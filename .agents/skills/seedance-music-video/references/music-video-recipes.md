@@ -1,12 +1,14 @@
 # Music-Video Genre & Format Recipes
 
-Use one genre recipe at a time, adapted to the user's song and story. Each
-recipe locks palette, lighting, camera grammar, motion cadence, performer
-presentation, and lyric interpretation into one coherent visual system. Do not
-paste the whole bank into a prompt, and do not combine two genre locks in one
-prompt.
+These are optional example treatments, not definitions of how a genre must look.
+Start from the brief: custom direction, coherent hybrid ingredients and deliberate
+section transitions are equally valid. Every palette, performance and rhythm
+below is illustrative, not a default or an acceptance rule. Bright daylight rap,
+kinetic acoustic choreography and documentary-to-surreal transitions need no
+recipe exception. Preserve explicitly requested single-style and source locks.
 
-Only the **prompt opening** and **style seal** are drop-in sentences. The
+The **prompt opening** and **style seal** are optional example sentences; omit or
+rewrite them for the brief, including planned departures. The
 "Camera grammar" and "Motion & edit rhythm" fields are a vocabulary for
 selecting cues; fold selected moves into the Camera/Cut slot, not the whole
 field. One primary move and one secondary is a planning heuristic; preserve
@@ -29,15 +31,15 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Lyric interpretation:** Amplified (status, place, swagger) with occasional literal illustration; the emotion behind the bars, not a mime of every line.
 - **Prompt opening:** `A cinematic hip-hop performance in a lavish urban space with deep shadow and gold highlights, bold color-contrast wardrobe, low angles, hard beat-locked cuts on the kick, and a confident direct-to-camera delivery.`
 - **Style seal:** `Hip-hop video with bold color-contrast staging, low-key gold-lit shadows, low-angle icon framing, staccato beat-locked cuts, and confident direct address.`
-- **Relevant exclusions:** A second vocal, readable logos, an unrelated second genre's palette, a real artist's face or voice.
-- **Common failure modes:** Flat energy with no beat-locked cuts; face drift across close-ups; wardrobe color bleeding into the grade; the scene reading as a generic nightclub instead of a governed look.
+- **Relevant exclusions:** An unwanted second vocal, unapproved logos, unauthorized likeness or voice use, changes to a locked palette.
+- **Common failure modes:** Missing a requested beat relationship; face drift across close-ups; wardrobe color bleeding into an approved grade.
 
 ## EDM / dance
 
 - **ID:** `edm`
 - **Aliases:** electronic video, rave visual, drop-timed performance
 - **Format affinity:** conceptual, visualizer, performance (DJ / dancers)
-- **Palette / grade:** One committed sub-genre world: Cyberpunk (saturated neon, hard contrast), Vaporwave (pastel pink–teal, retro digital), Liquid Chrome (metallic, bright highlights), Neo Noir (low-key, single source), or Midnight Blue (cool, restrained). Pick one; never mix two.
+- **Palette / grade:** Possible ingredients include neon contrast, retro pastels, liquid chrome, low-key light or restrained blues. Combine compatible ingredients or scope changes by section when the brief calls for it.
 - **Lighting:** Hard, source-driven; neon or laser washes; strobe on the drop; reflective floors and haze.
 - **Camera grammar:** Quick clean cuts; jib, tracking, and dolly moves on dancers; high-angle establishing; close-ups for emotion; crash zoom or pulsing push on each drop.
 - **Motion & edit rhythm:** Build → drop → recovery cycles; the cut lands exactly on the kick; syncopated hit points; a held wide shot right after the drop reads as intentional.
@@ -45,8 +47,8 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Lyric interpretation:** Minimal; vocal lines are hooks, not a plot — treat them as rhythmic texture.
 - **Prompt opening:** `A high-energy EDM video in a committed neon cyberpunk world with saturated colors, hard source lighting, reflective floor, quick clean cuts landing on the kick, and choreographed dancers peaking on the drop.`
 - **Style seal:** `EDM video with one committed neon world, hard source light, beat-exact cuts on the kick, choreographed dance, and a build-to-drop energy arc.`
-- **Relevant exclusions:** A second sub-genre palette, live-action realism that breaks the neon world, an uncut wide shot where the drop needs impact.
-- **Common failure modes:** The drop losing impact because cuts are not on the kick; palette mixing (cyberpunk + vaporwave); dancers drifting from the beat; the world reading as generic party footage.
+- **Relevant exclusions:** Changes that violate a requested world or palette; an unwanted cut through a locked hold.
+- **Common failure modes:** Missing the requested drop relationship; unplanned continuity drift; dancers missing a required beat.
 
 ## Pop / K-pop
 
@@ -61,7 +63,7 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Lyric interpretation:** Amplified — empowerment, longing, or aspiration behind the lyrics; the dance is the message as much as the words.
 - **Prompt opening:** `A bright high-key K-pop performance in an elaborate constructed set with airbrushed beauty lighting, camera moves choreographed to the dance, synchronized choreography, solo close-up beauty shots, and clean beat-locked cuts.`
 - **Style seal:** `Pop video with high-key beauty lighting, choreographed camera moves, synchronized dance hits, constructed-set polish, and clean beat-locked cuts.`
-- **Relevant exclusions:** Dim or gritty nightclub realism, an unpolished handheld look, a second wardrobe color system, face drift across costume changes.
+- **Relevant exclusions:** Unrequested wardrobe changes, face drift across costume changes, camera paths that obscure required choreography.
 - **Common failure modes:** Camera fighting the choreography instead of accenting it; beauty shots breaking lip-sync; set design overpowering the performer; outfit changes causing face drift.
 
 ## Indie / dream-pop
@@ -77,7 +79,7 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Lyric interpretation:** Emotional or disjunct — the image echoes the feeling behind the lyric rather than illustrating each line.
 - **Prompt opening:** `A dreamy ethereal music video with pastel light, a recurring signature color, soft diffused glow, slow push-ins and lingering takes, and an oblique performer whose presence carries the feeling behind the lyrics.`
 - **Style seal:** `Dream-pop video with pastel chiaroscuro, one recurring signature color, slow lingering camera, oblique performer, and quiet emotional rhythm.`
-- **Relevant exclusions:** Hard neon or high-key pop polish, fast beat-locked cutting, direct-to-camera spectacle, a second palette.
+- **Relevant exclusions:** Changes to explicitly locked pacing, address mode or palette; none inferred from genre alone.
 - **Common failure modes:** Drifting into generic soft-focus footage; the recurring color disappearing; the oblique performer becoming invisible; pacing sped up to fit a pop cut rhythm.
 
 ## Rock
@@ -93,8 +95,8 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Lyric interpretation:** Energetic and literal — the performance IS the meaning; verses build, choruses explode.
 - **Prompt opening:** `A dark low-key rock performance in a small gig venue with spot-lit dust, extreme close-ups of faces and instruments, whip pans and handheld energy, and cuts landing on the drums.`
 - **Style seal:** `Rock performance video with low-key stage light, spot-lit dust, instrument and face close-ups, whip-pan energy, and drum-locked cuts.`
-- **Relevant exclusions:** Bright high-key polish, a pristine studio sheen, choreographed dance framing, an empty arena where a small venue is intended.
-- **Common failure modes:** Cuts drifting off the drum beat; the band reading as a backdrop rather than performers; overclean visuals losing the live energy.
+- **Relevant exclusions:** An empty arena where a small venue is requested, or loss of required instrument visibility.
+- **Common failure modes:** Cuts missing requested drum accents; the band reading as a backdrop when performance is the brief.
 
 ## R&B / soul
 
@@ -109,7 +111,7 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Lyric interpretation:** Emotional and amplified — longing, love, and self-respect carried by the face and the delivery.
 - **Prompt opening:** `A warm, low-key R&B performance in intimate amber light with soft focus, slow smooth camera moves, lingering close-ups, and a vulnerable direct-to-camera delivery.`
 - **Style seal:** `R&B video with warm amber low-key light, soft focus, slow intimate camera, lingering close-ups, and emotional direct address.`
-- **Relevant exclusions:** Harsh strobe or high-key pop polish, frantic cutting, objectifying framing, a second palette.
+- **Relevant exclusions:** Objectifying framing or changes to explicitly locked lighting, pacing or palette.
 - **Common failure modes:** Reading as generic mood footage; the warmth flattening to gray; the performer losing presence in soft focus; pacing that ignores the vocal phrasing.
 
 ## Country
@@ -125,7 +127,7 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Lyric interpretation:** Literal illustration — the images show what the lyric tells, with warm emotional grounding.
 - **Prompt opening:** `A warm country narrative in golden-hour light across open rural land, with the singer living inside the story — driving, walking the fields — in classical continuity coverage that follows the lyric.`
 - **Style seal:** `Country video with golden-hour natural light, narrative continuity coverage, the artist inside the diegetic world, and literal lyric illustration.`
-- **Relevant exclusions:** A glossy stage pop look, neon or urban styling, a second era's iconography, clichéd objectifying framing.
+- **Relevant exclusions:** Unauthorized era changes when period continuity is locked, or objectifying framing.
 - **Common failure modes:** The narrative losing the song; the artist vanishing into the scenery; golden-hour light flattening the face; cut pacing fighting the ballad.
 
 ## Classical / acoustic
@@ -135,14 +137,14 @@ and return conflicts with locked workflows rather than silently replacing them.
 - **Format affinity:** performance (one-take)
 - **Palette / grade:** Natural and minimal; soft daylight; little color grading; the space reads honestly.
 - **Lighting:** Natural or soft single-source; no stage tricks.
-- **Camera grammar:** Long, smooth pull-focus shots; one or two set-ups; the camera breathes with the performance; a single continuous take is the ideal structure.
-- **Motion & edit rhythm:** Unhurried; no beat-locked cutting; the performance, not the edit, carries the timing.
-- **Performer presentation:** The artist simply present — singing live, visible technique, no costume change, no choreography.
+- **Camera grammar:** A smooth continuous take for a requested intimate session, or kinetic tracking and varied coverage for an energetic brief.
+- **Motion & edit rhythm:** A sustained performance, percussive cuts or counterpoint chosen from the brief; acoustic instrumentation does not require slow pacing.
+- **Performer presentation:** Visible technique when requested; staging, choreography and wardrobe follow the treatment rather than instrumentation.
 - **Lyric interpretation:** Literal and honest — the words and the voice are the entire message.
 - **Prompt opening:** `A single live take of an acoustic performance in one honest space with soft natural light, a long smooth pull-focus shot, and the singer present and unadorned.`
 - **Style seal:** `Acoustic one-take video with soft natural light, honest minimal staging, a breathing camera, and the performance carrying all the timing.`
-- **Relevant exclusions:** High-key pop polish, rapid cutting, choreography, elaborate sets, auto-tuned spectacle.
-- **Common failure modes:** The one-take breaking continuity; the honest space becoming a sterile set; the edit adding motion the performance does not need.
+- **Relevant exclusions:** Cuts through a requested continuous take, or staging that hides required playing technique.
+- **Common failure modes:** Breaking locked continuity; suppressing requested choreography because the track is acoustic.
 
 ## Abstract visualizer
 
@@ -162,11 +164,11 @@ and return conflicts with locked workflows rather than silently replacing them.
 
 ## Custom recipe template
 
-Use this only when no preset matches:
+Use this as a first-class starting point, with or without recipe ingredients:
 
 - **ID:** `custom-<kebab-case-format-or-genre>`
 - **Aliases:** user language and close synonyms
-- **Format affinity:** one format from the format bank
+- **Format affinity:** requested format, hybrid or section-specific combination
 - **Palette / grade:** name the color world and grade intent.
 - **Lighting:** name the light direction, quality, and sources.
 - **Camera grammar:** name shot sizes, moves, and how the camera treats the performer.
@@ -174,7 +176,7 @@ Use this only when no preset matches:
 - **Performer presentation:** state address mode, framing, and lip-sync behavior.
 - **Lyric interpretation:** literal, amplified, or disjunct.
 - **Prompt opening:** one concise format-first sentence.
-- **Style seal:** one concise closing style sentence.
+- **Style seal:** optional concise summary, including intended transitions.
 - **Relevant exclusions:** only likely contradictions.
 - **Common failure modes:** predict how the style might drift or become generic.
 

@@ -1,31 +1,29 @@
 ---
 name: color-grade-palettes
-description: >-
-  Default to no grade: keep original Seedance colours in assembly. When a
-  colour palette or film look is requested, map it to a canonical grade
-  sentence for the Seedance 2.5 Visual Style slot or the Seedream Style:
-  section, and/or a high-bit-depth-safe FFmpeg post look (limited-range BT.709
-  decode, dithered 8-bit output) applied to the untouched master. Use for
-  colour grading, palette selection, look and grade choices, teal and orange,
-  bleach bypass, film stocks, VHS or camcorder looks, LUT-style grades, and
-  cinematic grades. Golden hour here means the warm grade palette; for
-  golden-hour physical lighting (sun position and light), use
-  seedance-lighting-presets.
+description: Compose palette sentences and post-look graphs. Use for requested grading or delegated art direction, including custom looks. Preserve ungraded conform and source locks. Not physical lighting.
 ---
 
 # Color Grade Palettes
 
-**Default: no grade.** Generated Seedance footage keeps its original colours.
-Assembly conforms, trims, crops, adds end cards and mixes; it adds no grade,
-grain, halation or vignette unless the user asks for a look. A palette is an
-**opt-in look**. This skill composes prompt text and FFmpeg filter graphs only;
+**Resolve look authority before choosing a palette.** Delegated creative
+authorship permits a custom palette or capture-format look proposal without a
+named preset. Describe its visible purpose and proposed route; a proposal is
+not user approval. Preserve approved palettes and explicit locks under the
+existing approval mode. Neutral, muted, monochrome and saturated treatments
+are choices, not saturation or intensity quotas.
+
+For technical conform or source-preserving edits, retain original colours,
+with no added grade, grain, halation or vignette unless the look is authorized
+to change. Explicit ungraded delivery wins over broad creative delegation.
+Preserve the untouched master. Golden hour here is a grade, not physical
+lighting. This skill composes prompt text and FFmpeg filter graphs only;
 it does not call any MCP or API tool and never runs a generation.
 
-When a look is requested, pick the route:
+For a requested or in-scope proposed look, disclose the route:
 
 | Route | When | Output |
 |---|---|---|
-| `none` (default) | No look requested | No grade sentence; ungraded assembly with the correct colour decode |
+| `none` | Preservation/conform without look changes, explicit ungraded delivery, or a creative choice to remain ungraded | No grade sentence; ungraded assembly with the correct colour decode |
 | `post` (default for a requested video look) | Footage exists or will be approved first; texture/format looks; one look shared by many clips | FFmpeg post look applied to a copy of the untouched master |
 | `prompt` | The user wants the look rendered at generation time, or the target is a Seedream still | Grade sentence in the Seedance Visual Style slot or Seedream `Style:` section |
 | `both` | A prompt grade is requested and separate takes must be matched | Grade sentence plus a light FFmpeg matching graph |
@@ -72,10 +70,11 @@ LUTs.
 ## Palette bank
 
 Each entry has a **canonical grade sentence** (drop-in, natural inside a
-prompt) and a one-line **tonal recipe** describing the intent. Use the sentence
-verbatim for reproducibility; adjust only the visible specifics (e.g. which
-highlights) when the scene requires it. The tonal recipe also guides the post
-look on the prompt-free route.
+prompt) and a one-line **tonal recipe** describing the intent. The bank is an
+optional starting point: adapt it or propose a custom descriptive look for
+delegated authorship. Reuse an approved sentence or graph verbatim when its
+look is locked. The tonal recipe also guides the post look on the prompt-free
+route; it does not limit the available palettes.
 
 **Texture and format looks are post treatments for video.** Grain, halation,
 scanlines, tape noise, camcorder or MiniDV texture and vignettes are built in
@@ -122,8 +121,8 @@ carry the full sentence.
 
 | Parameter | Type | Meaning |
 |---|---|---|
-| `palette` | optional string | A palette name from the bank, or a plain descriptive grade with no invented film name. Absent means no grade. |
-| `route` | `none` \| `post` \| `prompt` \| `both` | See the route table. Defaults to `none` without a palette, `post` for a requested video look, `prompt` for Seedream |
+| `palette` | optional string | A named palette or custom descriptive proposal, never an invented real film stock. May be derived under delegated authorship; unset after that decision means no grade. |
+| `route` | `none` \| `post` \| `prompt` \| `both` | See the route table. Use `none` for ungraded scope; default a video look to `post`, a Seedream look to `prompt`. Disclose proposals before selection. |
 | `target_model` | `seedance` \| `seedream` \| `both` | Where a prompt-route sentence lands: Visual Style slot, `Style:` section, or both |
 | `reference` | optional string | A style-reference image; the grade is expressed as `use the muted palette, soft grain, diffused highlights of @Image N` |
 
@@ -245,39 +244,39 @@ overlay layer.
 
 ## Edge cases / guardrails
 
-- **No look was requested → no grade.** Do not add a palette, grain,
-  halation or vignette "to make it cinematic"; keep the original colours and
-  the correct limited-range BT.709 decode.
-- **Never stack two conflicting grades in one prompt.** One grade direction
-  per prompt; a teal-and-orange sentence plus a warm-golden sentence fights the
-  model and reads muddy.
-- **One palette per project unless the brief sets per-scene looks.** Record
-  the palette, route and exact sentence or graph in the project brief so later
-  scenes reuse them verbatim.
-- **B&W needs explicit language.** "Black and white" alone is not enough —
-  use contrast, silver mid-tones, and grain phrasing (e.g. Classic B&W or
-  Ilford HP5) so the result is not flat gray.
+- **Preservation is not open authorship.** Conform/source-preserving work adds
+  no look outside authorized changes. Keep original colours, explicit ungraded
+  delivery and the correct limited-range BT.709 decode.
+- **Resolve actual colour conflicts.** Compatible ingredients or ordered
+  per-scene looks may form one coherent treatment. Name their spatial or temporal
+  scope; do not apply contradictory instructions to the same region and interval.
+- **Preserve approved look scope.** Record the palette, route and exact sentence
+  or graph for reuse where locked. Delegated authorship may propose deliberate
+  look transitions; do not silently change a project-wide palette lock.
+- **B&W needs tonal intent.** Describe the requested contrast and mid-tones.
+  Grain, deep blacks and bright whites are options, not requirements for every
+  monochrome image; preserve a requested low-contrast or grain-free look.
 - **Do not grade twice.** A take with a baked-in prompt grade gets at most a
   light matching graph; a post look is applied to ungraded masters only.
 - **Film-stock words belong in `Style:` / visual style**, not in the subject
   line. Put the grade sentence in its slot and keep subject descriptions
   observational.
-- **Chained scene sequences repeat the same grade phrase.** When scenes chain
-  via `return_last_frame` / `first_frame`, repeat the exact same grade sentence
-  in every scene so continuity holds across the chain.
+- **Chained scenes preserve the intended look continuity.** For an unchanged
+  look, repeat its exact sentence or graph. For an authorized transition,
+  describe the boundary and endpoint; inspect continuity in the actual output.
 - **Do not invent film names.** If the palette is not from the bank, write a
   plain descriptive grade (e.g. "cool desaturated blue-gray") instead of
   inventing a brand or stock that does not exist.
 
 ## Self-check checklist
 
-1. No look was requested → no grade sentence and no look graph; the conform uses the limited-range BT.709 decode.
+1. Look authority is clear: delegated authorship may propose a look; preservation/conform and explicit ungraded delivery add no unauthorized look. Keep the limited-range BT.709 decode.
 2. Palette is from the bank, or a plain descriptive grade with no invented film name.
-3. Exactly one grade direction is present; no second or conflicting palette words.
+3. Look ingredients and ordered changes are coherent within their scope; no contradictory same-region, same-interval instructions.
 4. On the prompt route, the grade sentence is placed in the Visual Style slot (Seedance) or `Style:` section (Seedream), not in the subject or action line.
 5. No conflicting color words appear elsewhere in the prompt.
-6. B&W palettes include explicit contrast / silver / grain language, not just "black and white".
+6. B&W tonal intent is explicit; grain and contrast follow the requested look, not a quota.
 7. Film-stock keywords appear only in `Style:` / visual style, never in the subject description.
 8. Texture or format looks (grain, halation, VHS, camcorder) for video are on the post route, not prompt words.
 9. A post look appears only on route `post` or `both`, sits inside the decode-and-dither wrapper, uses no `vignette` or `eq`, and is applied before overlays; on `both` it is labelled matching-only.
-10. When grading across a chained scene sequence, the same grade phrase or graph repeats verbatim in every scene.
+10. Chained scenes repeat locked looks verbatim or carry authorized transition boundaries, not accidental palette drift.

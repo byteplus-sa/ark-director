@@ -11,6 +11,15 @@ Brand, pacing, style, narration, and composition direction. Use after the techni
 
 For motion patterns, scene blueprints, transitions, and CSS marker effects, use `hyperframes-animation` — this skill is intentionally non-animation.
 
+**Local creative-policy overlay:** House style, composition and motion recipes are
+options, not acceptance gates. Follow the brief, including bespoke treatments,
+coherent hybrids, palette transitions, sparse frames and deliberate stillness.
+Preserve locked brand tokens, source scope, readability and deterministic runtime
+rules. This overlay updates `house-style.md`, `video-composition.md`,
+`motion-principles.md`, `design-adherence.md`, `prompt-expansion.md` and
+`beat-direction.md`; review and preserve it when
+re-vendoring instead of silently restoring upstream aesthetic quotas.
+
 > **Read these two FIRST for any non-trivial composition — they override web instincts:**
 >
 > - `references/house-style.md` — "interpret the prompt, generate real content," the lazy-default list, and the background/foreground layer recipe. This is what turns a literal restyle into a _concept_.

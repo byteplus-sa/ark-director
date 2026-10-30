@@ -24,13 +24,21 @@ states CRITICAL or MINOR when it differs.
    the final soundtrack is not byte-identical to the draft's. Prompt-only work
    needs no generated draft.
 
-2. **Audio route (`audio.native_route`).** With `generate_audio: true` the
-   model voices what the prompt implies, and a negative line such as "no music,
-   no spoken words" does not reliably hold (speech, chants and score can leak
-   in). An ambience-only, score-driven or speech-free piece uses
-   `generate_audio: false` (or keeps the provider master untouched) and gets its
-   bed from Seed Audio in post, recorded as not frame-synced. A prompt that
-   relies on a negative audio line for one of these pieces is MAJOR.
+2. **Audio route (`audio.native_route`).** Check sound ownership against the
+   brief: requested native diegetic sound, including wordless action/ambience;
+   an exact master or controlled post soundtrack; or purposeful silence.
+   Speech-free alone does not require `generate_audio: false`. Native sound
+   specifies wanted effects/sync and unwanted voices or music; negative wording
+   is not proof of compliance. Post-owned sound uses picture-only where supported,
+   preserves exact masters and places critical hits in assembly; a bed is not
+   automatically frame-synced. Silence adds no bed and requires verified removal
+   if native audio cannot be disabled. Check supported model/mode controls,
+   reference roles, rights and approvals. Missing or conflicting ownership is
+   unresolved, not an inferred route. A contradicted route or reliance on prompt
+   wording alone to guarantee silence is MAJOR. Require playback and listening
+   for unwanted audio, sync and master fidelity, again after promotion. Reject
+   noncompliant audio or request an authorized repair, not automatic muting of
+   requested native sound. Mixed ownership names each layer's source.
 
 3. **Reference count limits.** ≤ 30 images, ≤ 10 videos, ≤ 10 audio, ≤ 50 in
    total; recommended 1-8 image subjects, 1-5 video subjects (5-10 s each), only
@@ -45,9 +53,10 @@ states CRITICAL or MINOR when it differs.
 5. **Six-part order.** Subject + Action/Event + Scene/Environment + Visual Style +
    Camera Movement/Cut + Audio, in this order when present (MINOR).
 
-6. **Action granularity.** The Action slot describes motion at the body-part
-   level with range, speed and force, grounded in weight, balance, momentum and
-   contact, interruptions and recovery, following approved intent. There is
+6. **Action granularity.** Describe critical action and perceptual outcomes,
+   with body-part detail, range, speed, force, contact or recovery only where
+   needed for readability and feasibility; leave incidental execution open.
+   Preserve approved intent, interruptions and deliberate stillness. There is
    no slow-body default or universal burst cap. Optional single-burst holds
    serve a selected pattern or demonstrated failure and cannot erase locked
    action. Actor energy, camera energy and edit rhythm are separate choices.
@@ -120,7 +129,8 @@ states CRITICAL or MINOR when it differs.
     limits or guaranteed failure thresholds. Preserve requested timing; offer
     assembly or split source clips as optional remedies for precision or
     demonstrated failure, and return conflicts with locked timing or workflow.
-    Each shot or stage has one primary state change and a clear end state.
+    A shot or stage may carry readable ordered actions, reveals or a sustained
+    state. Check causal order and outcomes, not a per-shot single-event quota.
 
 18. **Intent-led coverage (`shot.variety`).** Neighbor contrast, angle range,
     motion ratios and uneven timing are optional craft aids, not quotas.
@@ -180,12 +190,12 @@ states CRITICAL or MINOR when it differs.
 
 ## Craft guards
 
-26. **Exact counts (`prompt.exact_counts`).** Counted items, clones, runners,
-    crowds and repeated props carry an exact number; each item is named by size
-    or position and is in open view from the first frame; the count and
-    positions are restated at every stage and every other item's place is
-    stated. A prompt that mentions extra copies lying around, or a count only
-    in the opening, is MAJOR: counts drop and duplicate.
+26. **Exact counts (`prompt.exact_counts`).** Track total identity separately
+    from visible count. Account for hidden, off-screen, entering, exiting and
+    occluded subjects; restate relevant positions after changes. A deliberate
+    reveal need not expose everyone in frame one. Contradictory totals,
+    unexplained duplication or incompatible positions are MAJOR; a count stated
+    once with unambiguous continuity is not. Preserve locked reveal timing.
 
 27. **Hands and sides (`prompt.hand_frame_side`).** The model reads left/right
     as the character's own side, so mirrored hands are common. Every
@@ -267,10 +277,12 @@ states CRITICAL or MINOR when it differs.
     invisible required interaction is MAJOR; style cannot change the locked
     outcome. Non-fights and preservation-only edits record their scope reason.
 
-36. **Motion grammar.** Each moving element in stylized or reverse-engineered
-    takes states motion type, direction, speed, amplitude, easing and loop
-    period; the camera is stated even when static; light and colour motion
-    carry a rate ("~1 Hz shimmer").
+36. **Selective motion grammar.** Require only the axes needed for critical
+    action and readability. Amplitude, easing and rates are optional unless
+    material to intent; loop periods apply only to intended repetition.
+    Organic one-off motion and deliberate stillness need no invented loop or
+    light change. Distinguish subject motion from camera motion and honor
+    selected motion masters. Missing incidental axes alone are not a finding.
 
 37. **Spatial map.** Movement-heavy scenes state start, travel axis, subject
     order, boundary behavior, end and forbidden transitions, using physical

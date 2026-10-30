@@ -7,6 +7,12 @@ mode selection and caller responsibilities.
 
 ## Output formats
 
+Adapt the fields to the brief. Custom treatments, coherent hybrids and planned
+section transitions do not need recipe labels. Summaries are optional; omit
+redundant fields for scoped edits. Use only the shots or stages needed, with
+no numeric shot-duration floor. Preserve requested timing; use assembly for
+frame-exact cuts when authorized, and surface conflicts with locked workflows.
+
 ### Music-video block
 
 Use when the user only wants the directing layer:
@@ -27,11 +33,11 @@ Final Section (<verified time range or event cue>): <closing assignment and fina
 <Native audio brackets, the @Audio N timing-authority binding for audio-first,
 or generate_audio false with the master or a Seed Audio bed added in post.>
 
-[Genre Lock]
-<Palette, lighting, camera grammar, motion cadence, and tone.>
+[Visual Treatment]
+<Brief-derived palette, lighting, camera, cadence and tone; scope any transitions.>
 
-[Style Seal]
-<Compact closing sentence and relevant exclusions.>
+[Treatment Summary] (optional)
+<Compact continuity and transition summary; exclusions only for actual conflicts.>
 ```
 
 ### Full Seedance prompt
@@ -50,7 +56,7 @@ captions. Match <performer>'s visible mouth only to <performer>'s voice in
 @Image 2 defines <scene or venue>. Do not use <unwanted content>.
 
 <Subject performs the primary action in <scene>.>
-The visuals feature <genre lock: palette, lighting, lens, grade, look>.
+The visuals feature <brief-derived treatment: palette, lighting, lens, grade, look>.
 Use <shot sizes, camera moves, and cuts>, with <beat contract>.
 Audio includes <(music)> <{sung lines}> <sound effects>.
 Audio: <@Audio N timing binding, or native brackets>. For rap or fast vocals,
@@ -58,16 +64,17 @@ Audio: <@Audio N timing binding, or native brackets>. For rap or fast vocals,
        "no line skipped" mandate (see section 3b).
 
 [Shot Plan] or [Stage Plan]
-Shot 1 (<time range, at least ~1 s>): <size>, <angle>, <lens intent>; <camera move>. <one action, its intent, and the visible end state>. Light: <named source, key side>.
-Shot 2 (<time range>): <size>, <angle>, <lens intent>; <camera move>. <one action, its intent, and the visible end state>. Light: <named source, key side>.
+Shot 1 (<verified time range or event cue>): <size>, <angle>, <lens intent>; <camera move or motivated hold>. <critical ordered actions, reveals or sustained state, their intent, and the visible end state>. Light: <named source, key side>.
+Shot 2 (<time range>): <size>, <angle>, <lens intent>; <camera move>. <critical ordered actions, reveals or sustained state, their intent, and the visible end state>. Light: <named source, key side>.
 Final Shot (<time range>): <size>, <angle>, <lens intent>; <camera move>. <closing action and final visible state>. Light: <named source, key side>.
 
 [Maintain Consistency]
-Keep <performer identity, wardrobe, venue, camera grammar, and audio>
-consistent across the section chain.
+Preserve <source locks, approved identity, wardrobe, venue and exact audio>.
+Keep shared choices consistent except for authorized section-specific changes.
+For preservation-only edits, retain source camera, cuts, actions and mouth motion.
 
-[Style Seal]
-<Compact genre, palette, motion cadence, beat contract, and tone.>
+[Treatment Summary] (optional)
+<Compact treatment, beat relationship, continuity and intended transitions.>
 ```
 
 Return the prompt directly. Do not add production workflow, tool selection,

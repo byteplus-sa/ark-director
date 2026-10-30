@@ -10,14 +10,12 @@
 
 ## Guardrails
 
-You know these rules but you violate them. Stop.
+Use motion to express the brief, not to satisfy variety quotas. Preserve explicit timing, stillness, repetition and style choices. The runtime safeguards below remain mandatory.
 
-- **Don't use the same ease on every tween.** You default to `power2.out` on everything. Vary eases like you vary font weights — no more than 2 independent tweens with the same ease in a scene.
-- **Don't use the same speed on everything.** You default to 0.4-0.5s for everything. The slowest scene should be 3× slower than the fastest. Vary duration deliberately.
-- **Don't enter everything from the same direction.** You default to `y: 30, opacity: 0` on every element. Vary: from left, from right, from scale, opacity-only, letter-spacing.
-- **Don't use the same stagger on every scene.** Each scene needs its own rhythm.
-- **Don't use ambient zoom on every scene.** Pick different ambient motion per scene: slow pan, subtle rotation, scale push, color shift, or nothing. Stillness after motion is powerful.
-- **Don't start at t=0.** Offset the first animation 0.1-0.3s. Zero-delay feels like a jump cut.
+- Choose easing, speed and direction for the action's character. Reuse them for a coherent motif or vary them for meaningful contrast.
+- Use simultaneous entrances, stagger, continuous motion or no entrance when appropriate. Do not force every scene into the same presentation pattern.
+- Ambient zoom, pan, rotation and stillness are options, not requirements. Respect the chosen image treatment.
+- Start immediately or leave space according to the intended opening and audio cue; do not add a compulsory delay.
 
 ## What You Don't Do Without Being Told
 
@@ -25,13 +23,13 @@ You know these rules but you violate them. Stop.
 
 The transition is the verb. The easing is the adverb. A slide-in with `expo.out` = confident. With `sine.inOut` = dreamy. With `elastic.out` = playful. Same motion, different meaning. Choose the adverb deliberately.
 
-**Direction rules — these are not optional:**
+**Direction heuristics, not aesthetic gates:**
 
 - `.out` for elements entering. Starts fast, decelerates. Feels responsive. This is your default.
 - `.in` for elements leaving. Starts slow, accelerates away. Throws them off.
 - `.inOut` for elements moving between positions.
 
-You get this backwards constantly. Ease-in for entrances feels sluggish. Ease-out for exits feels reluctant.
+A slow-building entrance or reluctant exit may be exactly the intended emotion. Choose deliberately and inspect the result.
 
 ### Speed communicates weight
 
@@ -42,10 +40,10 @@ You get this backwards constantly. Ease-in for entrances feels sluggish. Ease-ou
 
 ### Scene structure: build / breathe / resolve
 
-Every scene has three phases. You dump everything in the build and leave nothing for breathe or resolve.
+Build / breathe / resolve is an optional scene pattern. A hard cut, sustained image, continuous escalation or loop need not adopt these phases or proportions.
 
 - **Build (0-30%)** — elements enter, staggered. Don't dump everything at once.
-- **Breathe (30-70%)** — content visible, alive with ONE ambient motion.
+- **Breathe (30-70%)** — content remains readable, with motion or stillness as intended.
 - **Resolve (70-100%)** — exit or decisive end. Exits are faster than entrances.
 
 ### Transitions are meaning
@@ -58,28 +56,24 @@ You crossfade everything. Use hard cuts for disruption and register shifts.
 
 ### Choreography is hierarchy
 
-The element that moves first is perceived as most important. Stagger in order of importance, not DOM order. Don't wait for completion — overlap entries. Total stagger sequence under 500ms regardless of item count.
+Arrival order can guide attention, reveal a relationship or deliberately misdirect. Choose simultaneous, overlapping or sequential entries by readability and intent, not DOM order or a universal duration cap.
 
 ### Asymmetry
 
-Entrances need longer than exits. A card takes 0.4s to appear but 0.25s to disappear.
+Entrances and exits can differ in duration to communicate weight. Equal timing or a slower exit can also be intentional; preserve requested rhythm.
 
 ## Visual Composition
 
 You build for the web. Video frames are not pages.
 
-- **Two focal points minimum per scene.** The eye needs somewhere to travel. Never a single text block floating in empty space.
-- **Fill the frame.** Hero text: 60-80% of width. You will try to use web-sized elements. Don't.
-- **Three layers minimum per scene.** Background treatment (glow, oversized faded type, color panel). Foreground content. Accent elements (dividers, labels, data bars).
-- **Background is not empty.** Radial glows, oversized faded type bleeding off-frame, subtle border panels, hairline rules. Pure solid #000 reads as "nothing loaded."
-- **Anchor to edges.** Pin content to left/top or right/bottom. Centered-and-floating is a web pattern.
-- **Split frames.** Data panel on the left, content on the right. Top bar with metadata, full-width below. Zone-based layouts, not centered stacks.
-- **Use structural elements.** Rules, dividers, border panels. They create paths for the eye and animate well (scaleX from 0).
+- Establish a readable hierarchy with one focal point or several as the brief needs.
+- Choose scale, density and negative space deliberately. Sparse, centered and flat-field compositions are valid, not unfinished layered layouts.
+- Backgrounds, foreground accents, panels and split frames are optional tools. Add them for meaning or hierarchy, not a layer count.
 - **Connector lines earn their place.** Any beam, rail, scan line, or drawn underline must be able to name its start anchor, its end anchor (real elements, not empty space), and its job — revealing, routing, validating, or emphasizing something. A line the frame can lose without losing meaning is decoration: cut it. An edge-lit component (a card's top highlight, a state dot) usually reads as more designed than a free-floating arc.
 
 ## Image Motion Treatment
 
-Never embed a raw flat image. Every image must have motion treatment:
+A held, unframed image can be the intended treatment. When motion or framing serves the brief, consider:
 
 - **Perspective tilt**: use `gsap.set(el, { transformPerspective: 1200, rotationY: -8 })` + `box-shadow` — creates depth. Do NOT use CSS `transform: perspective(...)` as GSAP will overwrite it.
 - **Slow zoom (Ken Burns)**: GSAP `scale: 1` → `1.04` over beat duration — makes photos cinematic

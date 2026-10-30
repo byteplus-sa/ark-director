@@ -57,14 +57,18 @@ judgments, not observed generated-media results.
 - **Initial proposal:** One 30 s pass following a cyclist through the city in
   the rain, native audio with "no music, rain only", warm teal grade.
 - **Simulated failure:** The draft never explains what carries attention or
-  why arrival matters; native audio may add a score or voices the
-  edit cannot remove; the grade was never requested.
+  why arrival matters; audio ownership is unresolved, and native exclusions
+  cannot guarantee rain-only sound; the grade has no stated creative purpose or selection.
 - **Smallest repair:** Propose play in the rain as the attention carrier and
   a final shared splash as the ending purpose. Coverage and durations follow
   readable action (the hood snaps up, a puddle jump, a grin under a streetlamp),
   with named light and movement or holds. No fixed cadence or wow quota.
-  Audio route `picture_only`: generate silent picture and build rain, footsteps
-  and score in post. Keep original colours; list the logo end card as a post
+  Ask about audio ownership. When separate sound control is wanted, propose
+  `picture_only` and build rain, footsteps and any requested score in post;
+  preserve requested native diegetic sound in this wordless scene.
+  Propose original colours for this treatment because the
+  rain and practical light already carry it; delegated authorship could instead
+  propose a justified custom look. List the logo end card as a post
   overlay. Plan sound before generation: rain establishes the weather, a
   brief reduction before the jump emphasizes anticipation, then a splash.
   Final cue placement follows the measured edit and actual listening.

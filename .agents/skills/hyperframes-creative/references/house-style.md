@@ -24,17 +24,17 @@ If the content genuinely calls for one of these — centered layout for a solemn
 
 ## Color
 
-- Match light/dark to content: food, wellness, kids → light. Tech, cinema, finance → dark.
-- One accent hue. Same background across all scenes.
-- Tint neutrals toward your accent (even subtle warmth/coolness beats dead gray).
+- Choose light, dark, monochrome or mixed palettes from the brief and intended audience response, not the industry label.
+- A shared palette can provide continuity; multiple accents or planned scene-level changes can provide contrast. Preserve locked brand tokens.
+- Tint neutrals when it serves the treatment; neutral gray, pure black and pure white are valid intentional choices.
 - **Contrast:** enforced by `hyperframes check` (WCAG AA). Text must be readable with decoratives removed.
 - Declare palette up front. Don't invent colors per-element.
 
 ## Background Layer
 
-Every scene needs visual depth — persistent decorative elements that stay visible while content animates in. Without these, scenes feel empty during entrance staggering.
+Choose depth and density to serve the concept. A sparse frame, flat field or single subject can carry the whole scene. Layering is optional, not evidence that a composition is finished.
 
-Ideas (mix and match, 2-5 per scene):
+Optional ingredients, with no minimum count:
 
 - Radial glows (accent-tinted, low opacity, breathing scale)
 - Ghost text (theme words at 3-8% opacity, very large, slow drift)
@@ -42,21 +42,21 @@ Ideas (mix and match, 2-5 per scene):
 - Grain/noise overlay, geometric shapes, grid patterns
 - Thematic decoratives (orbit rings for space, vinyl grooves for music, grid lines for data)
 
-All decoratives should have slow ambient GSAP animation — breathing, drift, pulse. Static decoratives feel dead.
+Animate decoration only when movement contributes to attention, rhythm or meaning. Stillness and repeated motion can be deliberate; avoid adding loops just to keep the frame busy.
 
-**Decorative count vs motion count.** The "2-5 per scene" count refers to decorative _elements_. If a project's design spec says "single ambient motion per scene", it means one looping motion applied to these decoratives (a shared breath/drift/pulse) — not one element total. A scene with 4 decoratives sharing one breathing motion is correct; a scene with 1 decorative is under-dressed.
+Respect the design spec's distinction between element count and motion count. Neither implies an unrequested minimum of the other.
 
 ## Motion
 
-See [motion-principles.md](motion-principles.md) for full rules. Quick: 0.3–0.6s, vary eases, combine transforms on entrances, overlap entries.
+See [motion-principles.md](motion-principles.md) for expressive choices and technical safeguards. Derive pace, easing, repetition and stillness from the brief rather than a fixed entrance recipe.
 
 ## Typography
 
-See [typography.md](typography.md) for full rules. Quick: 700-900 headlines / 300-400 body, serif + sans (not two sans), 60px+ headlines / 20px+ body.
+See [typography.md](typography.md) for font options and readability checks. Preserve approved type; choose scale and weight for the actual output size and viewing distance.
 
 ## Palettes
 
-Declare one background, one foreground, one accent before writing HTML.
+Declare the treatment's palette before writing HTML, including any intentional changes across scenes. The banks below are optional examples, not industry assignments or a limit on custom palettes.
 
 | Category          | Use for                                       | File                                                          |
 | ----------------- | --------------------------------------------- | ------------------------------------------------------------- |
@@ -70,4 +70,4 @@ Declare one background, one foreground, one accent before writing HTML.
 | Jewel / Rich      | Luxury, events, sophisticated                 | [palettes/jewel-rich.md](../palettes/jewel-rich.md)           |
 | Monochrome        | Dramatic, typography-focused                  | [palettes/monochrome.md](../palettes/monochrome.md)           |
 
-Or derive from OKLCH — pick a hue, build bg/fg/accent at different lightnesses, tint everything toward that hue.
+Or derive a custom palette from OKLCH, references or the creative premise. A single-hue palette is one option, not a requirement.

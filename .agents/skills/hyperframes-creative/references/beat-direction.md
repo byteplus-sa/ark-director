@@ -18,12 +18,12 @@ How to plan and direct individual scenes (beats) in a multi-scene composition. R
 
 ## Per-Beat Direction
 
-Each beat is a WORLD, not a layout. Before writing CSS specs and GSAP instructions, describe what the viewer EXPERIENCES. The difference between a great storyboard and a mediocre one:
+Describe what the viewer experiences before writing CSS specs and GSAP instructions. Match the brief: a sparse title, flat field or deliberately still image can be a complete beat. Preserve source scope, locked brand values and readability; keep both motion and held states deterministic and seekable.
 
-**Mediocre:** "Dark navy background. '$1.9T' in white, 280px. Logo top-left. Wave image bottom-right."
-**Great:** "Camera is already mid-flight over a vast dark canvas. The gradient wave sweeps across the frame like aurora borealis — alive, shifting. '$1.9T' SLAMS into existence with such force the wave ripples in response. This isn't a slide — it's a moment."
+**For a still brief:** "A single supplied title holds on the plain background. Its isolation and uninterrupted reading time carry the beat; no decoration or movement is added."
+**For a kinetic brief:** "The supplied title lands as the abstract wave sweeps across the frame. The coordinated impact carries the beat while the title stays readable."
 
-The first describes pixels. The second describes an experience. Write the second, then figure out the pixels.
+These are alternatives, not quality levels. Describe the intended experience, then the implementation details it needs.
 
 Each beat should have:
 
@@ -41,7 +41,7 @@ Cultural and design references, not hex codes:
 
 ### Animation choreography
 
-Specific motion verbs per element — not "it animates in" but HOW. Verbs come from the beat's concept and content, not from an energy bucket. A wellness brand's "slow" beat might still have something that DROPS if the content is about letting go. A stats beat might FLOAT if the brand's identity is weightless.
+For elements that move, use specific motion verbs — not "it animates in" but HOW. For deliberate stillness, record the static state and hold duration instead. Decorative motion is optional. Verbs come from the beat's concept and content, not from an energy bucket. A wellness brand's "slow" beat might still have something that DROPS if the content is about letting go. A stats beat might FLOAT if the brand's identity is weightless.
 
 The vocabulary of motion verbs (organized by physical character, not by energy level):
 
@@ -51,13 +51,13 @@ The vocabulary of motion verbs (organized by physical character, not by energy l
 **Organic / ambient:** FLOATS, DRIFTS, BREATHES, PULSES, ORBITS, MORPHS
 **Mechanical / precise:** TYPES ON, CLICKS, LOCKS IN, SNAPS, STEPS
 
-Every element gets a verb. If you can't name the verb, the element is not yet designed. The verb should follow from the beat's concept — not from a lookup of what "high energy" or "low energy" beats use.
+Describe each element's intended action or held state. A static element is fully designed without an entrance, exit or ambient loop. Any selected motion follows the beat's concept, not a lookup of what "high energy" or "low energy" beats use.
 
 For text elements specifically, you can name a deterministic, named effect by ID (e.g. `typewriter`, `kinetic-center-build`, `soft-blur-in`) instead of inventing timing from scratch — the 24-effect vocabulary and how to load it live in `skills/hyperframes-animation/adapters/animate-text.md`.
 
 ### Transition
 
-How this beat hands off to the next. Specify the type and parameters.
+How this beat hands off to the next. Preserve a supplied cut, crossfade or uninterrupted hold; specify parameters only where applicable. The options below are recipes, not required effects.
 
 **When to pick which:**
 
@@ -67,7 +67,7 @@ How this beat hands off to the next. Specify the type and parameters.
 | Any moment the music/VO punctuates with a downbeat or SFX hit                   | Beats that ease from one composition into the next with shared motion vocabulary    | Sequences of 3+ quick tempo-matched switches                   |
 | Brand moments where the transition itself _is_ the visual                       | Minimal/editorial pacing                                                            | Anytime a 0.3-0.8s transition would feel too slow              |
 
-Rule of thumb: if the beat is the _centerpiece_ of the video, shader-transition into it. If the beat is connective tissue, a CSS crossfade is fine. A brand reel of 5-7 beats usually wants 1-2 shader transitions (the hero reveal + the CTA) — too many flatten their impact.
+For a centerpiece whose brief calls for an expressive transition, a shader is one option. A CSS crossfade, hard cut or held composition can also carry a brand moment; there is no required transition count or type.
 
 **Mixing shader and CSS crossfade transitions in one composition is supported.** Omit `shader` on any transition entry to get a smooth opacity crossfade — HyperShader manages all scene visibility regardless. Let HyperShader create the timeline (don't pass a pre-built `timeline:` option) and add all composition tweens to the returned `tl` after `init()`. Config snippet in `skills/hyperframes-animation/transitions/overview.md` → "CSS vs Shader".
 
@@ -129,13 +129,14 @@ If the storyboard calls for an effect that doesn't exist yet — build it. The f
 
 ### Depth layers
 
-What's in foreground, midground, and background. Every beat should have at least 2 layers:
+Describe foreground, midground and background only where those roles serve the concept. There is no minimum layer count. A flat field or single visual plane is valid; do not add atmosphere, accents or parallax to satisfy the format.
 
-- "BG: dark navy fill + subtle radial glow. MG: stat cards with drop shadow. FG: brand logo bottom-right."
+- Optional layered treatment: "BG: dark navy fill + subtle radial glow. MG: stat cards with drop shadow. FG: brand logo bottom-right."
+- Sparse treatment: "Plain field with the supplied title held still; no added depth or decoration."
 
 ### SFX cues
 
-What sounds at what moment:
+When sound is in scope, describe what sounds at what moment. Preserve requested silence; do not add SFX merely to populate this field.
 
 - "On the capture pulse — a soft, warm analog shutter click."
 - "Left side carries a faint low drone. On fold: drone cuts. Silence. Then a single clean chime."
@@ -144,7 +145,7 @@ What sounds at what moment:
 
 ## Rhythm Planning
 
-Before writing HTML, declare your scene rhythm: which scenes are quick hits, which are holds, where do shaders land, where does energy peak. Name the pattern — fast-fast-SLOW-fast-SHADER-hold — before implementing.
+Before writing HTML, declare the intended scene rhythm, preserving supplied timing: quick hits, sustained holds, transitions if used, and energy changes if needed. Name the pattern, such as hold-cut-hold or fast-fast-SLOW-fast-SHADER-hold, without introducing an unrequested peak or effect.
 
 **Derive the rhythm from the storyboard and the brand, not from a lookup.** A 15-second social ad for an architectural firm and a 15-second social ad for a gaming brand have different rhythms — both are 15 seconds, but one is slow-reveal-hold-CTA and the other is rapid-fire-SLAM-hook. Video type sets constraints (duration, approximate beat count); the brand and content determine whether those beats are slow or fast, sparse or dense, dramatic or controlled.
 
@@ -161,4 +162,4 @@ A social ad that tries to hook in 2s, showcase 3 features, and end with a CTA in
 
 ## Velocity-Matched Transitions
 
-Exit the outgoing beat with an accelerating ease (power2.in or power3.in) plus a blur ramp. Enter the incoming beat with a decelerating ease (power2.out or power3.out) plus blur clear. The fastest point of both easing curves meets at the cut — the viewer perceives continuous camera motion, not two discrete animations. Match exit velocity to entry velocity within ~5% tolerance.
+When a velocity-matched transition is selected, exit the outgoing beat with an accelerating ease (power2.in or power3.in) plus a blur ramp. Enter the incoming beat with a decelerating ease (power2.out or power3.out) plus blur clear. The fastest point of both easing curves meets at the cut — the viewer perceives continuous camera motion, not two discrete animations. Match exit velocity to entry velocity within ~5% tolerance.

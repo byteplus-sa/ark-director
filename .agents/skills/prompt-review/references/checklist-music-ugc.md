@@ -13,13 +13,15 @@ Source skill: `seedance-music-video`
    or hybrid — with address mode (direct / indirect / none).
 
 2. **Treatment serves intent.** Preserve approved visual choices. Format and
-   style follow the desired audience effect and available track evidence; genre
+   style are brief-derived, following the desired audience effect and available
+   track evidence. Custom treatments and coherent hybrids are valid; genre
    recipes are optional examples, not compulsory locks or a ban on coherent hybrids.
 
 ### Song map
 
-3. **One event per section.** Each song section has one primary visual
-   assignment and a visible end state.
+3. **Readable section intent.** A section may carry ordered events, reveals or
+   sustained attention. Check causal order and perceptual outcomes without a
+   single-event quota; preserve locked action, reveal timing and stillness.
 
 4. **Repeated sections have an intentional relationship.** Escalation, restraint,
    repetition or counterpoint follows supplied audible changes or the requested
@@ -37,10 +39,11 @@ Source skill: `seedance-music-video`
 7. **Lip-sync lines verbatim in `{...}`.** Match the audio master exactly —
    no paraphrasing, no reordering, no omitted lines.
 
-8. **Timestamped lyric timeline used when coverage is critical.** Each lyric
-   line is bound to its own `[X-Ys] { line }` beat slot — not grouped into
-   large blocks. Applies to rap, fast vocal delivery, and any verse where
-   complete lyric coverage is a hard requirement.
+8. **Lyric timing follows audio evidence.** When coverage or synchronization
+   requires per-line timing, use audio-measured `[X-Ys] { line }` slots, retaining
+   raw measurements separately from proposed edits. With unavailable audio or
+   unverified timings, use ordered cues and label timing provisional. Genre or
+   fast delivery alone does not require timestamps or justify invented timings.
 
 9. **"No line skipped" mandate present.** When the timestamped timeline is
    used, the prompt includes an explicit instruction that no line may be
@@ -64,8 +67,10 @@ Source skill: `seedance-music-video`
 13. **Right-sized (4–30s).** One song section per pass, or an explicit
     continuous one-take. Not padded to fill 30s.
 
-14. **Style remains coherent.** A closing summary is optional. Judge consistent
-    visual decisions and preservation of the brief, not a required style-seal phrase.
+14. **Treatment summary is optional.** When useful, summarize brief-derived
+    continuity, coherent hybrid choices and deliberate section transitions.
+    Preserve an approved single-style treatment; judge fidelity and readable
+    transitions, not a mandatory genre lock or style-seal phrase.
 
 ### Rap-specific (when applicable)
 

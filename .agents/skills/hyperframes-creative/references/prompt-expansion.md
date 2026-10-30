@@ -1,6 +1,6 @@
 # Prompt Expansion
 
-Run on every composition. Expansion is not about lengthening a short prompt — it's about grounding the user's intent against the design spec (`frame.md` or `design.md`) and `house-style.md` and producing a consistent intermediate that every downstream agent reads the same way.
+Use expansion to resolve production details that are missing from the brief, not to lengthen it or add visual activity. Ground the user's intent against the design spec (`frame.md` or `design.md`) and applicable `house-style.md` guidance, producing a consistent intermediate that downstream agents read the same way. A complete brief can pass through unchanged.
 
 Runs AFTER design direction is established (Step 1). The expansion consumes the design spec (`frame.md` or `design.md`, if present) and produces output that cites its exact values.
 
@@ -10,29 +10,26 @@ Read before generating:
 
 - the design spec — `frame.md` → `design.md` → `DESIGN.md` (read the first that exists) — extract brand colors, fonts, mood, and constraints. The expansion cites these exact values (hex codes, font names); it does not invent new ones.
 - `references/beat-direction.md` — per-beat planning format (concept, mood, choreography verbs, transitions, depth layers, rhythm). The expansion outputs each scene using this format.
-- `references/video-composition.md` — video-medium rules for density, scale, and color presence. The expansion applies these automatically.
-- `house-style.md` — its rules for Background Layer (2-5 decoratives), Color, Motion, Typography apply to every scene. The expansion writes output that conforms to them.
+- `references/video-composition.md` — video-medium guidance for density, scale, and color presence. Apply it in service of the brief and readability, not as a density quota.
+- `house-style.md` — optional background, color, motion and typography choices. Preserve locked brand tokens; recipes do not override intentional sparse frames or stillness.
 
 If no design spec (`frame.md` or `design.md`) exists yet, run Step 1 (Design system) first. Expansion without a design context produces generic scene breakdowns that later agents ignore.
 
-## Why always run it
+## When to expand
 
-**The expansion is never pass-through.** Every user prompt — no matter how detailed — is a _seed_. The expansion's job is to enrich it into a fully-realized per-scene production spec that the scene subagents can build from directly.
+Expand unresolved details into a buildable per-scene production spec. Preserve source scope, exact copy, locked brand values, scene count and timing already supplied. Do not treat a detailed brief as permission to embellish it.
 
-Even a detailed 7-scene brief lacks things only the expansion adds:
+Consider only the details the treatment needs:
 
-- **Atmosphere layers per scene** (required 2–5 from house-style: radial glows, ghost type, hairline rules, grain, thematic decoratives) — the user's prompt almost never lists these; expansion adds them.
-- **Secondary motion for every decorative** — breath, drift, pulse, orbit. A decorative without ambient motion feels dead.
-- **Micro-details that make a scene feel real** — registration marks, tick indicators, monospace coord labels, typographic accents, code snippets in the background, grid patterns. Things the user didn't think to request.
-- **Transition choreography at the object level** — not "crossfade" but "X expands outward and becomes Y". Specific duration, ease, and morph source/target.
-- **Pacing beats within each scene** — where tension builds, where a hold lets the viewer breathe, where the accent word lands.
-- **Exact hex values, typography parameters, ease choices** from the design spec — no vagueness left for the scene subagent to guess.
+- **Atmosphere and micro-details** — optional glows, grain, rules or thematic decoration when they serve the concept. There is no minimum layer or decorative count; zero decoration is valid. Do not invent claims, labels or other source content to fill space.
+- **Motion or stillness** — keep static elements static when directed. Add ambient motion only when it contributes to the brief, never simply because an element is decorative.
+- **Transitions** — preserve a requested hard cut, simple crossfade or uninterrupted hold. For a chosen animated transition, specify duration, ease and any source/target needed for implementation; an object morph is optional.
+- **Pacing** — preserve supplied holds and timing; resolve only missing details that affect the intended rhythm.
+- **Exact hex values and typography parameters** from the design spec, and ease choices where motion is selected. Ask about missing required source inputs rather than inventing approved values.
 
-Expansion's job on a detailed prompt is not to summarize or pass through — it's to **take what the user wrote and make it richer**. The user's content stays; the atmosphere, ambient motion, and micro-details are added on top. That's what makes the difference between a scene that matches the brief and a scene that feels alive.
+Rich, energetic treatments remain valid when requested, just as sparse frames and deliberate stillness do. Expansion clarifies the chosen treatment rather than imposing a richer one. Keep readability and deterministic, seekable runtime behavior intact for both moving and held elements.
 
-The quality gap between a single-pass composition and a multi-scene-pipeline composition comes from this step. Expansion front-loads the richness so every scene subagent builds from a rich brief, not a terse one.
-
-**Do not skip. Do not pass through.** Single-scene compositions and trivial edits are the only exceptions.
+For a complete multi-scene brief, confirm the supplied decisions without adding atmosphere, motion or micro-details. Single-scene compositions and trivial edits need only the relevant details.
 
 ## What to generate
 
@@ -40,24 +37,24 @@ Expand into a full production prompt with these sections:
 
 1. **Title + style block** — cite the design spec's exact hex values, font names, and mood. Do NOT invent a palette — quote what the design provides.
 
-2. **Rhythm declaration** — name the scene rhythm before detailing any scene. Example: `hook-PUNCH-breathe-CTA` or `slow-build-BUILD-PEAK-breathe-CTA`. Use `references/beat-direction.md` for rhythm templates by video type.
+2. **Rhythm declaration** — name the intended scene rhythm, preserving supplied timing and holds. Example: `hold-cut-hold` or `hook-PUNCH-breathe-CTA`. Use `references/beat-direction.md` to derive rhythm from the brief, not a video-type quota.
 
-3. **Global rules** — parallax layers, micro-motion requirements, transition style, primary + accent transitions. Match energy to mood (calm → slow eases, high → snappy eases).
+3. **Global rules** — source and brand locks, readability, selected motion or stillness, and transition intent. Parallax, micro-motion and accent transitions are optional; keep any chosen motion deterministic and seekable.
 
 4. **Per-scene beats** — for each scene, use the beat-direction format:
    - **Concept** — the big idea in 2-3 sentences. What visual WORLD? What metaphor? What should the viewer FEEL?
    - **Mood direction** — cultural/design references, not hex codes. ("Bauhaus color studies", "cinematic title sequence", "editorial calm")
    - **Depth layers** — BG treatment, MG content, and FG accents or structural details as the concept needs. Use `video-composition.md` to choose density; do not force an element count or invent content to fill one.
-   - **Animation choreography** — specific verbs per element. High: SLAMS, CRASHES. Medium: CASCADE, SLIDES. Low: floats, types on, counts up. Every element gets a verb. If you can't name the verb, the element is not yet designed.
-   - **Transition out** — shader or CSS, with specific type and parameters. Not "crossfade" but "blur crossfade, 0.4s, power2.inOut."
+   - **Animation choreography or hold** — describe selected actions with specific verbs and timing, or record a static state and hold duration. Motion is not required for every element.
+   - **Transition out** — specify the chosen handoff and applicable parameters, including a hard cut, simple crossfade or no transition. Do not replace a supplied handoff just to add complexity.
 
-5. **Recurring motifs** — visual threads across scenes from the brand palette.
+5. **Recurring motifs, if useful** — optional visual threads across scenes within the brand constraints.
 
 6. **Negative prompt** — what to avoid, informed by the design spec's constraints if present.
 
 ## Output
 
-Write the expanded prompt to `.hyperframes/expanded-prompt.md` in the project directory. Do NOT dump it into the chat — it will be hundreds of lines.
+Write the production breakdown to `.hyperframes/expanded-prompt.md` in the project directory. Keep it as concise as the brief allows; there is no target length.
 
 Tell the user:
 

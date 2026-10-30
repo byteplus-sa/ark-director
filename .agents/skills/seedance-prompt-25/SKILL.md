@@ -123,7 +123,8 @@ optional in the grammar, but a narrative, ad or music-video shot is not finished
 at that minimum: its Camera and light source are craft requirements, taken from
 the scene's shot plan (see [Shot Staging](references/shot-staging.md)) or
 recorded as a static choice with a reason. Summarize the main action first;
-add detail only to critical movements. Write the Action slot as granular physical detail — see
+add detail only to critical movements. Describe critical action and perceptual
+outcomes; permit readable ordered actions, reveals and deliberate stillness — see
 [Action description](references/scene-action.md#action-description). **Do not describe the same action
 twice.** Generation parameters (duration, resolution, aspect ratio, audio on
 or off) belong in the request, not the prompt: a sentence such as "composed for
@@ -251,10 +252,10 @@ checks, so the reasons live here and the checks live there.
   remove a strong visual prior: "never a cone" still draws a cone. Describe the
   wanted shape, state or layout. Night is "black sky, low exposure, a small pale
   moon", not "not daytime".
-- **Pin every count** (`prompt.exact_counts`). Counted items, clones, runners and
-  crowds drop or duplicate. Name each item by size or position, keep all of them
-  in open view from the first frame, restate the count and positions at every
-  stage, and never mention spare copies lying around.
+- **Pin every count** (`prompt.exact_counts`). Track total identity separately
+  from visible count. Account for hidden, entering, exiting and occluded subjects;
+  restate relevant positions after changes without exposing a deliberate reveal.
+  Reject contradictory totals, duplication and incompatible positions.
 - **Name hands by anatomy and frame side** (`prompt.hand_frame_side`): "her right
   hand, frame-left". The model reads left/right as the character's own side.
 - **Keep frames text-free** (`video.text_free`). No captions, subtitles, titles,
@@ -267,8 +268,9 @@ checks, so the reasons live here and the checks live there.
   gear down) wins over contrary text; change the reference, not the adjectives.
 - **Write hair past covering garments.** Hair length drifts under shawls and
   blankets; state the hair falling over the garment.
-- **Choose the audio route before writing** (`audio.native_route`). Ambient-only,
-  score-driven and speech-free pieces are picture-only requests; see
+- **Choose audio by ownership** (`audio.native_route`). Preserve requested native
+  diegetic sound in wordless scenes, exact masters or controlled post sound, and
+  purposeful silence. Speech-free does not imply picture-only; see
   [Choosing the audio route](references/audio-performance-camera.md#choosing-the-audio-route).
 - **Budget speech** (`dialogue.speech_budget`); see
   [Dialogue inside shots](references/shot-staging.md#dialogue-inside-shots).
@@ -281,8 +283,8 @@ Default mode checks the package inline for intent, capabilities, current hashes,
 bindings, approvals, rights and generation consent without a checklist report. For strict
 or explicitly requested detailed review, confirm:
 
-1. Subject and primary action are clear, and the action is at body-part level
-   with an observable end state for every critical beat.
+1. Subject, critical action and perceptual outcomes are clear. Physical detail
+   serves readability; ordered events and a sustained state may share a shot.
 2. Every reference has one stated role, subjects are bound individually, and
    references are selected by scene.
 3. Every shot or stage carries its planned size, angle, move and named light,

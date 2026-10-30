@@ -121,7 +121,7 @@
       "expected_output": "A prompt that pins the count and positions of every bottle, names the hand by anatomy and frame side, and describes the bottles and bag as plain surfaces.",
       "files": [],
       "expectations": [
-        "All four bottles are named by size or position and visible from the first frame; the count and the positions of the bottles taken and left are restated after the action.",
+        "Track all four bottle identities and relevant positions, including any occlusion; after the action two remain on the shelf and two are in the bag. First-frame visibility is not mandatory.",
         "The hand cue names both anatomy and frame side (for example her left hand, frame-right).",
         "Bottles and bag are described positively as plain or unprinted surfaces rather than only with 'no text'.",
         "The prompt does not mention extra bottles elsewhere in the scene."

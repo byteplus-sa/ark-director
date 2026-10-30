@@ -245,7 +245,7 @@ The workspace ships with **83 skills** across 15 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **color-grade-palettes** | Defaults to no grade (original Seedance colours); when a palette or film look is requested, maps it to a canonical grade sentence for Seedance or Seedream and/or a high-bit-depth-safe FFmpeg post look on the untouched master. |
+| **color-grade-palettes** | Compose requested or delegated custom looks as prompt palettes or high-bit-depth-safe post grades, preserving ungraded conform and source locks. |
 
 ### Seed Audio
 

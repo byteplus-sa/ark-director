@@ -24,12 +24,12 @@ For produced marketing frames, roughly 6–10 visual roles can be a useful start
 
 ## Color Presence
 
-Muted is fine. Flat is not. Every scene should have at least one color that pulls the eye.
+Choose visual emphasis from the brief. Color, luminance, scale, texture, motion or deliberate stillness can carry attention; no accent color is mandatory.
 
-- Brand accent should be VISIBLE — not a 5% opacity glow lost in compression. 15-25% for atmospheric, full saturation for focal elements.
-- **Light canvases work differently than dark.** On dark: accent glows pop naturally. On light: use bolder borders (2px+ solid), stronger structural elements (rules, dividers), and full-saturation accent hits. Light backgrounds need texture (subtle grain, patterns) to avoid the "blank slide" feel. Don't switch to dark — make light cinematic.
-- **No full-screen linear gradients on dark backgrounds.** They band visibly under H.264 compression. Use a radial gradient, a solid fill, or solid + localized glow instead.
-- Tint neutrals toward the brand hue. Dead gray reads as undesigned.
+- Required accents and details should survive the actual output size and compression. Inspect rendered frames rather than imposing a saturation or opacity floor.
+- **Light and dark canvases offer different contrast options.** Borders, texture, flat fields and localized glows are choices, not a compulsory layer stack. Preserve the requested canvas.
+- Gradients can band under compression. Inspect the encoded result and adjust the gradient, dithering or encoding when needed; do not ban a requested treatment preemptively.
+- Neutral gray and untinted black or white can be deliberate palette choices.
 
 ## Scale
 
@@ -44,20 +44,19 @@ Web sizes are invisible on video. Everything scales up.
 | Borders            | 1px     | 2-4px    |
 | Padding            | 16-32px | 60-140px |
 
-If you're writing a font-size under 24px in a video composition, justify it. If you're writing decorative opacity under 10%, it's invisible.
+These values are examples, not thresholds. Check required detail at the target resolution and viewing size; omit or resize anything that is unintentionally unreadable.
 
 ## Motion Intensity
 
-Subtle reads as static at 30fps. Err toward more movement than feels safe.
+Choose movement, repetition and stillness from the intended audience response. Check whether the actual render communicates it; frame rate alone does not determine the right intensity.
 
-- Every decorative element should have ambient motion: breathe, drift, pulse, orbit. Static decoratives feel dead.
-- Vary motion per scene — don't repeat the same ambient pattern.
-- Scene entrances should use 3+ different eases and directions. If every element enters from `y: 30, opacity: 0`, the scene has no choreography.
+- Ambient motion is optional. Use it when it helps, and keep it on the seekable timeline.
+- Vary motion when the sequence benefits from contrast; a repeated motif can be the concept.
+- Choose easing and entrance direction for the action and hierarchy. Synchronized entrances, a single ease, hard cuts or no entrance animation can be appropriate.
 
 ## Frame Composition
 
-- **Two focal points minimum.** The eye needs somewhere to travel.
-- **Fill the frame.** Hero text: 60-80% of frame width.
-- **Anchor to edges.** Pin content to left/top or right/bottom. Centered-and-floating is a web layout pattern.
-- **Split frames.** Data panel left, content right. Top bar with metadata, full-width below. Zone-based layouts over centered stacks.
-- **Structural elements.** Rules, dividers, border panels. They create visual paths and animate well (`scaleX: 0` → `1`).
+- **Establish attention.** A single focal point or a path between several can serve the scene. No focal-point quota applies.
+- **Use scale and negative space deliberately.** A full-frame gesture and a small isolated subject communicate differently.
+- **Choose alignment.** Centered, edge-anchored, asymmetric and split compositions are all valid when they serve the brief.
+- **Add structure when useful.** Panels, rules and dividers can guide the eye; do not add them to satisfy a layout formula.
