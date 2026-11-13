@@ -276,7 +276,7 @@ The workspace ships with **83 skills** across 15 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **ark-mcp** | Uses the Ark multimodal MCP server for image, video, audio and 3D workflows, durable artifacts, and Advanced Creation Rights face/voice assets with existing authorization reuse and privacy rejection triage. |
+| **ark-mcp** | Upstream Ark MCP usage skill for Seedream 5.5, Seedance 2.5 4K and Flash, audio, 3D, OmniHuman, MediaKit, assets and durable background jobs; repository contracts remain authoritative. |
 
 ### FFmpeg & Media Processing
 
@@ -329,7 +329,8 @@ Skills in this workspace come from three sources, tracked in `skills-lock.json`:
 
 | Source | Type | Examples |
 |---|---|---|
-| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `micro-drama`, `filipino-micro-drama`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `scene-craft`, `blocking-map`, `acting-direction`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `ark-mcp`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
+| **Project-authored** | `local` | All `seedance-*`, `seedream-*`, `seed-audio-*`, `film-production`, `micro-drama`, `filipino-micro-drama`, `template-factory`, `html-graphic-render`, `brief-intake`, `prompt-review`, `media-review`, `scene-craft`, `blocking-map`, `acting-direction`, `ugc-ad-modes`, `ugc-motion-presets`, `ffmpeg-scene-transitions`, `ffmpeg-side-by-side-comparison`, `lark-showcase-aigc`, `showcase-html`, `color-grade-palettes`, `blender-to-seedance` |
+| **Partner-authored, locally tracked** | `local` | `ark-mcp`: exact [upstream bundle](https://github.com/byteplus-sa/ark-mcp/tree/ca2850965171b8e4f4069d55805993752e883a52/.agents/skills/ark-mcp); SHA-256 entrypoint and bundle inventory retain local hash semantics. [MIT license](.agents/catalog/ark-mcp-LICENSE). |
 | **HyperFrames (vendored)** | `github: heygen-com/hyperframes` | `hyperframes`, `hyperframes-*` and `general-video` (10 skills; `hyperframes-studio` is the Studio conventions skill) — other workflow skills are not vendored and are never installed on demand; the upstream `media-use` skill is intentionally not installed |
 | **Blender (vendored)** | `github: ra100/blender-claude-plugin` | `blender-*` (8 skills) |
 | **FFmpeg (vendored)** | `github: digitalsamba/claude-code-video-toolkit` | `ffmpeg` |
