@@ -668,30 +668,35 @@ def native_draft_findings(
         if malformed:
             return malformed
         evidence = bound["evidence"]
-    native = request["model"] in NATIVE_DRAFT_MODELS
+    legacy_native = request["model"] in NATIVE_DRAFT_MODELS
     if request["operation"] not in VIDEO_OPERATIONS:
         return []
     if evidence is not None and evidence.get("schema_version") == 2:
         preview = evidence["preview"]
         if preview["native_draft"] is None or preview["promotion"] is None:
             return [Finding("model.preview_unknown", "Preview or promotion support is unknown")]
-        if native and preview["native_draft"] is not True:
+        if legacy_native and preview["native_draft"] is not True:
             return [Finding("seedance.draft_promotion", "Legacy native Draft policy conflicts with profile")]
-        native = native or preview["native_draft"] is True
         if is_draft_promotion(request["params"]):
-            if not native or preview["promotion"] is not True:
+            if not (legacy_native or preview["native_draft"] is True) or preview["promotion"] is not True:
                 return [Finding("seedance.draft_promotion", "Ordinary previews are not promotable")]
             return []
         controls = preview["parameters"]
-        if not controls or any(request["params"].get(key) != value for key, value in controls.items()):
+        if not controls or any(
+            key not in request["params"]
+            or not Draft202012Validator({"const": value}).is_valid(request["params"][key])
+            for key, value in controls.items()
+        ):
             return [Finding("model.preview_controls", "Request does not match verified preview controls")]
-        if not native:
-            if "draft" in request["params"] or "draft_task_id" in request["params"]:
-                return [Finding("model.preview_controls", "Non-native preview cannot use Draft controls")]
+        if preview["native_draft"] is not True and (
+            "draft" in request["params"] or "draft_task_id" in request["params"]
+        ):
+            return [Finding("model.preview_controls", "Non-native preview cannot use Draft controls")]
+        if not legacy_native:
             return []
     elif request["model"] not in LEGACY_SEEDANCE_MODELS and "seedance" in request["model"].lower():
         return [Finding("model.profile_required", "New Seedance binding requires a verified operation profile")]
-    if not native:
+    if not legacy_native:
         return []
     params = request["params"]
     if is_draft_promotion(params):
@@ -775,8 +780,6 @@ def draft_promotion_findings(root: Path, request: dict[str, Any]) -> list[Findin
             draft["model"] == request["model"]
             and draft["transport"] == request["transport"]
             and (draft["model"] in NATIVE_DRAFT_MODELS or request_profile(draft) is not None)
-            and draft["params"].get("draft") is True
-            and draft["params"].get("resolution") == "480p"
         ):
             message = f"{draft['operation_id']} is not a 480p draft of this model"
         elif draft["submission_status"] != "terminal" or draft["provider_status"] != "succeeded":
@@ -785,13 +788,23 @@ def draft_promotion_findings(root: Path, request: dict[str, Any]) -> list[Findin
             message = "Promotion model/transport/profile must match the selected Draft"
         elif persisted_profile_findings(draft):
             message = "Selected Draft capability profile is invalid or expired"
-        elif draft_input_findings(root, draft):
-            message = "Selected Draft prompt, request hash or inherited references changed"
         elif request_profile(draft) is not None and (
             request_profile(draft)["evidence"]["preview"]["native_draft"] is not True
             or request_profile(draft)["evidence"]["preview"]["promotion"] is not True
         ):
             message = "Selected task has no verified native promotion mechanics"
+        elif (
+            draft["operation"] not in VIDEO_OPERATIONS
+            or is_draft_promotion(draft["params"])
+            or native_draft_findings(draft)
+        ):
+            message = (
+                f"{draft['operation_id']} is not a 480p draft of this model"
+                if draft["model"] in NATIVE_DRAFT_MODELS
+                else f"{draft['operation_id']} is not a native preview matching verified controls"
+            )
+        elif draft_input_findings(root, draft):
+            message = "Selected Draft prompt, request hash or inherited references changed"
         elif not draft_selected(root, draft):
             message = f"{draft['operation_id']} has no approved review or selection"
         elif draft["prompt_sha256"] != request["prompt_sha256"]:
@@ -949,7 +962,7 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
         "additionalProperties": False,
         "required": evidence.get("required_parameters", []),
     }
-    if evidence.get("schema_version") == 2:
+    if evidence.get("schema_version") == 2 and constraints:
         schema["allOf"] = constraints
     try:
         Draft202012Validator.check_schema(schema)

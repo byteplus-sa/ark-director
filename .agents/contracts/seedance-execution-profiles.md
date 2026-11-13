@@ -65,10 +65,21 @@ policy. Missing native controls are a conflict, never permission to drop Draft.
 The exact retained 2.0 Standard/Fast/Mini bindings keep their ordinary-preview
 legacy behavior. New Seedance bindings require a valid operation profile.
 
+For a nonlegacy native binding, `preview.parameters` supplies the exact native
+preview controls; neither 480p nor a field named `draft` is assumed. The evidence
+source must establish the native meaning of those controls for the exact
+operation, not merely their accepted types or suggestive field names. A value
+such as `preview_mode: "native"` is native only when the bound evidence verifies
+that meaning and native promotion support. Controls must satisfy the parameter
+and conditional schemas and match the preview request without rewriting it.
+
 Promotion requires the exact selected successful terminal native task,
 unchanged prompt/reference hashes, the same model/transport/profile, current
 profile validity and supported output-only promotion settings. A historical
-plain task cannot become native through a new profile. Final picture and sound
+plain task cannot become native through a new profile. A nonlegacy source must
+be a video preview, not a prior promotion, and still match its own bound native
+controls and current input digest. Exact legacy sources still require boolean
+`draft: true` and 480p regardless of profile controls. Final picture and sound
 require fresh actual inspection; a Draft review does not approve delivery.
 Ambiguous acceptance is reconciled through existing task identity, not resubmitted.
 
