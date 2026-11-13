@@ -34,12 +34,24 @@ colours" request needs a new generation.
 
 ## Correct colour decode (every route)
 
-Seedance 2.5 finals are 10-bit HEVC. Decode them as ordinary **limited-range
-BT.709**; a full-range reading lifts blacks and no longer matches the
-approved drafts. Tag the output BT.709, keep any look inside a high-bit-depth
+Measure each artifact's codec, pixel format, bit depth, range, primaries,
+transfer and matrix. Unknown or conflicting tags remain unresolved; never
+infer them from the model family. Preserve source/master bytes and color locks.
+For a measured matching 10-bit HEVC **limited-range BT.709** stream, the
+baseline below remains useful. Full-range BT.709, BT.2020/PQ or other profiles
+need their own evidenced interpretation and delivery transform. Tag only verified
+output properties, keep any authorized look inside a high-bit-depth
 chain, and dither once to 8-bit at the end. Apply this chain in the single
 final encode (or the Studio render input), not as a lossy per-clip pass; keep
 per-clip intermediates lossless. Ungraded conform for that final encode:
+
+| Measured stream profile | Conform decision |
+| --- | --- |
+| HEVC / yuv420p10le / limited / BT.709 matrix, primaries, transfer | Matching BT.709 baseline; dither only for selected 8-bit delivery |
+| HEVC / yuv420p10le / full / BT.709 matrix, primaries, transfer | Preserve full-range interpretation; do not force limited input |
+| HEVC / yuv420p10le / limited / BT.2020 matrix and primaries, PQ transfer | Preserve HDR interpretation; tone mapping requires delivery authorization |
+| Any codec / unknown pixel format or color tags | Unresolved; obtain artifact-specific interpretation evidence |
+| Any codec / conflicting range, matrix, primaries or transfer evidence | Unresolved; do not guess or relabel the master |
 
 ```
 ffmpeg -i master.mp4 -vf "scale=in_range=limited:out_range=limited:in_color_matrix=bt709:out_color_matrix=bt709:sws_dither=ed,format=yuv420p,setparams=range=tv:color_primaries=bt709:color_trc=bt709:colorspace=bt709" -c:v libx264 -crf 16 -preset slow -c:a copy out.mp4
@@ -208,7 +220,9 @@ same graph to every clip that shares the palette. On route `both`, use a much
 lighter version of the graph only to match takes to each other, never to
 stack a second grade on a baked-in prompt grade.
 
-Wrap every `<LOOK>` in the decode and dither stages:
+For a measured matching limited-range BT.709 stream and 8-bit delivery, wrap
+the authorized `<LOOK>` in these decode and dither stages. Do not apply this
+recipe to full-range, HDR, unknown or conflicting streams:
 
 ```
 ffmpeg -i master.mp4 -vf "scale=in_range=limited:out_range=limited:in_color_matrix=bt709:out_color_matrix=bt709,format=yuv420p10le,<LOOK>,scale=in_color_matrix=bt709:out_color_matrix=bt709:out_range=limited:sws_dither=ed,format=yuv420p,setparams=range=tv:color_primaries=bt709:color_trc=bt709:colorspace=bt709" -c:v libx264 -crf 16 -preset slow -c:a copy out.mp4
@@ -246,7 +260,7 @@ overlay layer.
 
 - **Preservation is not open authorship.** Conform/source-preserving work adds
   no look outside authorized changes. Keep original colours, explicit ungraded
-  delivery and the correct limited-range BT.709 decode.
+  delivery and the measured artifact-specific interpretation.
 - **Resolve actual colour conflicts.** Compatible ingredients or ordered
   per-scene looks may form one coherent treatment. Name their spatial or temporal
   scope; do not apply contradictory instructions to the same region and interval.
@@ -270,7 +284,7 @@ overlay layer.
 
 ## Self-check checklist
 
-1. Look authority is clear: delegated authorship may propose a look; preservation/conform and explicit ungraded delivery add no unauthorized look. Keep the limited-range BT.709 decode.
+1. Look authority is clear: delegated authorship may propose a look; preservation/conform and explicit ungraded delivery add no unauthorized look. Select decode by measured stream properties, not family name.
 2. Palette is from the bank, or a plain descriptive grade with no invented film name.
 3. Look ingredients and ordered changes are coherent within their scope; no contradictory same-region, same-interval instructions.
 4. On the prompt route, the grade sentence is placed in the Visual Style slot (Seedance) or `Style:` section (Seedream), not in the subject or action line.

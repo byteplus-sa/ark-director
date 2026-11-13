@@ -5,11 +5,15 @@ import hashlib
 import json
 import re
 from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote
 
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
+from referencing import Registry
+from referencing.exceptions import Unresolvable
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
 
@@ -26,7 +30,19 @@ BOARD_FILE = re.compile(
     re.IGNORECASE,
 )
 BOARD_EXEMPT_MODEL = re.compile(r"(?:^|-)seedream(?:-|$)")
-SEEDANCE_25_MODEL = re.compile(r"(?:^|-)seedance-2-5(?:-|$)")
+NATIVE_DRAFT_MODELS = frozenset(
+    {"dreamina-seedance-2-5-260628", "dreamina-seedance-2-5-premium-260915"}
+)
+LEGACY_SEEDANCE_MODELS = NATIVE_DRAFT_MODELS | frozenset(
+    {
+        "dreamina-seedance-2-0-260128",
+        "dreamina-seedance-2-0-fast-260128",
+        "dreamina-seedance-2-0-mini-260615",
+    }
+)
+VIDEO_OPERATIONS = frozenset(
+    {"generate", "edit", "extend", "generate_variations"}
+)
 PROMOTION_PARAMETERS = frozenset(
     {
         "draft_task_id",
@@ -107,6 +123,7 @@ def compute_request_hash(
     *,
     approval_mode: str | None = None,
     project_sha256: str | None = None,
+    capability_profile: Any = None,
 ) -> str:
     body: dict[str, Any] = {
         "prompt_sha256": hashlib.sha256(prompt_bytes).hexdigest(),
@@ -128,6 +145,8 @@ def compute_request_hash(
             }
             for ref in references
         ]
+    if capability_profile is not None:
+        body["capability_profile"] = capability_profile
     return hashlib.sha256(
         json.dumps(
             body,
@@ -584,8 +603,113 @@ def is_draft_promotion(params: Any) -> bool:
     return isinstance(task_id, str) and bool(task_id.strip())
 
 
-def native_draft_findings(request: dict[str, Any]) -> list[Finding]:
-    if not SEEDANCE_25_MODEL.search(request["model"].lower()):
+def request_profile(request: dict[str, Any]) -> Any:
+    return request.get("extensions", {}).get("capability_profile")
+
+
+def ordinary_final_intent(request: dict[str, Any]) -> Any:
+    bound = request_profile(request)
+    return bound.get("ordinary_final") if isinstance(bound, dict) else None
+
+
+def capability_digest(evidence: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(
+            evidence, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            allow_nan=False,
+        ).encode()
+    ).hexdigest()
+
+
+def profile_identity_findings(
+    request: dict[str, Any], evidence: Any
+) -> list[Finding]:
+    bound = request_profile(request)
+    if not isinstance(bound, dict) or not isinstance(bound.get("expected"), dict):
+        return [Finding("model.profile_binding", "Missing independent destination binding")]
+    expected = bound["expected"]
+    findings: list[Finding] = []
+    for field in ("provider", "tool_schema_revision"):
+        value = expected.get(field)
+        if not isinstance(value, str) or not value.strip() or evidence.get(field) != value:
+            findings.append(Finding("model.profile_binding", f"Wrong expected {field}"))
+    for field in ("model", "operation", "transport"):
+        if evidence.get(field) != request.get(field):
+            findings.append(Finding("model.profile_binding", f"Wrong request {field}"))
+    if evidence.get("operations") != [request["operation"]]:
+        findings.append(Finding("model.profile_binding", "Profile covers one exact operation"))
+    try:
+        if bound.get("sha256") != capability_digest(evidence):
+            findings.append(Finding("model.profile_digest", "Capability evidence changed"))
+        if bound.get("evidence") != evidence:
+            findings.append(Finding("model.profile_digest", "Profile snapshot differs from evidence"))
+        verified = datetime.fromisoformat(evidence["verified_at"])
+        start = datetime.fromisoformat(evidence["valid_from"])
+        end = datetime.fromisoformat(evidence["valid_until"])
+        now = datetime.now(UTC)
+        if not verified <= start <= now < end:
+            findings.append(Finding("model.profile_validity", "Profile is expired, future or inconsistent"))
+    except (ValueError, TypeError, KeyError) as error:
+        findings.append(Finding("model.profile_validity", str(error)))
+    return findings
+
+
+def persisted_profile_findings(request: dict[str, Any]) -> list[Finding]:
+    bound = request_profile(request)
+    if bound is None:
+        return []
+    if not isinstance(bound, dict):
+        return [Finding("model.profile_binding", "Profile binding must be an object")]
+    evidence = bound.get("evidence")
+    if not isinstance(evidence, dict) or evidence.get("schema_version") != 2:
+        return [Finding("model.profile_binding", "Bound evidence must be version 2")]
+    return capability_findings(request, evidence)
+
+
+def native_draft_findings(
+    request: dict[str, Any], evidence: Any = None
+) -> list[Finding]:
+    bound = request_profile(request)
+    if bound is not None:
+        malformed = persisted_profile_findings(request)
+        if malformed:
+            return malformed
+        evidence = bound["evidence"]
+    legacy_native = request["model"] in NATIVE_DRAFT_MODELS
+    if request["operation"] not in VIDEO_OPERATIONS:
+        return []
+    if evidence is not None and evidence.get("schema_version") == 2:
+        preview = evidence["preview"]
+        if preview["native_draft"] is None or preview["promotion"] is None:
+            return [Finding("model.preview_unknown", "Preview or promotion support is unknown")]
+        if legacy_native and preview["native_draft"] is not True:
+            return [Finding("seedance.draft_promotion", "Legacy native Draft policy conflicts with profile")]
+        if is_draft_promotion(request["params"]):
+            if not (legacy_native or preview["native_draft"] is True) or preview["promotion"] is not True:
+                return [Finding("seedance.draft_promotion", "Ordinary previews are not promotable")]
+            return []
+        if isinstance(bound, dict) and "ordinary_final" in bound:
+            if legacy_native or preview["native_draft"] is not False or preview["promotion"] is not False:
+                return [Finding("seedance.ordinary_final", "Fresh ordinary finals require verified non-native mechanics")]
+            if "draft" in request["params"] or "draft_task_id" in request["params"]:
+                return [Finding("seedance.ordinary_final", "Ordinary finals cannot use Draft controls")]
+            return []
+        controls = preview["parameters"]
+        if not controls or any(
+            key not in request["params"]
+            or not Draft202012Validator({"const": value}).is_valid(request["params"][key])
+            for key, value in controls.items()
+        ):
+            return [Finding("model.preview_controls", "Request does not match verified preview controls")]
+        if preview["native_draft"] is not True and (
+            "draft" in request["params"] or "draft_task_id" in request["params"]
+        ):
+            return [Finding("model.preview_controls", "Non-native preview cannot use Draft controls")]
+        if not legacy_native:
+            return []
+    elif request["model"] not in LEGACY_SEEDANCE_MODELS and "seedance" in request["model"].lower():
+        return [Finding("model.profile_required", "New Seedance binding requires a verified operation profile")]
+    if not legacy_native:
         return []
     params = request["params"]
     if is_draft_promotion(params):
@@ -604,6 +728,113 @@ def native_draft_findings(request: dict[str, Any]) -> list[Finding]:
     ]
 
 
+def ordinary_final_findings(root: Path, request: dict[str, Any]) -> list[Finding]:
+    bound = request_profile(request)
+    if not isinstance(bound, dict) or "ordinary_final" not in bound:
+        return []
+    try:
+        intent = ordinary_final_intent(request)
+        if (
+            not isinstance(intent, dict)
+            or set(intent) != {"source_operation_id", "source_request_sha256", "selection"}
+            or not isinstance(intent["source_operation_id"], str)
+            or not intent["source_operation_id"].strip()
+            or not isinstance(intent["source_request_sha256"], str)
+            or not re.fullmatch(r"[0-9a-f]{64}", intent["source_request_sha256"])
+            or not isinstance(intent["selection"], dict)
+        ):
+            raise ValueError("Malformed ordinary-final intent")
+        if request["operation"] not in VIDEO_OPERATIONS or request["schema_version"] != 2:
+            raise ValueError("Ordinary final requires a version-2 video request")
+        if persisted_profile_findings(request) or native_draft_findings(request):
+            raise ValueError("Ordinary final requires current non-native capability evidence")
+        registry = json.loads(contained_path(root, "task_ids.json").read_text())
+        if schema_findings(registry, "task-registry.schema.json"):
+            raise ValueError("Task registry is invalid")
+        sources = [task for task in registry["tasks"]
+                   if task["operation_id"] == intent["source_operation_id"]]
+        if len(sources) != 1:
+            raise ValueError("Ordinary final requires one exact registered preview")
+        source = sources[0]
+        source_profile = request_profile(source)
+        if (
+            source["operation_id"] == request["operation_id"]
+            or source["asset_id"] == request["asset_id"]
+            or source["request_sha256"] != intent["source_request_sha256"]
+            or source["submission_status"] != "terminal"
+            or source["provider_status"] != "succeeded"
+            or not source["provider_task_id"]
+            or source["review_status"] == "rejected"
+            or not isinstance(source_profile, dict)
+            or "ordinary_final" in source_profile
+            or source_profile != {key: value for key, value in bound.items()
+                                  if key != "ordinary_final"}
+            or any(source[field] != request[field]
+                   for field in ("model", "operation", "transport", "prompt_sha256"))
+            or is_draft_promotion(source["params"])
+            or persisted_profile_findings(source)
+            or native_draft_findings(source)
+            or draft_input_findings(root, source)
+        ):
+            raise ValueError("Ordinary-final source identity, success, preview controls or inputs changed")
+        if [
+            (ref["sha256"], ref["role"], ref["binding"]) for ref in request["references"]
+        ] != [
+            (ref["sha256"], ref["role"], ref["binding"]) for ref in source["references"]
+        ]:
+            raise ValueError("Ordinary final must retain the exact ordered preview references")
+        output_controls = PROMOTION_PARAMETERS - {"draft_task_id"}
+        if capability_digest({key: value for key, value in request["params"].items()
+                              if key not in output_controls}) != capability_digest(
+            {key: value for key, value in source["params"].items()
+             if key not in output_controls}
+        ):
+            raise ValueError("Ordinary final may change only supported output controls")
+        output = source.get("extensions", {}).get("expected_output")
+        final_output = request.get("extensions", {}).get("expected_output")
+        if (
+            not isinstance(output, str)
+            or not isinstance(final_output, str)
+            or not final_output
+            or Path(final_output).is_absolute()
+            or ".." in Path(final_output).parts
+        ):
+            raise ValueError("Ordinary final needs a project-relative output identity")
+        output_path = contained_path(root, output)
+        final_path = (root / final_output).resolve()
+        if (
+            not final_path.is_relative_to(root.resolve())
+            or final_path.is_dir()
+            or final_path == output_path
+            or (final_path.exists() and final_path.samefile(output_path))
+        ):
+            raise ValueError("Ordinary final needs a new output identity")
+        selection = intent["selection"]
+        if selection.get("evidence_type") == "legacy":
+            raise ValueError("Ordinary final requires structured current selection evidence")
+        reference = {
+            "path": output,
+            "sha256": selection.get("selected_sha256"),
+            "role": "reference_video",
+            "binding": "@Video 1",
+            "approval_evidence": selection,
+        }
+        if schema_findings({**request, "references": [reference]},
+                           "generation-request.schema.json"):
+            raise ValueError("Malformed ordinary-final selection evidence")
+        findings = approval_decision_findings(root, reference, output_path)
+        decision = json.loads(contained_path(root, selection["decision_path"]).read_text())
+        findings.extend(decision_findings(root, decision, require_current_project=True))
+        if (
+            decision.get("asset_id") != source["asset_id"]
+            or decision.get("approval_mode") != request.get("approval_mode")
+        ):
+            raise ValueError("Ordinary-final selection does not match source asset or current authorization mode")
+        return findings
+    except (ValueError, TypeError, KeyError, OSError, UnicodeError, YAMLError) as error:
+        return [Finding("seedance.ordinary_final", str(error), "task_ids.json")]
+
+
 def draft_selected(root: Path, draft: dict[str, Any]) -> bool:
     if draft["review_status"] == "approved":
         return True
@@ -620,6 +851,27 @@ def draft_selected(root: Path, draft: dict[str, Any]) -> bool:
         ):
             return True
     return False
+
+
+def draft_input_findings(root: Path, draft: dict[str, Any]) -> list[Finding]:
+    if request_profile(draft) is None:
+        return []
+    try:
+        prompt = contained_path(root, draft["prompt_file"]).read_bytes()
+        digest = compute_request_hash(
+            prompt, draft["references"], draft["model"], draft["operation"],
+            draft["params"], approval_mode=draft.get("approval_mode"),
+            project_sha256=draft.get("project_sha256"),
+            capability_profile=request_profile(draft),
+        )
+        if digest != draft["request_sha256"] or hashlib.sha256(prompt).hexdigest() != draft["prompt_sha256"]:
+            return [Finding("seedance.draft_promotion_source", "Selected Draft inputs changed")]
+        return reference_findings(
+            root, draft["references"], prompt.decode("utf-8"), draft["schema_version"],
+            model=draft["model"],
+        )
+    except (OSError, ValueError, UnicodeError) as error:
+        return [Finding("seedance.draft_promotion_source", str(error))]
 
 
 def draft_promotion_findings(root: Path, request: dict[str, Any]) -> list[Finding]:
@@ -645,12 +897,34 @@ def draft_promotion_findings(root: Path, request: dict[str, Any]) -> list[Findin
         if draft is None:
             message = f"draft_task_id {task_id} names no registered operation"
         elif not (
-            SEEDANCE_25_MODEL.search(draft["model"].lower())
-            and draft["model"] == request["model"]
-            and draft["params"].get("draft") is True
-            and draft["params"].get("resolution") == "480p"
+            draft["model"] == request["model"]
+            and draft["transport"] == request["transport"]
+            and (draft["model"] in NATIVE_DRAFT_MODELS or request_profile(draft) is not None)
         ):
             message = f"{draft['operation_id']} is not a 480p draft of this model"
+        elif draft["submission_status"] != "terminal" or draft["provider_status"] != "succeeded":
+            message = f"{draft['operation_id']} is not a successful terminal native Draft"
+        elif request_profile(draft) != request_profile(request):
+            message = "Promotion model/transport/profile must match the selected Draft"
+        elif persisted_profile_findings(draft):
+            message = "Selected Draft capability profile is invalid or expired"
+        elif request_profile(draft) is not None and (
+            request_profile(draft)["evidence"]["preview"]["native_draft"] is not True
+            or request_profile(draft)["evidence"]["preview"]["promotion"] is not True
+        ):
+            message = "Selected task has no verified native promotion mechanics"
+        elif (
+            draft["operation"] not in VIDEO_OPERATIONS
+            or is_draft_promotion(draft["params"])
+            or native_draft_findings(draft)
+        ):
+            message = (
+                f"{draft['operation_id']} is not a 480p draft of this model"
+                if draft["model"] in NATIVE_DRAFT_MODELS
+                else f"{draft['operation_id']} is not a native preview matching verified controls"
+            )
+        elif draft_input_findings(root, draft):
+            message = "Selected Draft prompt, request hash or inherited references changed"
         elif not draft_selected(root, draft):
             message = f"{draft['operation_id']} has no approved review or selection"
         elif draft["prompt_sha256"] != request["prompt_sha256"]:
@@ -755,15 +1029,79 @@ def reference_findings(
     return findings
 
 
+def local_schema_target(root: Any, reference: Any) -> Any:
+    if not isinstance(reference, str):
+        raise TypeError("Unsupported capability schema reference")
+    if not reference.startswith("#"):
+        raise ValueError("Capability schemas must be self-contained; remote references are not loaded")
+    fragment = unquote(reference[1:], errors="strict")
+    if not fragment:
+        return root
+    if not fragment.startswith("/"):
+        raise ValueError("Unsupported capability schema reference; expected a local JSON pointer")
+    target = root
+    for token in fragment[1:].split("/"):
+        if re.search(r"~(?:[^01]|$)", token):
+            raise ValueError("Unsupported capability schema JSON pointer escape")
+        key = token.replace("~1", "/").replace("~0", "~")
+        if isinstance(target, dict) and key in target:
+            target = target[key]
+        elif (
+            isinstance(target, list)
+            and re.fullmatch(r"0|[1-9][0-9]*", key)
+            and len(key) <= len(str(len(target)))
+            and int(key) < len(target)
+        ):
+            target = target[int(key)]
+        else:
+            raise ValueError("Dangling capability schema JSON pointer")
+    return target
+
+
 def external_schema_references(value: Any) -> bool:
-    if isinstance(value, dict):
-        return any(
-            (key in ("$ref", "$dynamicRef") and not str(child).startswith("#"))
-            or external_schema_references(child)
-            for key, child in value.items()
-        )
-    if isinstance(value, list):
-        return any(external_schema_references(child) for child in value)
+    pending = [(value, 0, False)]
+    active: set[int] = set()
+    targets: dict[int, Any] = {}
+    count = 0
+    while pending:
+        schema, depth, leaving = pending.pop()
+        if leaving:
+            active.remove(id(schema))
+            continue
+        count += 1
+        if depth > 64 or count > 4096:
+            raise ValueError("Capability schema exceeds bounded traversal")
+        if isinstance(schema, bool):
+            continue
+        if not isinstance(schema, dict):
+            raise TypeError("Capability schema target must be an object or boolean")
+        if id(schema) in active:
+            raise ValueError("Capability schema has a recursive local target")
+        active.add(id(schema))
+        pending.append((schema, depth, True))
+        if any(isinstance(schema.get(key), str) and not schema[key].startswith("#")
+               for key in ("$ref", "$dynamicRef") if key in schema):
+            return True
+        for keyword in ("$ref", "$dynamicRef"):
+            if keyword in schema:
+                target = local_schema_target(value, schema[keyword])
+                targets[id(target)] = target
+                pending.append((target, depth + 1, False))
+        for key in ("properties", "patternProperties", "$defs", "definitions",
+                    "dependentSchemas"):
+            children = schema.get(key)
+            if isinstance(children, dict):
+                pending.extend((child, depth + 1, False) for child in children.values())
+        for key in ("allOf", "anyOf", "oneOf", "prefixItems"):
+            children = schema.get(key)
+            if isinstance(children, list):
+                pending.extend((child, depth + 1, False) for child in children)
+        for key in ("additionalProperties", "unevaluatedProperties", "propertyNames",
+                    "items", "unevaluatedItems", "contains", "if", "then", "else", "not"):
+            if key in schema:
+                pending.append((schema[key], depth + 1, False))
+    for target in targets.values():
+        Draft202012Validator.check_schema(target)
     return False
 
 
@@ -773,14 +1111,12 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
         return [
             Finding("model.supported_mode", finding.message) for finding in malformed
         ]
-    if external_schema_references(evidence["parameters"]):
-        return [
-            Finding(
-                "model.supported_mode",
-                "Capability schemas must be self-contained; remote references are not loaded",
-            )
-        ]
+    constraints = evidence.get("conditional_parameters", [])
     findings: list[Finding] = []
+    if evidence.get("schema_version") == 2:
+        findings.extend(profile_identity_findings(request, evidence))
+    elif request_profile(request) is not None:
+        findings.append(Finding("model.profile_binding", "Profile cannot use legacy evidence"))
     if evidence.get("model") != request["model"] or request[
         "operation"
     ] not in evidence.get("operations", []):
@@ -803,20 +1139,29 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
         "additionalProperties": False,
         "required": evidence.get("required_parameters", []),
     }
+    if evidence.get("schema_version") == 2 and constraints:
+        schema["allOf"] = constraints
     try:
+        if external_schema_references(schema):
+            return [Finding(
+                "model.supported_mode",
+                "Capability schemas must be self-contained; remote references are not loaded",
+            )]
         Draft202012Validator.check_schema(schema)
-        for error in Draft202012Validator(schema).iter_errors(request["params"]):
+        for error in Draft202012Validator(schema, registry=Registry()).iter_errors(request["params"]):
             message = error.message
-            if SEEDANCE_25_MODEL.search(request["model"].lower()):
+            if request["model"] in NATIVE_DRAFT_MODELS:
                 message += (
                     ". Resolve the Seedance 2.5 capability evidence or transport "
                     "without dropping native draft or falling back to plain 480p"
                 )
             findings.append(Finding("model.supported_mode", message))
-    except (SchemaError, TypeError, ValueError) as error:
+    except (SchemaError, TypeError, ValueError, Unresolvable) as error:
         findings.append(
             Finding("model.supported_mode", f"Invalid capability schema: {error}")
         )
+    except RecursionError:
+        findings.append(Finding("model.supported_mode", "Capability schema exceeds bounded recursion"))
     roles = [ref["role"] for ref in request["references"]]
     if any(role not in evidence.get("reference_roles", []) for role in roles):
         findings.append(
@@ -829,6 +1174,15 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
                 "model.supported_mode", "Reference count exceeds verified allowance"
             )
         )
+    if evidence.get("schema_version") == 2:
+        for kind in ("image", "video", "audio"):
+            count = sum(
+                ("audio" if "audio" in role else "video" if "video" in role else "image") == kind
+                for role in roles
+            )
+            limit = evidence["per_modality_limits"][kind]
+            if count and (limit is None or count > limit):
+                findings.append(Finding("model.supported_mode", f"{kind} allowance unknown or exceeded"))
     if (
         "reference_image" in roles
         and any(role in roles for role in ("first_frame", "last_frame"))
@@ -853,9 +1207,11 @@ def prepared_evidence_findings(
     findings = schema_findings(request, "generation-request.schema.json")
     if findings:
         return findings
+    findings.extend(persisted_profile_findings(request))
     if not existing_submission:
         findings.extend(native_draft_findings(request))
     root = Path(project_root).resolve()
+    findings.extend(ordinary_final_findings(root, request))
     try:
         project_review_mode(root)
     except (ValueError, TypeError, OSError, UnicodeError, YAMLError) as error:
@@ -883,6 +1239,7 @@ def prepared_evidence_findings(
             request["params"],
             approval_mode=request.get("approval_mode"),
             project_sha256=request.get("project_sha256"),
+            capability_profile=request_profile(request),
         )
         if digest != request["request_sha256"]:
             findings.append(

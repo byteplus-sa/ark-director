@@ -45,16 +45,16 @@ Record one audio route in the brief and carry it into every shot request:
 
 | Route | When | Request setting | Sound built |
 | --- | --- | --- | --- |
-| Native dialogue | Characters speak on camera and lip sync matters | `generate_audio: true` | In the clip; patch words in post when needed |
-| Picture only, post audio | Ambience-only, score-driven, music-video or wordless spots | `generate_audio: false` | Seed Audio score, ambience and SFX in post |
+| Native sound | Requested native dialogue, synchronized effects or ambience, including wordless clips | `generate_audio: true` when supported | In the clip; inspect actual picture and sound |
+| Picture only, post/master audio | Exact supplied master or explicitly chosen controlled post sound | `generate_audio: false` when supported | The selected master or authorized post sound |
 | Separate lip-sync audio | Only when the user asks for it | Audio reference bound per the alignment contract | Before the shot |
 | Silent | The deliverable is silent | `generate_audio: false` | None |
 
-With native audio on, a "no music, no spoken words" line does not reliably
-hold: speech, chants or score can leak into clips. Do not rely on a negative audio line for a piece whose sound
-must stay ambient or score-led; generate the picture silent and build the bed
-in post. Say in the brief that post beds are laid to the cut and are not
-frame-synced to on-screen action unless SFX are placed by timestamp.
+Resolve sound ownership, not speech presence. Purposeful silence adds no bed;
+unspecified ownership remains unresolved. Native sound may contain unwanted
+music or words: inspect and reject that result instead of muting requested
+clicks or room tone. Listen again after promotion. Post beds are laid to the
+cut and are not frame-synced unless SFX are placed by timestamp.
 
 ## 3. Intent-led structure for ads and TVCs
 
@@ -122,13 +122,17 @@ final edit. Missing perception or a failed critical criterion blocks acceptance.
 - **No grade unless the brief records a look.** Keep the original model colours
   that matched the approved drafts. Add a grade, grain, halation, vignette or a
   capture-format look only when the brief records one. A capture-format look
-  (for example camcorder) is a post treatment; a prompt word alone does not
-  reliably produce it.
-- Decode 10-bit HEVC finals as limited-range BT.709, tag outputs BT.709 and
-  dither to 8-bit. Avoid FFmpeg `vignette` inside a high-bit-depth chain; it
+  (for example camcorder) may use an authorized post treatment; historical
+  prompt reliability is not a family prohibition.
+- Inspect each artifact's codec, pixel format, bit depth, range, primaries,
+  transfer and matrix. Unknown or conflicting tags remain unresolved; do not
+  retag them by model name. The limited-range BT.709 decode and 8-bit dither
+  recipe applies only to measured matching 10-bit HEVC streams and delivery.
+  Avoid FFmpeg `vignette` inside a high-bit-depth chain; it
   drops to 8-bit YUV and shifts hues.
 - Render each clip to an **exact-length lossless intermediate** in whole frames,
-  pad or trim its audio to the same length, join with the concat demuxer and
+  preserve fractional timing, final spoken words and audio tails; any needed
+  padding or trimming requires the recorded source/edit authorization. Join with the concat demuxer and
   encode once. The concat filter needs `setsar=1`. Read the video-stream
   duration, not the container duration.
 - Check frame edges: the model sometimes draws rounded black side bars; a small

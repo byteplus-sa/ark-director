@@ -195,9 +195,11 @@ across audio/video prompt drafts and bind supplied audio references. Actual audi
 timing must be inspected before the calling production workflow submits video.
 Shorten only editable copy; flag duration conflicts when dialogue is locked.
 This leaf writes prompts and does not invoke siblings or submit generation tools.
-Without a separate-audio request, describe native audio directly; for a silent
-or ambience-only result set `generate_audio: false` and add the bed in post,
-because native audio can leak music or speech despite an "ambience only" line.
+Resolve sound ownership: requested native dialogue, synchronized effects or
+ambience stay native when supported, including wordless scenes. Exact masters
+or explicitly controlled post sound use picture-only when supported; purposeful silence
+adds no bed. Unspecified ownership stays unresolved. Inspect and reject unwanted
+music instead of muting requested clicks or room tone; listen again after promotion.
 
 Close with the user's one intended action and actual destination. Tone can be
 soft for discovery or direct for a supported offer, but the requested CTA wins

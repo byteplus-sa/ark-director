@@ -83,13 +83,14 @@
     {
       "id": 7,
       "prompt": "This pin is a wordless perfume ad carried by an orchestral score and room ambience. Rebuild it for our fragrance with matching sound.",
-      "expected_output": "A picture-only generation plan with the score and ambience rebuilt in post from the verified audio grammar.",
+      "expected_output": "A verified sound-grammar plan with a focused ownership decision before generation. Wordless score and ambience do not automatically select picture-only generation or a replacement post bed.",
       "files": [],
       "assertions": [
-        "Generates picture with generate_audio false instead of relying on a negative 'no speech' line in native audio.",
-        "Maps the verified sound grammar (arc, accents, silences) to a Seed Audio post bed, without copying the source recording or melody.",
-        "Diagnoses rejected music samples before retrying and measures the bed's timing, padding or splicing it to the cut in assembly.",
-        "Assembles in the takes' original colours from exact-length intermediates."
+        "Resolves native, post, exact-master, mixed or silent ownership with the user rather than inferring post ownership from genre or missing speech.",
+        "Only a selected supported post branch generates picture-only video and maps verified sound grammar to an authorized replacement bed without copying the source recording or melody.",
+        "Diagnoses rejected samples without automatically retrying, changing ownership or authorizing padding, trimming, splicing or crossfades.",
+        "Preserves independent picture and sound spans and offsets; a timing adaptation needs explicit approval and source/derivative evidence.",
+        "Assembles in the takes' original colours using whole-frame lossless picture intermediates without whole-second retiming or automatic sound conform."
       ]
     },
     {
@@ -165,6 +166,81 @@
         "Supplies actual media through a supported URL or upload, follows current tool capabilities and records why fallback was needed.",
         "Applies the same beat checklist, timing reconciliation and uncertainty requirements to the tool output.",
         "Keeps analysis inputs ineligible for generation unless separately approved."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "The source is 5.125 seconds with a final spoken word and room-tone tail. Preserve every frame and native latch clicks. No extra probes or post audio are authorized.",
+      "expected_output": "Preserves fractional duration, frame count, FPS, timestamps, cuts, speed, final word and audio tails. Requested native sound remains native when supported; unknown capability is unresolved. Rejects mandatory extra probes and unauthorized padding, trimming or post beds.",
+      "files": [],
+      "expectations": ["A partial probe requires its own explicit span and generation-scope approval.", "Missing speech is not permission to mute requested native sound."]
+    },
+    {
+      "id": 15,
+      "prompt": "Give me a recipe only for this wordless clip; sound ownership is unspecified. Do not initialize or generate anything.",
+      "expected_output": "Returns recipe text and a focused sound-ownership question. Keeps settings unresolved and performs no uploads, request writes, registry changes or generation.",
+      "files": [],
+      "expectations": ["Recipe-only scope remains side-effect-free.", "Unspecified ownership does not imply picture-only or a new bed."]
+    },
+    {
+      "id": 16,
+      "prompt": "Write a multi-clip recipe for a wordless latch demonstration with native room tone and synchronized clicks. Keep native sound when the selected model supports it; do not generate or upload anything.",
+      "expected_output": "A native sound-owned recipe, with capability uncertainty left unresolved and listening checks planned for clip seams and the promoted final. No media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "Wordless sound does not trigger picture-only mode or a replacement post bed.",
+        "Requested native room tone and synchronized clicks stay native when supported; unsupported or unknown mechanics are a feasibility gap, not permission to mute.",
+        "Plans actual listening at openings, seams, final clicks and tails after assembly and any promotion without claiming listening evidence from recipe text.",
+        "Performs no media or generation calls, uploads, request writes or registry changes."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Plan only a mixed-sound assembly: native synchronized machine sounds, an approved exact-master voice track starting 0.375 seconds later, and a selected post music layer. Keep each layer's span and offset unchanged.",
+      "expected_output": "A mixed ownership map with native, exact-master and post layers, independent spans and offsets, and explicit approval gates for any adaptation. No media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "Records each layer's owner, span and offsets; does not flatten mixed ownership into a replacement bed.",
+        "Keeps exact-master bytes and the 0.375-second start offset unchanged and preserves supported native synchronized sound.",
+        "A selected post layer does not authorize trimming the master, changing native ownership or extending picture.",
+        "No media or generation, uploads, file writes or task submissions occur in plan-only scope."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Give me a silent multi-clip template recipe. This is purposeful silence, including the seams and ending. No sound generation, replacement bed or file writes.",
+      "expected_output": "A silent ownership recipe that preserves purposeful silence with no bed, ambience, effects or invented soundtrack. No media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "The silent branch records purposeful silence and no bed rather than unresolved or missing audio.",
+        "Uses picture-only controls only where the selected model supports them; unsupported silence is a feasibility gap.",
+        "Does not generate score, room tone, effects or a replacement post layer at clip seams or the ending.",
+        "No media or generation, uploads, request writes or registry mutations occur."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Plan assembly only. Picture is exactly 5.125 seconds; the exact-master sound is 5.600 seconds with a final spoken word and tail. Generation supports only longer whole-second clips. Preserve all approved source timing.",
+      "expected_output": "A plan retaining 5.125-second picture and 5.600-second sound with final words and tail intact. Generation headroom remains outside the locked picture window; any required adaptation awaits approval. No media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "Distinguishes supported generation headroom from final timing authority and whole-frame representation from whole-second retiming.",
+        "Preserves independent 5.125-second picture and 5.600-second sound spans, final word, tail and offsets; does not use hidden -shortest.",
+        "Does not pad picture or trim sound to force equality; any derivative needs explicit approval, exact windows, hashes, command and timing/audio consequences.",
+        "Reports unsupported unchanged delivery as unresolved rather than silently conforming the master.",
+        "No media or generation, file writes, uploads or submissions occur."
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "Recipe only: picture is 6.250 seconds, and a shorter exact-master sound lasts 4.500 seconds starting at offset 0.250. Keep both spans unchanged. Do not pad, loop, extend or generate anything.",
+      "expected_output": "A shorter-sound plan with unchanged independent spans and offsets. Any sound padding or picture retiming requires separate approval; no media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "Preserves the shorter 4.500-second exact-master and its 0.250-second offset without stretching, looping, padding or splicing it to picture.",
+        "Keeps 6.250-second picture unchanged and records the intended remaining sound-free interval rather than inventing a bed.",
+        "Explains any delivery limitation as unresolved and obtains explicit approval before a derivative or ownership change.",
+        "No media or generation, uploads, request writes or registry changes occur."
       ]
     }
   ]

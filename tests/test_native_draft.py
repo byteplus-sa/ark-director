@@ -7,6 +7,7 @@ import unittest
 
 import test_prepare_request as preparation
 import test_request_validation as validation_fixtures
+import test_seedance_capability_profiles as profiles
 
 operation_store = sys.modules["operation_store"]
 validation = preparation.validation
@@ -170,6 +171,40 @@ class NativeDraftTests(unittest.TestCase):
                     "seedance.draft_promotion",
                     {finding.rule_id for finding in self.findings()},
                 )
+
+    def test_exact_legacy_profiles_keep_boolean_480p_controls_in_every_context(self):
+        for model in (MODEL, "dreamina-seedance-2-5-premium-260915"):
+            for operation in sorted(validation.VIDEO_OPERATIONS):
+                for transport in ("ark-mcp", "arkcli", "curl"):
+                    for review_mode in ("default", "strict"):
+                        with self.subTest(model=model, operation=operation,
+                                          transport=transport, review=review_mode):
+                            (self.root / "project.md").write_text(
+                                f"---\nreview_mode: {review_mode}\n---\n")
+                            evidence = profiles.profile(True)
+                            evidence.update(model=model, operation=operation,
+                                            operations=[operation], transport=transport,
+                                            conditional_parameters=[{}])
+                            self.request.update(model=model, operation=operation,
+                                                transport=transport)
+                            for controls, allowed in (
+                                ({"draft": True, "resolution": "480p"}, True),
+                                ({"draft": True, "resolution": "720p"}, False),
+                                ({"draft": 1, "resolution": "480p"}, False),
+                                ({"preview_mode": "native", "resolution": "480p"}, False),
+                            ):
+                                evidence["parameters"]["preview_mode"] = {
+                                    "enum": ["native"]}
+                                evidence["preview"]["parameters"] = controls
+                                self.request["params"] = copy.deepcopy(controls)
+                                self.request["extensions"] = {"capability_profile": {
+                                    "expected": {"provider": "fixture-provider",
+                                                 "tool_schema_revision": "fixture-revision-1"},
+                                    "evidence": copy.deepcopy(evidence),
+                                    "sha256": validation.capability_digest(evidence),
+                                }}
+                                findings = validation.native_draft_findings(self.request)
+                                self.assertEqual(not findings, allowed, findings)
 
     def test_delivery_target_and_review_pass_do_not_authorize_plain_480p(self):
         self.request["extensions"] = {"delivery_resolution": "1080p"}

@@ -119,13 +119,13 @@ an exact shape or near-to-far focus outcome.
 
 ### Focus changes: rack focus and focus loss
 
-This skill owns focus-change wording. Seedance tends to keep a face sharp: a
-face asked to drift out of focus often stays sharp while the model softens the
+This skill owns focus-change wording. Historical 2.5 observations suggested
+face-sharp bias: a face asked to drift out of focus sometimes stayed sharp while the model softened the
 background instead.
 
 | Change | Status | What to write |
 |---|---|---|
-| Face sharp, then focus left behind on the background (rack away from a face, focus loss during a move) | **Post only** | Generate with ordinary focus on the face; add the defocus ramp in post (FFmpeg or HyperFrames), or carry the change with light, a move or a cut |
+| Face sharp, then focus left behind on the background (rack away from a face, focus loss during a move) | Historical 2.5 uncertainty, not a family prohibition | Preserve the requested sharp plane and transition endpoints; inspect the selected model/operation result. A post defocus, move or cut is only an authorized alternative |
 | Foreground object sharp, then focus pulls onto a face behind it | Unverified hypothesis; check a 480p draft | `Rack focus: focus starts on <foreground object>, sharp, with <subject> soft behind it; at <N>s focus shifts smoothly to <subject>, the <foreground object> blurring as <subject>'s face turns sharp.` |
 | Between two objects with no face | Unverified hypothesis; check a 480p draft | The same template with both planes named as visible objects |
 
@@ -163,12 +163,13 @@ have a flare. The label does not authorize inventing either feature.
 Sensor character is a texture and tone choice, not a resolution guarantee.
 Pair it with the actual output resolution set in the generation interface.
 
-**Tape and camcorder looks are post treatments for Seedance video.** A
-camcorder format word ("MiniDV") in a Seedance prompt tends to return clean
-cinema footage. For a VHS, MiniDV or camcorder piece, prompt the
+**Tape and camcorder reliability is historical evidence, not a family rule.**
+Historical 2.5 examples sometimes returned clean cinema footage from "MiniDV".
+For another selected model/operation, support and visible results remain
+unverified. Preserve requested texture and any no-post lock. Prompt the
 camera behaviour the format implies (handheld at arm's length, an on-camera
-light; whether these cues read as tape is unverified) and apply the scanlines,
-color bleed, noise and frame size in post. The caller uses an available
+light; whether these cues read as tape is unverified). Propose scanlines,
+color bleed, noise and frame-size post treatment only with authorization. The caller uses an available
 post-look capability; this skill neither invokes nor assumes an installed
 color-grade department. The sensor phrase may still serve a Seedream still,
 where it is an unverified heuristic. Grain, halation or vignette may be requested
@@ -315,10 +316,10 @@ Before delivering a prompt built with this skill, verify:
    aberration behavior.
 8. **Supported controls remain separate** — no authoring field is presented
    as a provider parameter without live evidence.
-9. **Focus changes are honest** — no prompted focus pull away from a face; that
-   defocus is a post step, and a pull onto a face is marked unverified.
-10. **Tape and camcorder looks stay in post** for Seedance video; grain,
-    halation and vignette stay within requested or delegated look scope.
+9. **Focus changes are honest** — preserve requested endpoints and scoped
+   uncertainty; do not substitute post, a move or a cut without authorization.
+10. **Tape and camcorder observations are scoped** to model, operation and
+    evidence; grain, halation and vignette stay within requested or delegated scope.
 
 ## Guide disclaimer
 

@@ -11,6 +11,11 @@ description: >
 
 # Seedance Animation Styles
 
+The caller may compose material and motion intent with `seedance-prompt`,
+preserving the selected model. Historical 2.5 six-part examples below are
+optional adapter examples, not inherited family syntax or capability claims.
+The caller owns verified adapter selection, applicable review and execution.
+
 Write ready-to-use Seedance prompts for distinct animation styles. Make the
 chosen medium visible not only in the opening image, but also in how characters,
 props, environments, effects, and transitions move throughout the sequence.
@@ -207,7 +212,8 @@ Use when the user only wants animation-style wording:
 ### Full animation prompt
 
 Use when the user asks for a complete Seedance prompt. The full-prompt form uses
-the six-part formula (see `seedance-prompt-25` for the grammar); the
+the neutral creative handoff (see `seedance-prompt`); the caller chooses a
+verified versioned adapter for execution. In a selected 2.5 six-part example, the
 `[Animation Medium]` block drops into the **Visual Style** slot:
 
 ```text

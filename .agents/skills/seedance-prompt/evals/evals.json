@@ -1,0 +1,137 @@
+{
+  "skill_name": "seedance-prompt",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a generic Seedance prompt for a ceramic cup turning slowly on a shelf. Keep my selected exact model dreamina-seedance-2-0-260128. No tool calls.",
+      "expected_output": "Reusable shot direction, the selected model retained in separate settings and unresolved execution facts labeled.",
+      "files": [],
+      "expectations": [
+        "The selected exact model is preserved without substitution.",
+        "Subject action, camera and intended end state follow the brief.",
+        "No tools, writes, generation or automatic adapter loading occur."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Use my selected Seedance 2.5 Flash model dreamina-seedance-2-5-flash-261115 for the same restrained pottery shot. I do not have current operation or tool-schema evidence.",
+      "expected_output": "Useful creative direction with unresolved controls, not inherited standard-2.5 capabilities.",
+      "files": [],
+      "expectations": [
+        "Flash remains selected and no default replaces it.",
+        "Draft, duration, references, audio and delivery support are not inferred from the name.",
+        "No submission, profile fabrication or paid capability probe is performed."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "My brief is empty. Write the Seedance prompt without choosing a subject, language or production format for me.",
+      "expected_output": "A focused request for the material missing brief choices.",
+      "files": [],
+      "expectations": [
+        "Missing subject/action or purpose is clarified.",
+        "No subject, market, cast, language or format is invented as a default.",
+        "No files, generation or production setup are created."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Make a Seedream image prompt for a still botanical poster, not a Seedance video prompt.",
+      "expected_output": "A narrow out-of-scope handoff rather than a video workflow.",
+      "files": [],
+      "expectations": [
+        "The image request is not treated as a Seedance shot.",
+        "No camera-motion, Draft or video-review gates are imposed.",
+        "The leaf does not load or execute an image skill."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Refine this new Seedance shot: a groundskeeper lifts a latch, native metal clicks, no dialogue and no score. Do not generate separate audio.",
+      "expected_output": "Wordless direction preserving requested native contact sound.",
+      "files": [],
+      "expectations": [
+        "Native latch clicks remain the requested sound ownership.",
+        "Dialogue absence does not force post audio or muting.",
+        "No music, separate audio call or unsupported audio parameter is added."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Write a completely silent Seedance shot of a leaf settling on a pond. Keep the camera still.",
+      "expected_output": "Still camera and purposeful silence retained.",
+      "files": [],
+      "expectations": [
+        "Silence is explicit rather than an automatic ambience or music bed.",
+        "The requested still camera is not replaced by a move quota.",
+        "Execution audio controls are separate and unresolved unless evidenced."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I approved a storyboard panel crop of a shop entrance. Use its staging to write a generic Seedance prompt; I have no separately authored clean keyframe.",
+      "expected_output": "Staging translated into text with an unresolved eligible reference slot.",
+      "files": [],
+      "expectations": [
+        "The panel crop remains planning-only despite approval.",
+        "It is not placed in any first-frame or reference-image conditioning role.",
+        "No keyframe is generated or uploaded to fill the missing slot."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "The new shot has a coherent dolly-in, gentle orbit and gradual rise. Keep all three camera components and the planned focus transition.",
+      "expected_output": "Coherent compound camera and focus intent without a family-wide move cap.",
+      "files": [],
+      "expectations": [
+        "All requested coherent components and focus intent are preserved.",
+        "No two-move limit or unsupported-family verdict is imposed.",
+        "Simplification is proposed only for a concrete simultaneous contradiction."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Write a restrained baker-customer shot with the exact Spanish line 'Buenos dias.' Do not infer another language or change the copy.",
+      "expected_output": "Approved dialogue retained with language support kept separate from creative text.",
+      "files": [],
+      "expectations": [
+        "The supplied line remains verbatim.",
+        "Installed market packs do not change language or register.",
+        "Native voice/lip-sync support is not claimed without applicable evidence."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Keep Flash explicitly selected and my locked 4K final target. We have no verified profile for that target. Just give the creative prompt.",
+      "expected_output": "Creative direction with the execution conflict unresolved and alternatives unselected.",
+      "files": [],
+      "expectations": [
+        "Neither model nor locked final target changes silently.",
+        "No generic-family API ID, fabricated support or ordinary-preview substitute appears.",
+        "Alternative models or workflows remain proposals, with no tool calls."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "I have a 7.37-second source clip with a long audio tail. Replace only its umbrella color, no trims, retiming or additional probes.",
+      "expected_output": "Narrow handoff to the source-video edit capability with timing and source locks retained.",
+      "files": [],
+      "expectations": [
+        "The source edit is not expanded into a new generation workflow by this leaf.",
+        "7.37-second timing and the original audio tail remain unchanged.",
+        "No rounding, trimming, padding, probe, upload or write is authorized."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "My real-person face asset is Active, but the voice asset is pending. Write a presenter prompt only; do not use the raw voice recording for submission.",
+      "expected_output": "Presenter direction and a separate unresolved voice authorization, without media binding or side effects.",
+      "files": [],
+      "expectations": [
+        "Face approval does not imply independent voice authorization.",
+        "No raw recording, disguised identity or pending voice asset is submitted.",
+        "Prompt-only writing remains possible without fabricated approval records."
+      ]
+    }
+  ]
+}

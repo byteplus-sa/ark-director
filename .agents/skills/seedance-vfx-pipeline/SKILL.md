@@ -103,9 +103,16 @@ Transfer and Restyle submit the muted source master with audio added in post
 (a VFX edit keeps its own audio handling),
 and Object Swap and Motion Transfer first run `source-subject-map` once per
 source. Batch variants repeat Steps 1–8
-per variant row, with a 480p key-beat probe before each final, a side-by-side
+per variant row, with the applicable full-duration preview, a side-by-side
 against the source, and a Studio frame per row. This orchestrator owns that
 sequencing; see [Recast And Variants](references/recast-and-variants.md).
+
+A separate partial probe is optional for a bounded uncertainty and requires
+explicit span and generation-scope approval. Preserve source fractional
+duration, frame count, FPS, timestamps, cuts, speed, final spoken word and audio
+tails. A probe cannot authorize a full-duration final. Prompt-only requests
+return creative text and unresolved settings without uploads, initialization,
+request files, registration or submission.
 
 ## Before/after demo recipe (turnkey)
 

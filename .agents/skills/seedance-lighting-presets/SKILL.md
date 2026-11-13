@@ -144,12 +144,12 @@ records its time, change and trigger.
 | Dim | `From <N>s to <M>s, <declared source> fades down to <visible result>.` |
 | Flicker | `At <N>s, <declared source> flickers <twice / rapidly for about one second>, then <holds steady / goes out>.` |
 
-A stated cue time tends to be honoured closely, and an `off` cue switches the
-source instantly, so write a fade as a time range and check the timing in a
-draft. Plain wording ("the lamp goes out") already produces the change; the
-timestamp adds control of when it lands and of the hold after it. An untimed
-"partway through" lands at an unplanned moment. Name the source the scene
-already declared, and say what the frame looks like after the change.
+Historical 2.5 cue observations are not a family timing guarantee. Express
+the requested event, trigger, time range and resulting frame without promising
+frame accuracy. Preserve the selected model, operation and source-light locks;
+unknown evidence stays unresolved until actual playback. Post timing repairs
+and extra probes require separate authorization. Name only a source already
+declared by the scene.
 
 ## Parameter schema
 

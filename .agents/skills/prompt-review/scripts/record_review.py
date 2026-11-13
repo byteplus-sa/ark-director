@@ -65,6 +65,7 @@ def request_identity(root: Path, relative: str) -> tuple[str, str]:
         request["params"],
         approval_mode=request.get("approval_mode"),
         project_sha256=request.get("project_sha256"),
+        capability_profile=validation.request_profile(request),
     )
     if digest != request["request_sha256"]:
         raise ValueError("Request file is stale; its request_sha256 no longer matches")

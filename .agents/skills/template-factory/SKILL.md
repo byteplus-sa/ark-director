@@ -180,15 +180,17 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
    exact brand copy, logos and captions out of the video prompt (plain, clean
    space) and composite them afterwards as deterministic `html-graphic-render`
    overlays (ffmpeg `overlay` with a short alpha fade).
-   **Audio route:** when the pin's sound is score-led, ambient or a music bed,
-   generate picture with `generate_audio: false` and rebuild the sound grammar
-   with Seed Audio in post, because a "no speech" or "ambience only" line on
-   native audio does not reliably keep speech or score out. Keep native audio for on-camera
-   dialogue.
+   **Audio route from sound ownership:** exact supplied masters or explicitly
+   controlled post sound use picture-only generation when supported. Requested
+   native dialogue, synchronized effects or ambience retain native sound even
+   without speech. Purposeful silence adds no bed; unspecified ownership is
+   unresolved. Listen for unwanted music and reject it without muting requested
+   clicks or room tone. Promoted sound needs fresh listening.
    Seedance can stretch dense beat timelines, and a stronger timing prompt does
-   not reliably fix it. Measure the take's actual cuts. When its beats land late, retime
-   in the edit (trim a held tail, clone-pad the final hold, crossfade audio)
-   rather than regenerating, and record the edit operations on the take.
+   not reliably fix it. Measure the take's actual cuts and fractional source
+   timing, final spoken word and audio tails. Retiming, padding, trimming or
+   crossfades are proposals requiring edit-scope authorization; never repair a
+   source-preserving mismatch silently.
    Capture-format and texture looks in the pin (camcorder, film grain,
    scanlines, halation) are not reliably produced by prompt words; record them
    as a post treatment in the recipe and apply them only when the run locks

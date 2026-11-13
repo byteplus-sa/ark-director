@@ -68,11 +68,11 @@
     {
       "id": 6,
       "prompt": "Write a Seedance 2.5 prompt for a handheld found-footage clip of a diner at night, shot on a VHS sensor — scanlines, color bleed, soft low-fi look.",
-      "expected_output": "A Seedance prompt that stages handheld found-footage behaviour in the diner and keeps the VHS tape markers (scanlines, color bleed, soft low-fi image) as a post treatment, explaining that a tape or camcorder word in a Seedance prompt tends to return clean footage.",
+      "expected_output": "Preserves requested handheld and VHS texture intent. Labels historical 2.5 tape reliability as scoped uncertainty, not a family prohibition. Offers deterministic post only as an unselected alternative requiring authorization.",
       "files": [],
       "expectations": [
         "The output does not rely on a VHS or camcorder word in the Seedance prompt to produce the tape look.",
-        "It assigns the scanlines, color bleed and soft low-fi image to post and says so.",
+        "It does not force scanlines, color bleed or a low-fi image into unauthorized post work; requested texture remains intact.",
         "The prompt still stages the found-footage camera behaviour, such as handheld framing, with the diner subject and scene.",
         "It does not combine the tape look with a second competing sensor or lens character.",
         "It adds no grain, halation or vignette beyond the requested look."
@@ -105,11 +105,11 @@
     {
       "id": 9,
       "prompt": "Write the lens line for a push-in where her face drifts out of focus while the camera keeps moving, to show she is losing control.",
-      "expected_output": "An explanation that prompted focus loss tends not to hold, with a lens line using ordinary focus and the defocus moved to post.",
+      "expected_output": "A lens line preserving the requested sharp-to-soft planes and endpoints. Historical 2.5 face-sharp bias is scoped uncertainty; post defocus or a changed camera/light/edit is an unselected alternative, not an automatic replacement.",
       "files": [],
       "expectations": [
         "It does not present the drifting focus as a reliable prompt preset.",
-        "It recommends generating with ordinary focus and adding a defocus ramp in post, or using light and the edit instead.",
+        "It preserves the requested focus loss and camera path; any post, light, move or cut alternative requires authorization.",
         "It does not stack extra blur or a second move in the prompt.",
         "It keeps the push-in as the camera move."
       ]
@@ -147,7 +147,7 @@
         "The line names the knife as the starting sharp plane and the woman's face as the ending sharp plane, each as a visible result.",
         "The focus change has a time or a clear start and end.",
         "The output marks a pull onto a face as unverified and suggests checking it in a 480p draft.",
-        "It contrasts this with a pull away from a face, which belongs in post.",
+        "It scopes uncertainty for both focus directions to the selected model/operation; neither direction is a family guarantee or post-only rule.",
         "No numeric aperture or focal length appears without a visible result."
       ]
     }

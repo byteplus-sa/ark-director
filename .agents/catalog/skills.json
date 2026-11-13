@@ -1,6 +1,15 @@
 {
   "schema_version": 1,
   "skills": {
+    "seedance-prompt": {
+      "kind": "leaf",
+      "description": "Compose model-neutral video prompts. Use for generic Seedance prompt writing or refinement. Do not use for image prompts, media execution, source-video edits or version-specific API syntax.",
+      "readme_summary": "Compose model-neutral Seedance creative prompts while preserving the selected model, locks, reference authority and sound ownership; execution remains caller-owned.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": "Local neutral creative handoff; retained versioned adapters and exact defaults remain unchanged."
+    },
     "acting-direction": {
       "kind": "leaf",
       "description": "Direct character objectives, tactics, listening and performance beats. Use for scene acting, dialogue delivery or flat performances. Not for generation or model-specific cue encoding.",
@@ -292,7 +301,7 @@
     "seedance-lens-presets": {
       "kind": "leaf",
       "description": "Turns a lens, focal length, aperture, focus or sensor request into a canonical visible-result phrase for Seedance 2.5 prompts or the Seedream style. Trigger words: lens, focal length, 35mm, 50mm, 85mm, wide angle, telephoto, anamorphic, fisheye, macro, aperture, f-stop, f/1.4, depth of field, bokeh, shallow DOF, deep focus, rack focus, focus pull, or a lens intent from a shot plan. Keep optical look separate from supported output parameters; preserve the selected model and send unresolved resolution needs to the caller rather than switching models automatically.",
-      "readme_summary": "Translates a lens, focal length, aperture, focus or sensor request into a canonical visible-result phrase for Seedance prompts or Seedream style, and routes unreliable focus pulls and tape looks to post.",
+      "readme_summary": "Translate lens, focus and sensor intent into visible-result phrases, preserving locks and scoped uncertainty; post alternatives require authorization.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -309,8 +318,8 @@
     },
     "seedance-motion-design": {
       "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 motion-design and motion-graphics prompts for marketing deliverables \u2014 launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers. Exact words, numbers, charts, logos, and UI are authored as deterministic HTML-entrypoint graphics for post-composited fidelity; Seedream supplies only synthesized image layers and Seedance supplies text-free footage or intentionally non-exact plate motion. Use whenever the user asks for motion design, motion graphics, kinetic typography, a logo reveal, product motion, an explainer video, an animated data story, or any text/graphic-driven marketing motion. Composes in prose with html-graphic-render for exact static graphics, seedance-prompt-25 for the six-part formula, seedream-prompt or seedream-storyboard for synthesized image/keyframe layers, and seed-audio-prompt for voice/music. Does not call the API itself.",
-      "readme_summary": "Write Seedance 2.5 motion-design prompts while routing exact typography and UI to deterministic post graphics and synthesized visual layers to Seedream.",
+      "description": "Write production-grade Seedance motion-design and motion-graphics prompts for marketing deliverables \u2014 launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers. Exact words, numbers, charts, logos, and UI are authored as deterministic HTML-entrypoint graphics for post-composited fidelity; Seedream supplies only synthesized image layers and Seedance supplies text-free footage or intentionally non-exact plate motion. Use whenever the user asks for motion design, motion graphics, kinetic typography, a logo reveal, product motion, an explainer video, an animated data story, or any text/graphic-driven marketing motion. Composes in prose with html-graphic-render for exact static graphics, seedance-prompt for creative text, seedream-prompt or seedream-storyboard for synthesized image/keyframe layers, and seed-audio-prompt for voice/music. Does not call the API itself.",
+      "readme_summary": "Write model-neutral motion-design prompts, separating planning-only boards, eligible clean keyframes and deterministic exact graphics.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -318,7 +327,7 @@
     },
     "seedance-music-video": {
       "kind": "orchestrator",
-      "description": "Write Seedance 2.5 music-video prompts from a song, artist brief, or requested format. Map song sections, beat density, performer intent, camera, lyric timing, native versus supplied audio, and natural scene duration into the six-part formula. Cover rap, dance, performance, narrative, abstract, vertical, and custom formats. Use for song-driven visual direction, lyric/performance videos, or music-video revisions. This prompt-only leaf does not generate media; the caller composes only requested specialist axes and owns review and submission.",
+      "description": "Write Seedance music-video prompts from a song, artist brief, or requested format. Map song sections, beat density, performer intent, camera, lyric timing, native versus supplied audio, and natural scene duration into the six-part formula. Cover rap, dance, performance, narrative, abstract, vertical, and custom formats. Use for song-driven visual direction, lyric/performance videos, or music-video revisions. This prompt-only leaf does not generate media; the caller composes only requested specialist axes and owns review and submission.",
       "readme_summary": "Develop track-informed music-video treatments with intentional escalation, restraint, repetition or counterpoint and optional evidence-based synchronization.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -625,7 +634,7 @@
     "seedance-ai-avatar": {
       "kind": "orchestrator",
       "description": "Build a reusable AI avatar (digital twin) of a consenting real presenter and generate lip-synced Seedance 2.5 talking-head takes of them saying new lines. Covers the consent and real-likeness policy gates with provenance, verified photo collection, a Seedream identity character sheet, voice-timbre clip isolation from the presenter's own video (VOD voice separation), locked 1:1 and 9:16 camera-beat talking-head prompt templates, and take QA (identity, transcript diff, lip-sync, voice resemblance). Never disguises or reroutes inputs after a provider privacy rejection. Use when the user wants an AI avatar, digital twin, or voice clone of a creator, host, founder, or spokesperson speaking a new script in Seedance. Pair with seedance-avatar-news for the full news-short edit.",
-      "readme_summary": "Authorized real-presenter AI avatar: consent gate, Seedream character sheet, isolated voice clip, sheet-only lip-synced Seedance talking-head takes and QA.",
+      "readme_summary": "Authorized real-presenter avatar planning with independent consent, policy and Active face/voice asset gates; raw sheets and voice clips remain onboarding/QA material.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
