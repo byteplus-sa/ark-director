@@ -48,6 +48,16 @@ the requested delta and sample count: one image per grid or separate panel in
 default mode, three stochastic variants in strict mode unless the user specifies
 a count. Panel count and a three-panel sheet layout are not variant counts.
 
+Preserve the selected model before considering defaults. If none is selected,
+resolve the configured exact model ID and verify the requested operation,
+reference count, size, format, and parameters against the current provider and
+destination tool schema. Unknown capability evidence remains unresolved.
+Do not substitute a model, transport, full-frame operation, or extra calls
+without authorization. Offer alternatives as unselected proposals.
+In prompt-only mode return the prompt, ordered references, and separate verified
+or unresolved settings; do not submit. Reconcile an interrupted or ambiguous
+submission before any retry or transport change.
+
 ## Source authority
 
 Follow the official [capability matrix](https://docs.byteplus.com/en/docs/ModelArk/1824121),
@@ -201,19 +211,23 @@ no texture detail, no material finishes.
 
 ## Model selection
 
-Choose the path according to the production need.
+Preserve the selected model. Resolve the configured exact model ID only when
+the request has not selected one. A valid configured Pro default remains valid;
+it never overrides an explicit 5.5 or future-model selection.
 
-| Need | Preferred path | Important limits |
+| Need | Path after verification | Important limits |
 |---|---|---|
-| Single-image grid storyboard (multiple panels in one image) | Seedream 5.0 Pro, `dola-seedream-5-0-pro-260628` | Single-image output; up to 10 references; 1K/2K; works because the grid is one image |
-| Precise single panel, local correction, marked-region edit | Seedream 5.0 Pro, `dola-seedream-5-0-pro-260628` | Single-image output; up to 10 references; 1K/2K; interactive editing |
-| Coordinated multi-panel sequence as separate images in one request | Seedream 5.0 Lite or configured 4.x binding | Supports multiple outputs; input references + outputs must stay within the live model limit |
-| Three alternatives for one panel | Parallel variation generation | Each output is a candidate, not an ordered story sequence |
-| No configured sequence-capable model | Pro, one panel at a time from the same canon | Reuse the same approved anchors and continuity record |
+| Single-image grid storyboard | Selected model's single-image generation | A grid is one image, not native sequential output |
+| Single panel or local correction | Selected model's generation or verified interactive edit | Check references, size, and coordinate mapping for that operation and tool |
+| Separate panels in one request | Selected model with verified native sequential support | Pro and 5.5 do not support native sequential generation; unknown models are unresolved |
+| Alternatives for one panel | Authorized stochastic samples or creative variants | Candidates are not story beats; optional seed controls need model and tool support |
+| No verified sequential path | Offer per-panel prompts/calls from the same canon | A change in model, call count, or delivery mode requires authorization |
 
-Never invent a model binding. If Lite or 4.x is not configured, either generate
-individual Pro panels or deliver the sequence prompt and state what binding is
-needed.
+Known exact IDs are scoped reference data: Pro is
+`dola-seedream-5-0-pro-260628`, and 5.5 is `dola-seedream-5-5-261028`.
+Older Lite/4.x bindings may be candidates only after current capability and
+configuration verification. Never invent a binding, treat a proposed alternative
+as selected, or silently turn layers or variations into an ordered sequence.
 
 Use the delivery aspect ratio from the brief. If absent:
 
@@ -221,7 +235,7 @@ Use the delivery aspect ratio from the brief. If absent:
 - `9:16` for vertical short-form work;
 - use another ratio only when the intended delivery format requires it.
 
-For rough Pro panels, prefer the smallest valid size that preserves the target
+For rough panels, after size verification, prefer the smallest valid size that preserves the target
 ratio, such as `1280x720` for 16:9. Increase resolution only after composition
 and continuity are accepted.
 

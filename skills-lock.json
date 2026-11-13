@@ -205,7 +205,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-lighting-presets/SKILL.md",
-      "computedHash": "65873b8d8b71bcc6f952319ecdc1b81ea122377e74fa7c70fb4e529e50e11911"
+      "computedHash": "f6027d36f34bb6cf07dd80004cf3795a50a96d2eb59458738728b75856b6010b"
     },
     "seedance-motion-design": {
       "source": "./local",
@@ -247,7 +247,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-restoration/SKILL.md",
-      "computedHash": "a4333574df0bf70c7d0a46ec904ce88ec020601c8564546589a70fa982845fcd"
+      "computedHash": "93cce7c3f5312c07f5af4ee8840364880762091fcbe9838ecc3e6ee5806e1995"
     },
     "seedance-vfx-pipeline": {
       "source": "./local",
@@ -283,31 +283,31 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-edit/SKILL.md",
-      "computedHash": "228db5c024d69c9182d59e8c9260688b286520f166c2b06982c807c026e58411"
+      "computedHash": "02b73c027f3c4dd0a5f9a07acf064ea994ed99cd4a9d920aeba7f71250a7ffaa"
     },
     "seedream-location-asset": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-location-asset/SKILL.md",
-      "computedHash": "cf47dcb5a29ada02e0ac7494e66d05b599aee20c514f7d30eb349a2036d5bfc2"
+      "computedHash": "97f8cefd66df005979d5324ddc1c4207487098273ab991073e61c269901afb45"
     },
     "seedream-prompt": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-prompt/SKILL.md",
-      "computedHash": "b06c685db9fd072241a5e6143ee7f9db7e1a78b4336f8123e80f58f7855cecf6"
+      "computedHash": "b0d8f6ccab7207800968cf4d6e78e3aa9563a656422cb97f6707eb215f99d62e"
     },
     "seedream-prop-asset": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-prop-asset/SKILL.md",
-      "computedHash": "2c7ab97e94c59ce7d3c4730c4b4df68e51ea7e5831619ccaae810c8238246b3b"
+      "computedHash": "9d2ed6f7d5b6d5408343ecbd3d6fda5a6720ce81f2b1bfe77b9c951aa6e39ceb"
     },
     "seedream-storyboard": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-storyboard/SKILL.md",
-      "computedHash": "cc12a91be860381881afa91cc970ba91197b85ed918df184269132c5c6850f87"
+      "computedHash": "3c39762d43b5c0bb0a7614bd5267318e2f8f3b9a8f1d1835f25c218620645fe4"
     },
     "scene-board-sheet": {
       "source": "./local",
@@ -415,7 +415,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-ai-avatar/SKILL.md",
-      "computedHash": "45080d18ebe704690e81157cc4b0d0a6d264fd6dc34d224e6054527bb4547f4e"
+      "computedHash": "9922552624d90d7de7b574379b7e68897c6d2c57c123e00642c81c4c5eccdd8c"
     },
     "seedance-avatar-news": {
       "source": "./local",
@@ -433,7 +433,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
-      "computedHash": "40331fd27530f4b08230e02d8322229a61750e07b529013f6619a1f58286333c"
+      "computedHash": "c4b48e3d7e4efea84194e7bf621e30ab07cc3272d92e54bcce7098e7a36e4d3f"
     },
     "seedance-object-swap": {
       "source": "./local",

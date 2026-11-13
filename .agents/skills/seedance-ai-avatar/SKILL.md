@@ -28,17 +28,20 @@ video.
    confirm the user has that person's authorization and record it in
    `elements/<id>/PROVENANCE.md`. Without it, offer an original invented host
    built from text only. See [likeness and inputs](references/likeness-and-inputs.md).
-2. **Real-likeness policy gate.** Consent from the presenter does not by itself
-   authorize sending their likeness to Seedance. The generated character sheet
-   is still a photoreal depiction of a real person, and Seedance commonly
-   rejects real-person reference images with `PrivacyInformation`. The
-   provider's authorized-likeness route is an Advanced Creation Rights asset:
-   the presenter's face (and voice, if used) registered as an authorized
-   real-person `asset://` asset, reused when one is already `Active` (compose
-   with `seedance-virtual-portrait`). Before any Seedance request that carries
-   the likeness, the user confirms that route or a named policy owner's
-   approval. Record who approved it and when. Without that confirmation, stop
-   after the character sheet and present the options in rule 3.
+2. **Separate consent, policy and provider authorization.** Presenter consent
+   permits only its recorded collection/use scope. Internal policy approval,
+   creative selection and a generated character sheet do not establish provider
+   authorization. Before every Seedance request carrying real likeness, verify
+   the matching Advanced Creation Rights real-person face asset, and a matching
+   voice asset if voice is used, are `Active` and their `asset://` bindings are
+   supported for the current account, model, operation and transport. Reuse valid
+   completed onboarding (compose with `seedance-virtual-portrait`); do not repeat
+   it without cause. Record provider asset identity, status, scope and verification
+   separately from consent and any required named policy approval. Pending,
+   inactive, wrong-person or unverified assets remain unresolved even with consent
+   and policy approval. Without verified bindings, stop before Seedance submission
+   and offer rule 3's alternatives. Do not send the real-person sheet or a raw
+   voice clip as a fallback.
 3. **A privacy rejection is a stop, not an obstacle.** If Seedance returns
    `InputImageSensitiveContentDetected.PrivacyInformation`, stop and report the
    request ID and the flagged inputs. Never crop, blur, stylize, recompose, or
@@ -47,10 +50,15 @@ video.
    Virtual Portrait, or (c) filming the presenter. Resubmit only on the user's
    explicit decision, within the recorded gate 2 approval, and log the decision
    in PROVENANCE.
-4. **Real photos never go to Seedance.** They are Seedream identity references
-   only.
-5. **Voice clip is timbre-only.** Bind it with: "@Audio 1 defines <Name>'s voice
-   timbre, accent and pacing only; do not reuse any words from @Audio 1."
+4. **Real photos and generated real-person sheets never substitute for provider
+   authorization.** Photos are authorized Seedream identity references only;
+   sheets support local identity/wardrobe planning and QA, not a Seedance
+   `reference_image` bypass.
+5. **Voice is separately authorized and timbre-only.** A raw isolated voice clip
+   is local onboarding/QA material, not a Seedance fallback. Use only the verified
+   `Active` real-person voice asset with its supported binding: "@Audio 1 defines
+   <Name>'s voice timbre, accent and pacing only; do not reuse any words from
+   @Audio 1." Resolve actual reference numbering from the verified transport.
 6. **One paid submission per take**, registered and resumed under the
    workspace production policy. A sub-agent reports job and provider task IDs
    to the main agent, which owns `task_ids.json`; after an MCP restart resume
@@ -69,7 +77,7 @@ projects/<slug>/elements/<id>/
   prompt_char_<id>_turnaround_v01.md
   char_<id>_turnaround_vNN.png           generated sheets; one selected
   character.md                           descriptor, outfit, scene-only props, voice, selected_variant
-  PROVENANCE.md                          consent, likeness-policy approval, sources, hashes, decisions
+  PROVENANCE.md                          separate consent, policy, provider-asset evidence, hashes, decisions
 ```
 
 ## Stages
@@ -92,7 +100,8 @@ Separate the presenter's voice from their own video and cut an 8–15s clean
 clip at a natural pause. See [voice reference](references/voice-reference.md).
 
 ### 4. Talking-head take
-Confirm gate 2 is recorded. Write the prompt from
+Recheck gate 2's current provider status, identity, scope and transport bindings;
+a recorded consent or policy approval alone is insufficient. Write the prompt from
 [the talking-head templates](references/seedance-talking-head.md):
 - **1:1 locked** take when the presenter will sit in a split-screen or card.
 - **9:16 camera-beat** take when the edit goes full-screen on the presenter.

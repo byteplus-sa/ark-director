@@ -1,23 +1,123 @@
 # Blender Compositor Nodes - Python API Reference
 
+**Local safety overlay (SD-001):** Keep the upstream reference organization and
+review this overlay before re-vendoring. Examples that add individual nodes are
+API illustrations, not authorization to mutate existing graphs. Use stable
+caller-approved ownership/role keys for a rerunnable branch. Never clear an
+existing tree or silently redirect Composite, Viewer or File Output sockets.
+
 ## Setting Up the Compositor
 
 ```python
 import bpy
 
 scene = bpy.context.scene
+if scene.library is not None or not scene.is_editable:
+    raise ValueError("Compositor scene must be local and editable")
 
-# Enable compositor
 scene.use_nodes = True
-
-# Access the compositor node tree
 tree = scene.node_tree
+if tree is None:
+    raise RuntimeError("Resolve the compositor tree API for this Blender runtime")
 nodes = tree.nodes
 links = tree.links
-
-# Clear defaults
-nodes.clear()
 ```
+
+Enabling compositor use can create defaults; preserve those too. The following
+helper builds a separate owned branch and returns its endpoint without an output
+takeover. Reject duplicate ownership roles, type collisions or foreign boundary
+links before writing. Names alone never establish ownership. A node already
+connected to someone else's branch requires separate integration approval.
+
+```python
+def build_owned_color_grade(tree, owner_key):
+    if not isinstance(owner_key, str) or not owner_key.strip():
+        raise ValueError("A caller-approved ownership key is required")
+    if tree.library is not None or not tree.is_editable:
+        raise ValueError("Compositor tree must be local and editable")
+    plan = (
+        ("render", "CompositorNodeRLayers"),
+        ("denoise", "CompositorNodeDenoise"),
+        ("balance", "CompositorNodeColorBalance"),
+        ("saturation", "CompositorNodeHueSat"),
+    )
+    branch = {}
+    for role, node_type in plan:
+        matches = [
+            node for node in tree.nodes
+            if node.get("local_overlay_owner") == owner_key
+            and node.get("local_overlay_role") == role
+        ]
+        if len(matches) > 1 or (matches and matches[0].bl_idname != node_type):
+            raise ValueError(f"Owned node role collision: {role}")
+        if matches:
+            branch[role] = matches[0]
+    for link in tree.links:
+        source_owned = any(link.from_node is node for node in branch.values())
+        target_owned = any(link.to_node is node for node in branch.values())
+        if source_owned != target_owned:
+            raise ValueError("Owned branch has a foreign link; resolve routing approval")
+    edges = (
+        ("render", "Image", "denoise", "Image"),
+        ("render", "Denoising Normal", "denoise", "Normal"),
+        ("render", "Denoising Albedo", "denoise", "Albedo"),
+        ("denoise", "Image", "balance", "Image"),
+        ("balance", "Image", "saturation", "Image"),
+    )
+    for source_role, output_name, target_role, input_name in edges:
+        if target_role not in branch:
+            continue
+        target_socket = branch[target_role].inputs[input_name]
+        for link in tree.links:
+            if link.to_socket is target_socket and (
+                source_role not in branch
+                or link.from_socket is not branch[source_role].outputs[output_name]
+            ):
+                raise ValueError("Existing owned input has a conflicting link")
+    selection = [(node, node.select) for node in tree.nodes]
+    active = tree.nodes.active
+    created_nodes = []
+    created_links = []
+    try:
+        for index, (role, node_type) in enumerate(plan):
+            if role in branch:
+                continue
+            node = tree.nodes.new(type=node_type)
+            created_nodes.append(node)
+            branch[role] = node
+            node["local_overlay_owner"] = owner_key
+            node["local_overlay_role"] = role
+            node.location = (-600 + index * 300, -400)
+            if role == "saturation":
+                node.inputs["Saturation"].default_value = 1.1
+        for source_role, output_name, target_role, input_name in edges:
+            output = branch[source_role].outputs[output_name]
+            input_socket = branch[target_role].inputs[input_name]
+            if not any(
+                link.from_socket is output and link.to_socket is input_socket
+                for link in tree.links
+            ):
+                created_links.append(tree.links.new(output, input_socket))
+        return branch["saturation"]
+    except Exception:
+        for link in reversed(created_links):
+            tree.links.remove(link)
+        for node in reversed(created_nodes):
+            tree.nodes.remove(node)
+        raise
+    finally:
+        for node in created_nodes:
+            if any(node is current for current in tree.nodes):
+                node.select = False
+        for node, selected in selection:
+            node.select = selected
+        tree.nodes.active = active
+```
+
+Snapshot the graph before separately authorized whole-tree replacement. That
+operation is intentionally absent from this default recipe. After building,
+check required pass/socket support on the authorized view layer and obtain
+explicit approval for the exact output destination before connecting it.
 
 ## Adding Nodes
 
@@ -463,50 +563,21 @@ links.new(render_layers.outputs['Depth'], file_out.inputs['depth_'])
 
 ### Full Denoise + Color Grade Pipeline
 
+Load the setup and `build_owned_color_grade` helper above. Supply
+`approved_branch_key` from the caller's inspected ownership scope. This recipe
+does not enable render passes or change output routing by inference.
+
 ```python
 import bpy
 
 scene = bpy.context.scene
+if scene.library is not None or not scene.is_editable:
+    raise ValueError("Compositor scene must be local and editable")
 scene.use_nodes = True
 tree = scene.node_tree
-nodes = tree.nodes
-links = tree.links
-nodes.clear()
-
-# Enable required passes
-vl = bpy.context.view_layer
-vl.use_pass_denoising_normal = True
-vl.use_pass_denoising_albedo = True
-
-# Nodes
-rl = nodes.new('CompositorNodeRLayers')
-rl.location = (-600, 0)
-
-denoise = nodes.new('CompositorNodeDenoise')
-denoise.location = (-300, 0)
-
-color_bal = nodes.new('CompositorNodeColorBalance')
-color_bal.location = (0, 0)
-color_bal.correction_method = 'LIFT_GAMMA_GAIN'
-
-hue_sat = nodes.new('CompositorNodeHueSat')
-hue_sat.location = (300, 0)
-hue_sat.inputs['Saturation'].default_value = 1.1
-
-comp = nodes.new('CompositorNodeComposite')
-comp.location = (600, 0)
-
-viewer = nodes.new('CompositorNodeViewer')
-viewer.location = (600, -200)
-
-# Links
-links.new(rl.outputs['Image'], denoise.inputs['Image'])
-links.new(rl.outputs['Denoising Normal'], denoise.inputs['Normal'])
-links.new(rl.outputs['Denoising Albedo'], denoise.inputs['Albedo'])
-links.new(denoise.outputs['Image'], color_bal.inputs['Image'])
-links.new(color_bal.outputs['Image'], hue_sat.inputs['Image'])
-links.new(hue_sat.outputs['Image'], comp.inputs['Image'])
-links.new(hue_sat.outputs['Image'], viewer.inputs['Image'])
+if tree is None:
+    raise RuntimeError("Resolve the compositor tree API for this Blender runtime")
+endpoint = build_owned_color_grade(tree, approved_branch_key)
 ```
 
 ## Frame Nodes for Organization

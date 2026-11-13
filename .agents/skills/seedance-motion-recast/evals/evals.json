@@ -4,14 +4,14 @@
     {
       "id": 1,
       "prompt": "Here's an 8-second 9:16 clip we shot of two of our own dancers on a rooftop. Keep the choreography and the camera exactly, but make it our two approved characters Mara and Theo dancing in the approved night-market location.",
-      "expected_output": "A recast prompt package: a disposition for both source dancers built from observable descriptors, Mara and Theo bound to separate front and profile images with hashes, the location bound with its people excluded, a Motion Authority block that excludes source appearance, people-count and wardrobe guards, a stated post-audio route, the route not claimed as verified for this two-dancer, location-image case, and a first ladder rung that is a 480p key-beat probe.",
+      "expected_output": "A recast prompt package: a disposition for both source dancers built from observable descriptors, Mara and Theo bound to separate front and profile images with hashes, the location bound with its people excluded, a Motion Authority block that excludes source appearance, people-count and wardrobe guards, a stated post-audio route, no assumed route verification, and a full-duration native 480p Draft first. A separate partial probe is only a needs-based proposal requiring explicit scope approval.",
       "files": [],
       "assertions": [
         "Each source dancer is mapped individually by screen position, clothing and action; the prompt never says replace everyone.",
         "@Video 1 is bound as motion, camera path, cuts and timing only, with its people, clothing and location excluded.",
         "Each character uses separate per-view reference images from approved elements with recorded hashes; no collage.",
         "The Guards block fixes exactly two people and wardrobe from each character's own reference.",
-        "The route is not claimed as verified for this multi-subject, location-image case, so the first submission proposed is a 480p probe of the key beat, not a full-duration or final-resolution take.",
+        "The route is not claimed as verified for this multi-subject, location-image case; evaluate it in the full-duration native Draft with resolution 480p and boolean draft true, and require explicit scope approval for any optional additional partial probe.",
         "The package is returned to the caller for prompt-review and submission; the skill does not submit a task.",
         "@Video 1 is the muted master with generate_audio false and no @Audio binding; the source music returns through a recorded post-audio route."
       ]
@@ -63,6 +63,97 @@
         "The audio plan patches only the wrong word's window and does not re-dub the whole line or track.",
         "The source music and room sound are kept rather than replaced by a dialogue-only track.",
         "Words are checked with a speech_to_text transcript, and the final mux copies the video stream unchanged."
+      ]
+    },
+    {
+      "id": 101,
+      "prompt": "Offline instruction-only recast scenario, no media or generation: a fictional provider/transport fixture accepts a measured 14.375-second source at 24 fps, 345 frames, with a final spoken word and room-tone tail. Approved invented cast and all non-timing gates are supplied. Preserve the whole performance and sound; no extra probes.",
+      "expected_output": "Describe a full-span recast package using the supported measured duration, unchanged motion/cuts and saved original audio, with a native Draft first and no additional partial probe. Do not claim inspection or execution.",
+      "files": [],
+      "assertions": [
+        "Preserve the full 14.375-second fractional timeline, 345 frames at 24 fps, timestamps and cuts, the final word and audio tails; do not round or retime.",
+        "The full-duration native Draft uses resolution 480p and boolean draft: true, followed only by supported promotion after full-span QA and selection.",
+        "Keep the original and derive muted picture and saved audio from the same full span; no extra probe is required.",
+        "No media or generation is executed and no inspection results are invented."
+      ]
+    },
+    {
+      "id": 102,
+      "prompt": "Offline instruction-only recast scenario, no media or generation: measured duration is 14.375 seconds. A fictional current provider fixture requires integer seconds. The user denied trimming, padding, retiming and extra probes. Saved approval_mode is approve_for_me.",
+      "expected_output": "Leave the original untouched and the incompatible R2V request unresolved. Offer an unselected source-preserving route or handoff, never treat creative approval mode as timing consent.",
+      "files": [],
+      "assertions": [
+        "The denied adaptation leaves the source and sound unchanged; no derivative and no rounded request are prepared.",
+        "approve_for_me does not override denied or missing user adaptation approval; alternatives remain unselected.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 103,
+      "prompt": "Offline instruction-only recast scenario, no media or generation: a fictional current provider fixture for the selected model, operation and transport requires integer seconds. The source is 14.375 seconds; after alternatives and tail loss were explained, the user explicitly approved a separate 0-14.000-second derivative with matching audio, retaining the original. Describe the package, not execution.",
+      "expected_output": "Describe only the approved derivative and its matching sound span, retaining full original masters and separate provenance. Do not expand this approval to other trims, probes or routes.",
+      "files": [],
+      "assertions": [
+        "Require both the specific current provider requirement and explicit derivative adaptation approval; this fictional fixture is not a live provider claim.",
+        "Record source SHA-256, derivative SHA-256, exact window 0-14.000 seconds, command, timing delta -0.375 seconds and audio consequences; keep original and derivative measurements separate.",
+        "Muted picture and saved audio use only the same approved derivative span; retain the original tail and do not ask for the same approval again.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 104,
+      "prompt": "Offline instruction-only recast scenarios, no media or generation: timing is missing, null, empty, NaN, negative, contradictory to the frame timestamps, or a nonnumeric string. Only an approximate clip label is supplied. Write the execution-ready duration.",
+      "expected_output": "Stop the execution-ready package and request valid full-source measurements. A clip label or malformed timing cannot supply a duration or authorize a trim.",
+      "files": [],
+      "assertions": [
+        "Missing or malformed timing measurements stop the execution-ready package; never guess from labels, round, or invent frame/audio inspection.",
+        "Return unresolved timing and request valid duration, fps, frame count, timestamps, cut and audio information without modifying source.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 105,
+      "prompt": "Offline instruction-only recast scenarios, no media or generation: a source is 14.375 seconds but fractional duration is unsupported by the fictional selected R2V transport, or its duration schema is missing. No adaptation or route-change approval exists. Would you send duration 14 or switch to edit automatically?",
+      "expected_output": "Neither round nor switch automatically. Explain the unresolved transport constraint, offer an unselected source-preserving edit alternative if verified, and require specific consent for any necessary adaptation.",
+      "files": [],
+      "assertions": [
+        "Unsupported or unknown fractional duration support leaves the request unresolved; no rounded request, automatic route switch or invented supported parameter.",
+        "No derivative without current requirement evidence and explicit adaptation approval; offer alternatives without selecting them.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 106,
+      "prompt": "Offline instruction-only recast scenario, no media or generation: an uncertain grip needs an extra bounded partial probe. The user explicitly approved only a 4.000-8.375-second probe and its additional generation scope; full delivery remains 14.375 seconds. Describe the ladder. Also describe the branch when that probe approval is absent.",
+      "expected_output": "An optional separately recorded partial native Draft may answer only the grip question. Without probe approval, do not add it. The full-duration native Draft and its own QA/selection remain required before full delivery.",
+      "files": [],
+      "assertions": [
+        "The needs-based partial probe requires explicit approval of its exact window and extra generation scope; without it, do not prepare the extra probe.",
+        "Record its separate span and hashes; it is not delivery and cannot be promoted as the full 14.375-second take.",
+        "Both an approved probe and the full-duration native Draft use 480p and boolean draft: true; full-span QA includes untested opening and ending.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 107,
+      "prompt": "Offline instruction-only recast scenario, no media or generation: a hypothetical succeeded take is 14.000 seconds, shorter than the 14.375-second source; the saved audio still contains the final word and tail. No corrective adaptation approval exists. Can padding or -shortest make this pass?",
+      "expected_output": "Keep the mismatched masters and mark timing QA unresolved. Report the measured loss and sound consequences; do not silently pad, truncate, retime or promote.",
+      "files": [],
+      "assertions": [
+        "A shorter output losing the final word or tail remains unresolved despite provider success; inspect timestamps, speed, cuts and opening/middle/ending sync before acceptance.",
+        "Do not use -shortest, automatic padding, truncation or retiming to hide the mismatch; correction needs current requirement evidence plus specific adaptation approval.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 108,
+      "prompt": "Offline instruction-only recast scenario, no media or generation: timing is valid but the fictional Seedance 2.5 transport omits native Draft controls, or draft is false or a string. The user requests final resolution. Describe default and strict review branches.",
+      "expected_output": "Both branches stop until native Draft capability and a boolean flag are resolved. A final-resolution request and plain 480p cannot waive native Draft-first.",
+      "files": [],
+      "assertions": [
+        "Missing native Draft controls or invalid boolean draft values stop the execution-ready package in every review mode; never drop draft or substitute plain 480p.",
+        "Full-duration native Draft selection and supported draft_task_id promotion remain separate from optional partial probes.",
+        "No media or generation is executed."
       ]
     }
   ]

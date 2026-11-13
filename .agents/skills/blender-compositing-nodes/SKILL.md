@@ -9,6 +9,14 @@ description: Blender 5.x compositor nodes — post-processing, color grading, de
 
 This skill provides expert guidance for Blender 5.x compositor nodes: designing compositing pipelines, writing Python scripts to build compositor node trees, combining and processing render passes, color grading, keying, and configuring multi-layer output. The reference files contain the full node listing and Python API patterns.
 
+**Local safety overlay (SD-001):** Preserve the upstream layout and review this
+overlay before re-vendoring. Existing nodes, links, output routing and selection
+belong to the caller unless explicitly authorized. Build an owned branch without
+clearing the tree or taking over Composite/Viewer outputs. Use a caller-approved
+stable ownership key; a node name or default-looking graph is not authorization.
+Whole-tree replacement requires separate explicit authorization and a backup,
+not an ordinary compositor-setup request.
+
 ## MCP-First Approach
 
 Prefer the **official Blender MCP Server** (Blender Lab, Blender 5.1+) for building compositor trees, adjusting passes, previewing renders directly in a running Blender session. Fall back to emitting Python scripts only when the MCP server is not connected.
@@ -46,13 +54,21 @@ When creating compositor setups via Python:
 2. Structure the script following this pattern:
    - Enable compositor use on the scene: `scene.use_nodes = True`
    - Access the compositor node tree: `tree = scene.node_tree`
-   - Clear default nodes
-   - Add all nodes with correct type strings
+   - Preserve all existing nodes and links, including default nodes
+   - Add or reuse only explicitly owned nodes with stable ownership/role keys
    - Position nodes left-to-right (x spacing ~300, y spacing ~200)
    - Set default values on node inputs
-   - Create all links between nodes
-   - Enable required render passes on the view layer
+   - Create links only within the owned branch; reject conflicting foreign links
+   - Connect to a specifically approved output socket only with separate routing authorization
+   - Enable required render passes only on the authorized view layer
 3. Use Frame nodes to organize complex setups into logical sections
+
+The owned color-grade example in `references/python_api.md` returns a branch
+endpoint and intentionally leaves existing Composite and Viewer routing intact.
+Inspect repeat-run collisions and reject shared-node boundaries before writing.
+On failure, remove only nodes/links created by the current attempt and preserve
+the caller's selection and active node. Verify APIs against the actual runtime;
+never treat a missing tree API as permission to replace the graph.
 
 ### Node Type String Conventions
 

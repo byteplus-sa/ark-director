@@ -4,13 +4,13 @@
     {
       "id": 1,
       "prompt": "Clean up this 14-second scan of our own 1970s home-movie reel: heavy grain and white vertical scratches. Two of my relatives are in it; I have their permission. Keep the original sound.",
-      "expected_output": "A restoration package scoped by authorization: the user's statement is not the relatives' consent, so the agent checks for existing Active real-person authorizations for each relative. With them, @Video 1 is the muted master bound as an asset:// video; without them, the generative route is closed and a VOD or FFmpeg repair is offered. The package keeps diagnosis by inspection, an 8n+1 trim, the discriminator line, generate_audio false with the silent audio block, a 480p probe first, and the saved original audio muxed after QA.",
+      "expected_output": "A restoration package scoped by authorization: the user's statement is not the relatives' consent, so the agent checks for existing Active real-person authorizations for each relative. With them, @Video 1 is the full-span muted master bound as an asset:// video; without them, the generative route is closed and a VOD or FFmpeg repair is offered. The package keeps diagnosis by inspection, full measured source timing without frame-count trimming, the discriminator line, generate_audio false with the silent audio block, a full-span native 480p Draft first, and the saved original audio including its tails muxed after timing QA.",
       "files": [],
       "assertions": [
         "The defect vocabulary comes from direct frame inspection and names grain and white vertical scratch lines as the dominant defects.",
         "The user's word is not treated as the relatives' consent: the agent checks for existing Active real-person authorizations for each relative, binds the muted master as an asset:// video only when they exist, and otherwise closes the generative route and offers VOD or FFmpeg repair.",
         "generate_audio is false, the prompt ends with a silent audio block, and the saved original audio is muxed after QA.",
-        "The source is trimmed to an 8n+1 frame count and the first rung is a 480p probe; grain cleanup is judged at the final resolution.",
+        "Preserve the full measured source without an empirical frame-count trim; the first generation is a full-span native 480p Draft with boolean draft true, any additional partial probe needs explicit scope approval, and grain cleanup is judged at final resolution.",
         "The prompt keeps the discriminator line that retains real skin, fabric and object texture.",
         "The package is returned to the caller; nothing is submitted."
       ]
@@ -18,13 +18,13 @@
     {
       "id": 2,
       "prompt": "This archival newsreel of a 1950s street parade has a rolling horizontal tear around 0:28-0:29 of a 40-second file. We don't know who owns it. Fix the tear with Seedance.",
-      "expected_output": "A scoping answer: unknown rights and identifiable people in the footage stop the generative route; the agent asks for a rights decision and, absent authorization for the people, offers the deterministic temporal repair. If rights are later recorded, the plan trims a 4-30 s window with the tear centered and at least 1 s of clean margin, and uses the reconstruct-from-context wording.",
+      "expected_output": "A scoping answer: unknown rights and identifiable people in the footage stop the generative route; the agent asks for a rights decision and, absent authorization for the people, offers the deterministic temporal repair. Later rights approval does not authorize a trim: verify current route limits, preserve the 40-second original and offer a separately approved derivative only if required. Use reconstruct-from-context wording without mandatory re-centering.",
       "files": [],
       "assertions": [
         "The agent does not prepare a Seedance request while rights are unknown.",
         "It never proposes cropping, blurring or re-encoding the footage to pass a privacy check.",
         "It offers a deterministic temporal repair or VOD route as the alternative.",
-        "Any proposed trim centers the tear with at least 1 s of clean margin, rather than leaving it at the clip end."
+        "No trim or re-centering is automatic; any required adaptation needs current model/operation/transport evidence and explicit user approval of its span and audio consequences, separate from rights."
       ]
     },
     {
@@ -36,6 +36,97 @@
         "Native audio is recorded as the user's explicit exception for this named take without asking them to confirm again.",
         "The output explains that native audio is newly generated sound, not the restored original soundtrack.",
         "Because no people are visible, the clip binds without an asset:// video."
+      ]
+    },
+    {
+      "id": 101,
+      "prompt": "Offline instruction-only restoration scenarios, no media or generation: an owned empty-landscape scan is measured at 14.375 seconds, 345 frames at 24 fps, with a final narrated word and room-tone tail. A second scan has 346 frames at 24 fps and measured duration 14.4166666667 seconds. The fictional edit fixture accepts both full inputs. Remove dust without extra probes.",
+      "expected_output": "Describe full-span muted edit masters and saved original sound without frame-count or whole-second trimming. Keep edit duration and ratio input-bound, native Draft first, and full-span timing/audio QA.",
+      "files": [],
+      "assertions": [
+        "Preserve the full 14.375-second fractional source, final word and audio tails, and the second 346-frame source at its measured fractional duration without imposing 8n+1.",
+        "Use the full-span native Draft at 480p with boolean draft: true; do not set edit duration or ratio, and do not require an additional partial probe.",
+        "Muted picture and saved audio derive from the same full span; no trim, pad or retime is inferred from a defect or preferred length.",
+        "No media or generation is executed and no diagnosis or inspection evidence is invented."
+      ]
+    },
+    {
+      "id": 102,
+      "prompt": "Offline instruction-only restoration scenario, no media or generation: a measured 14.375-second scan has a defect in the final frames. A fictional current provider fixture would require an adapted input; the user denied trimming, padding, retiming and extra probes. approval_mode is approve_for_me.",
+      "expected_output": "Leave the original and sound untouched. Return the unresolved provider constraint and an unselected source-preserving repair alternative; the boundary defect does not authorize centering or clipping it.",
+      "files": [],
+      "assertions": [
+        "The denied adaptation leaves the full source and sound unchanged; no derivative is prepared and the final defect is not moved or dropped.",
+        "approve_for_me does not supply user adaptation consent; neither rights nor creative selection overrides denial.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 103,
+      "prompt": "Offline instruction-only restoration scenario, no media or generation: a fictional current provider fixture for the selected model, edit operation and transport limits accepted input to 14 seconds. After alternatives and tail loss were explained, the user explicitly approved a separate 0-14.000-second derivative of the 14.375-second scan with matching sound, retaining the original. Describe the handoff.",
+      "expected_output": "Describe only the approved derivative, its muted picture and matching audio, with separate provenance and full original masters retained. Do not invent hashes or prepare another trim.",
+      "files": [],
+      "assertions": [
+        "Require both the specific current provider requirement and explicit derivative adaptation approval; the fictional fixture does not establish a real provider limit.",
+        "Record source SHA-256, derivative SHA-256, exact window 0-14.000 seconds, command, timing delta -0.375 seconds and audio consequences, separately from original measurements.",
+        "Muted picture and saved audio share only the approved span; retain original tails, do not broaden the approval, and do not ask for it again.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 104,
+      "prompt": "Offline instruction-only restoration scenarios, no media or generation: timing is missing, null, empty, NaN, negative, inconsistent with decoded timestamps, or a nonnumeric string. A filename claims fourteen seconds. Can you choose a frame count and package an edit?",
+      "expected_output": "Stop the execution-ready package and request valid full-source measurements. Preserve the original and report missing evidence without guessing from the filename.",
+      "files": [],
+      "assertions": [
+        "Missing or malformed timing measurements stop execution-ready packaging; never guess duration, fps, frame count, cuts or audio timing from a filename.",
+        "Request valid measurements and return unresolved advice without imposing a frame-count trim or fabricating inspection.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 105,
+      "prompt": "Offline instruction-only restoration scenarios, no media or generation: a measured fractional source is unsupported by a fictional selected edit input-length constraint, or its input timing schema is missing. No adaptation approval exists. Should we trim to a preferred length or add a duration field to force it?",
+      "expected_output": "Keep edit duration input-bound; do not invent a field or adapt an unsupported source. Return the unresolved constraint and an unselected deterministic repair alternative.",
+      "files": [],
+      "assertions": [
+        "Unsupported or unknown fractional input timing support leaves the package unresolved; never invent an edit duration parameter or round the source.",
+        "No derivative without a specific current requirement and explicit adaptation approval; a preferred length is not evidence.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 106,
+      "prompt": "Offline instruction-only restoration scenario, no media or generation: a rolling tear has an unresolved repair question. The user explicitly approved only a separate 4.000-8.375-second partial probe and its additional generation scope. Full delivery remains 14.375 seconds. Describe this branch and the branch without probe approval.",
+      "expected_output": "Describe an optional bounded native Draft and limited evidence only under its explicit scope. With no probe approval, omit it. Full-span restoration and opening/ending QA remain independent.",
+      "files": [],
+      "assertions": [
+        "The needs-based partial probe requires explicit approval of the window and additional generation scope; otherwise no extra probe is prepared.",
+        "The separately hashed probe is not delivery; a passing defect-window check cannot approve untested full-span content or promote a partial take as full delivery.",
+        "Both the probe and full-duration native Draft use 480p and boolean draft: true; final-resolution grain QA remains required.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 107,
+      "prompt": "Offline instruction-only restoration scenario, no media or generation: a hypothetical succeeded restored output is 14.000 seconds, shorter than the 14.375-second source, dropping final-frame damage and a final narrated word. Saved sound has its full tail. No corrective adaptation is approved. Can padding or -shortest make this pass?",
+      "expected_output": "Keep masters and report unresolved timing and defect QA. Technical success does not prove the missing boundary was repaired or that the soundtrack survived.",
+      "files": [],
+      "assertions": [
+        "A shorter output losing the final word, sound tail or final-frame defect remains unresolved; measure timestamps, speed and cuts and inspect opening/middle/ending sync.",
+        "Never use -shortest, automatic padding, truncation or retiming to hide the loss; corrections require current requirement evidence and explicit adaptation approval.",
+        "No media or generation is executed."
+      ]
+    },
+    {
+      "id": 108,
+      "prompt": "Offline instruction-only restoration scenario, no media or generation: timing is valid but the fictional Seedance 2.5 edit transport has missing native Draft controls, or draft is false or a string. The user requests a final-resolution restoration. Describe default and strict branches.",
+      "expected_output": "Stop both execution-ready branches until native Draft controls and boolean settings are resolved. No non-Draft fallback, and no additional partial probe is mandatory.",
+      "files": [],
+      "assertions": [
+        "Missing native Draft controls or invalid boolean draft settings stop the package in every review mode; never drop draft or substitute plain 480p.",
+        "Select and inspect the full-duration native Draft before supported draft_task_id promotion, independently of optional approved partial probes.",
+        "No media or generation is executed."
       ]
     }
   ]

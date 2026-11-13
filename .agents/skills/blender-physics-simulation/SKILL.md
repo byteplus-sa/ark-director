@@ -9,6 +9,14 @@ description: Blender 5.x physics simulations — rigid body, cloth, fluid/smoke/
 
 This skill provides expert guidance for Blender 5.x physics simulations: rigid body dynamics, cloth, fluid (Mantaflow smoke/fire/liquid), soft body, particle systems, force fields, baking/caching, and Python automation of simulation setups. The reference files contain the complete physics type catalog and Python API patterns.
 
+**Local safety overlay (SD-001/SD-002):** Preserve this vendored layout and
+review this overlay before re-vendoring. Inspect and authorize the exact objects,
+world and caches before writes. Selection or a familiar name is not ownership.
+Never free or bake unrelated caches. A rigid-body world cache covers its entire
+world, including all participating objects and constraints; authorize that whole
+scope or use a separate isolated scene. Whole-scene replacement requires separate
+explicit authorization and is not a default recipe.
+
 ## MCP-First Approach
 
 Prefer the **official Blender MCP Server** (Blender Lab, Blender 5.1+) for setting up rigid body / cloth / fluid sims, baking caches, reading results directly in a running Blender session. Fall back to emitting Python scripts only when the MCP server is not connected.
@@ -486,61 +494,41 @@ field.quadratic_drag = 0.0        # Velocity-dependent drag
 
 ### Rigid Body Bake
 
+Load `bake_owned_point_cache` from `references/python_api.md`. The caller supplies
+`authorized_caches` from its inspected, approved cache scope, not from whichever
+cache happens to be active. Existing bakes require explicit `replace_cache=True`;
+the default preserves them. Do not infer replacement consent from a bake request.
+
 ```python
 scene = bpy.context.scene
 rbw = scene.rigidbody_world
-
-rbw.point_cache.frame_start = 1
-rbw.point_cache.frame_end = 250
-
-# Free existing cache
-bpy.ops.ptcache.free_bake_all()
-
-# Bake
-bpy.ops.ptcache.bake_all(bake=True)
+if rbw is None:
+    raise ValueError("No rigid-body world to bake")
+bake_owned_point_cache(scene, rbw.point_cache, authorized_caches, 1, 250)
 ```
 
 ### Fluid Bake
 
+Load `operate_owned_fluid_cache` from the same reference. Inspect the exact domain
+modifier and its exclusive cache directory first. `authorized_domains` is the
+caller-approved object allowlist. Do not free caches as part of a normal bake;
+freeing any domain component requires explicit replacement authorization.
+
 ```python
-# For fluid domain
-domain = bpy.data.objects["FluidDomain"]
-fluid = domain.modifiers["Fluid"]
-ds = fluid.domain_settings
-
-ds.cache_frame_start = 1
-ds.cache_frame_end = 250
-
-# Bake data (must select domain first)
-bpy.context.view_layer.objects.active = domain
-bpy.ops.fluid.bake_data()
-
-# Bake noise (for gas)
-bpy.ops.fluid.bake_noise()
-
-# Bake mesh (for liquid)
-bpy.ops.fluid.bake_mesh()
-
-# Bake particles (spray/foam/bubble)
-bpy.ops.fluid.bake_particles()
-
-# Free caches
-bpy.ops.fluid.free_data()
-bpy.ops.fluid.free_noise()
-bpy.ops.fluid.free_mesh()
-bpy.ops.fluid.free_particles()
+operate_owned_fluid_cache(domain, fluid, authorized_domains, "bake_data")
 ```
 
 ### Cloth/Soft Body/Particle Bake
 
 ```python
-# Cloth and soft body use point cache
-# Select object, then bake
-bpy.ops.ptcache.bake(bake=True)  # Bake active cache
-bpy.ops.ptcache.free_bake()       # Free active cache
-bpy.ops.ptcache.bake_all(bake=True)  # Bake all caches
-bpy.ops.ptcache.free_bake_all()       # Free all caches
+bake_owned_point_cache(obj, cache, authorized_caches, 1, 250)
 ```
+
+Pass the exact modifier, soft-body or particle-system point cache belonging to
+`obj`, not an active-cache guess. The helper preserves selection, active object
+and mode with a scoped override. Validate operator availability in the actual
+runtime. On failure, report which owned operation completed; freeing a cache
+cannot be undone by restoring context, and a failed bake is not a valid cache.
 
 ## Debugging
 

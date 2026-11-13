@@ -43,6 +43,14 @@ context can be proven. Production scripts should be rerunnable: locate or
 replace owned objects by stable names, isolate them in an owned collection,
 and avoid deleting unrelated scene data.
 
+**Local safety overlay (SD-002):** Preserve this vendored layout and review the
+overlay before re-vendoring. Destructive batches require an explicit object or
+collection allowlist and exact modifier names, not every mesh in the file.
+Reject linked, overridden, shared or non-editable data; never make it local or
+single-user implicitly. Preserve caller selection, active object and mode.
+Applying modifiers is not transactional: report completed work on failure and
+reinspect before retrying, rather than restoring unrelated scene data.
+
 For 3D-to-video blockouts, store stable semantic custom properties on visible
 proxies so a caller can export subject IDs, roles, final identities, colors,
 and reference bindings. Keep those identifiers independent from Blender object
@@ -217,19 +225,77 @@ for filename in os.listdir(scenes_dir):
 
 ### Batch Object Processing
 
+`targets` is the caller-approved list of `(object, modifier_names)` pairs,
+resolved from an explicit object/collection allowlist after inspecting the
+objects and modifier stack. A collection's name does not prove authorization.
+Validate the entire batch before the first application. Empty scope, missing
+modifiers and stale repeat-run requests fail closed; refresh approval after
+inspection instead of broadening the batch.
+
 ```python
 import bpy
 
-for obj in bpy.data.objects:
-    if obj.type == 'MESH':
-        # Select only this object
-        bpy.ops.object.select_all(action='DESELECT')
-        obj.select_set(True)
-        bpy.context.view_layer.objects.active = obj
-        # Apply all modifiers
-        for mod in obj.modifiers:
-            bpy.ops.object.modifier_apply(modifier=mod.name)
+def apply_owned_modifiers(targets):
+    if not targets or bpy.context.mode != 'OBJECT':
+        raise ValueError("Explicit targets and Object mode are required")
+    plan = []
+    seen = set()
+    for obj, modifier_names in targets:
+        if obj is None or not modifier_names:
+            raise ValueError("Each target requires an object and modifier allowlist")
+        if (
+            bpy.context.view_layer.objects.get(obj.name) is not obj
+            or obj.type != 'MESH' or obj.mode != 'OBJECT'
+            or obj.library is not None or obj.override_library is not None
+            or not obj.is_editable or obj.data is None
+            or obj.data.library is not None or obj.data.override_library is not None
+            or not obj.data.is_editable or obj.data.users != 1
+        ):
+            raise ValueError("Target must be a local, editable, unshared mesh")
+        names = tuple(modifier_names)
+        available = {modifier.name for modifier in tuple(obj.modifiers)}
+        if (
+            isinstance(modifier_names, str)
+            or any(not isinstance(name, str) or not name for name in names)
+            or len(set(names)) != len(names)
+            or any(name not in available for name in names)
+            or obj.name in seen
+        ):
+            raise ValueError("Duplicate, missing or invalid modifier targets")
+        seen.add(obj.name)
+        with bpy.context.temp_override(
+            object=obj, active_object=obj,
+            selected_objects=[obj], selected_editable_objects=[obj],
+        ):
+            if not bpy.ops.object.modifier_apply.poll():
+                raise RuntimeError(f"Modifier application unavailable for {obj.name}")
+        plan.append((obj, names))
+    completed = []
+    for obj, names in plan:
+        with bpy.context.temp_override(
+            object=obj, active_object=obj,
+            selected_objects=[obj], selected_editable_objects=[obj],
+        ):
+            for name in names:
+                try:
+                    result = bpy.ops.object.modifier_apply(modifier=name)
+                except Exception as error:
+                    raise RuntimeError(
+                        f"Raised at {obj.name}:{name}; already applied: {completed}"
+                    ) from error
+                if result != {'FINISHED'}:
+                    raise RuntimeError(
+                        f"Failed {obj.name}:{name}; already applied: {completed}"
+                    )
+                completed.append((obj.name, name))
+    return completed
 ```
+
+The helper uses a scoped context override without changing selection or mode.
+Check the connected runtime's operator context requirements before use. If an
+operator raises, context still restores but previously applied modifiers remain
+applied. Report the failing object/modifier and completed operations; do not
+claim a full rollback or retry an unchanged destructive plan.
 
 ### Command-Line Batch
 

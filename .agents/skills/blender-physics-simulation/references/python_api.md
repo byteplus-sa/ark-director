@@ -1,5 +1,11 @@
 # Blender Physics & Simulation - Python API Reference
 
+**Local safety overlay (SD-001/SD-002):** Preserve the upstream reference layout;
+review these ownership guards before re-vendoring. All setup snippets assume
+explicitly authorized local objects and settings. Cache authorization covers
+the complete simulation represented by that cache, not merely one selected
+object. Never reset a shared world or delete unrelated scene data by default.
+
 ## Rigid Body Setup
 
 ### Active Rigid Body
@@ -561,52 +567,127 @@ field.keyframe_insert(data_path="strength", frame=100)
 
 ## Baking & Caching
 
-### Bake All Physics
+### Owned Point Cache
+
+The caller supplies an exact cache allowlist after inspecting its owners and
+participants. This is not inferred from names, selection or tags. A scene's
+rigid-body world has one shared cache; approval must cover the entire world.
+Use an isolated scene if any participant is outside the approved scope.
+This helper fails closed on linked/overridden owners, missing caches, invalid
+frames, existing bakes without replacement consent, and operator failures.
 
 ```python
-# Bake all physics caches in scene
-bpy.ops.ptcache.bake_all(bake=True)
+import bpy
 
-# Free all caches
-bpy.ops.ptcache.free_bake_all()
+def bake_owned_point_cache(
+    owner, cache, authorized_caches, frame_start, frame_end, replace_cache=False
+):
+    if owner is None or cache is None or not authorized_caches:
+        raise ValueError("An owner and explicit cache allowlist are required")
+    if not any(cache is approved for approved in authorized_caches):
+        raise ValueError("Cache is outside the authorized scope")
+    if (
+        owner.library is not None
+        or owner.override_library is not None
+        or not owner.is_editable
+    ):
+        raise ValueError("Cache owner must be local and editable")
+    if (
+        type(frame_start) is not int or type(frame_end) is not int
+        or frame_start < 1 or frame_end < frame_start
+    ):
+        raise ValueError("Invalid cache frame range")
+    if type(replace_cache) is not bool:
+        raise ValueError("Replacement authorization must be explicit")
+    scene = bpy.context.scene
+    override = {"scene": scene, "point_cache": cache}
+    if owner is scene:
+        world = scene.rigidbody_world
+        if world is None or world.point_cache is not cache:
+            raise ValueError("Cache does not belong to this rigid-body world")
+    else:
+        if hasattr(owner, "rigidbody_world"):
+            raise ValueError("Only the current scene's world cache is supported")
+        objects = bpy.context.view_layer.objects
+        if objects.get(owner.name) is not owner or owner.mode != 'OBJECT':
+            raise ValueError("Cache object must be in the view layer in Object mode")
+        caches = [getattr(modifier, "point_cache", None) for modifier in owner.modifiers]
+        caches.extend(system.point_cache for system in owner.particle_systems)
+        caches.append(getattr(owner.soft_body, "point_cache", None))
+        if not any(cache is candidate for candidate in caches):
+            raise ValueError("Cache does not belong to this object")
+        override.update(
+            object=owner, active_object=owner,
+            selected_objects=[owner], selected_editable_objects=[owner],
+        )
+    if cache.is_baked and not replace_cache:
+        raise ValueError("Existing bake requires explicit cache replacement consent")
+    with bpy.context.temp_override(**override):
+        if cache.is_baked:
+            if not bpy.ops.ptcache.free_bake.poll():
+                raise RuntimeError("Cannot free the owned cache in this context")
+            if bpy.ops.ptcache.free_bake() != {'FINISHED'}:
+                raise RuntimeError("Owned cache free failed; bake was not attempted")
+        if not bpy.ops.ptcache.bake.poll():
+            raise RuntimeError("Cannot bake the owned cache; prior free may have completed")
+        cache.frame_start = frame_start
+        cache.frame_end = frame_end
+        if bpy.ops.ptcache.bake(bake=True) != {'FINISHED'}:
+            raise RuntimeError("Owned bake failed; inspect the cache before retrying")
 ```
 
-### Bake Specific Cache
-
-```python
-# Select object with physics, then:
-bpy.ops.ptcache.bake(bake=True)   # Bake active point cache
-bpy.ops.ptcache.free_bake()        # Free active point cache
-```
+`temp_override` restores context, not simulation data. A completed free or
+partially written bake is not transactional. Report partial work and inspect
+before retrying. Check the runtime's `point_cache` override support and operator
+polls; do not fall back to scene-wide operators. See the
+[official point-cache API](https://docs.blender.org/api/current/bpy.ops.ptcache.html).
 
 ### Fluid Baking
 
+Authorize the exact domain and modifier, and verify that its resolved cache
+directory is exclusive to the approved simulation. Reject shared cache
+directories before calling this helper. Validate GAS/LIQUID component and cache
+mode support against the runtime; do not guess a different operation on failure.
+
 ```python
-domain = bpy.data.objects["FluidDomain"]
-bpy.context.view_layer.objects.active = domain
-domain.select_set(True)
+import bpy
 
-# Bake data (velocity field)
-bpy.ops.fluid.bake_data()
-
-# Bake noise detail (gas only)
-bpy.ops.fluid.bake_noise()
-
-# Bake mesh surface (liquid only)
-bpy.ops.fluid.bake_mesh()
-
-# Bake secondary particles (liquid only)
-bpy.ops.fluid.bake_particles()
-
-# Free individual caches
-bpy.ops.fluid.free_data()
-bpy.ops.fluid.free_noise()
-bpy.ops.fluid.free_mesh()
-bpy.ops.fluid.free_particles()
-
-# Bake/free all at once
-bpy.ops.fluid.bake_all()
-bpy.ops.fluid.free_all()
+def operate_owned_fluid_cache(
+    domain, modifier, authorized_domains, operation, replace_cache=False
+):
+    if domain is None or not authorized_domains:
+        raise ValueError("An explicit domain allowlist is required")
+    if not any(domain is approved for approved in authorized_domains):
+        raise ValueError("Domain is outside the authorized scope")
+    if (
+        domain.library is not None or domain.override_library is not None
+        or not domain.is_editable or domain.mode != 'OBJECT'
+        or bpy.context.view_layer.objects.get(domain.name) is not domain
+    ):
+        raise ValueError("Domain must be local, editable and in Object mode")
+    if (
+        not any(modifier is candidate for candidate in domain.modifiers)
+        or modifier.type != 'FLUID' or modifier.fluid_type != 'DOMAIN'
+        or modifier.domain_settings is None
+    ):
+        raise ValueError("Expected this domain's exact fluid modifier")
+    allowed = {
+        "bake_data", "bake_noise", "bake_mesh", "bake_particles",
+        "free_data", "free_noise", "free_mesh", "free_particles",
+    }
+    if operation not in allowed:
+        raise ValueError("Unsupported fluid cache operation")
+    if operation.startswith("free_") and replace_cache is not True:
+        raise ValueError("Freeing a domain cache requires replacement consent")
+    operator = getattr(bpy.ops.fluid, operation)
+    with bpy.context.temp_override(
+        object=domain, active_object=domain,
+        selected_objects=[domain], selected_editable_objects=[domain],
+    ):
+        if not operator.poll():
+            raise RuntimeError(f"Cannot run {operation} for this domain")
+        if operator() != {'FINISHED'}:
+            raise RuntimeError(f"{operation} failed; inspect partial cache state")
 ```
 
 ### Cache Settings
@@ -626,13 +707,18 @@ cache.compression_type = 'LIGHT' # NO, LIGHT, HEAVY
 
 ### Falling Objects onto Cloth
 
+Run this construction example only in a separately created, disposable empty
+scene. It does not authorize replacing the caller's scene. The empty-scene
+guard runs before object creation; do not delete existing objects to satisfy it.
+Inspect and authorize shared rigid-body world settings before any reuse.
+
 ```python
 import bpy
 import random
 
-# Clear scene
-bpy.ops.object.select_all(action='SELECT')
-bpy.ops.object.delete()
+scene = bpy.context.scene
+if scene.objects or scene.rigidbody_world is not None or scene.library is not None:
+    raise ValueError("Use a separate empty local scene for this construction example")
 
 # Create ground (passive rigid body)
 bpy.ops.mesh.primitive_plane_add(size=10, location=(0, 0, 0))
