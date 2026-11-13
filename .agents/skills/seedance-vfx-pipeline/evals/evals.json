@@ -28,6 +28,45 @@
       "expected_output": "Stops the affected generation and reports the asset authorization gap. Does not disguise inputs, bind raw voice as a fallback or confuse consent with provider authorization.",
       "files": [],
       "expectations": ["Expired assets do not satisfy Active authorization.", "No automatic privacy workaround or resubmission."]
+    },
+    {
+      "id": 5,
+      "prompt": "Strict prompt review only: restyle the whole 5.125-second source as felt using words only in the same place. Preserve frames, cuts, speed, final spoken word and independent sound tail. Images and extra probes are denied.",
+      "expected_output": "A strict words-only same place full-frame review with fractional source timing and sound locks unchanged. Missing optional images and the denied probe are not findings by themselves. No media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "Reviews the words-only full-frame medium direction under strict mode without requiring style or environment imagery.",
+        "Keeps the same place source-authoritative and preserves fractional timing, source offsets, frames, cuts, speed, final words and sound tails without rounding.",
+        "The denied partial probe is neither a prerequisite nor submitted; native Draft obligations remain exact-model and operation dependent.",
+        "Unknown full-duration mechanics remain unresolved feasibility, not permission to alter timing or block prompt-only review.",
+        "No media or generation, downloads, uploads, request writes or registry mutations occur."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Review this words-only whole-frame painted restyle prompt in strict mode. Exact model capability is unknown and full-duration fractional support is unresolved. No probe is authorized; do not fetch capabilities or create files.",
+      "expected_output": "A prompt-only review separating creative findings from unresolved execution feasibility. Unknown support and no probe authority stop execution, not textual review. No media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "Provides prompt-only findings on reference authority and whole-frame medium coverage without inventing runtime controls.",
+        "Labels unknown fractional/full-duration support as unresolved and does not round source timing.",
+        "No probe is authorized or submitted; a future optional probe needs a specific bounded uncertainty, exact span and explicit additional generation approval.",
+        "Does not claim output photographic leftovers without actual output-QA evidence.",
+        "No media or generation, live capability calls, downloads, uploads, file writes or registry changes occur."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Strict textual restyle review only. The source remains in the same room, but its far-wall texture is ambiguous. An optional same-place environment image is already selected and approved for that bounded ambiguity. Keep the whole frame ceramic; do not add people or props.",
+      "expected_output": "Uses the selected optional environment guide within its bounded authority while keeping source layout/timing authoritative and the whole frame ceramic. Photographic-background preservation is N/A. No media or generation is performed.",
+      "files": [],
+      "assertions": [
+        "Optional environment guidance addresses the current bounded ambiguity and is used only because it is selected and authorized.",
+        "Does not treat a missing guide in a words-only alternative as a review failure or automatically generate another image.",
+        "Rejects imported unwanted people or props and does not let environment guidance override source motion, layout or timeline.",
+        "Marks photographic-background preservation N/A for whole-frame medium coverage; actual photographic leftovers require output-QA evidence.",
+        "No media or generation, downloads, uploads, request writes or task submissions occur."
+      ]
     }
   ]
 }

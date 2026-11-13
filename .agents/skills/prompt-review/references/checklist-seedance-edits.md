@@ -193,9 +193,15 @@ for the edit route, Seedance 2.5 edit items 1, 2, 4 and 5. Edit item 3 is
 replaced by restyle item 3 (`[Style Reference Role]`, `[Identity Anchors]`);
 edit item 9 is N/A because the photoreal face line contradicts drawn and
 crafted styles (use it only for a capture look); edit items 10–12 are N/A
-because the output is silent (V1). A restyle keeps the source's subjects,
+for the usual silent/post route (V1), with requested native exceptions reviewed
+against their actual sound ownership. A restyle keeps the source's subjects,
 layout, actions, camera, cuts and timing and changes only the rendering
 medium. Mark N/A any item whose feature is absent and record why.
+
+Detailed checks apply in strict mode or an explicitly requested review, not
+routine default preflight. Resolve applicability by the exact selected model
+and operation before applying route heuristics. Unknown feasibility stays
+unresolved and blocks execution; prompt-only text can still be reviewed.
 
 1. **Content preserved (`restyle.content_preserved`).** The prompt pins the
    subject count, observable subject descriptors with identity cues, key props
@@ -207,7 +213,9 @@ medium. Mark N/A any item whose feature is absent and record why.
    and nothing is left photographic unless the style is a capture look. A
    partial or conflicting style block is MAJOR.
 
-3. **Style-only reference (`restyle.style_reference_only`).** Each style image
+3. **Style-only reference (`restyle.style_reference_only`).** Style and
+   same-place environment imagery are optional; a words-only full-frame restyle
+   is valid. Review each selected style image only when present. Each style image
    supplies only medium, palette, line, texture and light quality and excludes
    its subjects, layout and characters. A style image without that exclusion
    is MAJOR. Studio, artist or franchise names, or frames from copyrighted
@@ -221,19 +229,35 @@ medium. Mark N/A any item whose feature is absent and record why.
    Source text surfaces become abstract shapes; no lettering is requested.
 
 6. **Route and limits.** The operation matches the recorded route decision and
-   capability evidence (`model.supported_mode`); an unverified route is
-   labeled provisional and the request is a 480p probe. Route A uses 1–5
-   images; Route B sets the whole-second source duration and ratio.
+   current capability evidence (`model.supported_mode`). An unverified route
+   remains unresolved, not an executable probe. An optional partial probe
+   requires a bounded uncertainty, explicit approval of its span and additional
+   generation scope; a denied probe is never a prerequisite or submitted.
+   Preview controls follow the exact selected binding, retaining mandatory
+   native 480p Draft for the covered legacy 2.5 bindings.
+   Route A omits absent image roles and leaves the source timeline authoritative.
+   Route B uses the full measured fractional source duration and ratio only
+   where supported; unsupported timing remains unresolved, never rounded.
+   Preserve frame count, decoded timestamps, playback speed, cuts, final words
+   and independent audio tails and offsets. Any timing adaptation needs current
+   requirement evidence and explicit derivative adaptation approval; a
+   whole-frame intermediate does not authorize whole-second source retiming.
 
 7. **Same place.** A restyle keeps the source's place: the background is
-   restyled through an environment image of that place, or left as it is.
+   described in the requested medium while its geometry, layout and parallax
+   remain authoritative. Words-only same-place full-frame intent does not
+   require an environment image or a photographic background.
    Naming a different location (a city street becoming a seaside village) is
-   MAJOR unless the user asked for one. A scene replacement or style word that
-   only tells the model to keep the source layout for the background is likely
-   to leave it photographic; flag it MAJOR when a whole-frame restyle is
-   requested. Keeping positions for the subject and the furniture they use is
-   correct. A restyle that intentionally keeps the original background
-   photographic is N/A.
+   MAJOR unless the declared change contract asks for it; route a world
+   replacement separately. Missing medium direction for requested background
+   surfaces is a concrete prompt finding; absent imagery alone is not.
+   Optional environment guidance must address a current bounded ambiguity,
+   be selected and authorized, and exclude its people and extra props.
+   Keeping subject and furniture positions is correct. An explicitly preserved
+   photographic background is N/A for full-frame medium coverage.
+   Actual photographic leftovers are output-QA evidence, not something to
+   infer from words-only intent; report them and offer a scoped wording or
+   supported-route repair without forcing an image.
 
 8. **Video-to-video inputs.** Apply the shared items under
    [Video-to-video inputs](#video-to-video-inputs-swap-recast-restyle).

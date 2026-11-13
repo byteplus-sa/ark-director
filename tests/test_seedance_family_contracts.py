@@ -39,6 +39,59 @@ class FamilyContractTests(unittest.TestCase):
             self.assertIn(term, reference)
         self.assertIn("words-only", reference)
 
+    def test_delegated_sound_routes_preserve_all_selected_owners(self):
+        for name in ("slot-mapping.md", "long-pins-and-multi-clip.md"):
+            with self.subTest(reference=name):
+                text = " ".join((SKILLS / "template-factory/references" / name)
+                                .read_text().lower().split())
+                for owner in ("native", "post", "exact-master", "mixed", "silent"):
+                    self.assertIn(f"| {owner} |", text)
+                for term in ("wordless", "synchronized clicks", "purposeful silence",
+                             "unresolved", "listening", "separate sound is opt-in"):
+                    self.assertIn(term, text)
+                self.assertNotIn("native only for on-camera dialogue", text)
+                self.assertNotIn("score-led or ambient, generate picture with", text)
+
+    def test_strict_restyle_review_accepts_words_only_without_probe_or_rounding(self):
+        text = " ".join((SKILLS / "prompt-review/references/checklist-seedance-edits.md")
+                        .read_text().lower().split())
+        for term in ("words-only", "optional", "same place", "full-frame",
+                     "fractional", "denied", "unresolved", "explicit approval"):
+            self.assertIn(term, text)
+        self.assertNotIn("the request is a 480p probe", text)
+        self.assertNotIn("route a uses 1–5 images", text)
+        self.assertNotIn("whole-second source duration", text)
+        self.assertNotIn("restyled through an environment image of that place, or left", text)
+
+    def test_delegated_scenarios_cover_sound_tails_and_strict_restyle(self):
+        cases_by_skill = {
+            "template-factory": {
+                16: ("native", "wordless", "synchronized clicks", "listening"),
+                17: ("mixed", "exact-master", "offsets", "post"),
+                18: ("silent", "purposeful silence", "no bed"),
+                19: ("5.125", "5.600", "tail", "approval"),
+                20: ("shorter", "offsets", "unchanged", "approval"),
+            },
+            "seedance-vfx-pipeline": {
+                5: ("strict", "words-only", "same place", "fractional", "denied"),
+                6: ("unresolved", "no probe", "unknown", "prompt-only"),
+                7: ("optional", "environment", "selected", "photographic"),
+            },
+        }
+        for name, cases in cases_by_skill.items():
+            document = json.loads((SKILLS / name / "evals/evals.json").read_text())
+            by_id = {case["id"]: case for case in document["evals"]}
+            for case_id, terms in cases.items():
+                with self.subTest(skill=name, case=case_id):
+                    self.assertIn(case_id, by_id)
+                    case = by_id[case_id]
+                    text = " ".join((" ".join(case["assertions"]) + " "
+                                     + case["expected_output"]).lower().split())
+                    for term in terms:
+                        self.assertIn(term, text)
+                    self.assertIn("no media or generation", text)
+                    self.assertEqual(case["files"], [])
+
     def test_authored_evals_include_failure_and_scope_cases(self):
         for name in ("film-production", "template-factory", "seedance-motion-design",
                      "seedance-ai-avatar", "seedance-vfx-pipeline"):

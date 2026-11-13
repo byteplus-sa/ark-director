@@ -207,6 +207,33 @@ def model_family(model: str) -> str:
     return tokens[0] + "".join(tokens[1:])
 
 
+def build_ordinary_final_intent(
+    root: Path, operation_id: str, selection: str
+) -> dict[str, Any]:
+    registry = read_registry(contained_path(root, "task_ids.json"))
+    sources = [task for task in registry["tasks"] if task["operation_id"] == operation_id]
+    if len(sources) != 1:
+        raise ValueError("Ordinary final requires one exact registered preview")
+    source = sources[0]
+    parts = selection.split(":")
+    if len(parts) not in (1, 2, 3):
+        raise ValueError("Expected manifest[:field[:key]] ordinary-final selection")
+    evidence = {
+        "manifest": relative_path(parts[0]),
+        "field": parts[1] if len(parts) > 1 else "selected_variant",
+        **({"key": parts[2]} if len(parts) == 3 else {}),
+    }
+    reference = {
+        "path": source.get("extensions", {}).get("expected_output"),
+        "approval_evidence": evidence,
+    }
+    return {
+        "source_operation_id": operation_id,
+        "source_request_sha256": source["request_sha256"],
+        "selection": decision_evidence(root, reference, None),
+    }
+
+
 def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
     if not ASSET_PATTERN.fullmatch(args.asset):
         raise ValueError("Asset ID must contain only letters, digits, _ and -")
@@ -232,9 +259,19 @@ def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
             raise ValueError("Destination binding requires version-2 capability evidence")
     elif args.provider or args.tool_schema_revision:
         raise ValueError("Destination binding requires --capabilities")
+    final_source = getattr(args, "ordinary_final_source", None)
+    final_selection = getattr(args, "ordinary_final_selection", None)
+    if final_source is not None or final_selection is not None:
+        if not final_source or not final_selection or profile is None:
+            raise ValueError("Ordinary final requires --ordinary-final-source, --ordinary-final-selection and version-2 capabilities")
+        profile["ordinary_final"] = build_ordinary_final_intent(
+            root, final_source, final_selection
+        )
     version = args.schema_version or (
         2 if declares_approval_mode(root) or canvas_contract_version(root) >= 1 else 1
     )
+    if final_source and version != 2:
+        raise ValueError("Ordinary final requires a version-2 request and current project approval contract")
     legacy = parse_legacy(args.ref_legacy)
     unknown = set(legacy) - {reference["path"] for reference in references}
     if unknown:
@@ -416,6 +453,8 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--capabilities")
     parser.add_argument("--provider")
     parser.add_argument("--tool-schema-revision")
+    parser.add_argument("--ordinary-final-source")
+    parser.add_argument("--ordinary-final-selection")
     parser.add_argument("--required-rule", action="append", default=[])
     parser.add_argument("--replace-unregistered", action="store_true")
     parser.add_argument("--adopt-provider-task-id")

@@ -11,6 +11,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
+from referencing import Registry
 from referencing.exceptions import Unresolvable
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
@@ -605,6 +606,11 @@ def request_profile(request: dict[str, Any]) -> Any:
     return request.get("extensions", {}).get("capability_profile")
 
 
+def ordinary_final_intent(request: dict[str, Any]) -> Any:
+    bound = request_profile(request)
+    return bound.get("ordinary_final") if isinstance(bound, dict) else None
+
+
 def capability_digest(evidence: Any) -> str:
     return hashlib.sha256(
         json.dumps(
@@ -681,6 +687,12 @@ def native_draft_findings(
             if not (legacy_native or preview["native_draft"] is True) or preview["promotion"] is not True:
                 return [Finding("seedance.draft_promotion", "Ordinary previews are not promotable")]
             return []
+        if isinstance(bound, dict) and "ordinary_final" in bound:
+            if legacy_native or preview["native_draft"] is not False or preview["promotion"] is not False:
+                return [Finding("seedance.ordinary_final", "Fresh ordinary finals require verified non-native mechanics")]
+            if "draft" in request["params"] or "draft_task_id" in request["params"]:
+                return [Finding("seedance.ordinary_final", "Ordinary finals cannot use Draft controls")]
+            return []
         controls = preview["parameters"]
         if not controls or any(
             key not in request["params"]
@@ -713,6 +725,113 @@ def native_draft_findings(
             "params",
         )
     ]
+
+
+def ordinary_final_findings(root: Path, request: dict[str, Any]) -> list[Finding]:
+    bound = request_profile(request)
+    if not isinstance(bound, dict) or "ordinary_final" not in bound:
+        return []
+    try:
+        intent = ordinary_final_intent(request)
+        if (
+            not isinstance(intent, dict)
+            or set(intent) != {"source_operation_id", "source_request_sha256", "selection"}
+            or not isinstance(intent["source_operation_id"], str)
+            or not intent["source_operation_id"].strip()
+            or not isinstance(intent["source_request_sha256"], str)
+            or not re.fullmatch(r"[0-9a-f]{64}", intent["source_request_sha256"])
+            or not isinstance(intent["selection"], dict)
+        ):
+            raise ValueError("Malformed ordinary-final intent")
+        if request["operation"] not in VIDEO_OPERATIONS or request["schema_version"] != 2:
+            raise ValueError("Ordinary final requires a version-2 video request")
+        if persisted_profile_findings(request) or native_draft_findings(request):
+            raise ValueError("Ordinary final requires current non-native capability evidence")
+        registry = json.loads(contained_path(root, "task_ids.json").read_text())
+        if schema_findings(registry, "task-registry.schema.json"):
+            raise ValueError("Task registry is invalid")
+        sources = [task for task in registry["tasks"]
+                   if task["operation_id"] == intent["source_operation_id"]]
+        if len(sources) != 1:
+            raise ValueError("Ordinary final requires one exact registered preview")
+        source = sources[0]
+        source_profile = request_profile(source)
+        if (
+            source["operation_id"] == request["operation_id"]
+            or source["asset_id"] == request["asset_id"]
+            or source["request_sha256"] != intent["source_request_sha256"]
+            or source["submission_status"] != "terminal"
+            or source["provider_status"] != "succeeded"
+            or not source["provider_task_id"]
+            or source["review_status"] == "rejected"
+            or not isinstance(source_profile, dict)
+            or "ordinary_final" in source_profile
+            or source_profile != {key: value for key, value in bound.items()
+                                  if key != "ordinary_final"}
+            or any(source[field] != request[field]
+                   for field in ("model", "operation", "transport", "prompt_sha256"))
+            or is_draft_promotion(source["params"])
+            or persisted_profile_findings(source)
+            or native_draft_findings(source)
+            or draft_input_findings(root, source)
+        ):
+            raise ValueError("Ordinary-final source identity, success, preview controls or inputs changed")
+        if [
+            (ref["sha256"], ref["role"], ref["binding"]) for ref in request["references"]
+        ] != [
+            (ref["sha256"], ref["role"], ref["binding"]) for ref in source["references"]
+        ]:
+            raise ValueError("Ordinary final must retain the exact ordered preview references")
+        output_controls = PROMOTION_PARAMETERS - {"draft_task_id"}
+        if capability_digest({key: value for key, value in request["params"].items()
+                              if key not in output_controls}) != capability_digest(
+            {key: value for key, value in source["params"].items()
+             if key not in output_controls}
+        ):
+            raise ValueError("Ordinary final may change only supported output controls")
+        output = source.get("extensions", {}).get("expected_output")
+        final_output = request.get("extensions", {}).get("expected_output")
+        if (
+            not isinstance(output, str)
+            or not isinstance(final_output, str)
+            or not final_output
+            or Path(final_output).is_absolute()
+            or ".." in Path(final_output).parts
+        ):
+            raise ValueError("Ordinary final needs a project-relative output identity")
+        output_path = contained_path(root, output)
+        final_path = (root / final_output).resolve()
+        if (
+            not final_path.is_relative_to(root.resolve())
+            or final_path.is_dir()
+            or final_path == output_path
+            or (final_path.exists() and final_path.samefile(output_path))
+        ):
+            raise ValueError("Ordinary final needs a new output identity")
+        selection = intent["selection"]
+        if selection.get("evidence_type") == "legacy":
+            raise ValueError("Ordinary final requires structured current selection evidence")
+        reference = {
+            "path": output,
+            "sha256": selection.get("selected_sha256"),
+            "role": "reference_video",
+            "binding": "@Video 1",
+            "approval_evidence": selection,
+        }
+        if schema_findings({**request, "references": [reference]},
+                           "generation-request.schema.json"):
+            raise ValueError("Malformed ordinary-final selection evidence")
+        findings = approval_decision_findings(root, reference, output_path)
+        decision = json.loads(contained_path(root, selection["decision_path"]).read_text())
+        findings.extend(decision_findings(root, decision, require_current_project=True))
+        if (
+            decision.get("asset_id") != source["asset_id"]
+            or decision.get("approval_mode") != request.get("approval_mode")
+        ):
+            raise ValueError("Ordinary-final selection does not match source asset or current authorization mode")
+        return findings
+    except (ValueError, TypeError, KeyError, OSError, UnicodeError, YAMLError) as error:
+        return [Finding("seedance.ordinary_final", str(error), "task_ids.json")]
 
 
 def draft_selected(root: Path, draft: dict[str, Any]) -> bool:
@@ -910,14 +1029,31 @@ def reference_findings(
 
 
 def external_schema_references(value: Any) -> bool:
-    if isinstance(value, dict):
-        return any(
-            (key in ("$ref", "$dynamicRef") and not str(child).startswith("#"))
-            or external_schema_references(child)
-            for key, child in value.items()
-        )
-    if isinstance(value, list):
-        return any(external_schema_references(child) for child in value)
+    pending = [(value, 0)]
+    count = 0
+    while pending:
+        schema, depth = pending.pop()
+        count += 1
+        if depth > 64 or count > 4096:
+            raise ValueError("Capability schema exceeds bounded traversal")
+        if not isinstance(schema, dict):
+            continue
+        if any(key in schema and not str(schema[key]).startswith("#")
+               for key in ("$ref", "$dynamicRef")):
+            return True
+        for key in ("properties", "patternProperties", "$defs", "definitions",
+                    "dependentSchemas"):
+            children = schema.get(key)
+            if isinstance(children, dict):
+                pending.extend((child, depth + 1) for child in children.values())
+        for key in ("allOf", "anyOf", "oneOf", "prefixItems"):
+            children = schema.get(key)
+            if isinstance(children, list):
+                pending.extend((child, depth + 1) for child in children)
+        for key in ("additionalProperties", "unevaluatedProperties", "propertyNames",
+                    "items", "unevaluatedItems", "contains", "if", "then", "else", "not"):
+            if key in schema:
+                pending.append((schema[key], depth + 1))
     return False
 
 
@@ -928,13 +1064,6 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
             Finding("model.supported_mode", finding.message) for finding in malformed
         ]
     constraints = evidence.get("conditional_parameters", [])
-    if external_schema_references(evidence["parameters"]) or external_schema_references(constraints):
-        return [
-            Finding(
-                "model.supported_mode",
-                "Capability schemas must be self-contained; remote references are not loaded",
-            )
-        ]
     findings: list[Finding] = []
     if evidence.get("schema_version") == 2:
         findings.extend(profile_identity_findings(request, evidence))
@@ -965,8 +1094,13 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
     if evidence.get("schema_version") == 2 and constraints:
         schema["allOf"] = constraints
     try:
+        if external_schema_references(schema):
+            return [Finding(
+                "model.supported_mode",
+                "Capability schemas must be self-contained; remote references are not loaded",
+            )]
         Draft202012Validator.check_schema(schema)
-        for error in Draft202012Validator(schema).iter_errors(request["params"]):
+        for error in Draft202012Validator(schema, registry=Registry()).iter_errors(request["params"]):
             message = error.message
             if request["model"] in NATIVE_DRAFT_MODELS:
                 message += (
@@ -978,6 +1112,8 @@ def capability_findings(request: dict[str, Any], evidence: Any) -> list[Finding]
         findings.append(
             Finding("model.supported_mode", f"Invalid capability schema: {error}")
         )
+    except RecursionError:
+        findings.append(Finding("model.supported_mode", "Capability schema exceeds bounded recursion"))
     roles = [ref["role"] for ref in request["references"]]
     if any(role not in evidence.get("reference_roles", []) for role in roles):
         findings.append(
@@ -1027,6 +1163,7 @@ def prepared_evidence_findings(
     if not existing_submission:
         findings.extend(native_draft_findings(request))
     root = Path(project_root).resolve()
+    findings.extend(ordinary_final_findings(root, request))
     try:
         project_review_mode(root)
     except (ValueError, TypeError, OSError, UnicodeError, YAMLError) as error:
