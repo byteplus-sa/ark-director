@@ -1,14 +1,24 @@
 # Seedance talking-head templates
 
-Inputs: the likeness binding approved at gate 2 (an authorized `asset://`
-reference, or the character sheet as `reference_image` where that route is
-sanctioned), `audios: [voice clip URL]`, `generate_audio: true`,
+**Local safety overlay (SD-003):** Consent and internal policy approval do not
+establish provider authorization. Preserve the template layout, but bind only
+matching Advanced Creation Rights real-person assets with verified `Active`
+status and supported account/model/operation/transport scope. Reuse completed
+valid onboarding. Pending, inactive or unknown bindings stop submission.
+
+Inputs: the verified real-person face `asset://` binding, and a separately
+authorized `Active` real-person voice `asset://` binding if voice is used.
+Resolve the actual image/audio fields and reference numbering from the current
+transport schema; never substitute a raw sheet `reference_image` or
+`audios: [voice clip URL]` when authorization or wrapper support is missing.
+Use `generate_audio: true`,
 `resolution: "480p"` with `draft: true` for the first take, `watermark: false`,
 and `duration` from measured or language-aware speech timing, including onset
 and final-word tail, within current tool limits. Submit the `seedance_2_5_create_task` tool through
 `ark_job_submit`, poll with `seedance_get_task`, and promote the selected draft
-by `draft_task_id`. Only send the likeness after the consent and real-likeness
-gates are recorded.
+by `draft_task_id`. Only send the likeness after consent, any required policy
+approval and current provider authorization are independently verified and
+recorded. Keep real people out of AIGC Virtual Portrait groups.
 
 These are optional framing recipes, not a default topic or performance.
 Resolve language, accent, setting, wardrobe, delivery, gestures and final
@@ -21,7 +31,7 @@ Choose the source crop and safe area from the actual destination layout.
 
 ```
 [Character]
-<Name> corresponds to @Image 1. Use only his face, hairstyle, skin tone, build and outfit: <outfit list>. Do not use the grey backdrop or the multi-panel layout of @Image 1. All three panels of @Image 1 show the same one man; the output contains only one person, <Name>, throughout.
+<Name> corresponds to the verified authorized face binding @Image 1. Preserve his face, hairstyle, skin tone and build. Outfit: <approved outfit list from local planning>. The output contains only one person, <Name>, throughout.
 
 [Scene]
 <Studio and backdrop description, lighter behind his head and falling off to dark at the edges>. A small black lavalier mic is clipped at the center of his collar.
@@ -56,8 +66,8 @@ vertical framing, <Name> centered and facing the camera throughout." and
   final-word tail. Word-count estimates are language-specific planning aids,
   not permission to accelerate or rewrite approved dialogue.
 - Adapt pronouns to the presenter; the templates use one example presenter.
-- Wardrobe and accessories come through the sheet, but a small prop such as a
-  lav mic does not reliably appear from text alone. If it matters, QA it and say
-  it twice (scene + subject).
+- Use the local sheet for wardrobe planning and identity QA, not as a raw
+  Seedance input. Describe wardrobe/accessories in text. A small prop such as a
+  lav mic does not reliably appear from text alone; QA it when it matters.
 - Resolve supported output dimensions from the live tool. Keep estimated and
   confirmed costs separate when known; missing pricing does not block generation.

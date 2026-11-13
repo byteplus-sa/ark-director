@@ -24,6 +24,31 @@
         "The output compares the unmarked area against the source before accepting the edit.",
         "The output uses an HTTPS or asset:// image input rather than a local file path."
       ]
+    },
+    {
+      "id": 3,
+      "category": "model-preservation",
+      "prompt": "Prompt-only. Prepare a Seedream 5.5 edit of a plain jug label using my box. Provider support is documented; the connected wrapper mapping is unknown.",
+      "expected_output": "A bounded prompt and unresolved wrapper settings without Pro substitution, full-frame edit or generation.",
+      "files": [],
+      "expectations": [
+        "Preserves selected 5.5 and does not equate provider support with wrapper support.",
+        "Unknown compatibility blocks submission and offers only unselected alternatives.",
+        "Keeps 0-999 edit inputs separate from 0-1000 decomposition OCR outputs.",
+        "Preserves unmarked areas and requires actual result inspection before acceptance."
+      ]
+    },
+    {
+      "id": 4,
+      "category": "model-preservation",
+      "prompt": "Use my selected future Seedream model. Its edit schema is verified, but no image or image dimensions were supplied. Put a crown at my click.",
+      "expected_output": "Request the missing source and dimensions before normalizing or submitting, preserving the selected model.",
+      "files": [],
+      "expectations": [
+        "Does not invent an image, dimensions or coordinate mapping.",
+        "Requests missing inputs without silently choosing another model.",
+        "Does not submit, claim a result or treat agent mode as authorization."
+      ]
     }
   ]
 }

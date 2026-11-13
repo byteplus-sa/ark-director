@@ -7,7 +7,8 @@ mode selection and caller responsibilities.
 
 ## Recommended prompt structure — Image Editing
 
-Seedream 5.0 Pro supports five editing modes. Pick one or combine multiple.
+Use the editing patterns below only where the selected model and available tool
+support the operation. A provider capability does not establish wrapper support.
 Use only the sections needed for the edit:
 
 ```
@@ -57,7 +58,12 @@ Layout-preserving translation (Form 1 pattern): the model translates text while 
 Translate the menu into Chinese.
 ```
 
-**Form 2 — Precise coordinate location (Pro only)**: Use `<point>` or `<bbox>x1 y1 x2 y2</bbox>` inline coordinate tags to identify the intended edit region; inspect the result for boundary fidelity. Coordinates are obtained via an annotation tool.
+**Form 2 — Precise coordinate location (capability-gated)**: Use `<point>` or
+`<bbox>x1 y1 x2 y2</bbox>` only after verifying the selected model's interactive
+editing capability and the connected tool's coordinate mapping. Pro and 5.5
+have documented provider support; other models and wrapper exposure require
+separate evidence. Inspect actual results for boundary fidelity. Unknown
+support is unresolved, not permission to substitute a full-frame edit.
 
 ```
 Edit instructions:
@@ -86,7 +92,9 @@ Using the sketch in @Image 1 as the layout guide, generate [describe the final o
 
 #### 3. Layer Separation
 
-Split an image into independently editable layers output as PNGs with alpha (transparency) channels. Returns 2-20 images, billed per image.
+Split an image into editable layers only through a verified decomposition
+operation. Supply `layer_decomposition: true` and exactly one composite input.
+The prompt below expresses intent, not an executable capability claim.
 
 ```
 References:
@@ -102,7 +110,22 @@ Edit instructions:
 Separate @Image 1 into independent layers: [list desired layers, e.g. "background, main subject, text overlay, decorative elements"]. Output each layer as a PNG with transparent background.
 ```
 
-Layers retain transparency and can be freely dragged, scaled, or recomposed. Background areas obscured by the main subject are seamlessly inpainted.
+Keep the base image distinct from its layers. The documented Pro ceiling is one
+base plus up to 16 layers; the 5.5 ceiling is one base plus up to 99 layers,
+not a promised output count. Layers are PNG; inspect reconstructed occluded
+areas and transparency rather than claiming perfect separation.
+
+For 5.5 only, `layer_decomposition_options.max_images` accepts integer 2-100,
+default 30, counting the base; optional `text_recognition` returns OCR only on
+recognized regular-text layers. Use documented size presets or `auto`, not
+explicit dimensions, and omit `background` for this operation. Any failed
+layer fails the request. Do not infer connected-wrapper support from provider
+docs or treat decomposition as native sequential generation.
+
+OCR output boxes use 0-1000 normalized coordinates in the base-image system,
+separate from edit-input 0-999 coordinates. Approximate font/style information
+is not exact design fidelity or font-license permission. See
+[the quick reference](quick-reference.md) for dated provider sources.
 
 #### 4. Color & Material Replacement
 
@@ -151,7 +174,8 @@ Precisely cut out the first object from @Image 1, the second from @Image 2, the 
 
 ### Combining Editing Modes
 
-Editing modes can be combined freely. Example:
+Compatible prompt patterns can be combined when the selected operation and tool
+support them; decomposition and its parameters remain a separate request. Example:
 ```
 Change the pumpkins to an alternating pattern of dark green #3E4A2E and turmeric yellow #DB973E, while giving the background typography an embroidered texture.
 ```

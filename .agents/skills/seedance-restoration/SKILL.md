@@ -62,6 +62,58 @@ route is closed: never crop, blur, stylize or re-encode the footage to pass the
 check, and offer the deterministic route (VOD enhancement or FFmpeg filters)
 instead. Footage without people binds normally.
 
+## Source timing
+
+Preserve the full measured source: fractional duration, frame count, fps,
+decoded timestamps, cuts, playback speed, the final word and audio tails.
+Derive the muted master and saved audio from the same full timeline unless a
+specific derivative is approved; preserve the original picture and sound.
+
+Missing or malformed timing measurements stop an execution-ready package.
+Never guess duration, round a supplied value, or invent inspection evidence;
+return an unresolved handoff requesting valid measurements.
+
+A timing adaptation requires a specific current provider requirement for the
+selected model, operation and transport, plus explicit derivative adaptation
+approval from the user after explaining alternatives and timing/audio effects.
+`approve_for_me` does not supply that approval. Empirical stability advice,
+prior-run tolerances and creative selection do not establish a requirement.
+
+Denied or missing adaptation approval leaves the original unchanged: no
+derivative is prepared and no incompatible request is recommended for
+submission. Offer unselected source-preserving alternatives or a handoff.
+
+For an approved derivative, record source SHA-256, derivative SHA-256, the
+exact window, command, timing delta and audio consequences. Keep source and
+derivative measurements separate; muted picture and saved audio use the same
+approved span. Never overwrite the original or extend the approved scope.
+
+No automatic 8n+1 frame recipe or whole-second rounding is permitted. Do not
+trim, pad or retime to satisfy a preferred length or center a defect.
+Check current input limits; a suggested split is not an approved split.
+
+These timing rules govern referenced recipes: examples, repair suggestions
+and old ladders do not authorize adaptations or extra probes. If a reference
+conflicts, preserve the full measured timeline and the approval gates above.
+
+An output mismatch remains unresolved after measuring picture, saved audio,
+timestamps, cut boundaries and playback speed and inspecting opening/ending
+sync. Never hide it with `-shortest`, padding or truncation. Retain the masters,
+report lost frames, the final word or sound tails, and obtain the same
+requirement evidence and specific approval before a corrective adaptation.
+
+An optional partial probe is a needs-based proposal for a bounded uncertainty,
+requiring explicit approval of its window and additional generation scope.
+It is not delivery and never changes the full source target. Record its span
+and hashes separately; a passing probe cannot replace the full-duration native
+Draft or approve untested opening/ending content.
+
+Every new Seedance 2.5 generation uses explicit `resolution: "480p"` and boolean
+`draft: true` in every review mode, including an approved probe. Missing native
+Draft controls stop the package until capability or transport conflicts are
+resolved; never drop `draft` or substitute plain 480p. Review and select the
+full-duration native Draft before supported promotion by `draft_task_id`.
+
 ## Procedure
 
 1. **Diagnose the defect first — never guess the vocabulary.** Inspect the damaged
@@ -74,16 +126,14 @@ instead. Footage without people binds normally.
    a wave-removal prompt will not fix what is actually a horizontal scan-line
    tear + luminance band. Use the diagnosis to drive the
    prompt's vocabulary word-for-word.
-2. **Inspect the source.** Probe duration, fps, resolution, and aspect. Read the
-   defect mix from the footage and the diagnosis.
-3. **Trim by the contract — and center the defect.** Edit sources run 4–30 s
-   and are most stable under 20 s; split longer reels into shots. Trim to an
-   8n+1 frame count (for example 121 frames at 24 fps) so the output keeps the
-   source frame count; other counts come back up to about 0.3 s short. **For a
-   localized defect, never leave it at a clip boundary.** A defect in the final
-   second can be dropped or altered, and re-introduced by any last-frame pad
-   added to splice. Re-center the defect with ≥1s of clean margin on both sides.
-   Derive the muted master and saved audio from the trimmed file.
+2. **Inspect the source.** Measure the full fractional timeline per
+   [Source timing](#source-timing), resolution and aspect. Read the defect mix
+   from the footage and the diagnosis.
+3. **Preserve the source timeline.** Verify current route limits without
+   automatic trimming, padding or retiming. A boundary defect remains in its
+   original position; missing clean context is a limitation, not permission
+   to re-center it. Any required derivative follows the evidence and approval
+   gates in [Source timing](#source-timing).
 4. **Choose an escalation level** (below) based on how much cleanup is wanted and
    what the last take under-delivered on. For localized tears/bands/waves, use the
    dedicated framing in [Localized transient defects](#localized-transient-defects-scans-tears-bands-waves) rather than the grain ladder.
@@ -93,17 +143,20 @@ instead. Footage without people binds normally.
    caller runs prompt review against the Seedance 2.5 edit checklist before
    submission. Every new probe or revised take uses `resolution: "480p"` and
    boolean `draft: true` in every review mode. Resolve capability or transport
-   conflicts before submission; never drop `draft`. Rung 1 probes the defect window, which shows
-   whether lines, tears and bands leave and whether people and camera stay
-   intact. Grain and fine texture cannot be judged at 480p, so they are judged
-   on the final-resolution rung.
+   conflicts before submission; never drop `draft`. Start with the full-span
+   native Draft; an additional defect-window probe is optional and needs
+   explicit scope approval. Check lines, tears, bands, people and camera across
+   the full span. Grain and fine texture require final-resolution inspection.
 7. **Verify the fix before splicing — do not trust the task.** Inspect
    the Seedance output the same way and check the same three things: the
    defect is gone, the people/scene/camera are intact, and no new artifacts were
    introduced. Only splice a verified-clean clip; a technical `succeeded` is not
-   proof the tear/wave/grain actually left.
+   proof the tear/wave/grain actually left. Measure the full output timeline
+   against the approved source before any splice; mismatches remain unresolved.
 8. **Mux the saved original audio** onto the silent restored video, per the
-   contract's post-audio section, and check two or three sync points.
+   contract's post-audio section, preserving the final word and sound tails.
+   Inspect opening, middle and ending sync; never hide drift with padding,
+   truncation or `-shortest`.
 
 ## Escalation ladder
 
@@ -137,8 +190,9 @@ frame. They need different vocabulary and a different mental model:
 - **Do not hedge.** For these defects, "aggressively remove" + "completely
   eliminate … through the final frame" is appropriate; the timid "keep everything
   the same" framing lets the model reproduce the band as content.
-- **Center the defect in the clip.** These defects are often a ~1s window; put it
-  mid-clip, not at the tail (Procedure step 3).
+- **Preserve boundary defects.** Inspect the actual defect window, including
+  the final frame. Do not move it to mid-clip or add clean margins by changing
+  the source timeline. An optional bounded probe follows [Source timing](#source-timing).
 - **Expect the model to sometimes reproduce them.** A rolling tear is the hardest
   restoration case. Verify by direct inspection before splicing; if it persists
   after 2–3 attempts with correct vocabulary, fall back to a deterministic
@@ -270,14 +324,14 @@ Silent output. Sound is added in post.
 7. `[Content to Preserve]` locks identity, motion, timing, camera, and lighting.
 8. Grounding and face-protection locks are present when people are in frame.
 9. No `[Target Material Role]` section (single `@Video 1` source only).
-10. Source trimmed to 4–30 s (under 20 s preferred) at an 8n+1 frame count,
-    and any localized defect is **centered** with ≥1s clean margin on both
-    sides — never at the clip boundary.
+10. Full fractional source timing, frame timestamps, cuts and audio tails are
+    preserved; any derivative has current requirement evidence and explicit
+    adaptation approval, with separate measurements, spans and hashes.
 11. Rights recorded; the muted master is bound, as an `asset://` video when
     people are visible; the prompt ends with the silent audio block.
-12. The first rung is a 480p probe of the defect window; grain is judged at
-    the final resolution.
+12. Full-span native Draft first; any additional partial probe is optional,
+    explicitly approved and not delivery. Grain is judged at final resolution.
 13. The Seedance output was **verified by direct inspection** (defect gone,
     content intact, no new artifacts) before splicing.
 14. The caller's prompt review passed before submission; the saved original
-    audio was muxed after.
+    audio was muxed after measured timing and sync QA without hidden tail loss.

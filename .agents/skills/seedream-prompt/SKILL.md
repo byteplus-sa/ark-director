@@ -1,11 +1,15 @@
 ---
 name: seedream-prompt
-description: Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints. Invoke when the user asks for a Seedream prompt, generated or edited imagery, infographics, or expressive poster/UI/brand artwork. Do not use it to reproduce exact static typography, pricing, CTA, product-grid, logo, or pixel-layout geometry that deterministic HTML-entrypoint graphics can render.
+description: Write Seedream image-generation and editing prompts with ordered references and composition control. Use for synthesized imagery, not exact typography, logo geometry, or deterministic layouts.
 ---
 
 # Seedream Prompt
 
-Write production-grade prompts for BytePlus Seedream 5.0 Pro (`dola-seedream-5-0-pro-260628`) and Seedream 5.0 Lite. Seedream 5.0 Pro is a multimodal image creation model that goes beyond generation — it understands design intent, supports interactive precision editing, produces high-density infographics, natively renders text in 14 languages, and delivers cinematic realism with accurate lighting and materials.
+Write production-grade prompts for BytePlus Seedream. Keep creative guidance
+model-neutral; preserve the selected model and resolve its exact model ID,
+operation, and available transport before preparing executable settings.
+Editing controls, text rendering, references, and output modes differ by model.
+Unknown capability evidence stays unresolved, not assumed from a family name.
 
 
 ## Input and output contract
@@ -31,14 +35,17 @@ mentioned in prose are relative to this skill directory unless a link says other
 
 ## Submission boundary and failure behavior
 
-The caller owns production authorization, the exact request preflight, and the
-complete hash-bound prompt review. The caller reviews inline by default and
+The caller owns production authorization, the exact request preflight, and
+mode-appropriate review: minimal inline preflight in default mode, complete
+hash-bound review in strict mode or when explicitly required. The caller reviews inline and
 uses a sub-agent only when the user explicitly requests sub-agent prompt review
 for the project or specific generation. A leaf returns its prompt package without
 loading sibling skills. An explicitly declared orchestrator may coordinate the
 review and submission stages. Missing required inputs remain unresolved; a draft
-or technical success does not establish user approval. Preserve optional timing,
-the three-image sampling default where applicable, and the requested delta.
+or technical success does not establish user approval. Preserve optional timing
+and the requested delta. Use one image in default review, three stochastic
+samples in strict review where applicable, and the explicit requested count in
+either mode. Sampling advice does not authorize additional generation.
 
 ## Evidence and creative advice
 
@@ -54,6 +61,7 @@ reasoning or evaluation notes when useful, not boilerplate in every final prompt
 ## Source authority
 
 The prompt structure and rules in this skill are sourced from:
+- [Seedream image API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/image-generation-api.md) and [Seedream 5.5 tutorial](https://docs.byteplus.com/docs/en/modelark/seedream-5-5.md)
 - [Seedream 5.0 Pro official blog](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro) (2026-07-08)
 - [Seedream 4.0-5.0 API Tutorial](https://docs.byteplus.com/en/docs/ModelArk/1824121)
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186)
@@ -109,7 +117,8 @@ render record.
 ### Break complex tasks into steps
 For multi-element composition or fine editing, step-by-step operation improves controllability.
 
-### What Seedream 5.0 Pro is good at
+### Seedream creative uses
+Verify the selected model and operation before promising any capability below.
 - Precise local editing through interactive controls
 - Multi-image fusion of objects, styles, and materials
 - High-density information visualization when exact text and layout fidelity are
@@ -120,7 +129,7 @@ For multi-element composition or fine editing, step-by-step operation improves c
   non-exact; use deterministic finishing for delivery-critical copy
 - Cinematic imagery: high-fidelity narrative scenes and portrait retouching
 
-### What Seedream 5.0 Pro is not suited for
+### Fidelity and safety boundaries
 - Fully replacing professional designer judgment
 - Highly complex layouts requiring precise typographic control
 - Generating non-compliant or infringing content

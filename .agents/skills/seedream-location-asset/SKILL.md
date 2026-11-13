@@ -217,8 +217,18 @@ contract, for example:
 
 ## Quick defaults
 
-- Model: `dola-seedream-5-0-pro-260628`
-- Format: `png`
-- Prompt optimization: `standard`
+Preserve the selected model before considering defaults. If none is selected,
+resolve the configured exact model ID and verify the requested operation,
+reference count, size, format, and parameters against the current provider and
+destination tool schema. Unknown capability evidence remains unresolved.
+Do not substitute a model, transport, full-frame operation, or extra calls
+without authorization. Offer alternatives as unselected proposals.
+In prompt-only mode return the prompt, ordered references, and separate verified
+or unresolved settings; do not submit. Reconcile an interrupted or ambiguous
+submission before any retry or transport change.
+
+- Model: preserve the selected model; otherwise use the verified workspace binding.
+- Format: request `png` only when supported by the selected operation and tool.
+- Prompt optimization: `standard` only when the selected tool exposes it.
 - Typical size: `2048x2048` for square sheets, `2816x1584` for 16:9; match the
   video's delivery ratio for plates that a shot will bind.

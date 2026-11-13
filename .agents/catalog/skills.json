@@ -417,8 +417,8 @@
     },
     "seedream-edit": {
       "kind": "leaf",
-      "description": "Guide for using the seedream_edit_image MCP tool for interactive image editing with Seedream 5.0 Pro. Use when the user wants to edit an existing image (replace objects, change regions, add elements at specific positions), especially when coordinate-based precision is needed via point or bounding-box selection.",
-      "readme_summary": "Guide for using the `seedream_edit_image` MCP tool for interactive image editing with Seedream 5.0 Pro. Use for point-based and bounding-box precision editing \u2014 replace objects, change regions, add elements at specific positions.",
+      "description": "Prepare bounded Seedream image edits with point or bounding-box targets. Use for replacing objects, changing regions, or placing elements in an existing image. Verify selected-model and tool support.",
+      "readme_summary": "Prepare bounded Seedream image edits with point or bounding-box targets, preserving the selected model and verifying provider and connected-tool support before submission.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -435,7 +435,7 @@
     },
     "seedream-prompt": {
       "kind": "leaf",
-      "description": "Write structured Seedream 5.0 Pro/Lite image generation prompts with input reference labeling, subject definitions, style and composition control, interactive image editing (local edits, sketch rendering, layer separation, multi-image fusion, color/material replacement), high-density infographics, sequential generation, and constraints. Invoke when the user asks for a Seedream prompt, generated or edited imagery, infographics, or expressive poster/UI/brand artwork. Do not use it to reproduce exact static typography, pricing, CTA, product-grid, logo, or pixel-layout geometry that deterministic HTML-entrypoint graphics can render.",
+      "description": "Write Seedream image-generation and editing prompts with ordered references and composition control. Use for synthesized imagery, not exact typography, logo geometry, or deterministic layouts.",
       "readme_summary": "Write Seedream prompts for synthesized or edited imagery while routing exact typography, pricing, CTA, product grids, logos, and pixel layouts to deterministic graphics.",
       "dependencies": [],
       "source_revision": "workspace",

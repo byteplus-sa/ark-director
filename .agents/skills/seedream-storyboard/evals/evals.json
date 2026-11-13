@@ -17,11 +17,11 @@
     {
       "id": 2,
       "prompt": "Generate one coherent set of six storyboard images from my character, location, and prop references. Use Seedream 5.0 Pro and return all six images in one API call.",
-      "expected_output": "A capability-aware response that explains Pro is single-image output, then either switches to a configured sequence-capable Seedream model or generates the Pro panels individually without inventing a binding.",
+      "expected_output": "Preserve the requested Pro model and flag its incompatible six-image one-call requirement. Offer a grid, individual Pro calls, or a verified sequence-capable model as unselected alternatives; obtain authorization before any model, call count, or delivery change. A prompt-only caller returns prompts, not generations.",
       "files": [],
       "expectations": [
         "The output does not claim that Seedream 5.0 Pro supports six-image batch output.",
-        "The output offers a configured Lite or 4.x sequence path or individual Pro calls.",
+        "The output offers alternatives without selecting or submitting them; a changed model, call count, or delivery mode requires authorization.",
         "The output checks that references plus generated outputs remain within the selected model limit.",
         "The output preserves explicit roles for character, location, and prop references."
       ]
@@ -91,6 +91,45 @@
         "The output binds only the character, location, and prop element references the panels used, with their hashes.",
         "The output plans a take audit with sampled frames and top-left corner crops."
       ]
+    },
+    {
+      "id": 8,
+      "category": "model-preservation",
+      "prompt": "Prompt-only. Use Seedream 5.5 for one six-panel grid. Keep my character and kitchen references in this order. Do not generate.",
+      "expected_output": "One grid prompt preserving selected 5.5, ordered references and separate settings; no generation or Pro substitution.",
+      "expectations": [
+        "Preserves selected 5.5 and resolves dola-seedream-5-5-261028 only from verified evidence.",
+        "Distinguishes one grid image from six native sequential outputs.",
+        "Does not add fast optimization, seed or decomposition options without verified tool support.",
+        "Prompt-only performs no submission, upload or generation and grants no authorization."
+      ],
+      "files": []
+    },
+    {
+      "id": 9,
+      "category": "model-preservation",
+      "prompt": "I selected a future Seedream model with verified single-image generation. Its coordinate-edit wrapper schema is unknown. Fix only the vial in panel p030; the rest is approved.",
+      "expected_output": "Preserve the future model and all locks. Return the narrow edit intent and unresolved compatibility; do not silently switch to Pro or full-frame generation.",
+      "expectations": [
+        "Separates model generation support from interactive-edit and wrapper support.",
+        "Unknown schema remains unresolved, not supported or proven unsupported.",
+        "Offers unselected alternatives requiring authorization and performs no submission.",
+        "Preserves approved geometry, pose, identity and requested delta."
+      ],
+      "files": []
+    },
+    {
+      "id": 10,
+      "category": "model-preservation",
+      "prompt": "Agent mode. Use my selected Seedream 5.5 to return four separate panels in one call. A prior submit timed out before a job ID returned. Try another transport immediately.",
+      "expected_output": "Explain the incompatible native sequence request while preserving 5.5. Reconcile the ambiguous submission before retrying and obtain authorization for any package change.",
+      "expectations": [
+        "Does not conflate variations or layers with native sequential output.",
+        "Agent mode is not authorization for a model, transport or extra-call change.",
+        "Reconciles unknown prior submission state rather than blindly resubmitting.",
+        "Provides prompt-only handoff if no verified usable transport exists."
+      ],
+      "files": []
     }
   ]
 }
