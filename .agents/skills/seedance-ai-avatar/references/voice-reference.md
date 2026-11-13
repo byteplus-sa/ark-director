@@ -1,7 +1,10 @@
 # Voice reference
 
-Seedance 2.5 accepts up to 10 audio refs, ≤30s combined. A single clean 8–15s
-clip of the presenter is enough to carry timbre, accent and pacing.
+Raw voice isolation is consent-scoped local onboarding/QA material, not a
+Seedance request fallback. Consent, internal policy approval and provider face
+and voice authorization are independent. Before each request, verify the
+matching `Active` face asset and voice asset when voice is used, including
+current account, model, operation and transport support.
 
 ## Isolate the voice
 
@@ -35,15 +38,16 @@ ffmpeg -n -i references/ref_voice-isolated.wav -ss "${START_S:?}" -t "${DURATION
   "${OUTPUT_AUDIO:?}"
 ```
 
-Also keep a ~15s alternate (`refs/ref_voice-timbre-long.wav`) for a retake if
-resemblance is weak. Upload the clip with `media_upload` (`media_type: audio`,
-7-day TTL) and keep its URL only in the request, never in a file.
+An alternate consented excerpt may support local onboarding/QA when needed.
+Do not upload or bind the raw excerpt as a generation fallback. Missing,
+expired, mismatched, failed or unsupported provider assets stop the request;
+resolve the authorized asset route without disguising the input.
 
 ## Binding
 
-```
-@Audio 1 defines <Name>'s voice timbre, accent and pacing only; do not reuse any words from @Audio 1.
-```
+Bind only the verified `asset://` face and voice references using the currently
+supported asset roles. An approved character sheet does not authorize voice,
+and raw clips do not replace provider assets. Do not invent role syntax.
 
 Put the full new script in the `{}` dialogue block and state the language
 ("Dialogue language: <requested language and accent>").

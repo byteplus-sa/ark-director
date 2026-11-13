@@ -1,7 +1,7 @@
 ---
 name: seedance-motion-design
 description: >
-  Write production-grade Seedance 2.5 motion-design and motion-graphics
+  Write production-grade Seedance motion-design and motion-graphics
   prompts for marketing deliverables — launch videos, motion-on-footage
   explainers, hypermotion product ads, 3D flythroughs, 2D explainers,
   editorial explainers, logo reveals, kinetic type, product motion, and
@@ -13,13 +13,18 @@ description: >
   user asks for motion design, motion graphics, kinetic typography, a logo
   reveal, product motion, an explainer video, an animated data story, or
   any text/graphic-driven marketing motion. Composes in prose with
-  html-graphic-render for exact static graphics, seedance-prompt-25 for the
-  six-part formula, seedream-prompt or seedream-storyboard for synthesized
+  html-graphic-render for exact static graphics, seedance-prompt for creative
+  text, seedream-prompt or seedream-storyboard for synthesized
   image/keyframe layers, and seed-audio-prompt for voice/music. Does not call
   the API itself.
 ---
 
 # Seedance Motion Design
+
+The caller may compose generic creative intent with `seedance-prompt`, preserving
+the selected model. Historical 2.5 stage, reference and six-part examples below
+apply only through a verified selected adapter. The caller owns model/operation
+review applicability before genre or language, eligibility checks and execution.
 
 Write ready-to-use Seedance 2.5 prompts for motion design and motion
 graphics — marketing motion where the message is carried by text, graphics,
@@ -123,10 +128,12 @@ screen, product, and keyframe, then route by fidelity:
   reference derivatives separate.
 - **Illustrative or photographic plates** → `seedream-prompt` without exact
   typography; select before deterministic finishing.
-- **Approved storyboard panels / keyframes** → `seedream-storyboard`, promoted
-  only after review.
+- **Storyboard panels, grids, crops and animatics** remain planning-only;
+  translate their staging into creative text, never conditioning inputs.
+- **Separately authored clean keyframes** may be eligible only after explicit
+  selection, current hash verification and supported role-combination evidence.
 
-Generated or approved visual plates may become a `reference_image`,
+Eligible clean keyframe or identity plates may become a `reference_image`,
 `first_frame`, or `last_frame` with a stable `@Image N` binding. Exact graphic
 plates stay in post when fidelity is required. **The submitted reference array
 must match the `@Image N` bindings in the prompt 1:1 — same files, same order.**
@@ -251,7 +258,7 @@ Plate bindings are declared up front as `[Material Roles]`:
 ```text
 [Material Roles]
 @Image 1 defines <selected visual plate> — use its composition and art direction.
-@Image 2 defines <approved storyboard / keyframe> — use its shot structure.
+@Image 2 defines <separately authored selected clean keyframe> — use its verified visual authority.
 @Image N defines <product / identity sheet> — use its identity and material only.
 
 [Motion Design]

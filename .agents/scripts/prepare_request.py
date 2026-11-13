@@ -20,6 +20,7 @@ from operation_store import (
 from ruamel.yaml.error import YAMLError
 from validate_request import (
     Finding,
+    capability_digest,
     compute_request_hash,
     contained_path,
     frontmatter,
@@ -213,6 +214,24 @@ def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
     prompt_bytes = contained_path(root, prompt_file).read_bytes()
     references = build_references(root, args.ref)
     params = parse_params(args.param)
+    profile = None
+    if args.capabilities:
+        evidence = load_json(root, args.capabilities)
+        if isinstance(evidence, dict) and evidence.get("schema_version") == 2:
+            if not args.provider or not args.tool_schema_revision:
+                raise ValueError("Version-2 capabilities require independent --provider and --tool-schema-revision")
+            profile = {
+                "expected": {
+                    "provider": args.provider,
+                    "tool_schema_revision": args.tool_schema_revision,
+                },
+                "evidence": evidence,
+                "sha256": capability_digest(evidence),
+            }
+        elif args.provider or args.tool_schema_revision:
+            raise ValueError("Destination binding requires version-2 capability evidence")
+    elif args.provider or args.tool_schema_revision:
+        raise ValueError("Destination binding requires --capabilities")
     version = args.schema_version or (
         2 if declares_approval_mode(root) or canvas_contract_version(root) >= 1 else 1
     )
@@ -247,7 +266,8 @@ def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "prompt_file": prompt_file,
         "prompt_sha256": hashlib.sha256(prompt_bytes).hexdigest(),
         "request_sha256": compute_request_hash(
-            prompt_bytes, references, args.model, args.operation, params, **mode
+            prompt_bytes, references, args.model, args.operation, params,
+            capability_profile=profile, **mode
         ),
         "references": references,
         "params": params,
@@ -256,7 +276,10 @@ def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "provider_status": None,
         "review_status": "not_started",
         "cost": {"estimated": None, "confirmed": None, "currency": "USD"},
-        "extensions": {"expected_output": relative_path(args.expected_output)},
+        "extensions": {
+            "expected_output": relative_path(args.expected_output),
+            **({"capability_profile": profile} if profile is not None else {}),
+        },
         **mode,
     }
 
@@ -317,6 +340,11 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
         )
     result: dict[str, Any] = {"request_sha256": request["request_sha256"]}
     review = capabilities = None
+    if args.capabilities and not findings:
+        capabilities = load_json(root, args.capabilities)
+        findings = validate_request(
+            root, request, capabilities, adopting, existing_submission=adopting
+        )
     if args.register and not findings:
         review = load_json(root, args.review) if args.review is not None else None
         capabilities = load_json(root, args.capabilities)
@@ -386,6 +414,8 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--register", action="store_true")
     parser.add_argument("--review")
     parser.add_argument("--capabilities")
+    parser.add_argument("--provider")
+    parser.add_argument("--tool-schema-revision")
     parser.add_argument("--required-rule", action="append", default=[])
     parser.add_argument("--replace-unregistered", action="store_true")
     parser.add_argument("--adopt-provider-task-id")

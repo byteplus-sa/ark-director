@@ -19,6 +19,12 @@ description: >
 
 # Seedance Camera Presets
 
+The caller may compose generic camera intent with `seedance-prompt`, preserving
+the selected model, coherent simultaneous moves and ordered phases. The caller
+owns verified adapter syntax and model/operation review applicability before
+genre or language. Historical 2.5 examples below do not authorize parameters,
+post work or probes on another model.
+
 This skill turns a named camera preset, movement style, or camera personality into a
 canonical, drop-in **Camera block** for the Seedance 2.5 six-part prompt formula
 (Subject + Action + Scene + Visual Style + Camera + Audio). It is a
@@ -26,7 +32,8 @@ canonical, drop-in **Camera block** for the Seedance 2.5 six-part prompt formula
 it never runs generation. The base prompt grammar — the six-part formula,
 `@Image N` / `@Video N` reference-role syntax, `At Ns` timestamp syntax, and
 audio bracket syntax — is defined in `seedance-prompt-25` and is **not
-redefined here**. Compose with `seedance-prompt-25` for the full prompt
+redefined here**. Use that grammar only for its verified selected adapter;
+compose with `seedance-prompt` for generic creative text and the full prompt
 contract; this skill only adds the preset bank on top.
 
 The output of this skill is always a **Camera block** — one or two sentences
@@ -105,8 +112,8 @@ table, then gives a canonical phrase template that satisfies it.
 | One-take | Subjects, spaces, and events the camera passes through in order | `One-take shot: the camera passes through <subject or space A> as <event A>, then <subject or space B> as <event B>, then <subject or space C> as <event C>, with no cuts.` |
 
 Rack focus is a focus change, not a camera move: the lens preset skill owns its
-wording and its evidence (drafts keep a face sharp, so a pull away from a face
-is added in post).
+wording and scoped historical evidence. Preserve requested focus planes and
+endpoints; post defocus is an unselected alternative requiring authorization.
 
 For a technique not in the table, follow the uncommon-cinematography-terms
 recipe from `seedance-prompt-25`:
@@ -324,4 +331,4 @@ Before a Camera block is submitted as part of a Seedance 2.5 prompt, verify:
    the prompt text.
 
 A Camera block that passes all nine checks is ready to be composed into the
-full prompt by `seedance-prompt-25`.
+full creative prompt by `seedance-prompt`; retained versioned syntax is caller-owned.

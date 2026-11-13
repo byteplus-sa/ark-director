@@ -75,9 +75,12 @@ Every recipe in the three recipe files provides:
 
 ## Composition rules
 
-- Recipe audio is native ambience. For an ambience-only or music-free result,
-  set `generate_audio: false` and add a Seed Audio bed in post (not
-  frame-synced); native audio can leak music or speech despite the line.
+- Resolve sound ownership: requested native dialogue, synchronized effects or
+  ambience stay native when supported, including wordless clips. Exact masters
+  or explicitly controlled post sound use picture-only when supported.
+  Purposeful silence adds no bed; unspecified ownership remains unresolved.
+  Reject unwanted music through listening QA, not by muting requested clicks
+  or room tone; listen again after promotion.
 - Recipes fill the six-part formula slots; the caller assembles the full
   prompt per `seedance-prompt-25` and owns `prompt-review`, submission, and
   showcase sync.

@@ -1,5 +1,15 @@
 # Tool and skill routing
 
+Generic Seedance creative text may use `seedance-prompt`; retained versioned
+adapters remain available for verified selected bindings. Review applicability
+is resolved by exact model and operation before genre or language.
+See [Seedance execution profiles](seedance-execution-profiles.md) for opt-in
+version-2 evidence, independently bound provider/revision expectations,
+persisted capability digests and pre-write/pre-submission validation. Exact
+legacy Standard/Premium native 480p Draft policy remains unchanged; new
+Seedance bindings need a verified operation profile, not name-substring dispatch.
+Unknown support blocks execution, not prompt-only writing.
+
 | Intent | Route |
 | --- | --- |
 | Platform administration, catalog, pricing, billing, interactive generation | Available Ark CLI skills and current CLI help |

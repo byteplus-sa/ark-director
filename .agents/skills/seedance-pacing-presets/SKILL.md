@@ -15,6 +15,12 @@ description: >
 
 # Seedance Pacing Presets
 
+The caller may compose generic pacing intent with `seedance-prompt`, preserving
+the selected model, timing, camera and editorial locks. Historical 2.5 timestamp
+and staging examples below are adapter-specific; the caller owns verified
+translation, applicable review and execution. Do not infer numeric minima or
+paid probes from a craft example.
+
 This skill maps a named pacing or rhythm preset into a timestamped
 **motion / cut / pacing block** for the Seedance 2.5 prompt, so the scene's
 rhythm — not just its content — is directed. It is a **prompt-composition-only**
@@ -22,7 +28,8 @@ skill: it never calls MCP tools or the Ark API, and it never runs generation.
 The base prompt grammar — the six-part formula, `At Ns` timestamp syntax, the
 bounce-speed-ramp technique contract, the audio bracket syntax `()<>{}【】`,
 and scene-staging rules — is defined in `seedance-prompt-25` and is **not
-redefined here**. Compose with `seedance-prompt-25` for the full prompt contract;
+redefined here**. Compose generic creative text with `seedance-prompt`; the caller
+uses retained versioned adapters only for verified selected-model syntax;
 this skill only adds the pacing preset bank on top.
 
 The output of this skill is always a **pacing block** — a timestamped
@@ -288,4 +295,4 @@ Before a pacing block is submitted as part of a Seedance 2.5 prompt, verify:
     with unbroken motion; return real conflicts and leave unobserved results unverified.
 
 A pacing block that passes all ten checks is ready to be composed into the
-full prompt by `seedance-prompt-25`.
+full creative prompt by `seedance-prompt`; selected adapter syntax remains caller-owned.

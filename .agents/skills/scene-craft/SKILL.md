@@ -5,6 +5,10 @@ description: Write and audit screenplay scenes using an explicitly selected craf
 
 # Scene Craft
 
+For generic Seedance creative text, the caller may compose with `seedance-prompt`.
+Preserve the selected model, medium, exact dialogue and supplied framework;
+the caller owns any verified versioned adapter, review applicability and execution.
+
 A skill for writing and auditing scenes/sequences with an explicit framework.
 The five-element method below is also present in the user-supplied Higgsfield
 prompt-engine skill. Retain it here as one selected framework instead of
@@ -280,4 +284,4 @@ prose hints for the calling workflow, not steps this skill runs:
 - The engine is genre-agnostic. Confirm genre, theme and idea with the user when writing.
 - Audit is in-chat prose; rewrites within it are in FD format.
 - Under the selected engine, prioritize **a reversal that turns the plot but does not move the audience's verdict**. Do not apply that failure label to another framework.
-- When an audited scene becomes a storyboard or video, compose with `blocking-map` for staging and `seedance-prompt-25` for the video prompt (see From scene to video).
+- When an audited scene becomes a storyboard or video, the caller may compose with `blocking-map` for staging and `seedance-prompt` for creative text. Use retained versioned adapters only for a verified selected model.

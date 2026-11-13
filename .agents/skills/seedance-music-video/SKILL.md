@@ -1,7 +1,7 @@
 ---
 name: seedance-music-video
 description: >-
-  Write Seedance 2.5 music-video prompts from a song, artist brief, or requested
+  Write Seedance music-video prompts from a song, artist brief, or requested
   format. Map song sections, beat density, performer intent, camera, lyric timing,
   native versus supplied audio, and natural scene duration into the six-part
   formula. Cover rap, dance, performance, narrative, abstract, vertical, and custom
@@ -11,6 +11,12 @@ description: >-
 ---
 
 # Seedance Music Video
+
+The caller may compose generic song-driven creative text with `seedance-prompt`,
+preserving the selected model, exact master and performance locks. The caller
+owns verified adapter syntax, model/operation review applicability before genre
+or language, and execution. Historical 2.5 bracket and staging examples below
+are not inherited by another model.
 
 Write ready-to-use Seedance 2.5 prompts for music videos. The music is the
 fixed brief: every visual decision is planned backward from the track's
@@ -395,7 +401,8 @@ rhythm separately against required delivery and mouth readability.
 
 ### 7. Compose with the six-part formula
 
-Assemble the treatment into the `seedance-prompt-25` formula:
+Assemble the treatment as `seedance-prompt` creative text; for a verified
+selected 2.5 adapter, the following six-part example remains available:
 
 > **Subject + Action or Event + Scene and Environment + Visual Style + Camera Movement/Cut + Audio**
 
@@ -445,8 +452,12 @@ conflicts with the brief, source locks, readability or verified capability.
 
 ## Exclusion rules
 
-- Do not use a "no music" line at all: for an ambient scene that must stay
-  free of music, set `generate_audio: false` and add the bed in post.
+- Resolve sound ownership: requested native ambience, synchronized effects or
+  dialogue stay native when supported, including wordless scenes. Exact song
+  masters or explicitly controlled post sound use picture-only when supported.
+  Purposeful silence adds no bed; unspecified ownership remains unresolved.
+  Reject unwanted music through listening QA rather than muting requested
+  clicks or room tone; listen again after promotion.
 - Do not use exclusions as a substitute for positive audio and beat direction.
 - Exclude only likely contradictions: a real artist's face or voice, readable
   logos, an unwanted second vocal, or a palette change that violates a user lock.
@@ -472,8 +483,8 @@ Before returning the prompt, verify:
    or explicitly unresolved. Raw evidence and simplified prompt windows stay separate.
 8. **If `generate_audio` is true:** the prompt accounts for re-performance risk
    (section 3a) and the timestamped timeline is used when coverage is critical.
-   Ambient-only or score-under-master sections use `generate_audio: false`
-   with a post bed instead of a "no music" line.
+   Exact score-under-master sections use picture-only when supported. Native
+   ambience-only sections retain requested native sound and listening QA.
 9. Each proposed generation uses a live-supported natural duration, or is an
    explicit continuous one-take.
 10. The custom treatment, hybrid or section transitions are coherent and respect

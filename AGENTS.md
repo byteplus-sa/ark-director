@@ -84,6 +84,15 @@ Prompt-only work may deliver drafts without generating assets or demanding
 production locks. Software/system diagrams use Mermaid; cinematic blocking
 uses the blocking-map capability.
 
+Generic Seedance creative text uses `seedance-prompt`; retain the versioned
+`seedance-prompt-25` and `seedance-prompt-20` adapters for verified selected
+bindings. Resolve review applicability by model and operation before genre or
+language. [Execution profiles](.agents/contracts/seedance-execution-profiles.md)
+bind new capability evidence to independent provider/schema-revision expectations
+and the persisted request hash, checked before writes and submission. Exact
+legacy defaults, native 480p Draft policy and historical request hashes remain
+unchanged. Unknown support blocks execution, not prompt-only writing.
+
 ## Skills and orchestration
 
 One skill provides one capability. Leaf skills remain independently usable;

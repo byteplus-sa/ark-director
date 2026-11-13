@@ -166,6 +166,20 @@
         "Applies the same beat checklist, timing reconciliation and uncertainty requirements to the tool output.",
         "Keeps analysis inputs ineligible for generation unless separately approved."
       ]
+    },
+    {
+      "id": 14,
+      "prompt": "The source is 5.125 seconds with a final spoken word and room-tone tail. Preserve every frame and native latch clicks. No extra probes or post audio are authorized.",
+      "expected_output": "Preserves fractional duration, frame count, FPS, timestamps, cuts, speed, final word and audio tails. Requested native sound remains native when supported; unknown capability is unresolved. Rejects mandatory extra probes and unauthorized padding, trimming or post beds.",
+      "files": [],
+      "expectations": ["A partial probe requires its own explicit span and generation-scope approval.", "Missing speech is not permission to mute requested native sound."]
+    },
+    {
+      "id": 15,
+      "prompt": "Give me a recipe only for this wordless clip; sound ownership is unspecified. Do not initialize or generate anything.",
+      "expected_output": "Returns recipe text and a focused sound-ownership question. Keeps settings unresolved and performs no uploads, request writes, registry changes or generation.",
+      "files": [],
+      "expectations": ["Recipe-only scope remains side-effect-free.", "Unspecified ownership does not imply picture-only or a new bed."]
     }
   ]
 }

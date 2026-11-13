@@ -4,9 +4,9 @@
     {
       "skill": "seedance-prompt-25",
       "before_lines": 1336,
-      "after_lines": 228,
+      "after_lines": 343,
       "before_bytes": 62913,
-      "entry_bytes": 13035,
+      "entry_bytes": 19872,
       "references": [
         ".agents/skills/seedance-prompt-25/references/audio-performance-camera.md",
         ".agents/skills/seedance-prompt-25/references/keyframes-storyboards-blockouts.md",
@@ -29,7 +29,7 @@
           ".agents/skills/seedance-prompt-25/SKILL.md",
           ".agents/skills/seedance-prompt-25/references/scene-action.md"
         ],
-        "loaded_bytes": 19797,
+        "loaded_bytes": 30668,
         "measurement": "Exact file bytes for a declared loading path, not measured agent tokens or behavior."
       }
     },
@@ -196,9 +196,9 @@
     {
       "skill": "seedance-music-video",
       "before_lines": 510,
-      "after_lines": 437,
+      "after_lines": 495,
       "before_bytes": 23387,
-      "entry_bytes": 21468,
+      "entry_bytes": 25688,
       "references": [
         ".agents/skills/seedance-music-video/references/music-repairs.md",
         ".agents/skills/seedance-music-video/references/music-video-recipes.md",
@@ -213,16 +213,16 @@
         "files": [
           ".agents/skills/seedance-music-video/SKILL.md"
         ],
-        "loaded_bytes": 21468,
+        "loaded_bytes": 25688,
         "measurement": "Exact file bytes for a declared loading path, not measured agent tokens or behavior."
       }
     },
     {
       "skill": "seedance-vfx-pipeline",
       "before_lines": 512,
-      "after_lines": 297,
+      "after_lines": 304,
       "before_bytes": 22126,
-      "entry_bytes": 19533,
+      "entry_bytes": 19957,
       "references": [
         ".agents/skills/seedance-vfx-pipeline/references/delivery-and-manifest.md",
         ".agents/skills/seedance-vfx-pipeline/references/recast-and-variants.md",
@@ -239,10 +239,23 @@
           ".agents/skills/seedance-vfx-pipeline/references/submission.md",
           ".agents/skills/seedance-vfx-pipeline/references/delivery-and-manifest.md"
         ],
-        "loaded_bytes": 31152,
+        "loaded_bytes": 31576,
         "measurement": "Exact file bytes for a declared loading path, not measured agent tokens or behavior."
       }
     }
   ],
-  "measurement_revision": "2026-09-08 creative-quality update; original before counts retained, current paths remeasured as file bytes, not agent tokens; 2026-11-13 approved Seedream remediation remeasured changed bundles only, historical before counts retained"
+  "additional_measurements": {
+    "seedance-prompt": {
+      "entry_bytes": 4124,
+      "reference_bytes": 3318,
+      "eval_bytes": 6810,
+      "representative_path": {
+        "files": [".agents/skills/seedance-prompt/SKILL.md"],
+        "loaded_bytes": 4124,
+        "measurement": "Exact file bytes for a prompt-only path, not agent tokens or live model behavior."
+      },
+      "baseline_note": "New skill; no historical before count is invented."
+    }
+  },
+  "measurement_revision": "2026-09-08 creative-quality update; original before counts retained, current paths remeasured as file bytes, not agent tokens; 2026-11-13 approved Seedream remediation remeasured changed bundles only, historical before counts retained; 2026-11-13 approved Seedance remediation remeasured affected current paths only"
 }

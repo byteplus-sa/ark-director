@@ -3,6 +3,16 @@
 Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
+These historical tables apply only to their exact verified Standard/Premium
+bindings; they are not inherited by Flash, Fast, Mini or unknown variants.
+Preserve the selected model and `dreamina-seedance-2-5-260628` default.
+New operation/transport bindings use [execution profiles](../../../contracts/seedance-execution-profiles.md):
+explicit validity, independent provider/schema-revision expectations,
+hash-bound evidence, conditional constraints and per-modality allowances.
+Unknown mechanics block execution, not creative text. A verified non-native
+preview is ordinary and non-promotable; exact legacy native policy is not waived.
+Suggest model alternatives only as unselected proposals, never an automatic fallback.
+
 - [Quick reference card](#quick-reference-card)
 - [Draft mode](#draft-mode)
 - [Guide disclaimer](#guide-disclaimer)
