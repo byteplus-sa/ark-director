@@ -8,6 +8,7 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote
 
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
@@ -1028,32 +1029,79 @@ def reference_findings(
     return findings
 
 
+def local_schema_target(root: Any, reference: Any) -> Any:
+    if not isinstance(reference, str):
+        raise TypeError("Unsupported capability schema reference")
+    if not reference.startswith("#"):
+        raise ValueError("Capability schemas must be self-contained; remote references are not loaded")
+    fragment = unquote(reference[1:], errors="strict")
+    if not fragment:
+        return root
+    if not fragment.startswith("/"):
+        raise ValueError("Unsupported capability schema reference; expected a local JSON pointer")
+    target = root
+    for token in fragment[1:].split("/"):
+        if re.search(r"~(?:[^01]|$)", token):
+            raise ValueError("Unsupported capability schema JSON pointer escape")
+        key = token.replace("~1", "/").replace("~0", "~")
+        if isinstance(target, dict) and key in target:
+            target = target[key]
+        elif (
+            isinstance(target, list)
+            and re.fullmatch(r"0|[1-9][0-9]*", key)
+            and len(key) <= len(str(len(target)))
+            and int(key) < len(target)
+        ):
+            target = target[int(key)]
+        else:
+            raise ValueError("Dangling capability schema JSON pointer")
+    return target
+
+
 def external_schema_references(value: Any) -> bool:
-    pending = [(value, 0)]
+    pending = [(value, 0, False)]
+    active: set[int] = set()
+    targets: dict[int, Any] = {}
     count = 0
     while pending:
-        schema, depth = pending.pop()
+        schema, depth, leaving = pending.pop()
+        if leaving:
+            active.remove(id(schema))
+            continue
         count += 1
         if depth > 64 or count > 4096:
             raise ValueError("Capability schema exceeds bounded traversal")
-        if not isinstance(schema, dict):
+        if isinstance(schema, bool):
             continue
-        if any(key in schema and not str(schema[key]).startswith("#")
-               for key in ("$ref", "$dynamicRef")):
+        if not isinstance(schema, dict):
+            raise TypeError("Capability schema target must be an object or boolean")
+        if id(schema) in active:
+            raise ValueError("Capability schema has a recursive local target")
+        active.add(id(schema))
+        pending.append((schema, depth, True))
+        if any(isinstance(schema.get(key), str) and not schema[key].startswith("#")
+               for key in ("$ref", "$dynamicRef") if key in schema):
             return True
+        for keyword in ("$ref", "$dynamicRef"):
+            if keyword in schema:
+                target = local_schema_target(value, schema[keyword])
+                targets[id(target)] = target
+                pending.append((target, depth + 1, False))
         for key in ("properties", "patternProperties", "$defs", "definitions",
                     "dependentSchemas"):
             children = schema.get(key)
             if isinstance(children, dict):
-                pending.extend((child, depth + 1) for child in children.values())
+                pending.extend((child, depth + 1, False) for child in children.values())
         for key in ("allOf", "anyOf", "oneOf", "prefixItems"):
             children = schema.get(key)
             if isinstance(children, list):
-                pending.extend((child, depth + 1) for child in children)
+                pending.extend((child, depth + 1, False) for child in children)
         for key in ("additionalProperties", "unevaluatedProperties", "propertyNames",
                     "items", "unevaluatedItems", "contains", "if", "then", "else", "not"):
             if key in schema:
-                pending.append((schema[key], depth + 1))
+                pending.append((schema[key], depth + 1, False))
+    for target in targets.values():
+        Draft202012Validator.check_schema(target)
     return False
 
 

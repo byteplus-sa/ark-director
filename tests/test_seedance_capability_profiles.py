@@ -52,6 +52,26 @@ def profile(native=False):
     }
 
 
+def target_evidence(evidence, owner, target, keyword="$ref"):
+    evidence = copy.deepcopy(evidence)
+    if owner == "parameter":
+        evidence["parameters"]["duration"] = {
+            "default": target, keyword: "#/properties/duration/default",
+        }
+    else:
+        evidence["conditional_parameters"] = [{
+            "default": target, keyword: "#/allOf/0/default",
+        }]
+    return evidence
+
+
+def nested_schema(depth):
+    schema = {}
+    for _ in range(depth):
+        schema = {"allOf": [schema]}
+    return schema
+
+
 class CapabilityProfileTests(unittest.TestCase):
     def setUp(self):
         self.fixture = fixtures.RequestValidationTests()
@@ -296,6 +316,157 @@ class CapabilityProfileTests(unittest.TestCase):
         with patch("urllib.request.urlopen", side_effect=AssertionError("No network")):
             self.assertIn("model.supported_mode",
                           {item.rule_id for item in self.findings()})
+
+    def assert_schema_rejected_without_writes(self, message):
+        self.bind()
+        before_inputs = copy.deepcopy((self.request, self.evidence))
+        before = {path.relative_to(self.root): path.read_bytes()
+                  for path in self.root.rglob("*") if path.is_file()}
+        with patch("urllib.request.urlopen", side_effect=AssertionError("No network")) as network:
+            findings = self.findings()
+            self.assertTrue(any(item.rule_id == "model.supported_mode"
+                                and message in item.message for item in findings), findings)
+            with self.assertRaises(ValueError):
+                store.prepare_operation(self.root, self.request, self.evidence, None, [])
+            network.assert_not_called()
+        self.assertEqual(before, {path.relative_to(self.root): path.read_bytes()
+                                 for path in self.root.rglob("*") if path.is_file()})
+        self.assertEqual((self.request, self.evidence), before_inputs)
+
+    def test_executable_local_targets_obey_depth_and_node_budgets(self):
+        for owner in ("parameter", "conditional"):
+            for keyword in ("$ref", "$dynamicRef"):
+                for target in (nested_schema(80), {"allOf": [True] * 5000}):
+                    with self.subTest(owner=owner, keyword=keyword, target_size=len(str(target))):
+                        self.evidence = target_evidence(profile(), owner, target, keyword)
+                        self.assert_schema_rejected_without_writes("bounded traversal")
+
+    def test_invalid_executable_targets_are_structured_no_write_failures(self):
+        for owner in ("parameter", "conditional"):
+            for target, message in (
+                ([], "target must be an object or boolean"),
+                ([{}], "target must be an object or boolean"),
+                (None, "target must be an object or boolean"),
+                (3, "target must be an object or boolean"),
+                ("schema", "target must be an object or boolean"),
+                ({"type": "invalid-type"}, "Invalid capability schema"),
+                ({"properties": {"nested": []}}, "target must be an object or boolean"),
+                ({"$ref": "#/missing"}, "Dangling"),
+                ({"$ref": "#unsupported-anchor"}, "Unsupported"),
+                ({"$ref": "#"}, "recursive"),
+                ({"$ref": "https://invalid.example/schema"}, "remote"),
+            ):
+                with self.subTest(owner=owner, target=target):
+                    self.evidence = target_evidence(profile(), owner, target)
+                    self.assert_schema_rejected_without_writes(message)
+
+    def test_reference_edges_count_toward_depth_and_repeated_target_node_budgets(self):
+        self.evidence = target_evidence(profile(), "parameter", nested_schema(62))
+        self.bind()
+        self.assertEqual(self.findings(), [])
+        self.evidence = target_evidence(profile(), "parameter", nested_schema(63))
+        self.assert_schema_rejected_without_writes("bounded traversal")
+        for count, rejected in ((2040, False), (2050, True)):
+            with self.subTest(count=count):
+                self.evidence = profile()
+                self.evidence["parameters"]["duration"] = {
+                    "default": True,
+                    "allOf": [{"$ref": "#/properties/duration/default"}] * count,
+                }
+                if rejected:
+                    self.assert_schema_rejected_without_writes("bounded traversal")
+                else:
+                    self.bind()
+                    self.assertEqual(self.findings(), [])
+
+    def test_exact_node_budget_includes_executable_targets_and_boolean_children(self):
+        for owner, count in (("direct", 4090), ("parameter", 4089)):
+            for extra in (0, 1):
+                with self.subTest(owner=owner, extra=extra):
+                    self.evidence = profile()
+                    self.evidence["conditional_parameters"] = []
+                    target = {"allOf": [True] * (count + extra)}
+                    if owner == "direct":
+                        self.evidence["parameters"]["duration"] = target
+                    else:
+                        self.evidence = target_evidence(self.evidence, owner, target)
+                    if extra:
+                        self.assert_schema_rejected_without_writes("bounded traversal")
+                    else:
+                        self.bind()
+                        self.assertEqual(self.findings(), [])
+
+    def test_invalid_local_pointer_forms_are_structured_before_writes(self):
+        for reference, message in (
+            ("#/properties/duration/examples/-1", "Dangling"),
+            ("#/properties/duration/examples/01", "Dangling"),
+            ("#/properties/duration/examples/999999999999999999", "Dangling"),
+            ("#/properties/duration/examples/0/missing", "Dangling"),
+            ("#/properties/duration/examples/span~2seconds", "Unsupported"),
+            ("#unsupported", "Unsupported"),
+            (None, "Unsupported"),
+        ):
+            with self.subTest(reference=reference):
+                self.evidence = profile()
+                self.evidence["parameters"]["duration"] = {
+                    "examples": [True], "$ref": reference,
+                }
+                self.assert_schema_rejected_without_writes(message)
+
+    def test_local_targets_preserve_boolean_empty_pointer_and_constraint_controls(self):
+        for owner in ("parameter", "conditional"):
+            for keyword in ("$ref", "$dynamicRef"):
+                for target in (True, {}, False):
+                    with self.subTest(owner=owner, keyword=keyword, target=target):
+                        self.evidence = target_evidence(profile(), owner, target, keyword)
+                        self.bind()
+                        if target is False:
+                            self.assert_schema_rejected_without_writes("False schema")
+                        else:
+                            self.assertEqual(self.findings(), [])
+        self.evidence = profile()
+        self.evidence["parameters"]["duration"] = {
+            "examples": [{"minimum": 2}],
+            "$ref": "#/properties/duration/examples/0",
+        }
+        self.bind()
+        self.assertEqual(self.findings(), [])
+        self.request["params"]["duration"] = 1
+        self.assert_schema_rejected_without_writes("minimum")
+        self.request["params"]["duration"] = 5.125
+        self.evidence["parameters"]["duration"] = {
+            "$defs": {"span/seconds~": {"minimum": 2}},
+            "$ref": "#/properties/duration/$defs/span~1seconds%7E0",
+        }
+        self.bind()
+        self.assertEqual(self.findings(), [])
+
+    def test_unused_target_shaped_literals_remain_opaque(self):
+        self.evidence["parameters"]["duration"] = {
+            "type": "number",
+            "default": nested_schema(80),
+            "examples": [{"allOf": [True] * 5000}, {"type": "invalid-type"},
+                         {"$ref": "#"}, []],
+        }
+        self.bind()
+        self.assertEqual(self.findings(), [])
+        self.request["params"]["duration"] = "mismatch"
+        self.assert_schema_rejected_without_writes("not of type")
+
+    def test_local_target_failures_block_persisted_submitting_without_registry_changes(self):
+        path = self.root / "task_ids.json"
+        for owner in ("parameter", "conditional"):
+            for target in (nested_schema(80), {"allOf": [True] * 5000}, [],
+                           {"$ref": "#/missing"}, {"$ref": "#"}):
+                with self.subTest(owner=owner, target_size=len(str(target))):
+                    self.evidence = target_evidence(profile(), owner, target)
+                    self.bind()
+                    path.write_text(json.dumps({"schema_version": 1, "tasks": [self.request]}))
+                    before = path.read_bytes()
+                    with self.assertRaises(ValueError):
+                        store.transition_operation(self.root, self.request["operation_id"],
+                                                   "prepared", "submitting")
+                    self.assertEqual(path.read_bytes(), before)
 
     def test_per_modality_overflow_and_unknown_allowance_block(self):
         for limit in (0, None):
@@ -677,6 +848,75 @@ class ProfilePreparationTests(unittest.TestCase):
         self.assertIn("model.supported_mode", result.stdout)
         self.assertEqual(before, {path.relative_to(self.root): path.read_bytes()
                                  for path in self.root.rglob("*") if path.is_file()})
+
+    def test_executable_target_real_prepare_and_validator_cli_fail_without_writes(self):
+        for owner in ("parameter", "conditional"):
+            for target in (nested_schema(80), {"allOf": [True] * 5000}, [],
+                           {"type": "invalid-type"}, {"$ref": "#/missing"},
+                           {"$ref": "#"}, {"$ref": "#unsupported-anchor"},
+                           {"$ref": "https://invalid.example/schema"}):
+                with self.subTest(owner=owner, target_size=len(str(target))):
+                    self.evidence = target_evidence(profile(), owner, target)
+                    (self.root / "caps.json").write_text(json.dumps(self.evidence))
+                    command = self.command()
+                    command.insert(1, "-B")
+                    request = preparation.MODULE.build_request(
+                        self.root, preparation.MODULE.parser().parse_args(command[3:]))
+                    (self.root / "request-input.json").write_text(json.dumps(request))
+                    before = {path.relative_to(self.root): path.read_bytes()
+                              for path in self.root.rglob("*") if path.is_file()}
+                    for argv in (
+                        command, command + ["--register"],
+                        [sys.executable, "-B", str(preparation.ROOT /
+                            ".agents/scripts/validate_request.py"),
+                         "--project", str(self.root), "--request",
+                         str(self.root / "request-input.json"),
+                         "--capabilities", str(self.root / "caps.json")],
+                    ):
+                        result = subprocess.run(argv, capture_output=True, text=True,
+                                                check=False, timeout=20)
+                        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+                        output = json.loads(result.stdout)
+                        self.assertFalse(output["ok"])
+                        self.assertIn("model.supported_mode",
+                                      {item["rule_id"] for item in output["findings"]})
+                        self.assertNotIn("Traceback", result.stderr)
+                        self.assertEqual(before, {
+                            path.relative_to(self.root): path.read_bytes()
+                            for path in self.root.rglob("*") if path.is_file()})
+
+    def test_valid_local_targets_real_cli_register_and_submitting_smoke(self):
+        for owner in ("parameter", "conditional"):
+            with self.subTest(owner=owner):
+                target = {"minimum": 2} if owner == "parameter" else {
+                    "properties": {"duration": {"minimum": 2}},
+                }
+                self.evidence = target_evidence(profile(), owner, target, "$dynamicRef")
+                (self.root / "caps.json").write_text(json.dumps(self.evidence))
+                command = self.command()
+                command.insert(1, "-B")
+                command += ["--register", "--operation-id", f"local-{owner}"]
+                command[command.index("--asset") + 1] = f"local-{owner}"
+                result = subprocess.run(command, capture_output=True, text=True,
+                                        check=False, timeout=20)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                output = json.loads(result.stdout)
+                request_path = self.root / output["path"]
+                request = json.loads(request_path.read_text())
+                result = subprocess.run([
+                    sys.executable, "-B", str(preparation.ROOT /
+                        ".agents/scripts/validate_request.py"),
+                    "--project", str(self.root), "--request", str(request_path),
+                    "--capabilities", str(self.root / "caps.json"),
+                ], capture_output=True, text=True, check=False, timeout=20)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertEqual(json.loads(result.stdout)["findings"], [])
+                store.transition_operation(self.root, request["operation_id"],
+                                           "prepared", "submitting")
+                record = store.read_registry(self.root / "task_ids.json")["tasks"][-1]
+                self.assertEqual(record["submission_status"], "submitting")
+                self.assertIsNone(record["provider_task_id"])
+                self.assertEqual(record["extensions"], request["extensions"])
 
 
 class OrdinaryFinalTests(unittest.TestCase):
