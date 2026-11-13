@@ -584,7 +584,7 @@ def bake_owned_point_cache(
 ):
     if owner is None or cache is None or not authorized_caches:
         raise ValueError("An owner and explicit cache allowlist are required")
-    if not any(cache is approved for approved in authorized_caches):
+    if not any(cache == approved for approved in authorized_caches):
         raise ValueError("Cache is outside the authorized scope")
     if (
         owner.library is not None
@@ -603,7 +603,7 @@ def bake_owned_point_cache(
     override = {"scene": scene, "point_cache": cache}
     if owner is scene:
         world = scene.rigidbody_world
-        if world is None or world.point_cache is not cache:
+        if world is None or world.point_cache != cache:
             raise ValueError("Cache does not belong to this rigid-body world")
     else:
         if hasattr(owner, "rigidbody_world"):
@@ -614,7 +614,7 @@ def bake_owned_point_cache(
         caches = [getattr(modifier, "point_cache", None) for modifier in owner.modifiers]
         caches.extend(system.point_cache for system in owner.particle_systems)
         caches.append(getattr(owner.soft_body, "point_cache", None))
-        if not any(cache is candidate for candidate in caches):
+        if not any(cache == candidate for candidate in caches):
             raise ValueError("Cache does not belong to this object")
         override.update(
             object=owner, active_object=owner,
@@ -666,7 +666,7 @@ def operate_owned_fluid_cache(
     ):
         raise ValueError("Domain must be local, editable and in Object mode")
     if (
-        not any(modifier is candidate for candidate in domain.modifiers)
+        not any(modifier == candidate for candidate in domain.modifiers)
         or modifier.type != 'FLUID' or modifier.fluid_type != 'DOMAIN'
         or modifier.domain_settings is None
     ):

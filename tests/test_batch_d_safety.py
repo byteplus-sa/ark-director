@@ -147,6 +147,15 @@ class FakeNode(dict):
         self.outputs = FakeSockets()
         self.inputs.node = self.outputs.node = self
 
+    def __eq__(self, other):
+        if isinstance(other, FakeNode):
+            return self is other
+        return NotImplemented
+
+    def __ne__(self, other):
+        equal = self.__eq__(other)
+        return NotImplemented if equal is NotImplemented else not equal
+
 
 class FakeLinks(list):
     fail_after = None
@@ -181,6 +190,68 @@ class FakeNodes(list):
             link for link in self.links
             if link.from_node is not node and link.to_node is not node
         ]
+
+
+class FreshRnaWrapper:
+    def __init__(self, value):
+        object.__setattr__(self, "value", value)
+
+    def __getattr__(self, name):
+        value = getattr(self.value, name)
+        if isinstance(value, (FakeNode, FakeSocket, FakeSockets)):
+            return FreshRnaWrapper(value)
+        return value
+
+    def __setattr__(self, name, value):
+        setattr(self.value, name, unwrap_rna(value))
+
+    def __getitem__(self, name):
+        value = self.value[name]
+        return FreshRnaWrapper(value) if isinstance(value, FakeSocket) else value
+
+    def __setitem__(self, name, value):
+        self.value[name] = value
+
+    def __eq__(self, other):
+        return self.value is unwrap_rna(other)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+
+def unwrap_rna(value):
+    return value.value if isinstance(value, FreshRnaWrapper) else value
+
+
+class FreshRnaCollection:
+    def __init__(self, collection):
+        self.collection = collection
+
+    def __iter__(self):
+        return (FreshRnaWrapper(value) for value in self.collection)
+
+    def __len__(self):
+        return len(self.collection)
+
+    def __getitem__(self, index):
+        return FreshRnaWrapper(self.collection[index])
+
+    @property
+    def active(self):
+        active = self.collection.active
+        return FreshRnaWrapper(active) if active is not None else None
+
+    @active.setter
+    def active(self, value):
+        self.collection.active = unwrap_rna(value)
+
+    def new(self, *args, **kwargs):
+        return FreshRnaWrapper(
+            self.collection.new(*(unwrap_rna(value) for value in args), **kwargs)
+        )
+
+    def remove(self, value):
+        self.collection.remove(unwrap_rna(value))
 
 
 def compositor_fixture():
@@ -323,6 +394,40 @@ class BatchDCacheTests(unittest.TestCase):
         self.assertIs(self.context.active_object, other)
         self.assertEqual(self.context.overrides, {})
 
+    def test_rigid_body_cache_accepts_fresh_equivalent_rna_wrappers(self):
+        for separate_allowlist_wrapper in (False, True):
+            with self.subTest(separate_allowlist_wrapper=separate_allowlist_wrapper):
+                self.cache.is_baked = False
+                supplied = FreshRnaWrapper(self.cache)
+                approved = FreshRnaWrapper(self.cache) if separate_allowlist_wrapper else supplied
+                self.recipe(self.scene, supplied, (approved,), 1, 40)
+                self.assertTrue(self.cache.is_baked)
+                self.assertEqual((self.cache.frame_start, self.cache.frame_end), (1, 40))
+                self.assertEqual(self.calls[-1], ("bake", supplied))
+                self.assertTrue(self.other_cache.is_baked)
+                self.assertEqual(self.context.overrides, {})
+
+    def test_object_cache_accepts_equivalent_wrappers_without_accepting_other_data(self):
+        modifier = types.SimpleNamespace(point_cache=self.cache)
+        owner = FakeObject("OwnedCloth", [modifier])
+        self.context.view_layer.objects.append(owner)
+        self.cache.is_baked = False
+        self.recipe(
+            owner, FreshRnaWrapper(self.cache), (FreshRnaWrapper(self.cache),), 1, 40
+        )
+        self.assertTrue(self.cache.is_baked)
+        unrelated = types.SimpleNamespace(**vars(self.cache))
+        with self.assertRaises(ValueError):
+            self.recipe(
+                owner, FreshRnaWrapper(unrelated), (FreshRnaWrapper(self.cache),), 1, 40
+            )
+        with self.assertRaises(ValueError):
+            self.recipe(
+                owner, FreshRnaWrapper(unrelated), (FreshRnaWrapper(unrelated),), 1, 40
+            )
+        self.assertEqual(len(self.calls), 1)
+        self.assertEqual(self.context.overrides, {})
+
     def test_rigid_body_entrypoint_preserves_unrelated_bakes(self):
         self.cache.is_baked = False
 
@@ -380,6 +485,20 @@ class BatchDFluidTests(unittest.TestCase):
 
     def test_bake_targets_only_owned_domain_and_preserves_context(self):
         self.operate()
+        self.assertEqual(self.calls, [self.domain])
+        self.assertEqual(self.context.selected_objects, [self.other])
+        self.assertIs(self.context.active_object, self.other)
+        self.assertEqual(self.context.overrides, {})
+
+    def test_fluid_modifier_accepts_fresh_wrapper_but_rejects_identical_other_data(self):
+        self.recipe(
+            self.domain, FreshRnaWrapper(self.modifier), (self.domain,), "bake_data"
+        )
+        unrelated = types.SimpleNamespace(**vars(self.modifier))
+        with self.assertRaises(ValueError):
+            self.recipe(
+                self.domain, FreshRnaWrapper(unrelated), (self.domain,), "bake_data"
+            )
         self.assertEqual(self.calls, [self.domain])
         self.assertEqual(self.context.selected_objects, [self.other])
         self.assertIs(self.context.active_object, self.other)
@@ -506,6 +625,82 @@ class BatchDCompositorTests(unittest.TestCase):
         self.assertTrue(any(node is self.source for node in self.tree.nodes))
         self.assertTrue(any(node is self.output for node in self.tree.nodes))
         self.assertTrue(any(link is original_link for link in self.tree.links))
+
+
+class BatchDFreshRnaCompositorTests(unittest.TestCase):
+    def setUp(self):
+        self.bpy, self.tree, self.source, self.output = compositor_fixture()
+        self.tree.nodes = FreshRnaCollection(self.tree.nodes)
+        self.tree.links = FreshRnaCollection(self.tree.links)
+        self.recipe = load_recipe(
+            COMPOSITOR / "references/python_api.md",
+            "build_owned_color_grade", self.bpy,
+        )
+
+    def node(self, role):
+        return next(
+            node for node in self.tree.nodes
+            if node.get("local_overlay_role") == role
+        )
+
+    def test_fixture_models_fresh_wrappers_with_shared_native_identity(self):
+        first = self.tree.nodes[0]
+        second = self.tree.nodes[0]
+        self.assertIsNot(first, second)
+        self.assertEqual(first, second)
+        self.assertNotEqual(first, self.tree.nodes[1])
+        self.assertIsNot(first.outputs["Image"], second.outputs["Image"])
+        self.assertEqual(first.outputs["Image"], second.outputs["Image"])
+        self.assertEqual(self.tree.links[0].from_node, first)
+        self.assertIsNot(self.tree.links[0].from_node, first)
+
+    def test_rerun_preserves_existing_links_selection_and_active_node(self):
+        first = self.recipe(self.tree, "approved-branch")
+        before = list(self.tree.links)
+        second = self.recipe(self.tree, "approved-branch")
+        self.assertEqual(first, second)
+        self.assertEqual(list(self.tree.links), before)
+        self.assertEqual(len(self.tree.nodes), 6)
+        self.assertEqual(len(self.tree.links), 6)
+        self.assertTrue(self.source.select)
+        self.assertTrue(self.output.select)
+        self.assertFalse(first.select)
+        self.assertEqual(self.tree.nodes.active, self.output)
+
+    def test_foreign_incoming_link_is_rejected_without_replacement(self):
+        self.recipe(self.tree, "approved-branch")
+        foreign = self.tree.links.new(
+            FreshRnaWrapper(self.source).outputs["Image"],
+            self.node("denoise").inputs["Image"],
+        )
+        before = list(self.tree.links)
+        with self.assertRaises(ValueError):
+            self.recipe(self.tree, "approved-branch")
+        self.assertEqual(list(self.tree.links), before)
+        self.assertIn(foreign, self.tree.links)
+        self.assertEqual(self.tree.nodes.active, self.output)
+
+    def test_foreign_outgoing_link_is_rejected_without_routing_changes(self):
+        self.recipe(self.tree, "approved-branch")
+        self.tree.links.new(
+            self.node("saturation").outputs["Image"],
+            FreshRnaWrapper(self.output).inputs["Image"],
+        )
+        before = list(self.tree.links)
+        with self.assertRaises(ValueError):
+            self.recipe(self.tree, "approved-branch")
+        self.assertEqual(list(self.tree.links), before)
+
+    def test_conflicting_owned_input_is_rejected_without_replacement(self):
+        self.recipe(self.tree, "approved-branch")
+        self.tree.links.new(
+            self.node("saturation").outputs["Image"],
+            self.node("denoise").inputs["Image"],
+        )
+        before = list(self.tree.links)
+        with self.assertRaises(ValueError):
+            self.recipe(self.tree, "approved-branch")
+        self.assertEqual(list(self.tree.links), before)
 
 
 class BatchDModifierTests(unittest.TestCase):

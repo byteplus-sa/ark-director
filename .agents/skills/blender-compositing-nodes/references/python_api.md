@@ -53,8 +53,8 @@ def build_owned_color_grade(tree, owner_key):
         if matches:
             branch[role] = matches[0]
     for link in tree.links:
-        source_owned = any(link.from_node is node for node in branch.values())
-        target_owned = any(link.to_node is node for node in branch.values())
+        source_owned = any(link.from_node == node for node in branch.values())
+        target_owned = any(link.to_node == node for node in branch.values())
         if source_owned != target_owned:
             raise ValueError("Owned branch has a foreign link; resolve routing approval")
     edges = (
@@ -69,9 +69,9 @@ def build_owned_color_grade(tree, owner_key):
             continue
         target_socket = branch[target_role].inputs[input_name]
         for link in tree.links:
-            if link.to_socket is target_socket and (
+            if link.to_socket == target_socket and (
                 source_role not in branch
-                or link.from_socket is not branch[source_role].outputs[output_name]
+                or link.from_socket != branch[source_role].outputs[output_name]
             ):
                 raise ValueError("Existing owned input has a conflicting link")
     selection = [(node, node.select) for node in tree.nodes]
@@ -94,7 +94,7 @@ def build_owned_color_grade(tree, owner_key):
             output = branch[source_role].outputs[output_name]
             input_socket = branch[target_role].inputs[input_name]
             if not any(
-                link.from_socket is output and link.to_socket is input_socket
+                link.from_socket == output and link.to_socket == input_socket
                 for link in tree.links
             ):
                 created_links.append(tree.links.new(output, input_socket))
@@ -107,7 +107,7 @@ def build_owned_color_grade(tree, owner_key):
         raise
     finally:
         for node in created_nodes:
-            if any(node is current for current in tree.nodes):
+            if any(node == current for current in tree.nodes):
                 node.select = False
         for node, selected in selection:
             node.select = selected
