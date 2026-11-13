@@ -5,6 +5,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / 'tests/fixtures'
+FINANCIAL_GATE = re.compile(
+    r'\brun budget\b|\bdeclared budget\b|\bbudget cap\b|\bcredit cap\b'
+    r'|\bcredit budget\b|\bspend authority\b|\bstop at[^.!?]*\bcap\b'
+    r'|\bcost preview is confirmed\b|\b90 s at final resolution\b'
+    r'|\bbudget posture\b|\bcapability and cost are resolved\b'
+    r'|\bestimate exceeds the cap\b'
+    r'|\bprivacy and cost checks\b|\bbudget spare\b'
+    r'|\bresolve current token cost\b'
+    r'|\bSet `DAILY_BUDGET_USD`'
+    r'|\bright[s]?(?: and|,) budget\b|\brevision within budget\b'
+    r'|\boutput and budget\b',
+    re.IGNORECASE,
+)
 
 
 def outside_fences(text):
@@ -97,23 +110,22 @@ class PromptContractResourceTests(unittest.TestCase):
                      'prompt-review', 'ark-mcp', 'seedance-prompt-25'):
             paths.extend((ROOT / '.agents/skills' / name).rglob('*.md'))
             paths.extend((ROOT / '.agents/skills' / name).rglob('evals.json'))
-        financial_gate = re.compile(
-            r'\brun budget\b|\bdeclared budget\b|\bbudget cap\b|\bcredit cap\b'
-            r'|\bcredit budget\b|\bspend authority\b|\bstop at.*\bcap\b'
-            r'|\bcost preview is confirmed\b|\b90 s at final resolution\b'
-            r'|\bbudget posture\b|\bcapability and cost are resolved\b'
-            r'|\bestimate exceeds the cap\b'
-            r'|\bprivacy and cost checks\b|\bbudget spare\b'
-            r'|\bresolve current token cost\b'
-            r'|\bSet `DAILY_BUDGET_USD`'
-            r'|\bright[s]?(?: and|,) budget\b|\brevision within budget\b'
-            r'|\boutput and budget\b',
-            re.IGNORECASE,
-        )
         for path in paths:
             with self.subTest(path=path.relative_to(ROOT)):
                 text = ' '.join(path.read_text().split())
-                self.assertIsNone(financial_gate.search(text))
+                self.assertIsNone(FINANCIAL_GATE.search(text))
+
+    def test_financial_matcher_does_not_join_unrelated_sentences(self):
+        self.assertIsNone(FINANCIAL_GATE.search(
+            'Stop at either limit; never reroll automatically. '
+            'A later reference describes the output duration cap.'
+        ))
+
+    def test_financial_matcher_still_detects_explicit_financial_gates(self):
+        for text in ('Stop at the spending cap.', 'A declared budget is required.',
+                     'Stop at the\nspending cap.'):
+            with self.subTest(text=text):
+                self.assertIsNotNone(FINANCIAL_GATE.search(' '.join(text.split())))
 
 
 if __name__ == '__main__':
