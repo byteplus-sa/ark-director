@@ -74,7 +74,7 @@ class CreativePolicyConsumerTests(unittest.TestCase):
 
     def test_shot_template_allows_scoped_looks_and_preserves_palette_locks(self):
         text = self.text(
-            SKILLS / "seedance-prompt-25/references/shot-staging.md"
+            SKILLS / "seedance-prompt/references/shot-staging.md"
         ).split("## per-shot template", 1)[1].split("## carrying a shot plan", 1)[0]
         self.assertNotIn("one grade once", text)
         self.assertNotIn("<one grade for the clip>", text)

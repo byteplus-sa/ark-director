@@ -65,7 +65,7 @@ saturation and `colorbalance` for tint; all three stay at 10-bit or above.
 ## Source authority
 
 The grammar this skill composes into is defined by the canonical prompt skills
-`seedance-prompt-25` and `seedream-prompt`. Official sources, accessed
+`seedance-prompt` and `seedream-prompt`. Official sources, accessed
 **2026-08-13**:
 
 - [Seedance 2.5 Prompt Guide (ModelArk)](https://docs.byteplus.com/en/docs/ModelArk/2607689)
@@ -73,7 +73,7 @@ The grammar this skill composes into is defined by the canonical prompt skills
 - [Seedream 5.0 Pro official blog](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro)
 
 When the official guides are updated, prefer the live pages over this skill
-where they conflict. The base prompt grammar lives in `seedance-prompt-25` and
+where they conflict. The base prompt grammar lives in `seedance-prompt` and
 `seedream-prompt`; compose with the relevant one when composing a full prompt.
 The FFmpeg filter behaviour below was checked locally on 10-bit HEVC test
 media; the look values are starting points to judge by eye, not calibrated

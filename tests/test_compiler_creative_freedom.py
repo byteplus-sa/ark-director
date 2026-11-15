@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 SKILLS = Path(__file__).resolve().parents[1] / ".agents" / "skills"
-COMPILER = SKILLS / "seedance-prompt-25"
+COMPILER = SKILLS / "seedance-prompt"
 REVIEW = SKILLS / "prompt-review" / "references"
 
 
@@ -116,7 +116,7 @@ class CompilerCreativeFreedomTests(unittest.TestCase):
 
     def test_offline_behavior_fixtures_cover_positive_and_failure_cases(self):
         data = json.loads((COMPILER / "evals/creative-freedom.json").read_text())
-        self.assertEqual(data["skill_name"], "seedance-prompt-25")
+        self.assertEqual(data["skill_name"], "seedance-prompt")
         cases = data["evals"]
         identifiers = {case["id"] for case in cases}
         self.assertEqual(len(identifiers), len(cases))

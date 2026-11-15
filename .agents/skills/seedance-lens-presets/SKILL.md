@@ -40,7 +40,7 @@ physical-photography concept; it informs the heuristics but does not establish
 generative-model behavior.
 
 The base prompt grammar this skill composes into lives in the
-`seedance-prompt-25` skill (six-part formula, camera language, emotional
+`seedance-prompt` skill (six-part formula, camera language, emotional
 direction) and the `seedream-prompt` skill (Subject / Setting / Style / Lighting
 / Composition structure). Compose with those skills for the surrounding grammar;
 this skill only resolves the optics axis.

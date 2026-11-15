@@ -51,7 +51,7 @@ inputs stay unresolved rather than invented.
 
 - Official Seedance 2.5 prompt guide, launch blog, and ModelArk docs — audio
   bracket syntax, `@Audio N` timing-authority contract, the one-take singer
-  example, timestamp grammar, and limitations. See `seedance-prompt-25`.
+  example, timestamp grammar, and limitations. See `seedance-prompt`.
 - Music-video craft and beat-sync practice — format taxonomy, song-section
   energy mapping, and section-relative cut density (sources below).
 - Genre conventions — per-genre visual recipes, vertical-vs-landscape norms.

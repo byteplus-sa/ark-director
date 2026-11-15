@@ -1,10 +1,15 @@
 # Seedance 2.5 Checklist
 
-Source skill: `seedance-prompt-25`. Apply the universal items in
+Source skill: `seedance-prompt`. Apply the universal items in
 [the index](review-checklists.md#universal--all-prompts) first, then this file.
 For an edit, swap, recast or restyle use [Seedance edits](checklist-seedance-edits.md)
 instead of the generation-only items below. Default severity is MAJOR; an item
 states CRITICAL or MINOR when it differs.
+
+Apply API requirements only to their verified exact model, operation and
+destination. Existing Ark native-Draft policy remains unchanged; its legacy
+bindings are not inherited by Flash or another family variant. Prompt templates,
+headings and bracket forms are conventions, not universal provider requirements.
 
 ## Request and parameters
 
@@ -18,8 +23,11 @@ states CRITICAL or MINOR when it differs.
    watermark, return_last_frame, expiry, priority). A final call that also
    sends prompt, references, duration, ratio, audio or task type is CRITICAL:
    those are reused from the draft and any change must happen before the
-   draft. Other models without native Draft use ordinary 480p tests and a new
-   reviewed final request with its own registry entry. Multi-shot work also needs a reviewed draft assembly
+   draft. Preserve ordinary 480p test policy for existing legacy non-native
+   bindings where applicable. Other verified non-native operations use the
+   preview resolution supported by exact-profile evidence and caller policy.
+   Their final is a new reviewed request with its own registry entry, not a
+   promotion. Multi-shot work also needs a reviewed draft assembly
    and picture/audio decisions. Final outputs need fresh playback and audio QA:
    the final soundtrack is not byte-identical to the draft's. Prompt-only work
    needs no generated draft.
@@ -40,9 +48,9 @@ states CRITICAL or MINOR when it differs.
    noncompliant audio or request an authorized repair, not automatic muting of
    requested native sound. Mixed ownership names each layer's source.
 
-3. **Reference count limits.** ≤ 30 images, ≤ 10 videos, ≤ 10 audio, ≤ 50 in
-   total; recommended 1-8 image subjects, 1-5 video subjects (5-10 s each), only
-   directly relevant audio. Exceeding a hard limit is CRITICAL.
+3. **Reference count limits.** Verify counts, duration totals and combinations
+   against the selected exact binding; old tables are snapshots. Exceeding a
+   verified hard limit is CRITICAL; unknown support remains unresolved.
 
 ## Formula
 
@@ -50,8 +58,9 @@ states CRITICAL or MINOR when it differs.
    and a primary action or event. These are the only grammar-required parts;
    camera and light are craft-required for narrative shots (Shot plan items).
 
-5. **Six-part order.** Subject + Action/Event + Scene/Environment + Visual Style +
-   Camera Movement/Cut + Audio, in this order when present (MINOR).
+5. **Flexible formula.** Subject + Action/Event + optional Scene/Environment,
+   Visual Style, Camera Movement/Cut and Audio. Order and headings serve
+   readability; omission of an irrelevant slot is not a finding.
 
 6. **Action granularity.** Describe critical action and perceptual outcomes,
    with body-part detail, range, speed, force, contact or recovery only where
@@ -98,15 +107,20 @@ states CRITICAL or MINOR when it differs.
     no marks. Blocking maps and other control diagrams are judged under item 12.
 
 14. **Reference photos outrank text.** Where text and a bound photo disagree on
-    a detail (gear down in the photo, retracted in the text), the photo wins;
-    the prompt aligns with the reference or the reference is replaced.
+    a detail (gear down in the photo, retracted in the text), visible reference
+    content can dominate. Return the conflict; aligning locked text or replacing
+    a selected reference requires authorization, not an automatic repair.
 
 15. **People in video and face inputs (`model.supported_mode`).** An extension
-    or video input that shows generated or real people binds them as
-    `asset://` Virtual Portrait assets; a raw clip with people is rejected
-    (CRITICAL). Real-person photos without an authorized asset are CRITICAL.
-    A `reference_image` face or body crop may be rejected — use the full sheet
-    or a first frame. A last-frame-only request is rejected; use first + last.
+    or video input follows the selected exact model's eligibility and applicable
+    authorized `Active` asset requirements. Preserve existing legacy restrictions
+    that require authorized `asset://` inputs instead of raw people.
+    Keep real-person face, likeness and
+    voice authorization independent; creative approval grants none of them.
+    Unsupported or unauthorized inputs are CRITICAL; unknown support remains
+    unresolved. A rejected face/body crop or last-frame role is not permission
+    to switch to a full sheet, first frame or new role combination. Verify and
+    authorize any proposed input change without disguising the original input.
 
 ## Shot plan and structure
 
@@ -142,8 +156,8 @@ states CRITICAL or MINOR when it differs.
 19. **Light sources declared (`shot.plan_bound`).** One set of declared sources
     across the scene's cuts; a new source has a motivating event. A light that
     changes inside a shot is a timed cue on a declared source ("at 3.2 s the
-    overhead lamp clicks off"); timed cues are honoured closely, vague ones
-    drift. Silhouette during speech is valid when facial evidence is not
+    overhead lamp clicks off"). Timing is intended, not guaranteed; verify
+    actual playback. Silhouette during speech is valid when facial evidence is not
     required; otherwise verify the required face and lip readability.
 
 20. **Axis carried (`shot.axis_carry`).** Each confirmed camera, lens, lighting,
@@ -164,9 +178,9 @@ states CRITICAL or MINOR when it differs.
     not a mandatory response to a sub-0.8 s shot. Preserve the requested
     ellipsis; a prompt requiring the missing action to be shown conflicts with it.
     Return incompatible locks rather than silently substituting assembly.
-    A rack focus that leaves the subject soft ("focus left
-    behind", subject sharp to background) mostly fails because the model keeps
-    the face sharp: plan the defocus in post (MINOR). Burst count alone is not
+    Historical face-sharp observations do not prohibit focus-away: preserve
+    requested endpoints and inspect the selected model's actual result.
+    Post defocus or extra probes require authorization. Burst count alone is not
     a finding; inspect plausible contact, continuity and recovery under item 6.
 
 23. **Camera direction coherent.** One primary move plus at most one secondary
@@ -185,8 +199,10 @@ states CRITICAL or MINOR when it differs.
     actions and timing and return conflicts before retiming or splitting.
     The last stage ends at the requested duration.
 
-25. **Natural duration.** Each scene runs at its natural length (4-30 s); a 30 s
-    single pass or native extension is a recorded exception.
+25. **Natural duration.** Preserve intended timing and verify limits for the
+    selected exact binding; do not pad to a presumed maximum or shorten by a
+    historical quota. Native extension remains an exceptional workspace path
+    requiring support, authorization and boundary inspection.
 
 ## Craft guards
 
@@ -233,13 +249,14 @@ states CRITICAL or MINOR when it differs.
 
 ## Audio and dialogue
 
-31. **Bracket syntax.** Dialogue in `{}`, music in `()`, SFX in `<>`. `【】`
-    subtitles fail item 28.
+31. **Bracket conventions.** Dialogue in `{}`, music in `()`, SFX in `<>` can
+    separate sound layers where understood by the selected destination. Do not
+    invent required syntax. Generated subtitles still fail item 28.
 
-32. **Dialogue language reinforcement.** Non-Chinese dialogue states Dialogue
-    Language + Regional Variety/Accent + Delivery Style + Speaker + `{line}`.
+32. **Dialogue language reinforcement.** Preserve the requested language,
+    regional variety, delivery, speaker and exact words; no inferred language support.
     Every speaking character, including phone-screen voices and narrators, has
-    a scripted line; unscripted speakers ad-lib.
+    a scripted line; check unwanted ad-libs through listening.
 
 33. **Speech budget (`dialogue.speech_budget`).** Use measured delivery or a
     native-language-informed read, including pauses, onset and tail. About

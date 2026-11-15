@@ -15,17 +15,21 @@ class FamilyRoutingTests(unittest.TestCase):
                 self.assertIn("selected model", text)
                 self.assertIn("caller", text.lower())
 
-    def test_versioned_adapter_is_retained_with_exact_applicability(self):
-        text = (ROOT / ".agents/skills/seedance-prompt-25/SKILL.md").read_text()
-        self.assertIn("name: seedance-prompt-25", text)
-        self.assertIn("versioned adapter", text)
-        self.assertIn("not inherited", text)
-        self.assertTrue((ROOT / ".agents/skills/seedance-prompt-20/SKILL.md").is_file())
+    def test_consolidated_skill_preserves_exact_model_boundaries(self):
+        text = (ROOT / ".agents/skills/seedance-prompt/SKILL.md").read_text()
+        self.assertIn("name: seedance-prompt", text)
+        self.assertIn("exact model", text.lower())
+        self.assertIn("model-boundaries.md", text)
+        boundaries = (ROOT / ".agents/skills/seedance-prompt/references/model-boundaries.md")
+        self.assertIn("unknown", boundaries.read_text().lower())
 
     def test_family_leaf_remains_prompt_only_for_unknown_and_image_requests(self):
-        text = (ROOT / ".agents/skills/seedance-prompt/SKILL.md").read_text()
-        for term in ("image prompts", "unknown", "does not submit"):
+        text = " ".join(
+            (ROOT / ".agents/skills/seedance-prompt/SKILL.md").read_text().split()
+        )
+        for term in ("image prompts", "unknown"):
             self.assertIn(term.lower(), text.lower())
+        self.assertRegex(text.lower(), r"does not[^.]*\bsubmit\b")
         self.assertTrue((ROOT / ".claude/skills/seedance-prompt").is_symlink())
 
 

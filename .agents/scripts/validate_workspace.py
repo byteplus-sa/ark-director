@@ -40,6 +40,14 @@ def validate_skill(path: Path) -> tuple[dict[str, Any], list[Finding]]:
             Finding("metadata.yaml", str(path), "Frontmatter must be a mapping")
         ]
     name = metadata.get("name", "")
+    if name in ("seedance-prompt-20", "seedance-prompt-25"):
+        findings.append(
+            Finding(
+                "metadata.retired",
+                str(path),
+                "Retired versioned prompt skill; use seedance-prompt",
+            )
+        )
     if (
         not isinstance(name, str)
         or name != path.parent.name

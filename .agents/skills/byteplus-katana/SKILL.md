@@ -13,7 +13,7 @@ description: >-
   talking-head explainers, music-led hero and aura-farming edits. Planning
   only. Not for style recipes (template-factory), recasting
   one clip (seedance-motion-recast), one-element swaps (seedance-object-swap)
-  or single shot prompts (seedance-prompt-25).
+  or single shot prompts (seedance-prompt).
 ---
 
 # Reference Edit Rebuild
@@ -56,7 +56,7 @@ generator. Composition hints below are prose for the caller.
 | One clip, same cast in a new medium | `seedance-restyle` |
 | One static exact graphic | `html-graphic-render` |
 | Animated composition, timeline, keyframes, render | `hyperframes` skills (this skill plans, they build) |
-| One shot prompt | `seedance-prompt-25` |
+| One shot prompt | `seedance-prompt` |
 | A still image of a character speaking supplied audio | `omnihuman-prompt-20` |
 
 Choose this skill when the deliverable is a **multi-shot edit** that must keep

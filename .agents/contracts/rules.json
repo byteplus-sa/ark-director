@@ -466,7 +466,7 @@
       "applies_to": [
         "preflight"
       ],
-      "owner_path": ".agents/skills/seedance-prompt-25/references/parameter-reference.md",
+      "owner_path": ".agents/skills/seedance-prompt/references/parameter-reference.md",
       "summary": "Every new Seedance 2.5 generation, including Premium, edits, extensions, probes and variants, requires explicit resolution 480p and boolean draft true in every review mode. Resolve schema or transport conflicts without a plain-480p fallback. Its final is promoted by draft_task_id carrying only output settings; prompt, references, duration, ratio and audio change only before the draft, and the final's audio is checked again.",
       "exceptions": [
         "Other video models without native Draft support use ordinary 480p tests and run the final as a new reviewed request.",
@@ -490,7 +490,7 @@
         "preflight",
         "narrative_video"
       ],
-      "owner_path": ".agents/skills/seedance-prompt-25/references/audio-performance-camera.md",
+      "owner_path": ".agents/skills/seedance-prompt/references/audio-performance-camera.md",
       "summary": "Sound ownership follows the brief: requested native diegetic sound, including wordless action or ambience; an exact master or controlled post soundtrack; or purposeful silence with no added bed. Speech-free alone does not require picture-only. Preserve exact masters and approved native sound; use supported controls and verify unwanted audio, sync and master fidelity through playback and listening, again after promotion. Negative wording is not proof of compliance. Missing or conflicting ownership stays unresolved; preserve rights, consent and approvals.",
       "exceptions": [
         "A recorded, user-requested native-audio exception for a named take."
@@ -518,7 +518,7 @@
         "narrative_video",
         "editing"
       ],
-      "owner_path": ".agents/skills/seedance-prompt-25/SKILL.md",
+      "owner_path": ".agents/skills/seedance-prompt/SKILL.md",
       "summary": "Duration, resolution, aspect ratio and audio switches are request parameters; the prompt carries no ratio, resolution or duration sentence.",
       "exceptions": [
         "A skill whose documented prompt structure includes a parameter line."
@@ -531,7 +531,7 @@
         "narrative_video",
         "editing"
       ],
-      "owner_path": ".agents/skills/seedance-prompt-25/references/scene-action.md",
+      "owner_path": ".agents/skills/seedance-prompt/references/scene-action.md",
       "summary": "Track exact total identity separately from visible count for counted items, clones, crowds and repeated props. Account for hidden, off-screen, entering, exiting and occluded subjects and restate relevant positions after changes. Preserve locked reveal timing; first-frame visibility and repetition at every stage are not required when continuity is unambiguous. Contradictory totals, unexplained duplication and incompatible positions remain errors.",
       "exceptions": []
     },
@@ -542,7 +542,7 @@
         "narrative_video",
         "editing"
       ],
-      "owner_path": ".agents/skills/seedance-prompt-25/references/scene-action.md",
+      "owner_path": ".agents/skills/seedance-prompt/references/scene-action.md",
       "summary": "Every hand or side cue names both the character's anatomical side and the frame side.",
       "exceptions": []
     },
@@ -553,7 +553,7 @@
         "narrative_video",
         "editing"
       ],
-      "owner_path": ".agents/skills/seedance-prompt-25/SKILL.md",
+      "owner_path": ".agents/skills/seedance-prompt/SKILL.md",
       "summary": "Generated video requests no captions, subtitles, titles, taglines, CTAs, logos, end cards or AI labels, and recurring generic props and generated surfaces are described as plain or given a reference sheet.",
       "exceptions": []
     },
@@ -563,7 +563,7 @@
       "applies_to": [
         "narrative_video"
       ],
-      "owner_path": ".agents/skills/seedance-prompt-25/references/shot-staging.md",
+      "owner_path": ".agents/skills/seedance-prompt/references/shot-staging.md",
       "summary": "Each spoken line fits its shot using measured delivery or a native-language-informed read, including pauses, onset and tail. About 2.2 words per second is an English planning estimate; 0.5-1.5 s onset and about 0.4 s tail are provisional margins, not universal minimums or failure thresholds. Verify actual delivery. Two state changes in the final 3 s is a provisional density caution, not an artistic gate: preserve the approved ending and required readability. Without delivery evidence, timing remains provisional; demonstrated duration conflicts still require resolution. Preserve requested language and locked words; propose retiming or splitting before an authorized wording revision.",
       "exceptions": []
     },

@@ -26,7 +26,7 @@ keep the `showcase-html` canvas and its `--check --stage shot-generation`.
 > source length, while **2.0's `edit_video` caps output at ~5s** in practice.
 > Use 2.0 for Fast/Mini variants; for 4K output follow the 4K routing in
 > `.agents/contracts/routing.md`. For 2.0 T2V/R2V prompts,
-> use `seedance-prompt-20`.
+> use `seedance-prompt`.
 
 Use this skill when the user wants to:
 - **run a complete VFX shot** from source clip to saved output
@@ -38,7 +38,7 @@ Use this skill when the user wants to:
 
 Do **not** use this skill when the user only wants to:
 - write a VFX prompt without submitting (see `seedance-vfx-prompt`)
-- generate text-to-video or image-to-video (see `seedance-prompt-25`; `seedance-prompt-20` for Fast/Mini, or 4K per the routing contract)
+- generate text-to-video or image-to-video (see `seedance-prompt` for any selected exact model; execution follows the routing contract)
 - generate images or audio (use Seedream / Seed Audio skills)
 
 

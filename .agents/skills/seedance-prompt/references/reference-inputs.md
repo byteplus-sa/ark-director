@@ -1,6 +1,6 @@
 # Reference Inputs
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
 - [Reference materials](#reference-materials)
@@ -9,25 +9,20 @@ mode selection and caller responsibilities.
 
 ## Reference materials
 
-### Limits and recommended ranges
+### Scope and reference selection
 
-Seedance 2.5 accepts up to **50 reference materials** per generation.
+These role mappings are 2.5-based prompting conventions, not an input schema.
+Verify counts, sizes, durations, combinations and token syntax for the exact model,
+operation and destination before execution. Historical snapshots live in
+[Parameter Reference](parameter-reference.md); do not inherit them by family name.
 
-| Material Type | Input Limit | Recommended Range |
-|---|---|---|
-| Images | Up to 30, each ≤ 4K | Prefer 1–8 distinct subjects |
-| Videos | Up to 10, combined ≤ 30s | Prefer 1–5 subjects, 5–10s each |
-| Audio | Up to 10, combined ≤ 30s | Keep only directly relevant dialogue/voice/ambience/music |
-| Video Editing | Source video + reference images | Source < 20s, 1–5 reference images |
-
-You may push beyond recommended ranges (9–12 subjects in images, 6–10 in
-audio/video, 6–8 editing refs), but **stability decreases** as count grows. If
->5 subjects need multiple views, use **separate images per view** — independent
-view images are more stable than collages.
+Use only relevant references. Separate views can clarify the same subject's
+structure; label them as one identity rather than inventing extra subjects.
+More inputs can introduce conflicting authority, not a guaranteed fidelity gain.
 
 ### Role definition syntax
 
-After uploading references, specify exactly what each one contributes. Add
+For each caller-selected reference, specify exactly what it contributes. Add
 exclusions only when a person, background, or composition could unintentionally
 leak into the output.
 
@@ -83,23 +78,23 @@ Every supplied image can leak visible pixels, colors, lines, labels, or
 composition into the result. For a control-only image, prefer translating its
 information into concise textual choreography and omitting the image. Reference
 content can overpower negative wording — if a character sheet contains an aura,
-weapon, logo, or extra face that must not appear, clean or replace the reference
-rather than relying on "no aura" constraints.
+weapon, logo, or extra face that must not appear, propose an authorized reference
+repair rather than relying on "no aura" constraints. Do not alter a locked input.
 
 ## Precedence and accepted inputs
 
-- **A bound photo outranks text for details it shows.** Landing gear that is
-  down in the reference stays down whatever the prompt says. Align the text
-  with the reference, or replace the reference.
-- **People in video inputs.** Extension and video-to-video inputs that contain
-  generated or real people are rejected for privacy unless those people are
-  `asset://` Virtual Portrait assets. Real-person reference photos are rejected
-  without an authorized asset. Compose with `seedance-virtual-portrait` for the
-  asset route; never disguise an input to pass the check.
-- **Face and body crops** bound as `reference_image` may be rejected; bind the
-  full sheet, or use the image as a first frame. A last frame alone is
-  rejected; use first + last.
-- **Storyboards and boards are never inputs**; see
+- **Resolve conflicting visible details.** A bound photo can overpower contrary
+  text. If landing gear is down but must be raised, propose aligning or replacing
+  the reference with authorization, not stronger adjectives.
+- **People in inputs.** Preserve independent face, likeness and voice rights.
+  The caller verifies exact-model privacy rules and applicable `Active`
+  authorized assets; creative approval alone is not provider authorization.
+  Never disguise an input or substitute a raw recording to pass a check.
+- **Face/body crops and frame roles** require current input eligibility.
+  Rejection is not permission to switch to a first-frame route. Keep unknown
+  combinations unresolved and propose only unselected alternatives.
+- **Storyboards and boards are never inputs under workspace policy**, not
+  because of a provider incapability claim; see
   [Keyframes Storyboards Blockouts](keyframes-storyboards-blockouts.md#storyboards-are-never-bound).
 
 ## Multi-reference workflow (5 steps)
@@ -157,6 +152,12 @@ Locations: <Conservation Lab> and <Gallery>.
 Motion references: the case-opening motion from @Video 1 and the sample-placement motion from @Video 2.
 Do not use: other characters' clothing. Do not give this character <Record Board> or guide equipment.
 ```
+
+Use a stable subject label and a few distinguishing static features, such as
+wardrobe, build or product structure. Reuse the label across shots; do not encode
+temporary poses or emotions as identity. Number typed references independently
+in supplied order. The `Define` form is an optional legacy convention, not a
+mandatory heading or API token; internal asset IDs do not explain visible content.
 
 ### Step 4: Select references by scene
 

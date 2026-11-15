@@ -161,7 +161,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **84 skills** across 15 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
+The workspace ships with **82 skills** across 15 categories. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository.
 
 ### Production Orchestration
 
@@ -190,9 +190,7 @@ The workspace ships with **84 skills** across 15 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **seedance-prompt** | Compose model-neutral Seedance creative prompts while preserving the selected model, locks, reference authority and sound ownership; execution remains caller-owned. |
-| **seedance-prompt-25** | Write production-grade Seedance 2.5 video prompts with the six-part formula, per-shot camera, lens and light, multimodal references, 4-30 s scene staging, dialogue timing, video editing and extension, keyframes, blockouts and review-mode-aware request packaging. |
-| **seedance-prompt-20** | Legacy Seedance 2.0 prompt skill. Use when you need 4K output (unsupported by 2.5), Fast/Mini speed variants, or lower cost per generation. Provides reference-role classification, subject definitions, spatial continuity, shot sequencing, and native audio direction. |
+| **seedance-prompt** | Compose Seedance prompts with 2.5-based conventions for any selected exact model, including reference-guided shots, source-preserving edits and extensions, with focused action, staging, audio, keyframe and repair guidance. |
 | **seedance-prompt-25-filipino** | Opt-in Filipino dialogue support preserving approved words and requested language, register, code-switching and subtitle choices; separate accent notes, listening-based pronunciation review and opt-in separate lip-sync audio. |
 | **seedance-shot-design** | Plan per-shot coverage for Seedance scenes: shot count and jobs, size, framing, angle, camera move, lens intent and light per shot, with variety rules and an energy level. |
 | **seedance-camera-presets** | Compose prompt-only camera moves and framing, including optical zoom, Dutch angle, dolly, orbit, FPV, whip pan, and single, two-shot, over-the-shoulder, point-of-view and insert framing. |

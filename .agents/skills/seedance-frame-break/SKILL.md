@@ -11,7 +11,7 @@ description: >-
   frame-break, 3D billboard, a character bursting out of black bars, or a
   product hero ad whose product breaks the frame. Not for ordinary cinematic
   letterbox, general camera moves (seedance-camera-presets), the base prompt
-  grammar (seedance-prompt-25), edits to existing footage, or task submission.
+  grammar (seedance-prompt), edits to existing footage, or task submission.
 ---
 
 # Seedance Frame Break
@@ -28,7 +28,7 @@ generation tasks; the caller owns the task lifecycle.
 
 | Concern | Owner |
 | --- | --- |
-| Six-part formula, `@Image N` roles, timestamp rules, audio brackets | `seedance-prompt-25` |
+| Six-part formula, `@Image N` roles, timestamp rules, audio brackets | `seedance-prompt` |
 | Locked-off camera wording | `seedance-camera-presets` |
 | Identity reference for a character | `seedream-character-sheet` |
 | Medium and material rules for a stylised subject | `seedance-animation-styles` |
@@ -128,7 +128,7 @@ example.
    majority of the frame height and the subject is full-body inside it,
    except during the named break-outs.
 5. **Camera.** Locked off, no movement, zoom or cuts; only the subject moves.
-6. **Audio.** Requested sound arc in the `seedance-prompt-25` bracket syntax.
+6. **Audio.** Requested sound arc in the `seedance-prompt` bracket syntax.
    A "no music" line under native audio often does not hold; when music or
    speech must be absent, suggest `generate_audio: false` and build the sound
    in post.

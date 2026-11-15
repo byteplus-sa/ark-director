@@ -31,8 +31,8 @@ canonical, drop-in **Camera block** for the Seedance 2.5 six-part prompt formula
 **prompt-composition-only** skill: it never calls MCP tools or the Ark API, and
 it never runs generation. The base prompt grammar — the six-part formula,
 `@Image N` / `@Video N` reference-role syntax, `At Ns` timestamp syntax, and
-audio bracket syntax — is defined in `seedance-prompt-25` and is **not
-redefined here**. Use that grammar only for its verified selected adapter;
+audio bracket syntax — is defined in `seedance-prompt` and is **not
+redefined here**. Verify any special syntax for the selected exact model;
 compose with `seedance-prompt` for generic creative text and the full prompt
 contract; this skill only adds the preset bank on top.
 
@@ -49,7 +49,7 @@ sources accessed 2026-08-13:
 - [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — official prompt guidance
 - [Seedance 2.5 launch blog](https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5) — official announcement
 
-**The base grammar is defined in `seedance-prompt-25`.** This skill adds the
+**The base grammar is defined in `seedance-prompt`.** This skill adds the
 preset bank and Camera-block composition rules; it does not restate or replace
 the six-part formula, reference-role syntax, or audio syntax from that skill.
 
@@ -97,7 +97,7 @@ new provider parameters or guarantees of execution.
 ### Technique presets
 
 These are the named cinematic techniques. Each row states the official
-"What to Specify" contract from the `seedance-prompt-25` popular-techniques
+"What to Specify" contract from the `seedance-prompt` popular-techniques
 table, then gives a canonical phrase template that satisfies it.
 
 | Preset | What to specify | Canonical phrase template |
@@ -116,7 +116,7 @@ wording and scoped historical evidence. Preserve requested focus planes and
 endpoints; post defocus is an unselected alternative requiring authorization.
 
 For a technique not in the table, follow the uncommon-cinematography-terms
-recipe from `seedance-prompt-25`:
+recipe from `seedance-prompt`:
 
 > **Cinematography Term + Target Subject + Visual Change + Foreground/Background Relationship + Direction or Speed**
 
@@ -287,7 +287,7 @@ Choose a move or hold from the brief; verify execution in actual playback.
 - **A locked-off shot is a recorded choice.** State the static camera in the
   Camera block and record its `static_reason` in the shot plan (the
   shot-design skill owns the allowed values). The Seedance 2.5 MCP tool exposes no `camera_fixed`
-  field (checked 2026-10-06; the legacy `seedance-prompt-20` skill documents it
+  field (checked 2026-10-06; `seedance-prompt`'s legacy parameter snapshot documents it
   for the 2.0 REST API), so the prompt carries the lock. A hold may stand alone
   or follow motion according to the intended beat.
 - **One-take needs explicit order.** A one-take shot must list the subjects,
@@ -331,4 +331,4 @@ Before a Camera block is submitted as part of a Seedance 2.5 prompt, verify:
    the prompt text.
 
 A Camera block that passes all nine checks is ready to be composed into the
-full creative prompt by `seedance-prompt`; retained versioned syntax is caller-owned.
+full creative prompt by `seedance-prompt`; exact-model syntax is verified by the caller.

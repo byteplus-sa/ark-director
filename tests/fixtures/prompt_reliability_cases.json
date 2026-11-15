@@ -111,7 +111,7 @@
     },
     {
       "id": "unsupported_mixed_references",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Chain with first_frame and canonical reference_images; the selected tool explicitly rejects mixing those roles.",
       "expected_decisions": {
         "submission_allowed": false,
@@ -196,7 +196,7 @@
     },
     {
       "id": "optional_timing",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Write a simple one-shot walk across a room. I have not requested second-by-second timing.",
       "expected_decisions": {
         "one_second_timestamps_required": false,

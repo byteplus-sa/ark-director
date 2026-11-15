@@ -225,7 +225,7 @@ Dialogue language: English. B says as a quiet invitation: {There is one corner l
 
 For the full scene prompt, the caller places this block in the six-part formula
 (Subject + Action + Scene + Visual Style + Camera + Audio) as the subject/action
-section, per `seedance-prompt-25`.
+section, per `seedance-prompt`.
 
 ---
 

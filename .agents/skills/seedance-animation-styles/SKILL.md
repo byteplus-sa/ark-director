@@ -212,8 +212,8 @@ Use when the user only wants animation-style wording:
 ### Full animation prompt
 
 Use when the user asks for a complete Seedance prompt. The full-prompt form uses
-the neutral creative handoff (see `seedance-prompt`); the caller chooses a
-verified versioned adapter for execution. In a selected 2.5 six-part example, the
+the consolidated creative handoff (see `seedance-prompt`); the caller verifies
+exact-model controls separately for execution. In a selected six-part example, the
 `[Animation Medium]` block drops into the **Visual Style** slot:
 
 ```text

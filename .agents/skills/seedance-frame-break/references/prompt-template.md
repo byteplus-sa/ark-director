@@ -3,7 +3,7 @@
 Focused reference for `seedance-frame-break`. Read
 [the entrypoint](../SKILL.md) for the technique and the preflight checklist.
 The six-part formula, reference-role syntax, timestamp rules and audio brackets
-belong to `seedance-prompt-25`; this file only fills them for the pop-out look.
+belong to `seedance-prompt`; this file only fills them for the pop-out look.
 
 - [Fill-in template](#fill-in-template)
 - [Slot rules](#slot-rules)
@@ -29,7 +29,7 @@ Frame and layer order, back to front: (1) <backdrop> fills only the central wind
 
 Camera: locked-off wide-angle camera on a tripod, no movement, no zoom, no cuts; the subject stays in place and only the extending limb or hem grows toward the lens.
 
-Audio: <requested sound arc using the seedance-prompt-25 brackets>. <No music, or the requested music.>
+Audio: <requested sound arc using the seedance-prompt brackets>. <No music, or the requested music.>
 
 No on-screen text, captions, logos or watermarks; no held props; the bars stay plain black and unmarked.
 ```

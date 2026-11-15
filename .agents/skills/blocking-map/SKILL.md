@@ -140,7 +140,7 @@ On the VIDEO result, after using the connector:
 - **Camera path maps**: arrows on the drawing for dolly/pan direction — declare "arrows = camera path only" in the legend.
 - **Movement maps**: dashed line for a character's cross (A→new mark) — declare start, path, end mark, and WHEN the move happens (tie to a dialogue/action beat).
 
-Compose with `seedance-prompt-25` when writing the surrounding video prompt.
+Compose with `seedance-prompt` when writing the surrounding video prompt.
 
 ## CONTINUING A CLIP WITH PEOPLE (the extension substitute)
 

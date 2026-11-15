@@ -1,6 +1,6 @@
 # Video Extension
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
 - [Video extension](#video-extension)
@@ -11,13 +11,14 @@ Video extension creates content beyond the boundary of a source video.
 - **Forward extension**: extension's first frame continues from the source's last frame.
 - **Backward extension**: extension's last frame connects to the source's first frame.
 
-Request facts: ratio is locked to the source, so omit it; duration is settable.
-Set the extension task type explicitly when auto-detection could misread the
-request: Seedance 2.5 uses `omni_reference_task_type: extend` (`extend_video`
-is a 2.0 value and is rejected by 2.5). A source that shows generated
-or real people is rejected for privacy unless those people are `asset://`
-Virtual Portrait assets; without them, chain a new clip from an approved last
-frame or a blocking plan instead of extending.
+These are 2.5-based prompting conventions. Verify extension support, direction,
+source eligibility, ratio/duration locks and task tokens for the exact model,
+operation and destination. Historical syntax belongs in
+[Parameter Reference](parameter-reference.md), not a family-wide request.
+Keep the entire source and its fractional timing, audio tail and original
+content locked. No trim, retime, probe, upload or substitute chaining workflow
+is authorized here. Missing support or independent face/voice authorization
+remains unresolved; alternatives are proposals for the caller.
 
 ### Forward extension
 
@@ -80,8 +81,9 @@ Keep each subject as the same continuous instance throughout.
 <Materials that should appear only after the source video begins> must not appear early.
 ```
 
-> Boundary frames connect naturally at a visual level; they will **not** be
-> pixel-identical. Inspect both sides of the boundary during review.
+> Boundary continuity is an intended result, not a pixel-identical guarantee.
+> Inspect actual motion, identity, lighting and audio on both sides, including
+> tails and offsets. Prompt text alone cannot prove a seamless connection.
 
 ### Backward extension with additional references
 

@@ -10,7 +10,7 @@ class FamilyEvidenceTests(unittest.TestCase):
             "seedance-lens-presets/SKILL.md",
             "seedance-lighting-presets/SKILL.md",
             "seedance-shot-design/SKILL.md",
-            "seedance-prompt-25/references/audio-performance-camera.md",
+            "seedance-prompt/references/audio-performance-camera.md",
         ):
             with self.subTest(path=relative):
                 text = (ROOT / ".agents/skills" / relative).read_text()

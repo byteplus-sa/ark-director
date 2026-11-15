@@ -168,7 +168,7 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
    multiple natural-duration shots plus assembly. Compose the Seedance 2.5
    six-part prompt from breakdown + board staging written as text + per-beat
    motion grammar + verified audio grammar and sync cues when audio is
-   requested + element sheets (via `seedance-prompt-25`), run `prompt-review`,
+   requested + element sheets (via `seedance-prompt`), run `prompt-review`,
    persist the prepared request, then submit via the supported durable
    transport. Prefer `seedance_2_5_create_task`; use an equivalent Ark CLI route
    only before any ambiguous submission and only when it satisfies the same
@@ -269,7 +269,7 @@ takes only.
 | Exact typography, screen/UI, title/end card, poster, product lineup, price/CTA, or static overlay | `html-graphic-render` |
 | Generative image with exact copy/layout | Select the generated image, then finish with `html-graphic-render` |
 | Animated exact graphic | HyperFrames; FFmpeg or HyperFrames for final video composition |
-| Seedance 2.5 video prompt | `seedance-prompt-25` |
+| Seedance 2.5 video prompt | `seedance-prompt` |
 | Prompt quality gate (generation-bound only) | `prompt-review` |
 | Persistent Studio review surface for shot takes (pre-Studio canvas: stage canvas) | `studio_project.py` (pre-Studio canvas: `showcase-html`) |
 

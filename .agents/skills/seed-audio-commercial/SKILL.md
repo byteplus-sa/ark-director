@@ -71,8 +71,8 @@ the finished audio asset from it.
 
 - **Plain TTS or single-voice narration** — use `seed-audio-prompt` directly
   without the commercial story structure.
-- **Video generation** — use Seedance skills (`seedance-prompt-25` for 2.5,
-  `seedance-prompt-20` for 2.0). If the dialogue track is for a Seedance video
+- **Video prompts** — use `seedance-prompt` for any selected exact model.
+  If the dialogue track is for a Seedance video
   and the user has explicitly requested lip-synced audio, generate the audio
   first, verify `duration ≤ video_duration`, and pass it as `reference_audio`.
   When the user has not requested lip-synced audio, generate video directly

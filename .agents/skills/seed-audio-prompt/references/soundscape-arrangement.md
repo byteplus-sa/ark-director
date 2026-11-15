@@ -46,8 +46,8 @@ For native video audio, keep this arc inside the Seedance prompt so sound and
 picture share the same trigger. Use standalone Seed Audio when producing or
 replacing a separate soundtrack, dialogue stem, ambience bed, or mix element.
 When the audio is destined for a Seedance video, the video prompt lives in
-`seedance-prompt-25` (2.5, up to 10 audio refs, 30s) or `seedance-prompt-20`
-(2.0, up to 3 audio refs, 15s). When the user has explicitly requested
+`seedance-prompt` for any selected exact model; the caller verifies current
+audio reference counts, durations and compatible roles. When the user has explicitly requested
 lip-synced dialogue, generate the Seed Audio track first, verify
 `audio_duration ≤ video_duration`, ensure the exact same dialogue text appears
 in both the Seed Audio and Seedance prompts, and pass the audio file as

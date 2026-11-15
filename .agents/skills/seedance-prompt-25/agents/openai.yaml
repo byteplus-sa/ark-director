@@ -1,4 +1,0 @@
-interface:
-  display_name: "Seedance Prompt 25"
-  short_description: "Help with Seedance Prompt 25 tasks"
-  default_prompt: "Use $seedance-prompt-25 to handle this seedance prompt 25 task."

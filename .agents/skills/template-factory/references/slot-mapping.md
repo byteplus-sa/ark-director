@@ -3,7 +3,7 @@
 How each `VideoBreakdown` field maps into Seedream and Seedance prompt slots.
 This keeps the mapping reproducible and prevents slot drift.
 
-## Seedance 2.5 six-part formula (via `seedance-prompt-25`)
+## Seedance 2.5 six-part formula (via `seedance-prompt`)
 
 | Six-part slot | Source field(s) | Notes |
 |---|---|---|

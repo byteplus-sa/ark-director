@@ -60,7 +60,7 @@ different formula for each episode unless the user asks otherwise.
 
 - Story and dialogue only. Delivery, accent and pronunciation direction and
   prompt syntax for Seedance belong to `seedance-prompt-25-filipino` and
-  `seedance-prompt-25`; pronunciation respellings are their hypotheses, never
+  `seedance-prompt`; pronunciation respellings are their hypotheses, never
   part of the locked wording. Production belongs to an orchestrator such as
   `micro-drama`.
 - Conflict stays non-injurious: a slap is a sharp contact or a cut on contact,

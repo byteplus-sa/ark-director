@@ -1,6 +1,9 @@
 # Model And Operation Boundaries
 
 Creative intent is reusable across Seedance models. Execution facts are not.
+The single prompt skill uses 2.5-based composition and useful earlier practices
+for any selected model. Reusing that craft does not transfer 2.5 syntax,
+reference roles, timing controls or API limits to another model.
 Keep the following authorities separate:
 
 | Authority | Controls |
@@ -28,6 +31,14 @@ destination. Image/video/audio role totals, frame/reference combinations,
 duration bounds, source constraints and encoding choices may differ. Keep
 unsupported fields out of execution settings and do not silently omit a
 required field to fit a transport.
+
+The provider guide's shot labels, typed reference labels, bracket conventions
+and timestamp examples are authoring aids, not interchangeable API contracts.
+Resolve the actual notation and timing support for the destination. Preserve
+fractional source/delivery targets even where prompt timestamps are coarse:
+report the mismatch, never round or retime a locked source automatically.
+Planning-only boards are a workspace policy, not a claim that a provider cannot
+accept them. Provider examples do not override that policy or asset consent.
 
 ## Preview And Promotion
 

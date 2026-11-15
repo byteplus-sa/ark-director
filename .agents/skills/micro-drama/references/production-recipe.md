@@ -39,7 +39,7 @@ plan already carries the staging.
 
 ## Clip prompt
 
-Build with `seedance-prompt-25` from the scene's shot plan: each internal shot
+Build with `seedance-prompt` from the scene's shot plan: each internal shot
 keeps its planned size, angle, camera move or hold and light direction.
 Make supplied hook, turn or cliffhanger beats readable without requiring
 distinct coverage, a turn marker or contrasting duration. A held ending can

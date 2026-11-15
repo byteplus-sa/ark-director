@@ -1,7 +1,12 @@
 # Transitions And One Click
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
+
+These are 2.5-based prompting conventions, not provider guarantees. Verify the
+exact model, operation and destination for supported reference combinations and
+transition features. Preserve selected source portions, fractional timing and
+sound ownership; no automatic retiming, generation or source replacement.
 
 - [One-click video](#one-click-video)
 - [Seamless video transitions](#seamless-video-transitions)

@@ -107,7 +107,7 @@ class PromptContractResourceTests(unittest.TestCase):
                      'seedream-storyboard', 'brief-intake',
                      'seed-audio-commercial', 'seed-audio-prompt',
                      'seedance-ai-avatar', 'template-factory',
-                     'prompt-review', 'ark-mcp', 'seedance-prompt-25'):
+                     'prompt-review', 'ark-mcp', 'seedance-prompt'):
             paths.extend((ROOT / '.agents/skills' / name).rglob('*.md'))
             paths.extend((ROOT / '.agents/skills' / name).rglob('evals.json'))
         for path in paths:

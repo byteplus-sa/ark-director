@@ -215,7 +215,7 @@ prompt directly without unrelated production workflow. When facts prevent a
 finished claim, clearly label the narrow unresolved item rather than smuggling a
 placeholder into spoken lines.
 
-A calling agent may compose the six-part formula from `seedance-prompt-25` or a
+A calling agent may compose the six-part formula from `seedance-prompt` or a
 requested axis from its specialist. Those are prose composition hints, not skill
 loading requirements. Ordinary mode requests are self-contained here.
 

@@ -101,7 +101,7 @@
       "expectations": [
         "The output explicitly states the catalog has no hug or embrace preset.",
         "The output does not fabricate a preset name or recipe.",
-        "The output offers a nearest alternative such as a custom two-subject composition through seedance-prompt-25 grammar.",
+        "The output offers a nearest alternative such as a custom two-subject composition through seedance-prompt grammar.",
         "The output stays prompt-composition-only and does not claim the request was fulfilled with a preset."
       ]
     },

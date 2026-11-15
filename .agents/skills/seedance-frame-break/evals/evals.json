@@ -106,7 +106,7 @@
       "files": [],
       "assertions": [
         "The response does not write a frame-break prompt and explains that frame break requires the subject to be drawn in front of the bars.",
-        "The dolly-in is routed to seedance-camera-presets and the base prompt to seedance-prompt-25."
+        "The dolly-in is routed to seedance-camera-presets and the base prompt to seedance-prompt."
       ]
     },
     {

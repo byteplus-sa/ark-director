@@ -6,7 +6,7 @@ work, plus the shared video-to-video input items. Apply the universal items in
 
 ## Seedance 2.5 edit (video-to-video)
 
-Source skills: `seedance-prompt-25` (editing) + `seedance-vfx-prompt` (2.5 section).
+Source skills: `seedance-prompt` (editing) + `seedance-vfx-prompt` (2.5 section).
 
 Apply the universal items first, then this section. Mark N/A any item
 whose feature is absent (no references → skip material mapping).

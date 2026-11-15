@@ -1,10 +1,12 @@
 # Parameter Reference
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
-These historical tables apply only to their exact verified Standard/Premium
-bindings; they are not inherited by Flash, Fast, Mini or unknown variants.
+These historical API snapshots describe named exact bindings, not live
+capability evidence or generic creative defaults. They are not inherited by
+Flash, Fast, Mini or unknown variants. Verify every control, duration, resolution,
+reference count, language and token for the selected operation and destination.
 Preserve the selected model and `dreamina-seedance-2-5-260628` default.
 New operation/transport bindings use [execution profiles](../../../contracts/seedance-execution-profiles.md):
 explicit validity, independent provider/schema-revision expectations,
@@ -30,9 +32,9 @@ Suggest model alternatives only as unselected proposals, never an automatic fall
 
 **MCP tools:** `seedance_2_5_create_task` (submit), `seedance_get_task` (shared 2.0/2.5 poll), `seedance_list_tasks` / `seedance_cancel_or_delete_task` (shared with 2.0).
 
-> The model ID `dreamina-seedance-2-5-260628` is live on BytePlus ModelArk. Confirm the current ID on the [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) before making API calls.
+> Confirm availability of the selected exact ID on the [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) and connected tool before calling. Do not replace it with a newer ID automatically.
 
-### Reference limits
+### Historical 2.5 Standard reference limits
 
 | Material | Max | Recommended |
 |---|---|---|
@@ -41,7 +43,7 @@ Suggest model alternatives only as unselected proposals, never an automatic fall
 | Audio | 10 (combined ≤ 30s) | Only what's directly relevant |
 | **Total** | **50** | — |
 
-### Audio syntax
+### Documented 2.5 audio conventions
 
 | Content | Syntax |
 |---|---|
@@ -50,7 +52,7 @@ Suggest model alternatives only as unselected proposals, never an automatic fall
 | Dialogue | `{}` |
 | Subtitles | `【】` (provider syntax; workspace footage stays text-free, so subtitles are a post layer) |
 
-### Parameter auto-lock summary
+### Historical 2.5 parameter auto-lock summary
 
 | Task | Aspect Ratio | Duration |
 |---|---|---|
@@ -72,15 +74,20 @@ Suggest model alternatives only as unselected proposals, never an automatic fall
 
 ### Reproducibility
 - `seed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool; reproduce a look by reusing the approved prompt and references. Draft promotion reuses the draft's seed.
-- `camera_fixed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool (checked 2026-10-06; `seedance-prompt-20` documents it for the 2.0 REST API), so state a locked camera in the prompt and record its `static_reason`.
+- `camera_fixed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool (checked 2026-10-06; the legacy 2.0 REST snapshot documents it), so state a locked camera in the prompt and record its `static_reason`.
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 
 ### Output duration
-- 4–30s per generation (up from 4–15s in 2.0).
-- Output resolution: 480p, 720p, or 1080p. For 4K output follow the 4K routing in [routing.md](../../../contracts/routing.md): Seedance 2.0 (`dreamina-seedance-2-0-260128`) via `seedance-prompt-20`, or the whitelist-only 2.5 Premium model where enabled.
-- Multi-round extensions up to 180s (beta).
+- Historical `dreamina-seedance-2-5-260628` snapshot: 4-30 s per generation,
+  with 480p, 720p or 1080p output. This is not current operation evidence.
+- A 4K delivery target does not select Seedance 2.0 or Premium. Keep the selected
+  exact ID and target unchanged; verify resolution for that operation and
+  destination. Missing support stays unresolved. Any model change is a
+  caller-authorized proposal, not a routing consequence of resolution.
+- The historical 180 s multi-round extension beta is not a current guarantee;
+  verify each extension's limits and boundary behavior.
 
-### Cost ladder
+### Existing Ark execution policy
 - Draft first, then promote the selected draft (see [Draft mode](#draft-mode)).
   New Seedance 2.5 generations have no skip-draft override.
   Resolve capability or transport conflicts before submission,
@@ -92,18 +99,32 @@ Suggest model alternatives only as unselected proposals, never an automatic fall
   substantially more than the 480p draft; estimate it from the pricing page.
 - Confirm current billing rules on the [Pricing page](https://docs.byteplus.com/en/docs/ModelArk/1544106).
 
-### When to use Seedance 2.0 instead of 2.5
+### Historical 2.0 bindings
 
-Fall back to `seedance-prompt-20` and the 2.0 model (`dreamina-seedance-2-0-260128`) when:
+The retired adapter documented these snapshots. Verify against the selected
+exact ID and current destination; none authorizes a model ladder or fallback.
 
-- You need **4K output resolution** — standard 2.5 caps at 1080p (see the 4K routing in [routing.md](../../../contracts/routing.md)).
-- You need **Fast or Mini speed variants** — 2.5 has no Fast/Mini; 2.0 Fast/Mini are cheaper and faster for prototyping.
-- You need the lowest possible cost per generation for quick iteration.
+| Fact | Legacy snapshot |
+|---|---|
+| Standard output | `dreamina-seedance-2-0-260128`, 4-15 s, 480p through 4K |
+| Fast/Mini output | The exact IDs above, 480p/720p in the snapshot |
+| References | Up to 9 images, 3 videos and 3 audio; audio not alone; combined video/audio each up to 15 s |
+| Native Draft | Not exposed by the legacy MCP tool; ordinary preview is non-promotable |
+| Tool | `seedance_create_task`; `duration` exposed, REST `frames` not inherited |
+| Seed and fixed camera | REST-only in the snapshot, not fields to invent on MCP |
+| Task token | Legacy `extend_video` differs from the 2.5 snapshot's `omni_reference_task_type: extend` |
 
-### Languages
-- 10+ languages supported natively: Chinese, English, Spanish, Indonesian, Malay, Thai, Arabic, Portuguese, Vietnamese, Japanese, Korean.
-- For non-Chinese dialogue, use the dialogue language reinforcement formula.
-- For **Tagalog/Filipino or Taglish** (not in the supported list), compose with the partner skill `seedance-prompt-25-filipino` for pronunciation, intonation, and audio-first pipeline guidance.
+Preserve exact selected models and requested targets. Offer any alternate
+model, resolution or workflow only as an unselected proposal after checking
+current support. Ordinary previews require new reviewed finals; they do not
+gain native promotion by being low resolution.
+
+### Language evidence
+
+Preserve requested language, register and exact dialogue. Do not infer native
+voice, pronunciation or lip-sync support from model-family names or old lists.
+Verify applicable evidence; missing evidence stays unresolved. Market-specific
+delivery guidance remains caller-selected and never proves provider support.
 
 ### Consistency rules
 - Lock character sheets, prop sheets, and scene sheets with Seedream before spending video credits.
@@ -115,10 +136,11 @@ Fall back to `seedance-prompt-20` and the 2.0 model (`dreamina-seedance-2-0-2601
 ### Storyboards are not video inputs
 
 A storyboard grid, board or panel is never bound to a Seedance request
-(`board.animatic_review_only`): panel numbers and the sketch or watercolour
-medium leak into the video, and output-copyright rejections rise. Translate
-the approved board into shot lines and bind the canonical character, location
-and prop references instead.
+under workspace policy (`board.animatic_review_only`). This is not a claim of
+provider incapability or a universal rejection rate. Translate the approved
+board into shot lines and bind the canonical character, location and prop
+references instead. Cropping or redrawing a board does not erase planning origin;
+an independent production still requires its own selection and eligibility.
 
 | Need | Mode | Reference rule |
 |---|---|---|
@@ -134,7 +156,8 @@ approval states in the shot manifest before submission.
 
 ## Draft mode
 
-This section applies to new Seedance 2.5 generations in both review modes.
+This section preserves Ark's existing exact legacy Seedance 2.5 execution policy
+in both review modes. It is not inherited by a newly named family variant.
 
 The Seedance 2.5 tool documents a two-step draft (`draft`, `draft_task_id`;
 checked 2026-10-17). Confirm the current tool schema before relying on it.
@@ -158,9 +181,12 @@ in every review mode, including edits, extensions, probes and variants. If the
 connected tool schema conflicts, resolve the capability evidence, model binding
 or transport; never silently substitute a plain 480p generation.
 
-For other models without native Draft support, use an ordinary 480p paid test
-without an invented `draft` parameter. Its final is a new reviewed request that
-may change picture, timing or audio.
+For a verified non-native operation, take the ordinary preview resolution from
+current exact-model/operation evidence and the caller's policy; do not assume
+480p support from the family name. Preserve existing legacy ordinary-preview
+policy where it applies. Do not invent a `draft` parameter or native promotion.
+An ordinary preview is non-promotable; its final is a new reviewed request that
+may change picture, timing or audio. Unknown preview support remains unresolved.
 
 ## Guide disclaimer
 

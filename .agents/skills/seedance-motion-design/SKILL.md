@@ -23,7 +23,7 @@ description: >
 
 The caller may compose generic creative intent with `seedance-prompt`, preserving
 the selected model. Historical 2.5 stage, reference and six-part examples below
-apply only through a verified selected adapter. The caller owns model/operation
+are conventions; exact-model syntax needs verification. The caller owns model/operation
 review applicability before genre or language, eligibility checks and execution.
 
 Write ready-to-use Seedance 2.5 prompts for motion design and motion
@@ -149,7 +149,8 @@ enter, with the hero claim first and the CTA last.
 ### 4. Write the action beat (direct, don't describe)
 
 Write the *moment the message lands*, not a static description of the layout.
-For each stage, give one primary event, a motive, and a visible end state. A
+For each stage, describe critical ordered events or a sustained state, a motive,
+and a visible outcome. A
 motion-design prompt that reads like a list of "headline appears, chart
 appears, logo appears" is not yet directed — say *why* each element moves and
 what the viewer should conclude when it settles.
@@ -169,9 +170,9 @@ micro-interaction numbers (150–300ms is a UI duration, not a film beat):
 - **Give motion weight.** Anticipate before a settle, settle into a hold, and
   let the fastest element carry the most energy.
 
-For every moving element, write the full motion grammar — motion type,
-direction, speed, amplitude, easing, loop period — not a bare verb (see
-`seedance-prompt-25`, "Motion grammar"). State camera motion explicitly,
+For moving elements, specify the axes needed for readability: motion type,
+direction, speed, amplitude, easing, or loop period only for intended repetition
+(see `seedance-prompt`'s scene-action reference). State camera motion explicitly,
 including when the camera is truly locked-off and only the plates move. A
 generated shot with no camera statement tends to come back as a neutral held
 frame; give each moving shot an active verb, a speed, a start and an end.
@@ -209,7 +210,7 @@ text-lock discipline from drifting across later shots.
 
 The plate classification decides *what* Seedance animates; the mode decides
 *how*. Match synthesized or intentionally non-exact visual plates to one mode
-(grammar via `seedance-prompt-25`). Exact type and UI remain deterministic post
+(grammar via `seedance-prompt`). Exact type and UI remain deterministic post
 layers unless the user explicitly accepts model-driven fidelity risk:
 
 | Plate set | Mode | Notes |
@@ -222,7 +223,7 @@ layers unless the user explicitly accepts model-driven fidelity risk:
 Prefer **one-click video** when the deliverable is a self-contained paced ad from
 a stack of visual plates. Prefer **first/last frame** when only the open and
 close compositions matter and the middle is a continuous, model-driven move.
-Record the chosen mode and ordered roles in `shot.md` (see `seedance-prompt-25`
+Record the chosen mode and ordered roles in `shot.md` (see `seedance-prompt`
 storyboard-to-video handoff).
 
 ## Output formats
@@ -249,7 +250,7 @@ and exclusions.>
 ### Full motion-design prompt
 
 Use when the user asks for a complete Seedance 2.5 prompt. The full-prompt form
-overlays the six-part formula (see `seedance-prompt-25` for the grammar). The
+overlays the six-part formula (see `seedance-prompt` for the grammar). The
 `[Motion Design]` block is this skill's front-matter for the **Subject + Action**
 slot — the message and the moment it lands — plus the attention hierarchy. It is
 **not** the Visual Style slot, which stays lighting → lens → grade → sensor.
@@ -296,12 +297,13 @@ requested.>
 and exclusions.>
 ```
 
-For multi-beat reveals, use `seedance-prompt-25`'s `[Stage N]` grammar (one
-primary event + a clear end state per stage) rather than inventing a shot list.
+For multi-beat reveals, optional `[Stage N]` headings can clarify readable
+ordered events or sustained states. Use shots for cuts, as described in
+`seedance-prompt`'s shot-staging reference; no event-per-stage quota.
 
-Right-size `duration` (4–30s) to the piece and set aspect ratio from the
-delivery format, as parameters rather than prompt sentences. Parameter defaults
-live in `seedance-prompt-25`'s quick reference.
+Preserve creative duration intent and delivery ratio separately from verified
+request controls. Historical parameter snapshots in `seedance-prompt` are not
+generic defaults; the caller checks the selected exact model and operation.
 
 Return the prompt directly. Do not add production workflow, tool selection,
 asset management, approval gates, or generation instructions unless the user
@@ -311,9 +313,9 @@ explicitly asks for them.
 
 This skill is prompt-only. It **never calls generation tools.** It composes:
 
-- **`seedance-prompt-25`** — the six-part formula, `@Image N` reference roles,
+- **`seedance-prompt`** — the six-part formula, `@Image N` reference roles,
   first/last-frame and keyframe grammar, scene staging, timestamps, audio
-  bracket syntax, and generation limitations. This skill references it, it does
+  conventions, and exact-model boundaries. This skill references it, it does
   not re-implement it.
 - **`html-graphic-render`** — author exact text, UI, chart, logo,
   product-layout, and overlay graphics for deterministic finishing.
@@ -326,9 +328,9 @@ This skill is prompt-only. It **never calls generation tools.** It composes:
   intent, light) for footage-led ad and showcase shots.
 - Axis presets (`seedance-camera-presets`, `seedance-lighting-presets`,
   `seedance-pacing-presets`, `seedance-acting-console`) — to word the axes the
-  shot plan assigns or the user names. Do not let two skills fight: exactly one
-  grade per clip, one dominant lighting direction per shot, and 1–2 camera
-  moves per shot.
+  shot plan assigns or the user names. Resolve competing directions without
+  quotas: preserve scoped look changes, motivated light and coherent camera
+  paths selected by the brief.
 
 ## Reference discipline
 
@@ -415,7 +417,7 @@ Before returning the prompt (and before any generation task), verify:
 8. **Reference discipline.** `@Image N` indices are stable, roles are stated,
    and the submitted array matches the bindings 1:1.
 9. **Composition respected.** The skill composes in prose with
-   `html-graphic-render`, `seedance-prompt-25`, `seedream-*`, and
+   `html-graphic-render`, `seedance-prompt`, `seedream-*`, and
    `seed-audio-prompt`; it does not call generation tools.
 10. **The design seal** is compact and does not contradict the treatment or the
    text-lock discipline.
