@@ -13,24 +13,28 @@ exceptions apply unchanged; source performance still needs preservation review.
 
 ## Seedance 2.0
 
-Source skill: `seedance-prompt-20`
+Source skill: `seedance-prompt`
+
+Apply limits and token syntax only with evidence for the selected exact model,
+operation and destination. Legacy headings and `Define` are prompting conventions,
+not mandatory generic grammar. Unknown execution support remains unresolved;
+prompt-only work does not require a generated take.
 
 ### Structure
 
-1. **Section order.** Prompt assembles in this order: Asset preparation → Subject
-   definitions → Prompt (with task type) → Shot 1/2/3 → Quality and constraints.
+1. **Readable structure.** Subject, action, relevant references and preservation
+   scope are clear. Section headings and their order are optional.
 
-2. **Asset preparation first.** References are labeled with `@Image N`, `@Video N`,
-   `@Audio N` (sequential, space separator) before any prompt body.
+2. **Ordered materials.** Typed reference labels map unambiguously to the
+   caller's selected inputs; verify special tokens at the destination.
 
-3. **Reference limits.** ≤ 9 images, ≤ 3 videos, ≤ 3 audio (15 total). Audio cannot
-   be sent alone. Combined video duration ≤ 15s, combined audio duration ≤ 15s.
+3. **Reference limits.** Verify current counts, durations and combinations for
+   the exact binding. Historical 2.0 snapshots are not inherited by variants.
 
 ### Subject definitions
 
-4. **Define keyword.** Uses `Define` keyword with 2-3 stable static features
-   (clothing, hairstyle, appearance, category). Static only — no mutable attributes
-   like expression or pose.
+4. **Stable subjects.** Distinguishing static features identify each subject.
+   Do not use temporary expression or pose as identity; `Define` is optional.
 
 5. **Label reuse.** The same `@Image N` / `@Video N` label is reused in every shot.
 
@@ -41,9 +45,9 @@ Source skill: `seedance-prompt-20`
 7. **Classification.** Each reference is classified as: Visible identity, Visible
    environment, Motion/camera reference, or Control-only reference.
 
-8. **Control-only handling.** Control-only images are preferably translated to text.
-   If kept, labeled as control-only with extraction instructions and visual
-   reproduction prohibition.
+8. **Control-only handling.** Translate planning inputs to text and omit them.
+   Intentional conditioning needs explicit selection, current hashes and
+   supported roles; a label alone grants no permission.
 
 9. **Face restriction.** No direct uploads of real human faces. Uses recent model
    outputs, preset digital characters, or authorized `asset://` portrait
@@ -55,17 +59,16 @@ Source skill: `seedance-prompt-20`
 
 ### Task type declaration
 
-10. **Task type declared.** One of: Multimodal Reference | Video Editing | Video
-    Extension | Combined Tasks.
+10. **Operation clear.** Distinguish new generation, source-preserving editing
+    and extension. Verify any API task token separately.
 
-11. **Edit/extend phrasing.** For edit/extend: uses `@Video 1` directly ("Strictly
-    edit @Video 1..."). Does NOT write "Reference @Video 1" (which triggers
-    multimodal reference mode).
+11. **Edit/extend phrasing.** Identify the sole source master and requested
+    delta or continuation. Wording alone does not select an API operation.
 
 ### Shots
 
-12. **Timeline storyboard.** Uses `Shot 1 / Shot 2 / Shot 3` format. Each shot
-    covers one coherent unit of action.
+12. **Timeline structure.** Shots or optional stages preserve readable ordered
+    actions, reveals or sustained states; no event-per-shot quota.
 
 12a. **Shot plan carried (`shot.plan_bound`, `shot.variety`, `shot.axis_carry`).**
     The Seedance 2.5 shot-plan items (`shot.plan_bound`, `shot.variety`, `shot.axis_carry` in [the 2.5 checklist](checklist-seedance-25.md#shot-plan-and-structure)) apply to a 2.0 prompt: each shot line carries
@@ -73,21 +76,22 @@ Source skill: `seedance-prompt-20`
     light source with its key side. Intentional repeated framing, equal
     durations and sustained holds are valid; no contrast, turn or wow quota.
 
-13. **Per-shot references repeated.** Every shot repeats applicable `@Image N`,
-    `@Video N`, `@Audio N` references inline.
+13. **Per-shot authority.** Each shot's subjects and relevant references remain
+    unambiguous. Repeat critical invariants, not every token mechanically.
 
-14. **Per-shot description order.** (1) Camera movement/transition, (2) Subject
+14. **Optional per-shot description order.** (1) Camera movement/transition, (2) Subject
     actions/expressions, (3) Position/spatial changes, (4) Lighting & color tone,
     (5) Audio.
 
-15. **Coherent camera movement.** Use one or two clear requested movements per
-    shot, with sequence and endpoints; avoid competing simultaneous directions.
+15. **Coherent camera movement.** Preserve requested compound paths and holds
+    with sequence and endpoints; flag competing directions, not move counts.
 
-16. **Complexity budget.** At most 3 major action beats or 4 tightly related shots
-    for 15s generation.
+16. **Feasibility.** Assess travel, contact, recovery and required readability.
+    Missing evidence is unresolved; return concrete contradictions before
+    proposing an authorized timing or coverage change.
 
-17. **Action detail.** Body-part level detail (hands, legs, head, shoulders, back)
-    with range, speed, force.
+17. **Action detail.** Include body parts, range, speed or force where needed for
+    the critical action; incidental mechanics may remain open.
 
 18. **Intent-led energy.** Body speed, amplitude, interruptions and recovery
     follow approved intent and plausible action. No slow-body default or
@@ -157,15 +161,16 @@ Source skill: `seedance-prompt-20`
 33. **Focus.** Prompt is focused; repetition compressed before removing critical
     spatial state.
 
-34. **Beats fit duration.** Requested beats fit the duration or the scene is split.
+34. **Beats fit duration.** Preserve requested timing. A demonstrated conflict
+    returns to the caller; splitting or retiming needs authorization.
 
 ### Revision contract (if revising)
 
 35. **Locked decisions carried.** Approved identity, action, camera, environment,
     audio, boundary behavior carried into revised prompt.
 
-36. **One delta.** Only one of {prompt wording, reference bundle, motion design}
-    changed per retry.
+36. **Requested delta.** Change only authorized attributes. Isolate prompt,
+    reference or motion changes when practical, without imposing a retry quota.
 
 37. **Acceptance criteria.** Observable conditions for the next take to pass are
     stated.

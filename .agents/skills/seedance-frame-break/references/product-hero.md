@@ -42,7 +42,7 @@ order. For a shoe:
 
 Use the views the product actually needs (a bottle needs front and back, not an
 inside profile). Several views of one product follow the multiple-views rule in
-`seedance-prompt-25`.
+`seedance-prompt`.
 
 ## Stage design
 

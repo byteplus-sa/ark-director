@@ -94,9 +94,8 @@ between modalities.
 | Score, ambience, SFX or dialogue audio | `seed-audio-prompt` |
 | Narrative audio commercial | `seed-audio-commercial` |
 | Per-shot coverage, camera, lens intent and light for a scene | `seedance-shot-design` |
-| Seedance 2.5 video prompt | `seedance-prompt-25` |
-| Market-specific video dialogue (for example Filipino or Taglish) | The market's dialogue skill, such as `seedance-prompt-25-filipino`, with `seedance-prompt-25` |
-| Seedance 2.0 video prompt | `seedance-prompt-20` |
+| Seedance video prompt for any selected exact model | `seedance-prompt` |
+| Market-specific video dialogue (for example Filipino or Taglish) | The market's dialogue skill, such as `seedance-prompt-25-filipino`, with `seedance-prompt` |
 | Footage-driven VFX prompt | `seedance-vfx-prompt` |
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
 | Model submission, polling, artifact access, speech-to-text | `ark-mcp` |
@@ -120,10 +119,12 @@ paid video submission and again at assembly. In short:
    Seedance 2.5 video uses boolean `draft: true` and `resolution: "480p"`.
    Select before promotion and
    re-check final audio; edit inputs only before a native Draft.
-2. **Audio route from the brief.** Native dialogue keeps native audio.
-   Ambience-only, score-driven and wordless pieces generate picture with
-   `generate_audio: false` and build the bed in post, because a "no music" line
-   does not reliably hold.
+2. **Audio route from sound ownership.** Requested native dialogue, synced
+   effects or ambience retain native audio when supported, including wordless
+   pieces. Exact supplied masters or explicitly controlled post sound use
+   picture-only generation when supported; purposeful silence adds no bed.
+   Unspecified ownership remains unresolved. Reject unwanted music through
+   listening QA rather than muting requested clicks or room tone.
 3. **Intent-led coverage for ads and TVCs.** Duration and coverage serve
    intended perception. Short sequences, repeated framing, equal durations,
    sustained holds, contrast and wow images are choices, not quotas.

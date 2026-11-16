@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Prompt"
+  short_description: "2.5-based Seedance prompts, edits and extensions"
+  default_prompt: "Use $seedance-prompt for 2.5-based composition, reference guidance, source-preserving edits or extensions while preserving the selected exact model and source locks."

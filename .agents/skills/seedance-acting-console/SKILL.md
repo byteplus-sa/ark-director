@@ -5,13 +5,18 @@ description: Encode supplied performance intent as Seedance cues. Use for acting
 
 # Seedance Acting Console
 
+The caller may compose generic creative cues with `seedance-prompt`, preserving
+the selected model and all performance locks. The six-part and brace examples
+below are historical 2.5 adapter syntax, not family requirements. The caller
+owns verified syntax translation, model/operation review applicability and execution.
+
 Translate caller-supplied performance intent into concise, shot-ready
 intent/trigger/response cues. Keep scene interpretation in the performance
 plan; do not repeat it in every prompt.
 
 This skill is **prompt-composition only**. It never generates media, invokes
 sibling skills, changes production state or approves a take. The caller owns
-composition with `acting-direction`, `seedance-prompt-25` and any requested
+composition with `acting-direction`, `seedance-prompt` and any requested
 audio workflow.
 
 ---
@@ -220,7 +225,7 @@ Dialogue language: English. B says as a quiet invitation: {There is one corner l
 
 For the full scene prompt, the caller places this block in the six-part formula
 (Subject + Action + Scene + Visual Style + Camera + Audio) as the subject/action
-section, per `seedance-prompt-25`.
+section, per `seedance-prompt`.
 
 ---
 

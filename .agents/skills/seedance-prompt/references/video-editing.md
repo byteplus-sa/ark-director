@@ -1,6 +1,6 @@
 # Video Editing
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
 - [Video editing](#video-editing)
@@ -8,16 +8,26 @@ mode selection and caller responsibilities.
 ## Video editing
 
 When editing, first define the source video as the **sole editing master**, then
-specify edit target, scope, target material, and content to preserve. The output
-preserves the input's aspect ratio and approximately preserves duration (±0.3s
-from transition-frame handling).
+specify edit target, scope, target material, and content to preserve. These
+2.5-based templates are prompting conventions; output fidelity and parameter
+locks require evidence for the exact model, operation and destination.
 
-A source clip that shows people is accepted only when those people are
-`asset://` Virtual Portrait assets. Outside an explicit audio edit, submit a
-muted source (`generate_audio: false`) and add original or new sound in post,
-per the workspace video-to-video contract. Narrower edit families have their own
-skills: compose with `seedance-object-swap`, `seedance-motion-recast` or
-`seedance-restyle` when the request is one of those.
+Preserve the complete source, including fractional duration, original audio tail,
+event order and boundary frames. No trimming, rounding, padding, retiming or
+probe is authorized by an edit request. A historical approximate-duration
+tolerance does not override locked timing. Unknown support blocks execution,
+not a prompt-only draft; return conflicts to the caller.
+
+The caller retains the workspace video-to-video policy: a muted submission
+source and separately restored original or explicitly authorized new sound,
+outside a selected audio-edit operation. Muting a source is separate from an
+output `generate_audio` control. Neither is permission to discard the audio
+master. Verify applicable face, likeness and voice authorization independently;
+never disguise a person or reuse a pending asset.
+
+Narrower edit families retain their own skills: the caller may select
+`seedance-object-swap`, `seedance-motion-recast` or `seedance-restyle`.
+This leaf does not load them, upload references, prepare media or submit.
 
 ### General editing pattern
 
@@ -96,8 +106,11 @@ area, keep all other content from @Video 1 unchanged.
 
 ### Audio editing
 
-Dialogue, language, voice, background music, and sound effects can be edited
-**separately** from visuals.
+When the selected operation supports it, describe edits to dialogue, language,
+voice, music or effects separately from visuals. Preserve every unselected
+sound layer, exact words and timing; language or voice changes require explicit
+scope and applicable rights. The following are hypothetical instructions, not
+guarantees of isolated audio editing or lip synchronization.
 
 ```
 Edit @Video 1. Remove only the original background music. Keep the character dialogue, lip sync,

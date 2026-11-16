@@ -1,6 +1,15 @@
 {
   "schema_version": 1,
   "skills": {
+    "seedance-prompt": {
+      "kind": "leaf",
+      "description": "Write and refine Seedance video prompts, including reference, edit and extension briefs. Use for any Seedance model. Do not use for image prompts, media execution or account setup.",
+      "readme_summary": "Compose Seedance prompts with 2.5-based conventions for any selected exact model, including reference-guided shots, source-preserving edits and extensions, with focused action, staging, audio, keyframe and repair guidance.",
+      "dependencies": [],
+      "source_revision": "workspace",
+      "upstream_hash": null,
+      "overlay_notes": "Consolidated general prompt capability with 2.5-based conventions and useful 2.0 continuity practices; exact defaults, runtime capability gates, Ark policy and specialist skills remain unchanged."
+    },
     "acting-direction": {
       "kind": "leaf",
       "description": "Direct character objectives, tactics, listening and performance beats. Use for scene acting, dialogue delivery or flat performances. Not for generation or model-specific cue encoding.",
@@ -111,7 +120,7 @@
     },
     "blender-to-seedance": {
       "kind": "orchestrator",
-      "description": "End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. Builds a graybox previz in Blender (primitives, color-coded proxies, spline camera), renders it to a 24fps MPEG-4 viewport-style clip, uploads it, and submits a video-to-video task where the previz is the locked motion and camera master and the prompt only dresses the world (characters, locations, materials, style). Composes the blender-* skills (build), seedance-prompt-25 blockout grammar (prompt), ark-mcp (submit/poll/download), and seedance-vfx-pipeline's save/manifest pattern. This is an orchestrator skill: it delegates the build to the blender-* skills, the grammar to seedance-prompt-25, submission to ark-mcp, and stage review to the project's Studio project. Use whenever the user wants to direct a shot from 3D \u2014 \"blockout to video\", \"graybox previz to Seedance\", \"3D to Seedance\", \"previz the camera then render\", \"Blender blocking to Seedance\" \u2014 or wants camera, cuts, and timing locked down before spending video credits.",
+      "description": "End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video. Builds a graybox previz in Blender (primitives, color-coded proxies, spline camera), renders it to a 24fps MPEG-4 viewport-style clip, uploads it, and submits a video-to-video task where the previz is the locked motion and camera master and the prompt only dresses the world (characters, locations, materials, style). Composes the blender-* skills (build), seedance-prompt blockout grammar (prompt), ark-mcp (submit/poll/download), and seedance-vfx-pipeline's save/manifest pattern. This is an orchestrator skill: it delegates the build to the blender-* skills, the grammar to seedance-prompt, submission to ark-mcp, and stage review to the project's Studio project. Use whenever the user wants to direct a shot from 3D \u2014 \"blockout to video\", \"graybox previz to Seedance\", \"3D to Seedance\", \"previz the camera then render\", \"Blender blocking to Seedance\" \u2014 or wants camera, cuts, and timing locked down before spending video credits.",
       "readme_summary": "End-to-end pipeline that turns a Blender blockout into a Seedance 2.5 video.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -273,7 +282,7 @@
     },
     "seedance-frame-break": {
       "kind": "leaf",
-      "description": "Write and QA Seedance 2.5 prompts for the frame-break pop-out effect (3D billboard look): two solid black bars at the top and bottom of a 16:9 frame with the subject's nearest limbs or clothing drawn in front of the bars in full colour, so the subject bursts toward the viewer. Covers the three-layer prompt contract, four timed stages with observable End states, a fixed camera, scenic backdrops, a product-hero variant, failure repairs and a frame-based pixel check of bar thickness and overlap. Use for pop-out, frame-break, 3D billboard, a character bursting out of black bars, or a product hero ad whose product breaks the frame. Not for ordinary cinematic letterbox, general camera moves (seedance-camera-presets), the base prompt grammar (seedance-prompt-25), edits to existing footage, or task submission.",
+      "description": "Write and QA Seedance 2.5 prompts for the frame-break pop-out effect (3D billboard look): two solid black bars at the top and bottom of a 16:9 frame with the subject's nearest limbs or clothing drawn in front of the bars in full colour, so the subject bursts toward the viewer. Covers the three-layer prompt contract, four timed stages with observable End states, a fixed camera, scenic backdrops, a product-hero variant, failure repairs and a frame-based pixel check of bar thickness and overlap. Use for pop-out, frame-break, 3D billboard, a character bursting out of black bars, or a product hero ad whose product breaks the frame. Not for ordinary cinematic letterbox, general camera moves (seedance-camera-presets), the base prompt grammar (seedance-prompt), edits to existing footage, or task submission.",
       "readme_summary": "Write and QA Seedance 2.5 frame-break pop-out prompts where the subject is drawn over two fixed black bars, with a locked camera, staged break-outs, a product-hero variant, failure repairs and an all-frames pixel check of bar motion and overlap.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -282,7 +291,7 @@
     },
     "seedance-graybox-world": {
       "kind": "leaf",
-      "description": "Write Seedance 2.5 prompts for the Blender gray look \u2014 an untextured gray graybox / blockout 3D world with matcap-style shading, ambient-occlusion depth, a neutral gray viewport background, and clean mechanical motion, like Blender's Solid viewport or Material Preview on default gray materials. Use whenever the user asks for a \"Blender-like world\", \"gray world\", graybox, blockout, untextured 3D, previs or previz look, whitebox, layout pass, matcap gray, neutral gray studio, or a video that must look like a default Blender viewport render \u2014 even if they never say \"graybox\". Use only when gray IS the desired final look; when the user wants a coarse or fine blockout reference to re-render into final materials, use seedance-prompt-25's blockout-reference mode instead.",
+      "description": "Write Seedance 2.5 prompts for the Blender gray look \u2014 an untextured gray graybox / blockout 3D world with matcap-style shading, ambient-occlusion depth, a neutral gray viewport background, and clean mechanical motion, like Blender's Solid viewport or Material Preview on default gray materials. Use whenever the user asks for a \"Blender-like world\", \"gray world\", graybox, blockout, untextured 3D, previs or previz look, whitebox, layout pass, matcap gray, neutral gray studio, or a video that must look like a default Blender viewport render \u2014 even if they never say \"graybox\". Use only when gray IS the desired final look; when the user wants a coarse or fine blockout reference to re-render into final materials, use seedance-prompt's blockout-reference mode instead.",
       "readme_summary": "Writes Seedance 2.5 prompts for the Blender gray look \u2014 an untextured gray graybox/blockout 3D world with matcap-style shading, ambient-occlusion depth, and a neutral gray viewport background, like Blender's Solid viewport. Use when gray IS the desired final look, not just a previs reference.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -292,7 +301,7 @@
     "seedance-lens-presets": {
       "kind": "leaf",
       "description": "Turns a lens, focal length, aperture, focus or sensor request into a canonical visible-result phrase for Seedance 2.5 prompts or the Seedream style. Trigger words: lens, focal length, 35mm, 50mm, 85mm, wide angle, telephoto, anamorphic, fisheye, macro, aperture, f-stop, f/1.4, depth of field, bokeh, shallow DOF, deep focus, rack focus, focus pull, or a lens intent from a shot plan. Keep optical look separate from supported output parameters; preserve the selected model and send unresolved resolution needs to the caller rather than switching models automatically.",
-      "readme_summary": "Translates a lens, focal length, aperture, focus or sensor request into a canonical visible-result phrase for Seedance prompts or Seedream style, and routes unreliable focus pulls and tape looks to post.",
+      "readme_summary": "Translate lens, focus and sensor intent into visible-result phrases, preserving locks and scoped uncertainty; post alternatives require authorization.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -309,8 +318,8 @@
     },
     "seedance-motion-design": {
       "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 motion-design and motion-graphics prompts for marketing deliverables \u2014 launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers. Exact words, numbers, charts, logos, and UI are authored as deterministic HTML-entrypoint graphics for post-composited fidelity; Seedream supplies only synthesized image layers and Seedance supplies text-free footage or intentionally non-exact plate motion. Use whenever the user asks for motion design, motion graphics, kinetic typography, a logo reveal, product motion, an explainer video, an animated data story, or any text/graphic-driven marketing motion. Composes in prose with html-graphic-render for exact static graphics, seedance-prompt-25 for the six-part formula, seedream-prompt or seedream-storyboard for synthesized image/keyframe layers, and seed-audio-prompt for voice/music. Does not call the API itself.",
-      "readme_summary": "Write Seedance 2.5 motion-design prompts while routing exact typography and UI to deterministic post graphics and synthesized visual layers to Seedream.",
+      "description": "Write production-grade Seedance motion-design and motion-graphics prompts for marketing deliverables \u2014 launch videos, motion-on-footage explainers, hypermotion product ads, 3D flythroughs, 2D explainers, editorial explainers, logo reveals, kinetic type, product motion, and data-driven explainers. Exact words, numbers, charts, logos, and UI are authored as deterministic HTML-entrypoint graphics for post-composited fidelity; Seedream supplies only synthesized image layers and Seedance supplies text-free footage or intentionally non-exact plate motion. Use whenever the user asks for motion design, motion graphics, kinetic typography, a logo reveal, product motion, an explainer video, an animated data story, or any text/graphic-driven marketing motion. Composes in prose with html-graphic-render for exact static graphics, seedance-prompt for creative text, seedream-prompt or seedream-storyboard for synthesized image/keyframe layers, and seed-audio-prompt for voice/music. Does not call the API itself.",
+      "readme_summary": "Write model-neutral motion-design prompts, separating planning-only boards, eligible clean keyframes and deterministic exact graphics.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -318,7 +327,7 @@
     },
     "seedance-music-video": {
       "kind": "orchestrator",
-      "description": "Write Seedance 2.5 music-video prompts from a song, artist brief, or requested format. Map song sections, beat density, performer intent, camera, lyric timing, native versus supplied audio, and natural scene duration into the six-part formula. Cover rap, dance, performance, narrative, abstract, vertical, and custom formats. Use for song-driven visual direction, lyric/performance videos, or music-video revisions. This prompt-only leaf does not generate media; the caller composes only requested specialist axes and owns review and submission.",
+      "description": "Write Seedance music-video prompts from a song, artist brief, or requested format. Map song sections, beat density, performer intent, camera, lyric timing, native versus supplied audio, and natural scene duration into the six-part formula. Cover rap, dance, performance, narrative, abstract, vertical, and custom formats. Use for song-driven visual direction, lyric/performance videos, or music-video revisions. This prompt-only leaf does not generate media; the caller composes only requested specialist axes and owns review and submission.",
       "readme_summary": "Develop track-informed music-video treatments with intentional escalation, restraint, repetition or counterpoint and optional evidence-based synchronization.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -333,24 +342,6 @@
       "source_revision": "workspace",
       "upstream_hash": null,
       "overlay_notes": null
-    },
-    "seedance-prompt-20": {
-      "kind": "leaf",
-      "description": "Write and revise Seedance 2.0 video prompts, the legacy model used for 4K output and the Fast/Mini speed variants: asset preparation within the 2.0 reference limits, Define subject definitions, task-type declaration, shot-by-shot sequencing with inline reference binding, spatial continuity for chase or action blocking, native audio, and inline constraints. Use for Seedance 2.0 prompts, shot lists, 4K or Fast/Mini requests, and corrections to 2.0 generations. For Seedance 2.5 prompts, use seedance-prompt-25 instead.",
-      "readme_summary": "Legacy Seedance 2.0 prompt skill. Use when you need 4K output (unsupported by 2.5), Fast/Mini speed variants, or lower cost per generation. Provides reference-role classification, subject definitions, spatial continuity, shot sequencing, and native audio direction.",
-      "dependencies": [],
-      "source_revision": "workspace",
-      "upstream_hash": null,
-      "overlay_notes": null
-    },
-    "seedance-prompt-25": {
-      "kind": "leaf",
-      "description": "Write production-grade Seedance 2.5 video prompts with the flexible six-part formula, per-shot camera, lens and light lines, 50-material multimodal referencing, variable-duration scene staging (4-30s), timestamp pacing and dialogue timing, structured video editing (subject replacement, background replacement, audio editing), forward and backward video extension, keyframe sequences, coarse and fine blockout references, one-click video, seamless transitions, audio bracket syntax, dialogue language reinforcement, emotional direction, camera language, and review-mode-aware request packaging. Use this skill for Seedance 2.5 prompts, multi-reference asset orchestration, scene staging, video editing, extension, and corrections to generated motion or continuity. For legacy Seedance 2.0 prompts, 4K output through 2.0, or the Fast/Mini speed variants, use seedance-prompt-20; whitelist-only 2.5 Premium (4K) uses this skill.",
-      "readme_summary": "Write production-grade Seedance 2.5 video prompts with the six-part formula, per-shot camera, lens and light, multimodal references, 4-30 s scene staging, dialogue timing, video editing and extension, keyframes, blockouts and review-mode-aware request packaging.",
-      "dependencies": [],
-      "source_revision": "workspace",
-      "upstream_hash": null,
-      "overlay_notes": "Portability overlay: preserve current-brief language, market, identity and project scope; remove prior-run assumptions and keep explicit localization examples opt-in."
     },
     "seedance-prompt-25-filipino": {
       "kind": "leaf",
@@ -489,7 +480,7 @@
     },
     "byteplus-katana": {
       "kind": "leaf",
-      "description": "Plan a reference video edit rebuilt with the user's own characters, products or clothing. Measures the reference into an edit decision list (shot order, cut times, cut driver: beat, speech, action or none, motion inventory, text), maps up to five assets to slots, and routes each segment by what it shows: live-action footage becomes kept, recast or generated shots; posed cutouts, cards and graphics become HyperFrames layers; exact type stays deterministic. Scales shots to the reference and tracks per-segment refinements. Use for \"make this edit with my product\" in any format: fashion lookbooks, product launches, food, travel montages, talking-head explainers, music-led hero and aura-farming edits. Planning only. Not for style recipes (template-factory), recasting one clip (seedance-motion-recast), one-element swaps (seedance-object-swap) or single shot prompts (seedance-prompt-25).",
+      "description": "Plan a reference video edit rebuilt with the user's own characters, products or clothing. Measures the reference into an edit decision list (shot order, cut times, cut driver: beat, speech, action or none, motion inventory, text), maps up to five assets to slots, and routes each segment by what it shows: live-action footage becomes kept, recast or generated shots; posed cutouts, cards and graphics become HyperFrames layers; exact type stays deterministic. Scales shots to the reference and tracks per-segment refinements. Use for \"make this edit with my product\" in any format: fashion lookbooks, product launches, food, travel montages, talking-head explainers, music-led hero and aura-farming edits. Planning only. Not for style recipes (template-factory), recasting one clip (seedance-motion-recast), one-element swaps (seedance-object-swap) or single shot prompts (seedance-prompt).",
       "readme_summary": "Plans a reference edit rebuilt with your own characters, products or clothing: measured edit list with a cut driver per segment (beat, speech, action or none), routing by what each segment shows (layers, kept, recast, generated or dialogue footage), setups scaled to the reference, a code-built type layer and per-segment refinement.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -615,7 +606,7 @@
     },
     "ugc-motion-presets": {
       "kind": "leaf",
-      "description": "Turn a named UGC motion preset into a canonical Seedance 2.5 prompt block. Use when the user names one of the 45 presets (Atomic, Outfit Switch, Eating Zoom, Group Photo, Yacht, ...) or asks for preset-style UGC motion \u2014 reaction, selfie, fashion, eating, VFX spectacle, action, timelapse, or multi-shot formats. Persuasion angle, claims, and CTA belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt-25. Presets with a locked-off camera block record `format_static_by_design`; multi-shot presets take a shot plan. Never generates media.",
+      "description": "Turn a named UGC motion preset into a canonical Seedance 2.5 prompt block. Use when the user names one of the 45 presets (Atomic, Outfit Switch, Eating Zoom, Group Photo, Yacht, ...) or asks for preset-style UGC motion \u2014 reaction, selfie, fashion, eating, VFX spectacle, action, timelapse, or multi-shot formats. Persuasion angle, claims, and CTA belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt. Presets with a locked-off camera block record `format_static_by_design`; multi-shot presets take a shot plan. Never generates media.",
       "readme_summary": "Turn a named UGC motion preset (Atomic, Outfit Switch, Eating Zoom, Yacht, ...) into a canonical Seedance 2.5 prompt block with reference bindings, duration, and constraint flags.",
       "dependencies": [],
       "source_revision": "workspace",
@@ -625,7 +616,7 @@
     "seedance-ai-avatar": {
       "kind": "orchestrator",
       "description": "Build a reusable AI avatar (digital twin) of a consenting real presenter and generate lip-synced Seedance 2.5 talking-head takes of them saying new lines. Covers the consent and real-likeness policy gates with provenance, verified photo collection, a Seedream identity character sheet, voice-timbre clip isolation from the presenter's own video (VOD voice separation), locked 1:1 and 9:16 camera-beat talking-head prompt templates, and take QA (identity, transcript diff, lip-sync, voice resemblance). Never disguises or reroutes inputs after a provider privacy rejection. Use when the user wants an AI avatar, digital twin, or voice clone of a creator, host, founder, or spokesperson speaking a new script in Seedance. Pair with seedance-avatar-news for the full news-short edit.",
-      "readme_summary": "Authorized real-presenter AI avatar: consent gate, Seedream character sheet, isolated voice clip, sheet-only lip-synced Seedance talking-head takes and QA.",
+      "readme_summary": "Authorized real-presenter avatar planning with independent consent, policy and Active face/voice asset gates; raw sheets and voice clips remain onboarding/QA material.",
       "dependencies": [],
       "source_revision": "workspace",
       "upstream_hash": null,
@@ -696,7 +687,7 @@
     },
     "seedance-effects-studio": {
       "kind": "orchestrator",
-      "description": "Orchestrator. Offer a menu of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and grab and more), let the user pick one, inspect their photo or clip, write that effect's Seedance 2.5 prompt from its recipe, apply mode-appropriate preflight, submit through ark-mcp, and inspect and select the take under approval_mode. Both review modes retain native Draft-first generation; strict adds detailed review. Sequences seedance-prompt-25, optional prompt-review, ark-mcp, seedance-restyle (video-to-video effects), the Studio project and the post tools named in each recipe. Use when the user wants a named visual effect applied to their own photo, product or clip, or asks what effects are available. Not for free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the menu (seedance-restyle), or multi-scene films (film-production).",
+      "description": "Orchestrator. Offer a menu of 45 named video effects (street colossus, incline, clones, melting, world morphing, eyes in, bullet time, earth zoom, smash and grab and more), let the user pick one, inspect their photo or clip, write that effect's Seedance 2.5 prompt from its recipe, apply mode-appropriate preflight, submit through ark-mcp, and inspect and select the take under approval_mode. Both review modes retain native Draft-first generation; strict adds detailed review. Sequences seedance-prompt, optional prompt-review, ark-mcp, seedance-restyle (video-to-video effects), the Studio project and the post tools named in each recipe. Use when the user wants a named visual effect applied to their own photo, product or clip, or asks what effects are available. Not for free-form prompts (seedance-prompt), whole-clip restyles that are not on the menu (seedance-restyle), or multi-scene films (film-production).",
       "readme_summary": "Select a named effect recipe for the current source, preserve observed identity and wardrobe, and validate supported generation in the owning project's workflow.",
       "dependencies": [],
       "source_revision": "workspace",

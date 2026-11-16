@@ -50,6 +50,13 @@
         "Each generated clip states its camera and a named light source.",
         "The response returns prompts rather than an unrelated production workflow."
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "Use these approved storyboard panels as first and last frames for an exact branded UI reveal. One separately authored clean keyframe is selected but its hash and role combination are not verified.",
+      "expected_output": "Rejects storyboard panels, crops, grids and animatics as conditioning. Keeps the clean keyframe unresolved until explicit selection, current hash and supported ordered role combination are verified. Exact UI, copy and logo stay deterministic finishing layers.",
+      "files": [],
+      "expectations": ["Board approval never makes a board a generation reference.", "A clean keyframe is not automatically eligible."]
     }
   ]
 }

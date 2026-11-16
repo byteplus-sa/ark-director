@@ -94,7 +94,7 @@ substitute a different craft framework.
 | `seedance-shot-design` | Shot IDs, durations, size, angle, move, lens intent, named light sources and locks | Visibility needs, action windows and proposed coverage changes for its owner to resolve |
 | `seedance-acting-console` | Supplied tactic and framing-readable cue block | Beat triggers and visible reaction channels; no replacement emotion template |
 | `blocking-map` | Actor-to-mark mapping, facing, paths, crops, obstacles and camera axis | Start/end geometry and occlusion questions, not a reference attachment |
-| `seedance-prompt-25` | Prompt operation, subject bindings, approved shot facts and locked audio context | One action block per shot/stage, state invariants and observable acceptance criteria for its six-part grammar |
+| `seedance-prompt` | Prompt operation, subject bindings, approved shot facts and locked audio context | One action block per shot/stage, state invariants and observable acceptance criteria for its six-part grammar |
 
 Keep supplied actor IDs stable across all contracts. Diagram letters are text
 handles, not wardrobe, on-screen text or newly approved identities.
@@ -108,7 +108,7 @@ Use the compact record in the choreography contract. Always return:
 3. Paste-ready action text grouped by existing shot or stage. Describe each
    action once, carry the selected medium, and retain supplied dialogue
    verbatim when included. Leave final reference tokens, parameter packaging
-   and audio grammar to `seedance-prompt-25`.
+   and audio grammar to `seedance-prompt`.
 4. Text QA findings and caller acceptance checks, with evidence limits.
 
 For a repair, identify the failed beat, its prior state and the smallest

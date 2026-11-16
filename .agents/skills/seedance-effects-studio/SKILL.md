@@ -7,11 +7,11 @@ description: >-
   effect's Seedance 2.5 prompt from its recipe, apply mode-appropriate preflight,
   submit through ark-mcp, and inspect and select the take under approval_mode.
   Both review modes retain native Draft-first generation; strict adds detailed
-  review. Sequences seedance-prompt-25, optional prompt-review, ark-mcp,
+  review. Sequences seedance-prompt, optional prompt-review, ark-mcp,
   seedance-restyle (video-to-video effects), the Studio project and the post tools
   named in each recipe. Use when the user wants a named visual effect applied to
   their own photo, product or clip, or asks what effects are available. Not for
-  free-form prompts (seedance-prompt-25), whole-clip restyles that are not on the
+  free-form prompts (seedance-prompt), whole-clip restyles that are not on the
   menu (seedance-restyle), or multi-scene films (film-production).
 ---
 
@@ -36,7 +36,7 @@ name, match it to the nearest entry or say that none fits.
 | Need | Use | Why not this skill |
 | --- | --- | --- |
 | A named effect on the user's photo, product or clip | this skill | Menu entry exists |
-| A custom prompt with no named effect | `seedance-prompt-25` | No recipe to fill |
+| A custom prompt with no named effect | `seedance-prompt` | No recipe to fill |
 | Redraw a whole clip in a medium that is not a menu entry | `seedance-restyle` | The four restyle effects here delegate to it |
 | Swap one element in a kept take | `seedance-object-swap` | Edit, not an effect |
 | Multi-scene film or ad | `film-production` | Studio project, stage gates and canon, not one effect |
@@ -173,7 +173,7 @@ extra generation scope or permission to replace user locks.
    Count people, objects and copies that the recipe states by number. Name hands
    by anatomy and frame side. Describe unlabeled props positively with no
    invented lettering.
-5. **Compose.** Take the recipe's prompt template with `seedance-prompt-25`
+5. **Compose.** Take the recipe's prompt template with `seedance-prompt`
    grammar (six-part formula, `@Image N` role line, `At Ns` timestamps, audio
    brackets). Keep the template's mechanics intact; change only slot values and
    fix sentence logic broken by a slot. Write the roles and parameters from the

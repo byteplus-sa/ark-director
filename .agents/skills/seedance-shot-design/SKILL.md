@@ -17,6 +17,12 @@ description: >-
 
 # Seedance Shot Design
 
+The caller may compose shot facts with `seedance-prompt`, preserving the selected
+model, shot count, camera and performance locks. The caller owns verified adapter
+syntax, model/operation review applicability before genre or language, and execution.
+Historical 2.5 focus and light observations are not a family prohibition or
+timing guarantee. Post repairs and extra probes require separate authorization.
+
 A shot plan makes the camera and light choices explicit for each beat, one shot at a
 time, before the prompt is written. It is planning only: it never calls a tool,
 never generates media, and never replaces the grammar owned by the prompt
@@ -59,7 +65,7 @@ requests for feasibility without forcing a cut at every generation boundary.
 | Dramatic structure of the scene | `scene-craft` |
 | Performance intentions, triggers and listening | `acting-direction`; consume the supplied plan |
 | Readable fight exchanges and actor/prop states | `seedance-fight-choreography`; consume its ledger |
-| Six-part formula, per-shot prompt block, references, audio syntax | `seedance-prompt-25` |
+| Generic creative text; caller-owned verified adapter syntax | `seedance-prompt` |
 
 These are prose pointers for the calling agent. This skill decides *which*
 choices a shot needs; the preset skills decide *how* each one is worded.
@@ -152,9 +158,9 @@ framing or timing locks instead of silently changing them.
    an angle, a move with start and end, a lens intent as a visible result, and
    depth layers when useful. Dialogue coverage follows the intended interaction,
    not a low-energy default; keep required speech and performance readable.
-   Plan an attention shift inside one frame with staging or a move, not a
-   prompted rack focus: Seedance drafts keep a face sharp, so a focus pull away
-   from a face is added in post (see the lens preset skill).
+   Preserve an attention shift's requested focus plane and endpoints. Historical
+   face-sharp bias is a scoped uncertainty, not permission to replace a locked
+   focus pull with staging, a move, a cut or unauthorized post work.
 6. **Review the variety guidance below** against the performance intent and
    record reasons for deliberate holds or repetition. Flag a turn only when
    the approved scene has one; never invent a turn to complete the record.
@@ -162,8 +168,8 @@ framing or timing locks instead of silently changing them.
    may retain or change which side of a source the camera sees. A motivated event
    adds or removes a source (a door opens, a lamp is switched on, the room lights go
    out). A light cue may land inside a shot, even during a move, when the plan
-   records its time and trigger; a timed cue tends to land close to its
-   stated time. A shot never invents a source or a cue the
+   records its time and trigger; actual timing requires playback evidence
+   for the selected model and operation. A shot never invents a source or a cue the
    scene did not declare. Silhouette may accompany speech when facial evidence
    is not required; otherwise preserve the required face and lip readability.
 8. **Write the plan** per [shot plan format](references/shot-plan-format.md).
@@ -234,8 +240,8 @@ Before returning a plan, confirm:
    do not impose a 0.8 s minimum or promise frame-accurate prompting.
 7. Dynamic spots may use about 5 s sequences of 2-3 shots with a memorable
    image; sustained performance is not split merely to satisfy that pattern.
-8. No shot relies on a prompted focus pull away from a face; that defocus is
-   planned for post.
+8. Requested focus pulls preserve intent; historical limitations are scoped.
+   Any post defocus repair remains an unselected proposal requiring authorization.
 9. The plan names where it is stored and which prompt carries it.
 
 Worked cases are hypothetical teaching repairs in

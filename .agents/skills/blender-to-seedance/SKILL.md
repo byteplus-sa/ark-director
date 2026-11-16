@@ -6,11 +6,11 @@ description: >
   camera), renders it to a 24fps MPEG-4 viewport-style clip, uploads it, and
   submits a video-to-video task where the previz is the locked motion and camera
   master and the prompt only dresses the world (characters, locations, materials,
-  style). Composes the blender-* skills (build), seedance-prompt-25 blockout
+  style). Composes the blender-* skills (build), seedance-prompt blockout
   grammar (prompt), ark-mcp (submit/poll/download), and
   seedance-vfx-pipeline's save/manifest pattern. This is an orchestrator skill:
   it delegates the build to the blender-* skills, the grammar to
-  seedance-prompt-25, submission to ark-mcp, and stage review to the
+  seedance-prompt, submission to ark-mcp, and stage review to the
   project's Studio project. Use whenever the user wants to
   direct a shot from 3D — "blockout to video", "graybox previz to Seedance",
   "3D to Seedance", "previz the camera then render", "Blender blocking to
@@ -59,7 +59,7 @@ flowchart LR
 Do **not** use when:
 
 - The gray *is* the final look → `seedance-graybox-world`.
-- It's a plain T2V/I2V shot with no 3D preplan → `seedance-prompt-25`.
+- It's a plain T2V/I2V shot with no 3D preplan → `seedance-prompt`.
 - The source is already finished footage needing a VFX edit → `seedance-vfx-pipeline`.
 
 ## Steps
@@ -131,7 +131,7 @@ Before writing any prompt:
 
 ### 4. Write the prompt
 
-Compose the grammar with `seedance-prompt-25` blockout mode, then apply the
+Compose the grammar with `seedance-prompt` blockout mode, then apply the
 **video-lock contract** in [Prompt contract](references/prompt-contract.md).
 Generate DUMMY MAPPING and MOTION ACCEPTANCE from the current validated
 manifest. The prompt's job is to dress the world, never to re-choreograph it.

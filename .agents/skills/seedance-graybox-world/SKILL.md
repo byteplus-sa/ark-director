@@ -11,7 +11,7 @@ description: >
   Blender viewport render — even if they never say "graybox". Use only when
   gray IS the desired final look; when the user wants a coarse or fine
   blockout reference to re-render into final materials, use
-  seedance-prompt-25's blockout-reference mode instead.
+  seedance-prompt's blockout-reference mode instead.
 ---
 
 # Seedance Graybox World
@@ -34,7 +34,7 @@ HDRI gray lighting):
 - https://docs.blender.org/manual/en/latest/editors/3dview/display/shading.html
 - https://docs.blender.org/manual/en/latest/editors/3dview/display/shading.html#material-preview-mode
 
-The prompt grammar lives in the partner skill `seedance-prompt-25` (six-part
+The prompt grammar lives in the partner skill `seedance-prompt` (six-part
 formula: Subject + Action + Scene + Visual Style + Camera + Audio). Compose with
 it when writing a full prompt; this skill supplies the graybox look block only.
 
@@ -62,7 +62,7 @@ One material system, everywhere:
   no skin, hair, facial features, or gendered clothing. Character reads through
   posture, gait, and motion only, never anatomy or costume.
 
-This is the inverse of the `seedance-prompt-25` **blockout reference** modes
+This is the inverse of the `seedance-prompt` **blockout reference** modes
 (coarse and fine), where gray geometry is a reference you re-render into final
 materials. Here, gray **is** the final look, not an input to be replaced.
 
@@ -235,9 +235,10 @@ Choose only what makes the gray readable:
 
 ### 6. Structure the sequence
 
-Compose with the `seedance-prompt-25` stage structure. Give each stage one primary event
-and a visible end state. Right-size the duration (4–30s) to the action; do not
-pad to fill 30s. For revisions, use a revision contract (locked decisions / requested delta / acceptance criteria).
+The caller can use `seedance-prompt`'s optional stages for readable ordered
+events or sustained states and observable outcomes. Preserve intended timing;
+verify exact-model duration separately and do not pad to a presumed maximum.
+For revisions, use a revision contract (locked decisions / requested delta / acceptance criteria).
 
 ### 7. End with a gray seal
 
@@ -277,7 +278,7 @@ neutral gradient, flat faces stay uniform.
 ### Full prompt
 
 Use when the user asks for a complete Seedance prompt. Compose with the
-`seedance-prompt-25` six-part formula; the gray look lives in the Visual Style
+`seedance-prompt` six-part formula; the gray look lives in the Visual Style
 slot:
 
 ```text
@@ -285,8 +286,8 @@ slot:
 <Subject> performs <primary action or event>.
 
 [Stage Plan]
-Stage 1 (<time range>): <one event and visible end state>.
-Stage 2 (<time range>): <one event and visible end state>.
+Stage 1 (<time range>): <ordered actions or sustained state and visible outcome>.
+Stage 2 (<time range>): <ordered actions or sustained state and visible outcome>.
 Final Stage (<time range>): <closing event and final visible state>.
 
 [Scene]
@@ -399,8 +400,10 @@ Before returning the prompt, verify:
 4. Depth is stated through AO, contact shadows, and a neutral gradient — not colored or dramatic lighting.
 5. Motion is rigid, constant-speed, and mechanical; no unrequested squash, cloth, hair, or fluid.
 6. Two or three readability cues make the gray legible without adding color.
-7. The background matches the requested toggle (flat, gradient, grid) and nothing else.
-8. Each stage has one primary event and a visible end state; the duration is right-sized.
+7. The background matches the requested toggle (flat, gradient, grid) and nothing
+   else.
+8. Each stage preserves readable ordered actions or sustained states and the
+   intended outcome; duration follows the brief and verified exact-model limits.
 9. The gray seal is compact and does not contradict the look.
 10. No other style preset (grade, lighting, animation medium) is mixed in.
 11. The response contains the prompt, not an unrelated production workflow.

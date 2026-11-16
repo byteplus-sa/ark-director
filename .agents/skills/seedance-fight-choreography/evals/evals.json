@@ -81,7 +81,7 @@
     },
     {
       "id": 7,
-      "prompt": "Return choreography text only. The caller's scene-craft output locks adult A yielding the corridor to adult B. acting-direction says A conceals fear and B tries to end the confrontation. seedance-acting-console supplies one restrained breath release for A. blocking-map supplies A left, B right, empty hands, the passage behind A. seedance-shot-design locks a held medium two-shot, eight seconds, soft key from the existing left window, normal lens perspective. seedance-prompt-25 needs the Action slot. Do not run these skills.",
+      "prompt": "Return choreography text only. The caller's scene-craft output locks adult A yielding the corridor to adult B. acting-direction says A conceals fear and B tries to end the confrontation. seedance-acting-console supplies one restrained breath release for A. blocking-map supplies A left, B right, empty hands, the passage behind A. seedance-shot-design locks a held medium two-shot, eight seconds, soft key from the existing left window, normal lens perspective. seedance-prompt needs the Action slot. Do not run these skills.",
       "expected_output": "A contract-based action handoff preserving the supplied intentions, geography, shot facts and restrained cue without invoking companions.",
       "files": [],
       "assertions": [

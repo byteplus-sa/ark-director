@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import argparse
 import fcntl
+import hashlib
 import json
 import os
 import subprocess
@@ -9,11 +11,13 @@ import tempfile
 from collections.abc import Iterator
 from contextlib import contextmanager
 from copy import deepcopy
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 from ruamel.yaml.error import YAMLError
 from validate_request import (
+    contained_path,
     parse_frontmatter,
     prepared_evidence_findings,
     project_mode_findings,
@@ -30,6 +34,28 @@ TRANSITIONS = {
     "acknowledged": {"acknowledged", "terminal"},
     "terminal": set(),
 }
+
+TERMINAL_PROVIDER_STATUSES = {
+    "succeeded", "failed", "cancelled", "canceled", "expired", "moderation_rejected",
+}
+
+
+def require_provider_result(
+    provider_task_id: str | None, provider_status: str | None, terminal: bool
+) -> None:
+    if not isinstance(provider_task_id, str) or not provider_task_id.strip():
+        raise ValueError("Adopting or reconciling a job needs its provider task ID")
+    if terminal and (
+        not isinstance(provider_status, str)
+        or provider_status not in TERMINAL_PROVIDER_STATUSES
+    ):
+        raise ValueError(
+            "A terminal job requires an explicit definitive provider status: "
+            + ", ".join(sorted(TERMINAL_PROVIDER_STATUSES))
+            + "; completed or unknown is not a provider result"
+        )
+    if not isinstance(provider_status, str) or not provider_status.strip():
+        raise ValueError("Adopting a submitted job needs its provider status")
 
 
 @contextmanager
@@ -216,10 +242,7 @@ def adopt_submitted_operation(
     provider_status: str,
     terminal: bool,
 ) -> None:
-    if not provider_task_id.strip() or not provider_status.strip():
-        raise ValueError(
-            "Adopting a submitted job needs its provider task ID and status"
-        )
+    require_provider_result(provider_task_id, provider_status, terminal)
     prepare_operation(
         root,
         request,
@@ -262,6 +285,58 @@ def adopt_submitted_operation(
             f"provider task {provider_task_id}, never resubmit; a request that "
             "references a storyboard file needs allow_board_references=True"
         ) from error
+
+
+def reconcile_terminal_operation(
+    root: Path,
+    operation_id: str,
+    expected_request_sha256: str,
+    provider_result: str,
+) -> None:
+    if (
+        not provider_result
+        or Path(provider_result).is_absolute()
+        or ".." in Path(provider_result).parts
+    ):
+        raise ValueError("Provider result must be a project-relative evidence file")
+    with selection_lock(root), registry_lock(root) as path:
+        registry = read_registry(path)
+        record = next(
+            (item for item in registry["tasks"] if item["operation_id"] == operation_id),
+            None,
+        )
+        if (
+            record is None
+            or record["submission_status"] != "terminal"
+            or record["provider_status"] != "completed"
+            or record["request_sha256"] != expected_request_sha256
+        ):
+            raise ValueError(
+                "Operation missing or stale: correction requires terminal/completed "
+                "and the exact frozen request hash; never resubmit"
+            )
+        extensions = record.setdefault("extensions", {})
+        if "terminal_reconciliation" in extensions:
+            raise ValueError("An existing terminal reconciliation cannot be replaced")
+        evidence_bytes = contained_path(root, provider_result).read_bytes()
+        evidence = json.loads(evidence_bytes)
+        if not isinstance(evidence, dict):
+            raise TypeError("Provider result must be a task object with task_id and status")
+        task_id, status = evidence.get("task_id"), evidence.get("status")
+        require_provider_result(task_id, status, True)
+        if task_id != record["provider_task_id"]:
+            raise ValueError("Provider result task identity does not match the operation")
+        extensions["terminal_reconciliation"] = {
+            "previous_provider_status": record["provider_status"],
+            "provider_status": status,
+            "provider_task_id": task_id,
+            "request_sha256": record["request_sha256"],
+            "evidence_path": provider_result,
+            "evidence_sha256": hashlib.sha256(evidence_bytes).hexdigest(),
+            "reconciled_at": datetime.now(UTC).isoformat(),
+        }
+        record["provider_status"] = status
+        replace_registry(path, registry)
 
 
 def transition_operation(
@@ -316,3 +391,30 @@ def transition_operation(
         if schema_findings(record, "generation-request.schema.json"):
             raise ValueError("Transition requires a valid provider acknowledgment")
         replace_registry(path, registry)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Reconcile saved provider evidence; never calls a provider"
+    )
+    commands = parser.add_subparsers(dest="command", required=True)
+    reconcile = commands.add_parser("reconcile-terminal")
+    reconcile.add_argument("--project", type=Path, required=True)
+    reconcile.add_argument("--operation-id", required=True)
+    reconcile.add_argument("--expected-request-sha256", required=True)
+    reconcile.add_argument("--provider-result", required=True)
+    args = parser.parse_args(argv)
+    try:
+        reconcile_terminal_operation(
+            args.project.resolve(), args.operation_id,
+            args.expected_request_sha256, args.provider_result,
+        )
+    except (OSError, ValueError, TypeError) as error:
+        print(json.dumps({"ok": False, "error": str(error)}))
+        return 1
+    print(json.dumps({"ok": True, "operation_id": args.operation_id}))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

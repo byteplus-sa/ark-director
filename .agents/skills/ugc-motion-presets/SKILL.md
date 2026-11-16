@@ -6,7 +6,7 @@ description: >
   Eating Zoom, Group Photo, Yacht, ...) or asks for
   preset-style UGC motion — reaction, selfie, fashion, eating, VFX spectacle,
   action, timelapse, or multi-shot formats. Persuasion angle, claims, and CTA
-  belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt-25. Presets
+  belong to ugc-ad-modes; prompt grammar belongs to seedance-prompt. Presets
   with a locked-off camera block record `format_static_by_design`; multi-shot
   presets take a shot plan. Never generates media.
 ---
@@ -20,7 +20,7 @@ constraint flags. It is a **prompt-composition-only** skill: it never calls MCP
 tools or the Ark API, and it never runs generation. The base grammar — the
 six-part formula, `@Image N` / `@Video N` reference-role syntax, `At Ns`
 timestamp syntax, and audio bracket syntax — is defined in
-`seedance-prompt-25` and is **not redefined here**.
+`seedance-prompt` and is **not redefined here**.
 
 The recipes are **optional creative heuristics**. They are not platform
 ranking rules, API requirements, or demonstrated conversion gains. No preset
@@ -50,7 +50,7 @@ top of [motion-presets.md](references/motion-presets.md).
    to the closest preset and state the assumption in one line before the
    prompt block.
 3. **No fit** — say no preset matches; do not invent one. Offer the nearest
-   preset or a custom direction composed from `seedance-prompt-25` grammar.
+   preset or a custom direction composed from `seedance-prompt` grammar.
 4. **Persuasion content requested** (claims, CTA, script, hook strategy) —
    deliver the preset block and route angle/claims/CTA to `ugc-ad-modes` in
    one line. Do not write persuasion copy here.
@@ -75,11 +75,14 @@ Every recipe in the three recipe files provides:
 
 ## Composition rules
 
-- Recipe audio is native ambience. For an ambience-only or music-free result,
-  set `generate_audio: false` and add a Seed Audio bed in post (not
-  frame-synced); native audio can leak music or speech despite the line.
+- Resolve sound ownership: requested native dialogue, synchronized effects or
+  ambience stay native when supported, including wordless clips. Exact masters
+  or explicitly controlled post sound use picture-only when supported.
+  Purposeful silence adds no bed; unspecified ownership remains unresolved.
+  Reject unwanted music through listening QA, not by muting requested clicks
+  or room tone; listen again after promotion.
 - Recipes fill the six-part formula slots; the caller assembles the full
-  prompt per `seedance-prompt-25` and owns `prompt-review`, submission, and
+  prompt per `seedance-prompt` and owns `prompt-review`, submission, and
   showcase sync.
 - Bind the user's character, wardrobe, or product media using the recipe's
   reference roles. A held or worn product visible in frame follows the

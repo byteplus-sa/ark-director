@@ -105,7 +105,7 @@
     {
       "id": 9,
       "prompt": "Write a 12-second Seedance prompt for an ordinary live-action scene: a barista makes coffee at a counter while soft background music plays. This is not a music video and the song is not the subject.",
-      "expected_output": "An ordinary scene prompt routed to seedance-prompt-25, not a full music-video treatment.",
+      "expected_output": "An ordinary scene prompt routed to seedance-prompt, not a full music-video treatment.",
       "files": [],
       "expectations": [
         "The output does not force a music-video format, song map, or treatment summary onto a non-music-video scene.",

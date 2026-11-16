@@ -1,15 +1,19 @@
 from __future__ import annotations
 
 import contextlib
+import copy
 import hashlib
 import importlib.util
 import io
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
 from typing import Any
+
+import test_seedance_capability_profiles as profiles
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / ".agents/skills/prompt-review/scripts/record_review.py"
@@ -173,6 +177,30 @@ class RecordReviewTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("stale", result["findings"][0]["message"])
 
+    def test_no_profile_v2_recorder_preserves_historical_hash_fields(self) -> None:
+        path = self.root / "requests/request_s01_sh010_t01_v01.json"
+        request = json.loads(path.read_text())
+        prompt = b"A performer waves.\n"
+        (self.root / request["prompt_file"]).write_bytes(prompt)
+        request.update(schema_version=2, references=[], approval_mode="approve_for_me",
+                       prompt_sha256=hashlib.sha256(prompt).hexdigest(),
+                       project_sha256=hashlib.sha256(
+                           (self.root / "project.md").read_bytes()).hexdigest())
+        body = {key: request[key] for key in (
+            "prompt_sha256", "model", "operation", "params", "references",
+            "approval_mode", "project_sha256")}
+        digest = hashlib.sha256(json.dumps(
+            body, sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            allow_nan=False).encode()).hexdigest()
+        request["request_sha256"] = digest
+        path.write_text(json.dumps(request))
+        code, result = self.run_cli(
+            "--request", path.relative_to(self.root).as_posix(), "--write",
+            text=self.fenced(self.review(digest)))
+        self.assertEqual(code, 0, result)
+        self.assertEqual(result["request_sha256"], digest)
+        self.assertEqual(path.read_text(), json.dumps(request))
+
     def test_request_path_must_stay_in_project(self) -> None:
         code, _ = self.run_cli(
             "--request", "../outside.json", text=self.fenced(self.review(self.hash))
@@ -199,6 +227,114 @@ class RecordReviewTests(unittest.TestCase):
             text=self.fenced(self.review(audio_hash)),
         )
         self.assertEqual(code, 1)
+
+
+class PreparedProfileReviewTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.fixture = profiles.ProfilePreparationTests()
+        self.fixture.setUp()
+        self.addCleanup(self.fixture.doCleanups)
+        self.root = self.fixture.root
+
+    def prepare_command(self, version: int) -> list[str]:
+        command = self.fixture.command()
+        command.insert(1, "-B")
+        command.extend(["--schema-version", str(version)])
+        if version == 2:
+            (self.root / "project.md").write_text(
+                "---\napproval_mode: approve_for_me\nreview_mode: strict\n---\n"
+            )
+            (self.root / "studio").mkdir(exist_ok=True)
+            while "--ref" in command:
+                index = command.index("--ref")
+                del command[index:index + 2]
+            (self.root / self.fixture.fixture.prompt).write_text(
+                "A performer walks through a quiet room.\n"
+            )
+        return command
+
+    def execute(self, command: list[str], text: str | None = None) -> dict[str, Any]:
+        result = subprocess.run(command, input=text, capture_output=True,
+                                text=True, check=False)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        return json.loads(result.stdout)
+
+    def recorder(self, request_path: str) -> list[str]:
+        return [sys.executable, "-B", str(SCRIPT), "--project", str(self.root),
+                "--request", request_path, "--input", "-",
+                "--required-rule", "model.supported_mode", "--write"]
+
+    def review(self, request_hash: str) -> dict[str, Any]:
+        return {
+            "schema_version": 1, "request_sha256": request_hash,
+            "reviewer_status": "complete",
+            "checks": [{"rule_id": "model.supported_mode", "status": "pass",
+                        "evidence": "Checked synthetic offline profile controls and bindings"}],
+        }
+
+    def test_actual_profile_prepare_record_and_register_default_v1(self) -> None:
+        self.prepare_record_register(1)
+
+    def test_actual_profile_prepare_record_and_register_strict_v2(self) -> None:
+        self.prepare_record_register(2)
+
+    def prepare_record_register(self, version: int) -> None:
+        command = self.prepare_command(version)
+        prepared = self.execute(command)
+        request = json.loads((self.root / prepared["path"]).read_text())
+        self.assertEqual(request["schema_version"], version)
+        self.assertEqual(validation.validate_request(
+            self.root, request, self.fixture.evidence), [])
+        review = self.review(request["request_sha256"])
+        recorded = self.execute(self.recorder(prepared["path"]), json.dumps(review))
+        self.assertEqual(json.loads((self.root / recorded["path"]).read_text()), review)
+        registered = self.execute(command + [
+            "--register", "--review", recorded["path"],
+            "--required-rule", "model.supported_mode",
+        ])
+        registry = profiles.store.read_registry(self.root / "task_ids.json")
+        self.assertEqual(registry["tasks"], [request])
+        self.assertEqual(registered["registered"], request["operation_id"])
+        profiles.store.transition_operation(
+            self.root, request["operation_id"], "prepared", "submitting")
+        self.assertEqual(profiles.store.read_registry(
+            self.root / "task_ids.json")["tasks"][0]["submission_status"], "submitting")
+
+    def test_profile_request_mutations_reject_recording_without_writes(self) -> None:
+        prepared = self.execute(self.prepare_command(2))
+        path = self.root / prepared["path"]
+        original = json.loads(path.read_text())
+        for change in ("params", "evidence", "expected", "digest", "missing", "project"):
+            with self.subTest(change=change):
+                request = copy.deepcopy(original)
+                bound = request["extensions"]["capability_profile"]
+                if change == "params":
+                    request["params"]["duration"] = 9
+                elif change == "evidence":
+                    bound["evidence"]["source"] = "Changed offline evidence"
+                elif change == "expected":
+                    bound["expected"]["tool_schema_revision"] = "different-revision"
+                elif change == "digest":
+                    bound["sha256"] = "0" * 64
+                elif change == "missing":
+                    del request["extensions"]["capability_profile"]
+                else:
+                    request["project_sha256"] = "0" * 64
+                path.write_text(json.dumps(request))
+                before = {entry.relative_to(self.root): entry.read_bytes()
+                          for entry in self.root.rglob("*") if entry.is_file()}
+                result = subprocess.run(
+                    self.recorder(prepared["path"]),
+                    input=json.dumps(self.review(original["request_sha256"])),
+                    capture_output=True, text=True, check=False,
+                )
+                self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+                self.assertIn("stale", result.stdout)
+                self.assertEqual(before, {
+                    entry.relative_to(self.root): entry.read_bytes()
+                    for entry in self.root.rglob("*") if entry.is_file()
+                })
+                self.assertFalse((self.root / "reviews").exists())
 
 
 if __name__ == "__main__":

@@ -331,7 +331,51 @@ The request hash covers exact prompt bytes, model/operation/effective parameters
 
 Use one project task_ids.json registry. New records follow schemas/generation-request.schema.json; the registry follows schemas/task-registry.schema.json. Preserve legacy records and report required migration rather than inventing missing facts.
 
-Persist prepared request and immutable prompt snapshot before calling the provider. Save an acknowledged provider ID immediately. Registration (`prepare_request.py --register`, `operation_store.prepare_operation`) and the `prepared` to `submitting` transition apply the same project-type rule: a Studio project (a real, non-symlink `studio/` directory and no `showcase.json`) registers version-2 requests with no canvas, while a pre-Studio canvas project requires its current `showcase.json` and `index.html`. A project with both, or with a `studio/` symlink or file, is not a Studio project and still needs the canvas. The submission never goes unregistered because a project is a Studio project. If a job was submitted before registration, adopt it: run `prepare_request.py --register` with the matching review and add `--adopt-provider-task-id <id>` (optionally `--adopt-provider-status`, and `--adopt-terminal` for a finished job); it registers the operation and walks it to `acknowledged` or `terminal` with the known provider task, and never resubmits. When a prompt is edited after its request was written but before registration, re-run with `--write --replace-unregistered` to rewrite that request; it refuses an asset that is already registered. Separate submission_status, provider_status and review_status. On a no-ID timeout use submission_unknown and reconcile. On a poll timeout retain the ID and resume the same task. When acceptance cannot be determined, hold for an explicit retry decision explaining possible duplicate cost. A provider terminal failure is evidence to review, not automatic approval of a replacement operation.
+Persist prepared request and immutable prompt snapshot before calling the provider. Save an acknowledged provider ID immediately. Registration (`prepare_request.py --register`, `operation_store.prepare_operation`) and the `prepared` to `submitting` transition apply the same project-type rule: a Studio project (a real, non-symlink `studio/` directory and no `showcase.json`) registers version-2 requests with no canvas, while a pre-Studio canvas project requires its current `showcase.json` and `index.html`. A project with both, or with a `studio/` symlink or file, is not a Studio project and still needs the canvas. The submission never goes unregistered because a project is a Studio project. If a job was submitted before registration, adopt it: run `prepare_request.py --register` with the matching review and add `--adopt-provider-task-id <id>` (optionally `--adopt-provider-status` for an acknowledged job). A finished job requires both `--adopt-terminal` and an explicit `--adopt-provider-status` with its actual definitive result; it registers the operation and walks it to `acknowledged` or `terminal` with the known provider task, and never resubmits. When a prompt is edited after its request was written but before registration, re-run with `--write --replace-unregistered` to rewrite that request; it refuses an asset that is already registered. Separate submission_status, provider_status and review_status. On a no-ID timeout use submission_unknown and reconcile. On a poll timeout retain the ID and resume the same task. When acceptance cannot be determined, hold for an explicit retry decision explaining possible duplicate cost. A provider terminal failure is evidence to review, not automatic approval of a replacement operation.
+
+Terminal adoption accepts `succeeded`, `failed`, `cancelled`, `canceled`,
+`expired`, or `moderation_rejected`. Use only the result actually reported by
+the provider. Missing, unknown, generic `completed`, and nonterminal statuses
+are rejected before request writes or registration. Only `succeeded` can
+satisfy promotion's provider-success guard; it does not grant creative approval.
+Nonterminal adoption still defaults to `submitted`.
+
+For a historical `terminal/completed` record, retrieve the existing task's
+result using the same provider/transport; never resubmit or re-adopt it. Save
+the returned task object in the project with `task_id` and `status`, for example:
+
+```json
+{"task_id": "existing-provider-task-id", "status": "succeeded"}
+```
+
+This is a shape example, not success evidence. Extract the exact task object
+from a batch response, preserving its reported ID and definitive status.
+Do not infer success from a local output, selection, or the word `completed`.
+Omit credentials and signed URLs; retain this evidence file for audit.
+Reconcile using the existing operation ID and frozen request hash:
+
+```bash
+uv run python .agents/scripts/operation_store.py reconcile-terminal \
+  --project projects/<project> \
+  --operation-id <existing-operation-id> \
+  --expected-request-sha256 <existing-request-sha256> \
+  --provider-result evidence/provider-result.json
+```
+
+The equivalent API is
+`reconcile_terminal_operation(root, operation_id, expected_request_sha256, provider_result)`,
+where `provider_result` is a project-relative JSON path. It verifies containment,
+task identity, definitive result, and expected `terminal/completed` state under
+the registry lock. It changes only `provider_status` and adds
+`extensions.terminal_reconciliation` with the previous status, result, task ID,
+unchanged request hash, evidence path/SHA-256, and reconciliation time.
+Frozen request files, request hashes, review state, other extensions and other
+tasks are preserved. Competing or repeated corrections fail closed; known
+success/failure records cannot be rewritten and terminal state cannot reopen.
+Failed results can be recorded but remain ineligible for promotion.
+This offline helper trusts caller-supplied provider evidence, as adoption does;
+it does not authenticate evidence or poll the provider. Missing evidence must
+be recovered from the provider or retained task logs, not fabricated.
 
 On success save each modality locally: Elements under elements/, shot outputs beside the shot, scene outputs in the scene folder, reusable non-shot media in library/. A durable provider URI supplements rather than replaces the local copy. Record artifact/task IDs, actual streams, bytes and SHA-256; download failure can retry the existing artifact without regenerating.
 

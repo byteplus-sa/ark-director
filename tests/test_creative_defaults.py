@@ -16,7 +16,7 @@ def normalized(path: Path) -> str:
 class CreativeDefaultsTests(unittest.TestCase):
     def test_followup_action_frequency_requires_physics_and_readability_evidence(self):
         paths = (
-            "seedance-prompt-25/references/scene-action.md",
+            "seedance-prompt/references/scene-action.md",
             "prompt-review/references/checklist-seedance-25.md",
         )
         for relative in paths:
@@ -68,7 +68,7 @@ class CreativeDefaultsTests(unittest.TestCase):
                 self.assertIn(concept, criteria)
 
     def test_followup_frequency_evals_cover_preservation_conflict_and_evidence_gap(self):
-        data = json.loads((SKILLS / "seedance-prompt-25/evals/evals.json").read_text())
+        data = json.loads((SKILLS / "seedance-prompt/evals/evals.json").read_text())
         cases = {case["id"]: case for case in data["evals"]}
         self.assertEqual(len(cases), len(data["evals"]))
         self.assertTrue({15, 16, 17} <= cases.keys())
@@ -85,8 +85,7 @@ class CreativeDefaultsTests(unittest.TestCase):
 
     def test_compilers_and_review_do_not_soften_body_energy_or_cap_bursts(self):
         paths = (
-            "seedance-prompt-25/references/scene-action.md",
-            "seedance-prompt-20/SKILL.md",
+            "seedance-prompt/references/scene-action.md",
             "prompt-review/references/checklist-seedance-25.md",
             "prompt-review/references/checklist-seedance-legacy.md",
         )
@@ -103,7 +102,7 @@ class CreativeDefaultsTests(unittest.TestCase):
         paths = (
             "seedance-shot-design/SKILL.md",
             "seedance-shot-design/references/coverage-patterns.md",
-            "seedance-prompt-25/references/shot-staging.md",
+            "seedance-prompt/references/shot-staging.md",
             "prompt-review/references/checklist-seedance-25.md",
             "micro-drama/SKILL.md",
         )
@@ -121,7 +120,7 @@ class CreativeDefaultsTests(unittest.TestCase):
             "seedance-shot-design/SKILL.md",
             "seedance-shot-design/references/shot-plan-format.md",
             "seedance-shot-design/evals/evals.json",
-            "seedance-prompt-25/evals/evals.json",
+            "seedance-prompt/evals/evals.json",
             "prompt-review/references/checklist-seedance-legacy.md",
             "tests/fixtures/creative_quality_shot_design_cases.json",
         )
@@ -137,7 +136,7 @@ class CreativeDefaultsTests(unittest.TestCase):
                 self.assertNotIn("and neighboring shots differ", text)
 
     def test_cadence_is_not_an_automatic_ad_acceptance_recipe(self):
-        names = ("brief-intake", "film-production", "seedance-prompt-25",
+        names = ("brief-intake", "film-production", "seedance-prompt",
                  "seedance-shot-design", "seedance-pacing-presets", "ugc-ad-modes",
                  "seedance-music-video")
         forbidden = (
@@ -181,7 +180,7 @@ class CreativeDefaultsTests(unittest.TestCase):
     def test_cuts_may_retain_light_side_across_skill_and_reference(self):
         paths = (
             "seedance-shot-design/SKILL.md",
-            "seedance-prompt-25/references/shot-staging.md",
+            "seedance-prompt/references/shot-staging.md",
         )
         for relative in paths:
             with self.subTest(path=relative):
@@ -231,7 +230,7 @@ class CreativeDefaultsTests(unittest.TestCase):
             "seedance-camera-presets/SKILL.md",
             "seedance-shot-design/SKILL.md",
             "seedance-shot-design/references/coverage-patterns.md",
-            "seedance-prompt-25/references/shot-staging.md",
+            "seedance-prompt/references/shot-staging.md",
             "prompt-review/references/checklist-seedance-25.md",
         )
         for relative in paths:
@@ -328,8 +327,7 @@ class CreativeDefaultsTests(unittest.TestCase):
 
     def test_direct_timing_consumers_preserve_provisional_authority(self):
         paths = (
-            "seedance-prompt-25/SKILL.md",
-            "seedance-prompt-25/references/shot-staging.md",
+            "seedance-prompt/references/shot-staging.md",
             "film-production/references/production-defaults.md",
             "film-production/references/stage-contracts.md",
             "seedance-music-video/SKILL.md",
@@ -394,7 +392,7 @@ class CreativeDefaultsTests(unittest.TestCase):
         self.assertEqual(rule["applies_to"], ["narrative_video"])
         self.assertEqual(
             rule["owner_path"],
-            ".agents/skills/seedance-prompt-25/references/shot-staging.md",
+            ".agents/skills/seedance-prompt/references/shot-staging.md",
         )
         self.assertEqual(rule["exceptions"], [])
         text = rule["summary"].lower()
@@ -406,8 +404,7 @@ class CreativeDefaultsTests(unittest.TestCase):
 
     def test_speech_consumers_do_not_force_onset_tail_or_closing_density(self):
         paths = (
-            "seedance-prompt-25/references/shot-staging.md",
-            "seedance-prompt-20/SKILL.md",
+            "seedance-prompt/references/shot-staging.md",
             "seedance-shot-design/SKILL.md",
             "prompt-review/references/checklist-seedance-25.md",
             "prompt-review/references/checklist-seedance-legacy.md",
@@ -520,7 +517,7 @@ class CreativeDefaultsTests(unittest.TestCase):
         self.assertNotIn("the angle changes at the turn", evaluations)
         self.assertNotIn("rather than three separate singles", evaluations)
         self.assertNotIn("at least one shot features the boy alone", evaluations)
-        staging = normalized(SKILLS / "seedance-prompt-25/references/shot-staging.md")
+        staging = normalized(SKILLS / "seedance-prompt/references/shot-staging.md")
         self.assertNotIn("a cut changes which side of a source", staging)
         repairs = normalized(SKILLS / "seedance-shot-design/references/worked-repairs.md")
         self.assertNotIn("s, the turn", repairs)

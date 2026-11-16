@@ -11,6 +11,38 @@
     "max_references"
   ],
   "properties": {
+    "schema_version": {"type": "integer", "enum": [1, 2]},
+    "profile_id": {"type": "string", "minLength": 1},
+    "provider": {"type": "string", "minLength": 1},
+    "operation": {"type": "string", "minLength": 1},
+    "transport": {"enum": ["ark-mcp", "arkcli", "curl"]},
+    "tool_schema_revision": {"type": "string", "minLength": 1},
+    "valid_from": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "per_modality_limits": {
+      "type": "object",
+      "required": ["image", "video", "audio"],
+      "properties": {
+        "image": {"type": ["integer", "null"], "minimum": 0},
+        "video": {"type": ["integer", "null"], "minimum": 0},
+        "audio": {"type": ["integer", "null"], "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "conditional_parameters": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "preview": {
+      "type": "object",
+      "required": ["native_draft", "promotion", "parameters"],
+      "properties": {
+        "native_draft": {"type": ["boolean", "null"]},
+        "promotion": {"type": ["boolean", "null"]},
+        "parameters": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
     "model": {
       "type": "string",
       "minLength": 1
@@ -53,5 +85,16 @@
       "type": "boolean"
     }
   },
+  "allOf": [{
+    "if": {"properties": {"schema_version": {"const": 2}}, "required": ["schema_version"]},
+    "then": {
+      "required": [
+        "profile_id", "provider", "operation", "transport", "tool_schema_revision",
+        "valid_from", "valid_until", "per_modality_limits", "conditional_parameters",
+        "preview"
+      ],
+      "properties": {"operations": {"minItems": 1, "maxItems": 1}}
+    }
+  }],
   "additionalProperties": true
 }

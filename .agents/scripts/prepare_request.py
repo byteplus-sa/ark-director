@@ -16,10 +16,12 @@ from operation_store import (
     read_registry,
     registry_lock,
     require_current_approval_contract,
+    require_provider_result,
 )
 from ruamel.yaml.error import YAMLError
 from validate_request import (
     Finding,
+    capability_digest,
     compute_request_hash,
     contained_path,
     frontmatter,
@@ -206,6 +208,33 @@ def model_family(model: str) -> str:
     return tokens[0] + "".join(tokens[1:])
 
 
+def build_ordinary_final_intent(
+    root: Path, operation_id: str, selection: str
+) -> dict[str, Any]:
+    registry = read_registry(contained_path(root, "task_ids.json"))
+    sources = [task for task in registry["tasks"] if task["operation_id"] == operation_id]
+    if len(sources) != 1:
+        raise ValueError("Ordinary final requires one exact registered preview")
+    source = sources[0]
+    parts = selection.split(":")
+    if len(parts) not in (1, 2, 3):
+        raise ValueError("Expected manifest[:field[:key]] ordinary-final selection")
+    evidence = {
+        "manifest": relative_path(parts[0]),
+        "field": parts[1] if len(parts) > 1 else "selected_variant",
+        **({"key": parts[2]} if len(parts) == 3 else {}),
+    }
+    reference = {
+        "path": source.get("extensions", {}).get("expected_output"),
+        "approval_evidence": evidence,
+    }
+    return {
+        "source_operation_id": operation_id,
+        "source_request_sha256": source["request_sha256"],
+        "selection": decision_evidence(root, reference, None),
+    }
+
+
 def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
     if not ASSET_PATTERN.fullmatch(args.asset):
         raise ValueError("Asset ID must contain only letters, digits, _ and -")
@@ -213,9 +242,37 @@ def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
     prompt_bytes = contained_path(root, prompt_file).read_bytes()
     references = build_references(root, args.ref)
     params = parse_params(args.param)
+    profile = None
+    if args.capabilities:
+        evidence = load_json(root, args.capabilities)
+        if isinstance(evidence, dict) and evidence.get("schema_version") == 2:
+            if not args.provider or not args.tool_schema_revision:
+                raise ValueError("Version-2 capabilities require independent --provider and --tool-schema-revision")
+            profile = {
+                "expected": {
+                    "provider": args.provider,
+                    "tool_schema_revision": args.tool_schema_revision,
+                },
+                "evidence": evidence,
+                "sha256": capability_digest(evidence),
+            }
+        elif args.provider or args.tool_schema_revision:
+            raise ValueError("Destination binding requires version-2 capability evidence")
+    elif args.provider or args.tool_schema_revision:
+        raise ValueError("Destination binding requires --capabilities")
+    final_source = getattr(args, "ordinary_final_source", None)
+    final_selection = getattr(args, "ordinary_final_selection", None)
+    if final_source is not None or final_selection is not None:
+        if not final_source or not final_selection or profile is None:
+            raise ValueError("Ordinary final requires --ordinary-final-source, --ordinary-final-selection and version-2 capabilities")
+        profile["ordinary_final"] = build_ordinary_final_intent(
+            root, final_source, final_selection
+        )
     version = args.schema_version or (
         2 if declares_approval_mode(root) or canvas_contract_version(root) >= 1 else 1
     )
+    if final_source and version != 2:
+        raise ValueError("Ordinary final requires a version-2 request and current project approval contract")
     legacy = parse_legacy(args.ref_legacy)
     unknown = set(legacy) - {reference["path"] for reference in references}
     if unknown:
@@ -247,7 +304,8 @@ def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "prompt_file": prompt_file,
         "prompt_sha256": hashlib.sha256(prompt_bytes).hexdigest(),
         "request_sha256": compute_request_hash(
-            prompt_bytes, references, args.model, args.operation, params, **mode
+            prompt_bytes, references, args.model, args.operation, params,
+            capability_profile=profile, **mode
         ),
         "references": references,
         "params": params,
@@ -256,7 +314,10 @@ def build_request(root: Path, args: argparse.Namespace) -> dict[str, Any]:
         "provider_status": None,
         "review_status": "not_started",
         "cost": {"estimated": None, "confirmed": None, "currency": "USD"},
-        "extensions": {"expected_output": relative_path(args.expected_output)},
+        "extensions": {
+            "expected_output": relative_path(args.expected_output),
+            **({"capability_profile": profile} if profile is not None else {}),
+        },
         **mode,
     }
 
@@ -308,8 +369,15 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
     root = args.project.resolve()
     if not root.is_dir():
         raise ValueError("Project directory does not exist")
-    request = build_request(root, args)
     adopting = bool(args.adopt_provider_task_id)
+    provider_status = args.adopt_provider_status
+    if adopting:
+        if provider_status is None and not args.adopt_terminal:
+            provider_status = "submitted"
+        require_provider_result(
+            args.adopt_provider_task_id, provider_status, args.adopt_terminal
+        )
+    request = build_request(root, args)
     findings = schema_findings(request, "generation-request.schema.json")
     if not findings:
         findings = prepared_evidence_findings(
@@ -317,6 +385,11 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
         )
     result: dict[str, Any] = {"request_sha256": request["request_sha256"]}
     review = capabilities = None
+    if args.capabilities and not findings:
+        capabilities = load_json(root, args.capabilities)
+        findings = validate_request(
+            root, request, capabilities, adopting, existing_submission=adopting
+        )
     if args.register and not findings:
         review = load_json(root, args.review) if args.review is not None else None
         capabilities = load_json(root, args.capabilities)
@@ -350,8 +423,7 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
                     review,
                     args.required_rule,
                     args.adopt_provider_task_id,
-                    args.adopt_provider_status
-                    or ("completed" if args.adopt_terminal else "submitted"),
+                    provider_status,
                     args.adopt_terminal,
                 )
             else:
@@ -386,10 +458,17 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--register", action="store_true")
     parser.add_argument("--review")
     parser.add_argument("--capabilities")
+    parser.add_argument("--provider")
+    parser.add_argument("--tool-schema-revision")
+    parser.add_argument("--ordinary-final-source")
+    parser.add_argument("--ordinary-final-selection")
     parser.add_argument("--required-rule", action="append", default=[])
     parser.add_argument("--replace-unregistered", action="store_true")
     parser.add_argument("--adopt-provider-task-id")
-    parser.add_argument("--adopt-provider-status")
+    parser.add_argument(
+        "--adopt-provider-status",
+        help="Actual provider result; required with --adopt-terminal (never inferred)",
+    )
     parser.add_argument("--adopt-terminal", action="store_true")
     return parser
 

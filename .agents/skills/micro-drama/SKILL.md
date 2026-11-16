@@ -90,7 +90,7 @@ and an optional full-episode showreel.
    selecting or promoting takes; transcript accuracy alone is insufficient.
    Preserve deliberate stillness and exact dialogue without motion quotas.
    Write each clip prompt from its shot plan with
-   `seedance-prompt-25` and the market's dialogue partner skill (for Filipino,
+   `seedance-prompt` and the market's dialogue partner skill (for Filipino,
    `seedance-prompt-25-filipino`), binding element references only. Apply the
    prompt, dialogue-timing and QA rules in the
    [production recipe](references/production-recipe.md). Default review uses

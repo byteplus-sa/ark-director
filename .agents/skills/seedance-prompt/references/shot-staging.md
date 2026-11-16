@@ -1,6 +1,6 @@
 # Shot Staging
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
 - [Shots or stages](#shots-or-stages)
@@ -14,7 +14,7 @@ mode selection and caller responsibilities.
 ## Shots or stages
 
 A clip that cuts is staged by **shot**: each shot is one camera setup with its
-own size, angle, move and light. A clip that never cuts is staged by **stage**
+own size, angle, move and light. A continuous take may use optional **stages**
 (see [Scene staging](scene-action.md#scene-staging)). A shot or stage may carry
 readable ordered actions, reveals or a sustained state; it is not a single-event
 container. State the camera path or hold for the continuous take.
@@ -72,10 +72,11 @@ Audio includes <dialogue, ambience, sound effects or music>.
 
 Rules:
 
-1. Open each shot line with the camera facts, then the action, then the light.
-   Camera moves use the vocabulary in
+1. An optional readable order is camera facts, action, then light; do not add
+   headings or repeat action solely to satisfy a template. Camera moves use
+   the vocabulary in
    [Camera language](audio-performance-camera.md#camera-language).
-2. One primary camera move plus at most one secondary is a planning heuristic.
+2. Camera simplicity is a planning heuristic, not a move quota.
    Preserve explicitly requested coherent choreography with clear paths,
    timing and start/end states; return competing directions rather than
    dropping a move by count. Check the clip's total duration and required
@@ -106,6 +107,13 @@ When no plan exists and the shot is not static by design, write the plan first
 or return the prompt as a draft with the missing camera and light decisions
 labelled. Do not pad the Camera slot with unrequested competing presets; fill it
 from the plan or the user's request.
+
+### Visual style composition
+
+When several selected look phrases apply, an optional readable order is
+lighting, lens character, color grade, then sensor or film look. Keep a shared
+look in the opening and shot-specific light facts on their own lines. A look
+transition belongs only to its selected interval; omit unrequested presets.
 
 ## Dialogue inside shots
 

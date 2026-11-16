@@ -168,7 +168,7 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
    multiple natural-duration shots plus assembly. Compose the Seedance 2.5
    six-part prompt from breakdown + board staging written as text + per-beat
    motion grammar + verified audio grammar and sync cues when audio is
-   requested + element sheets (via `seedance-prompt-25`), run `prompt-review`,
+   requested + element sheets (via `seedance-prompt`), run `prompt-review`,
    persist the prepared request, then submit via the supported durable
    transport. Prefer `seedance_2_5_create_task`; use an equivalent Ark CLI route
    only before any ambiguous submission and only when it satisfies the same
@@ -180,15 +180,17 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
    exact brand copy, logos and captions out of the video prompt (plain, clean
    space) and composite them afterwards as deterministic `html-graphic-render`
    overlays (ffmpeg `overlay` with a short alpha fade).
-   **Audio route:** when the pin's sound is score-led, ambient or a music bed,
-   generate picture with `generate_audio: false` and rebuild the sound grammar
-   with Seed Audio in post, because a "no speech" or "ambience only" line on
-   native audio does not reliably keep speech or score out. Keep native audio for on-camera
-   dialogue.
+   **Audio route from sound ownership:** exact supplied masters or explicitly
+   controlled post sound use picture-only generation when supported. Requested
+   native dialogue, synchronized effects or ambience retain native sound even
+   without speech. Purposeful silence adds no bed; unspecified ownership is
+   unresolved. Listen for unwanted music and reject it without muting requested
+   clicks or room tone. Promoted sound needs fresh listening.
    Seedance can stretch dense beat timelines, and a stronger timing prompt does
-   not reliably fix it. Measure the take's actual cuts. When its beats land late, retime
-   in the edit (trim a held tail, clone-pad the final hold, crossfade audio)
-   rather than regenerating, and record the edit operations on the take.
+   not reliably fix it. Measure the take's actual cuts and fractional source
+   timing, final spoken word and audio tails. Retiming, padding, trimming or
+   crossfades are proposals requiring edit-scope authorization; never repair a
+   source-preserving mismatch silently.
    Capture-format and texture looks in the pin (camcorder, film grain,
    scanlines, halation) are not reliably produced by prompt words; record them
    as a post treatment in the recipe and apply them only when the run locks
@@ -267,7 +269,7 @@ takes only.
 | Exact typography, screen/UI, title/end card, poster, product lineup, price/CTA, or static overlay | `html-graphic-render` |
 | Generative image with exact copy/layout | Select the generated image, then finish with `html-graphic-render` |
 | Animated exact graphic | HyperFrames; FFmpeg or HyperFrames for final video composition |
-| Seedance 2.5 video prompt | `seedance-prompt-25` |
+| Seedance 2.5 video prompt | `seedance-prompt` |
 | Prompt quality gate (generation-bound only) | `prompt-review` |
 | Persistent Studio review surface for shot takes (pre-Studio canvas: stage canvas) | `studio_project.py` (pre-Studio canvas: `showcase-html`) |
 

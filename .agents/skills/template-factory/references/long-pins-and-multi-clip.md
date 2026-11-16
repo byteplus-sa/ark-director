@@ -39,19 +39,20 @@ each clip reliable:
 | Budget per clip | Guidance |
 | --- | --- |
 | Hard cuts | About 6–7 shots per clip and about 0.8 s per shot are provisional cautions, not provider limits or guaranteed failure thresholds. Preserve requested timing; offer assembly for precision or demonstrated failure and return conflicts with locked workflows instead of imposing a shot ceiling. |
-| Duration | Choose natural integer durations from the pin spans, rounded up, with at least 0.3 s of hold after the last action. |
+| Duration | Preserve measured fractional source spans and locked final timing. Choose supported generation headroom separately; integer generation duration or an extra hold does not authorize source retiming or a longer final edit. Unknown feasibility remains unresolved. |
 | Split points | Split only on measured hard cuts. Do not split inside a whip, match cut, or continuous camera move. |
 
 Timing rules at clip boundaries:
 
-- Write every stage timestamp in clip-local time, and list the trim point the
-  edit will use.
+- Write every stage timestamp in clip-local time, retaining its source offset,
+  and list the approved picture range the edit will use. Extra generated
+  headroom stays outside that range.
 - A whip, fade, or other transition that must survive the edit must peak or
   finish before the trim point. A whip that crosses into the next clip needs
   both halves: the outgoing clip ends in blur and the incoming clip opens in
   blur that resolves within about 0.3 s.
-- Put the final fade to black in post (FFmpeg), not in the prompt, so the trim
-  cannot cut it.
+- Put a requested final fade to black in post (FFmpeg), within its approved
+  span; do not add a fade or move locked final timing by default.
 - Do not plan native extension to join clips that contain people: extension and
   video inputs with generated or real people are rejected unless the
   identities are `asset://` Virtual Portrait assets. Join independent clips at
@@ -62,35 +63,53 @@ Continuity across clips:
 - Give each clip a one-line state ledger at the top of its prompt. Say what the
   subject looks like at the clip's start, for example "base layer only; no
   toppings yet". For build or assembly sequences, state each stage explicitly.
-- Generated clips can still show later-stage items early. Check this in QA. A
-  re-order of whole shots in the edit is often cheaper than a retake. Record the
-  edit list and the reason on the scene manifest.
+- Generated clips can still show later-stage items early. Check this in QA.
+  Propose a re-order only within edit-scope authorization; keep locked source
+  order otherwise. Record an approved edit list and reason on the scene manifest.
 
 ## Continuous audio across clips
 
 Native audio generated per clip does not share tempo or key across seams, and a
-"no music" or "ambience only" line does not reliably hold. For a multi-clip spot
-whose sound is score-led or ambient, generate picture with
-`generate_audio: false` and either:
+"no music" or "ambience only" line does not reliably hold. Route by explicit
+sound ownership, not speech presence, score-led genre or ambience:
 
-- generate one separate music bed after the picture is locked, or
-- build the bed from the clips' native audio. Measure each clip's tempo. Loop
-  exact whole-bar segments from clips that share a tempo, and switch sources
-  only on section changes (drop, reveal, lead entry). Crossfade seams by
-  30–120 ms, then confirm with a listening pass that names each seam.
+| Owner | Multi-clip handling |
+| --- | --- |
+| native | Preserve supported requested native sound, including wordless room tone and synchronized clicks. Inspect cues and audible continuity at every seam; unwanted music is a QA finding, not permission to mute requested effects |
+| post | Use supported `generate_audio: false` for explicitly selected picture-only work. Use only approved post assets or separately authorized generation |
+| exact-master | Preserve supplied master bytes, independent sound span and offsets; place the unchanged selected master across clips without per-clip sound conform |
+| mixed | Record each native, retained-master and post layer separately, with source hashes, spans and offsets. Preserve native cues and master locks; mix only authorized layers |
+| silent | Purposeful silence adds no bed or replacement effects. Verify supported silent controls and actual silence |
+| unresolved | Ask for missing ownership or current capability evidence; no automatic muting, replacement bed or generation |
 
-Long generated music beds are more exposed to provider output audits. If a bed
-is rejected, diagnose before revising and prefer the native-audio edit over
-repeated submissions. Measure the delivered bed's
-tempo and section timing; pad or splice in assembly rather than trusting the
-prompt's timing.
+Separate sound is opt-in. A new continuous bed or an edit of native audio is an
+alternative only when selected and authorized. Within that scope, measure tempo
+and section timing before proposing whole-bar loops, source changes or
+30-120 ms crossfades; listen to each actual seam. Diagnose a rejected bed before
+revising, never retry automatically or change ownership by inference.
 
 ## Assembling the clips
 
-- Render each trimmed clip to an exact-length lossless intermediate in whole
-  frames, pad or trim its audio to the same length, join with the concat
-  demuxer, and encode once. The concat filter needs `setsar=1`.
-- Read video-stream durations, not container durations.
+- Carry independent picture and sound spans, offsets, the final word and audio
+  tails through the edit. Sound may be longer or shorter than picture; neither
+  span is inferred from the other or from the container duration.
+- Render approved picture ranges to whole-frame lossless intermediates, join
+  compatible picture-only clips with the concat demuxer, and encode once. The
+  concat filter needs `setsar=1`. Whole-frame representation is not whole-second
+  retiming; preserve decoded timestamps, frame count, FPS and the approved
+  fractional timeline. Record any representational mismatch as unresolved.
+- Place sound layers independently using their recorded offsets and full
+  approved ranges, including tails beyond picture. Do not pad or trim sound to
+  picture length, use `-shortest` to hide mismatches, or extend picture silently.
+- A trim, pad, hold, retime, loop or crossfade affecting a lock requires current
+  requirement evidence and explicit derivative adaptation approval for that
+  exact change; creative selection and `approve_for_me` do not supply it.
+  Preserve originals and record source SHA-256, derivative SHA-256, exact window,
+  command, timing delta and audio consequences. Denied or missing approval
+  leaves the source unchanged and feasibility unresolved.
+- Read video and audio stream durations and start timestamps independently.
+  Inspect opening, seams, final words and tails by playback and listening before
+  accepting the assembly or a promoted final.
 - Keep the takes' original colours. Decode 10-bit HEVC finals as limited-range
   BT.709 and tag the output BT.709; apply a look only when the recipe locks one.
 

@@ -9,7 +9,7 @@ mode selection and caller responsibilities.
 
 The methodology above (sections 1–11) targets Seedance 2.0. For **Seedance 2.5**
 video-to-video editing, combine this skill's VFX discipline with the
-`seedance-prompt-25` structured-editing pattern. Notes:
+`seedance-prompt` structured-editing pattern. Notes:
 
 ### Model matrix
 

@@ -32,7 +32,7 @@
       "files": [],
       "expectations": [
         "Keeps original Seedance colours and asks or records before adding any grade, grain, halation or vignette, because no look is locked in the brief.",
-        "Builds exact-length lossless intermediates, joins with the concat demuxer, encodes once and decodes HEVC finals as limited-range BT.709.",
+        "Measures codec, pixel format, depth, range, matrix, primaries and transfer for each artifact; uses the limited-range BT.709 recipe only for matching streams and leaves unknown or conflicting tags unresolved. Preserves fractional duration and audio tails; source adaptations require explicit scope.",
         "Places the result in Studio and renders the master with studio_project.py render; adds no AI label."
       ]
     },
@@ -70,6 +70,20 @@
         "Preserves approve_for_me while requiring real review; does not invent listening or request a redundant user choice.",
         "Does not add wow shots, a reversal or faster cuts to satisfy a template."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Plan a wordless latch reveal with native clicks and room tone, no music. A final promotion has not been listened to. Do not make a separate soundtrack.",
+      "expected_output": "Keeps requested native sound when supported, excludes unwanted music and leaves final acceptance unresolved until fresh playback/listening. Does not mute native clicks or create a post bed.",
+      "files": [],
+      "expectations": ["Sound ownership, not absence of speech, selects the route.", "No separate audio work or acceptance is inferred."]
+    },
+    {
+      "id": 8,
+      "prompt": "Write only a silent scene prompt. No music, ambience, generation or project initialization.",
+      "expected_output": "Returns creative text only; purposeful silence adds no bed. Unknown settings are unresolved; no production files, uploads or submissions.",
+      "files": [],
+      "expectations": ["Prompt-only scope has no side effects.", "Silence is not replaced by score or ambience."]
     }
   ]
 }

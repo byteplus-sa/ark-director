@@ -1,11 +1,13 @@
 # Worked Examples
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
 These examples are **hypothetical**: they model the current prompt practice and
 have no linked generated result. Request parameters are listed beside each
-prompt because they never go inside it.
+prompt because they never go inside it. The parameter examples illustrate the
+existing exact legacy 2.5 binding only; verify support before execution and do
+not inherit them for another model or destination.
 
 - [Three-shot R2V sequence with dialogue](#three-shot-r2v-sequence-with-dialogue)
 - [Ambient-only one-take](#ambient-only-one-take)
@@ -18,7 +20,7 @@ others. It shows bindings, declared light sources, ordered action plus camera, l
 intent and light per shot, a pinned count, a frame-side hand, a plain prop
 surface and a budgeted line.
 
-Request parameters: `duration: 11`, `ratio: "16:9"`, `draft: true`,
+Request parameters: `duration: 11`, `ratio: "16:9"`, `draft: true`, `resolution: "480p"`,
 `generate_audio: true`, `watermark: false`.
 
 ```text
@@ -70,7 +72,7 @@ picture-only generation. Ambient-only does not itself require this route:
 requested native ambience stays native where supported. A "no music, no voices"
 line is not a guarantee; either route needs listening verification.
 
-Request parameters: `duration: 8`, `ratio: "21:9"`, `draft: true`,
+Request parameters: `duration: 8`, `ratio: "21:9"`, `draft: true`, `resolution: "480p"`,
 `generate_audio: false`. Post: forest ambience bed from Seed Audio, recorded as
 not frame-synced.
 

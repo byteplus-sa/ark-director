@@ -32,7 +32,7 @@
     "screen": { "skill": "seedream-prompt", "variants": 3, "size": "1024x1024" }
   },
   "seedance_mapping": {
-    "skill": "seedance-prompt-25",
+    "skill": "seedance-prompt",
     "subject_slot": "from element descriptors + @tag bindings",
     "action_slot": "from shots[].action + shots[].motion imperative wording",
     "scene_slot": "from location elements",

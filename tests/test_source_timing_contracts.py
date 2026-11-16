@@ -106,6 +106,18 @@ class SourceTimingContractsTests(unittest.TestCase):
                 with self.subTest(path=path.relative_to(ROOT), pattern=pattern):
                     self.assertNotRegex(text, pattern)
 
+    def test_multi_clip_assembly_preserves_independent_spans_and_offsets(self) -> None:
+        path = SKILLS / "template-factory/references/long-pins-and-multi-clip.md"
+        text = " ".join(path.read_text().lower().split())
+        for term in ("generation headroom", "locked final timing", "whole-frame",
+                     "fractional", "independent picture and sound spans", "offsets",
+                     "longer or shorter", "final word", "audio tails",
+                     "explicit derivative adaptation approval", "unresolved",
+                     "source sha-256", "derivative sha-256", "-shortest"):
+            self.assertIn(term, text)
+        self.assertNotIn("pad or trim its audio to the same length", text)
+        self.assertNotIn("integer durations from the pin spans, rounded up", text)
+
     def test_empty_malformed_or_missing_timing_advice_is_rejected(self) -> None:
         invalid_advice: tuple[object, ...] = (
             None, {}, [], 14.375, "", " ", "Preserve timing.", "## Source timing",

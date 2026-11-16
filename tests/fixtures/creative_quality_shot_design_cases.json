@@ -5,7 +5,7 @@
   "cases": [
     {
       "id": "kitchen_family_drama",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Write the complete Seedance 2.5 prompt for a 12-second warm family-drama clip in one kitchen. The mother (@Image 1) opens the front door; her seven-year-old son (@Image 3) peeks out from behind the visiting aunt (@Image 2) and taps the door frame; the mother smiles. The kitchen is @Image 4: window at screen-left, table at center, front door at screen-right. Native audio is room ambience only. Prompt only: no generation, no files. No camera or lighting direction has been given.",
       "criteria": {
         "intent": "The prompt makes the supplied door, tap and smile sequence readable without inventing a reversal or compulsory peak.",
@@ -16,7 +16,7 @@
     },
     {
       "id": "restrained_supermarket",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Write the complete Seedance 2.5 prompt for a 12-second naturalistic supermarket ad. A shopper (@Image 1) meets a neighbor (@Image 2) in the freezer aisle (@Image 3) and they exchange two lines in English: the shopper says {Hey, you finally came!} and the neighbor answers {Wouldn't miss it.} The client wants calm, unforced camera work and real-looking light. Prompt only: no generation, no files.",
       "criteria": {
         "intent": "The prompt delivers a calm, naturalistic meeting that feels unforced and reads as a real aisle.",
@@ -27,7 +27,7 @@
     },
     {
       "id": "kinetic_night_market_chase",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Write the complete Seedance 2.5 prompt for an 8-second music-video clip. A courier (@Image 1) on a motorbike (@Image 2) is chased through a crowded night market (@Image 3), with hard cuts roughly every two seconds. Native audio is engine and crowd ambience only. Prompt only: no generation, no files.",
       "criteria": {
         "intent": "The prompt reads as a high-energy chase with a legible pursuit; no new reversal or mandatory escalation is invented.",
@@ -38,7 +38,7 @@
     },
     {
       "id": "dialogue_argument",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Write the complete Seedance 2.5 prompt for a 14-second scene. Two siblings argue across a dinner table (@Image 3). The elder sister (@Image 1) says {You promised you would tell her.} The younger brother (@Image 2) answers {I never thought she would find out.} The key line lands near the 9 second mark. Prompt only: no generation, no files.",
       "criteria": {
         "intent": "The prompt preserves the supplied argument and asks about any material missing interpretation rather than inventing a power shift.",
@@ -49,7 +49,7 @@
     },
     {
       "id": "selfie_demo_locked_frame",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Write the complete Seedance 2.5 prompt for a 10-second selfie-style demo. A creator (@Image 1) holds the phone at arm's length and shows how a pocket blender (@Image 2) crushes ice, talking to camera in English: {Watch this, it crushes ice in five seconds.} Prompt only: no generation, no files.",
       "criteria": {
         "intent": "The prompt delivers a convincing arm's-length selfie demo with a visible blender action.",
@@ -81,7 +81,7 @@
     },
     {
       "id": "multiple_bursts",
-      "skill": "seedance-prompt-25",
+      "skill": "seedance-prompt",
       "prompt": "Compile a locked 12-second medium shot: a performer tries twice to catch a falling hat, misses the first, catches the second, and says 'Still mine.' Retain both fast reaches, recoil, recovery, exact English words, wardrobe and still camera. No burst pattern selected. No generation.",
       "criteria": {
         "energy": "Keeps both fast attempts without a slow-body default or universal burst cap.",

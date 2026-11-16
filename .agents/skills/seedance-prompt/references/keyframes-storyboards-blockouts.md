@@ -1,6 +1,6 @@
 # Keyframes Storyboards Blockouts
 
-Focused reference for `seedance-prompt-25`. Read [the entrypoint](../SKILL.md) for
+Focused reference for `seedance-prompt`. Read [the entrypoint](../SKILL.md) for
 mode selection and caller responsibilities.
 
 - [Keyframes](#keyframes)
@@ -9,7 +9,9 @@ mode selection and caller responsibilities.
 
 ## Keyframes
 
-These are specialized prompt grammars, not automatic input eligibility. Translate
+These are 2.5-based prompting conventions, not automatic input eligibility.
+Verify the exact model, operation and destination before using frame roles,
+multi-keyframe sequences or mixed references. Translate
 control-only drawings to text and omit them. Storyboards and boards are never
 bound (see below). An intentional keyframe or blockout conditioning path
 requires explicit user-selected inputs, current canonical hashes, a compatible
@@ -20,8 +22,8 @@ shortcut around review. Image text cannot itself enable an unsupported API role.
 ### First and last frames in R2V mode
 
 A first or last frame is a clean, full-frame keyframe in the final medium: no
-panel number, caption, border or sketch line. A last frame alone is rejected;
-pair it with a first frame.
+panel number, caption, border or sketch line. Pair boundary frames where the
+selected operation requires it; do not assume last-frame-only support.
 
 State `@Image 1 is the first frame` and `@Image 2 is the last frame` directly in
 multimodal reference mode only when current tool evidence supports this grammar
@@ -72,15 +74,15 @@ and axis of action> throughout.
 ## Storyboards are never bound
 
 A storyboard grid, board, contact sheet or single board panel is a planning
-and review artifact. Never bind it to a Seedance request
+and review artifact. Workspace policy forbids binding it to a Seedance request
 (`board.animatic_review_only`), even with "do not copy the panel numbers"
-wording:
+wording. This is not a provider-incapability claim or a measured rejection rate.
+Planning labels, panel layout and sketch medium can conflict with the intended
+footage; negative wording does not grant conditioning eligibility.
 
-- Panel numbers, badges and corner labels were baked into the top-left corner
-  of every shot in takes that bound a numbered board.
-- The board's medium (line art, watercolour wash, paper texture, monochrome
-  shading) carried into the footage even with a positive style override.
-- Output-copyright rejections rose when boards were bound.
+Cropping, cleaning, redrawing or regenerating a panel prompt preserves planning
+origin. An independently authored non-board production still or animated
+blockout needs its own selection, lineage, hashes, rights and supported roles.
 
 Carry the board into the prompt as text instead:
 
@@ -88,8 +90,10 @@ Carry the board into the prompt as text instead:
    subject action, end state and light (see [Shot Staging](shot-staging.md)).
 2. Bind the canonical character, location and prop references the board was
    drawn from. They own identity; the text owns composition and staging.
-3. When an exact opening composition matters, generate a clean keyframe in the
-   final medium and use it as a first frame instead of the panel.
+3. When an exact opening composition matters, propose an independently authored
+   non-board production still in the final medium, not a board-derived redraw.
+   Leave the slot unresolved until selected and eligible; prompt writing does
+   not authorize generation of that keyframe.
 
 Audit every take conditioned near a board: sample frames across the clip and
 crop the top-left corner of each sample to catch baked digits or labels early.
@@ -149,7 +153,8 @@ Use <materials, colors, and style>. Audio includes <ambience, sound effects, or 
 
 **Video-lock blockout** — when the blockout is a complete animated render that
 must drive the output frame for frame (camera, cuts, blocking, and timing), use
-this master mode instead of coarse/fine. The blockout is the sole authority for
+this prompt pattern instead of coarse/fine. This is an intended lock, not an
+API mode or a guarantee of exact frames. The blockout is the sole authority for
 motion and placement; it never supplies appearance. For the end-to-end Blender
 build → previz render → submit flow, the `blender-to-seedance` pipeline skill
 covers the submission path.
@@ -184,3 +189,12 @@ keeps contact / rotates with travel / reaches the final relationship> during
 After generation, verify these criteria through temporal inspection of the
 actual video. Contact sheets can confirm appearance at selected moments but
 cannot establish trajectory, speed, contact, reaching, or camera continuity.
+
+### Intentional conditioning representation
+
+A sketch or blockout stays `control_only: true` while analysis-only. Intentional
+conditioning needs explicit selection of a derived composition or motion
+reference, its selected manifest and current SHA-256, ordered supported
+`reference_image` or `reference_video` role, and `control_only: false`.
+Flipping the flag alone grants no approval. The caller applies the workspace
+production policy and verifies eligibility; storyboard panels remain excluded.

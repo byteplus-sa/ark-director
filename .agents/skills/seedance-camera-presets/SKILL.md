@@ -19,14 +19,21 @@ description: >
 
 # Seedance Camera Presets
 
+The caller may compose generic camera intent with `seedance-prompt`, preserving
+the selected model, coherent simultaneous moves and ordered phases. The caller
+owns verified adapter syntax and model/operation review applicability before
+genre or language. Historical 2.5 examples below do not authorize parameters,
+post work or probes on another model.
+
 This skill turns a named camera preset, movement style, or camera personality into a
 canonical, drop-in **Camera block** for the Seedance 2.5 six-part prompt formula
 (Subject + Action + Scene + Visual Style + Camera + Audio). It is a
 **prompt-composition-only** skill: it never calls MCP tools or the Ark API, and
 it never runs generation. The base prompt grammar — the six-part formula,
 `@Image N` / `@Video N` reference-role syntax, `At Ns` timestamp syntax, and
-audio bracket syntax — is defined in `seedance-prompt-25` and is **not
-redefined here**. Compose with `seedance-prompt-25` for the full prompt
+audio bracket syntax — is defined in `seedance-prompt` and is **not
+redefined here**. Verify any special syntax for the selected exact model;
+compose with `seedance-prompt` for generic creative text and the full prompt
 contract; this skill only adds the preset bank on top.
 
 The output of this skill is always a **Camera block** — one or two sentences
@@ -42,7 +49,7 @@ sources accessed 2026-08-13:
 - [BytePlus ModelArk prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2607689) — official prompt guidance
 - [Seedance 2.5 launch blog](https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5) — official announcement
 
-**The base grammar is defined in `seedance-prompt-25`.** This skill adds the
+**The base grammar is defined in `seedance-prompt`.** This skill adds the
 preset bank and Camera-block composition rules; it does not restate or replace
 the six-part formula, reference-role syntax, or audio syntax from that skill.
 
@@ -90,7 +97,7 @@ new provider parameters or guarantees of execution.
 ### Technique presets
 
 These are the named cinematic techniques. Each row states the official
-"What to Specify" contract from the `seedance-prompt-25` popular-techniques
+"What to Specify" contract from the `seedance-prompt` popular-techniques
 table, then gives a canonical phrase template that satisfies it.
 
 | Preset | What to specify | Canonical phrase template |
@@ -105,11 +112,11 @@ table, then gives a canonical phrase template that satisfies it.
 | One-take | Subjects, spaces, and events the camera passes through in order | `One-take shot: the camera passes through <subject or space A> as <event A>, then <subject or space B> as <event B>, then <subject or space C> as <event C>, with no cuts.` |
 
 Rack focus is a focus change, not a camera move: the lens preset skill owns its
-wording and its evidence (drafts keep a face sharp, so a pull away from a face
-is added in post).
+wording and scoped historical evidence. Preserve requested focus planes and
+endpoints; post defocus is an unselected alternative requiring authorization.
 
 For a technique not in the table, follow the uncommon-cinematography-terms
-recipe from `seedance-prompt-25`:
+recipe from `seedance-prompt`:
 
 > **Cinematography Term + Target Subject + Visual Change + Foreground/Background Relationship + Direction or Speed**
 
@@ -280,7 +287,7 @@ Choose a move or hold from the brief; verify execution in actual playback.
 - **A locked-off shot is a recorded choice.** State the static camera in the
   Camera block and record its `static_reason` in the shot plan (the
   shot-design skill owns the allowed values). The Seedance 2.5 MCP tool exposes no `camera_fixed`
-  field (checked 2026-10-06; the legacy `seedance-prompt-20` skill documents it
+  field (checked 2026-10-06; `seedance-prompt`'s legacy parameter snapshot documents it
   for the 2.0 REST API), so the prompt carries the lock. A hold may stand alone
   or follow motion according to the intended beat.
 - **One-take needs explicit order.** A one-take shot must list the subjects,
@@ -324,4 +331,4 @@ Before a Camera block is submitted as part of a Seedance 2.5 prompt, verify:
    the prompt text.
 
 A Camera block that passes all nine checks is ready to be composed into the
-full prompt by `seedance-prompt-25`.
+full creative prompt by `seedance-prompt`; exact-model syntax is verified by the caller.
