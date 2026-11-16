@@ -507,13 +507,14 @@ class PrepareRequestTests(unittest.TestCase):
         self.write_review(dry["request_sha256"])
         code, result = self.run_cli(
             self.register_args(
-                "--adopt-provider-task-id", "job-123", "--adopt-terminal"
+                "--adopt-provider-task-id", "job-123", "--adopt-terminal",
+                "--adopt-provider-status", "succeeded",
             )
         )
         self.assertEqual(code, 0, result)
         record = json.loads((self.root / "task_ids.json").read_text())["tasks"][0]
         self.assertEqual(record["submission_status"], "terminal")
-        self.assertEqual(record["provider_status"], "completed")
+        self.assertEqual(record["provider_status"], "succeeded")
 
     def test_adopt_still_needs_a_review_that_matches_the_request(self) -> None:
         self.write_review("0" * 64)

@@ -16,6 +16,7 @@ from operation_store import (
     read_registry,
     registry_lock,
     require_current_approval_contract,
+    require_provider_result,
 )
 from ruamel.yaml.error import YAMLError
 from validate_request import (
@@ -368,8 +369,15 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
     root = args.project.resolve()
     if not root.is_dir():
         raise ValueError("Project directory does not exist")
-    request = build_request(root, args)
     adopting = bool(args.adopt_provider_task_id)
+    provider_status = args.adopt_provider_status
+    if adopting:
+        if provider_status is None and not args.adopt_terminal:
+            provider_status = "submitted"
+        require_provider_result(
+            args.adopt_provider_task_id, provider_status, args.adopt_terminal
+        )
+    request = build_request(root, args)
     findings = schema_findings(request, "generation-request.schema.json")
     if not findings:
         findings = prepared_evidence_findings(
@@ -415,8 +423,7 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], list[Finding]]:
                     review,
                     args.required_rule,
                     args.adopt_provider_task_id,
-                    args.adopt_provider_status
-                    or ("completed" if args.adopt_terminal else "submitted"),
+                    provider_status,
                     args.adopt_terminal,
                 )
             else:
@@ -458,7 +465,10 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument("--required-rule", action="append", default=[])
     parser.add_argument("--replace-unregistered", action="store_true")
     parser.add_argument("--adopt-provider-task-id")
-    parser.add_argument("--adopt-provider-status")
+    parser.add_argument(
+        "--adopt-provider-status",
+        help="Actual provider result; required with --adopt-terminal (never inferred)",
+    )
     parser.add_argument("--adopt-terminal", action="store_true")
     return parser
 
