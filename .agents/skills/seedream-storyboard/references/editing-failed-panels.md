@@ -13,7 +13,7 @@ mode selection and caller responsibilities.
 Edit first. When some panels of a board fail, repair those panels and leave the
 others alone; do not regenerate the whole board. For a failed panel in
 separate-images mode, use a narrow revision contract on that panel's image. For a
-failed panel in single-image grid mode, use `seedream_edit_image` with a bounding
+failed panel in single-image grid mode, use `seedream_generate_image` with a bounding
 box targeting just the failed panel's cell, and re-generate the grid only when most
 cells fail or the cause is shared.
 
@@ -25,19 +25,24 @@ other panel's file, hash and approval unchanged. See [Scene Board](scene-board.m
 
 ### HTTPS URL requirement for edits
 
-`seedream_edit_image` requires HTTPS URLs — local file paths are not accepted.
-Before editing:
+`seedream_generate_image` accepts HTTPS URLs or schema-supported base64 in
+`images`, never local filepaths. Put the panel or grid being edited first,
+then any approved donor references, and match all `@Image N` bindings.
+For the HTTPS route:
 
 1. Upload the grid image via `media_upload` (if not already cached), or
 2. Call `media_presign` on an existing `object_key` from `ref_cache.json` to
    get a fresh presigned URL.
 
-Presigned URLs expire in ~10 minutes — submit the edit task immediately after
-obtaining the URL.
+Presigned URLs expire, so the caller submits promptly through `ark_job_submit`
+after verifying the selected model and tool support the edit. Keep the selected
+model; unresolved support does not authorize a full-frame substitute.
 
 ### Grid-to-bbox coordinate mapping
 
-`seedream_edit_image` uses normalized coordinates (0–999) for both x and y.
+`seedream_generate_image` uses structured `bbox` or `point` fields with integer
+normalized coordinates (0-999), targeting only `images[0]`. Do not duplicate
+raw `<bbox>` or `<point>` tags in the prompt; the adapter supplies them.
 For a grid with R rows and C columns, each cell occupies a range of width
 `999/C` and height `999/R`. Use this table or the formula to target a specific
 panel.
@@ -80,7 +85,8 @@ y2 = round((panel_row + 1) * cell_height)
 | 5 | bottom-left | 0 | 666 | 499 | 999 |
 | 6 | bottom-right | 499 | 666 | 999 | 999 |
 
-Add a small margin (e.g. ±5) to avoid the divider line bleeding into the edit.
+Inset the box slightly to avoid divider lines. Keep coordinates in 0-999 and
+require `x1 < x2` and `y1 < y2`; inspect the actual grid before using a table box.
 
 ### Revision contract
 

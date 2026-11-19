@@ -7,16 +7,19 @@ mode selection and caller responsibilities.
 
 ## Recommended prompt structure — Image generation
 
-Use this order for the sections that apply. Do not add empty boilerplate sections:
+Lead with the requested task, then describe the subject and scene, composition,
+visual style and constraints. This is a readability convention, not a weighting
+law. A short natural-language paragraph is enough for a simple request; use only
+the sections that clarify the result and do not add empty boilerplate.
 
 ```
 References:          # only when images are provided
-Task:                # include when the mode needs clarification
+Task:                # requested result or edit
 Subject:
 Setting:             # when environment matters
+Composition:         # when framing matters
 Style:               # when style is specified or useful
 Lighting:            # when lighting matters
-Composition:         # when framing matters
 Text in image:       # only when readable text is requested
 Constraints:         # only useful quality or exclusion requirements
 ```
@@ -34,19 +37,42 @@ References:
 ```
 
 Rules for references:
-- Seedream 5.0 Pro: up to 10 input images. Seedream 5.0 Lite: reference images + generated images ≤ 15 (so up to 14 refs when generating 1 image).
-- First reference image is free. Each additional image: $0.003 (Pro).
-- Formats: JPEG, PNG, WebP, BMP, TIFF, GIF, HEIC, HEIF.
-- Up to 30 MB per image.
-- Input resolution: each dimension > 14px, aspect ratio [1/16, 16], total pixels ≤ 36,000,000 (per API reference).
+- Preserve the selected model and verify its requested operation, reference
+  limits, input formats and connected tool schema. Pro and 5.5 generation
+  document up to 10 references; older Lite/4.x sequential limits are separate.
+- Historical Pro reference-pricing snapshots are not current account prices
+  or family-wide billing rules. Verify pricing separately when requested.
+- Provider input formats and size limits do not prove a wrapper accepts them;
+  verify the selected transport before packaging executable settings.
 - When no references are provided, omit the References section.
 - The reference list is an inventory, not the instruction. Bind each reference
   again where it affects the output, naming both its role and target:
   `Use the face and hairstyle from @Image 1 for the main character, apply the
   oil-paint texture from @Image 2 to the full scene, and use the leather from
   @Image 3 on the sofa.`
-- Use the exact `@Image N` token every time; do not drop the `@` or replace the
-  token with an ambiguous phrase such as “the references.”
+- Keep `@Image N` labels consistent with the actual input order, rather than
+  using ambiguous phrases such as "the references." This is the workspace's
+  naming convention, not a required provider API token.
+
+For multi-image work, specify each reference's role, target, preserved features,
+excluded features and conflict priority. Use only what matters to the request.
+For example, identity may override material shape while the environment
+reference contributes only background and light. A style reference does not
+authorize changing identity, language, approved text or protected geometry.
+Ask when conflicting references have no specified precedence.
+
+Fictional binding example:
+
+```text
+Use the ceramic vase in @Image 1 for its silhouette and handles. Apply only the
+surface texture from @Image 2 to that vase; ignore the donor object's shape
+and lettering. Use @Image 3 only for the room and side-light direction.
+The silhouette from @Image 1 takes precedence over the texture reference.
+```
+
+For a structured MCP edit, the actual edit target must be the first image.
+Renumber the inventory and all inline bindings together when reordering.
+Do not invent a missing reference or describe an uninspected image as verified.
 
 ### 2. Task type
 
@@ -71,9 +97,27 @@ Reference-based generation sub-types (Reference Target + Generated Scene Descrip
 
 **Image Editing**: Modify an existing image with localized changes. See the editing modes section below.
 
-**Sequential Generation**: Generate multiple coordinated images in one call. **Not supported on Seedream 5.0 Pro** — Pro supports only single-image and multi-layer output. Sequential/batch generation requires Seedream 5.0 Lite (or 4.5/4.0) with `sequential_image_generation` set to `auto` (or `disabled`). Include "series", "set", or "sequence" in the prompt.
+**Sequential Generation**: Multiple coordinated images in one call require
+verified native sequential support for the selected model and tool. Pro and
+5.5 do not support it. Older Lite/4.x configurations or future models need
+current evidence; do not silently switch to them. Offer per-panel prompts,
+a single-image grid, or an unselected verified alternative, with authorization
+before changing the model or request count. Layers and stochastic variations
+are not ordered sequences.
 
-**Infographic / Information Visualization**: Transform data, concepts, and dense text into professional layouts. Seedream 5.0 Pro is specifically optimized for this.
+**Infographic / Information Visualization**: Seedream may supply an expressive
+image layer. Exact typography, logo geometry, data placement, and delivery-critical
+layout belong in a deterministic render, not a model-quality promise.
+
+### Generation size
+
+For documented Pro and 5.5 generation, presets are `1K`, `1.5K`, and `2K`;
+explicit `widthxheight` dimensions are also valid within pixel totals
+[921600, 4624220] and aspect ratios [1/16, 16]. Examples include `2048x2048`,
+`1728x2160`, and `2816x1584`. Do not replace valid dimensions with invented
+3K/4K tiers. Verify the selected model and tool; decomposition is a separate
+operation with presets or `auto`, not explicit dimensions. See
+[Quick reference](quick-reference.md) for operation-scoped settings.
 
 ### 3. Subject
 
@@ -126,7 +170,7 @@ Style:
 
 **Art style and medium**: photorealistic, cinematic, oil painting, watercolor, 3D render, anime, illustration, flat design, pencil sketch, charcoal, vector art, pixel art.
 
-**Aesthetic keywords** (from the Seedream 5.0 Pro documentation):
+**Aesthetic keywords** (historical Pro guide vocabulary, reusable creative intent):
 
 | Category | Keywords |
 |---|---|
@@ -150,6 +194,10 @@ Examples:
 - "Golden hour backlight, rim light on subject's hair, warm amber tones."
 - "Moody low-key lighting, single overhead source, deep shadows, cool blue moonlight through window."
 
+Relate reflections, contact shadows, perspective and material response to the
+same light sources and scene geometry. Describe concrete surface behavior
+instead of stacking quality adjectives; inspect physical coherence afterward.
+
 ### 7. Composition
 
 Specify shot type, viewing angle, and composition method.
@@ -164,6 +212,10 @@ Composition:
 **Viewing angles**: high angle, low angle, eye level, bird's eye view, worm's eye view, Dutch angle.
 
 **Composition methods**: symmetric, diagonal, rule of thirds, leading lines, frame within a frame, negative space, golden ratio.
+
+For approximate placement boxes, safe areas or channel adaptation, read
+[Layout and Typography](layout-and-typography.md). Prompt boxes and structured
+edit coordinates are distinct controls, neither a guarantee of exact geometry.
 
 ### 8. Text in image (when non-exact model text is expressly accepted)
 
@@ -181,9 +233,14 @@ Rules:
 - Put exact text in double quotes.
 - Treat the quoted string as prompt intent, not proof of pixel-exact output.
 - Describe the surface: "on a storefront window," "on a vintage paper scroll," "on a digital screen."
-- Seedream 5.0 Pro natively renders text in 14 languages: Arabic, Filipino, French, German, Indonesian, Japanese, Korean, Malay, Portuguese, Russian, Spanish, Thai, Turkish, Vietnamese. English is the base language. Other languages also work but with weaker in-image text rendering and cultural understanding.
+- A historical Pro guide lists multilingual text examples; that is not a
+  family-wide fidelity guarantee. Inspect actual spelling and typography in
+  the requested language, and keep exact copy in the deterministic layer.
 - Small text may still be unstable. If fidelity matters, remove it from the
   generative layer and render it deterministically.
+- For expressive text, specify hierarchy, line breaks, alignment, weight,
+  spacing and safe margins, then proofread the actual output. Detailed patterns
+  live in [Layout and Typography](layout-and-typography.md).
 
 ### 9. Constraints (when useful)
 
@@ -197,10 +254,9 @@ Negative: [no watermarks, no signatures, no text overlays, no distorted anatomy]
 
 All constraints go inline in the text prompt. The Seedream API has no separate `negative_prompt` field.
 
-- With an explicit `WxH` `size`, resolution and aspect ratio come from the
-  parameter, and "4K" or "16:9" in the text does not change the output. A
-  `1K`/`2K` tier takes its shape from the prompt wording, so use explicit `WxH`
-  for sheets and plates whose ratio matters.
+- Use supported explicit `widthxheight` in `size` when dimensions or aspect
+  ratio matter. A tier such as `2K` is not proof of a particular delivered
+  shape, and a "4K" quality adjective is not a resolution setting.
 - A negation does not remove a strong visual prior. Describe the wanted shape,
   surface, or light positively first ("a soft round pool of lamplight", "a
   plain white jug, smooth solid glaze, nothing printed"), then add a short
@@ -209,3 +265,6 @@ All constraints go inline in the text prompt. The Seedream API has no separate `
   grow pseudo-text. When no text is wanted, say the surface is plain with
   nothing printed. Images that become video references carry that text into
   every shot.
+- For a transparent canvas, cutout, translucent material or interior holes,
+  read [Transparent Assets](transparent-assets.md); a background description
+  is not evidence of an actual alpha channel.

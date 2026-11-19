@@ -6,15 +6,16 @@ description: Prepare bounded Seedream image edits with point or bounding-box tar
 # Seedream Interactive Image Editing
 
 Prepare a narrow Seedream edit prompt with ordered references and a spatial
-target. Use `seedream_edit_image` only when the selected model, operation,
-and connected tool expose compatible interactive editing. It is distinct
-from full-frame reference-based generation.
+target. This leaf returns the prompt, reference order, structured target and
+acceptance checks; it does not submit or load sibling skills. The caller owns
+authorization, mode-appropriate review, registration and execution through
+`ark_job_submit` with `seedream_generate_image`. Verify the selected model,
+operation and connected tool before using interactive editing.
 
-## When to Use `seedream_edit_image`
+## When to Use a Bounded Edit
 
-Use `seedream_edit_image` when the user wants to **edit an existing image**
-with spatial precision. The tool is a better fit than `seedream_generate_image`
-when:
+Use `seedream_generate_image` with `images` and a structured `point` or `bbox`
+when the user wants to **edit an existing image** at a specified target:
 
 - The user provides a reference image and wants to modify a specific region
 - The user says "replace the X with Y", "change this area to Z", "put a crown
@@ -22,13 +23,17 @@ when:
 - The user has UI coordinates (from a canvas, click event, or drawn box) that
   need to be converted to normalized coordinates
 
-Use `seedream_generate_image` instead when:
+The same tool without structured targeting can serve a separately requested
+text-to-image or full-frame reference task:
 
 - The user wants text-to-image generation (no reference image)
 - The edit is a global style change ("make it look like a watercolor painting")
   without spatial targeting
-- The user does not provide specific coordinates or region information; the
-  edit tool requires at least one `point` or `bbox`
+
+A bounded request needs an edit image and a verified region or point. If either
+is missing, return unresolved input; do not guess geometry or silently switch
+to a full-frame edit. A multi-image composition prompt does not make structured
+coordinates address arbitrary references: they target Image 1 only.
 
 ## Edits that feed video
 
@@ -45,8 +50,8 @@ input, check what the video actually needs:
   directed in a pure reference-to-video prompt with timestamped stages and the
   element references, not in an I2I-edited first frame.
 - **Local edits of element references are fine.** A bounded edit that fixes a
-  sheet (a wrong button, a stray hand, a leaked label) keeps the rest of the
-  sheet. Compare the unmarked area against the source before accepting it,
+  sheet (a wrong button, a stray hand, a leaked label) should preserve the rest
+  of the sheet, but does not guarantee it. Compare the unmarked area before accepting it,
   save the edited file as a new version with its own hash, and treat every
   review that cited the old hash as stale.
 - **Plain surfaces stay plain.** When an edit adds or replaces a generic prop
@@ -55,7 +60,10 @@ input, check what the video actually needs:
 
 ## Coordinate System
 
-The documented structured edit tool uses **normalized coordinates** in the range **0 to 999**:
+The MCP structured edit fields use **integer normalized coordinates, 0-999**,
+against the first image in `images` (`images[0]`). Put the actual edit target
+first, then donor/style references. After reordering, rewrite every prompt
+binding and label to match the new input order.
 
 | Corner | Coordinates |
 |---|---|
@@ -65,19 +73,30 @@ The documented structured edit tool uses **normalized coordinates** in the range
 ### Converting Pixel Coordinates to Normalized
 
 When the user provides pixel coordinates relative to an image of known
-dimensions (width × height):
+dimensions (width × height), validate the source coordinate system and positive
+dimensions first. Reject missing images, inverted or degenerate boxes, and
+genuinely out-of-range values rather than clamping invalid input into validity.
 
-```
-normalized_x = round(pixel_x / image_width * 1000)
-normalized_y = round(pixel_y / image_height * 1000)
+```text
+normalized_x = min(999, round(pixel_x / image_width * 1000))
+normalized_y = min(999, round(pixel_y / image_height * 1000))
 ```
 
-Always clamp to `[0, 999]` after conversion.
+Recheck that `x1 < x2` and `y1 < y2` after rounding. Cropping or reframing
+requires recomputing coordinates against the actual submitted source.
+
+The 5.5 guide's natural-language layout convention is separately
+`bbox=[xmin, ymin, xmax, ymax]` on a **0-1000** scale, not an MCP input field
+or a pixel-accuracy guarantee. When deliberately converting a valid guide box
+to structured edit fields, map its 1000 endpoint to 999 at the adapter boundary.
+Do not silently accept 1000 as a structured coordinate or confuse either
+interface with provider decomposition OCR coordinates.
 
 ### Tool Input: Point vs Bbox
 
-The tool accepts structured coordinates, not raw markup strings. The examples
-below show the fields of the tool's `input` object:
+The tool accepts structured coordinates, not raw markup strings. These
+hypothetical examples show fields of the caller's `ark_job_submit` input for
+`seedream_generate_image`, not authorization to execute:
 
 **Point** — for object-level editing near a position:
 ```json
@@ -97,21 +116,22 @@ below show the fields of the tool's `input` object:
 }
 ```
 
-**Both** — for cross-image or multi-target editing:
+**Donor reference** - the box still targets only the first image:
 ```json
 {
-  "prompt": "Place the subject from Image 1 at the position of Image 2, and replace the object at Image 2 with a crown.",
+  "prompt": "In @Image 1, replace the boxed chair with the chair from @Image 2 at the same size and orientation. Preserve @Image 1's room, lighting and all unmarked objects. Use @Image 2 only for the chair design, not its background.",
   "images": [
-    {"kind": "url", "url": "https://example.com/source.png"},
-    {"kind": "url", "url": "https://example.com/target.png"}
+    {"kind": "url", "url": "https://example.com/target.png"},
+    {"kind": "url", "url": "https://example.com/donor.png"}
   ],
-  "bbox": {"x1": 179, "y1": 283, "x2": 796, "y2": 986},
-  "point": {"x": 50, "y": 50}
+  "bbox": {"x1": 179, "y1": 283, "x2": 796, "y2": 986}
 }
 ```
 
 The tool automatically constructs the `<point>` and `<bbox>` markup from these
-structured inputs and prepends it to the user's prompt.
+structured inputs and prepends it to the user's prompt. Do not hand-write or
+duplicate that markup. If both fields are supported and supplied, both refer
+to Image 1, not separate images or an arbitrary multi-target operation.
 
 ## Prompt Engineering for Editing
 
@@ -121,8 +141,19 @@ structured inputs and prepends it to the user's prompt.
   is better than "change the animal".
 - **Describe the desired result, not the current state.** "Make the sky sunset
   orange" rather than "the sky is blue, change it".
-- **Keep the instruction focused on the target region.** The model knows the
-  spatial context from the coordinates.
+- **Keep the instruction focused on the target region.** State what changes
+  and what stays unchanged; coordinates are guidance, not strict boundary guarantees.
+- **Bind references by role and target.** Name preserved features, excluded
+  donor features and conflict precedence. A material reference must not replace
+  the approved subject's shape or identity.
+- **For visible markers**, use unique region numbers, distinguish move source
+  and destination, state operation order and replacement size/orientation,
+  and request removal of the markers. Inspect marked and unmarked areas.
+- **For edit chains**, use the last approved output as the next input, one major
+  delta per round. Restate preservation constraints in a self-contained prompt;
+  do not assume conversational memory. Record the accepted artifact/hash,
+  prompt, reference order, exact model and settings. Reject drift and roll back
+  to the last accepted image instead of building on a rejected result.
 
 ### Prompt Patterns by Scenario
 
@@ -162,9 +193,10 @@ mode, an Active private asset can be passed as
 not accepted: upload the file or presign a cached object key first, then submit
 promptly because presigned URLs expire.
 
-The prompt plus the prepended coordinate markup must stay within 4,000
-characters. Set `watermark: false` for reference sheets unless the user wants a
-visible watermark.
+For this MCP adapter, the prompt plus prepended coordinate markup must stay
+within 4,000 characters, including each variation prompt. This is a transport
+limit, not a universal creative word limit. Set `watermark: false` for reference
+sheets only when supported and unless the user wants a visible watermark.
 
 ## Model Compatibility
 
@@ -181,16 +213,17 @@ That does not prove the installed wrapper supports 5.5. Lite, 4.x, or future
 bindings require separate evidence for this operation, not generation limits.
 Inspect the actual edited result, including the unmarked area, before acceptance.
 
-The structured edit input convention below is 0-999. Decomposition OCR output
-uses 0-1000 base-image coordinates; it is not interchangeable with edit input.
+Provider-only layer decomposition and its OCR output are unavailable through
+the current MCP tool. Do not fabricate layer fields or claim a transparent
+image is a set of editable layers.
 
 ## Common Pitfalls
 
 1. **Coordinates outside 0-999 range.** The tool rejects these at validation
    time. Always normalize pixel coordinates first.
 
-2. **Bbox ordering.** `x1` must be ≤ `x2` and `y1` must be ≤ `y2`. The tool
-   validates this.
+2. **Bbox ordering.** Require `x1 < x2` and `y1 < y2`; reject zero-area boxes
+   even if a wrapper accepts equal endpoints.
 
 3. **Too many reference images.** Verify the selected edit operation and
    wrapper limits. Do not copy batch-generation limits into an edit.
@@ -199,9 +232,9 @@ uses 0-1000 base-image coordinates; it is not interchangeable with edit input.
    describe the edit. Don't rely on the model inferring intent from
    coordinates alone — they only specify *where*, not *what*.
 
-5. **Using `seedream_generate_image` with raw markup.** While possible, it
-   shifts coordinate validation onto the agent. Prefer a verified
-   `seedream_edit_image` path when you have structured coordinates.
+5. **Duplicate targeting.** Pass structured fields once; do not add raw markup
+   to the prompt. Reordering references without rebinding targets edits the
+   wrong image.
 
 ## Artifact Persistence
 
@@ -210,18 +243,23 @@ to the local artifact store. The returned `ArtifactRef.uri` (e.g.
 `seed-media://artifacts/abc123`) survives provider URL expiry (24 hours for
 images). Always use `persist=true` unless you have a specific reason not to.
 
-The edit runs as a long task. Submit it through `ark_job_submit` and poll with
-`ark_job_get`; do not pass `output_path` through `ark_job_submit` (the
-background job fails). Read the `ArtifactRef` from the finished job and copy it
-locally with `seed_media_export_artifact`. `output_path` is only for clients
-that negotiate MCP task augmentation and call the tool directly.
+The caller submits `seedream_generate_image` through `ark_job_submit` and
+polls with `ark_job_get` to a terminal state. Do not pass `output_path` or
+`output_dir` through `ark_job_submit`. Inspect the actual `ArtifactRef` and
+`persistence_error`, export separately with `seed_media_export_artifact`, and
+verify the saved file's existence, bytes and hash. A direct call with an allowed
+absolute `output_path` requires confirmed native task augmentation.
+Reconcile an interrupted or ambiguous submission before retrying or changing
+transport; a persistence failure calls for recovery/export, not regeneration.
 
 ## Related Tools
 
-- `seedream_generate_image` — text-to-image and reference-based generation
-  (without coordinate markup)
-- `seedream_generate_image_variations` — parallel image generation with
-  distinct seeds
+- `seedream_generate_image` - text-to-image, reference-based generation and
+  structured edits. Its `variations` field requests separate calls, not provider
+  batch output. Default review uses one image; strict uses three when applicable,
+  unless the user requests a count or creative alternatives. Keep comparison
+  settings identical except supported seed variation; never assume reproducibility
+  or authorize extra calls from a prompt-only request.
 - `media_upload` / `media_presign` — turn a local file or cached object key into
   the HTTPS URL the edit needs
 

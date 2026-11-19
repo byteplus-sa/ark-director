@@ -115,10 +115,16 @@ the outfit comes from photos, or includes glasses, a hat, jewelry or footwear.
 ## Route
 
 Default to **full-sheet I2I** with `seedream_generate_image` and the parent as
-`@Image 1`. Use a per-panel box edit with `seedream_edit_image` only for one
+`@Image 1`. Use a per-panel box edit with the same tool only for one
 small always-worn item on one panel, and only after a full-sheet probe drifts
 the face. A hat or glasses must appear in all three panels, so a one-panel edit
 is rarely enough; see [outfit QA](references/outfit-qa.md) for the retry order.
+
+For a bounded edit, put the sheet being repaired first in `images` and pass
+a structured `bbox` in integer 0-999 coordinates; do not duplicate raw tags in
+the prompt. The caller verifies support on the selected model and submits via
+`ark_job_submit`. Image inputs accept HTTPS URLs or schema-supported base64,
+not local filepaths.
 
 ## Garment text and logos
 
@@ -131,9 +137,16 @@ consent stay separate from creative approval.
 
 ## Samples and storage
 
-Default to three stochastic samples with identical prompt, references and
-parameters, varying only the seed. An explicit user count overrides this. Pro
-renders one image per call, so the caller runs the set as variations.
+Default review mode uses one image; strict mode uses three stochastic samples
+when applicable. An explicit requested count or creative alternatives wins.
+Keep comparison prompts, ordered references and effective parameters identical
+except supported seed variation; never assume seed support or pixel
+reproducibility. The caller resolves selected-model batch support separately
+from adapter `variations` (separate calls). A prompt-only request does not
+authorize generation or extra samples.
+
+Seedream 5.5 and Pro do not support native batch output; use the same tool's
+`variations` field for an authorized sample set, not `max_images` above one.
 
 Each outfit is a new element and the parent is never edited:
 

@@ -16,9 +16,13 @@ Unknown capability evidence stays unresolved, not assumed from a family name.
 
 Input: image purpose, visible detail, model, size, ordered input roles, and
 whether the user expressly accepts model-rendered text as expressive and
-non-exact.
+non-exact. For edits, identify the source, requested delta and protected
+features. Ask about missing inputs only when they materially change the result.
 
-Output: an image-generation or edit prompt and its matching reference bindings.
+Output: a paste-ready image-generation or edit prompt and its matching ordered
+reference bindings. Keep verified request settings and concise acceptance
+checks separate from the prompt. Unverified settings remain unresolved;
+prompt-only work needs neither credentials nor a generation request.
 
 ## Procedure and reference loading
 
@@ -29,6 +33,10 @@ mentioned in prose are relative to this skill directory unless a link says other
 
 - [Image Generation](references/image-generation.md) — Recommended prompt structure — Image generation.
 - [Image Editing](references/image-editing.md) — Recommended prompt structure — Image Editing.
+- [Transparent Assets](references/transparent-assets.md) - Read for RGBA,
+  cutouts, translucent materials, interior holes and alpha verification.
+- [Layout and Typography](references/layout-and-typography.md) - Read for
+  spatial boxes, expressive text, resizing, reframing and channel adaptation.
 - [Worked Examples](references/worked-examples.md) — Full example: T2I — Cinematic scene; Full example: Infographic; Full example: Image Editing — Color & Material Replacement; Full example: Multi-image fusion.
 - [Photographic Detail](references/photographic-detail.md) — Avoiding the AI look.
 - [Quick Reference](references/quick-reference.md) — Quick reference card.
@@ -62,6 +70,9 @@ reasoning or evaluation notes when useful, not boilerplate in every final prompt
 
 The prompt structure and rules in this skill are sourced from:
 - [Seedream image API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/image-generation-api.md) and [Seedream 5.5 tutorial](https://docs.byteplus.com/docs/en/modelark/seedream-5-5.md)
+- Dola Seedream 5.5 Image Generation & Editing Prompting Guide, sections
+  1-4: task-first descriptions, reference roles, marked edits, layout,
+  typography, transparency and adaptation are prompting conventions.
 - [Seedream 5.0 Pro official blog](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro) (2026-07-08)
 - [Seedream 4.0-5.0 API Tutorial](https://docs.byteplus.com/en/docs/ModelArk/1824121)
 - [Seedream 4.0-4.5 Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/1829186)
@@ -101,7 +112,10 @@ render record.
 ## Usage tips
 
 ### Prompt formula
-**Subject > Setting > Style > Lighting > Composition > Technical** is a readability convention. Lead with the requested result and omit irrelevant sections; do not claim a measured positional weighting law.
+**Task > Subject and scene > Composition > Visual style > Constraints** is a
+readability convention, not a measured positional weighting law. Include
+lighting, materials and text only where useful. Lead with the requested result,
+state important preservation constraints, and omit empty boilerplate.
 
 ### Prompt length
 - Recommended: 30-100 words for standard images.

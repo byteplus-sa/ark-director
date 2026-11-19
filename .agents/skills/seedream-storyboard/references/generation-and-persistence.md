@@ -10,34 +10,30 @@ mode selection and caller responsibilities.
 
 ### 10. Generate variants when requested or authorized
 
-For actual image creation:
+For authorized image creation, the caller submits `seedream_generate_image`
+through `ark_job_submit` after selected-model and tool verification:
 
-- use `seedream_generate_image` for a single panel, a single-image grid, or a
-  sequence-capable batch of separate images;
-- use `seedream_generate_image_variations` for independent alternatives;
-- use `seedream_edit_image` for point- or bounding-box-guided corrections;
+- use one image for a single panel or a whole grid;
+- use `variations` for independent samples (separate calls, not native batch);
+- use `max_images` above one only for verified native sequential output.
+  Seedream 5.5 and Pro do not support native batches; do not downgrade models
+  to obtain them or combine native batches with `variations` above one;
+- for corrections, put the source first in `images` and use structured `point`
+  or `bbox` integer coordinates in 0-999, without raw tags in the prompt;
 - set `persist: true`;
 - use the lowest suitable draft size;
 - set `watermark: false` unless the user requires a visible watermark;
-- use `prompt_optimization: standard` for final candidates and `fast` only when
-  latency matters more than fidelity.
-- Upload and pass the resolved local Element files as ordered reference inputs;
+- use `prompt_optimization` only when supported; 5.5 accepts `standard`, not
+  `fast`. Latency preference does not establish capability.
+- Pass Element files as HTTPS URLs or schema-supported base64, never local filepaths;
   keep their `@Image N` indices identical in the prompt, request, and manifest.
 
-For a one-panel board, generate three alternatives of that same panel by
-default: `p010 v01`, `p010 v02`, and `p010 v03`. They share the same decisive
-moment and continuity contract but explore useful composition, lens, staging,
-or lighting differences. They are candidates, not a narrative sequence.
-
-For a multi-panel single-image grid board, generate three variants of the whole
-grid by default: `board v01`, `board v02`, and `board v03`. They share the same
-panel plan and continuity contract but may differ in composition within each
-cell, grid layout balance, or rendering.
-
-For a multi-panel separate-images board, generate three variants by default for
-hero and high-risk panels. For ordinary continuity panels, first generate
-one low-cost draft sequence; add alternatives only where composition or
-continuity is unresolved.
+Default review uses one sample per panel or whole grid; strict uses three
+stochastic samples where applicable. Explicit requested count or creative
+alternatives wins. Comparison samples keep prompt, references and effective
+parameters identical except supported seed variation. Creative alternatives
+change only requested axes with their own provenance. Samples are candidates,
+not extra story beats. Prompt-only work authorizes no calls.
 
 ### 11. Persist every generated result locally
 
@@ -82,12 +78,14 @@ panel numbers.
 ### Downloading artifacts
 
 The durable artifact is always kept. Through `ark_job_submit`, never pass
-`output_path` (the background job fails); copy the persisted artifact with
-`seed_media_export_artifact` after `ark_job_get` reports it. A direct call with
+`output_path` or `output_dir`; inspect terminal state and any `persistence_error`
+with `ark_job_get`, then copy the persisted artifact with
+`seed_media_export_artifact` and verify its bytes and hash. A direct call with
 MCP task augmentation may set `output_path` (an absolute path inside an allowed
-output root) instead. Alternatively, or pass `response_format: "url"` and download the
+output root) instead. Alternatively, pass `response_format: "url"` and download the
 presigned URL promptly. Do not hand-decode Base64 from tool output: large
-artifacts are truncated.
+artifacts are truncated. Recover persistence/export failures without regenerating;
+reconcile uncertain submission before retrying.
 
 ### Manifest and metadata
 
