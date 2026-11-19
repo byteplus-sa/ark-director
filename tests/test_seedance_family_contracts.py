@@ -39,6 +39,21 @@ class FamilyContractTests(unittest.TestCase):
             self.assertIn(term, reference)
         self.assertIn("words-only", reference)
 
+    def test_restyle_route_and_image_budget_allow_words_only_requests(self):
+        reference = (
+            SKILLS / "seedance-vfx-pipeline/references/recast-and-variants.md"
+        ).read_text()
+        restyle_route = next(
+            line for line in reference.splitlines() if line.startswith("| Restyle |")
+        )
+        self.assertIn("words-only", restyle_route.lower())
+        self.assertNotIn("with an environment image", restyle_route.lower())
+        image_budget = next(
+            line for line in reference.splitlines() if line.startswith("| `images` |")
+        ).strip("|").split("|")
+        for restyle_budget in image_budget[-2:]:
+            self.assertIn("optional", restyle_budget.lower())
+
     def test_delegated_sound_routes_preserve_all_selected_owners(self):
         for name in ("slot-mapping.md", "long-pins-and-multi-clip.md"):
             with self.subTest(reference=name):

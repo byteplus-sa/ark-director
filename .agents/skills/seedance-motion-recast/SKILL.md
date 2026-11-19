@@ -209,7 +209,7 @@ length as one natural-duration recast or assemble separate shots.
 Load only the references the request needs. A stylized medium such as
 claymation or toy miniature may also use the `seedance-animation-styles`
 recipes by name; the six-part formula and reference syntax stay with
-`seedance-prompt-25`. A shared subject map comes from `source-subject-map`.
+`seedance-prompt`. A shared subject map comes from `source-subject-map`.
 These are composition hints; this leaf does not load sibling skills.
 
 ## Submission boundary and failure behavior
