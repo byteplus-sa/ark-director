@@ -43,7 +43,9 @@ Edit instructions:
 In @Image 1, [describe exactly what to modify at the marked location]. [Describe what to add/remove/change].
 ```
 
-Colored-frame region isolation (Form 1 pattern): outline locations with differently colored frames, and the model generates the specified items within each designated area, each strictly respecting its coordinate boundaries.
+Colored-frame region isolation (Form 1 pattern): identify each outlined region
+and describe its intended content. Treat boundary adherence as a result to
+inspect, not a guarantee.
 ```
 Generate a blue furry monster watching bubbles in the red frame, and a grass-green blanket in the purple frame.
 ```
@@ -53,24 +55,63 @@ Anchor grounding works best on clear row-and-column layouts:
 Shift the red chariot at the bottom left one square to the right, and move the black pawn on the second line counting from the left side of Black's position one square downwards.
 ```
 
-Layout-preserving translation (Form 1 pattern): the model translates text while preserving the original spatial layout.
+Layout-preserving translation (Form 1 pattern): request translation while
+retaining the layout, then proofread the output and inspect spatial changes.
+Use deterministic text replacement when exact copy or typography is required.
 ```
 Translate the menu into Chinese.
 ```
 
-**Form 2 — Precise coordinate location (capability-gated)**: Use `<point>` or
-`<bbox>x1 y1 x2 y2</bbox>` only after verifying the selected model's interactive
-editing capability and the connected tool's coordinate mapping. Pro and 5.5
-have documented provider support; other models and wrapper exposure require
-separate evidence. Inspect actual results for boundary fidelity. Unknown
-support is unresolved, not permission to substitute a full-frame edit.
+**Form 2 - Structured coordinate edit (capability-gated)**: verify the selected
+model and tool before preparing executable settings. Pro and 5.5 have
+documented provider support; other models require separate evidence.
+The current MCP `seedream_generate_image` accepts structured `point` or `bbox`
+in 0-999 coordinates and targets only the first image. Do not add `<point>` or
+`<bbox>` markup to the prompt; the adapter supplies it. Its markup counts toward
+the 4000-character prompt limit. Unknown support is unresolved, not permission
+to substitute a full-frame edit.
 
-```
+```text
+References:
+@Image 1: room photograph to edit
+@Image 2: replacement lamp, shape and material reference only
+
 Edit instructions:
-Use the subject from @Image 1 <bbox>118 331 933 871</bbox> to replace the subject in @Image 2 <bbox>179 283 796 986</bbox>.
+Replace the selected lamp in @Image 1 with the lamp design from @Image 2.
+Keep the room geometry, camera, other objects and lighting unchanged.
 ```
 
-The model can also lock onto semantic regions without explicit coordinates — e.g., "Complete all the multiple-choice questions above and write out the corresponding calculation steps in the blank spaces below each question."
+The caller supplies the verified target box separately, on Image 1. Reorder
+the actual inputs and every reference binding together if the source was
+previously elsewhere in the list. A donor is not a second structured target.
+The guide's `bbox=[xmin, ymin, xmax, ymax]` layout convention is 0-1000, not this
+MCP field. See [Layout and Typography](layout-and-typography.md) for validation,
+boundary conversion and coordinate remapping after cropping or resizing.
+
+Semantic locations such as "the lamp on the right-hand desk" may be sufficient
+when unambiguous; do not invent precise coordinates from a textual description.
+
+### Numbered marked-region edits
+
+Identify each marker uniquely. State the operation, source, destination,
+replacement size and orientation, and what must remain unchanged. If markers
+overlap or an operation changes the target of a later operation, clarify the
+order or split the work into separate edits.
+
+When a clean source and annotated guide are both supplied, bind them separately:
+the clean source owns identity and pixels to preserve; the annotated guide owns
+locations only. Remove all temporary numbers, arrows and colored outlines from
+the result. Inspect both marked and unmarked regions for unintended changes.
+
+Fictional example:
+
+```text
+Use @Image 1 as the clean room source and @Image 2 only as the numbered guide.
+Move the small side table from marker 1 to the empty floor at marker 2,
+preserving its size and orientation. Remove the folded cloth at marker 3.
+Keep the chair, window, camera and light direction unchanged. Reconstruct only
+the newly exposed floor. Remove every guide number, arrow and outline.
+```
 
 #### 2. Sketch Rendering
 
@@ -95,6 +136,8 @@ Using the sketch in @Image 1 as the layout guide, generate [describe the final o
 Split an image into editable layers only through a verified decomposition
 operation. Supply `layer_decomposition: true` and exactly one composite input.
 The prompt below expresses intent, not an executable capability claim.
+The current MCP does not expose decomposition or rich-text OCR; do not pass
+these provider-only fields to it or treat a cutout as a multilayer result.
 
 ```
 References:
@@ -129,7 +172,9 @@ is not exact design fidelity or font-license permission. See
 
 #### 4. Color & Material Replacement
 
-The model accepts Hex color codes or external color swatches and replaces materials while preserving lighting and perspective.
+Use Hex color codes or swatches as color intent, naming the affected surfaces
+and protected colors. Preserve lighting and perspective in the instructions,
+then inspect them; a Hex value does not guarantee colorimetric accuracy.
 
 ```
 References:
@@ -179,3 +224,27 @@ support them; decomposition and its parameters remain a separate request. Exampl
 ```
 Change the pumpkins to an alternating pattern of dark green #3E4A2E and turmeric yellow #DB973E, while giving the background typography an embroidered texture.
 ```
+
+### Multi-round edits and drift
+
+Use the last accepted output as the next source, not simply the newest output.
+Keep each request self-contained: restate the requested delta, reference roles
+and cumulative preservation constraints. Do not assume conversational memory
+or that "keep everything else" carries earlier decisions into a new call.
+
+Prefer one major change per round when changes interact. The caller retains
+the accepted source artifact/hash, exact model, prompt, ordered references and
+settings; a chat-only draft needs no invented hash or production record.
+Compare each candidate against the accepted source for identity, geometry,
+materials, lighting, text and untouched regions before continuing.
+On drift, reject the candidate and roll back to the last accepted source;
+do not compound the defect or silently overwrite the approved image.
+Uncertain submission status requires reconciliation, not another edit request.
+
+### Extraction and channel changes
+
+For cutouts and transparent extraction, use
+[Transparent Assets](transparent-assets.md). For resize, crop, recompose or
+capability-verified canvas extension, use
+[Layout and Typography](layout-and-typography.md). Neither operation implies
+decomposition, exact foreground preservation or permission to alter identity.

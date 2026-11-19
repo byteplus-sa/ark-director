@@ -1,0 +1,215 @@
+{
+  "skill_name": "seedream-prompt",
+  "evals": [
+    {
+      "id": 1001,
+      "category": "seedream-55-upgrade",
+      "scenario": "plain-text-to-image",
+      "prompt": "Write one image prompt for a fictional tabletop study: a folded ochre linen napkin beside a matte blue bowl on pale wood, soft window light. No references, text, logos, or film treatment. Keep it concise and put output size in a separate settings note.",
+      "expected_output": "A task-first prompt with the requested subject, composition, and light, plus separate capability-qualified size intent.",
+      "files": [],
+      "expectations": [
+        "States what to create without empty reference, typography, or mandatory template sections.",
+        "Preserves the plain materials and soft light without inventing a cinematic look or extra subjects.",
+        "Keeps execution settings outside creative text and does not claim an output has been generated or inspected."
+      ]
+    },
+    {
+      "id": 1002,
+      "category": "seedream-55-upgrade",
+      "scenario": "transparent-asset",
+      "prompt": "Prepare a Seedream 5.5 prompt and settings proposal for one fictional enamel compass badge isolated on a transparent canvas. The badge is opaque metal with a solid center, not a translucent object. I need one compositable PNG, not separate layers. Do not generate.",
+      "expected_output": "An opaque-subject transparent-background recipe with separately capability-checked background and PNG settings and an alpha inspection plan.",
+      "files": [],
+      "expectations": [
+        "Separates transparent canvas from opaque subject material and does not ask for a painted checkerboard.",
+        "Keeps background and output_format outside the creative prompt and qualifies them against the exact model and transport.",
+        "Requires decoded alpha and edge composites over light and dark backgrounds rather than trusting the PNG extension.",
+        "Does not promise editable layers or submit an image request."
+      ]
+    },
+    {
+      "id": 1003,
+      "category": "seedream-55-upgrade",
+      "scenario": "photograph-to-cutout",
+      "prompt": "Using only this fictional fixture description, draft a 5.5 extraction edit: Image 1 is an opaque photograph of a woven travel hat with a narrow chin cord on a beige tabletop. Remove the tabletop to transparency while preserving the entire hat, loose fibers, cord, weave, and existing colors. No actual image is attached; return a draft and required checks only.",
+      "expected_output": "A source-bound cutout draft that preserves fine edges and identifies the missing image as a pre-execution requirement.",
+      "files": [],
+      "expectations": [
+        "Uses Image 1 as the proposed edit source and protects the whole silhouette, fine fibers, and cord.",
+        "Makes extraction conditional on verified 5.5 and transport support, without claiming the unavailable source was inspected.",
+        "Calls for alpha decoding, fine-edge and halo checks, and light/dark composite inspection.",
+        "Does not silently crop the object, replace its material, or treat a white matte as transparency."
+      ]
+    },
+    {
+      "id": 1004,
+      "category": "seedream-55-upgrade",
+      "scenario": "translucent-material-and-hole",
+      "prompt": "Draft a fictional frosted amber resin ring asset on transparency. The material should be translucent, its central hole should be fully open, and the surrounding canvas transparent. Explain acceptance checks for the three regions. I have not provided or generated an output.",
+      "expected_output": "Distinct instructions for canvas transparency, translucent resin, and the open interior hole, with region-specific verification.",
+      "files": [],
+      "expectations": [
+        "Does not conflate transparent background, partial material alpha, and fully transparent interior holes.",
+        "Plans decoded-alpha inspection for each region and checks edges and halos on light and dark composites.",
+        "Does not claim that partial-alpha counts alone prove physically correct translucency.",
+        "Leaves actual material fidelity and alpha verification unresolved until an output can be inspected."
+      ]
+    },
+    {
+      "id": 1005,
+      "category": "seedream-55-upgrade",
+      "scenario": "conflicting-references",
+      "prompt": "Draft from three fictional reference descriptions in this fixed order. Image 1: a short, wide desk lamp with a square shade; it owns identity and shape. Image 2: brushed copper on a tall round vase; it supplies surface material only. Image 3: a cool gray workshop with a different lamp; it supplies environment only. Keep Image 1's proportions, apply Image 2's finish, and place it in Image 3's room.",
+      "expected_output": "An ordered role-and-target binding with explicit conflict precedence and excluded donor features.",
+      "files": [],
+      "expectations": [
+        "Keeps inventory labels consistent with the supplied order and binds each reference to its specific contribution.",
+        "Gives Image 1 priority for identity, square shade, and proportions over donor shapes.",
+        "Excludes the vase geometry and the workshop's other lamp instead of mixing identities.",
+        "Treats reference naming as a consistent prompt convention, not proof that an @ prefix is a new API requirement."
+      ]
+    },
+    {
+      "id": 1006,
+      "category": "seedream-55-upgrade",
+      "scenario": "numbered-region-edits",
+      "prompt": "Plan a fictional marked still-life edit. In Image 1, marker 1 surrounds a small pear; marker 2 is its empty destination; marker 3 surrounds a vase; marker 4 surrounds a loose ribbon. First move the pear from 1 to 2 without duplicating it, then replace the vase at 3 with an upright blue cup of the same height, then remove the ribbon at 4. Remove all visible markers. Preserve the table, lighting, and unmarked objects.",
+      "expected_output": "An ordered move/replace/remove prompt identifying source, destination, replacement scale, marker cleanup, and protected regions.",
+      "files": [],
+      "expectations": [
+        "Uses unique numbered regions, distinguishes move source from destination, and follows the requested operation order.",
+        "States the cup's size and upright orientation and removes the original pear from its source location.",
+        "Removes marker graphics and checks both edited and unmarked areas for unwanted changes.",
+        "Does not guarantee strict region-boundary fidelity or invent multiple structured targets unsupported by the adapter."
+      ]
+    },
+    {
+      "id": 1007,
+      "category": "seedream-55-upgrade",
+      "scenario": "bbox-boundary",
+      "prompt": "Plan, but do not execute, a bounded edit of a fictional poster corner. The actual edit target is currently Image 2; Image 1 supplies texture only. The target is uncropped and the guide-style normalized box is bbox=[250,300,1000,1000] on the 0-1000 prompt scale. The selected MCP accepts structured integer bbox fields on 0-999, targeting the first image. Explain the valid boundary mapping and reference reorder.",
+      "expected_output": "An explicit guide-to-adapter conversion, target-first binding rewrite, and no duplicate coordinate markup.",
+      "files": [],
+      "expectations": [
+        "Recognizes 1000 as valid on the supplied guide scale but maps the lower/right structured endpoints to 999.",
+        "Proposes structured bbox {x1: 250, y1: 300, x2: 999, y2: 999}, not a field containing 1000.",
+        "Moves the edit target first and rewrites every affected image binding while keeping the donor texture-only.",
+        "Leaves markup insertion to the adapter instead of also adding raw point/bbox tags.",
+        "Requires new coordinates if the actual source is subsequently cropped or reframed."
+      ]
+    },
+    {
+      "id": 1008,
+      "category": "seedream-55-upgrade",
+      "scenario": "invalid-edit-input",
+      "prompt": "Assess these independent fictional edit requests without executing: A has structured bbox {x1:800,y1:100,x2:200,y2:600}; B has {x1:400,y1:100,x2:400,y2:600}; C has {x1:-5,y1:100,x2:1005,y2:600} already declared as structured 0-999; D has a valid box but an empty images list; E gives pixel coordinates without source dimensions. Do not guess repairs.",
+      "expected_output": "Separate invalid or unresolved findings for reversed geometry, zero area, out-of-range values, missing image, and unknown normalization.",
+      "files": [],
+      "expectations": [
+        "Rejects reversed and degenerate boxes instead of silently sorting endpoints or expanding the region.",
+        "Rejects genuinely out-of-range structured inputs rather than treating them as valid guide boundary values or clamping them.",
+        "Requires an edit image and known source coordinate system/dimensions before preparing executable fields.",
+        "Does not substitute a full-frame edit, fabricate an input image, or submit any failing case."
+      ]
+    },
+    {
+      "id": 1009,
+      "category": "seedream-55-upgrade",
+      "scenario": "expressive-title",
+      "prompt": "For a fictional art study, I expressly accept non-exact generated lettering. Draft a two-line expressive title reading \"NIGHT\" then \"GARDEN\", centered, with the first line heavier and the second more widely spaced, generous safe margins, and painted-paper texture. This is not delivery-critical copy. Give a proofreading checklist, not a fidelity guarantee.",
+      "expected_output": "An opt-in expressive-typography prompt with quoted line content, hierarchy, alignment, spacing, and inspection criteria.",
+      "files": [],
+      "expectations": [
+        "Preserves the quoted words and requested line breaks and describes hierarchy, weight, spacing, and alignment.",
+        "Treats any prompt-space layout boxes as approximate guidance rather than exact pixels.",
+        "Requires proofreading every character and checking unintended inserted symbols or words.",
+        "Does not extend this non-exact opt-in to legal, pricing, logo, or other delivery-critical copy."
+      ]
+    },
+    {
+      "id": 1010,
+      "category": "seedream-55-upgrade",
+      "scenario": "delivery-critical-copy",
+      "prompt": "Plan a fictional shop card for Morrow Workshop. The supplied copy must remain exact: \"Workshop pass: 24 credits\" and \"Valid for one session only.\" Keep an exact logo and a factual chart with values 8, 13, and 21 aligned below. Can Seedream generate the final card? Do not generate or render anything.",
+      "expected_output": "A text-free synthesized image layer proposal with deterministic copy, logo, chart, and layout finishing assigned to the caller.",
+      "files": [],
+      "expectations": [
+        "Preserves the exact-copy boundary even if 5.5 can attempt expressive lettering.",
+        "Keeps price, legal wording, factual values, units, and logo geometry in editable deterministic output rather than an image-model approximation.",
+        "Does not invent offers, claims, chart labels, or missing data.",
+        "Returns a handoff appropriate to the workspace without implementing deterministic graphics in the prompt leaf."
+      ]
+    },
+    {
+      "id": 1011,
+      "category": "seedream-55-upgrade",
+      "scenario": "accepted-output-edit-chain",
+      "prompt": "Plan round two for a fictional reading-room still. Output A is the last accepted artifact: a green chair with square arms, oak floor, and a window on the left. Output B is a rejected attempt that made the chair red but also rounded its arms and moved the window. The only requested change is red upholstery. No image bytes or hashes are attached. Give a self-contained next-round package and identify missing execution inputs.",
+      "expected_output": "A rollback to accepted A with one color delta, restated geometry and environment locks, and truthful provenance requirements.",
+      "files": [],
+      "expectations": [
+        "Uses the last accepted output A, not the latest rejected output B, as the next proposed input.",
+        "Restates square arms, floor, left window, and all protected features without relying on conversational memory.",
+        "Requests the actual accepted artifact and hash; retains prompt, reference order, exact model, and settings without inventing their values.",
+        "Rejects or rolls back further drift before another round instead of treating provider success as acceptance."
+      ]
+    },
+    {
+      "id": 1012,
+      "category": "seedream-55-upgrade",
+      "scenario": "channel-adaptation",
+      "prompt": "A fictional square campaign image shows a short blue lantern in a garden. Plan both A: a smaller square delivery with unchanged composition, and B: a wide 16:9 version that needs more garden and a clear right-side area for exact copy added later. Preserve the lantern's proportions and identity; never stretch it. The selected tool's canvas-extension support is unknown.",
+      "expected_output": "Separate deterministic resize and generative recomposition plans, with capability-gated extension and protected delivery constraints.",
+      "files": [],
+      "expectations": [
+        "Routes A to deterministic resize and distinguishes crop from B's requested recomposition.",
+        "Does not claim unknown canvas-extension support or silently turn resize into a paid generation.",
+        "Protects subject proportions, identity, safe areas, and exact-copy finishing without stretching.",
+        "Calls for inspection of crop, layout hierarchy, logo/copy clearance, actual dimensions, and alpha when required."
+      ]
+    },
+    {
+      "id": 1013,
+      "category": "seedream-55-upgrade",
+      "scenario": "unsupported-layer-splitting",
+      "prompt": "A fictional collage needs separate background, object, and lettering layers. The only available MCP image tool is seedream_generate_image; its verified schema exposes generation/editing, transparency, and variations but no decomposition or OCR operation. Can you split the collage into editable layers through it? Give an honest capability assessment only.",
+      "expected_output": "An unavailable-operation finding that distinguishes transparent single-image output from provider layer decomposition.",
+      "files": [],
+      "expectations": [
+        "Reports layer splitting and decomposition OCR as unavailable through this verified tool.",
+        "Does not fabricate tool names, layer_decomposition fields, separate files, or successful output layers.",
+        "Does not substitute stochastic variations or one transparent PNG for editable layers.",
+        "May describe a separately verified provider or design-tool route without executing or switching transports."
+      ]
+    },
+    {
+      "id": 1014,
+      "category": "seedream-55-upgrade",
+      "scenario": "explicit-model-pin",
+      "prompt": "Handle two independent fictional briefs for a paper sculpture: A explicitly pins dola-seedream-5-0-pro-260628; B explicitly pins the hypothetical, unverified seedream-future-example model. Both request transparency and bounded editing. Draft creative intent and identify capability questions. Do not replace either model or infer support from its family name.",
+      "expected_output": "Separate model-preserving packages with operation-specific capability checks and unresolved unsupported settings.",
+      "files": [],
+      "expectations": [
+        "Preserves each exact supplied model identifier without silently upgrading A or downgrading B.",
+        "Does not inherit 5.5 transparency, edit controls, seed, optimization, or output settings from a family label.",
+        "Distinguishes provider capability, connected-tool schema, and account authorization.",
+        "Allows provisional prompt-only writing while execution remains unresolved and offers alternatives only as unselected choices."
+      ]
+    },
+    {
+      "id": 1015,
+      "category": "seedream-55-upgrade",
+      "scenario": "prompt-only",
+      "prompt": "Prompt-only: write one draft for a fictional miniature observatory on a mossy stone. I have strict review enabled but explicitly want one prompt and no generation, uploads, saved project, or extra samples. Give a short settings note only where capability is known.",
+      "expected_output": "One self-contained prompt package delivered in chat without execution or expanded sampling.",
+      "files": [],
+      "expectations": [
+        "Honors the explicit count of one; strict review does not authorize three samples.",
+        "Does not generate, upload, initialize a project, save files, or treat a draft as production approval.",
+        "Keeps unknown settings unresolved and supported settings separate from the creative prompt.",
+        "Respects workspace-specific review invocation rules without making a sibling review skill a mandatory gate."
+      ]
+    }
+  ]
+}

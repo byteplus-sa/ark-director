@@ -266,7 +266,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-character-sheet-cleanup/SKILL.md",
-      "computedHash": "5427a98425650c83d8f73a74e0f29783975c245bf2062fb01f13ce440d26ac82"
+      "computedHash": "f0e6933cda6805b8322fd1da59cae04bc3356ccebdb1dfd661554f5a90e758c4"
     },
     "seedream-handcrafted-3d": {
       "source": "./local",
@@ -278,7 +278,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-edit/SKILL.md",
-      "computedHash": "02b73c027f3c4dd0a5f9a07acf064ea994ed99cd4a9d920aeba7f71250a7ffaa"
+      "computedHash": "e72c8ae961117cd802d90315b91866bbf8ee9abac121a6fe170e5186b11ffc5a"
     },
     "seedream-location-asset": {
       "source": "./local",
@@ -290,7 +290,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-prompt/SKILL.md",
-      "computedHash": "b0d8f6ccab7207800968cf4d6e78e3aa9563a656422cb97f6707eb215f99d62e"
+      "computedHash": "f7db67f69d0b2f749900e4abb33ee957f514add5f61622406ac5801b70c3c2b3"
     },
     "seedream-prop-asset": {
       "source": "./local",
@@ -464,7 +464,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedream-character-outfit/SKILL.md",
-      "computedHash": "18fd696a4de0acef055b4f201eef244628592ae84f29058e3b3b9113f2601078"
+      "computedHash": "2449e0053eea2413085c089dcd808f0cfb49711ce295a2a1c5948a5249ae29bd"
     },
     "seedance-virtual-portrait": {
       "source": "./local",

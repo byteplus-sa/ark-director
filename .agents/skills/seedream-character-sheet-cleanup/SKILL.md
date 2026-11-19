@@ -23,7 +23,7 @@ original sheet remains available for review, rollback, or alternate use.
 
 This skill is designed to partner with:
 - `seedream-character-sheet` for generating the original three-panel sheet
-- `seedream-edit` and the `seedream_edit_image` MCP tool for the actual cleanup
+- `seedream-edit` and the `seedream_generate_image` MCP tool for the actual cleanup
 
 ## When to Invoke
 
@@ -85,8 +85,10 @@ become stale.
 
 ## Recommended Editing Mode
 
-Use `seedream_edit_image` with a bounding box around the entire head in the
-full-body panel. This is a deletion or cleanup edit, not a full regeneration.
+Return a `seedream_generate_image` edit package for the caller's
+`ark_job_submit`: source sheet first in `images`, with a structured `bbox`
+around the entire head in the full-body panel. Verify selected-model and tool
+support; do not switch models or substitute a full-frame regeneration.
 
 Box the whole head (hair and headwear included), not just the facial features.
 Do not box the entire panel unless absolutely necessary.
@@ -139,7 +141,9 @@ unchanged.
 
 ## Coordinate Guidance
 
-When using `seedream_edit_image`:
+When using `seedream_generate_image`:
+- target `images[0]` with integer `bbox` coordinates in 0-999; do not duplicate
+  raw `<bbox>` or `<point>` tags in the prompt
 - place the bbox around the entire head in the full-body panel (hair and
   headwear included, down to the neck), not just the facial features
 - include the neck inside the box when the user wants the neck removed too
@@ -149,7 +153,7 @@ When using `seedream_edit_image`:
 
 For the standard three-panel 16:9 sheet (e.g. 2048×1152) in the default order
 (back, front, close-up), the front full-body panel is the middle third and the head sits at the top of that panel. A good
-starting box in `seedream_edit_image` normalized coordinates (0–999) is:
+starting box in `seedream_generate_image` normalized coordinates (0–999) is:
 
 ```text
 bbox: {x1: 454, y1: 22, x2: 549, y2: 204}
@@ -215,12 +219,13 @@ Recommended sequence:
 1. Assumes a three-panel sheet exists (e.g. from `seedream-character-sheet`).
 2. Inspect the full-body panels for duplicate readable faces.
 3. If an extra face violates the requested single-face policy, apply this cleanup.
-4. Supply the source sheet to `seedream_edit_image` in `images` (an HTTPS URL
-   from `media_upload`, base64, or an `asset://` reference), pass the bbox and
-   the cleanup prompt, and export the result with `seed_media_export_artifact`
-   to a new versioned file so the source image is never overwritten (pass
-   `output_path` only on a direct call with MCP task augmentation, never
-   through `ark_job_submit`). Remove the extra face with that call.
+4. The caller submits `seedream_generate_image` through `ark_job_submit`
+   with `persist: true`, the source sheet first in `images` (an HTTPS URL or
+   schema-supported base64; never a local filepath), the structured bbox and
+   cleanup prompt. Use `asset://` only when asset resolution is enabled.
+   Poll `ark_job_get`, then export the artifact with `seed_media_export_artifact`
+   to a new versioned file. Never pass `output_path` or `output_dir` through
+   `ark_job_submit`; reconcile uncertain submission before retrying.
 5. Compare original and edited panels directly against the approved visible
    descriptors: target body panel headless, close-up intact. Unavailable visual
    verification stays unresolved; re-edit only

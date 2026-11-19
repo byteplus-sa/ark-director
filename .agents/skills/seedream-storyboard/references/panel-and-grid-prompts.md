@@ -143,9 +143,11 @@ is a video input.
 
 #### 9b. Separate images (one image per panel)
 
-N output images, one per panel. Requires a sequence-capable model (Seedream 5.0
-Lite or 4.x) for a single batch request, or generates one Pro image at a time
-from the same canon.
+N output images, one per panel. Use the sequence template below only after
+verifying native sequential support on the selected exact model and tool.
+Seedream 5.5 and Pro have no native batch output: prepare one single-panel
+prompt per call from the same canon, with caller authorization for the call
+count. Do not downgrade models or treat `variations` as an ordered sequence.
 
 ```text
 Task:
@@ -183,9 +185,11 @@ Preserve character count, identity, handedness, screen direction, location
 landmarks, and prop state unless a numbered panel explicitly changes them.
 ```
 
-Set `max_images` to the requested panel count. Ensure references plus outputs do
-not exceed the live model limit. If the sequence prompt approaches the tool
-length limit, split it by scene or shot rather than deleting continuity rules.
+For verified native sequential generation only, set `max_images` to the requested
+panel count. Ensure references plus outputs do not exceed the live model limit.
+Do not combine that batch with `variations` above one. If the sequence prompt
+approaches the tool length limit, split it by scene or shot with authorization
+rather than deleting continuity rules.
 
 ### 9c. Prompt length budget
 
@@ -233,7 +237,7 @@ descriptions are kept to 1–2 sentences. If it still overflows, split the board
 
 The calling agent owns the workspace prompt-review gate. Return this prompt,
 ordered reference bindings, model/mode, and change contract to the caller for a
-complete review of the exact request before submission. This leaf skill does
+mode-appropriate review of the exact request before submission. This leaf skill does
 not load or invoke a sibling skill.
 
 - Element bindings (`@Image N` indices match the request and manifest)
@@ -242,5 +246,5 @@ not load or invoke a sibling skill.
 - Continuity props and screen direction across panels
 - Prompt length within the 4,000-character limit
 
-Run the gate after writing the prompt snapshot file but before calling
-`seedream_generate_image` or `seedream_edit_image`.
+Run applicable preflight after writing the prompt snapshot file but before the
+caller submits `seedream_generate_image` through `ark_job_submit`.

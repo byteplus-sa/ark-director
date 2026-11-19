@@ -7,37 +7,52 @@ Seedream image generation and storyboard prompts. Apply the universal items in
 
 Source skill: `seedream-prompt`
 
+Apply this checklist when review is invoked under workspace policy. Default
+preflight does not automatically load it; strict review, explicit review and
+applicable required-rule evidence retain their existing invocation rules.
+Prompt-only review never authorizes generation or extra samples.
+
 ### Structure
 
-1. **Section order.** Subject > Setting > Style > Lighting > Composition > Technical.
-   Order matters — earlier concepts carry more weight.
+1. **Task-first clarity.** Task > Subject and scene > Composition > Visual style >
+   Constraints is a flexible writing aid, not a required template or measured
+   weighting law. Omit irrelevant sections while preserving the requested result.
 
-2. **Most important subject first.** The primary subject appears before secondary
-   subjects.
+2. **Subject priority.** The primary subject and visual hierarchy are unambiguous.
 
-3. **Reference labeling.** `@Image 1`, `@Image 2`, ... sequential numbering with `@`.
+3. **Reference labeling.** `@Image 1`, `@Image 2`, ... match actual input order.
+   The `@` prefix is a repository convention, not a newly established 5.5 API rule.
 
-4. **Reference list is inventory.** Each reference is also bound again where it affects
-   output — not just listed in the reference section.
+4. **Reference precedence.** Each reference has a role, target, preserved features,
+   excluded features and conflict priority, bound where it affects the output.
+   A material or environment donor must not override the identity source's shape.
 
-5. **Exact tokens.** Uses exact `@Image N` token every time. Does not drop `@` or
-   replace with ambiguous phrase.
+5. **Bindings stay consistent.** Reordering inputs requires rewriting every label
+   and binding. Do not rely on an inventory alone or ambiguous image references.
 
 ### Reference limits
 
-6. **Seedream 5.0 Pro.** ≤ 10 input images.
-7. **Lite.** Refs + outputs ≤ 15.
+6. **Exact-model limits.** Preserve the selected model. Verify reference counts
+   against its operation and current transport; Pro/Lite limits are not family limits.
+7. **Batch versus variations.** Verify provider batch support separately from
+   adapter `variations` (separate calls). The documented 5.5 and 5.0 Pro bindings
+   do not support provider sequential batches; do not silently switch models.
 
 ### Task type
 
 8. **Correct task type.** T2I, I2I, Image Editing, Sequential Generation, or
-   Infographic/Information Visualization.
+   Infographic/Information Visualization; extraction and channel adaptation
+   state the requested change and protected features.
 
-9. **Sequential generation.** NOT supported on 5.0 Pro. Requires Lite/4.5/4.0.
+9. **Sampling follows review mode.** Default uses one image; strict uses three
+   when applicable. An explicit requested count or creative alternatives wins.
+   Comparison samples keep identical prompts, references and effective settings
+   except supported seed variation. Seeds do not guarantee identical pixels.
 
 ### Subject
 
-10. **2-3 stable attributes.** Each subject defined with 2-3 stable attributes.
+10. **Stable attributes.** Include enough supplied attributes to identify each
+    subject; do not invent identity details to meet a quota.
 
 11. **Multi-subject priority order.** Listed in order of visual priority.
 
@@ -66,22 +81,67 @@ Source skill: `seedream-prompt`
     require a text-free generative layer plus deterministic finishing.
 
 20. **Quoted prompt intent.** Accepted model text is in double quotes and its
-    surface is described; quoting does not establish pixel-exact output.
+    surface, line breaks, hierarchy, alignment, weight, spacing and safe margins
+    are clear where relevant; quoting does not establish pixel-exact output.
 
-21. **Instability disclosed.** Small text may still be unstable and the prompt
-    does not claim deterministic fidelity.
+21. **Proofread output.** Inspect every character, line break and spatial hierarchy
+    in supplied results; OCR can assist but is not a substitute for inspection.
+    Small text may remain unstable. A prompt-only check cannot pass unseen text.
 
 ### Constraints
 
-22. **Inline only.** All constraints in the text prompt. No separate `negative_prompt`.
+22. **Creative constraints inline.** No separate `negative_prompt`. Supported
+    settings such as `background`, `output_format`, size and structured edit fields
+    stay in request metadata, not creative prose.
 
 23. **Quality directives and negative constraints.** Only those that materially affect
     output.
 
 ### Prompt length
 
-24. **30-100 words.** For standard images. Infographics and complex scenes can go
-    longer but stay focused.
+24. **Focused length.** Keep simple prompts concise; retain necessary bindings
+    and preservation constraints in complex edits. The verified MCP adapter's
+    4,000-character limit includes added coordinate markup, not just user prose.
+
+### Coordinates and output acceptance
+
+25. **Separate coordinate interfaces.** Guide prompt boxes
+    `bbox=[xmin, ymin, xmax, ymax]` use 0-1000 as layout guidance, not exact pixels.
+    MCP structured `bbox={x1,y1,x2,y2}` and `point={x,y}` use integers 0-999
+    on the first image only. Put the edit target first and rewrite bindings after
+    reordering. Let the adapter add markup; never duplicate it in the prompt.
+    Reject missing source images, inverted, degenerate or out-of-range boxes.
+    Explicitly map a valid guide endpoint 1000 to 999 at the adapter boundary;
+    recompute after cropping or reframing, not by silently clamping invalid input.
+
+26. **Transparency intent and alpha.** Distinguish transparent canvas, opaque
+    cutout, translucent material and interior holes. Verify exact-model support
+    for creation versus extraction and compatible `background`/`output_format`
+    settings. Decode actual alpha; a PNG extension or painted checkerboard is
+    insufficient. Inspect fine edges, holes, halos and composites on light and
+    dark backgrounds. Partial alpha alone does not prove correct translucency.
+
+27. **Marked edits.** Use unique region numbers, move source/destination,
+    operation order and replacement size/orientation. Remove visible markers.
+    Inspect edited and unmarked areas; coordinates do not guarantee strict
+    boundary compliance.
+
+28. **Accepted-output edit chain.** Use the last approved output as the next
+    input, one major delta per round. Each prompt is self-contained with protected
+    features, not assumed conversational memory. Record accepted artifact/hash,
+    prompt, reference order, exact model and settings. Reject drift and roll back
+    to the last accepted image; successful generation is not approval.
+
+29. **Channel adaptation.** Distinguish deterministic resize/crop from generative
+    recomposition and capability-verified canvas extension. State target ratio
+    and safe areas; do not stretch subjects. Inspect identity, proportions,
+    crop, hierarchy, text, logo clearance, actual dimensions and required alpha.
+    Preserve approved reference identity and the exact-copy finishing boundary.
+
+30. **Information and layers.** Conceptual dashboards and decorative charts are
+    not factual data graphics. Exact labels, values and units need deterministic
+    charting/design with editable copy. Provider layer decomposition/OCR is
+    unavailable through the current MCP tool; do not invent controls or layers.
 
 ---
 

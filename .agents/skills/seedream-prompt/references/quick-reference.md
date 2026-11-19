@@ -54,6 +54,30 @@ Input per image: ≤ 36,000,000 pixels, ≤ 30 MB (per API reference).
   Documented defaults are PNG for 5.5 and JPEG for Pro, not family-wide defaults.
 - `watermark`: boolean where the selected tool exposes it.
 
+### Transparent generation
+
+For 5.5, `background="transparent"` works with text-only or opaque-reference
+input; use PNG output. `background="auto"` follows prompt intent and JPEG is
+opaque. Pro requires exactly one already-transparent PNG input instead.
+Verify the exact model and connected schema; neither PNG encoding nor provider
+success proves actual alpha. See [Transparent Assets](transparent-assets.md)
+for decoded-alpha and compositing checks.
+
+### Prompt layout versus structured editing
+
+The 5.5 guide's prompt-layout `bbox=[xmin, ymin, xmax, ymax]` uses 0-1000.
+The current MCP's structured `bbox` / `point` uses 0-999 on the first image.
+Do not add raw edit markup when passing structured fields; the adapter adds
+it and includes it in the 4000-character prompt limit. See
+[Layout and Typography](layout-and-typography.md) for input validation,
+endpoint conversion and reference reordering.
+
+The current MCP uses `seedream_generate_image` for generation and editing;
+the caller submits it through `ark_job_submit`. It exposes neither layer
+decomposition nor rich-text OCR. Its `variations` makes independent calls,
+not a native sequential batch; 5.5 and Pro do not support `max_images` batches.
+Do not send provider-only options through an unverified wrapper.
+
 ### Layer decomposition (separate operation)
 
 Use `layer_decomposition: true` with exactly one input image. A creative request
@@ -78,7 +102,8 @@ these controls; missing tool support requires a truthful handoff.
 Native support for 14 languages: Arabic, Filipino, French, German, Indonesian, Japanese, Korean, Malay, Portuguese, Russian, Spanish, Thai, Turkish, Vietnamese. English is the base language. Other languages also work but with weaker in-image text rendering and cultural understanding.
 
 ### Throughput and streaming
-- Rate limit: 500 images/minute.
+- Historical provider rate snapshot: 500 images/minute; verify current account,
+  region and endpoint limits rather than assuming that throughput.
 - Streaming, native sequential output, and web search: unsupported by documented
   Pro and 5.5 generation. Verify any older or future selected model separately.
 - A single-image grid, separate panel calls, stochastic variants, native
@@ -100,3 +125,6 @@ Provider source: [image API](https://ai.byteplus.com/ark/region:ap-southeast-1/d
 and [Pro tutorial](https://docs.byteplus.com/docs/en/modelark/seedream-5-0-pro.md).
 Verified public documentation on 2026-11-13; account and connected-tool
 availability still require current evidence.
+The separate prompt-layout convention follows the Dola Seedream 5.5 Image
+Generation & Editing Prompting Guide, section 3.1. MCP control distinctions
+were checked against the connected schema on 2026-11-19; recheck before use.

@@ -36,16 +36,21 @@ Inspect every sample next to the parent sheet. A tool answer from
 
 ## Retry order
 
-1. Tighten the prompt and rerun the three-sample set. Keep the parent as `@Image 1`.
-2. Change the seed set only if the failure is random across samples.
-3. For one small item on one panel, use a box edit with `seedream_edit_image`
-   on a copy; never overwrite the source sample.
+1. Tighten the prompt and return the retry to the caller: one sample in default
+   review, three in strict where applicable, unless a count was requested.
+   Keep the parent as `@Image 1`; prompt-only work authorizes no calls.
+2. Change seeds only when supported and the failure is random across samples.
+3. For one small item on one panel, prepare `seedream_generate_image` with the
+   source sample first in `images` and a structured `bbox` in integer 0-999
+   coordinates, without raw tags in the prompt. Use HTTPS or schema-supported
+   base64, never a local filepath. The caller verifies selected-model support
+   and submits through `ark_job_submit`; never overwrite the source sample.
 4. If identity cannot be held, report it. Do not approve a drifted sheet.
 
 Every retry is a new version. Preserve earlier samples and their prompts.
 
 ## Records
 
-Record each sample's file, SHA-256, seed, artifact or task ID, bytes, and the
+Record each sample's file, SHA-256, supported seed, artifact or task ID, bytes, and the
 parent sheet hash. Provider success sets `review`. Selection follows the project
 `approval_mode` after QA passes.
