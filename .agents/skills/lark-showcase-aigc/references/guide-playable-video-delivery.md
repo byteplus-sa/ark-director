@@ -16,16 +16,20 @@ human check confirms it.
 
 ### 1. Delivery copy
 
-Never overwrite the master. Name the copy `<master-stem>_lark_h264.mp4`:
+Use an already compatible master unchanged. Create a delivery copy only when
+inspection identifies a playback or container requirement; never overwrite the
+master. Preserve compatible audio with stream-copy:
 
 ```bash
 ffmpeg -i master.mp4 -c:v libx264 -pix_fmt yuv420p -profile:v high -crf 22 \
-  -c:a aac -b:a 128k -ar 48000 -movflags +faststart master_lark_h264.mp4
+  -c:a copy -movflags +faststart master_lark_h264.mp4
 ```
 
 Verify with `ffprobe` (H.264 + AAC, expected size), a full decode
 (`ffmpeg -v error -i f -f null -`), and that `moov` sits near the start of the
-file. A showreel from `scripts/assemble_showreel.py` is already web-ready.
+file. An incompatible audio codec needs a disclosed, explicitly approved
+transcode. The default showreel stream-copies its inputs, so verify its codecs
+rather than assuming web compatibility.
 
 ### 2. Upload and place
 

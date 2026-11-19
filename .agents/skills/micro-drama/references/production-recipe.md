@@ -126,16 +126,12 @@ delivery, not merely transcript accuracy. Missing inspection stays unresolved.
   leaked corner mark, a centre punch-in for black side bars, or removing a
   defective shot from inside a multi-shot clip and dissolving across the gap
   when no dialogue is lost.
-- **Dialogue fixes are word-scoped.** Patch only the wrong word windows; never
-  re-dub a whole clip. Transcribe with word times, splice pitch- and
-  loudness-matched replacements with short fades, and prove that samples
-  outside each window are unchanged. Measure the speaker's pitch first: a replacement whose
-  pitch differs from the speaker by more than about 10% sounds like another voice, and a mild
-  mispronunciation can be the better choice.
-- When a model re-voices words, send the original clip with its audio, name
-  the words to fix, take the full audio back, match the original loudness and
-  mux it over the untouched picture. Never send dialogue alone: the score,
-  room tone and effects must survive.
+- **Dialogue defects require a decision.** Report affected words and timestamps;
+  offer a retake or an explicitly scoped audio edit. Do not apply word surgery,
+  normalization, pitch matching, fades or re-voicing merely to finalize.
+- For requested audio edits, preserve all unselected sound, picture and timing.
+  Use compatible stream-copy transport when needed; verify the approved delta
+  and preservation constraints through listening and technical inspection.
 - Record every repair beside the clip with its source hash and command.
 
 ## Assembly
@@ -150,10 +146,11 @@ delivery, not merely transcript accuracy. Missing inspection stays unresolved.
   actual listening, and failed critical criteria block acceptance.
 - No grade unless the brief records a look: keep the original Seedance colours. Decode HEVC finals as
   limited-range BT.709 and tag the output BT.709.
-- Render each clip to an exact-length lossless intermediate in whole frames
-  with its audio padded or trimmed to match, join, and encode once.
-- Normalize every delivered episode to one loudness target (for example
-  -16 LUFS integrated, -1.5 dBFS peak); measure each episode's loudness first.
+- Use whole-frame picture intermediates only when the requested assembly needs
+  them. Preserve independent sound spans, offsets, final words and audio tails.
+  Do not pad or trim audio to match picture without explicit authorization.
+- Native generated or supplied audio is sufficient unchanged. Episodes and
+  showreels need no normalization, gain matching, fades or mix pass.
 - Some FFmpeg builds lack `drawtext`. Render cards as deterministic PNGs and
   subtitles as a sidecar. Add no AI or fictional label unless required.
 - Studio projects record shot-take selections with

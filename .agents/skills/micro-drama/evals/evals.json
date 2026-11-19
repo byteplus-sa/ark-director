@@ -53,12 +53,12 @@
     {
       "id": 5,
       "prompt": "Scene 1's 1080p final has one wrong word in the second line; everything else is approved. Fix it.",
-      "expected_output": "A word-scoped audio repair that leaves the approved picture and the rest of the soundtrack untouched.",
+      "expected_output": "A scoped repair decision that preserves the approved picture and unselected soundtrack; word splicing is not mandatory.",
       "files": [],
       "expectations": [
-        "Transcribes the take with word times and patches only the wrong word window instead of re-dubbing the clip or regenerating video.",
-        "Matches pitch and loudness with short fades and proves samples outside the window are unchanged.",
-        "If a model re-voices the words, sends the original clip with its audio and keeps the score, room tone and effects.",
+        "Identifies the affected word and offers a scoped audio edit or retake within the existing locks.",
+        "Does not infer normalization, pitch matching, fades or word surgery from a generic fix request.",
+        "For an explicitly approved re-voice, keeps the score, room tone and effects outside the authorized change.",
         "Re-runs the speech-to-text diff and keeps the take in review until the dialogue gate passes."
       ]
     },

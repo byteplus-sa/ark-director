@@ -21,7 +21,11 @@ work follows `project.md` approval mode for the creative script decision.
 
 This workflow copies video frames. It does not re-render mouth movement or guarantee lip synchronization. Transcription-only work, generic TTS, soundscape composition, and visual editing belong to their respective capabilities.
 
-A take with a few mispronounced or wrong words is a **word-scoped fix**, not a dub: patch only those word windows and keep every other sample of the original. Never re-dub a whole track to fix a few words. Recipe: transcribe the original with word timings (`speech_to_text`), generate the corrected words in the same voice, splice only the wrong-word windows with short fades, match loudness, keep a replacement only when its pitch stays within about 10 percent of the speaker's (otherwise it is heard as a voice change, so prefer leaving a mild mispronunciation), and prove every sample outside the windows is unchanged.
+Finalization alone does not select this workflow. Native generated audio is
+sufficient unchanged. For mispronounced words, report the affected span and
+obtain a scoped repair or retake decision; do not impose word surgery, pitch
+matching, fades or normalization. An explicitly requested dub follows its
+approved words, voice, timing and preservation constraints.
 
 ## Load only the needed reference
 
@@ -88,7 +92,10 @@ Quote each whole `file:offset_ms` argument; the final colon is the separator. Th
 
 The muxer targets the **source video stream's duration**, pads/trims generated audio, copies video, and encodes AAC 192kbps. It requires the expected streams and successful decode, and checks audio/video/container timing within 100ms for codec padding and rounding. It uses unique scratch files. Distinct concurrent takes need distinct destination paths.
 
-Trimming/padding is appropriate only after confirming all intended dialogue fits. Technical duration agreement cannot establish correct words, voice identity, seam quality, or lip movement.
+Use the timing muxer only when the requested dub explicitly authorizes fitting
+generated dialogue to the source picture. It is not a finalization helper for
+native audio or exact supplied masters. Technical duration agreement cannot
+establish correct words, voice identity, seam quality, or lip movement.
 
 ## Keep the source soundtrack
 
@@ -119,9 +126,8 @@ a rejected result.
    recommendation, not yet verified in this bundle. With a background stem,
    ask the dub prompts for dry dialogue; prompts that request source room tone
    would double it.
-3. Gain the final mix to the original's integrated loudness before muxing:
-   measure the mix with `ebur128`, then apply `volume=<target - measured>dB`
-   (or a two-pass `loudnorm`).
+3. Inspect levels without modifying them. Gain matching or normalization is
+   applied only when explicitly requested or approved, not before every mux.
 4. After muxing, assert the picture is untouched: the video stream MD5 of the
    output equals the source's.
 

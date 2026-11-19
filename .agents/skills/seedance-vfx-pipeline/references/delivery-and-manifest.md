@@ -35,7 +35,10 @@ projects/<project>/scenes/scene-NN/sNN_shNNN/sNN_shNNN_t01_v01_lastframe.png
 > HEVC (`video_codec: hevc`). Document and web previews and many players need H.264. Keep
 > the HEVC master as the archival take and produce a browser-safe derivative:
 >
-> `ffmpeg -i <take>.mp4 -c:v libx264 -pix_fmt yuv420p -profile:v high -crf 20 -c:a aac -b:a 128k -movflags +faststart <take>_h264.mp4`
+> `ffmpeg -i <take>.mp4 -c:v libx264 -pix_fmt yuv420p -profile:v high -crf 20 -c:a copy -movflags +faststart <take>_h264.mp4`
+>
+> Preserve compatible audio unchanged; an incompatible codec needs a separately
+> approved transcode, not an automatic audio finishing pass.
 
 ## Step 6 — Write the shot.md manifest
 
@@ -115,11 +118,10 @@ safety_identifier: <project>-<scene>-<shot>
 - **Resolution**: <probed width and height>
 - **Ratio**: <probed aspect ratio>
 - **Duration**: <N>s
-- **generate_audio**: `true` (native diegetic audio); `false` for Object Swap,
-  Motion Transfer and Restyle
-- **Muted master** (Object Swap, Motion Transfer, Restyle): `<path>` — SHA-256 `<hash>`
-- **Saved source audio**: `<path or none>` — SHA-256 `<hash>`
-- **Post-audio route**: `<original | new | mixed | re-voiced>` — final mux `<path>`, SHA-256 `<hash>`
+- **generate_audio**: `<actual supported setting and capability evidence>`
+- **Source master**: `<path>` — SHA-256 `<hash>`
+- **Audio route**: `<native/source preservation | exact master | silence | requested edit>`
+- **Authorized audio derivative, if any**: `<path, scope, recipe and SHA-256>`
 - **watermark**: `false`
 - **return_last_frame**: `true` (for shot chaining)
 - **safety_identifier**: `<project>-<scene>-<shot>`

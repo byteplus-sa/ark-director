@@ -121,10 +121,10 @@ worklet effects (`compressor`, `limiter`, `gate`, `bitcrush`) have none at all.
   the analysis, so one set of filters and envelopes covers all of them.
 - `strength` 0..1 derives the whole mechanism (see `carveProfile`).
 - There is no `dynamic`: a carve always follows the speech.
-- `enabled` is whether the carve applies. It exists because a bed with exactly one
-  candidate voice is carved by default: with "off" represented by an absent
-  attribute, switching it off would read as never-configured and the default would
-  put it back. `enabled: false` keeps the settings and stops the carve.
+- `enabled` records whether a configured carve applies. Configure a carve only
+  for an explicitly requested or approved mix change. Inspect the authored
+  chain and lanes rather than treating a Studio suggestion as authorization.
+  `enabled: false` retains settings; it is not a legacy finalization mode.
 
 This attribute is not read at playback — the chain and lanes it produced are what
 play. It exists so the settings can be read back and re-derived rather than

@@ -1,6 +1,6 @@
 ---
 name: lark-showcase-aigc
-description: Orchestrates ffmpeg-scene-transitions, lark-demo-doc-builder, lark-doc, lark-wiki, lark-drive, and design-doc-mermaid to build enterprise-facing Lark documents that showcase AIGC (AI-generated content) with prompts, results, and inline media. When the showcase spans multiple locked videos, assemble them into one compilation highlight video first (via ffmpeg-scene-transitions), then place the compilation at the top of the document in an initial "Production Overview & Capabilities Matrix" + "Highlight Video" section. Invoke when the user wants a standalone customer guide or showcase article in Lark.
+description: Orchestrates lark-demo-doc-builder, lark-doc, lark-wiki, lark-drive, and design-doc-mermaid to build enterprise-facing Lark documents that showcase AIGC with prompts, results, and inline media. Use existing videos unchanged; assemble a compilation highlight video only when requested, using compatible stream-copy or explicitly approved transitions. Invoke when the user wants a standalone customer guide or showcase article in Lark.
 ---
 
 # Showcase AIGC
@@ -29,14 +29,13 @@ The final document should:
 
 This skill is an orchestrator — it sequences these skills and tools as needed:
 
-- `ffmpeg-scene-transitions` to assemble multiple locked scene videos into one
-  compilation highlight video (with crossfades and locked A/V sync) before
-  building the document. For a plain showreel of equal-looking clips with
-  crossfades and open/close fades, `scripts/assemble_showreel.py` does it in one
-  command and writes a web-ready file (see the playable video delivery guide).
-  It is a convenience wrapper for that simple case (24 fps, the first clip's size,
-  one crossfade length); for hard cuts, per-boundary transition plans or mixed
-  frame rates use `ffmpeg-scene-transitions`.
+- `scripts/assemble_showreel.py` for a requested compilation: compatible clips
+  are stream-copied with hard cuts and unchanged audio by default, through the
+  workspace adapter `.agents/scripts/media_concat.py`. `--crossfade` and `--fade`
+  are explicit audio/video edits, not finishing defaults; their encoding and
+  any required timing adaptation need user scope. The transition path uses
+  24 fps and the first clip's size. Use `ffmpeg-scene-transitions` for a more
+  detailed explicitly requested edit. Existing standalone clips need no assembly.
 - `lark-demo-doc-builder` for the main document-building workflow and prompt/result table patterns.
 - `lark-doc` for document creation and block-level editing.
 - `lark-wiki` when the target is a wiki URL and the underlying doc token must be resolved.
@@ -73,8 +72,8 @@ For a customer-facing showcase containing several commercials or campaign
 directions, use the **project showcase** layout unless the user requests a
 different structure:
 
-1. Place a playable showreel near the beginning, after the title and concise
-   introduction. Assemble it from approved videos by default. When the user
+1. Place existing playable videos near the beginning, after the title and concise
+   introduction. Assemble a showreel only when requested. When the user
    explicitly asks to include another existing video, include it in the
    showreel without altering that video's approval record.
 2. Create one top-level section per project or campaign direction, in showreel

@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Here's an 8-second 9:16 clip we shot of two of our own dancers on a rooftop. Keep the choreography and the camera exactly, but make it our two approved characters Mara and Theo dancing in the approved night-market location.",
-      "expected_output": "A recast prompt package: a disposition for both source dancers built from observable descriptors, Mara and Theo bound to separate front and profile images with hashes, the location bound with its people excluded, a Motion Authority block that excludes source appearance, people-count and wardrobe guards, a stated post-audio route, no assumed route verification, and a full-duration native 480p Draft first. A separate partial probe is only a needs-based proposal requiring explicit scope approval.",
+      "expected_output": "A recast prompt package: a disposition for both source dancers built from observable descriptors, Mara and Theo bound to separate front and profile images with hashes, the location bound with its people excluded, a Motion Authority block that excludes source appearance, people-count and wardrobe guards, a stated audio-preservation route, no assumed route verification, and a full-duration native 480p Draft first. A separate partial probe is only a needs-based proposal requiring explicit scope approval.",
       "files": [],
       "assertions": [
         "Each source dancer is mapped individually by screen position, clothing and action; the prompt never says replace everyone.",
@@ -13,7 +13,7 @@
         "The Guards block fixes exactly two people and wardrobe from each character's own reference.",
         "The route is not claimed as verified for this multi-subject, location-image case; evaluate it in the full-duration native Draft with resolution 480p and boolean draft true, and require explicit scope approval for any optional additional partial probe.",
         "The package is returned to the caller for prompt-review and submission; the skill does not submit a task.",
-        "@Video 1 is the muted master with generate_audio false and no @Audio binding; the source music returns through a recorded post-audio route."
+        "@Video 1 retains source audio under verified capabilities; native audio is sufficient unchanged, with no mandatory extraction, muting or post mux."
       ]
     },
     {
@@ -56,13 +56,13 @@
     {
       "id": 5,
       "prompt": "We own this 10-second cafe clip of our presenter talking over light background music. Recast her as our approved character Lia, and fix the one product name she mispronounces at about 0:06. Keep the music and the room sound.",
-      "expected_output": "A recast package with the muted master and generate_audio false, plus a Re-voiced post-audio plan that measures the saved source audio first (loudness, transcript with word times, non-voice sounds), patches only the mispronounced word window, keeps the music and room tone from the source, normalizes to the source loudness and muxes over the untouched picture with the video stream copied.",
+      "expected_output": "A recast package preserving source sound with capability-verified handling and a scoped product-name repair decision. Keep music and room tone; do not mandate word splicing, normalization, fades or a muted input.",
       "files": [],
       "assertions": [
-        "@Video 1 is the muted master with generate_audio false; Lia is bound as a Virtual Portrait asset:// reference.",
-        "The audio plan patches only the wrong word's window and does not re-dub the whole line or track.",
+        "@Video 1 retains source audio under verified capabilities; Lia is bound as a Virtual Portrait asset:// reference.",
+        "The audio plan offers a scoped repair or retake without mandatory word surgery or processing outside the approved delta.",
         "The source music and room sound are kept rather than replaced by a dialogue-only track.",
-        "Words are checked with a speech_to_text transcript, and the final mux copies the video stream unchanged."
+        "Words are checked with a speech_to_text transcript and listening; any needed authorized mux uses compatible stream-copy."
       ]
     },
     {
@@ -73,7 +73,7 @@
       "assertions": [
         "Preserve the full 14.375-second fractional timeline, 345 frames at 24 fps, timestamps and cuts, the final word and audio tails; do not round or retime.",
         "The full-duration native Draft uses resolution 480p and boolean draft: true, followed only by supported promotion after full-span QA and selection.",
-        "Keep the original and derive muted picture and saved audio from the same full span; no extra probe is required.",
+        "Keep the original picture and audio unchanged over the full span; no mute/extract/mux step or extra probe is required.",
         "No media or generation is executed and no inspection results are invented."
       ]
     },
@@ -96,7 +96,7 @@
       "assertions": [
         "Require both the specific current provider requirement and explicit derivative adaptation approval; this fictional fixture is not a live provider claim.",
         "Record source SHA-256, derivative SHA-256, exact window 0-14.000 seconds, command, timing delta -0.375 seconds and audio consequences; keep original and derivative measurements separate.",
-        "Muted picture and saved audio use only the same approved derivative span; retain the original tail and do not ask for the same approval again.",
+        "Picture and audio use only the approved derivative span; retain the original tail and do not ask for the same approval again.",
         "No media or generation is executed."
       ]
     },

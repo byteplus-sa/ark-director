@@ -37,7 +37,7 @@ episodes or dramas at once.
   tool: `portfolio.py <out_dir> <project>... --showreel`. It
   reads each episode's final-master lock, adds a WebVTT subtitle track and a
   canvas link per card, and joins the locked masters back to back with hard
-  cuts (each episode already opens on its title and closes on its card),
-  gain-matched to one loudness target with a limiter. It records input hashes,
-  gains and start times, and refuses a showreel while any episode is unlocked.
+  cuts using compatible stream-copy, preserving each soundtrack without gain,
+  limiting or normalization. It records input hashes and start times, and
+  refuses a showreel while any episode is unlocked or streams are incompatible.
 - A highlight trailer is a separate deliverable. Make one only when asked.

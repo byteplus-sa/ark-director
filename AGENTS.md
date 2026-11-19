@@ -43,7 +43,7 @@ Load only the contract relevant to the current stage:
 | Canon, props, screens and control references | [Element identification](.agents/contracts/element-identification.md) |
 | File prefixes and numbering | [Asset naming](.agents/contracts/asset-naming.md) |
 | Requested dialogue synchronization and assembly | [Audio-video alignment](.agents/contracts/audio-video-alignment.md) |
-| Video-to-video identity references, muted source and post audio | [Video-to-video inputs](.agents/contracts/video-to-video-inputs.md) |
+| Video-to-video identity references, source and audio preservation | [Video-to-video inputs](.agents/contracts/video-to-video-inputs.md) |
 | Shot plan, camera, lens, lighting, acting and other axes | [Directorial axes](.agents/contracts/seedance-reference.md) |
 | Acting plans, choreography, prompt handoff and take acceptance | [Performance direction](.agents/contracts/performance-direction.md) |
 | Vendored Blender adapter/setup | [Blender setup](.agents/contracts/blender-mcp-setup.md) |
@@ -190,6 +190,13 @@ references and UI metadata. Do not refresh hashes to hide unexplained changes.
 
 ## Production invariants
 
+- Preserve generated or supplied audio unchanged. Native audio is sufficient;
+  finalization does not authorize normalization, fades, padding, trimming,
+  mixing, carving, word surgery, replacement or re-voicing. Audio edits require
+  explicit user scope, including silence or an exact supplied master. Do not
+  suppress native sound to create post work. Keep read-only diagnostics and
+  Studio rendering/provenance distinct from audio processing; see
+  [Audio-video alignment](.agents/contracts/audio-video-alignment.md).
 - For new or materially revised moving-image work, resolve a compact creative
   premise: intended audience response, what carries attention, and why the
   ending matters. Preserve a settled idea; offer alternatives only when direction

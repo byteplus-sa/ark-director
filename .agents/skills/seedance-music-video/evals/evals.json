@@ -185,13 +185,13 @@
     {
       "id": 16,
       "prompt": "Write the Seedance plan for a 30-second trap chorus: hard cuts on every kick and snare at 140 BPM, a quiet ambient intro with only rain and no music, and the final cut must sit under my own master.",
-      "expected_output": "A plan that preserves the chorus's beat cuts, chooses feasible generation groupings without a shot-duration floor, offers assembly for precise alignment to the supplied master, keeps generated audio off for the ambient intro and the master, and gives a lossless exact-length assembly recipe.",
+      "expected_output": "A plan that preserves the chorus's beat cuts, chooses feasible generation groupings without a shot-duration floor, offers assembly for precise alignment to the supplied master, permits native rain in the intro when supported and preserves the exact supplied song unchanged.",
       "files": [],
       "expectations": [
         "Treats about 0.8 s as a provisional caution, not a guaranteed merge threshold; preserves kick/snare timing and offers assembly for precision or demonstrated failure, resolving workflow conflicts before changing locks.",
         "Chooses feasible source-clip groupings for the requested beat edits without a fixed six-generation cadence; states lens intent, move or hold and motivated light.",
-        "Sets generate_audio false for the rain intro and for clips under the supplied master, adding rain from Seed Audio in post and noting the bed is not frame-synced, instead of relying on a 'no music' line.",
-        "Describes exact whole-frame lossless intermediates, audio padded or trimmed to picture, the concat demuxer, setsar=1 for the concat filter, video-stream durations and one final encode with the master muxed over the cut.",
+        "Preserves supported native rain in the intro without forcing a post bed; picture-only generation is scoped to the exact supplied master, and actual audio is inspected.",
+        "Preserves independent picture and sound spans, offsets and tails; no default audio padding, trimming, normalization or fades. Uses compatible stream-copy transport when needed for the supplied master.",
         "Does not bind a storyboard grid as a Seedance reference."
       ]
     },

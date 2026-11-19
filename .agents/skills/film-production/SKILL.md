@@ -100,7 +100,7 @@ between modalities.
 | End-to-end Seedance 2.0 VFX shot | `seedance-vfx-pipeline` |
 | Model submission, polling, artifact access, speech-to-text | `ark-mcp` |
 | Animated exact graphics or timed overlays | appropriate HyperFrames skill |
-| Assembly, media transforms, captions, word-scoped audio patches | appropriate HyperFrames or FFmpeg skill; the result is placed in Studio and rendered with `studio_project.py render` |
+| Assembly, media transforms, captions, explicitly requested audio edits | appropriate HyperFrames or FFmpeg skill; the result is placed in Studio and rendered with `studio_project.py render` |
 | Studio project, stage gates, review and selection | `studio_project.py` with the `hyperframes-studio` conventions; pre-Studio canvas projects use `showcase-html` |
 
 <!-- markdownlint-enable MD013 -->
@@ -119,11 +119,11 @@ paid video submission and again at assembly. In short:
    Seedance 2.5 video uses boolean `draft: true` and `resolution: "480p"`.
    Select before promotion and
    re-check final audio; edit inputs only before a native Draft.
-2. **Audio route from sound ownership.** Requested native dialogue, synced
-   effects or ambience retain native audio when supported, including wordless
+2. **Audio route from sound ownership.** Native generated audio is sufficient
+   unchanged when supported, including wordless
    pieces. Exact supplied masters or explicitly controlled post sound use
    picture-only generation when supported; purposeful silence adds no bed.
-   Unspecified ownership remains unresolved. Reject unwanted music through
+   Conflicting ownership remains unresolved. Reject unwanted music through
    listening QA rather than muting requested clicks or room tone.
 3. **Intent-led coverage for ads and TVCs.** Duration and coverage serve
    intended perception. Short sequences, repeated framing, equal durations,
@@ -137,8 +137,9 @@ paid video submission and again at assembly. In short:
    in post; add a disclosure label only when the user, platform or brief requires one.
 7. **Ungraded assembly** in original colours, exact-length intermediates, one
    final encode.
-8. **Narrow fixes.** Word-scoped audio patches, re-voicing that keeps the
-   source soundtrack, and speech-to-text as the word authority.
+8. **Scoped fixes.** Finalization does not authorize audio edits. Report
+   defects and obtain an explicit repair decision; use speech-to-text as word
+   evidence and actual listening for audio quality.
 
 ## Run one stage at a time
 
@@ -236,8 +237,9 @@ Write every revision as:
 - **Invalidation scope:** dependent artifacts that return to `review` if inputs
   change.
 
-Prefer a bounded edit over full regeneration after composition or performance is
-approved: a post repair, a word-scoped audio patch, or one corrected shot.
+After composition or performance is approved, offer a bounded edit or retake
+for the observed defect. Audio surgery requires explicit scope, not merely a
+finalization request.
 Preserve rejected history and never overwrite source media.
 
 ## Finish the run

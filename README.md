@@ -170,7 +170,7 @@ The workspace ships with **82 skills** across 15 categories. Independent skills 
 | **film-production** | Orchestrates multi-scene, multi-modality production one stage at a time while keeping one HyperFrames Studio project synchronized for review and handoff. |
 | **seedance-effects-studio** | Select a named effect recipe for the current source, preserve observed identity and wardrobe, and validate supported generation in the owning project's workflow. |
 | **template-factory** | Build timed reference-video recipes with native/local analysis first and available MCP understanding, ASR or separation tools when needed, then orchestrate requested generation and Studio review. |
-| **micro-drama** | Produce source-led vertical micro-drama episodes with an optional hook/reveal/cliffhanger template, element references, draft-first generation, dialogue QA, ungraded loudness-matched delivery and an optional showreel. |
+| **micro-drama** | Produce source-led vertical micro-drama episodes with an optional hook/reveal/cliffhanger template, element references, draft-first generation, dialogue QA, ungraded delivery with unchanged native audio and an optional showreel. |
 | **filipino-micro-drama** | Opt-in Filipino-market micro-drama stories and episode briefs with genre formulas and cultural context, preserving approved words and requested language, register, code-switching and subtitle choices. Story material only. |
 | **brief-intake** | Shape intent-led briefs and treatments; hand off brand-ad / footage inspiration for watchable-media analysis; preserve confirmed decisions. |
 | **prompt-review** | Detailed hash-bound prompt reviews for strict review_mode or explicit requests; routine default-mode preflight skips full checklist reports. |
@@ -211,10 +211,10 @@ The workspace ships with **82 skills** across 15 categories. Independent skills 
 |---|---|
 | **seedance-vfx-prompt** | Write Seedance 2.5 video-to-video edit prompts for background replacement, object integration, relighting, weather and timed effects, with a may-change/must-preserve contract. |
 | **seedance-vfx-pipeline** | Run a complete Seedance video-to-video VFX, Object Swap, Motion Transfer or Restyle shot, or batch variants of one take, and keep source, prompt, outputs, comparison and QA synchronized in the project manifests and Studio project. |
-| **seedance-motion-recast** | Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, Virtual Portrait identities, a muted source with post audio and a 480p probe ladder. |
+| **seedance-motion-recast** | Write Seedance 2.5 Motion Transfer prompts that keep a clip's motion, camera and cuts while rebuilding cast, wardrobe, product, location and style from locked references, with per-subject dispositions, Virtual Portrait identities, preserved source or native audio and a 480p probe ladder. |
 | **byteplus-katana** | Plans a reference edit rebuilt with your own characters, products or clothing: measured edit list with a cut driver per segment (beat, speech, action or none), routing by what each segment shows (layers, kept, recast, generated or dialogue footage), setups scaled to the reference, a code-built type layer and per-segment refinement. |
-| **seedance-object-swap** | Write Seedance 2.5 Object Swap prompts that replace one character, outfit, product, prop, object or location in existing footage and keep the rest of the shot, with the five-part swap contract, Virtual Portrait characters, a muted source with post audio and swap QA. |
-| **seedance-restyle** | Write Seedance 2.5 Restyle prompts that redraw a whole clip in one of 24 visual styles or a custom style reference while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, an environment-image recipe that keeps the same place and restyles the background too, a muted source with post audio and a 480p probe ladder. |
+| **seedance-object-swap** | Write Seedance 2.5 Object Swap prompts that replace one character, outfit, product, prop, object or location in existing footage and keep the rest of the shot, with the five-part swap contract, Virtual Portrait characters, preserved source or native audio and swap QA. |
+| **seedance-restyle** | Write Seedance 2.5 Restyle prompts that redraw a whole clip in a visual style while keeping its content, motion, camera and cuts, with medium-matched Virtual Portrait anchors, same-place environment guidance, preserved source or native audio and a 480p probe ladder. |
 | **seedance-virtual-portrait** | Prepares authorized face and voice references for Seedance Advanced Creation Rights, reuses completed onboarding and active assets without repeating verification, binds asset:// references, and resolves Seedance privacy and guardrail flags on real-person inputs through the registered asset route. |
 | **source-subject-map** | Map a source clip's cuts, subjects, objects, contacts, speakers and on-screen text into a hash-bound subject_map.json before recast, swap or VFX edits; open ambiguities block prompt writing. |
 
@@ -317,7 +317,7 @@ The workspace ships with **82 skills** across 15 categories. Independent skills 
 
 | Skill | Description |
 |---|---|
-| **lark-showcase-aigc** | Orchestrates ffmpeg-scene-transitions, lark-demo-doc-builder, lark-doc, lark-wiki, lark-drive, and design-doc-mermaid to build enterprise-facing Lark documents that showcase AIGC (AI-generated content) with prompts, results, and inline media. |
+| **lark-showcase-aigc** | Build enterprise-facing Lark showcases with prompts, results and inline media; preserve existing videos unchanged and assemble a highlight only when requested. |
 | **showcase-html** | Maintain the HTML production canvas of pre-Studio canvas projects and build ad-hoc comparison pages (optional for Studio projects). |
 
 ---

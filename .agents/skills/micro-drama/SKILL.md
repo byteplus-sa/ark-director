@@ -7,8 +7,8 @@ description: >-
   Orchestrates a market story writer when one exists (for example
   filipino-micro-drama), then appealing canon sheets, planning-only
   storyboards, review-mode-aware Seedance 2.5 scene clips with native dialogue bound
-  to element references, speech-to-text dialogue QA with word-scoped fixes,
-  ungraded assembly, loudness-matched delivery, and an optional full-episode
+  to element references, speech-to-text dialogue QA with scoped repair decisions,
+  ungraded assembly, unchanged native audio, and an optional full-episode
   showreel, all in a HyperFrames Studio project. Use for micro-dramas, vertical
   dramas, ReelShort/DramaBox-style series, TikTok drama episodes, or batches of
   several independent episodes produced in parallel. Do not use for a single
@@ -101,8 +101,9 @@ and an optional full-episode showreel.
 7. **Assembly.** In Studio, follow the approved structure. The default template
    places the cold open first, then title, scenes and to-be-continued card; cuts,
    holds and transitions follow editorial intent, in original
-   colours with no grade. Fix wrong words with word-scoped audio patches. Add a
-   subtitle sidecar for each requested language and normalize loudness. Omit
+   colours with no grade. Preserve native audio unchanged; report dialogue
+   defects and obtain explicit audio-edit or retake scope. Add a
+   subtitle sidecar for each requested language. Omit
    sidecars only for an explicit no-subtitles choice. Picture and audio locks come from
    real playback and listening evidence. Verify that trims retain accepted
    performance beats and any fight exchange continuity. Review the project's
@@ -111,7 +112,7 @@ and an optional full-episode showreel.
    critical criterion blocks acceptance in either approval mode.
 8. **Delivery.** Final lock and passing Studio stage-exit checks, with the final
    master from `studio_project.py render`; FFmpeg assembly, subtitle and
-   loudness work is placed in Studio as a clip or overlay and rendered, not
+   explicitly requested audio work is placed in Studio as a clip or overlay and rendered, not
    delivered directly (pre-Studio canvas: `--check --stage delivery`).
 
 For a batch of episodes, follow [batch production](references/batch-production.md):
@@ -132,7 +133,7 @@ and a single integrating manager.
   speech-to-text before a take can pass. A model's own summary of what was
   said is not sufficient.
 - Retakes fix hard-gate failures only, as a new
-  native Draft. Dialogue errors are patched word by word, never re-dubbed whole.
+  native Draft. Dialogue errors require a scoped repair or retake decision.
   Record residual defects instead of silently promoting a flawed take.
 - Provider success is `review`, never approval. Never resubmit an ambiguous
   paid operation; reconcile it from the task registry.
@@ -142,7 +143,7 @@ and a single integrating manager.
 | Need | Reference |
 | --- | --- |
 | Beat timing, hooks, reveals, cliffhangers, cards, brief fields | [Episode structure](references/episode-structure.md) |
-| Canon appeal, prompt clauses, dialogue timing, draft-promote, QA gates, word-scoped fixes, assembly | [Production recipe](references/production-recipe.md) |
+| Canon appeal, prompt clauses, dialogue timing, draft-promote, QA gates, scoped repairs, assembly | [Production recipe](references/production-recipe.md) |
 | Several episodes in parallel, checkpoints, portfolio, showreel | [Batch production](references/batch-production.md) |
 
 Workspace contracts: [production policy](../../contracts/production-policy.md),

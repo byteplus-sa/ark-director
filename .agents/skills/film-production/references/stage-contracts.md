@@ -302,10 +302,11 @@ transcripts. Missing perception and failed critical criteria remain blocking.
 
 Required output: ordered edit, review render, transition and continuity review,
 audio presence check, technical decode QA, and outstanding notes. Assembly
-includes the creative pass plus conform, trim, crop, overlays, end card and mix with no grade, from
-exact-length intermediates encoded once; post beds for picture-only projects
-are built here to the measured cut. Audio defects are fixed word by word, and
-re-voicing keeps the source soundtrack (see
+includes the creative pass and only the authorized conform, trim, crop, overlays
+or end card, with no grade unless requested. Native generated or supplied audio
+is sufficient unchanged; no normalization, fades, padding or mix is required.
+Separate sound work and defect repairs require explicit scope; report audio
+defects and obtain a repair decision rather than applying word surgery (see
 [production defaults](production-defaults.md)). The `assembly-review` stage
 keeps its approved inputs and comparison renders together.
 

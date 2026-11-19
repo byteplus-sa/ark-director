@@ -66,10 +66,10 @@ readability checks, not fixed frequencies.
 An optional synthetic sound design could use a synthwave pulse with accents on
 major visual transitions and a clear opening-to-ending dynamic arc. Choose
 genre, instruments, tempo, and cues from the current brief; no soundtrack is
-implied. The template defaults to `generate_audio: false`. For a requested
-score or ambience, supply the `audio` slot and plan post-production audio;
-enable `generate_audio: true` only for requested native audio after verifying
-the selected operation's support. Keep a silent run silent.
+implied. Use supported native audio unchanged for generated sound; the template
+does not select a post bed or suppress native audio. Explicit silence, an exact
+supplied master or requested audio edits use their own verified route.
+Keep a silent run silent.
 
 ## Key parameters
 

@@ -102,7 +102,7 @@ Every recipe in the three recipe files provides:
   unreferenced props described plain with nothing printed, and native audio
   checked for leaked music or speech.
 - Structured edits and `extend` of footage that shows a person need that
-  person as an `asset://` asset and a muted source; otherwise use the recipe's
+  person as an `asset://` asset with source audio preserved; otherwise use the recipe's
   fresh-generation variant.
 - Deeper execution constraints — parameter map, task-type enum, cross-cutting
   QA and the four flagged presets — live in

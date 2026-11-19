@@ -61,7 +61,7 @@ supplies the asset IDs; record the source as user-supplied.
 
 ## Ledger entry
 
-Write into the element manifest (character, person) or beside the muted master
+Write into the element manifest (character, person) or beside the source master
 (footage). Hash binding follows the production policy: a changed source needs a
 new asset.
 

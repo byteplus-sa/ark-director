@@ -41,7 +41,7 @@ Read only the mode-specific resources needed for the request. Reference paths
 mentioned in prose are relative to this skill directory unless a link says otherwise.
 
 - [References And Modes](references/references-and-modes.md) — Input references; Generation mode.
-- [Soundscape Arrangement](references/soundscape-arrangement.md) — Full-soundscape composition workflow; Scene transitions and dynamic arcs; Scene and atmosphere; Sonic motifs; Ambience or score bed for a video clip (load when native video audio leaked or a clip needs a post-only bed).
+- [Soundscape Arrangement](references/soundscape-arrangement.md) — Full-soundscape composition workflow; Scene transitions and dynamic arcs; Scene and atmosphere; Sonic motifs; explicitly requested ambience or score bed for a video clip.
 - [Dialogue And Voices](references/dialogue-and-voices.md) — Characters and dialogue.
 - [Templates And Quality](references/templates-and-quality.md) — Reusable full-soundscape template; Creative and quality constraints; Conversational voiceover recipe (T2A); Brand-name pronunciation; hypothetical crowded-soundscape repair.
 - [Worked Examples](references/worked-examples.md) — Full example: T2A — Sci-fi news broadcast; Full example: TA2A — Multi-character fantasy battle dialogue; Full example: T2A — Timestamp control.
@@ -114,8 +114,8 @@ This section owns audio verification for the Seed Audio prompting skills.
   music and drones; use it for soundtrack audits and same-speaker spot checks,
   and confirm music-type claims with a human listen.
 - **Timing**: music tempo, arc points and line windows are obeyed only
-  roughly. Measure actual onsets and duration, then pad, trim or splice in
-  assembly rather than re-prompting for exact timing.
+  roughly. Measure actual onsets and duration, report mismatches and obtain an
+  explicit repair decision. Do not pad, trim or splice merely to finalize.
 - **Short lines**: a short clip can truncate its last word. State the intended
   clip length and about a second of trailing silence in the prompt.
 - **Output audits**: the provider audits generated audio and rejects a share

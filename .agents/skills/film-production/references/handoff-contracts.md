@@ -64,7 +64,8 @@ intended registration, response, delivery and fight continuity where applicable.
 
 Accept only mode-authorized approved takes. Pass local paths, hashes, actual
 video-stream duration, resolution, frame rate, colour range and transfer,
-audio properties and route (native, or picture only awaiting a post bed),
+audio properties and route (unchanged native/source sound, exact master,
+explicitly requested post work, or silence),
 intended order, trim points, transition notes, and known defects. Do not treat
 `succeeded` as creative approval. Assembly keeps the takes' original colours
 unless the brief records a look.

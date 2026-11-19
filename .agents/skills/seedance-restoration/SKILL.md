@@ -47,11 +47,11 @@ general edit grammar and the full six-part formula, compose with
 
 Input: a source clip prepared per the
 [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)
-(rights decision, probe data, SHA-256, muted master and saved audio), the
+(rights decision, probe data, SHA-256 and unchanged source audio), the
 requested cleanup targets, and the may-change / must-preserve contract.
 
-Output: a Seedance 2.5 structured-edit prompt with the muted master bound as
-`@Video 1`, the parameters, the ladder rung, and the post-audio step. The caller
+Output: a Seedance 2.5 structured-edit prompt with the source bound as
+`@Video 1`, the parameters, the ladder rung, and the audio-preservation route. The caller
 owns prompt review, the task registry and submission.
 
 **People in the footage.** Archival footage usually shows real people. The
@@ -66,8 +66,7 @@ instead. Footage without people binds normally.
 
 Preserve the full measured source: fractional duration, frame count, fps,
 decoded timestamps, cuts, playback speed, the final word and audio tails.
-Derive the muted master and saved audio from the same full timeline unless a
-specific derivative is approved; preserve the original picture and sound.
+Keep the original picture and sound unless a specific derivative is approved.
 
 Missing or malformed timing measurements stop an execution-ready package.
 Never guess duration, round a supplied value, or invent inspection evidence;
@@ -85,8 +84,8 @@ submission. Offer unselected source-preserving alternatives or a handoff.
 
 For an approved derivative, record source SHA-256, derivative SHA-256, the
 exact window, command, timing delta and audio consequences. Keep source and
-derivative measurements separate; muted picture and saved audio use the same
-approved span. Never overwrite the original or extend the approved scope.
+derivative measurements separate; preserve independent picture and sound spans.
+Never overwrite the original or extend the approved scope.
 
 No automatic 8n+1 frame recipe or whole-second rounding is permitted. Do not
 trim, pad or retime to satisfy a preferred length or center a defect.
@@ -153,8 +152,8 @@ full-duration native Draft before supported promotion by `draft_task_id`.
    introduced. Only splice a verified-clean clip; a technical `succeeded` is not
    proof the tear/wave/grain actually left. Measure the full output timeline
    against the approved source before any splice; mismatches remain unresolved.
-8. **Mux the saved original audio** onto the silent restored video, per the
-   contract's post-audio section, preserving the final word and sound tails.
+8. **Preserve source or native audio unchanged**, using capability-verified
+   handling and explicit audio scope. No mute/extract/mux pass is required.
    Inspect opening, middle and ending sync; never hide drift with padding,
    truncation or `-shortest`.
 
@@ -201,7 +200,7 @@ frame. They need different vocabulary and a different mental model:
 
 ### Template (scan-line tear / rolling band)
 
-Submit with `omni_reference_task_type="edit"`, `generate_audio: false`, and the
+Submit with `omni_reference_task_type="edit"`, capability-verified audio handling, and the
 native Draft settings `resolution: "480p"` and boolean `draft: true`.
 Promote the selected draft by `draft_task_id` with only supported output settings.
 
@@ -231,15 +230,15 @@ exposure. Exactly one of each person remains in frame, each in their filmed
 position.
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
 ## Canonical prompt template (Seedance 2.5 edit)
 
-Submit with `omni_reference_task_type="edit"`, `generate_audio: false`, and the
+Submit with `omni_reference_task_type="edit"`, capability-verified audio handling, and the
 native Draft settings `resolution: "480p"` and boolean `draft: true`.
 Promote the selected draft by `draft_task_id` with only supported output settings.
-Both templates end with the silent `[Audio]` block.
+Both templates preserve sound; unknown audio support stays unresolved.
 
 ```text
 [Edit Goal]
@@ -279,7 +278,7 @@ grounded in the scene with no cut-out edge, no halo; rim light matches the key
 direction.
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
 ## Guardrails
@@ -300,9 +299,9 @@ Silent output. Sound is added in post.
   copy"), grounding ("no cut-out edge, no halo; rim light matches the key
   direction"), and face protection ("never waxy, plastic, or warped") belong in
   every prompt that preserves people.
-- **Submission.** `omni_reference_task_type="edit"`, the muted master as
+- **Submission.** `omni_reference_task_type="edit"`, the source as
   `@Video 1` (an `asset://` video when people are visible), `resolution: "480p"`
-  and boolean `draft: true` (standard 2.5 has no 4K), `generate_audio: false`,
+  and boolean `draft: true` (standard 2.5 has no 4K), capability-verified audio handling,
   `watermark: false` only when the tool supports the parameter. Duration and
   ratio lock to the input — do not set them.
 - **Temporal denoising with a no-ghosting guard.** Always pair the temporal
@@ -327,11 +326,11 @@ Silent output. Sound is added in post.
 10. Full fractional source timing, frame timestamps, cuts and audio tails are
     preserved; any derivative has current requirement evidence and explicit
     adaptation approval, with separate measurements, spans and hashes.
-11. Rights recorded; the muted master is bound, as an `asset://` video when
-    people are visible; the prompt ends with the silent audio block.
+11. Rights recorded; the source is bound, as an `asset://` video when
+    people are visible; the prompt preserves sound under verified capabilities.
 12. Full-span native Draft first; any additional partial probe is optional,
     explicitly approved and not delivery. Grain is judged at final resolution.
 13. The Seedance output was **verified by direct inspection** (defect gone,
     content intact, no new artifacts) before splicing.
-14. The caller's prompt review passed before submission; the saved original
-    audio was muxed after measured timing and sync QA without hidden tail loss.
+14. The caller's prompt review passed before submission; actual audio and sync
+    were inspected without hidden tail loss or unrequested audio processing.

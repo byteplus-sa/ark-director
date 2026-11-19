@@ -63,9 +63,8 @@ whose feature is absent (no references → skip material mapping).
 
 ### Object swap (only when one named element is replaced)
 
-Source skill: `seedance-object-swap`. Object swaps submit a muted master
-(V1 below), so audio items 10–12 are N/A; the silent `[Audio]` line is
-correct.
+Source skill: `seedance-object-swap`. Review audio items against the actual
+sound requirements and verified capability; do not impose a silent/post route.
 
 16. **Residual original (`swap.residual_original`).** The original object is
     identified by observable descriptors (position, colour, material, who holds
@@ -137,11 +136,10 @@ and record why.
    person count per cut is stated, background extras are given as a count or
    density, and no additional people appear. Missing either guard is MAJOR.
 
-6. **Audio route (`recast.audio_route`).** The prompt's audio block states a
-   silent output with sound added in post, and the package records one
-   post-audio route (original, new, mixed or re-voiced) with lip-sync QA when
-   someone speaks on screen. An unstated route is MAJOR. Native audio appears
-   only as a recorded, user-requested exception for the named take.
+6. **Audio route (`recast.audio_route`).** Preserve source or native audio
+   unchanged when supported. Record explicit silence, exact masters or audio
+   edits only when requested. Verify actual sound and lip sync where relevant;
+   missing capability evidence stays unresolved, not a silent/post default.
 
 7. **No overlay text.** No captions, taglines, CTAs, end cards or readable brand
    copy are requested (`video.text_free`). Source on-screen text has a stated
@@ -164,11 +162,10 @@ and record why.
 Shared by the object swap items, the recast section and the restyle section.
 Policy: [video-to-video inputs](../../../contracts/video-to-video-inputs.md).
 
-V1. **Muted source (`v2v.muted_source`).** `@Video 1` is the recorded muted
-    master with its hash, `generate_audio` is `false`, and no `@Audio` binding
-    is present, unless the user explicitly requested native audio for this
-    take and that exception is recorded. A source with audio bound as
-    `@Video 1`, or a missing saved-audio record, is MAJOR. A source video that
+V1. **Audio preservation (`v2v.audio_preservation`).** `@Video 1` is the recorded
+    source with its hash. Audio handling follows verified operation support
+    and explicit user scope; no muted-input, extraction or mux is required.
+    Native audio is sufficient unchanged. A source video that
     shows a person is bound as an `asset://` video; a raw upload of one is
     rejected by the provider, so flag it as MAJOR.
 
@@ -192,9 +189,9 @@ Apply the universal items, the [Seedance 2.5 reference items](checklist-seedance
 for the edit route, Seedance 2.5 edit items 1, 2, 4 and 5. Edit item 3 is
 replaced by restyle item 3 (`[Style Reference Role]`, `[Identity Anchors]`);
 edit item 9 is N/A because the photoreal face line contradicts drawn and
-crafted styles (use it only for a capture look); edit items 10–12 are N/A
-for the usual silent/post route (V1), with requested native exceptions reviewed
-against their actual sound ownership. A restyle keeps the source's subjects,
+crafted styles (use it only for a capture look); edit items 10–12 are reviewed
+against actual sound ownership and are N/A for explicitly silent work.
+A restyle keeps the source's subjects,
 layout, actions, camera, cuts and timing and changes only the rendering
 medium. Mark N/A any item whose feature is absent and record why.
 

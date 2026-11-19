@@ -1,13 +1,13 @@
 # Effect recipes - Clones and identity
 
-Nine effects that multiply, scale, freeze, remove or dive into one person from a single photo. They share one skeleton: an image-role line (`@Image 1 is the first frame.` for first-frame routes, `@Image 1 defines ...` for reference routes), the subject read from the photo through `{subject}`, a timestamped timeline with an exact figure or object count at every stage, one concrete camera move with start and end, and an observable end state. Every duplicated-person effect states that all copies share one face, one hairstyle and one identical outfit, and counts them at each timestamp. Prompts contain no on-screen text, no brand names and no negative-only lists; native audio is off unless the recipe says otherwise.
+Nine effects that multiply, scale, freeze, remove or dive into one person from a single photo. They share one skeleton: an image-role line (`@Image 1 is the first frame.` for first-frame routes, `@Image 1 defines ...` for reference routes), the subject read from the photo through `{subject}`, a timestamped timeline with an exact figure or object count at every stage, one concrete camera move with start and end, and an observable end state. Every duplicated-person effect states that all copies share one face, one hairstyle and one identical outfit, and counts them at each timestamp. Prompts contain no on-screen text, no brand names and no negative-only lists; native audio is sufficient unchanged when supported.
 
 Route note: Seedance 2.5 cannot mix a `first_frame` image with `reference_image` inputs. Three recipes (`infinite-clones`, `lacewalker`, `superstar`) open on a frame that is not the photo, so they are written for reference images only (`reference-images`). Person references remain subject to provider privacy restrictions. Verify current role support and rights for either route; the first-frame alternatives are unvalidated on current inputs and must not bypass a rejection.
 
 ### `clones` - Clones
 **Look:** One person stands in a real location while identical copies pop into existence through the scene, until one copy steps to the lens and covers it with a palm.
 **Route:** `i2v-first-frame`. `@Image 1` = first frame (the user's photo). No other images.
-**Parameters:** duration 7 s; ratio follows the photo; `generate_audio` false (a native-audio sting is not needed; a soft street ambience bed can be added in post); draft 480p, final 720p or 1080p.
+**Parameters:** duration 7 s; ratio follows the photo; native audio when supported, with sound following the brief; draft 480p, final 720p or 1080p.
 **Start photo:** Full-body, standing, outfit fully visible, face clear, in a wide open location (street, plaza, track) with empty room on both sides and in the distance for small copies. Bad inputs: cropped legs, seated or turned-away pose, tight indoor space, crowds already filling the background (copies get lost), face too small to read when one copy fills the lens.
 **Beats:**
 - 0-1.5 s: the original stands full-body in a static wide frame with small natural movement; real traffic or pedestrians behind.
@@ -45,7 +45,7 @@ At 5.5s the near copy raises their open right palm (the hand on the frame-left s
 ### `infinite-clones` - Infinite clones
 **Look:** A single car brakes to a stop and an unending stream of identical people clown-car out of every door and sprint off in all directions, filmed from a locked high angle.
 **Route:** `reference-images`. `@Image 1` = reference image (identity, hair, headwear, outfit). Optional `@Image 2` = reference image of the car. No first-frame image, because the clip opens on an empty lot. With two images both use role `reference_image`, in order: person first, car second. Provider privacy restrictions apply (`InputImageSensitiveContentDetected.PrivacyInformation`); verify current capabilities and stop to diagnose a rejection, without assuming another role permits the same input. Unvalidated alternative, only when supported and authorized: `i2v-first-frame` with a Seedream still of the person standing alone beside the parked car with all four doors closed (built from the person's references); replace the two role lines with `@Image 1 is the first frame: <what the frame shows>`, delete the `@Image 2` sentence, hold 'the car stays parked with its doors closed and the person holds still' for 0-2.5 s, and count the person among the figures (1 figure to 3 s, then the ramp to 20 including the person).
-**Parameters:** duration 7 s; ratio 16:9 by default (wide lot), 9:16 also fine; `generate_audio` false (an SFX-only sting, tire screech then doors, could help but risks baked music; add SFX in post by default); draft 480p.
+**Parameters:** duration 7 s; ratio 16:9 by default (wide lot), 9:16 also fine; native audio when supported, with sound following the brief; draft 480p.
 **Start photo:** Full-body, distinctive outfit and headwear (a beanie, cap or bold hair accessory) so tiny top-down copies still read as one person. Bad inputs: plain outfit with no headwear, face-only crop, heavy accessories that vary by angle, a photo with several people.
 **Beats:**
 - 0-1 s: an empty rooftop lot or crosswalk at golden hour; a sports car drifts sideways into frame from the bottom edge with tire smoke and brakes to a stop in a marked bay.
@@ -84,7 +84,7 @@ End state at 7s: 20 figures scattered across the lot, the car parked with four o
 ### `selfception` - Selfception
 **Look:** The camera dives into the tiny self on a palm and that figure becomes the full-size subject holding another tiny self, Droste-style.
 **Route:** `i2v-first-frame`. `@Image 1` = first frame. The first frame must already contain the miniature (see Start photo).
-**Parameters:** duration 5 s; ratio 9:16 by default, otherwise follows the photo; `generate_audio` false; draft 480p.
+**Parameters:** duration 5 s; ratio 9:16 by default, otherwise follows the photo; native audio when supported, with sound following the brief; draft 480p.
 **Start photo:** Standing person, upper body to full body, outfit with texture (fur trim, lace, denim) in a real street or outdoor scene with depth, one open palm held out at waist height with a figurine-sized copy of themself standing on it, in the same outfit and pose. If the user's photo shows an empty palm, the orchestrator makes the prepared first frame with `seedream_generate_image`, binding the user's photo as `@Image 1` for identity ("the same person as @Image 1, standing as in the photo, holding exactly one figurine-sized replica of themself standing on the open palm, identical face, hair and outfit"), inspects it, and uses that image. Bad inputs: no free hand, arms crossed, pocketed hands, a front-on pose that hides the palm, outfit with plain flat colour (tiers look identical to the background).
 **Beats:**
 - 0-1.5 s: the subject holds a tiny replica on an open palm; the camera starts wide at hip height and pushes toward the hand while gently orbiting.
@@ -122,7 +122,7 @@ Exactly two complete figures are visible at any moment, one large and one figuri
 ### `act-natural` - Act natural
 **Look:** The subject and the objects tied to their action are frozen like a statue mid-action while the world carries on and the camera glides around them.
 **Route:** `i2v-first-frame`. `@Image 1` = first frame.
-**Parameters:** duration 6 s; ratio follows the photo; `generate_audio` false (ambient sound of the busy location from Seed Audio in post if wanted); draft 480p.
+**Parameters:** duration 6 s; ratio follows the photo; native audio when supported, with sound following the brief; draft 480p.
 **Start photo:** Person caught mid-action (bending, drinking, reaching, dropping groceries, sipping) so the frozen pose is believable, in a busy location with room for background motion (loading dock, party, street) and visible people or a road. Bad inputs: relaxed standing portraits, empty locations (the contrast vanishes), heavy product packaging with brand lettering in the frozen group (it garbles under orbit).
 **Beats:**
 - 0-6 s: the subject and the objects tied to the action (spilled groceries, cups on a table) stay frozen in the photo pose, hair and clothing included; everything else moves at normal speed (workers walk, a van drives through at about 3 s, a pallet jack enters).
@@ -158,7 +158,7 @@ End state at the final frame: the subject in the identical pose, the camera 30 d
 ### `stop-world` - Stop world
 **Look:** One calm person moves at normal pace through a crowd sped up into blur, as if a finger-snap fast-forwarded the world around them.
 **Route:** `i2v-first-frame`. `@Image 1` = first frame.
-**Parameters:** duration 8 s; ratio follows the photo; `generate_audio` false by default; a short native sting (finger snap, rising whoosh) would help the beat but risks baked music, so add it in post; draft 480p.
+**Parameters:** duration 8 s; ratio follows the photo; native audio when supported, with sound following the brief; draft 480p.
 **Start photo:** Front-facing standing person, full body or 3/4, at the far end of a space that holds many people (subway car, crossing, plaza, field), eyes toward the camera. Bad inputs: an empty location, a person at the camera edge with no depth to walk, a crowd packed so tight it cannot move, a subject partly hidden behind others.
 **Beats:**
 - 0-2 s: the subject at the far end of a crowded space, calm, eyes to camera; everyone else moves at fast time-lapse speed with motion blur.
@@ -193,7 +193,7 @@ End state: one calm sharp figure in medium shot in the foreground, {crowd_count}
 ### `eyes-in` - Eyes in
 **Look:** One continuous accelerating dive from a street portrait into one eye, through the iris, until the pupil swallows the frame in black.
 **Route:** `i2v-first-frame`. `@Image 1` = first frame (the user's portrait). The clip ends on pure black, so it is complete as it stands. Optional destination: a second, separate clip whose first frame is a destination image (first_frame cannot mix with reference images, and chaining two clips is the supported way); described under Post.
-**Parameters:** duration 7 s (destination clip, if used: 5 s); ratio follows the photo; `generate_audio` false by default; a low rising whoosh and heartbeat would fit the dive but risk baked music, so add it in post; draft 480p.
+**Parameters:** duration 7 s (destination clip, if used: 5 s); ratio follows the photo; native audio when supported, with sound following the brief; draft 480p.
 **Start photo:** Portrait with a clearly open eye looking toward the camera, well lit so iris colour and texture can be read; waist-up or 3/4 is fine because the move starts wide. Bad inputs: closed or squinting eyes, sunglasses, strong profile, tiny face in a wide shot, heavy glare on the eye, a background of dense signage (it warps in the first second).
 **Beats:**
 - 0-1 s: the subject stands in a street scene, medium shot, looking at the lens.
@@ -234,7 +234,7 @@ Join with FFmpeg: normalise both clips to the same size, frame rate and timebase
 ### `lacewalker` - Lacewalker
 **Look:** A figurine-sized copy of the person strolls the ground in front of their giant sideways head, then, after a hard cut, balances on a thin strap stretched between two giant bags.
 **Route:** `reference-images`. `@Image 1` = reference image (identity, outfit, glasses or hat). Optional `@Image 2` = reference image of the product that becomes the giant object. No first-frame image, because neither shot opens on the photo. Provider privacy restrictions apply (`InputImageSensitiveContentDetected.PrivacyInformation`); verify current capabilities and stop to diagnose a rejection, without assuming another role permits the same input. Unvalidated alternative, only when supported and authorized: `i2v-first-frame` with a Seedream still of the giant sideways head and exactly one figurine-sized copy on the sand; replace the first paragraph with `@Image 1 is the first frame. It shows <the giant head and the one miniature>`, keep the in-clip hard cut behind the bag, and shot 2 needs no image.
-**Parameters:** duration 8 s; ratio 3:4 (typical: as) or follows the photo; `generate_audio` false; draft 480p.
+**Parameters:** duration 8 s; ratio 3:4 (typical: as) or follows the photo; native audio when supported, with sound following the brief; draft 480p.
 **Start photo:** Full-body shot with a distinct outfit, plus a clear face with glasses or a hat for the giant head. Product reference (optional): one clean image of a handbag, sneaker or similar item. Bad inputs: plain outfit, face partly hidden, a product with visible lettering or logo (it garbles at giant scale; use a plain unmarked version or describe it), several products in one image.
 **Beats:**
 - 0-3.5 s: the giant version of the subject lies sideways on the ground (eyes open, smiling) while a figurine-scale copy in the same outfit strolls left across the ground in front of the giant face.
@@ -273,7 +273,7 @@ End state: one miniature on one strap between two giant bags.
 ### `superstar` - Superstar
 **Look:** A fan's handheld phone video of a packed stadium concert in which the person is the star on stage and on the jumbotron.
 **Route:** `reference-images`. `@Image 1` = reference image (face, hair, outfit). No first-frame image, because the clip opens on a crowd POV. The stage, crowd, phones and dancers are generated. Provider privacy restrictions apply (`InputImageSensitiveContentDetected.PrivacyInformation`); verify current capabilities and stop to diagnose a rejection, without assuming another role permits the same input. Unvalidated alternative, only when supported and authorized: `i2v-first-frame` with a Seedream still of the opening crowd POV (4 raised phones, the performer centre stage, 2 backup dancers, an abstract LED screen); replace the role line with `@Image 1 is the first frame. It shows <that view>` and keep every timestamp.
-**Parameters:** duration 15 s; ratio 9:16 (phone video) by default; `generate_audio` false (native audio stays off so no crowd chanting, sung words or music are baked in); draft 480p, final 720p or 1080p.
+**Parameters:** duration 15 s; ratio 9:16 (phone video) by default; native audio when supported, with sound following the brief; draft 480p, final 720p or 1080p.
 **Start photo:** Clear face and a distinctive outfit; waist-up portrait is enough. A person holding or near a microphone is helpful but not required. Bad inputs: sunglasses, a face turned away, tiny face in a wide photo, heavy costume details that change per angle.
 **Beats:**
 - 0-2 s: fan POV from the crowd: backs of fans and raised phones in the foreground, a long runway stage in the distance, the subject among backup dancers, a big LED screen showing her face.
@@ -293,20 +293,20 @@ At 12.5s hard cut, the only cut in the clip, to a wide pan across the full stadi
 - `{outfit}`: garments and colours as seen.
 - `{arm}`: for example "left arm"; `{arm_side}`: the side it appears on, for example "right side".
 - `{light_sticks}`: default "glowing handheld light sticks".
-**Post:** audio bed from Seed Audio (stadium ambience, crowd swell and reverb with no sung or spoken words and no chanting), laid over the 12.5 s cut; optional phone-UI record dot and similar HUD via HyperFrames or html-graphic-render (the generated video has none). No lip-sync is claimed; the mouth mimes singing.
+**Post:** only explicitly requested audio changes; retain satisfactory native sound unchanged. Optional phone-UI record dot and similar HUD via HyperFrames or html-graphic-render (the generated video has none). No lip-sync is claimed; the mouth mimes singing.
 **QA:**
 - Exactly 2 backup dancers and 4 foreground phones in the opening wide shot; jumbotron shows the same face as the performer.
 - Visible handheld shake and pinch-style zoom; the look is phone footage, not cinema.
 - Exactly one cut, near 12.5 s, to the wide stadium pan; no second cut.
 - No lettering, numbers or logos on stage, screens, phones or clothing.
 - Generated clip carries no baked-in speech, chant or music.
-**Risks:** Too clean a cinematic look. Warped hands and phones in the crowd. Screen content not matching the performer. Backup dancers duplicating. Mouth and mic mismatch. Logo-like glyphs on the stage. A second cut inserted. Native audio would bake in chanting, so it stays off.
+**Risks:** Too clean a cinematic look. Warped hands and phones in the crowd. Screen content not matching the performer. Backup dancers duplicating. Mouth and mic mismatch. Logo-like glyphs on the stage. A second cut inserted. Report unwanted audio and obtain a scoped decision rather than muting by default.
 **Status:** Unvalidated on current inputs; verify current capabilities and review the current take against QA.
 
 ### `vanish` - Vanish
 **Look:** A person blinks out of existence in one frame and their empty clothes slump to the surface where they stood.
 **Route:** `i2v-first-frame`. `@Image 1` = first frame.
-**Parameters:** duration 5 s; ratio follows the photo; `generate_audio` false (a soft cloth thud could help but is added in post); draft 480p.
+**Parameters:** duration 5 s; ratio follows the photo; native audio when supported, with sound following the brief; draft 480p.
 **Start photo:** Person in loose, shape-holding clothing (sweater, skirt, coat, jacket) in a pose where clothes can plausibly collapse (kneeling, leaning, sitting), on an uncluttered surface with a plain background. Bad inputs: tight clothing, standing straight with no surface to collapse onto, a printed or lettered mat or floor (the text garbles), cluttered surface, shoes or accessories that are hard to separate from the body.
 **Beats:**
 - 0-2 s: the subject holds the photo pose almost motionless, looking at the lens; locked camera.

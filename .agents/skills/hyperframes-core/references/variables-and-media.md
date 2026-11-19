@@ -66,7 +66,7 @@ document.getElementById("title").textContent = title;
 
 The one real constraint is about **timelines, not media placement**: a sub-composition timeline **cannot reach or animate host elements** — neither `document.querySelector("#host-id")` nor a gsap selector string (`tl.to("#host-id", …)`) resolves across the boundary; a sub-comp timeline only drives its own subtree. So if a media element lives at the host root, **its per-scene motion (scale/opacity/morph/tilt/breathing) must be authored on the MAIN timeline in `index.html`, at GLOBAL time** (scene-local time + the scene slot's `data-start`). Keeping the media inside the scene sub-comp instead lets that sub-comp's own timeline animate it with scene-local time. For 3D tilt without a perspective parent, use gsap `transformPerspective` on the element. See `composition-patterns.md` archetype B.
 
-A video with sound keeps it on the `<video>` (`data-has-audio="true"`, no `muted`). Use a separate `<audio>` for music, voiceover, replacement audio, J/L cuts, or audio detached in Studio. Silent footage and b-roll: `muted`.
+A video with sound keeps it on the `<video>` (`data-has-audio="true"`, no `muted`), including B-roll. Use a separate `<audio>` only for explicitly requested other sound, replacement, J/L cuts, or independent tail preservation. Use `muted` for silent footage or an explicitly approved audio replacement, not merely to finalize.
 
 ```html
 <video
