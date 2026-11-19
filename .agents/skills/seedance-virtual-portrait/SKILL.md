@@ -71,7 +71,7 @@ authorized real-person group must be reused or extended.
 | A specific real, identifiable person, including a voice reference | **Authorized real-person asset** | Reuse an existing valid authorization. Without one, the route is closed — advise an invented Virtual Portrait or preset digital character for the role |
 | A face-containing output of Seedance 2.5/2.0 or Seedream 5.0 text-to-image from this account within 30 days | **Trusted model output** | None; pass the original unedited file |
 | A brand, licensed character or other copyright IP | **Copyright Library asset** | Copy the asset ID from the console |
-| Source footage that shows a person | **Video asset in the appropriate subject group** | Preserve each person's authorization; register the muted master per the [video-to-video contract](../../contracts/video-to-video-inputs.md) |
+| Source footage that shows a person | **Video asset in the appropriate subject group** | Preserve each person's authorization; register the source with its audio per the [video-to-video contract](../../contracts/video-to-video-inputs.md) |
 
 Rules that decide the route:
 

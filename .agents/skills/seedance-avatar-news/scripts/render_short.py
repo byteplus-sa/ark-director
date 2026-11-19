@@ -232,12 +232,10 @@ def main():
             inputs += ["-i", cap]
             graph += f";[{prev}][{i + 3}:v]overlay={(W - w) // 2}:{cue['y'] - h // 2}:enable='between(t,{cue['start']},{cue['end'] - 0.001})'[v{i + 1}]"
             prev = f"v{i + 1}"
-        end = cfg["end"]
         run(inputs + [
-            "-filter_complex", graph, "-map", f"[{prev}]", "-map", "1:a", "-t", str(end),
+            "-filter_complex", graph, "-map", f"[{prev}]", "-map", "1:a:0?",
             "-c:v", "libx264", "-crf", "17", "-preset", "medium", "-pix_fmt", "yuv420p", "-r", FPS_EXPR,
-            "-af", f"loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=out:st={end - 0.25}:d=0.25",
-            "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart", cfg["out"],
+            "-c:a", "copy", "-movflags", "+faststart", cfg["out"],
         ])
     with open(os.path.splitext(cfg["out"])[0] + "_cues.json", "w") as fh:
         json.dump(cues, fh, indent=1)

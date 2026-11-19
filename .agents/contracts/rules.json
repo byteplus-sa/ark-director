@@ -381,17 +381,15 @@
       "exceptions": []
     },
     {
-      "id": "v2v.muted_source",
+      "id": "v2v.audio_preservation",
       "severity": "error",
       "applies_to": [
         "editing",
         "recast"
       ],
       "owner_path": ".agents/contracts/video-to-video-inputs.md",
-      "summary": "A video-to-video request binds the recorded muted source master with generate_audio false and adds sound in post.",
-      "exceptions": [
-        "A recorded, user-requested native-audio exception for a named take."
-      ]
+      "summary": "Preserve source and generated audio unchanged. Native audio is sufficient when supported and compliant with the brief; no muted-input, extraction or post-mux step is required. Verify current capability evidence and keep unsupported handling unresolved. Silence, exact supplied masters and audio edits require explicit user scope.",
+      "exceptions": []
     },
     {
       "id": "v2v.virtual_portrait_identity",

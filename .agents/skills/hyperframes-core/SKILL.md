@@ -7,6 +7,12 @@ description: The HyperFrames composition contract — build one renderable proje
 
 # HyperFrames Core
 
+**Local audio-preservation overlay:** Keep native generated or supplied audio
+unchanged. B-roll is not implicitly silent. Muting, detached audio, fades,
+mixing and retiming require explicit edit scope; finalization does not select
+them. Preserve independent audio tails and record unsupported rendering needs.
+Keep this overlay when re-vendoring; Studio rendering/provenance remain separate.
+
 **Agent pitfalls (read first):**
 
 - Center with flex/`inset`, not CSS `transform: translate(-50%,-50%)` on a node you then GSAP `x`/`y`. Lint: `gsap_css_transform_conflict`. Use `fromTo` or `xPercent`/`yPercent`.

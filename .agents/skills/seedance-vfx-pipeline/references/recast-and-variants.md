@@ -15,8 +15,8 @@ after acceptance. This adds route selection, the shared subject map and batch va
 ## Source timing
 
 Preserve the full measured source: fractional duration, frame count, fps, decoded timestamps, cuts,
-playback speed, the final word and audio tails. Derive the muted master and saved audio from the
-same full timeline unless a specific derivative is approved; preserve the original picture and sound.
+playback speed, the final word and audio tails. Keep the original picture and sound unless a
+specific derivative is approved.
 
 Missing or malformed timing measurements stop an execution-ready package. Never guess duration,
 round a supplied value, or invent inspection evidence; request valid measurements in an unresolved handoff.
@@ -30,8 +30,8 @@ Denied or missing adaptation approval leaves the original unchanged: no derivati
 no incompatible request is recommended for submission. Offer unselected source-preserving alternatives.
 
 For an approved derivative, record source SHA-256, derivative SHA-256, the exact window, command,
-timing delta and audio consequences. Keep source and derivative measurements separate; muted picture
-and saved audio use the same approved span. Never overwrite the original or extend the approved scope.
+timing delta and audio consequences. Keep source and derivative measurements separate; preserve
+independent picture and sound spans. Never overwrite the original or extend the approved scope.
 
 No automatic 8n+1 frame recipe or whole-second rounding is permitted. Do not trim, pad or retime
 to satisfy a preferred length. Check current input limits; a suggested split is not an approved split.
@@ -64,7 +64,7 @@ the changed region; a recast rebuilds everything except motion.
 | VFX edit | Add, remove or restyle an effect, environment or element while the source cast and camera stay | `seedance-vfx-prompt` (2.5 edit grammar) | `omni_reference_task_type: edit` |
 | Object Swap | Replace one named character, outfit, product, prop, object or the location and preserve everything else | `seedance-object-swap` | `omni_reference_task_type: edit` |
 | Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; inspect route evidence in the native Draft); fallback full-frame edit |
-| Restyle | Redraw the whole clip in a new medium while keeping performance, motion, camera, cuts and place | `seedance-restyle` | Words-only full-frame edit is valid; an environment image is optional for a bounded visual ambiguity; reference route remains an alternative |
+| Restyle | Redraw the whole clip in a new visual medium; keep the performance, motion, camera and cuts; the background is restyled as the same place through an environment image | `seedance-restyle` | Full-frame edit with an environment image of the same place; reference route as the alternative |
 
 Decision rules:
 
@@ -80,16 +80,15 @@ Decision rules:
 ### Submission parameter differences
 
 Every route submits through `seedance_2_5_create_task` on Seedance 2.5.
-Object Swap, Motion Transfer and Restyle bind the muted source master as `@Video 1` (`videos[].role = "reference_video"`),
+Object Swap, Motion Transfer and Restyle bind the source as `@Video 1` (`videos[].role = "reference_video"`),
 element sheets and Virtual Portrait `asset://` views as
-`images[].role = "reference_image"`, `generate_audio: false` and no `@Audio`
-bindings, per the
+`images[].role = "reference_image"`, with audio handling verified for the exact
+model, operation and transport, per the
 [video-to-video inputs contract](../../../contracts/video-to-video-inputs.md).
-Sound returns in post through the row's recorded post-audio route; this
-overrides the `generate_audio: true` example in [Submission](submission.md)
-and the manifest template in [Delivery And Manifest](delivery-and-manifest.md).
-Apply every other rule in [Submission](submission.md); only these fields
-differ.
+Native generated audio is sufficient unchanged. No mute/extract/mux pass is
+required. Explicit silence, exact supplied masters and audio edits stay scoped;
+unknown support is unresolved. Record actual settings, not copied examples
+from [Submission](submission.md) or [Delivery And Manifest](delivery-and-manifest.md).
 
 | Field | VFX edit / Object Swap | Motion Transfer (R2V) | Motion Transfer fallback | Restyle Route A (edit) | Restyle Route B (reference) |
 | --- | --- | --- | --- | --- | --- |
@@ -97,7 +96,7 @@ differ.
 | `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope | Editing master; every surface redrawn in the style | Authority for composition, poses, camera, cuts and timing |
 | `ratio` | Omit; locks to the source | Set explicitly to the source ratio | Omit; locks to the source | Omit; locks to the source | Set explicitly to the source ratio |
 | `duration` | Omit; source timeline is authoritative, verify actual output timing | Full measured fractional source length only if supported; otherwise unresolved, never round | Omit; source timeline is authoritative | Omit; source timeline is authoritative | Full measured fractional source length only if supported; otherwise unresolved, never round |
-| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | Optional style images, same-place environment image or authorized anchors; words-only is valid | Optional style images and anchors as supported |
+| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | 1–5 style images and anchors | Style images and anchors |
 | `resolution` | `480p` for every new probe and full-duration Draft; promote to a supported final resolution | Same | Same | Same | Same |
 | `draft` | Boolean `true` for every new generation | Same | Same | Same | Same |
 
@@ -128,7 +127,7 @@ route probe is optional and follows [Source timing](#source-timing):
 
 Run `source-subject-map` once per approved source clip, before any prompt for
 any row. It writes `subject_map.json` (and a readable table) beside the source
-clip, bound to the original source SHA-256; the muted master and any approved trim are
+clip, bound to the original source SHA-256; any approved adaptations are
 recorded as derivatives of that hash. All variant rows share that one map.
 
 - Every row's prompt cites subject, object and cut IDs from the shared map, so
@@ -163,7 +162,7 @@ main agent owns this file; rows change only by an explicit user decision.
 | `product` | Element ID of the replacement product, or `keep` |
 | `location` | Element ID of the replacement location, or `keep` |
 | `preset` | Named look from `seedance-motion-recast` or style from `seedance-restyle`, or `none` |
-| `audio` | Post-audio route: `original`, `new`, `mixed` or `re-voiced` |
+| `audio` | Audio intent: native/source preservation, exact master, silence or an explicitly requested edit |
 | `resolution` | Final resolution for this row; lowest suitable |
 | `route` | Derived from [Route selection](#route-selection) |
 | `shot` | Assigned shot ID for the row's folder |
@@ -298,7 +297,7 @@ the production policy ([production policy](../../../contracts/production-policy.
 - **Source footage.** A recorded user rights decision covers the footage and the
   people visible in it, with its scope. The subject map describes people by
   observable descriptors only; never name or infer who they are.
-- **Person in the source video.** A muted master that shows a person is bound
+- **Person in the source video.** A source that shows a person is bound
   as an `asset://` video registered in the private asset library; image assets
   of the person do not clear the provider's video check.
 - **Replacement talent.** Every new character is a Virtual Portrait asset
@@ -336,7 +335,7 @@ Studio frame (pre-Studio canvas: canvas entry).
 - [ ] **Motion fidelity.** Poses, screen positions, camera path, decoded
       timestamps, playback speed, cuts and full fractional duration match
       the approved source. A prior-run tolerance does not establish a pass.
-- [ ] **Post audio.** The muxed route matches the row's `audio` column, the
+- [ ] **Audio preservation.** Actual sound matches the row's `audio` column, the
       final word and audio tails remain intact, and speaking subjects stay in
       sync at opening, middle and ending. A mismatch is unresolved, never
       hidden with automatic padding, truncation or `-shortest`.

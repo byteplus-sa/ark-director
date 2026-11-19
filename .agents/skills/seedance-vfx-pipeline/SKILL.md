@@ -58,7 +58,7 @@ mentioned in prose are relative to this skill directory unless a link says other
 - [Submission](references/submission.md) — Step 3 — Submit via MCP; Step 4 — Poll for completion.
 - [Delivery And Manifest](references/delivery-and-manifest.md) — Step 5 — Download and save the asset; Step 6 — Write the shot.md manifest; Step 7 — Verify the prepared standalone prompt file; Step 8 — Report results.
 - [Shot Chaining](references/shot-chaining.md) — Shot chaining workflow.
-- [Recast And Variants](references/recast-and-variants.md) — route selection (VFX edit, Object Swap, Motion Transfer, Restyle), muted submission, shared subject map, batch variant rows, parallel execution, cost preview, real-person gates, and recast QA. Read before prompt writing for any swap, recast, or multi-variant request.
+- [Recast And Variants](references/recast-and-variants.md) — route selection (VFX edit, Object Swap, Motion Transfer, Restyle), source audio preservation, shared subject map, batch variant rows, parallel execution, cost preview, real-person gates, and recast QA. Read before prompt writing for any swap, recast, or multi-variant request.
 
 ## Orchestration boundary
 
@@ -99,8 +99,8 @@ submit as an edit. A Motion Transfer recast takes its prompt from
 `seedance-motion-recast` and submits on the motion reference route
 or its full-frame edit fallback. A Restyle takes its prompt from
 `seedance-restyle` and submits on its edit route (reference route as the alternative). Object Swap, Motion
-Transfer and Restyle submit the muted source master with audio added in post
-(a VFX edit keeps its own audio handling),
+Transfer and Restyle preserve source or native audio under verified capabilities;
+no muted-input, extraction or post-mux step is required,
 and Object Swap and Motion Transfer first run `source-subject-map` once per
 source. Batch variants repeat Steps 1–8
 per variant row, with the applicable full-duration preview, a side-by-side

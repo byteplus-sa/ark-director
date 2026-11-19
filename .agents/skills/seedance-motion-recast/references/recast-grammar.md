@@ -59,7 +59,7 @@ crossing, and cut.
 <preset fragment or free text, in lighting -> lens -> grade -> sensor order>
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
 Rules for the blocks:
@@ -73,8 +73,8 @@ Rules for the blocks:
   from the guard catalog only for risks present in this source.
 - **Style** never contradicts the location or character references. If the
   preset changes the medium, it applies to every mapped element.
-- **Audio** is always the silent line; `@Video 1` is the muted master and the
-  post-audio route lives in the package, not the prompt.
+- **Audio** follows the capability-verified route and explicit user scope.
+  Preserve native or source sound unchanged; silence and post sound are not defaults.
 
 ## Mapping syntax
 
@@ -136,7 +136,7 @@ the source subject mapped to them, including timing, path, and speed changes.
 <preset fragment>
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
 The scope sentence "replace all subjects and the environment" is never used
@@ -150,14 +150,14 @@ Source: 8.0 s, 9:16, 30 fps, one continuous shot with a slow push-in and a
 half orbit to the right at about 0:05. Two dancers on a concrete parking-garage
 rooftop at dusk. Screen-left: red windbreaker, white sneakers, starts an arm
 wave. Screen-right: black hoodie, grey cap, mirrors the wave, then both spin at
-about 0:04. No other people. Source audio: a pop track, no dialogue, saved
-from the source; `@Video 1` is the muted master. Post-audio route: original.
+about 0:04. No other people. Source audio: a pop track, no dialogue,
+retained on `@Video 1`. Audio route: preserve the original.
 
 Targets (all approved, hashed):
 
 | Binding | Element | View |
 | --- | --- | --- |
-| `@Video 1` | muted source master | motion only |
+| `@Video 1` | source master | motion authority; source sound preserved |
 | `@Image 1` | `char-mara` Virtual Portrait | front |
 | `@Image 2` | `char-mara` Virtual Portrait | left profile |
 | `@Image 3` | `char-theo` Virtual Portrait | front |
@@ -203,13 +203,13 @@ The visuals feature warm practical light from the string lights with cool
 blue fill from the sky, and reflections on the wet paving.
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
 Parameters for the first ladder rung: default R2V route,
 `omni_reference_task_type: auto`, `resolution: "480p"`, boolean `draft: true`, `ratio: 9:16`,
-`duration` set to the key beat trimmed from the source (for example the
-0:03–0:08 spin and orbit, 5 s), `generate_audio: false`, `watermark: false`.
-The probe binds the trimmed muted beat as `@Video 1` with its own hash. After
-QA, mux the same 0:03–0:08 window of the saved pop track, and add market
-ambience in post if the brief asks for it.
+`duration` set to the full measured source length when supported,
+`generate_audio` chosen from current capability evidence, `watermark: false`.
+An optional partial probe needs explicit span and generation approval. Inspect
+the actual audio and preserve independent tails; no extraction or mux is
+required. Add ambience only if the user explicitly requests or approves it.

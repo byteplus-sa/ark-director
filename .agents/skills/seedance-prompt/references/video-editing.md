@@ -18,11 +18,12 @@ probe is authorized by an edit request. A historical approximate-duration
 tolerance does not override locked timing. Unknown support blocks execution,
 not a prompt-only draft; return conflicts to the caller.
 
-The caller retains the workspace video-to-video policy: a muted submission
-source and separately restored original or explicitly authorized new sound,
-outside a selected audio-edit operation. Muting a source is separate from an
-output `generate_audio` control. Neither is permission to discard the audio
-master. Verify applicable face, likeness and voice authorization independently;
+The caller retains the workspace video-to-video policy: preserve source or
+native audio unchanged under verified capabilities. No muted-input, extraction
+or post-mux step is required. An output `generate_audio` control does not prove
+source-input requirements or exact audio fidelity. Unknown support remains
+unresolved; explicit silence, exact masters and audio edits remain scoped.
+Verify applicable face, likeness and voice authorization independently;
 never disguise a person or reuse a pending asset.
 
 Narrower edit families retain their own skills: the caller may select

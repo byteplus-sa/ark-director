@@ -3,30 +3,34 @@
 Focused reference for `seedance-motion-recast`. Read [the entrypoint](../SKILL.md)
 for mode selection, gates and caller responsibilities.
 
-- [Silent submission](#silent-submission)
-- [Post-audio routes](#post-audio-routes)
+- [Audio preservation](#audio-preservation)
+- [Requested audio routes](#requested-audio-routes)
 - [Re-voicing over the kept soundtrack](#re-voicing-over-the-kept-soundtrack)
 - [Speaker ownership](#speaker-ownership)
 - [Preparing source audio](#preparing-source-audio)
 - [Lip-sync QA](#lip-sync-qa)
 
-## Silent submission
+## Audio preservation
 
-Every recast submits the muted master as `@Video 1` with
-`generate_audio: false` and no `@Audio` bindings. The prompt's audio block is
-always:
+Keep the source audio unchanged. Native generated audio is sufficient when it
+meets the brief; muting, extraction and post muxing are not prerequisites.
+Choose source handling, `generate_audio` and any `@Audio` binding from current
+capability evidence and the requested scope, never from a blanket silent route.
+
+An example preservation block, subject to actual operation support:
 
 ```text
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
-The audio decision lives in the package as a post-audio route, following the
-[video-to-video inputs contract](../../../contracts/video-to-video-inputs.md#post-audio).
-Native audio generation is used only when the user explicitly asks for it on a
-named take; record that exception and review it as a separate request.
+Record the route under the
+[video-to-video inputs contract](../../../contracts/video-to-video-inputs.md#audio-preservation).
+Unknown support stays unresolved, not a reason to silently mute or replace sound.
 
-## Post-audio routes
+## Requested audio routes
+
+These routes require explicit user scope. They do not apply merely to finalize.
 
 | Route | Use when | Source | Lips |
 | --- | --- | --- | --- |
@@ -51,17 +55,14 @@ Voice rules:
 A Re-voiced or Mixed route changes words or a voice, not the whole sound.
 Keep the source's music, ambience and effects unless the brief replaces them.
 
-1. Measure the whole saved source audio first: loudness (LUFS), a per-0.5 s
-   level profile, a `speech_to_text` transcript with word times from the local
-   file, and a list of the non-voice sounds.
-2. When only some words are wrong or must change, patch those word windows
-   only; never re-dub a whole track that is mostly correct. Keep the samples
-   outside each patched window identical to the source and use short fades.
-3. When an audio model re-voices, give it the source with its full soundtrack
-   and name the words to change, then take the full audio back. A dialogue-only
-   result loses the bed and the room tone.
-4. Normalize the result to the source loudness and mux it over the untouched
-   silent picture with `-c:v copy`; confirm the video stream hash is unchanged.
+1. Identify the requested words, voice or layers and inspect the source with
+   actual listening and a transcript when needed.
+2. Report defects and agree a retake or scoped edit; word splicing, fades,
+   pitch matching and normalization are not default repair steps.
+3. Preserve every unselected sound layer, picture and timing span. Confirm
+   that the selected tool can meet those constraints before executing.
+4. If an authorized edit needs transport muxing, prefer compatible stream-copy.
+   Verify the result and record any explicitly approved transcoding.
 
 ## Speaker ownership
 
@@ -72,18 +73,18 @@ character, or keep it off-screen.
 
 ## Preparing source audio
 
-1. Save the source audio and write the muted master per the contract. Record
-   both hashes.
-2. For a Mixed route, separate voice and background with the VOD voice
-   separation tool. Record the task ID, output hashes and time range.
-3. Trim the saved audio to the exact span bound as `@Video 1`. A trimmed probe
-   needs a matching trimmed audio file.
+1. Keep the source unchanged and record its hash. Prepare a derivative only
+   when required by verified capabilities and specifically approved.
+2. For an explicitly requested Mixed route, separate voice and background
+   when needed. Record the task ID, output hashes and time range.
+3. Preserve independent sound spans and offsets. A picture trim does not
+   authorize trimming or padding audio or discarding its tail.
 4. Transcribe kept dialogue with speech-to-text and keep the word timings as the
    reference for lip-sync QA.
 
 ## Lip-sync QA
 
-Apply after the mux when any character speaks on screen:
+Apply to the actual output when any character speaks on screen:
 
 - Transcribe the final audio with `speech_to_text` and diff it against the
   intended lines; the transcript is the authority for words. Kept dialogue
@@ -96,5 +97,5 @@ Apply after the mux when any character speaks on screen:
 - Measure the audio-to-mouth offset at two or three syllables. An offset that
   grows across the clip suggests a duration mismatch between picture and audio.
 - Listen in full. Loudness readings and waveforms do not replace listening.
-- A visible drift routes to the Re-voiced route or a new take; record the
-  failure rather than accepting it.
+- Report visible drift and obtain a scoped repair or retake decision rather
+  than accepting it or automatically re-voicing.

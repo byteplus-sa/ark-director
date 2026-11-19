@@ -15,7 +15,7 @@ routing, rules and caller responsibilities.
 
 | Input | Owns | Supplies none of |
 | --- | --- | --- |
-| `@Video 1` muted master | Subjects and their count, their screen positions, actions, poses, props, the furniture they use, camera path, cuts, timing, and which place the scene is in | Rendering medium, surface texture, grade |
+| `@Video 1` source master | Subjects and their count, their screen positions, actions, poses, props, the furniture they use, camera path, cuts, timing, source sound, and which place the scene is in | Rendering medium, surface texture, grade |
 | Optional environment `@Image N` | How the same place looks in the target medium | People, a different place, changed source geometry, props the shot lacks |
 | Style `@Image N` | Medium, palette, line quality, texture, light quality | Subjects, layout, characters, text |
 | Identity anchor `@Image N` | One character's design in the target medium | Pose, background, lighting of the sheet |
@@ -70,7 +70,7 @@ whole performance from @Video 1.
 <catalog fragment or custom recipe>
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
 Optional blocks, added before `[Edit Scope]`:
@@ -123,7 +123,7 @@ foreground; <background extras>. No lettering appears anywhere.
 <catalog fragment or custom recipe>
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
 ## A different place, only when requested
@@ -172,7 +172,7 @@ A single-take restyle without recurring characters needs no anchors.
 Hypothetical prompt example, not a production result. Assume current edit
 support, authorized source footage and an explicitly requested, approved
 same-place environment image. The example image is optional in other requests.
-Keep the original source and use a muted derivative without frame adaptation.
+Keep the original source with its audio and without frame adaptation.
 
 Source: a 5 s, 16:9 locked-off clip. A woman with shoulder-length dark hair, a
 navy jacket over a cream top and a small gold hoop earring sits at a small round
@@ -180,7 +180,7 @@ café table with a Paris street, a green plant and a wooden bench behind her.
 She holds a red can in her right hand beside a white espresso cup, lifts it to
 her lips at about 0:01, drinks until about 0:03, and sets it down by about
 0:04.5. These are fictional source facts, not measured evidence.
-Post-audio route: authorized original.
+Audio route: preserve the authorized original.
 
 Environment image (Seedream text-to-image, 2048x1152, empty set, same place):
 
@@ -230,16 +230,16 @@ Keep her identity cues, the can, the cup, the table position, the static camera 
 Plasticine claymation throughout: visible thumbprints, fingerprint ridges and tool marks, a matte clay sheen, soft warm key light on a small tabletop set, and slightly stepped stop-motion cadence.
 
 [Audio]
-Silent output. Sound is added in post.
+Keep the source sound and timing unchanged.
 ```
 
-Parameters: `omni_reference_task_type: edit`, `generate_audio: false`,
+Parameters: `omni_reference_task_type: edit`, capability-verified audio handling,
 `resolution: "480p"`, boolean `draft: true`, `watermark: false`;
 `ratio` and `duration` omitted.
 
 Review target, not a claimed result: all requested surfaces take the clay
 medium while source place, geometry, performance and timing remain intact.
 Measure returned duration and frame timestamps; neither this image nor a
-frame-count recipe guarantees fidelity. After picture QA, mux the saved
-authorized audio and inspect sync. A different route needs its own capability
+frame-count recipe guarantees fidelity. Inspect the actual audio and sync;
+no extraction or mux is required. A different route needs its own capability
 check and review.

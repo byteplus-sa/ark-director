@@ -137,10 +137,10 @@ deliver the lead voice clean and add the chorus layer in post.
 
 ### Ambience or score bed for a video clip
 
-Use a standalone bed when a clip must carry only ambience or only score, or
-when its native video audio leaked speech, chants, cheering or music. A
-negative "no music, no spoken words" line in a video prompt often does not
-hold, and regenerating the video to fix sound would change an approved picture.
+Use a standalone bed only when explicitly requested or approved. Native
+generated audio is sufficient unchanged, including ambience-only or score-led
+clips. Report unwanted speech or music and obtain a scoped repair decision;
+neither replacement audio nor video regeneration is automatic.
 
 1. Keep the picture untouched: stream-copy it, or generate it without native
    audio when the audio plan is post-only from the start.
@@ -150,9 +150,9 @@ hold, and regenerating the video to fix sound would change an approved picture.
    main control. A closing limit sentence such as `Only wind, surf and distant
    gulls throughout; no voices and no music.` is a hypothesis for Seed Audio,
    so check the output for voices and music.
-4. Loudness-normalise the bed to the project target and place it in the
-   project's Studio timeline as an audio clip under the untouched provider
-   picture; the Studio render produces the final file.
+4. Preserve the generated bed unchanged unless processing is explicitly
+   approved. Place the authorized sound in Studio; the Studio render and
+   provenance requirements do not require normalization or fades.
 5. Record that the bed is **not frame-synced**. A sound tied to a visible
    action (a door slam, a footfall) is placed as a separate effect in the edit
    or accepted as loose sync.

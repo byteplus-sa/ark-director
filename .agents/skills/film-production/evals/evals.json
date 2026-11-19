@@ -7,10 +7,10 @@
       "expected_output": "A staged plan recording the compact premise, audio route, look, early sound/editorial intent and project-specific criteria, with intent-led coverage and 480p native Drafts.",
       "files": [],
       "expectations": [
-        "Runs brief-intake first and records a picture_only audio route, ungraded original colours and the logo/end card as post overlays in project.md.",
+        "Runs brief-intake first and preserves supported native sound unless an exact master or post soundtrack is explicitly selected; records ungraded original colours and the logo/end card as post overlays in project.md.",
         "Derives coverage and durations from intended perception and feasibility without fixed cadence, contrast, turn or wow quotas.",
         "Records audience response, attention and ending purpose, with early sound/editorial intent and actual playback/listening criteria.",
-        "Submits each sequence as a 480p native Draft with generate_audio false after mode-appropriate preflight, applicable performance evidence and registration, without requiring financial setup or a cost estimate.",
+        "Submits each sequence as a 480p native Draft with capability-verified audio settings after mode-appropriate preflight, applicable performance evidence and registration, without requiring financial setup or a cost estimate.",
         "Does not bind any storyboard image as a Seedance reference."
       ]
     },
@@ -39,12 +39,12 @@
     {
       "id": 4,
       "prompt": "In the final master, the narrator mispronounces one product name in shot 3. Re-dub the narration.",
-      "expected_output": "A word-scoped fix that keeps the rest of the soundtrack and picture untouched.",
+      "expected_output": "A requested narration dub scoped to the approved words and voice, preserving the rest of the soundtrack and picture without automatic normalization or word surgery.",
       "files": [],
       "expectations": [
-        "Proposes patching only the wrong word window instead of re-dubbing the whole track.",
-        "Uses speech_to_text word times, pitch and loudness matching, short fades, and proves samples outside the window are unchanged.",
-        "If a model re-voices the word, sends the original clip with its audio and muxes the full returned audio over the untouched picture.",
+        "Clarifies the requested dub scope when needed rather than overriding it with mandatory word splicing.",
+        "Uses transcription and actual listening to verify the approved delta without automatic pitch matching, normalization or fades.",
+        "Preserves music, room tone and picture; uses compatible stream-copy transport only when needed.",
         "Returns the affected picture/audio locks to review and re-renders in Studio."
       ]
     },
@@ -84,6 +84,20 @@
       "expected_output": "Returns creative text only; purposeful silence adds no bed. Unknown settings are unresolved; no production files, uploads or submissions.",
       "files": [],
       "expectations": ["Prompt-only scope has no side effects.", "Silence is not replaced by score or ambience."]
+    },
+    {
+      "id": 9,
+      "prompt": "Finalize this approved native-audio clip. Its dialogue, music and ambience already sound right. Do not change the soundtrack.",
+      "expected_output": "Preserves native audio unchanged with no normalization, carve, fades, padding, trimming or mux prerequisite; performs read-only QA and keeps Studio rendering and provenance separate.",
+      "files": [],
+      "expectations": ["No audio processing is inferred from finalization or music under voice.", "Missing listening capability is reported as unresolved, not repaired by default."]
+    },
+    {
+      "id": 10,
+      "prompt": "Use the exact supplied song master. Its tail extends 0.7 seconds beyond the picture. Do not shorten or normalize it.",
+      "expected_output": "Preserves the supplied master, independent tail and offsets; verifies compatible transport and obtains a scoped decision for any necessary adaptation.",
+      "files": [],
+      "expectations": ["No shortest, padding, fading or normalization is added.", "Exact supplied audio remains distinct from newly generated native sound."]
     }
   ]
 }

@@ -17,6 +17,12 @@ description: >
 
 # HyperFrames Audio
 
+**Local audio-preservation overlay:** Native generated or supplied audio may
+remain unchanged. Finalization does not authorize a mix, normalization, fades,
+carving, padding or trimming. Use these tools only for explicitly requested or
+approved audio edits; read-only diagnosis remains available. Preserve this
+overlay when re-vendoring. Studio rendering and provenance are separate.
+
 A mix is a set of relationships, not a stack of processors. Two tracks that each
 sound right alone can be unlistenable together, and the fix is almost never "turn
 one down" — it is finding what they are fighting over and giving it to whichever
@@ -362,16 +368,12 @@ heard as an effect rather than as room for the voice. Drop the strength when the
 bed is the point and the voice is sparse. `0` is spectral only — one band, no
 level match at all.
 
-**Carve by default — required whenever music plays under a voice.** A bed
-under any voice track (narration, avatar speech, interview, voiceover) gets a
-carve as part of finishing the mix, not as a polish step to get to if there is
-time. Place both tracks, run the command below (default strength `0.8`; add
-`--bed` / `--voice` when detection picks wrong), confirm the written
-`data-fx-carve`, `data-fx-chain` and `data-automation` with `npx hyperframes check`,
-and only then render. A volume duck on its own is not a finished mix: it leaves
-the voice and the bed fighting in the 1–3 kHz band and costs the bed all of its
-presence for the whole voiceover. Skip the carve only when there is no voice for
-the music to sit under — a music video, a title card, a montage cut to the track.
+**Carve only for an explicitly requested or approved mix change.** Music and
+voice together do not require processing. Keep a satisfactory native mix
+unchanged. For an authorized carve, place both tracks and run the command below
+(default strength `0.8`; add `--bed` / `--voice` when detection picks wrong).
+Inspect the written attributes and listen to the result. A carve is not a
+prerequisite for verification or rendering.
 
 **It always follows the voice.** There is no static mode: a fixed depth thins the
 bed through every pause, and once you have heard both there is no reason to want it.
@@ -385,14 +387,10 @@ the bed sits and writes a `gain` stage driven by an envelope. That envelope rele
 purpose — music that snaps back to full the instant a word ends sounds like a
 machine doing it.
 
-**Running it.** In Studio the carve is one module at the top of a track's effect
-rack — voice, strength, and the analysis it produced, in one card. It is
-there whenever another track could be the voice, and a bed with exactly **one**
-candidate above it is carved by default, at the default strength:
-that is what a bed under narration wants, and the module is where you change or
-switch it off. Several candidates leaves the picker waiting rather than guessing.
-Headless —
-which is the path when you are authoring a composition rather than editing one:
+**Running it after authorization.** In Studio, inspect the effect rack and
+authored attributes; do not accept an automatically suggested carve as user
+authorization. The CLI below writes a mix change when explicitly invoked.
+Use `--dry-run` for a read-only analysis:
 
 ```bash
 node <SKILL_DIR>/scripts/carve.mjs --comp index.html

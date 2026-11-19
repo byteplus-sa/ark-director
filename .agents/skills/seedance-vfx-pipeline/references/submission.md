@@ -75,10 +75,9 @@ Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
   override. Final requests require
   their own registration and request review, and final outputs require fresh QA.
   Evaluate face/detail fidelity in output QA; resolution is not a guarantee.
-- **`generate_audio = true`** — Seedance 2.0 native audio. The prompt's
-  `Audio:` section guides the audio generation. Object Swap, Motion Transfer
-  and Restyle instead submit the muted master with `generate_audio = false`
-  and add sound in post, per the
+- **`generate_audio`** follows the supported audio route and explicit scope.
+  Native generated audio is sufficient unchanged. Object Swap, Motion Transfer
+  and Restyle do not require muting, extraction or post muxing; follow the
   [video-to-video inputs contract](../../../contracts/video-to-video-inputs.md).
 - **`return_last_frame = true`** — returns the last frame image, enabling
   shot chaining for multi-shot VFX sequences.

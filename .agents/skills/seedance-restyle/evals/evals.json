@@ -4,12 +4,12 @@
     {
       "id": 1,
       "prompt": "Turn our 10-second office comedy clip into 2D anime. Same two coworkers, same gags, same camera. We own the footage.",
-      "expected_output": "A full-frame cel-anime-2d package preserving both coworkers, office layout and source timing, with muted picture, saved source audio and a supported draft. Additional environment imagery is conditional on this request or observed output.",
+      "expected_output": "A full-frame cel-anime-2d package preserving both coworkers, office layout, source timing and audio under verified capabilities, with a supported draft. Additional environment imagery is conditional on this request or observed output.",
       "files": [],
       "assertions": [
         "The edit scope redraws every person, object and surface in the style and states exactly two people.",
         "Each coworker keeps identity cues (hair shape, wardrobe colours) described from the source, not by name.",
-        "@Video 1 is the muted master, generate_audio is false and the saved source audio is the recorded post-audio route.",
+        "@Video 1 retains source audio under verified capabilities; native audio is sufficient unchanged, with no mandatory mute/extract/mux step.",
         "The medium lock includes the office background without requiring an environment image.",
         "Any environment image has a current-request justification and approval, preserves the same place and layout, and excludes extra objects.",
         "Preserves the original source; frame adaptation requires current capability evidence and approval, not an automatic 8n+1 trim.",

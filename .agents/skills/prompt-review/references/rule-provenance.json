@@ -16,7 +16,7 @@
     "swap.residual_original", "swap.timeline_inheritance",
     "recast.motion_authority", "recast.subject_disposition",
     "recast.mapping_unambiguous", "recast.guards",
-    "recast.audio_route", "v2v.muted_source",
+    "recast.audio_route", "v2v.audio_preservation",
     "v2v.virtual_portrait_identity", "restyle.content_preserved",
     "restyle.style_reference_only", "board.animatic_review_only",
     "seedance.draft_promotion", "audio.native_route",

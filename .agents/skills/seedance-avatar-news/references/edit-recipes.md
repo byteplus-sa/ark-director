@@ -34,7 +34,11 @@ uv run .agents/skills/seedance-avatar-news/scripts/render_short.py projects/<slu
 
 `uv run` installs the script's inline dependency (Pillow). ffmpeg and ffprobe
 must be on PATH, but libass and drawtext are not needed. Output: 1080×1920,
-29.97 fps, H.264 CRF 17, AAC 192k at -14 LUFS, plus `<out>_cues.json`.
+29.97 fps, H.264 CRF 17, stream-copied native audio, plus `<out>_cues.json`.
+The EDL `end` controls picture only; the full audio stream and any independent
+tail remain unchanged. Silent takes stay silent. There is no normalization,
+fade, resampling or audio duration limit. An incompatible audio codec needs a
+separately approved adaptation rather than an automatic transcode.
 
 The script validates before rendering and exits with a list of problems
 when:

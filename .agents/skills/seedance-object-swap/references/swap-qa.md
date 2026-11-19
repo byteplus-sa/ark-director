@@ -4,12 +4,12 @@ Focused reference for `seedance-object-swap`. Read [the entrypoint](../SKILL.md)
 for routing and caller responsibilities.
 
 - [Picture checks](#picture-checks)
-- [Audio checks after mux](#audio-checks-after-mux)
+- [Audio checks](#audio-checks)
 - [Failures and repairs](#failures-and-repairs)
 
 ## Picture checks
 
-Inspect the silent output side by side with the source, frame by frame around
+Inspect the output side by side with the source, frame by frame around
 each contact window and cut. Record each item as pass, fail or not applicable.
 
 - **Residual original.** No frame shows the original element, a blend of old
@@ -34,19 +34,20 @@ each contact window and cut. Record each item as pass, fail or not applicable.
   halo.
 - **Everything else untouched.** Faces, wardrobe, accessories, other props,
   background, camera, cuts and mouth movement match `@Video 1`.
-- **Technical.** The silent output decodes cleanly and has no audio stream.
+- **Technical.** The output decodes cleanly; audio matches the requested scope.
   Measure duration, frame timestamps, cuts and playback speed against the
   approved source span. Do not assume an 8n+1 guarantee or blanket 0.3 s
   tolerance. Input adaptation needs current capability evidence and approval,
   with the original preserved and a separate hashed derivative and matching
   audio span recorded. Check for unintended black side bars.
 
-## Audio checks after mux
+## Audio checks
 
-Apply after the post-audio route is muxed, following the
-[video-to-video inputs contract](../../../contracts/video-to-video-inputs.md#post-audio).
+Apply to actual native or explicitly edited sound, following the
+[video-to-video inputs contract](../../../contracts/video-to-video-inputs.md#audio-preservation).
 
-- The final duration equals the picture duration; padding or trim is recorded.
+- Preserve independent audio/video durations and offsets; padding or trimming
+  requires explicit approval, not an equal-duration gate.
 - Two or three sync points (set-downs, hits, plosives) land on the picture.
 - On-screen speech stays on the mouths. A visible offset needs a scoped timing
   repair or reviewed take; re-voicing needs authorization and is not by itself

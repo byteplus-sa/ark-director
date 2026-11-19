@@ -142,9 +142,10 @@ A **Rebuild Plan** returned to the caller:
    The EDL stays the cut authority.
 7. **Audio decision.** Keep each reference audio part only with a recorded
    rights basis; otherwise brief a replacement conformed to the cut driver.
-   Generated shots under a music bed with no sync sound run with
-   `generate_audio: false`, because native audio leaks music and speech into
-   the cut. Speech-led segments with new lines use the `dialogue_sync` route.
+   Native generated sound is sufficient unchanged when supported. Use
+   `generate_audio: false` only for explicit silence, an exact supplied master
+   or explicitly selected post sound. Speech-led segments with new lines use
+   the `dialogue_sync` route.
    New lines change speech lengths, so once the final voice track exists,
    re-time those segments from its word timings, record the re-time as a user
    change and treat the re-timed EDL as the cut authority from then on.

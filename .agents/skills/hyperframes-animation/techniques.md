@@ -203,7 +203,7 @@ Vector animations that play inside a composition. Use for logos, character anima
 
 ## 6. Video Compositing
 
-Embed real video footage inside compositions. Videos are `playsinline`; add `muted` for silent footage or b-roll, or `data-has-audio="true"` when the clip's own sound should play.
+Embed real video footage inside compositions. Videos are `playsinline`; retain their sound with `data-has-audio="true"`, including B-roll. Use `muted` only for silent footage or explicitly approved sound replacement. The example below assumes deliberately silent footage.
 
 ```html
 <div class="video-frame" style="width:680px;height:840px;border-radius:16px;overflow:hidden;">

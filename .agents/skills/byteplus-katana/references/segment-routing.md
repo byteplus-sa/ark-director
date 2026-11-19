@@ -110,7 +110,7 @@ is drafted.
 ## Reference footage as input
 
 Binding the reference itself as a video input is allowed only for
-`motion_recast` and `object_swap` with recorded rights, a muted source master
+`motion_recast` and `object_swap` with recorded rights, preserved source audio
 and the [video-to-video inputs contract](../../../contracts/video-to-video-inputs.md).
 For layered and generated routes, describe the reference's structure and motion
 in text and measurements; do not bind its frames.

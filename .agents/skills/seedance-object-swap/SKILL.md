@@ -7,8 +7,8 @@ description: >-
   performance, camera path, cuts, lighting and event order. Covers the
   five-part swap contract (identification, object count, Timeline Inheritance,
   residual-original guard, preservation), contact and occlusion windows,
-  Virtual Portrait asset:// references for character swaps, a muted source
-  master with audio added in post, and swap QA. Use for product placement,
+  Virtual Portrait asset:// references for character swaps, unchanged source
+  or native audio, and swap QA. Use for product placement,
   competitor-to-own SKU swaps, wardrobe changes, single-character replacement
   or location swaps on a kept take. Not for rebuilding the whole cast or world
   around the source motion (seedance-motion-recast), whole-frame style changes
@@ -58,17 +58,17 @@ Input:
   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md):
   duration, frame rate, ratio, audio streams, cuts, SHA-256 and a recorded
   rights decision.
-- The muted master and the saved source audio from the same contract.
+- The source with its audio preserved under the same contract.
 - One approved target element with hashes. A character target is a Virtual
   Portrait asset; a real brand or labeled product uses the official or
   authorized asset per
   [element identification](../../contracts/element-identification.md).
 - An optional `subject_map.json` with `status: ready`.
-- The post-audio route (original, new, mixed or re-voiced).
+- Audio requirements, including any explicitly requested sound change.
 
 Output: a swap prompt package with ordered `@Video 1`/`@Image N` bindings,
 roles and hashes, the five-part contract facts, contact windows, the prompt,
-parameters, the post-audio route, and the test-ladder rung.
+parameters, the audio route, and the test-ladder rung.
 
 ## Hard rules
 
@@ -79,9 +79,9 @@ parameters, the post-audio route, and the test-ladder rung.
    as `asset://` Virtual Portrait assets registered from approved invented
    designs. A real, identifiable person as
    the target is out of scope; offer a Virtual Portrait character.
-3. **Submit the muted master** with `generate_audio: false`, per the
-   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md#muted-source-master);
-   sound returns in post through the recorded route.
+3. **Preserve audio unchanged**, per the
+   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md#audio-preservation).
+   Native audio is sufficient when supported; no mute/extract/mux pass is required.
 4. **Reference budget**: 1–5 target images, one view per image, no collage.
    Several views of one target state that the output contains only one.
 5. **No baked text.** A label printed on a product is part of the product;
@@ -97,7 +97,7 @@ parameters, the post-audio route, and the test-ladder rung.
 
 Seedance 2.5 edit, through `seedance_2_5_create_task`:
 
-- `videos`: the muted master as `@Video 1`, first in order; an `asset://` video
+- `videos`: the source as `@Video 1`, first in order; an `asset://` video
   when the source shows a person (see the
   [video-to-video inputs contract](../../contracts/video-to-video-inputs.md)).
 - `images`: target views as `reference_image`, in binding order.
@@ -106,7 +106,7 @@ Seedance 2.5 edit, through `seedance_2_5_create_task`:
   the case at hand.
 - Preserve source ratio and duration; omit those parameters only when the current
   edit schema locks them to the source.
-- `generate_audio: false`, `watermark: false`, `resolution: "480p"` and boolean
+- `generate_audio` follows the capability-verified audio route; `watermark: false`, `resolution: "480p"` and boolean
   `draft: true` for every new test; final requests promote the selected Draft.
 
 Resolve the live tool schema and model ID before writing parameters.
@@ -115,13 +115,13 @@ Preserve the original source and full timeline. Any trim, padding, rounding or
 retiming needs current capability evidence and user approval for that specific
 change. Explain alternatives when the selected route cannot accept the source
 unchanged. Record approved derivatives, source spans, hashes and audio
-consequences; derive muted picture and saved audio from the same span. Measure
+consequences; preserve independent picture and audio spans. Measure
 returned timing rather than relying on a frame-count recipe.
 
 ## Procedure
 
 1. **Route check.** One element class changes; everything else is kept.
-2. **Source intake.** Inspect, record rights, write the muted master and save the
+2. **Source intake.** Inspect, record rights and retain the source with its
    audio ([video-to-video inputs](../../contracts/video-to-video-inputs.md)).
 3. **Facts.** Copy descriptors, counts and contact windows from the subject map,
    or inspect the source and record them. Uncertain facts stay open questions.
@@ -131,8 +131,8 @@ returned timing rather than relying on a frame-count recipe.
    [swap templates](references/swap-templates.md).
 6. **Package.** Return bindings, facts, prompt, parameters, audio route and rung
    to the caller for prompt-review and submission.
-7. **QA and audio.** Run [swap QA](references/swap-qa.md) on the silent output,
-   then mux the post-audio route and check sync.
+7. **QA and audio.** Run [swap QA](references/swap-qa.md), including actual
+   audio and sync. Apply audio edits only within explicit user scope.
 
 The canonical 2.5 edit blocks and face-protection lines come from
 `seedance-prompt` and `seedance-vfx-prompt`; a source subject map comes from
@@ -158,7 +158,7 @@ retry.
 - [ ] Source inspected and hashed; rights decision recorded
 - [ ] Original timeline preserved; adaptations have current evidence, user
       approval and separate derivative records
-- [ ] Muted master bound as `@Video 1`; source audio saved; `generate_audio: false`
+- [ ] Source bound as `@Video 1`; audio preserved with capability-verified handling
 - [ ] Original identified by observable descriptors and first appearance;
       hands named by anatomy and frame side ("her right hand, frame-left")
 - [ ] Object count stated for the whole video and per cut when it changes
@@ -169,5 +169,5 @@ retry.
 - [ ] Character target bound as a Virtual Portrait `asset://` reference
 - [ ] Target reference states what to ignore in the image
 - [ ] 1–5 target images, one view each
-- [ ] Post-audio route recorded
+- [ ] Audio route recorded; sound changes explicitly authorized
 - [ ] Ladder rung stated

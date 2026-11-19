@@ -22,7 +22,7 @@
         "The photo is hashed and checked against the Start photo contract before any prompt is written.",
         "A Seedream start frame of the same person at building height on a city street is generated, reviewed and approved before it is used as the first frame.",
         "The prompt keeps the recipe's two hard cuts at 4s and 7s, one helicopter, exact pedestrian and taxi counts, and the outfit described once.",
-        "The Seedance request uses role first_frame, draft true, resolution 480p, generate_audio false and no camera_fixed or seed field.",
+        "The Seedance request uses role first_frame, draft true, resolution 480p, supported native audio and no camera_fixed or seed field.",
         "prompt-review runs on the Seedance prompt and the Seedream prompt and resolves CRITICAL and MAJOR findings before submission.",
         "The provider task ID is saved as soon as it is acknowledged and the same task is polled after a timeout.",
         "After the draft the reply reports QA against the recipe's checks and follows the project approval mode for a 1080p promotion without requiring a cost estimate or financial approval.",
@@ -39,7 +39,7 @@
         "The 0-1s beat matches the first frame (extreme close portrait), not a medium shot.",
         "The prompt states no blink, one round pupil and a uniform black frame from 6.5s.",
         "The eye side is named by frame side.",
-        "The route is i2v-first-frame with generate_audio false."
+        "The route is i2v-first-frame with capability-verified native audio unless silence or separate sound is explicitly selected."
       ]
     },
     {
@@ -57,10 +57,10 @@
     {
       "id": 5,
       "prompt": "Make the Comic effect on my 5 second clip.",
-      "expected_output": "A hand-off to seedance-restyle with the comic style block, the source-clip requirements, the muted master, and the post-audio route, since the effect is video-to-video.",
+      "expected_output": "A hand-off to seedance-restyle with the comic style block, source-clip requirements and capability-verified audio preservation, since the effect is video-to-video.",
       "files": [],
       "assertions": [
-        "The route is v2v-restyle and the restyle contract (muted master, generate_audio false, no baked text) applies.",
+        "The route is v2v-restyle and the restyle contract (audio preservation, no baked text) applies without mandatory muting, extraction or muxing.",
         "The reply asks for the source clip and a rights statement for the footage and the people in it.",
         "No image-to-video prompt is written for a photo.",
         "People visible in the source clip are bound as asset:// videos per the video-to-video inputs contract; Virtual Portrait anchors are offered only for invented characters, and a request to target a specific real person is declined with an invented-character alternative."
@@ -74,7 +74,7 @@
       "assertions": [
         "The Seedance prompt contains no label text, HUD words or numbers.",
         "The reply routes the labels to HyperFrames or html-graphic-render in post.",
-        "The route is composite and generate_audio is false.",
+        "The route is composite; preserve supported native sound unchanged unless an audio change is explicitly requested.",
         "The reply says Particles is unvalidated on current inputs, retains the thin source-description caveat, and plans to check lettering, subject motion and the completed composite."
       ]
     },
@@ -146,7 +146,7 @@
       "assertions": [
         "The reply says Palette is unvalidated on current inputs and treats the recipe as a hypothesis rather than a verified effect.",
         "The reply explains that a source clip showing realistic people is rejected unless each person is bound as an asset:// Virtual Portrait or authorized asset, and asks for rights and asset status before any submission.",
-        "The route keeps the muted source master with generate_audio false and audio added in post.",
+        "The route preserves source or native audio under verified capabilities, with no mute/extract/mux prerequisite.",
         "Any alternative is also unvalidated on current inputs; the reply submits nothing without authorization and does not rank recipes by prior run outcomes."
       ]
     },
@@ -159,7 +159,7 @@
         "The reply says the effect and its first-frame alternative are unvalidated on current inputs.",
         "The prompt states the requested runner count at every timestamp and plans full-size-frame count checks without assuming an upward or downward bias.",
         "Neither reference_image nor the first-frame alternative is called tested or safer; both need current capability and rights checks, and a rejection is not bypassed.",
-        "Native audio stays off unless requested; any SFX bed comes from Seed Audio in post."
+        "Native generated audio is sufficient unchanged; no replacement SFX bed or audio processing is inferred."
       ]
     }
   ]

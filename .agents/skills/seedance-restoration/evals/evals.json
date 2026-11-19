@@ -4,12 +4,12 @@
     {
       "id": 1,
       "prompt": "Clean up this 14-second scan of our own 1970s home-movie reel: heavy grain and white vertical scratches. Two of my relatives are in it; I have their permission. Keep the original sound.",
-      "expected_output": "A restoration package scoped by authorization: the user's statement is not the relatives' consent, so the agent checks for existing Active real-person authorizations for each relative. With them, @Video 1 is the full-span muted master bound as an asset:// video; without them, the generative route is closed and a VOD or FFmpeg repair is offered. The package keeps diagnosis by inspection, full measured source timing without frame-count trimming, the discriminator line, generate_audio false with the silent audio block, a full-span native 480p Draft first, and the saved original audio including its tails muxed after timing QA.",
+      "expected_output": "A restoration package scoped by authorization: the user's statement is not the relatives' consent, so the agent checks for existing Active real-person authorizations for each relative. With them, @Video 1 is the full-span source bound as an asset:// video; without them, the generative route is closed and a VOD or FFmpeg repair is offered. Keep diagnosis by inspection, full measured source timing, the discriminator line, capability-verified audio preservation and a full-span native 480p Draft first. No mute/extract/mux step is mandatory.",
       "files": [],
       "assertions": [
         "The defect vocabulary comes from direct frame inspection and names grain and white vertical scratch lines as the dominant defects.",
-        "The user's word is not treated as the relatives' consent: the agent checks for existing Active real-person authorizations for each relative, binds the muted master as an asset:// video only when they exist, and otherwise closes the generative route and offers VOD or FFmpeg repair.",
-        "generate_audio is false, the prompt ends with a silent audio block, and the saved original audio is muxed after QA.",
+        "The user's word is not treated as the relatives' consent: the agent checks for existing Active real-person authorizations for each relative, binds the source as an asset:// video only when they exist, and otherwise closes the generative route and offers VOD or FFmpeg repair.",
+        "Audio handling is capability-verified; preserve the exact original sound and tails without automatic muting, extraction or muxing.",
         "Preserve the full measured source without an empirical frame-count trim; the first generation is a full-span native 480p Draft with boolean draft true, any additional partial probe needs explicit scope approval, and grain cleanup is judged at final resolution.",
         "The prompt keeps the discriminator line that retains real skin, fabric and object texture.",
         "The package is returned to the caller; nothing is submitted."
@@ -30,10 +30,10 @@
     {
       "id": 3,
       "prompt": "Restore this 8-second empty-landscape film clip with dust and flicker, and keep Seedance's native audio instead of muting it.",
-      "expected_output": "The explicit native-audio request is honoured as a recorded exception for this named take, with a note that native audio is newly generated sound, not the restored original. Footage without people binds without an asset.",
+      "expected_output": "The native-audio request is honored without an exception mechanism, with a note that generated native sound is not guaranteed to reproduce the exact original. Footage without people binds without an asset.",
       "files": [],
       "assertions": [
-        "Native audio is recorded as the user's explicit exception for this named take without asking them to confirm again.",
+        "Native audio is valid unchanged when supported; no exception flag or repeated confirmation is needed.",
         "The output explains that native audio is newly generated sound, not the restored original soundtrack.",
         "Because no people are visible, the clip binds without an asset:// video."
       ]
@@ -41,12 +41,12 @@
     {
       "id": 101,
       "prompt": "Offline instruction-only restoration scenarios, no media or generation: an owned empty-landscape scan is measured at 14.375 seconds, 345 frames at 24 fps, with a final narrated word and room-tone tail. A second scan has 346 frames at 24 fps and measured duration 14.4166666667 seconds. The fictional edit fixture accepts both full inputs. Remove dust without extra probes.",
-      "expected_output": "Describe full-span muted edit masters and saved original sound without frame-count or whole-second trimming. Keep edit duration and ratio input-bound, native Draft first, and full-span timing/audio QA.",
+      "expected_output": "Describe full-span source masters with preserved original sound without frame-count or whole-second trimming. Keep edit duration and ratio input-bound, native Draft first, and full-span timing/audio QA.",
       "files": [],
       "assertions": [
         "Preserve the full 14.375-second fractional source, final word and audio tails, and the second 346-frame source at its measured fractional duration without imposing 8n+1.",
         "Use the full-span native Draft at 480p with boolean draft: true; do not set edit duration or ratio, and do not require an additional partial probe.",
-        "Muted picture and saved audio derive from the same full span; no trim, pad or retime is inferred from a defect or preferred length.",
+        "Picture and audio retain their full spans; no mute, trim, pad or retime is inferred from a defect or preferred length.",
         "No media or generation is executed and no diagnosis or inspection evidence is invented."
       ]
     },
@@ -64,12 +64,12 @@
     {
       "id": 103,
       "prompt": "Offline instruction-only restoration scenario, no media or generation: a fictional current provider fixture for the selected model, edit operation and transport limits accepted input to 14 seconds. After alternatives and tail loss were explained, the user explicitly approved a separate 0-14.000-second derivative of the 14.375-second scan with matching sound, retaining the original. Describe the handoff.",
-      "expected_output": "Describe only the approved derivative, its muted picture and matching audio, with separate provenance and full original masters retained. Do not invent hashes or prepare another trim.",
+      "expected_output": "Describe only the approved derivative, its picture and matching audio, with separate provenance and full original masters retained. Do not invent hashes or prepare another trim.",
       "files": [],
       "assertions": [
         "Require both the specific current provider requirement and explicit derivative adaptation approval; the fictional fixture does not establish a real provider limit.",
         "Record source SHA-256, derivative SHA-256, exact window 0-14.000 seconds, command, timing delta -0.375 seconds and audio consequences, separately from original measurements.",
-        "Muted picture and saved audio share only the approved span; retain original tails, do not broaden the approval, and do not ask for it again.",
+        "Picture and audio share only the approved span; retain original tails, do not broaden the approval, and do not ask for it again.",
         "No media or generation is executed."
       ]
     },
