@@ -63,16 +63,19 @@ from PIL import Image, ImageDraw
 
 def contact_sheet(images, labels, out, cols=3, cell_pad=10, header_h=60, bg=(255,255,255)):
     """images: list of PIL Images (assumed same size), labels: list of str."""
+    if not images or len(images) != len(labels) or cols <= 0:
+        raise ValueError("Provide images, one label per image and a positive column count")
     W, H = images[0].size
     rows = (len(images) + cols - 1) // cols
-    sheet = Image.new('RGB', (cols*W + (cols+1)*cell_pad, rows*H + (rows+1)*cell_pad + header_h), bg)
+    sheet = Image.new('RGB', (cols*W + (cols+1)*cell_pad, rows*(H+header_h) + (rows+1)*cell_pad), bg)
     d = ImageDraw.Draw(sheet)
     for i, (im, lab) in enumerate(zip(images, labels)):
         r, c = divmod(i, cols)
         x = cell_pad + c*(W+cell_pad)
-        y = header_h + cell_pad + r*(H+cell_pad)
+        label_y = cell_pad + r*(H+header_h+cell_pad)
+        y = label_y + header_h
         sheet.paste(im, (x, y))
-        d.text((x, 12), lab, fill='black')
+        d.text((x, label_y), lab, fill='black')
     return sheet
 
 def sheet_from_paths(paths, labels, out):

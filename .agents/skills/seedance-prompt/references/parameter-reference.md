@@ -30,7 +30,7 @@ Suggest model alternatives only as unselected proposals, never an automatic fall
 | Seedance 2.0 Fast (legacy) | `dreamina-seedance-2-0-fast-260128` |
 | Seedance 2.0 Mini (legacy) | `dreamina-seedance-2-0-mini-260615` |
 
-**MCP tools:** `seedance_2_5_create_task` (submit), `seedance_get_task` (shared 2.0/2.5 poll), `seedance_list_tasks` / `seedance_cancel_or_delete_task` (shared with 2.0).
+**MCP tools:** `seedance_create_task` (submit), `gen_task_get` (shared 2.0/2.5 poll), `seedance_list_tasks` / `seedance_cancel_or_delete_task` (shared with 2.0).
 
 > Confirm availability of the selected exact ID on the [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) and connected tool before calling. Do not replace it with a newer ID automatically.
 
@@ -73,8 +73,8 @@ Suggest model alternatives only as unselected proposals, never an automatic fall
 | Bounce speed ramp | Acceleration/deceleration points; final state |
 
 ### Reproducibility
-- `seed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool; reproduce a look by reusing the approved prompt and references. Draft promotion reuses the draft's seed.
-- `camera_fixed`: not exposed by the Seedance 2.5 `seedance_2_5_create_task` tool (checked 2026-10-06; the legacy 2.0 REST snapshot documents it), so state a locked camera in the prompt and record its `static_reason`.
+- `seed`: not exposed by the Seedance 2.5 `seedance_create_task` tool; reproduce a look by reusing the approved prompt and references. Draft promotion reuses the draft's seed.
+- `camera_fixed`: not exposed by the Seedance 2.5 `seedance_create_task` tool (checked 2026-10-06; the legacy 2.0 REST snapshot documents it), so state a locked camera in the prompt and record its `static_reason`.
 - `return_last_frame`: set to `true` to chain multi-shot continuity.
 
 ### Output duration

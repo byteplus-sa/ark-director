@@ -81,7 +81,7 @@ Decision rules:
 
 ### Submission parameter differences
 
-Every route submits through `seedance_2_5_create_task` on Seedance 2.5.
+Every route submits through `seedance_create_task` on Seedance 2.5.
 Object Swap, Motion Transfer and Restyle bind the source as `@Video 1` (`videos[].role = "reference_video"`),
 element sheets and Virtual Portrait `asset://` views as
 `images[].role = "reference_image"`, with audio handling verified for the exact

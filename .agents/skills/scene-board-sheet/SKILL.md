@@ -115,7 +115,7 @@ uv run python .agents/skills/scene-board-sheet/scripts/scene_board.py <command> 
 | `sheet` | Write sheet page sources and render plans. `--pages 1,3` writes only those pages; `--font` names a local font family to require |
 | `render-sheet` | Render the pages with the renderer script you name: `--renderer <path to html-graphic-render's render_html.py>`, optional `--pages` |
 | `overview` | Write the floor plan sources when `board.md` has a `layout` block |
-| `animatic` | Build the timed MP4 with FFmpeg. `--size` defaults from the board aspect ratio; `--audio` is padded or trimmed to the picture length and its hash is recorded |
+| `animatic` | Build the timed MP4 with FFmpeg. `--size` defaults from the board aspect ratio; `--audio` copies supplied audio with its independent duration and records its hash. If MP4 cannot carry the codec, resolve delivery with the caller. Only use `--fit-audio` when padding, trimming and re-encoding to picture length are explicitly requested |
 | `review-page` | Write the static review page under `review/` |
 
 ## Procedure
@@ -176,7 +176,7 @@ Fix failed panels, not the board.
    Studio project when the decision comes from the user's chat words (`--user-words`
    makes the actor the user in either mode). Use its `ref` output as the request
    reference. The decision cannot later approve the final panel.
-4. **Edit** with `seedream_edit_image`: the failed panel as `@Image 1`, the approved
+4. **Edit** with `seedream_generate_image`: the failed panel as `@Image 1`, the approved
    element sheet as `@Image 2` when identity or a prop changes, HTTPS URLs from
    `media_upload` or `media_presign` immediately before the call, and a bounding box
    (the tool rejects an edit with no point or bounding box; `repair-plan` defaults to

@@ -372,12 +372,12 @@ legible, with a stated calm zone (for example the lower third or a dim sky)
 where type will sit. The words, their pops on the beat and the kinetic timing
 are built in post from ASR word times; nothing is lettered by the model.
 
-**Assembly handoff.** Cut the section clips to exact whole-frame lengths at the
-delivery frame rate as lossless intermediates, pad or trim each clip's audio to
-its picture, join with the concat demuxer, and encode once at the end with the
-master muxed over the full cut. The concat filter needs `setsar=1` on every
-input. Measure durations from the video stream, not the container. Keep the
-original Seedance colours unless a grade is requested.
+**Assembly handoff.** Plan cuts at whole frames and measure picture and audio
+spans separately. Preserve each source and its independent audio tail. For an
+exact supplied master, assemble the authorized picture edits against that
+uninterrupted track and copy its audio where compatible. Padding, trimming
+and re-encoding audio require an explicit finishing decision. Keep the original
+Seedance colours unless a grade is requested.
 
 ### 6. Direct the performer
 

@@ -1525,7 +1525,7 @@ def default_animatic_size(aspect: str) -> str:
 
 
 def build_animatic(
-    root: Path, scene: str, size: str | None, audio: str | None
+    root: Path, scene: str, size: str | None, audio: str | None, fit_audio: bool = False
 ) -> dict[str, Any]:
     board, _ = read_board(root, scene)
     size = size or default_animatic_size(board["aspect_ratio"])
@@ -1552,6 +1552,8 @@ def build_animatic(
         )
     if not segments:
         raise BoardError("The board has no panels")
+    if fit_audio and not audio:
+        raise BoardError("--fit-audio requires --audio")
     audio_path: Path | None = None
     if audio:
         audio_path = contained(root, audio)
@@ -1574,7 +1576,7 @@ def build_animatic(
         f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
         f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2,format=yuv420p"
     )
-    with tempfile.TemporaryDirectory(prefix="scene-board-animatic-") as temporary:
+    with tempfile.TemporaryDirectory(prefix=".animatic-", dir=directory) as temporary:
         listing = Path(temporary) / "segments.txt"
         listing.write_text("\n".join(lines) + "\n", encoding="utf-8")
         command = [
@@ -1599,34 +1601,55 @@ def build_animatic(
                     "0:v",
                     "-map",
                     "1:a",
-                    "-af",
-                    "apad",
-                    "-c:a",
-                    "aac",
                 ]
             )
+            if fit_audio:
+                command.extend(["-af", "apad", "-c:a", "aac"])
+            else:
+                command.extend(["-c:a", "copy"])
+        if not audio_path or fit_audio:
+            command.extend(["-t", f"{total_ms / 1000:.3f}"])
+        else:
+            video_filter += f",trim=duration={total_ms / 1000:.3f}"
+        staged_output = Path(temporary) / "animatic.mp4"
         command.extend(
             [
                 "-vf",
                 video_filter,
                 "-r",
                 "24",
-                "-t",
-                f"{total_ms / 1000:.3f}",
                 "-c:v",
                 "libx264",
                 "-crf",
                 "18",
                 "-movflags",
                 "+faststart",
-                str(output),
+                str(staged_output),
             ]
         )
         completed = subprocess.run(
             command, capture_output=True, text=True, check=False, timeout=600
         )
-    if completed.returncode != 0:
-        raise BoardError(f"ffmpeg failed: {completed.stderr.strip()}")
+        if completed.returncode != 0:
+            raise BoardError(f"ffmpeg failed: {completed.stderr.strip()}")
+        probe = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "csv=p=0",
+                str(staged_output),
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=60,
+        )
+        rendered_ms = milliseconds(float(probe.stdout.strip()))
+        os.link(staged_output, output)
     record = {
         "kind": "animatic",
         "scene": scene,
@@ -1634,7 +1657,9 @@ def build_animatic(
         "file": relative_to(root, output),
         "sha256": sha256_file(output),
         "size": size,
-        "duration_ms": total_ms,
+        "duration_ms": rendered_ms,
+        "picture_duration_ms": total_ms,
+        "audio_policy": "fit" if fit_audio else "preserve" if audio_path else "none",
         "segments": segments,
         "audio": relative_to(root, audio_path) if audio_path else None,
         "audio_sha256": sha256_file(audio_path) if audio_path else None,
@@ -1644,7 +1669,7 @@ def build_animatic(
     write_json(root, record_path, record)
     return {
         "file": record["file"],
-        "duration_s": total_ms / 1000,
+        "duration_s": rendered_ms / 1000,
         "segments": len(segments),
         "record": relative_to(root, record_path),
     }
@@ -2321,6 +2346,11 @@ def build_parser() -> argparse.ArgumentParser:
     animatic = common("animatic", "Build the timed review animatic with FFmpeg")
     animatic.add_argument("--size", help="WxH; default follows the board aspect ratio")
     animatic.add_argument("--audio")
+    animatic.add_argument(
+        "--fit-audio",
+        action="store_true",
+        help="Pad or trim and re-encode audio to picture duration",
+    )
     common("review-page", "Write the static review page")
     return parser
 
@@ -2419,7 +2449,9 @@ def execute(arguments: argparse.Namespace) -> tuple[dict[str, Any], int]:
     if command == "overview":
         return build_overview(root, scene), 0
     if command == "animatic":
-        return build_animatic(root, scene, arguments.size, arguments.audio), 0
+        return build_animatic(
+            root, scene, arguments.size, arguments.audio, arguments.fit_audio
+        ), 0
     return build_review_page(root, scene), 0
 
 

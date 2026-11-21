@@ -222,13 +222,14 @@ decode check:
 
 ```bash
 # One frame at each crossfade midpoint. For each boundary i, sample at
-# (offset_i - transition_duration/2). Adjust -ss values and xstack layout to
+# (offset_i + transition_duration/2). Adjust -ss values and xstack layout to
 # the number of boundaries.
 ffmpeg -y -v error \
- -ss 29.29 -i film_v01.mp4 \
- -ss 42.83 -i film_v01.mp4 \
- -ss 72.38 -i film_v01.mp4 \
- -filter_complex "[0:v][1:v][2:v]xstack=inputs=3:layout=0_0|w0_0|w0+w1_0,scale=1920:-1[out]" \
+ -ss 29.891667 -i film_v01.mp4 \
+ -ss 59.533334 -i film_v01.mp4 \
+ -ss 89.075001 -i film_v01.mp4 \
+ -ss 118.616668 -i film_v01.mp4 \
+ -filter_complex "[0:v][1:v][2:v][3:v]xstack=inputs=4:layout=0_0|w0_0|0_h0|w0_h0,scale=1920:-1[out]" \
  -map "[out]" -frames:v 1 boundaries_contact.png
 ```
 

@@ -63,7 +63,7 @@ video.
    workspace production policy. A sub-agent reports job and provider task IDs
    to the main agent, which owns `task_ids.json`; after an MCP restart resume
    the provider task ID rather than resubmitting.
-7. Seedream and Seedance prompts pass `prompt-review` before submission.
+7. Seedream and Seedance prompts receive the configured default inline or strict prompt review before submission.
 8. Outputs are an AI likeness of a real person. Keep them private unless the
    presenter signs off, and use the platform's AI-content disclosure when
    posted. Captions and badges are added in the edit, never generated.
@@ -76,7 +76,7 @@ projects/<slug>/elements/<id>/
   refs/ref_voice-timbre.wav              8–15s isolated voice (+ ref_voice-timbre-long.wav)
   prompt_char_<id>_turnaround_v01.md
   char_<id>_turnaround_vNN.png           generated sheets; one selected
-  character.md                           descriptor, outfit, scene-only props, voice, selected_variant
+  element.md                           descriptor, outfit, scene-only props, voice, selected_variant
   PROVENANCE.md                          separate consent, policy, provider-asset evidence, hashes, decisions
 ```
 
@@ -92,8 +92,7 @@ the presenter out of split-screen frames for a clean wardrobe and setting ref.
 Write the prompt with `seedream-character-sheet` (I2I): headshot for face,
 reference crop for wardrobe, mid shot for build. Put the on-camera outfit on
 the sheet, for example a sweater and a watch. Keep scene-only props
-such as a lav mic off it. Generate 3 seeds, show them next to the real
-headshot, and let the user pick. Record `selected_variant` in `character.md`.
+such as a lav mic off it. Honor the requested sample count, otherwise produce one in default mode or propose three in strict mode. Compare with the real headshot and record a mode-authorized selection. Record `selected_variant` in `element.md`.
 
 ### 3. Voice clip
 Separate the presenter's voice from their own video and cut an 8–15s clean

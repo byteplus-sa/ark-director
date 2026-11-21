@@ -847,14 +847,49 @@ def canvas_size(
     return dimensions(shots[0].aspect, shots[0].resolution)
 
 
+def recover_sync_frames(project: Path, staged: Path, hosted: set[str]) -> None:
+    for marker in staged.glob("*.html"):
+        match = re.fullmatch(
+            r"([A-Za-z][A-Za-z0-9_-]*)\.([0-9a-f]{64})\.html", marker.name
+        )
+        if not match or marker.is_symlink() or not marker.is_file():
+            continue
+        shot_id, digest = match.groups()
+        target = studio_path(project, "compositions", f"{shot_id}.html")
+        if (
+            shot_id not in hosted
+            and target.is_file()
+            and not target.is_symlink()
+            and target.samefile(marker)
+            and sha256_file(marker) == digest
+        ):
+            target.unlink()
+        marker.unlink()
+
+
+def publish_sync_frame(staged: Path, target: Path, content: str) -> None:
+    digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
+    marker = staged / f"{target.stem}.{digest}.html"
+    atomic_write(marker, content)
+    os.link(marker, target)
+
+
 def sync(
     project: Path,
     requested: dict[str, str] | None = None,
     probe: Probe = probe_duration,
     size_probe: SizeProbe = probe_size,
 ) -> SyncReport:
+    from operation_store import selection_lock
+
     project = project.resolve()
-    requested = requested or {}
+    with selection_lock(project):
+        return sync_locked(project, requested or {}, probe, size_probe)
+
+
+def sync_locked(
+    project: Path, requested: dict[str, str], probe: Probe, size_probe: SizeProbe
+) -> SyncReport:
     shots = discover_shots(project)
     if not shots:
         raise StudioError(
@@ -886,6 +921,11 @@ def sync(
                 f"{shot.shot_id}: {shot.aspect} {shot.resolution} differs from the project canvas {width}x{height}"
             )
     hosted = hosted_ids(html)
+    staged = studio_path(project, ".sync-pending")
+    if staged.is_symlink():
+        raise StudioError("Studio sync staging must be a real directory")
+    staged.mkdir(exist_ok=True)
+    recover_sync_frames(project, staged, hosted)
     pending: list[PreparedFrame] = []
     storyboard_changed = refresh_section_lines(sections, shots)
     for shot in shots:
@@ -913,7 +953,8 @@ def sync(
         pending.append(prepare_frame(project, shot, filename, probe, report))
     cursor = timeline_end(html)
     for ordinal, frame in enumerate(pending):
-        atomic_write(
+        publish_sync_frame(
+            staged,
             studio_path(project, "compositions", f"{frame.shot.shot_id}.html"),
             frame_html(
                 frame.shot.shot_id,
@@ -941,6 +982,7 @@ def sync(
             index_path, with_root_duration(html, max(root_duration(html), cursor))
         )
     write_provenance(project, shots)
+    recover_sync_frames(project, staged, hosted_ids(html))
     return report
 
 

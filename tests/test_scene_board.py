@@ -1480,9 +1480,31 @@ class AnimaticAudioTests(BoardTestCase):
             handle.writeframes(b"\x00\x00" * int(8000 * seconds_long))
         return name
 
-    def test_short_audio_is_padded_so_the_video_keeps_its_full_length(self) -> None:
-        audio = self.write_wav("scratch.wav", 3)
+    def test_long_supplied_audio_retains_its_tail_without_fitting(self) -> None:
+        audio = self.write_wav("long.wav", 15)
         result = MODULE.build_animatic(self.root, "scene-02", "640x360", audio)
+        probe = subprocess.check_output(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-select_streams",
+                "a:0",
+                "-show_entries",
+                "stream=duration",
+                "-of",
+                "csv=p=0",
+                str(self.root / result["file"]),
+            ],
+            text=True,
+        )
+        self.assertAlmostEqual(float(probe), 15.0, delta=0.01)
+
+    def test_explicit_fit_pads_short_audio_to_picture_length(self) -> None:
+        audio = self.write_wav("scratch.wav", 3)
+        result = MODULE.build_animatic(
+            self.root, "scene-02", "640x360", audio, fit_audio=True
+        )
         self.assertAlmostEqual(result["duration_s"], 12.5)
         probe = subprocess.run(
             [

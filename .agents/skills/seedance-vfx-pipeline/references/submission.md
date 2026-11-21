@@ -11,8 +11,7 @@ mode selection and caller responsibilities.
 Persist the exact prompt snapshot and prepared operation in `task_ids.json`
 before submission. Bind the completed review to its request hash, model, edit
 mode, and change contract. Submit through the selected tool only after preflight.
-The sample below is for the supported legacy `seedance_create_task` branch;
-use the 2.5 branch parameters below for the default model.
+This example uses the unified creator for a reviewed native 2.5 Draft. Resolve the selected exact model and edit operation against the connected schema before submission.
 
 **MCP request structure** (submit through `ark_job_submit`, the default path):
 
@@ -38,11 +37,10 @@ use the 2.5 branch parameters below for the default model.
             "role": "reference_image"
           }
         ],
-        "model": "dreamina-seedance-2-0-260128",
-        "omni_reference_task_type": "edit_video",
+        "model": "dreamina-seedance-2-5-260628",
+        "omni_reference_task_type": "edit",
+        "draft": true,
         "resolution": "480p",
-        "ratio": "16:9",
-        "duration": 5,
         "generate_audio": true,
         "watermark": false,
         "return_last_frame": true,
@@ -57,8 +55,8 @@ use the 2.5 branch parameters below for the default model.
 
 Key parameters for VFX:
 
-**Seedance 2.5 (default for full-duration edits):** use `seedance_2_5_create_task`
-instead, with `"omni_reference_task_type": "edit"` (2.5 accepts
+**Seedance 2.5 (default for full-duration edits):** use `seedance_create_task`
+for the selected exact 2.5 model, with `"omni_reference_task_type": "edit"` (2.5 accepts
 `auto|reference|edit|extend`; `edit_video` is 2.0-only and will be rejected).
 Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
 2.0 (`edit_video`) caps output at ~5s, so use 2.5 for any edit longer than ~5s.
@@ -93,11 +91,11 @@ authorizes a duplicate submission; resume the recorded task until terminal.
 
 ## Step 4 — Poll for completion
 
-Poll `seedance_get_task` in the foreground with `persist_output` off, waiting
+Poll `gen_task_get` in the foreground with `persist_output` off, waiting
 the `recommended_poll_after_ms` from creation between calls:
 
 ```json
-{"task_id": "<task_id from Step 3>", "persist_output": false}
+{"input": {"task_ids": ["<provider task ID from Step 3>"], "persist_output": false}}
 ```
 
 Once the status is terminal and succeeded, persist the output once through a
@@ -106,8 +104,8 @@ background job:
 ```json
 {
   "input": {
-    "tool_name": "seedance_get_task",
-    "arguments": {"input": {"task_id": "<task_id from Step 3>", "persist_output": true}}
+    "tool_name": "gen_task_get",
+    "arguments": {"input": {"task_ids": ["<provider task ID from Step 3>"], "persist_output": true}}
   }
 }
 ```
