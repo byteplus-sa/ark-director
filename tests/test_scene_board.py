@@ -1480,25 +1480,37 @@ class AnimaticAudioTests(BoardTestCase):
             handle.writeframes(b"\x00\x00" * int(8000 * seconds_long))
         return name
 
-    def test_long_supplied_audio_retains_its_tail_without_fitting(self) -> None:
-        audio = self.write_wav("long.wav", 15)
-        result = MODULE.build_animatic(self.root, "scene-02", "640x360", audio)
-        probe = subprocess.check_output(
-            [
-                "ffprobe",
-                "-v",
-                "error",
-                "-select_streams",
-                "a:0",
-                "-show_entries",
-                "stream=duration",
-                "-of",
-                "csv=p=0",
-                str(self.root / result["file"]),
-            ],
-            text=True,
-        )
-        self.assertAlmostEqual(float(probe), 15.0, delta=0.01)
+    def test_preservation_keeps_picture_and_audio_stream_lengths_independent(
+        self,
+    ) -> None:
+        for length in (3.0, 12.5, 15.0):
+            with self.subTest(audio_duration=length):
+                audio = self.write_wav("fixture.wav", length)
+                result = MODULE.build_animatic(self.root, "scene-02", "640x360", audio)
+                streams = json.loads(
+                    subprocess.check_output(
+                        [
+                            "ffprobe",
+                            "-v",
+                            "error",
+                            "-show_entries",
+                            "stream=codec_type,duration",
+                            "-of",
+                            "json",
+                            str(self.root / result["file"]),
+                        ],
+                        text=True,
+                    )
+                )["streams"]
+                durations = {
+                    stream["codec_type"]: float(stream["duration"])
+                    for stream in streams
+                }
+                self.assertAlmostEqual(durations["video"], 12.5, delta=0.01)
+                self.assertAlmostEqual(durations["audio"], length, delta=0.01)
+                self.assertAlmostEqual(
+                    result["duration_s"], max(length, 12.5), delta=0.01
+                )
 
     def test_explicit_fit_pads_short_audio_to_picture_length(self) -> None:
         audio = self.write_wav("scratch.wav", 3)

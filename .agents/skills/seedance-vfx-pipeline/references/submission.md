@@ -56,19 +56,20 @@ This example uses the unified creator for a reviewed native 2.5 Draft. Resolve t
 Key parameters for VFX:
 
 **Seedance 2.5 (default for full-duration edits):** use `seedance_create_task`
-for the selected exact 2.5 model, with `"omni_reference_task_type": "edit"` (2.5 accepts
-`auto|reference|edit|extend`; `edit_video` is 2.0-only and will be rejected).
-Omit `ratio` and `duration` — they auto-lock to the source. 2.5 caps at 1080p.
-2.0 (`edit_video`) caps output at ~5s, so use 2.5 for any edit longer than ~5s.
+for the selected exact model with `omni_reference_task_type: edit` when its
+connected operation supports source editing. Omit source-locked duration and
+ratio fields. Resolve ordinary creation, Draft and promotion limits separately
+under the [routing contract](../../../contracts/routing.md). A 4K delivery
+request cannot switch the model or waive its required Draft.
+
 - **`videos[].role = "reference_video"`** — the source clip to edit. This is
   what makes it a video-to-video (VFX) task rather than text-to-video.
 - **`images[].role = "reference_image"`** — element references (character
   sheets, location sheets, prop sheets) for identity consistency.
-- **Resolution and native Draft** — every new Seedance 2.5 request uses
+- **Resolution and native Draft** — every new request on the previously covered native 2.5 bindings uses
   `resolution: "480p"` and boolean `draft: true` in every review mode, including
   edits, probes and variants. Resolve capability or transport conflicts without
-  dropping `draft`. Other models without native Draft use ordinary 480p tests,
-  as in the legacy example above. After passing draft review and selection,
+  dropping `draft`. For a new binding use only its verified profile. An ordinary preview uses the evidenced resolution and cannot be promoted. After passing draft review and selection,
   promote to a supported delivery target. New 2.5 generations have no skip-draft
   override. Final requests require
   their own registration and request review, and final outputs require fresh QA.

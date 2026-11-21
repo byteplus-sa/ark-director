@@ -1610,7 +1610,7 @@ def build_animatic(
         if not audio_path or fit_audio:
             command.extend(["-t", f"{total_ms / 1000:.3f}"])
         else:
-            video_filter += f",trim=duration={total_ms / 1000:.3f}"
+            video_filter += f",fps=24,trim=duration={total_ms / 1000:.3f}"
         staged_output = Path(temporary) / "animatic.mp4"
         command.extend(
             [

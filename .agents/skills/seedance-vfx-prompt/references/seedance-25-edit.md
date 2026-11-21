@@ -16,7 +16,7 @@ video-to-video editing, combine this skill's VFX discipline with the
 | Need | Model | `omni_reference_task_type` | Notes |
 |---|---|---|---|
 | Full-duration edit (match source length) | Seedance 2.5 (`dreamina-seedance-2-5-260628`) | `edit` | Preferred. Duration auto-locks to ~source length (up to 30s). |
-| 4K output / Fast / Mini | Seedance 2.0 (`dreamina-seedance-2-0-260128`); for 4K also see whitelist-only 2.5 Premium in the routing contract | `edit_video` | 2.0 edit **caps output at ~5s** in practice regardless of source length — do not use for edits longer than ~5s. |
+| Requested 4K delivery | Preserve the selected exact model | Resolve the requested operation | Verify ordinary output, Draft and promotion separately under the [routing contract](../../../contracts/routing.md). |
 | Video extension | 2.5 | `extend` | Native forward/backward extension. Rejected for clips showing realistic people unless they are `asset://` assets; otherwise continue with a new generation from element references and text staging. |
 
 > 2.5 accepts `auto | reference | edit | extend`. It **rejects `edit_video`**

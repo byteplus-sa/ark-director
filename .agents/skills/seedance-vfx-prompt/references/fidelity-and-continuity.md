@@ -13,7 +13,7 @@ mode selection and caller responsibilities.
 
 | Selected path | Resolution decision | Review focus |
 |---|---|---|
-| Seedance 2.5 edit | Supported 480p/720p/1080p according to live tool evidence | Skin, facial motion, edges, texture, and lip-sync where applicable |
+| Seedance 2.5 edit | Operation-specific resolution verified for the selected binding | Skin, facial motion, edges, texture, and lip-sync where applicable |
 | Explicitly requested supported 2.0 4K path | 4K only after model/operation capability is resolved; costs are informational when known | Same face/detail QA; 4K does not guarantee preservation |
 | Prototype on either path | Lowest suitable supported resolution | Validate requested change and source locks before increasing cost |
 
