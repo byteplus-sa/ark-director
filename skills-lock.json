@@ -230,7 +230,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-pacing-presets/SKILL.md",
-      "computedHash": "fc3ba2a90d84b93afea83c85c11ca90f57c6bc308e9951fddf522e39e7701087"
+      "computedHash": "3e19733cb4fa818acad6c8147bae507d7b72b5d974384a45b2672e4e3dcb46ae"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",

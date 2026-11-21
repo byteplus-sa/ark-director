@@ -24,11 +24,10 @@ entries: record the boundary window separately from consecutive shot ranges.
 
 A match cut needs an observable match, not just two related topics. A jump cut
 skips action within a setup; a smash cut creates a strong contrast. A wipe is
-a picture replacement, not a subject morph. A whip pan is both a camera move
-and a boundary: use the camera preset skill's whip-pan template (trigger time,
-direction, full-frame occluder, continuing movement) and resolve the camera
-path once in the complete prompt rather than duplicating contradictory camera
-blocks. About 0.8 s is a provisional caution for short shots, not a provider
+a picture replacement, not a subject morph. A continuous whip pan lands on the next subject within
+the same take. A whip-pan transition crosses a shot boundary. For a hidden
+cut, describe its cue, occluder and continuing direction once in the prompt.
+About 0.8 s is a provisional caution for short shots, not a provider
 limit or guaranteed merge threshold. Preserve requested timing; offer assembly
 for precise blink cuts, intercuts or vision flashes as an optional remedy.
 Return conflicts with a locked one-prompt workflow instead of silently changing it.
