@@ -63,6 +63,26 @@
         "Does not reject approved ink contours as a defect merely because they are drawn.",
         "Checks for unintended map colors, grid artifacts and labels, not for absence of the approved style."
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Text only. Mina opens the door from screen left and steps back. When it opens Jo crosses from screen right toward camera. Give the video blocking now.",
+      "expected_output": "Immediate text staging keyed to the door opening.",
+      "files": [],
+      "expectations": [
+        "Preserves screen coordinates, actor roles and the order of movement.",
+        "Returns the requested directions without an upload, color key or diagram."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Text blocking. Elena starts on screen right. She crosses left: do I mean her left or the camera’s left? Her position for the reverse shot depends on it.",
+      "expected_output": "Clarifies the crossing direction while retaining the supplied screen-right start.",
+      "files": [],
+      "expectations": [
+        "Identifies the unresolved endpoint and asks which coordinate frame applies.",
+        "Does not require the user to supply an image or generate a diagram."
+      ]
     }
   ]
 }

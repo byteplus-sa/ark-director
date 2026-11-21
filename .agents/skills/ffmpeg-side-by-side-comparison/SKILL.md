@@ -22,12 +22,13 @@ in one frame, so a viewer can compare them at the same moment in time.
 ## Core recipe (2-up before/after)
 
 ```bash
+tile="scale='max(2,trunc(min(640,360*dar)/2)*2)':'max(2,trunc(min(360,640/dar)/2)*2)',setsar=1,pad=640:360:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y \
   -i before.mp4 \
   -i after.mp4 \
   -filter_complex \
-    "[0:v]scale=640:360,setsar=1[a]; \
-     [1:v]scale=640:360,setsar=1[b]; \
+    "[0:v]${tile}[a]; \
+     [1:v]${tile}[b]; \
      [a][b]hstack[v]; \
      [1:a]anull[aud]" \
   -map "[v]" -map "[aud]" -c:v libx264 -crf 23 -preset fast \
@@ -39,37 +40,13 @@ By default the output keeps the **AFTER clip's audio** (the last input) — you
 see the before, you hear the after. See [Audio](#audio) to mute, swap tracks,
 or mix.
 
-## The two rules that make seams line up
+## Fit each source to its tile
 
-1. **Scale every input to the same size** before stacking. Clips from different
-   generators or sources will differ in resolution and aspect; pick one target
-   (e.g. `640:360`, `960:540`) and apply it to every input.
-2. **Add `setsar=1`** after scaling. If sources have non-square pixels (common
-   with phone/vertical captures or certain containers), the scaled frames keep
-   a non-1:1 sample aspect ratio and the halves will not align — seams split,
-   content squashes. `setsar=1` forces square pixels so `hstack` edges match.
-
-Always use explicit, equal target dimensions — never relative expressions such
-as `scale=iw/2:ih/2`. `iw`/`ih` refer to each chain's own input, so that
-shorthand halves every source to its own size and the halves will not match
-(and the stack fails on resolution mismatch).
-
-### Mixed aspect ratios (portrait / vertical sources)
-
-`scale=W:H` **stretches** — a portrait 1080x1920 clip scaled to `640:360`
-comes out squeezed into 16:9. When inputs differ in aspect ratio, letterbox
-instead:
-
-```bash
-[0:v]scale=640:360:force_original_aspect_ratio=decrease,pad=640:360:(ow-iw)/2:(oh-ih)/2,setsar=1[a];
-[1:v]scale=640:360:force_original_aspect_ratio=decrease,pad=640:360:(ow-iw)/2:(oh-ih)/2,setsar=1[b];
-[a][b]hstack
-```
-
-`force_original_aspect_ratio=decrease` shrinks each source to fit inside the
-target while keeping its shape; `pad` centers it on the target canvas with
-bars. Every input still ends up exactly `640:360` with square pixels, so the
-stack lines up.
+Choose tile dimensions for the review layout. Compute content width and
+height from the input display aspect ratio (`dar`), which includes its sample
+aspect ratio. Each recipe rounds the fitted dimensions down to even pixels,
+sets square pixels and pads to the full tile before stacking. This preserves
+a portrait face even when both inputs are portrait and the tiles are landscape.
 
 ## Choosing the canvas
 
@@ -121,17 +98,18 @@ for i, text in enumerate(labels):
     im.save(f'label_{i}.png')
 EOF
 
+tile="scale='max(2,trunc(min(960,540*dar)/2)*2)':'max(2,trunc(min(540,960/dar)/2)*2)',setsar=1,pad=960:540:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y -v error \
   -i a.mp4 -i b.mp4 -i c.mp4 -i d.mp4 -i e.mp4 -i f.mp4 \
   -i label_0.png -i label_1.png -i label_2.png \
   -i label_3.png -i label_4.png -i label_5.png \
   -filter_complex "\
-[0:v]scale=960:540,setsar=1[v0];\
-[1:v]scale=960:540,setsar=1[v1];\
-[2:v]scale=960:540,setsar=1[v2];\
-[3:v]scale=960:540,setsar=1[v3];\
-[4:v]scale=960:540,setsar=1[v4];\
-[5:v]scale=960:540,setsar=1[v5];\
+[0:v]${tile}[v0];\
+[1:v]${tile}[v1];\
+[2:v]${tile}[v2];\
+[3:v]${tile}[v3];\
+[4:v]${tile}[v4];\
+[5:v]${tile}[v5];\
 [6:v]format=rgba[l0];[v0][l0]overlay=16:16[v0l];\
 [7:v]format=rgba[l1];[v1][l1]overlay=16:16[v1l];\
 [8:v]format=rgba[l2];[v2][l2]overlay=16:16[v2l];\
@@ -155,13 +133,14 @@ Notes:
 ## 4-up grid with xstack
 
 ```bash
+tile="scale='max(2,trunc(min(640,360*dar)/2)*2)':'max(2,trunc(min(360,640/dar)/2)*2)',setsar=1,pad=640:360:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y \
   -i a.mp4 -i b.mp4 -i c.mp4 -i d.mp4 \
   -filter_complex \
-    "[0:v]scale=640:360,setsar=1[a]; \
-     [1:v]scale=640:360,setsar=1[b]; \
-     [2:v]scale=640:360,setsar=1[c]; \
-     [3:v]scale=640:360,setsar=1[d]; \
+    "[0:v]${tile}[a]; \
+     [1:v]${tile}[b]; \
+     [2:v]${tile}[c]; \
+     [3:v]${tile}[d]; \
      [a][b][c][d]xstack=inputs=4:layout=0_0|w0_0|0_h0|w0_h0[v]; \
      [3:a]anull[aud]" \
   -map "[v]" -map "[aud]" -c:v libx264 -crf 23 -preset fast \
@@ -184,11 +163,12 @@ syntax; on builds without libfreetype it will not run, so the PIL `overlay`
 variant below is the always-available path.
 
 ```bash
+tile="scale='max(2,trunc(min(640,360*dar)/2)*2)':'max(2,trunc(min(360,640/dar)/2)*2)',setsar=1,pad=640:360:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y \
   -i before.mp4 -i after.mp4 \
   -filter_complex \
-    "[0:v]scale=640:360,setsar=1,drawtext=text='BEFORE':x=10:y=10:fontsize=28:fontcolor=white:box=1:boxcolor=black@0.5:boxborderw=8[a]; \
-     [1:v]scale=640:360,setsar=1,drawtext=text='AFTER':x=10:y=10:fontsize=28:fontcolor=white:box=1:boxcolor=black@0.5[b]; \
+    "[0:v]${tile},drawtext=text='BEFORE':x=10:y=10:fontsize=28:fontcolor=white:box=1:boxcolor=black@0.5:boxborderw=8[a]; \
+     [1:v]${tile},drawtext=text='AFTER':x=10:y=10:fontsize=28:fontcolor=white:box=1:boxcolor=black@0.5[b]; \
      [a][b]hstack[v]; \
      [1:a]anull[aud]" \
   -map "[v]" -map "[aud]" -c:v libx264 -crf 23 -preset fast \
@@ -214,11 +194,12 @@ label("AFTER", "label_after.png")
 ```
 
 ```bash
+tile="scale='max(2,trunc(min(640,360*dar)/2)*2)':'max(2,trunc(min(360,640/dar)/2)*2)',setsar=1,pad=640:360:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y \
   -i before.mp4 -i after.mp4 -i label_before.png -i label_after.png \
   -filter_complex \
-    "[0:v]scale=640:360,setsar=1[a]; \
-     [1:v]scale=640:360,setsar=1[b]; \
+    "[0:v]${tile}[a]; \
+     [1:v]${tile}[b]; \
      [a][b]hstack[v]; \
      [v][2:v]overlay=10:10[vl]; \
      [vl][3:v]overlay=650:10[v]; \
@@ -239,11 +220,11 @@ Decide the target length explicitly; do not let FFmpeg guess.
   `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 -i short.mp4`
   then pass `-t <that duration>` on the output.
 - **Fixed window:** `-t 30` on the output caps every stream at 30s.
-- **Pad the short one to the long one** (keep full content): use `tpad`
-  `[0:v]scale=640:360,setsar=1,tpad=stop_mode=clone:stop_duration=5[a]`.
+- **Pad the short one to the long one** (keep full content): append
+  `tpad=stop_mode=clone:stop_duration=5` after the short input’s tile filter.
 
 For frame-rate mismatch, insert `fps=24` (or the target rate) after each
-`setsar=1` so both halves advance frame-for-frame.
+tile’s padding filter so both halves advance frame-for-frame.
 
 ## Audio
 
@@ -256,11 +237,12 @@ combined, use `amix` (below); to mute entirely, drop the `[aud]` lines and the
 
 ```bash
 # BEFORE + AFTER audio mixed together
+tile="scale='max(2,trunc(min(640,360*dar)/2)*2)':'max(2,trunc(min(360,640/dar)/2)*2)',setsar=1,pad=640:360:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y \
   -i before.mp4 -i after.mp4 \
   -filter_complex \
-    "[0:v]scale=640:360,setsar=1[a]; \
-     [1:v]scale=640:360,setsar=1[b]; \
+    "[0:v]${tile}[a]; \
+     [1:v]${tile}[b]; \
      [a][b]hstack[v]; \
      [0:a][1:a]amix=inputs=2:duration=shortest:normalize=1[aud]" \
   -map "[v]" -map "[aud]" -c:v libx264 -crf 23 -c:a aac \
@@ -282,12 +264,13 @@ clone the frozen half with `tpad`:
 
 ```bash
 D=6  # seconds per half
+tile="scale='max(2,trunc(min(1280,720*dar)/2)*2)':'max(2,trunc(min(720,1280/dar)/2)*2)':flags=lanczos,setsar=1,pad=1280:720:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y \
   -t "$D" -i before.mp4 \
   -t "$D" -i after.mp4 \
   -filter_complex \
-    "[0:v]scale=1280:720:flags=lanczos,setsar=1,fps=24,tpad=stop_mode=clone:stop_duration=$D[L]; \
-     [1:v]scale=1280:720:flags=lanczos,setsar=1,fps=24,tpad=start_mode=clone:start_duration=$D[R]; \
+    "[0:v]${tile},fps=24,tpad=stop_mode=clone:stop_duration=$D[L]; \
+     [1:v]${tile},fps=24,tpad=start_mode=clone:start_duration=$D[R]; \
      [L][R]hstack[v]; \
      [0:a]aresample=48000[a0]; \
      [1:a]aresample=48000[a1]; \
@@ -325,12 +308,13 @@ halves only when that trim is authorized. By default `hstack` holds the shorter 
 
 ```bash
 # BEFORE — original render; AFTER — edited render (audio retained)
+tile="scale='max(2,trunc(min(640,360*dar)/2)*2)':'max(2,trunc(min(360,640/dar)/2)*2)',setsar=1,pad=640:360:(ow-iw)/2:(oh-ih)/2"
 ffmpeg -y \
   -i before.mp4 \
   -i after.mp4 \
   -filter_complex \
-    "[0:v]scale=640:360,setsar=1[a]; \
-     [1:v]scale=640:360,setsar=1[b]; \
+    "[0:v]${tile}[a]; \
+     [1:v]${tile}[b]; \
      [a][b]hstack[v]; \
      [1:a]anull[aud]" \
   -map "[v]" -map "[aud]" -c:v libx264 -crf 23 -preset fast -t 30 \
@@ -342,9 +326,8 @@ output is 1280x360 with the AFTER clip's audio.
 
 ## Self-check
 
-1. Every input is scaled to the same dimensions with `setsar=1` — and, when
-   aspect ratios differ, letterboxed (`force_original_aspect_ratio=decrease`
-   + `pad`) rather than stretched — no misaligned seams, no squashed content.
+1. Every tile preserves the input display aspect, uses square pixels and fills
+   the specified tile dimensions with padding.
 2. The stack operator matches the layout (`hstack` / `vstack` / `xstack`).
 3. The target duration is explicit when lengths differ (`-t`, `-shortest`, or
    `tpad`); no silent truncation surprises.

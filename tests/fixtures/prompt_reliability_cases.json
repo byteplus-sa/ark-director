@@ -276,7 +276,7 @@
     {
       "id": "selfie_format_static_by_design",
       "skill": "seedance-shot-design",
-      "prompt": "Plan a 10-second selfie-style product demo where the creator holds the phone at arm's length and talks to camera.",
+      "prompt": "Plan a 10-second selfie-style product demo using the approved locked-off selfie preset. The creator talks to camera.",
       "expected_decisions": {
         "shot_plan_required": false,
         "static_reason": "format_static_by_design",

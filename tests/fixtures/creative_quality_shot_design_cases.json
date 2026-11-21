@@ -50,7 +50,7 @@
     {
       "id": "selfie_demo_locked_frame",
       "skill": "seedance-prompt",
-      "prompt": "Write the complete Seedance 2.5 prompt for a 10-second selfie-style demo. A creator (@Image 1) holds the phone at arm's length and shows how a pocket blender (@Image 2) crushes ice, talking to camera in English: {Watch this, it crushes ice in five seconds.} Prompt only: no generation, no files.",
+      "prompt": "Write the complete Seedance 2.5 prompt for a 10-second selfie-style demo using our approved locked-off selfie preset. A creator (@Image 1) holds the phone at arm's length and shows how a pocket blender (@Image 2) crushes ice, talking to camera in English: {Watch this, it crushes ice in five seconds.} Prompt only: no generation, no files.",
       "criteria": {
         "intent": "The prompt delivers a convincing arm's-length selfie demo with a visible blender action.",
         "camera_light": "The locked selfie frame is stated as the camera choice, and the light source is named.",

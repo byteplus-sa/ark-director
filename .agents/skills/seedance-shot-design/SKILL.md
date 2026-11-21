@@ -80,7 +80,7 @@ names; the plan still fills the rest.
 | `static_reason` | Applies to |
 | --- | --- |
 | `user_lock` | The user, or a `user_confirmed` lock, fixed the camera or light |
-| `format_static_by_design` | A format whose mode is a fixed frame: the `ugc`, `ugc-how-to`, `ugc-unboxing`, `product-review` and `ugc-virtual-try-on` modes, named UGC presets whose camera block is locked-off, talking-head, avatar and news-desk takes, frame-break. The `product-showcase`, `tv-spot`, `wild-card` and `virtual-try-on` modes take a plan |
+| `format_static_by_design` | The selected preset or mode explicitly fixes the frame. A selfie, unboxing, review or presenter format alone leaves camera movement open. Plan framing and travel from the brief; preserve any source-camera or user lock. |
 | `skill_owned_camera` | Another skill supplies an explicit per-shot camera plan (a reverse-engineered pin plan). Derive the plan from it; V1-V3 are advisory. A music-video genre lock is vocabulary only and does not exempt: plan the shots |
 | `plate_for_cutdown` | A source plate generated to be cut later; name the cut target |
 | `source_preserved` | An edit, swap, recast or restyle that must keep the source camera |

@@ -115,7 +115,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ffmpeg-side-by-side-comparison/SKILL.md",
-      "computedHash": "0f5d0f53a75b6abb5fbc916dbc0acde908edffbff16a60bd08ad48cb7bceb152"
+      "computedHash": "9bb77795d62144fbf501f132931dfa61133bb9195dff2ceed8390fa6580347f8"
     },
     "film-production": {
       "source": "./local",
@@ -182,13 +182,13 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-camera-presets/SKILL.md",
-      "computedHash": "5a8ad15182ab75305b015ca9c8c1123636740bf9bbb1ad1ae5d7bf474dbf0f79"
+      "computedHash": "75e8d5402a589050d986327a81b08dd112c26cd78510e18c51304ed310250820"
     },
     "seedance-shot-design": {
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-shot-design/SKILL.md",
-      "computedHash": "b65d445c65590af86d0724754ed6ead909f80234b07d0b64159cbd37d87f22e3"
+      "computedHash": "68d7512846950103773ec8892269f5375700dedf753b3f57329b07da8b55e0b3"
     },
     "seedance-frame-break": {
       "source": "./local",
@@ -230,7 +230,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-pacing-presets/SKILL.md",
-      "computedHash": "fc3ba2a90d84b93afea83c85c11ca90f57c6bc308e9951fddf522e39e7701087"
+      "computedHash": "3e19733cb4fa818acad6c8147bae507d7b72b5d974384a45b2672e4e3dcb46ae"
     },
     "seedance-prompt-25-filipino": {
       "source": "./local",
@@ -326,7 +326,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/blocking-map/SKILL.md",
-      "computedHash": "0d387e5116b4d05f9221a95106746bc3252fa697bcc514f57949ffcf978d079d"
+      "computedHash": "8fc2e11551ab46b0dc55e4319d19f7a41f464b050770a82198ae544054013396"
     },
     "scene-craft": {
       "source": "./local",
@@ -338,7 +338,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/ugc-ad-modes/SKILL.md",
-      "computedHash": "e79855d89691dac5e9136f0d0a6b64006a5af06c3fbabff8ee7430341b3fb444"
+      "computedHash": "5ae6a72041e4e76cbd723f70469f7af2326bec785852e53750cf771108412615"
     },
     "general-video": {
       "source": "heygen-com/hyperframes",

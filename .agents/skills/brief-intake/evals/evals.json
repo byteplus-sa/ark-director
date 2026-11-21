@@ -79,11 +79,11 @@
     },
     {
       "id": 8,
-      "prompt": "A selfie-style demo ad: a creator holds the phone at arm's length and shows how to use a pocket blender. Give one compact direction.",
+      "prompt": "A selfie-style demo ad: a creator uses a preset that locks the phone at eye level and shows how to use a pocket blender. Give one compact direction.",
       "expected_output": "A proportionate direction that treats the locked selfie frame as the format and puts variety in light, props and demonstration beats.",
       "files": [],
       "expectations": [
-        "Recognizes the selfie frame as static by design and records it as the reason.",
+        "Recognizes the selected preset’s fixed frame and records it as the reason.",
         "Does not impose a crane, orbit or whip pan on the selfie frame.",
         "Still names a light stance and the beats of the demonstration."
       ]

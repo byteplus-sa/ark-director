@@ -183,6 +183,16 @@
         "Asks which lock may change instead of deleting one silently.",
         "Does not treat the count of two moves as proof of coherence."
       ]
+    },
+    {
+      "id": 16,
+      "prompt": "One uninterrupted take: whip right from the clock to the bell on the chime and hold.",
+      "expected_output": "A continuous rightward reframe landing and holding on the bell.",
+      "files": [],
+      "expectations": [
+        "The chime triggers the pan.",
+        "Stays in the same shot, with no invented cut or foreground occlusion."
+      ]
     }
   ]
 }
