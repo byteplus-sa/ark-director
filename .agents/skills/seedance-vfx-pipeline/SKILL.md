@@ -84,7 +84,7 @@ flowchart TD
     VALIDATE[2. Validate inputs and references] --> PREPARE
     PREPARE[Persist exact prompt and reviewed request] --> SUBMIT
     SUBMIT[3. Submit via resolved model and operation tool] --> POLL
-    POLL[4. Poll via seedance_get_task until terminal] --> CHECK
+    POLL[4. Poll via gen_task_get until terminal] --> CHECK
     CHECK{status?} -->|succeeded| SAVE
     CHECK -->|failed/cancelled/expired| ERROR[Report error + retry guidance]
     SAVE[5. Download asset to scene shot directory] --> MANIFEST
@@ -128,7 +128,7 @@ The workspace's recurring pattern for a text-only before/after VFX demo:
 2. `media_upload` the BEFORE clip; record its `object_key` in the project
    `ref_cache.json` with content SHA-256 and storage scope. Re-presign unchanged
    objects on demand; re-upload only for changed content or a missing object.
-3. AFTER — `seedance_2_5_create_task`, verify the live edit-mode token,
+3. AFTER — `seedance_create_task`, verify the live edit-mode token,
    `resolution: "480p"` and boolean `draft: true`,
    `@Video 1` = the BEFORE URL; `duration` and `ratio` auto-lock. Write the
    prompt with `seedance-vfx-prompt` (2.5 editing section). Review and select the
@@ -221,7 +221,7 @@ Before submitting, verify:
    the legacy path. Include observable face-fidelity criteria when relevant.
 5. **Model and operation** — resolve the model, transport tool, edit operation,
    and reference mode before choosing a checklist. Default 2.5 edit uses
-   `seedance_2_5_create_task` with `omni_reference_task_type: edit`; 4K follows the
+   `seedance_create_task` with `omni_reference_task_type: edit`; 4K follows the
    4K routing in `.agents/contracts/routing.md` and needs live tool evidence for
    the chosen path. Faces
    require fidelity QA, not a model switch.
@@ -257,7 +257,7 @@ VFX shots using Seedance 2.0 at 4K with audio are the **most expensive**
 generation mode in the workspace. Each 4K VFX take costs significantly more than
 a 1080p text-to-video take.
 
-Standard Seedance 2.5 at 720p is cheaper per generation but cannot produce 4K output — use 2.5 for structured editing and extension, and a supported 4K path (2.0, or whitelist-only 2.5 Premium) when 4K is explicitly needed.
+For 4K delivery verify ordinary generation and native Draft promotion separately under the workspace routing contract. Preserve explicit model pins and the required preview workflow.
 
 Guidelines:
 - **Default to a single take** (`t01`) for VFX development. Generate multiple
@@ -287,8 +287,8 @@ Before declaring a VFX shot complete, verify:
       reference roles are supported by the selected model/operation.
 - [ ] **Audio mode** — matches the request and uses only supported parameters.
 - [ ] **Task submitted** — the resolved tool acknowledged a task ID: normally
-      `seedance_2_5_create_task` for 2.5 edit; the verified legacy tool for 2.0.
-- [ ] **Task polled** — `seedance_get_task` returned `status: succeeded`
+      `seedance_create_task` for 2.5 edit; the verified legacy tool for 2.0.
+- [ ] **Task polled** — `gen_task_get` returned `status: succeeded`
 - [ ] **Video saved locally** — asset in `scenes/scene-NN/sNN_shNNN/`
 - [ ] **Last frame saved** — PNG alongside the video (if chaining)
 - [ ] **`shot.md` manifest written** — full YAML frontmatter with model, prompt

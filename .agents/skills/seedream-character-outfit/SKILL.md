@@ -37,7 +37,7 @@ Composition hints: `seedream-character-sheet` made the parent sheet,
 
 Inputs:
 1. The approved parent sheet: file, SHA-256, pixel size, and its
-   `character.md` identity descriptor.
+   `element.md` identity descriptor.
 2. The outfit as a text description, garment or outfit photos, or an acquired
    real-brand garment.
 3. Always-worn accessories, if any.
@@ -78,7 +78,7 @@ PRESERVE: face, eyes, brows, nose, mouth, skin tone, marks, hair, build,
 REMOVE:   every named item of the original outfit
 ```
 
-`PRESERVE` quotes the identity descriptor from `character.md` word for word.
+`PRESERVE` quotes the identity descriptor from `element.md` word for word.
 List body marks (mole, scar, tattoo) that a lower neckline or shorter sleeve
 could newly expose, or hide.
 
@@ -152,12 +152,12 @@ Each outfit is a new element and the parent is never edited:
 
 ```text
 elements/<character-id>-<outfit-id>/
-  character.md
+  element.md
   char_<character-id>-<outfit-id>_<sheet-type>_v<NN>.png
   prompt_char_<character-id>-<outfit-id>_<sheet-type>_v<NN>.md
 ```
 
-`<sheet-type>` equals the parent's. Record in `character.md`:
+`<sheet-type>` equals the parent's. Record in `element.md`:
 
 ```yaml
 element_id: gloria-office

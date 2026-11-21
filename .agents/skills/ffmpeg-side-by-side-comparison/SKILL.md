@@ -262,7 +262,7 @@ ffmpeg -y \
     "[0:v]scale=640:360,setsar=1[a]; \
      [1:v]scale=640:360,setsar=1[b]; \
      [a][b]hstack[v]; \
-     [0:a][1:a]amix=inputs=2:duration=shortest[aud]" \
+     [0:a][1:a]amix=inputs=2:duration=shortest:normalize=1[aud]" \
   -map "[v]" -map "[aud]" -c:v libx264 -crf 23 -c:a aac \
   compare_mixed.mp4
 ```
@@ -271,8 +271,7 @@ Notes:
 - `[0:a]` / `[1:a]` assume the source carries an audio stream. If a clip is
   silent (common for blockout or proxy takes), drop the audio mapping and pass
   `-an` — do not guess a stream that is not there.
-- `amix` **sums levels**, so two identical soundtracks come out roughly +6 dB
-  louder. That is why the default is a single AFTER track rather than a mix.
+- `amix` normalizes by default. Two equal, in-phase tracks retain their level. Disabling normalization sums amplitudes and can clip.
 
 ## Staggered side-by-side (one plays at a time)
 
@@ -312,8 +311,7 @@ How it works:
   the edited version" — with the other half visibly paused.
 
 Trim both inputs to the same `D` with `-t` so `tpad` produces equal-length
-halves; otherwise `hstack` truncates to the shorter side and audio timing
-drifts.
+halves only when that trim is authorized. By default `hstack` holds the shorter input’s final frame until the longer stream ends. Set `shortest=1` only when that shortened duration is intended.
 
 ## Quality / size knobs
 

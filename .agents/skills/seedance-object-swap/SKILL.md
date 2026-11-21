@@ -95,7 +95,7 @@ parameters, the audio route, and the test-ladder rung.
 
 ## Route and parameters
 
-Seedance 2.5 edit, through `seedance_2_5_create_task`:
+Seedance 2.5 edit, through `seedance_create_task`:
 
 - `videos`: the source as `@Video 1`, first in order; an `asset://` video
   when the source shows a person (see the

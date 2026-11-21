@@ -1,22 +1,10 @@
 ---
 name: seedance-motion-design
 description: >
-  Write production-grade Seedance motion-design and motion-graphics
-  prompts for marketing deliverables — launch videos, motion-on-footage
-  explainers, hypermotion product ads, 3D flythroughs, 2D explainers,
-  editorial explainers, logo reveals, kinetic type, product motion, and
-  data-driven explainers. Exact words, numbers, charts, logos, and UI are
-  authored as deterministic HTML-entrypoint graphics for post-composited
-  fidelity;
-  Seedream supplies only synthesized image layers and Seedance supplies
-  text-free footage or intentionally non-exact plate motion. Use whenever the
-  user asks for motion design, motion graphics, kinetic typography, a logo
-  reveal, product motion, an explainer video, an animated data story, or
-  any text/graphic-driven marketing motion. Composes in prose with
-  html-graphic-render for exact static graphics, seedance-prompt for creative
-  text, seedream-prompt or seedream-storyboard for synthesized
-  image/keyframe layers, and seed-audio-prompt for voice/music. Does not call
-  the API itself.
+  Compose Seedance motion-design prompts for launch videos, explainers, product
+  motion, logo reveals, kinetic type and data stories. Use for text-free moving
+  footage or intentionally non-exact plate motion. Exact copy, charts and UI
+  require deterministic graphics. The caller owns generation and assembly.
 ---
 
 # Seedance Motion Design

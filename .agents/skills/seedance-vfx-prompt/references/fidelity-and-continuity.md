@@ -13,7 +13,7 @@ mode selection and caller responsibilities.
 
 | Selected path | Resolution decision | Review focus |
 |---|---|---|
-| Seedance 2.5 edit | Supported 480p/720p/1080p according to live tool evidence | Skin, facial motion, edges, texture, and lip-sync where applicable |
+| Seedance 2.5 edit | Operation-specific resolution verified for the selected binding | Skin, facial motion, edges, texture, and lip-sync where applicable |
 | Explicitly requested supported 2.0 4K path | 4K only after model/operation capability is resolved; costs are informational when known | Same face/detail QA; 4K does not guarantee preservation |
 | Prototype on either path | Lowest suitable supported resolution | Validate requested change and source locks before increasing cost |
 
@@ -151,7 +151,7 @@ prior shot (Woman standing in @neon-alley). She turns and walks toward camera,
 > **Seedance 2.5 alternative**: For pure extension tasks (no VFX change, just
 > extending a clip), Seedance 2.5's native forward/backward extension can replace
 > the manual `return_last_frame` chaining above. Use `seedance-prompt` with
-> the 2.5 model (`dreamina-seedance-2-5-260628`) and `seedance_2_5_create_task`.
+> the 2.5 model (`dreamina-seedance-2-5-260628`) and `seedance_create_task`.
 > Extension rejects a clip that shows a realistic person unless each person is
 > an `asset://` asset; without assets, the chaining above is rejected the same
 > way, so make a new generation from element references and stage the

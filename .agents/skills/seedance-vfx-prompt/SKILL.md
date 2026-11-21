@@ -46,10 +46,7 @@ Do **not** use this skill for:
 > remains the general prompt authority for any selected exact model, with
 > capability and execution decisions owned by the caller.
 
-> **2.5 resolution guard**: Seedance 2.5 supports 480p/720p/1080p output. The
-> 4K face-protection methodology below is 2.0-only. For face-critical structured
-> edits on 2.5, weigh 1080p fidelity against 2.0's 4K path. For 4K output,
-> follow the 4K routing in [routing.md](../../contracts/routing.md).
+> **Resolution:** Confirm exact model, operation and transport in [routing.md](../../contracts/routing.md). Ordinary generation and native Draft promotion have distinct limits. Preserve the selected model.
 
 This skill is designed to partner with:
 - `seedance-vfx-pipeline` for the end-to-end submission, poll, and save pipeline
@@ -91,9 +88,7 @@ Check these before writing, because no wording fixes them:
   shows a realistic person, generated or real, with `PrivacyInformation`
   before any cost, unless each person is bound as an `asset://` Virtual
   Portrait or authorized asset. Name that binding in the package or stop and
-  say the clip needs assets (compose with `seedance-virtual-portrait`). For
-  swaps, restyles and recasts the source is also submitted muted, with audio
-  added in post.
+  say the clip needs assets (compose with `seedance-virtual-portrait`). Preserve the source soundtrack. Preparing a separate muted input needs an explicit audio decision and verified destination requirements.
 - **Storyboards and boards.** Never bind a storyboard grid, board panel or
   sketch as `@Image N`: panel numbers and the sketch or watercolour look leak
   into the video and output-copyright rejections rise. Boards plan the shot;

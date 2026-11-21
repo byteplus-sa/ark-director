@@ -301,7 +301,7 @@ Keep the source sound and timing unchanged.
   every prompt that preserves people.
 - **Submission.** `omni_reference_task_type="edit"`, the source as
   `@Video 1` (an `asset://` video when people are visible), `resolution: "480p"`
-  and boolean `draft: true` (standard 2.5 has no 4K), capability-verified audio handling,
+  and boolean `draft: true`, capability-verified audio handling,
   `watermark: false` only when the tool supports the parameter. Duration and
   ratio lock to the input — do not set them.
 - **Temporal denoising with a no-ghosting guard.** Always pair the temporal

@@ -115,6 +115,49 @@ class StudioProjectTests(unittest.TestCase):
     def root(self):
         return self.project / "studio"
 
+    def test_retry_interrupted_frame_publication_preserves_unrelated_edits(self):
+        for shot in ("s01_sh010", "s01_sh020"):
+            self.add_shot(shot, selected=f"{shot}_t01_v01.mp4")
+        original_write = studio.atomic_write
+
+        def interrupt(path, content):
+            if path.name == "STORYBOARD.md":
+                raise OSError("interrupted publication")
+            original_write(path, content)
+
+        with (
+            mock.patch.object(studio, "atomic_write", side_effect=interrupt),
+            self.assertRaises(OSError),
+        ):
+            studio.sync(self.project)
+        index = self.root / "index.html"
+        index.write_text(index.read_text() + "\n<!-- editor note -->")
+        studio.sync(self.project)
+        for shot in ("s01_sh010", "s01_sh020"):
+            self.assertEqual(index.read_text().count(f"compositions/{shot}.html"), 1)
+        self.assertIn("<!-- editor note -->", index.read_text())
+        self.assertEqual(studio.sync(self.project).added, [])
+
+    def test_retry_preserves_user_edited_unhosted_composition(self):
+        self.add_shot(selected="s01_sh010_t01_v01.mp4")
+        original_write = studio.atomic_write
+
+        def interrupt(path, content):
+            if path.name == "STORYBOARD.md":
+                raise OSError("interrupted publication")
+            original_write(path, content)
+
+        with (
+            mock.patch.object(studio, "atomic_write", side_effect=interrupt),
+            self.assertRaises(OSError),
+        ):
+            studio.sync(self.project)
+        composition = self.root / "compositions/s01_sh010.html"
+        composition.write_text("editor changed this frame")
+        report = studio.sync(self.project)
+        self.assertIn("s01_sh010", report.preserved)
+        self.assertEqual(composition.read_text(), "editor changed this frame")
+
     def test_sync_creates_frames_storyboard_assets_and_provenance(self):
         self.add_shot(selected="s01_sh010_t01_v01.mp4")
         self.add_shot(

@@ -276,30 +276,33 @@ bpy.context.scene.sequencer_colorspace_settings.name = 'sRGB'
 ```python
 import bpy
 
-world = bpy.context.scene.world
-if world is None:
-    world = bpy.data.worlds.new("World")
-    bpy.context.scene.world = world
+def apply_studio_hdri(scene, path):
+    image = bpy.data.images.load(path, check_existing=True)
+    if scene.world and scene.world.get("studio_hdri_path") == image.filepath:
+        return
+    world = bpy.data.worlds.new("Studio HDRI")
+    try:
+        world.use_nodes = True
+        nodes = world.node_tree.nodes
+        links = world.node_tree.links
+        bg = next(node for node in nodes if node.type == 'BACKGROUND')
+        env_tex = nodes.new('ShaderNodeTexEnvironment')
+        env_tex.image = image
+        mapping = nodes.new('ShaderNodeMapping')
+        tex_coord = nodes.new('ShaderNodeTexCoord')
+        links.new(tex_coord.outputs['Generated'], mapping.inputs['Vector'])
+        links.new(mapping.outputs['Vector'], env_tex.inputs['Vector'])
+        links.new(env_tex.outputs['Color'], bg.inputs['Color'])
+        bg.inputs['Strength'].default_value = 1.0
+        if scene.world is not None:
+            scene.world.use_fake_user = True
+        world["studio_hdri_path"] = image.filepath
+        scene.world = world
+    except Exception:
+        bpy.data.worlds.remove(world)
+        raise
 
-world.use_nodes = True
-nodes = world.node_tree.nodes
-links = world.node_tree.links
-nodes.clear()
-
-# Background + Environment Texture
-bg = nodes.new('ShaderNodeBackground')
-env_tex = nodes.new('ShaderNodeTexEnvironment')
-env_tex.image = bpy.data.images.load("//hdri/studio.exr")
-mapping = nodes.new('ShaderNodeMapping')
-tex_coord = nodes.new('ShaderNodeTexCoord')
-output = nodes.new('ShaderNodeOutputWorld')
-
-links.new(tex_coord.outputs['Generated'], mapping.inputs['Vector'])
-links.new(mapping.outputs['Vector'], env_tex.inputs['Vector'])
-links.new(env_tex.outputs['Color'], bg.inputs['Color'])
-links.new(bg.outputs['Background'], output.inputs['Surface'])
-
-bg.inputs['Strength'].default_value = 1.0
+apply_studio_hdri(bpy.context.scene, "//hdri/studio.exr")
 ```
 
 ### Solid Color World
@@ -414,62 +417,7 @@ bpy.ops.wm.stl_export(
 
 ## Linking & Appending
 
-### Append (Copy into Current File)
-
-```python
-import bpy
-
-blend_path = "/path/to/library.blend"
-
-# Append a single object
-with bpy.data.libraries.load(blend_path) as (data_from, data_to):
-    data_to.objects = ["ObjectName"]
-
-# Link appended objects to active collection
-for obj in data_to.objects:
-    if obj is not None:
-        bpy.context.collection.objects.link(obj)
-
-# Append specific data types
-with bpy.data.libraries.load(blend_path) as (data_from, data_to):
-    data_to.materials = ["MaterialName"]
-    data_to.node_groups = ["NodeGroupName"]
-    data_to.collections = ["CollectionName"]
-    data_to.worlds = ["WorldName"]
-```
-
-### Link (Reference, Stay Connected)
-
-```python
-import bpy
-
-blend_path = "/path/to/library.blend"
-
-with bpy.data.libraries.load(blend_path, link=True) as (data_from, data_to):
-    data_to.collections = ["CollectionName"]
-
-# Link collection instance to scene
-for coll in data_to.collections:
-    if coll is not None:
-        bpy.context.collection.children.link(coll)
-
-# Make library override (editable linked data)
-# Select linked object first
-bpy.ops.object.make_override_library()
-```
-
-### Reload / Relocate Libraries
-
-```python
-import bpy
-
-for lib in bpy.data.libraries:
-    lib.reload()  # Reload from disk
-
-# Relocate a library to a new path
-# lib.filepath = "/new/path/to/library.blend"
-# lib.reload()
-```
+For importing or refreshing an external .blend library, choose append or link according to ownership and update requirements. [Recipes](references/library-linking.md).
 
 ## Scene Settings
 

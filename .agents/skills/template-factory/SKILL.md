@@ -62,7 +62,7 @@ factory-specific steps.
 - Provider success is `review`; only a passing inspection and mode-authorized
   decision sets `approved`.
 - **Every generation-bound prompt this factory submits — Seedream storyboard,
-  Seedream element sheet, or Seedance video — passes `prompt-review` first**
+  Seedream element sheet, or Seedance video — receives the configured prompt preflight first**
   (see [Prompt review gates](#prompt-review-gates-generation-bound)).
 - Replicate style, composition, and grammar. Do not clone copyrighted footage.
   De-identify real people in analysis. For brands: de-identify when unknown or
@@ -151,13 +151,13 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
    deterministic_html`, editable source, render record, input/font hashes,
    dimensions, and alpha intent. Do not Seedream a fake packshot/logo or ask it
    to reproduce exact graphic geometry. For generative sheets, create the
-   user-requested number of variants, or 3 by default, after prompt review. One
+   user-requested number of variants, otherwise one in default review or a proposed three in strict review, after preflight. One
    deterministic specification produces one exact version. Persist
    `selected_variant` only after a mode-authorized, hash-bound choice.
 6. **Storyboard** — after relevant Elements are approved, write a dynamic
    production board via `seedream-storyboard`, one panel per beat unless the
    user sets a panel budget. Review the prompt and generate the requested count,
-   or 3 variants by default, using distinct seeds only when supported. Paginate
+   or one in default review (propose three in strict review), using distinct seeds only when supported. Paginate
    large boards into readable grids while preserving one ordered panel plan.
    The board is a planning and review artifact: translate its blocking into
    prompt text and **never bind a board, grid or panel as a Seedance
@@ -168,9 +168,9 @@ pin_local → breakdown_draft → breakdown_approved → elements_draft
    multiple natural-duration shots plus assembly. Compose the Seedance 2.5
    six-part prompt from breakdown + board staging written as text + per-beat
    motion grammar + verified audio grammar and sync cues when audio is
-   requested + element sheets (via `seedance-prompt`), run `prompt-review`,
+   requested + element sheets (via `seedance-prompt`), apply the configured prompt preflight,
    persist the prepared request, then submit via the supported durable
-   transport. Prefer `seedance_2_5_create_task`; use an equivalent Ark CLI route
+   transport. Prefer `seedance_create_task`; use an equivalent Ark CLI route
    only before any ambiguous submission and only when it satisfies the same
    contract. Set the pin's ratio as a request parameter, never as a prompt
    sentence. Submit each clip as a 480p native Draft (`draft: true`), review it,
@@ -245,7 +245,7 @@ task IDs and records. Generation registry writes still use the lock in
 Reference stills (photos, key visuals) run as a parallel poster track, not as
 video pins: describe the still's camera angle, pose, lens and grade in text,
 bind only the official product packshot as `@Image 1` (I2I), write the prompt
-under `posters/<id>/`, pass prompt-review, generate 3 variants, and add any
+under `posters/<id>/`, apply the configured preflight, then generate the requested count or one by default, and add any
 logo or copy as a deterministic overlay. Record variants with a `poster.md`
 manifest (pre-Studio canvas: selectable cards); Studio frames exist for shot
 takes only.
@@ -324,7 +324,7 @@ have no skip-draft override. Record verified operation constraints.
 - **Sketch by default** — use colorless pencil/ink as a composition/order anchor.
   Honor an explicit request for a limited palette, full color, or standalone
   production panels and record that decision in the manifest.
-- **3 variants by default** — honor an explicit requested count. Keep prompt,
+- **One variant by default, propose three in strict review** — honor an explicit requested count. Keep prompt,
   references, model, and effective parameters identical across sampling variants;
   vary only a supported stochastic seed.
 - **Never a video input** — boards, grids, sketches and panels stay out of
@@ -348,13 +348,13 @@ decision in either mode.
 
 ## Prompt review gates (generation-bound)
 
-Before any **generation** call, run `prompt-review`:
+Before generation, use the compact inline preflight in default mode and the full review in strict mode or when explicitly requested:
 
 - Seedream storyboard grid prompt (before `seedream_generate_image`)
 - Seedream element sheet prompts (before each sheet generation)
 - Seedance video prompt, including per-beat motion wording from
   `VideoBreakdown.shots[].motion.directing_prompt_text`
-  (before `seedance_2_5_create_task`)
+  (before `seedance_create_task`)
 
 Review inline by default. CRITICAL/MAJOR findings must be fixed before
 submission. Acquired brand/product/logo assets (`generation: none`) and

@@ -54,7 +54,7 @@ not permission to drop `draft` or submit plain 480p. An equivalent transport
 must preserve both fields and the existing authorization, review and registry
 gates. Other video models without native Draft use ordinary 480p tests.
 
-The workspace default remains Seedance 2.5; legacy 2.0 may be selected for a verified capability such as an available lower-cost variant. Requested 4K needs 2.0 or, when the operator has enabled it, the whitelist-only 2.5 Premium model (the 2.5 feature set plus 4K); standard 2.5 tops out at 1080p. Skills defer to this paragraph for 4K routing. A face in a shot is a QA concern, not an automatic model switch. Chaining does not override unsupported mixed frame/reference inputs.
+The workspace default remains Seedance 2.5; legacy 2.0 may be selected for a verified capability such as an available lower-cost variant. Check ordinary generation, native Draft, and promotion limits separately for the exact selected model, operation, and transport. The current MCP schema can accept ordinary 4K on regular 2.5, while its native Draft preview is 480p and promotion is 1080p. Local schema acceptance alone does not prove account support. Preserve the required native Draft route, selected model and explicit pins. If no verified route satisfies delivery, surface the conflict before changing any requirement. A face in a shot is a QA concern, not an automatic model switch. Chaining does not override unsupported mixed frame/reference inputs.
 
 Credential names are BYTEPLUS_MODELARK_API_KEY and BYTEPLUS_SEED_AUDIO_API_KEY. A transport may document compatibility aliases. Resolve secrets, region, and base URL at runtime; never serialize credentials into requests, fixtures, snapshots, or logs.
 

@@ -42,7 +42,7 @@ flowchart LR
   B --> C[Validate manifest + render 24fps MPEG-4]
   C --> D[Temporal QA + prompt preflight]
   D --> E[media_upload previz, record object_key]
-  E --> F[seedance_2_5_create_task, edit]
+  E --> F[seedance_create_task, edit]
   F --> G[Poll, save, compare, review]
 ```
 
@@ -119,11 +119,10 @@ Before writing any prompt:
    a raw face sheet beside a video input can be rejected with a privacy error.
    Never bind a storyboard grid or panel; the previz and element sheets carry
    everything the model needs.
-5. Choose the audio route. Keep native audio only for dialogue that must lip
-   sync inside the blocked takes. For ambience, SFX or score, generate picture
-   with `generate_audio: false` and lay the sound in post, placing each timed
-   accent at its manifest frame; a "no music" line on native audio often leaks
-   speech or score.
+5. Preserve source audio and keep suitable native sound, including wordless
+   ambience, SFX and score. For an explicitly requested replacement or silence,
+   verify the selected operation supports the required audio controls. Plan
+   only the authorized separate edit and retain the source.
 6. Confirm the measured previz duration equals the target edit duration.
 7. Run the source-previz checks in
    [Temporal QA](references/temporal-qa.md). Keyframes and contact sheets are
@@ -141,7 +140,7 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
 1. Persist the exact prompt snapshot and reviewed prepared operation in
    `task_ids.json` before submission. `media_upload` the previz; record
    `object_key` in `projects/<project>/ref_cache.json`.
-2. `seedance_2_5_create_task` with:
+2. `seedance_create_task` with:
    - the edit-mode value documented by the live tool: Seedance 2.5 accepts
      `omni_reference_task_type=edit`; `edit_video` is a Seedance 2.0 value that
      the 2.5 tool rejects. Recheck the accepted values before submission,
@@ -157,7 +156,7 @@ manifest. The prompt's job is to dress the world, never to re-choreograph it.
    - `return_last_frame=true` when chaining. Chain into a new previz segment,
      not native extension: extension of a generated clip that shows people is
      rejected unless they are `asset://` Virtual Portrait assets.
-3. Record the task in `task_ids.json`, poll `seedance_get_task` until terminal.
+3. Record the task in `task_ids.json`, poll `gen_task_get` until terminal.
    A local timeout without acceptance evidence enters `submission_unknown`;
    reconcile the existing operation and never automatically resubmit. Explicit
    blockout conditioning needs user-selected inputs and live mode support.
