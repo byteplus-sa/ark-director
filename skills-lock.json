@@ -428,7 +428,7 @@
       "source": "./local",
       "sourceType": "local",
       "skillPath": ".agents/skills/seedance-motion-recast/SKILL.md",
-      "computedHash": "ef2540d4b3dc7aefdbde7269f573bf88e4dc0735eb5a4980026b67e99988b1fb"
+      "computedHash": "52697240b9cb52a3d897977d7630c2668905ecae02ef16e9d79d5acc1e227fcc"
     },
     "seedance-object-swap": {
       "source": "./local",

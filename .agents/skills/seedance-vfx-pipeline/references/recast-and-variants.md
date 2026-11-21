@@ -64,7 +64,7 @@ the changed region; a recast rebuilds everything except motion.
 | VFX edit | Add, remove or restyle an effect, environment or element while the source cast and camera stay | `seedance-vfx-prompt` (2.5 edit grammar) | `omni_reference_task_type: edit` |
 | Object Swap | Replace one named character, outfit, product, prop, object or the location and preserve everything else | `seedance-object-swap` | `omni_reference_task_type: edit` |
 | Motion Transfer | Keep the source motion, camera path, timing and cuts; rebuild cast, wardrobe, product, location and style from locked references | `seedance-motion-recast` | R2V (below; inspect route evidence in the native Draft); fallback full-frame edit |
-| Restyle | Redraw the whole clip in a new visual medium; keep the performance, motion, camera and cuts; the background is restyled as the same place through an environment image | `seedance-restyle` | Full-frame edit with an environment image of the same place; reference route as the alternative |
+| Restyle | Redraw the whole clip in a new visual medium; keep the performance, motion, camera, cuts and same place; words-only style guidance is valid | `seedance-restyle` | Supported full-frame edit; reference route as the alternative; selected environment imagery is optional |
 
 Decision rules:
 
@@ -74,6 +74,8 @@ Decision rules:
 - A preset look (period, claymation, noir, market localization) over the whole
   frame with a new cast is Motion Transfer. A new medium over the original cast
   and place is Restyle. A grade or effect over the original look is a VFX edit.
+- Honor words-only Restyle across the full frame, including backgrounds. Optional images and anchors need a current reason, approved roles and hashes.
+  Absent references authorize no image generation, invented bindings or subject-only restyling.
 - When a row changes only the product, prefer Object Swap over Motion Transfer;
   it keeps more of the approved source and needs fewer references.
 
@@ -96,7 +98,7 @@ from [Submission](submission.md) or [Delivery And Manifest](delivery-and-manifes
 | `@Video 1` meaning | Editing master; pixels outside the change persist | Motion authority only: motion, poses, screen positions, camera, cuts, timing | Editing master with full-frame replace-all-subjects-and-environment scope | Editing master; every surface redrawn in the style | Authority for composition, poses, camera, cuts and timing |
 | `ratio` | Omit; locks to the source | Set explicitly to the source ratio | Omit; locks to the source | Omit; locks to the source | Set explicitly to the source ratio |
 | `duration` | Omit; source timeline is authoritative, verify actual output timing | Full measured fractional source length only if supported; otherwise unresolved, never round | Omit; source timeline is authoritative | Omit; source timeline is authoritative | Full measured fractional source length only if supported; otherwise unresolved, never round |
-| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | 1–5 style images and anchors | Style images and anchors |
+| `images` | Optional; Object Swap uses 1–5 target references | 1–8 subject references plus location; warn above | 1–5 references; split the shot above that | Optional selected style images, same-place environment and anchors within the verified budget | Optional selected style images, same-place environment and anchors within the verified budget |
 | `resolution` | `480p` for every new probe and full-duration Draft; promote to a supported final resolution | Same | Same | Same | Same |
 | `draft` | Boolean `true` for every new generation | Same | Same | Same | Same |
 

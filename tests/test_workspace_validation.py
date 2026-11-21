@@ -28,6 +28,23 @@ class WorkspaceValidationTests(unittest.TestCase):
     def test_valid_metadata_and_name(self):
         self.assertEqual(validation.validate_skill(self.skill)[1], [])
 
+    def test_reviewed_integrity_matches_published_skill_files(self):
+        portable_files = validation.read_inventory(ROOT, None)
+        current = {
+            relative: digest
+            for relative, digest in validation.bundle_hashes(ROOT).items()
+            if relative in portable_files
+        }
+        recorded = json.loads(
+            (ROOT / ".agents/catalog/integrity.json").read_text()
+        )["files"]
+        mismatches = sorted(
+            relative
+            for relative in set(recorded) | set(current)
+            if recorded.get(relative) != current.get(relative)
+        )
+        self.assertEqual(mismatches, [])
+
     def test_invalid_yaml_and_name_return_diagnostics(self):
         self.skill.write_text("---\nname: example\ndescription: invalid: value\n---\n")
         self.assertTrue(validation.validate_skill(self.skill)[1])
