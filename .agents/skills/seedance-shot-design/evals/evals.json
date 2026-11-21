@@ -44,13 +44,12 @@
     },
     {
       "id": 4,
-      "prompt": "A selfie-style UGC demo ad where the creator holds the phone at arm's length and talks to camera for 10 seconds. Make the camera work more dynamic.",
-      "expected_output": "A plan that recognizes the format is static by design, records format_static_by_design as the static_reason, and keeps the frame locked while adding variety only through allowed levers such as light and a short insert, or asks whether the user wants to leave the format.",
+      "prompt": "I walk from the counter to the window filming myself at arm’s length. Plan my ten-second unboxing as a moving selfie.",
+      "expected_output": "A walk with the creator and product readable in the phone frame and a changing background.",
       "files": [],
       "assertions": [
-        "The output records format_static_by_design (or an equivalent recorded reason) instead of adding large camera moves.",
-        "The output does not add a whip pan, orbit or crane to the selfie frame.",
-        "Any variety offered comes from light, a product insert or a framing change the format allows, or the output asks before leaving the format."
+        "Carries the phone with the creator from counter to window.",
+        "Keeps the face and product legible and preserves the requested continuous travel."
       ]
     },
     {
@@ -80,7 +79,7 @@
     },
     {
       "id": 7,
-      "prompt": "A seedance-ai-avatar talking-head take: our approved presenter sits at a desk and speaks to camera for 15 seconds. Make the camera work more dynamic.",
+      "prompt": "A seedance-ai-avatar talking-head take: the approved presenter preset fixes the camera on a tripod. Our presenter sits at a desk and speaks to camera for 15 seconds. Make the camera work more dynamic.",
       "expected_output": "A recognition that the talking-head format is static by design, with format_static_by_design recorded, no large camera moves added to the presenter frame, and any variety limited to what the format allows or a question before leaving the format.",
       "files": [],
       "assertions": [
@@ -220,6 +219,15 @@
         "Preserves all three components of the explicitly requested coherent choreography and the single shot.",
         "Names the subject, start/end states, path and declared skylight without inventing a new source.",
         "Treats the two-move budget as a heuristic, not a provider limit, and leaves actual-take readability unverified until inspection."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Plan a tripod-locked product review at my desk. Keep the camera fixed as I open the box.",
+      "expected_output": "A fixed frame throughout the unboxing.",
+      "files": [],
+      "expectations": [
+        "Retains the requested tripod lock and uses the product action inside the frame."
       ]
     }
   ]

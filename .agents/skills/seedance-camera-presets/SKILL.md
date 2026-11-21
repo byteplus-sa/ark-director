@@ -104,7 +104,8 @@ table, then gives a canonical phrase template that satisfies it.
 |---|---|---|
 | Dolly zoom | Subject size to preserve; whether background moves closer or farther | `Dolly zoom on <subject>: keep <subject>'s size constant while the background <moves closer / compresses behind them> (or <pulls farther away / expands>).` |
 | Crash zoom / rapid zoom | Target subject; sudden speed; optional timestamp | `At <N>s, crash-zoom rapidly in on <subject>, the frame snapping inward in one aggressive push.` |
-| Whip pan | Trigger time, direction, occluding element, continuation | `Whip-pan transition: at <N>s, move the camera rapidly to the <left/right>. Cut when the foreground <occluding element> fully covers the frame, then continue moving <direction> at a similar speed in the next scene.` |
+| Continuous whip pan | Trigger, direction, landing, hold | `On the chime, whip right from the clock to the bell, settle on the bell and hold in the same take.` |
+| Whip-pan transition | Trigger time, direction, occluding element, continuation | `Whip-pan transition: at <N>s, move the camera rapidly to the <left/right>. Cut when the foreground <occluding element> fully covers the frame, then continue moving <direction> at a similar speed in the next scene.` |
 | Aerial reveal | Viewing height, movement direction, area to reveal | `High aerial view at <height> above <scene>; the camera <moves direction> and gradually reveals <area>.` |
 | FPV path | First-person flight/traversal path, speed, turns | `First-person view flying <path>, at <speed>, banking <left/right> through <turns or waypoints>.` |
 | Bullet time | Camera orbit direction around the frozen subject | `Bullet time: the camera orbits <clockwise/counterclockwise> around <subject> while the action is frozen. Timing (freeze duration, end state) belongs to seedance-pacing-presets.` |
@@ -324,8 +325,9 @@ Before a Camera block is submitted as part of a Seedance 2.5 prompt, verify:
    keeps a foreground subject soft and unfeatured.
 6. Any timestamp uses `At Ns` syntax and is reserved for a critical beat or
    transition — not paced frame-by-frame.
-7. A whip pan or other transition includes the trigger time, direction,
-   occluding element, and the composition or motion that continues after.
+7. A continuous whip pan gives its trigger, direction and landing within the
+   same take. For a cut transition, describe the cut and the outgoing and
+   incoming motion. Include an occluder when the transition uses one.
 8. A one-take shot lists subjects, spaces, and events in order.
 9. Generation parameters (duration, resolution, aspect ratio) are absent from
    the prompt text.

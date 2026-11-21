@@ -65,11 +65,11 @@ the custom template when no preset fits:
 - `ugc-virtual-try-on`: casual garment demonstration;
 - `virtual-try-on`: editorial garment presentation.
 
-Shot planning follows the mode. `ugc`, `ugc-how-to`, `ugc-unboxing`,
-`product-review` and `ugc-virtual-try-on` are phone-shot formats whose camera is a
-recorded `format_static_by_design` unless the brief asks for more movement.
-`product-showcase`, `tv-spot`, `wild-card` and `virtual-try-on` take a shot plan
-(size, angle, move and a named light source per shot).
+Plan the phone camera around what the creator does. A walking demo can keep
+the face framed as the background moves. A tripod review holds the frame.
+Record a user or source lock when supplied. Use `format_static_by_design`
+when the selected preset explicitly fixes the frame. Plan size, angle,
+movement or stillness, and light for the remaining shots.
 
 If unspecified, choose a provisional mode from the product, audience, and
 placement. A product-only request does not need to become presenter-led UGC.
@@ -177,7 +177,7 @@ Ad formats hit the same few Seedance failure modes; apply these to every mode
   follow source intent and plausibility with no universal burst cap. Speech
   does not exclude kinetic performance or camera work; assess actor energy,
   camera energy and edit rhythm separately for required readability. Preserve
-  static-by-design UGC framing, exact words and approved product canon.
+  the chosen UGC framing, exact words and approved product canon.
 
 Read [worked repairs](references/worked-repairs.md) for a phone-shot demo that
 breaks each of these and its repaired prompt.
