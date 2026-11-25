@@ -141,13 +141,6 @@
       "skillPath": ".agents/skills/media-review/SKILL.md",
       "computedHash": "e713404e70f4549c2d148872aded5055cd1fc62ab2030f80e88495916d145dcd"
     },
-    "ark-mcp": {
-      "source": "./local",
-      "sourceType": "local",
-      "skillPath": ".agents/skills/ark-mcp/SKILL.md",
-      "sourceNotes": "Exact upstream bundle from byteplus-sa/ark-mcp at ca2850965171b8e4f4069d55805993752e883a52, published at https://www.skills.sh/byteplus-sa/ark-mcp/ark-mcp. MIT license retained in .agents/catalog/ark-mcp-LICENSE. Existing local computedHash semantics remain SHA-256 of SKILL.md; the full bundle is covered by .agents/catalog/integrity.json. No Skills CLI installer hash is asserted. Repository contracts remain authoritative.",
-      "computedHash": "3ed689b10f844b5c05832f573276b1927e3ad52143d72bd99b426daac992f35b"
-    },
     "prompt-review": {
       "source": "./local",
       "sourceType": "local",

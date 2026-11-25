@@ -208,15 +208,6 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
-    "ark-mcp": {
-      "kind": "tooling",
-      "description": "Use the BytePlus Ark Seed multimodal MCP server to generate images (Seedream), audio (Seed Audio), video (Seedance 2.0, regular 2.5 with 4K, and 2.5 Flash at 480p/720p), 3D (Hyper3D, Hitem3d) and OmniHuman avatar video; run VOD MediaKit enhance, transcode, subtitle and audio separation; understand images, video and audio; transcribe speech; manage the asset library. Flow - ark_list_models for exact model IDs and limits, then one create tool per product through ark_job_submit (variations, dry_run), then gen_task_get, vod_get_task or omnihuman_get_task to poll, then seed_media_* for artifacts.",
-      "readme_summary": "Upstream Ark MCP usage skill for Seedream 5.5, Seedance 2.5 4K and Flash, audio, 3D, OmniHuman, MediaKit, assets and durable background jobs; repository contracts remain authoritative.",
-      "dependencies": [],
-      "source_revision": "ca2850965171b8e4f4069d55805993752e883a52",
-      "upstream_hash": "3ed689b10f844b5c05832f573276b1927e3ad52143d72bd99b426daac992f35b",
-      "overlay_notes": "Exact upstream bundle, with no skill-local overlays. Repository generation scope, native drafts, review modes, rights, registration and no-financial-prerequisite policy remain authoritative; this import does not configure a server or credentials."
-    },
     "prompt-review": {
       "kind": "orchestrator",
       "description": "Review BytePlus prompts with hash-bound checklist evidence when explicitly requested or review_mode is strict. Skip routine default-mode preflight and generated-media review.",

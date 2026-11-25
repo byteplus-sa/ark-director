@@ -152,19 +152,6 @@ class SeedreamSkillContractsTests(unittest.TestCase):
                     self.assertIn(concept.lower(), text.lower())
                 self.assertRegex(text, r"Do not pass `output_path` or `output_dir`")
 
-    def test_mcp_image_controls_follow_discovery_and_wrapper_capabilities(self):
-        text = self.text("ark-mcp", "references/tool-reference.md")
-        limits = self.text("ark-mcp", "references/models-and-limits.md")
-        for concept in ("seedream_generate_image", "point", "bbox",
-                        "variations", "transparent", "b64_json",
-                        "Decomposition/OCR inputs are rejected",
-                        "not guaranteed identical pixels"):
-            self.assertIn(concept, text)
-        for concept in ("ark_list_models", "authoritative",
-                        "requires account authorization"):
-            self.assertIn(concept, limits)
-        self.assertNotIn("seedream_generate_image_variations", text)
-
     def test_focused_references_are_linked_and_shipped(self):
         entrypoint = self.text("seedream-prompt")
         for filename in ("transparent-assets.md", "layout-and-typography.md"):

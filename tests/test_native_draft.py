@@ -134,7 +134,7 @@ class NativeDraftTests(unittest.TestCase):
             preparation.ROOT / "README.md",
         ]
         for name in ("film-production", "micro-drama", "seedance-effects-studio",
-                     "seedance-prompt", "brief-intake", "ark-mcp"):
+                     "seedance-prompt", "brief-intake"):
             paths.append(preparation.ROOT / ".agents/skills" / name / "SKILL.md")
         forbidden = re.compile(
             r"video directly at (?:its|the) final target"
