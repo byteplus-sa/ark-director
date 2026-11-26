@@ -159,6 +159,13 @@
       "skillPath": ".agents/skills/seed-audio-prompt/SKILL.md",
       "computedHash": "b074577fac6d754220f967a78d1a2d9900a131c546520f7d33fc205f3f472f88"
     },
+    "seed-audio-15-prompt": {
+      "source": "./local",
+      "sourceType": "local",
+      "skillPath": ".agents/skills/seed-audio-15-prompt/SKILL.md",
+      "computedHash": "f5a793dc15525d29936719cdd7652d5cb3f60d29afdf72a84ad828dc0d06a001",
+      "sourceNotes": "Adapted from a user-supplied prompt-only bundle, source version 1.4.2 (original entrypoint SHA-256 3ddd40aa66534616788bddeda9fb7478f69fb1dcf1d4f8b63124e260cea91849). Scoped to explicit Seed Audio 1.5 prompt work; automatic updater removed, private source URLs replaced with provenance labels, supplied planning limits distinguished from verified API support. Existing audio defaults remain unchanged."
+    },
     "seedance-acting-console": {
       "source": "./local",
       "sourceType": "local",

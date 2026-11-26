@@ -161,7 +161,7 @@ BYTEPLUS_SEED_AUDIO_API_KEY=your_seed_audio_key  # Seed Audio
 
 ## Skills
 
-The workspace ships with **81 skills** locally. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository; Ark MCP guidance uses the global skill.
+The workspace ships with **82 skills** locally. Independent skills package creative and tooling capabilities; declared orchestrators compose them. Installed bundles and operational contracts ship with the repository; Ark MCP guidance uses the global skill.
 
 ### Production Orchestration
 
@@ -251,6 +251,7 @@ The workspace ships with **81 skills** locally. Independent skills package creat
 | Skill | Description |
 |---|---|
 | **seed-audio-prompt** | Write structured Seed Audio 1.0 prompts for full-soundscape audio generation including dialogue, music, SFX, and ambience. |
+| **seed-audio-15-prompt** | Repository-managed, prompt-only optimization for explicitly selected Seed Audio 1.5 speech, soundscapes, visual-script conversion and stem separation; no API execution. |
 | **seed-audio-commercial** | Produce dramatic, story-driven audio commercials with BytePlus Seed Audio 1.0. |
 | **audio-dubbing** | Dubs video or audio from one language to another using Seed Audio 1.0 voice cloning (TA2A). |
 | **audio-split** | Splits an audio file into segments for Seed Audio reference preparation. |

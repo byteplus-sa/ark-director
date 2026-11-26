@@ -235,6 +235,15 @@
       "upstream_hash": null,
       "overlay_notes": null
     },
+    "seed-audio-15-prompt": {
+      "kind": "leaf",
+      "description": "Optimize Seed Audio 1.5 prompts for speech, soundscapes, video accompaniment and stem separation. Use for explicitly selected 1.5 prompt work; never generates media or calls APIs.",
+      "readme_summary": "Repository-managed, prompt-only optimization for explicitly selected Seed Audio 1.5 speech, soundscapes, visual-script conversion and stem separation; no API execution.",
+      "dependencies": [],
+      "source_revision": "supplied-1.4.2",
+      "upstream_hash": "3ddd40aa66534616788bddeda9fb7478f69fb1dcf1d4f8b63124e260cea91849",
+      "overlay_notes": "Adapted from a user-supplied prompt-only bundle, source version 1.4.2 (original entrypoint SHA-256 3ddd40aa66534616788bddeda9fb7478f69fb1dcf1d4f8b63124e260cea91849). Scoped to explicit Seed Audio 1.5 prompt work; automatic updater removed, private source URLs replaced with provenance labels, supplied planning limits distinguished from verified API support. Existing audio defaults remain unchanged."
+    },
     "seedance-acting-console": {
       "kind": "leaf",
       "description": "Encode supplied performance intent as Seedance cues. Use for acting blocks, delivery or cue repairs. Not for whole-scene analysis or generation.",
